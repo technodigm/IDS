@@ -37,8 +37,13 @@ Public Module Module1
     Public MySysIO As New SystemIO
     Public MyGantrySetup As New GantrySetup
     Public MyLaser As New LaserCalibration
+    Public MyLVDTSetup As New LVDTCalibration1
+    Public MyLVDTSetup1 As New LVDTCalibration2
     Public MyNeedleCalibrationSetup1 As New NeedleCalibrationSetup1
+    Public MyNeedleCalibrationSetup2 As New NeedleCalibrationSetup2
+    Public MyNeedleCalibrationSetup3 As New NeedleCalibrationSetup3
     Public MyHardwareCommunicationSetup As New HardwareCommunicationSetup
+    Public MyVisionSetup As New VisionSetup
     Public MySetup As New Setup
 
     'process setup
@@ -178,8 +183,9 @@ Public Module Module1
         'MyHeaterSettings.Thermal_T1_Tick()
         MyConveyorSettings.Regulator_T1_Tick()
         MyConveyorSettings.Pressure_T1_Tick() 'low pressure
+        MyConveyorSettings.Camera_T1_Tick()
         'MyConveyorSettings.e_stop_T1_Tick()
-        'MyConveyorSettings.Conveyor_T1_Tick() 'conveyor
+        MyConveyorSettings.Conveyor_T1_Tick() 'conveyor
         StartErrorCheck()
 
     End Sub
@@ -193,11 +199,11 @@ Public Module Module1
     End Function
 
     Public Sub OnLaser()
-        IDS.Devices.Vision.SetLaser(False) 'turn on
+        IDS.Devices.Vision.FrmVision.SetLaser(False) 'turn on
     End Sub
 
     Public Sub OffLaser()
-        IDS.Devices.Vision.SetLaser(True) 'turn off
+        IDS.Devices.Vision.FrmVision.SetLaser(True) 'turn off
     End Sub
 
     Public Sub TraceDoEvents()

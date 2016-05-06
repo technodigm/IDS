@@ -920,7 +920,7 @@ Public Class DispenserSettings
             .AutoPurgingOption = AutoPurgingOption.Checked
             .HeadType = HeadType.SelectedItem
         End With
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
 
     End Sub
 

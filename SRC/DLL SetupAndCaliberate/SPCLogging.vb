@@ -460,7 +460,7 @@ Public Class SPCLogging
                                                     Convert.ToByte(CB_SPCVolCalNum.Checked) & _
                                                     Convert.ToByte(CB_SPCNeedleCalNum.Checked)
 
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
     End Sub
 
     Private Sub ButtonRevert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRevert.Click

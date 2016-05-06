@@ -83,20 +83,10 @@
                     HintPath = "..\..\..\owc10\axowc10.dll"
                 />
                 <Reference
-                    Name = "Microsoft.Office.Interop.Owc"
-                    AssemblyName = "Microsoft.Office.Interop.Owc"
-                    HintPath = "bin\Microsoft.Office.Interop.Owc.dll"
-                />
-                <Reference
                     Name = "MSDATASRC"
                     AssemblyName = "MSDATASRC"
                     HintPath = "..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\MSDATASRC.dll"
                     AssemblyFolderKey = "hklm\primary interop assemblies"
-                />
-                <Reference
-                    Name = "mscomctl"
-                    AssemblyName = "mscomctl"
-                    HintPath = "bin\mscomctl.dll"
                 />
                 <Reference
                     Name = "ADODB"
@@ -153,16 +143,6 @@
                     WrapperTool = "aximp"
                 />
                 <Reference
-                    Name = "Microsoft.DirectX"
-                    AssemblyName = "Microsoft.DirectX"
-                    HintPath = "..\..\BIN\Microsoft.DirectX.dll"
-                />
-                <Reference
-                    Name = "Microsoft.DirectX.DirectInput"
-                    AssemblyName = "Microsoft.DirectX.DirectInput"
-                    HintPath = "..\..\BIN\Microsoft.DirectX.DirectInput.dll"
-                />
-                <Reference
                     Name = "DLL DataManager"
                     Project = "{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}"
                     Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
@@ -195,6 +175,16 @@
                     Lcid = "0"
                     WrapperTool = "tlbimp"
                 />
+                <Reference
+                    Name = "Microsoft.DirectX"
+                    AssemblyName = "Microsoft.DirectX"
+                    HintPath = "bin\Microsoft.DirectX.dll"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX.DirectInput"
+                    AssemblyName = "Microsoft.DirectX.DirectInput"
+                    HintPath = "bin\Microsoft.DirectX.DirectInput.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -216,6 +206,16 @@
                     RelPath = "AssemblyInfo.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CameraSetup.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CameraSetup.resx"
+                    DependentUpon = "CameraSetup.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "ConveyorSettings.vb"
@@ -298,6 +298,26 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "LVDTCalibration1.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LVDTCalibration1.resx"
+                    DependentUpon = "LVDTCalibration1.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LVDTCalibration2.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LVDTCalibration2.resx"
+                    DependentUpon = "LVDTCalibration2.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "NeedleCalibrationSettings.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -315,6 +335,26 @@
                 <File
                     RelPath = "NeedleCalibrationSetup1.resx"
                     DependentUpon = "NeedleCalibrationSetup1.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup2.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup2.resx"
+                    DependentUpon = "NeedleCalibrationSetup2.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup3.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup3.resx"
+                    DependentUpon = "NeedleCalibrationSetup3.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

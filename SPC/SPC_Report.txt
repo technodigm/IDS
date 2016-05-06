@@ -651,3 +651,46 @@ Total run time of this production:	382 Second(s)
 Number of pauses:			0
 Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+************************************************************************
+SPC Report. Automatically Generated at: 4/25/2016 11:07:35 AM
+************************************************************************
+Production Start:			4/25/2016 11:07:12 AM
+Production End:				4/25/2016 11:07:35 AM
+Duration:				0.006 Hour(s)
+Operator ID:				a
+Pattern File:				C:\IDS\Pattern_Dir\partarray
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		2
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 23.000 Second(s)
+Number of boards per hour:		156.522
+Total down time of this production:	0 Second(s)
+Total run time of this production:	23 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 5/3/2016 10:25:41 AM
+************************************************************************
+Production Start:			5/3/2016 10:23:36 AM
+Production End:				5/3/2016 10:25:41 AM
+Duration:				0.035 Hour(s)
+Operator ID:				a
+Pattern File:				C:\IDS\Pattern_Dir\qc_underfill
+Average dot size:			2.191 mm
+Material Batch(es):			L:test run! R:-2830136
+Number of incoming boards:		9
+Number of outgoing boards:		8
+Number of passed boards:		8
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 15.625 Second(s)
+Number of boards per hour:		230.400
+Total down time of this production:	0 Second(s)
+Total run time of this production:	125 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+

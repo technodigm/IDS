@@ -1157,7 +1157,7 @@ Public Class SystemIO
             Next
         End If
 
-        IDS.Data.SaveLocalData() 'save the globe variable to the pat file
+        IDS.Data.SaveData() 'save the globe variable to the pat file
 
     End Sub
 
@@ -1200,7 +1200,7 @@ Public Class SystemIO
             Dim I As Integer = 0
             Dim LocalMC As New CIDSMC
             MC = LocalMC
-            IDS.Devices.Motor.SetAllDIOsOff()
+            m_Tri.SetAllDIOsOff()
 
             'Initialize PCIO card
             Dim LocalPC As New _CIDSIOcard
@@ -1214,8 +1214,8 @@ Public Class SystemIO
             Dim LocalCAN As New CIDSCAN
             CAN = LocalCAN
             For I = 16 To 31    'iterate thru the io bits
-                mysleep(10)
-                IDS.Devices.Motor.SetDIOs(1, I, False)
+                MySleep(10)
+                m_Tri.SetDIOs(1, I, False)
             Next
         End If
 
@@ -1401,7 +1401,7 @@ Public Class SystemIO
                         ''''''''' 
                         ' set/rest IO
                         ''''''''' 
-                        'If IDS.Devices.Motor.SetDIOs(0, IOBit, BitStatus) Then
+                        'If m_Tri.SetDIOs(0, IOBit, BitStatus) Then
                         'DataGrid1.Item(DataGrid1.CurrentCell.RowNumber(), 3) = BitFlag  'update to the display
                         'MC.ExtBit(IOBit) = BitStatus                                    'update to the working variable
                         'Else                                                                'return false,
@@ -1423,7 +1423,7 @@ Public Class SystemIO
                         ''''''''' 
                         ' set/rest IO
                         ''''''''' 
-                        If IDS.Devices.Motor.SetDIOs(1, IOBit, BitStatus) Then              '
+                        If m_Tri.SetDIOs(1, IOBit, BitStatus) Then              '
                             DataGrid1.Item(DataGrid1.CurrentCell.RowNumber(), 3) = BitFlag  'update to the display
                             CAN.Bit(IOBit) = BitStatus                                      'update to the working variable
                         Else                                                                'return false,
@@ -1457,7 +1457,7 @@ Public Class SystemIO
         End If
 
         IOReadStop = True                   'stop the io reading flag
-        mysleep(100)                          'delay
+        MySleep(100)                          'delay
         Call ToggleBitOnOff(RD_On.Checked)  'call to the toggle function
         IOReadStop = False                  'start the io reading flag
 
@@ -1500,8 +1500,8 @@ Public Class SystemIO
             ''''''''' 
             ' get can io bits
             ''''''''' 
-            While Not IDS.Devices.Motor.GetDIOs(1, 16, 31, IOBitMap)
-                mysleep(1000)
+            While Not m_Tri.GetDIOs(1, 16, 31, IOBitMap)
+                MySleep(1000)
                 TraceDoEvents()
                 a = a + 1
                 If a > 10 Then
@@ -1559,8 +1559,8 @@ Public Class SystemIO
             ' Get trio controller IO bits
             ''''''''' 
             a = 0
-            While Not IDS.Devices.Motor.GetDIOs(0, 0, 15, IOBitMap)
-                mysleep(1000)
+            While Not m_Tri.GetDIOs(0, 0, 15, IOBitMap)
+                MySleep(1000)
                 TraceDoEvents()
                 a = a + 1
                 If a > 10 Then

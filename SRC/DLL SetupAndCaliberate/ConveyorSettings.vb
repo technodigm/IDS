@@ -413,7 +413,7 @@ Public Class ConveyorSettings
             .Width = Width.Value
             .WidthMoveStep = WidthMoveStep.Value
         End With
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
     End Sub
 
     Private Sub ButtonRevert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRevert.Click
@@ -574,6 +574,20 @@ Public Class ConveyorSettings
 
     End Sub
 
+    Friend Sub Camera_T1_Tick()
+
+        If Form_Service.NoActionToExecute Then
+            'If Not IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetter" Then
+            If Vision.FrmVision.IsThereCameraError Then Form_Service.DisplayErrorMessage("Camera Signal Failed")
+            'End If
+        End If
+
+        If IDS.__ID = "1016299" Then
+            Form_Service.ResetEventCode()
+        End If
+
+    End Sub
+
     Friend Sub Regulator_T1_Tick()
 
         'If Form_Service.NoActionToExecute Then
@@ -612,6 +626,8 @@ Public Class ConveyorSettings
         If m_Tri.EStopActivated() Then
             If Form_Service.Visible = False And IDS.__ID <> "1006205" Then
                 Form_Service.DisplayErrorMessage("E-Stop")
+                IDS.Devices.Vision.FrmVision.SwitchCamera("T_Camera")
+                IDS.Devices.Vision.FrmVision.SetBrightness(IDS.Data.Hardware.Camera.Brightness)
             End If
         End If
 

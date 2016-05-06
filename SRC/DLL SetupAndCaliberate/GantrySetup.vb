@@ -952,7 +952,7 @@ Public Class GantrySetup
         IDS.Data.Hardware.Gantry.WorkArea.X = WorkAreaX.Text
         IDS.Data.Hardware.Gantry.WorkArea.Y = WorkAreaY.Text
 
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
     End Sub
 
     Public Sub RevertData()
@@ -1035,7 +1035,7 @@ Public Class GantrySetup
 
         'station settings
         SaveGantrySettings()
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
 
     End Sub
 

@@ -123,7 +123,7 @@ Public Class IDSExecution
             End If
         Loop
         'update data to data manager
-        'Templet.SaveLocalData(Para)
+        'Templet.SaveData(Para)
         file.Close()
     End Function
 End Class

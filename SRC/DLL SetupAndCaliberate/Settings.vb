@@ -243,9 +243,16 @@ Public Class Settings
 
     Private Sub ButtonNeedleCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSettings.Click
         OnLaser()
-        MyNeedleCalibrationSettings.Revert()
         CurrentPanel = MyNeedleCalibrationSettings.PanelToBeAdded
         AddPanel(PanelRight, MyNeedleCalibrationSettings.PanelToBeAdded)
+        If IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
+            MyNeedleCalibrationSettings.BoxStep1.Visible = False
+            MyNeedleCalibrationSettings.BoxStep1Jetting.Visible = True
+        Else
+            MyNeedleCalibrationSettings.BoxStep1.Visible = True
+            MyNeedleCalibrationSettings.BoxStep1Jetting.Visible = False
+        End If
+        MyNeedleCalibrationSettings.RevertData()
     End Sub
 
     Private Sub ButtonStationPositions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStationPositions.Click

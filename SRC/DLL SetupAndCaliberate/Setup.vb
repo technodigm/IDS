@@ -51,6 +51,7 @@ Public Class Setup
     Friend WithEvents CheckBox5 As System.Windows.Forms.CheckBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
+    Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents TextBoxRobotZ As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxRobotY As System.Windows.Forms.TextBox
@@ -59,7 +60,10 @@ Public Class Setup
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents ButtonSystemIO As System.Windows.Forms.Button
     Friend WithEvents GpB_Configurations As System.Windows.Forms.GroupBox
+    Friend WithEvents RBn_LVDT As System.Windows.Forms.RadioButton
+    Friend WithEvents RBn_Laser As System.Windows.Forms.RadioButton
     Friend WithEvents CheckBoxLifter As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxHeightSensor As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBoxHeater As System.Windows.Forms.CheckBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label7 As System.Windows.Forms.Label
@@ -68,6 +72,7 @@ Public Class Setup
     Friend WithEvents ButtonGantrySetup As System.Windows.Forms.Button
     Friend WithEvents ButtonCameraSetup As System.Windows.Forms.Button
     Friend WithEvents ButtonNeedleCalibSetup As System.Windows.Forms.Button
+    Friend WithEvents ButtonLVDTSetup As System.Windows.Forms.Button
     Friend WithEvents ButtonLaserSetup As System.Windows.Forms.Button
     Friend WithEvents ButtonDispenserSettings As System.Windows.Forms.Button
     Friend WithEvents ButtonStationPositions As System.Windows.Forms.Button
@@ -81,6 +86,7 @@ Public Class Setup
     Friend WithEvents TwoHead As System.Windows.Forms.CheckBox
     Friend WithEvents ButtonHardwareCommunicationSetup As System.Windows.Forms.Button
     Public WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents DisplayBrightness As System.Windows.Forms.NumericUpDown
     Friend WithEvents Timer1 As System.Timers.Timer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
@@ -96,7 +102,10 @@ Public Class Setup
         Me.MainMenu1 = New System.Windows.Forms.MainMenu
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.GpB_Configurations = New System.Windows.Forms.GroupBox
+        Me.RBn_LVDT = New System.Windows.Forms.RadioButton
+        Me.RBn_Laser = New System.Windows.Forms.RadioButton
         Me.CheckBoxLifter = New System.Windows.Forms.CheckBox
+        Me.CheckBoxHeightSensor = New System.Windows.Forms.CheckBox
         Me.CheckBoxHeater = New System.Windows.Forms.CheckBox
         Me.CheckBoxVolume = New System.Windows.Forms.CheckBox
         Me.OneHead = New System.Windows.Forms.CheckBox
@@ -110,6 +119,7 @@ Public Class Setup
         Me.ButtonHardwareCommunicationSetup = New System.Windows.Forms.Button
         Me.ButtonSystemIO = New System.Windows.Forms.Button
         Me.ButtonLaserSetup = New System.Windows.Forms.Button
+        Me.ButtonLVDTSetup = New System.Windows.Forms.Button
         Me.Panel3 = New System.Windows.Forms.Panel
         Me.Label7 = New System.Windows.Forms.Label
         Me.ButtonStationPositions = New System.Windows.Forms.Button
@@ -129,7 +139,9 @@ Public Class Setup
         Me.TextBoxRobotX = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.TextBox7 = New System.Windows.Forms.TextBox
+        Me.Label3 = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
+        Me.DisplayBrightness = New System.Windows.Forms.NumericUpDown
         Me.OleDbConnection1 = New System.Data.OleDb.OleDbConnection
         Me.Timer1 = New System.Timers.Timer
         Me.PanelVision.SuspendLayout()
@@ -140,6 +152,7 @@ Public Class Setup
         Me.PanelToBeAdded.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel2.SuspendLayout()
+        CType(Me.DisplayBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Timer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -243,7 +256,10 @@ Public Class Setup
         '
         'GpB_Configurations
         '
+        Me.GpB_Configurations.Controls.Add(Me.RBn_LVDT)
+        Me.GpB_Configurations.Controls.Add(Me.RBn_Laser)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxLifter)
+        Me.GpB_Configurations.Controls.Add(Me.CheckBoxHeightSensor)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxHeater)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxVolume)
         Me.GpB_Configurations.Controls.Add(Me.OneHead)
@@ -257,6 +273,25 @@ Public Class Setup
         Me.GpB_Configurations.TabStop = False
         Me.GpB_Configurations.Text = "Configurations"
         '
+        'RBn_LVDT
+        '
+        Me.RBn_LVDT.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RBn_LVDT.Location = New System.Drawing.Point(176, 112)
+        Me.RBn_LVDT.Name = "RBn_LVDT"
+        Me.RBn_LVDT.TabIndex = 68
+        Me.RBn_LVDT.Text = "LVDT"
+        '
+        'RBn_Laser
+        '
+        Me.RBn_Laser.Checked = True
+        Me.RBn_Laser.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RBn_Laser.Location = New System.Drawing.Point(176, 80)
+        Me.RBn_Laser.Name = "RBn_Laser"
+        Me.RBn_Laser.Size = New System.Drawing.Size(144, 24)
+        Me.RBn_Laser.TabIndex = 67
+        Me.RBn_Laser.TabStop = True
+        Me.RBn_Laser.Text = "Laser Sensor"
+        '
         'CheckBoxLifter
         '
         Me.CheckBoxLifter.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -265,6 +300,15 @@ Public Class Setup
         Me.CheckBoxLifter.Size = New System.Drawing.Size(184, 23)
         Me.CheckBoxLifter.TabIndex = 66
         Me.CheckBoxLifter.Text = "Lifter Integration"
+        '
+        'CheckBoxHeightSensor
+        '
+        Me.CheckBoxHeightSensor.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxHeightSensor.Location = New System.Drawing.Point(16, 80)
+        Me.CheckBoxHeightSensor.Name = "CheckBoxHeightSensor"
+        Me.CheckBoxHeightSensor.Size = New System.Drawing.Size(144, 23)
+        Me.CheckBoxHeightSensor.TabIndex = 65
+        Me.CheckBoxHeightSensor.Text = "Height Sensor"
         '
         'CheckBoxHeater
         '
@@ -320,6 +364,7 @@ Public Class Setup
         Me.PanelToBeAdded.Controls.Add(Me.ButtonHardwareCommunicationSetup)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSystemIO)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonLaserSetup)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonLVDTSetup)
         Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.PanelToBeAdded.Location = New System.Drawing.Point(0, 0)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
@@ -390,6 +435,16 @@ Public Class Setup
         Me.ButtonLaserSetup.TabIndex = 45
         Me.ButtonLaserSetup.Text = "Laser Setup"
         Me.ButtonLaserSetup.Visible = False
+        '
+        'ButtonLVDTSetup
+        '
+        Me.ButtonLVDTSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonLVDTSetup.Location = New System.Drawing.Point(24, 96)
+        Me.ButtonLVDTSetup.Name = "ButtonLVDTSetup"
+        Me.ButtonLVDTSetup.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonLVDTSetup.TabIndex = 50
+        Me.ButtonLVDTSetup.Text = "LVDT Calibration"
+        Me.ButtonLVDTSetup.Visible = False
         '
         'Panel3
         '
@@ -502,7 +557,9 @@ Public Class Setup
         Me.Panel2.Controls.Add(Me.TextBoxRobotX)
         Me.Panel2.Controls.Add(Me.Label1)
         Me.Panel2.Controls.Add(Me.TextBox7)
+        Me.Panel2.Controls.Add(Me.Label3)
         Me.Panel2.Controls.Add(Me.Label6)
+        Me.Panel2.Controls.Add(Me.DisplayBrightness)
         Me.Panel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.Panel2.Location = New System.Drawing.Point(0, 916)
         Me.Panel2.Name = "Panel2"
@@ -588,6 +645,15 @@ Public Class Setup
         Me.TextBox7.TabIndex = 0
         Me.TextBox7.Text = "Z: 100.000,  Y: 100.000"
         '
+        'Label3
+        '
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(245, 6)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(66, 23)
+        Me.Label3.TabIndex = 3
+        Me.Label3.Text = "Brightness"
+        '
         'Label6
         '
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -596,6 +662,15 @@ Public Class Setup
         Me.Label6.Size = New System.Drawing.Size(45, 16)
         Me.Label6.TabIndex = 5
         Me.Label6.Text = "Cursor"
+        '
+        'DisplayBrightness
+        '
+        Me.DisplayBrightness.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DisplayBrightness.Location = New System.Drawing.Point(313, 4)
+        Me.DisplayBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.DisplayBrightness.Name = "DisplayBrightness"
+        Me.DisplayBrightness.Size = New System.Drawing.Size(50, 21)
+        Me.DisplayBrightness.TabIndex = 5
         '
         'OleDbConnection1
         '
@@ -632,6 +707,7 @@ Public Class Setup
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
+        CType(Me.DisplayBrightness, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Timer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -823,9 +899,9 @@ Public Class Setup
             'we may want more detailed functionality here
             m_Tri.GetIDSState()
 
-            TextBoxRobotX.Text = "Z: " & m_Tri.StateContainer(2).ToString
-            TextBoxRobotY.Text = "Y: " & m_Tri.StateContainer(1).ToString
-            TextBoxRobotZ.Text = "Z: " & m_Tri.StateContainer(2).ToString
+            TextBoxRobotX.Text = "x: " & m_Tri.XPosition.ToString
+            TextBoxRobotY.Text = "Y: " & m_Tri.YPosition.ToString
+            TextBoxRobotZ.Text = "Z: " & m_Tri.ZPosition.ToString
 
             If m_Tri.HomingFinished() Then
                 GC.Collect()
@@ -845,6 +921,7 @@ Public Class Setup
         m_Tri.SteppingButtons.Location = New System.Drawing.Point(404, 30)
 
         'gui
+        PanelVision.Controls.Add(IDS.Devices.Vision.FrmVision.PanelVision) 'lsgoh
         Location = New Point(0, 0)
         MyBase.StartPosition = FormStartPosition.Manual
 
@@ -939,6 +1016,10 @@ Public Class Setup
 
     End Function
 
+    Private Sub DisplayBrightness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisplayBrightness.ValueChanged
+        IDS.Devices.Vision.IDSV_SetBrightness(DisplayBrightness.Value)
+    End Sub
+
     Private Sub Setup_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         Dim mode As Integer = 0
 
@@ -994,7 +1075,7 @@ Public Class Setup
                 Dim Row As DataRow = DBView(I).Row
 
                 If Row("Hardware") = "HeightSensor" Then
-                    'CheckBoxHeightSensor.Checked = CBoolean(Row("Selected"))
+                    CheckBoxHeightSensor.Checked = CBoolean(Row("Selected"))
 
                 ElseIf Row("Hardware") = "VolumeCalibration" Then
                     CheckBoxVolume.Checked = CBoolean(Row("Selected"))
@@ -1021,7 +1102,7 @@ Public Class Setup
                 Dim Row As DataRow = DBView(I).Row
 
                 If Row("Hardware") = "HeightSensor" Then
-                    'Row("Selected") = CheckBoxHeightSensor.Checked
+                    Row("Selected") = CheckBoxHeightSensor.Checked
 
                 ElseIf Row("Hardware") = "VolumeCalibration" Then
                     Row("Selected") = CheckBoxVolume.Checked
@@ -1037,6 +1118,55 @@ Public Class Setup
         End If
         UpdateData("SELECT * FROM " + TableName, TableName)
 
+    End Sub
+
+    Private Sub CheckBoxHeightSensor_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxHeightSensor.CheckedChanged
+        'Present flag
+        If CheckBoxHeightSensor.Checked = True Then
+            Me.RBn_Laser.Enabled = True
+            Me.RBn_LVDT.Enabled = True
+            If Me.RBn_Laser.Checked = True Then
+                ButtonLaserSetup.Visible = True
+                ButtonLVDTSetup.Visible = False
+
+            Else
+                ButtonLaserSetup.Visible = False
+                ButtonLVDTSetup.Visible = True
+            End If
+            IDSData.Hardware.HeightSensor.TP.OffsetPos.X = 1
+            IDSData.Hardware.HeightSensor.TP.OffsetPos.Y = 1
+            'use TP OffsetPos=0 to indicate that no height sensor is in use 'Xu Long
+        Else
+            ButtonLaserSetup.Visible = False
+            ButtonLVDTSetup.Visible = False
+            IDSData.Hardware.HeightSensor.TP.OffsetPos.X = 0
+            IDSData.Hardware.HeightSensor.TP.OffsetPos.Y = 0
+            'use TP OffsetPos=0 to indicate that no height sensor is in use 'Xu Long
+        End If
+    End Sub
+
+
+    Private Sub RBn_Laser_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RBn_Laser.CheckedChanged
+        If Me.RBn_Laser.Checked = True Then
+            IDSData.Hardware.HeightSensor.SelectType = False       'False - Laser sensor is selected
+            ButtonLaserSetup.Visible = True
+            ButtonLVDTSetup.Visible = False
+        Else
+            IDSData.Hardware.HeightSensor.SelectType = True        'True - LVDT is selected
+            ButtonLaserSetup.Visible = False
+            ButtonLVDTSetup.Visible = True
+        End If
+    End Sub
+    Private Sub RBn_LVDT_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RBn_LVDT.CheckedChanged
+        If Me.RBn_LVDT.Checked = True Then
+            IDSData.Hardware.HeightSensor.SelectType = True
+            ButtonLaserSetup.Visible = False
+            ButtonLVDTSetup.Visible = True
+        Else
+            IDSData.Hardware.HeightSensor.SelectType = False
+            ButtonLaserSetup.Visible = True
+            ButtonLVDTSetup.Visible = False
+        End If
     End Sub
 
     Private Sub CheckBoxVolume_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxVolume.CheckedChanged
@@ -1060,7 +1190,7 @@ Public Class Setup
         MyHardwareCommunicationSetup.RefreshDisplay()
         MyHardwareCommunicationSetup.UpdateStatus()
         IDS.Data.Hardware.Thermal.HeaterFeatureEnabled = ButtonThermalSettings.Visible
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
     End Sub
 
     Private Sub ButtonSystemIO_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSystemIO.Click
@@ -1091,8 +1221,8 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonLaser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLaserSetup.Click
+        OnLaser()
         AddPanel(PanelRight, MyLaser.PanelToBeAdded)
-
         MyLaser.LaserOffsetZ.Text = IDS.Data.Hardware.HeightSensor.Laser.HeightReference
         MyLaser.LaserOffsetX.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X
         MyLaser.LaserOffsetY.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y
@@ -1100,27 +1230,60 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonNeedle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSetup.Click
-        MyNeedleCalibrationSetup1.Revert()
         AddPanel(PanelRight, MyNeedleCalibrationSetup1.PanelToBeAdded)
+        MyNeedleCalibrationSetup1.RevertData()
+        With IDS.Data.Hardware
+            MyNeedleCalibrationSetup1.NSensorXPos.Text = .Needle.Right.CalibratorPos.X - .Camera.ReferencePos.X
+            MyNeedleCalibrationSetup1.NSensorYPos.Text = .Needle.Right.CalibratorPos.Y - .Camera.ReferencePos.Y
+            MyNeedleCalibrationSetup1.NSensorZPos.Text = .Needle.Right.TouchSensorZPosition - .Needle.Left.CalibratorPos.Z
+
+            MyNeedleCalibrationSetup1.LNeedleXPos.Text = .Needle.Left.NeedleCalibrationPosition.X - .Needle.Right.CalibratorPos.X
+            MyNeedleCalibrationSetup1.LNeedleYPos.Text = .Needle.Left.NeedleCalibrationPosition.Y - .Needle.Right.CalibratorPos.Y
+            MyNeedleCalibrationSetup1.LNeedleZPos.Text = .Needle.Left.NeedleCalibrationPosition.Z
+
+            MyNeedleCalibrationSetup1.RNeedleXPos.Text = .Needle.Right.NeedleCalibrationPosition.X - .Needle.Right.CalibratorPos.X
+            MyNeedleCalibrationSetup1.RNeedleYPos.Text = .Needle.Right.NeedleCalibrationPosition.Y - .Needle.Right.CalibratorPos.Y
+            MyNeedleCalibrationSetup1.RNeedleZPos.Text = .Needle.Right.NeedleCalibrationPosition.Z
+        End With
+    End Sub
+
+    Private Sub ButtonLVDT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLVDTSetup.Click
+        AddPanel(PanelRight, MyLVDTSetup.PanelToBeAdded)
     End Sub
 
 #Region " Data Reference "
     ' this function need to be removed after it is compiled as DLL .
     Private Sub SystemConfig_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        IDS.Devices.Vision.IDSV_SetBrightness(DisplayBrightness.Value)
         Conn = OleDbConnection1
         Call DataLoad()
 
     End Sub
 #End Region
 
+    Private Sub ButtonCamera_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCameraSetup.Click
+        AddPanel(PanelRight, MyVisionSetup.PanelToBeAdded)
+        MyVisionSetup.SetTable_a()
+        MyVisionSetup.SetTable_b()
+    End Sub
+
+
     Private Sub ButtonHardwareCommunicationSetup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHardwareCommunicationSetup.Click
         AddPanel(PanelRight, MyHardwareCommunicationSetup.PanelToBeAdded)
     End Sub
 
     Private Sub ButtonNeedleCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSettings.Click
-        MyNeedleCalibrationSettings.Revert()
+        OnLaser()
         AddPanel(PanelRight, MyNeedleCalibrationSettings.PanelToBeAdded)
+        If IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
+            MyNeedleCalibrationSettings.BoxStep1.Visible = False
+            MyNeedleCalibrationSettings.BoxStep1Jetting.Visible = True
+        Else
+            MyNeedleCalibrationSettings.BoxStep1.Visible = True
+            MyNeedleCalibrationSettings.BoxStep1Jetting.Visible = False
+        End If
+        MyNeedleCalibrationSettings.RevertData()
     End Sub
 
     Private Sub ButtonStationPositions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStationPositions.Click
@@ -1175,7 +1338,7 @@ Public Class Setup
             IDS.Data.Hardware.Dispenser.CurrentHeads = 2
             MyGantrySetup.RightHead.Visible = True
         End If
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
     End Sub
 
     Private Sub TwoHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TwoHead.CheckStateChanged
@@ -1188,7 +1351,7 @@ Public Class Setup
             IDS.Data.Hardware.Dispenser.CurrentHeads = 1
             MyDispenserSettings.RevertData()
         End If
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
     End Sub
 
     Private Sub CheckBoxLifter_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLifter.CheckedChanged

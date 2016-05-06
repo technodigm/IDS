@@ -1,14 +1,11 @@
 Option Explicit On 
 
- '''''''''''''''''''''''''''''''
-'                                                                                                '
 'Class CIDSElements                                                                              '
 '  Despription:                                                                                  '  
 '           Dispensing element data handling base class                                          '    
 '  Created by:                                                                                   ' 
-'           Shen Jian                                                                            '
-'                                                                                                '
- '''''''''''''''''''''''''''''''
+'           Shen Jian            
+
 Public Class CIDSElements
     Protected Type As String    'element type
     Protected LineNo As Integer 'row number in the sheet
@@ -407,30 +404,20 @@ Public Class CIDSLinkS
     Inherits CIDSElements
 End Class
 
-
-'''''''''''''''''''''''''''''''
-'                                                                                                '
 'Class CIDSLinkE                                                                                 '
 '  Despription:                                                                                  '  
 '           Link end element data  class                                                         '    
 '  Created by:                                                                                   ' 
-'           Shen Jian                                                                            '
-'                                                                                                '
-'''''''''''''''''''''''''''''''
+'           Shen Jian              
 Public Class CIDSLinkE
     Inherits CIDSElements
 End Class
 
-
-'''''''''''''''''''''''''''''''
-'                                                                                                '
 'Class CIDSLine                                                                                  '
 '  Despription:                                                                                  '  
 '           Line element data handling class                                                     '    
 '  Created by:                                                                                   ' 
-'           Shen Jian                                                                            '
-'                                                                                                '
-'''''''''''''''''''''''''''''''
+'           Shen Jian             
 Public Class CIDSLine
     Inherits CIDSElements
 
@@ -1196,6 +1183,148 @@ Public Class CIDSFillRectangle
     End Property
 
 End Class
+
+
+'''''''''''''''''''''''''''''''
+'                                                                                                '
+'Class CIDSChipEdge                                                                              '
+'  Despription:                                                                                  '  
+'           Chip edge element data handling class                                                '    
+'  Created by:                                                                                   ' 
+'           Shen Jian                                                                            '
+'                                                                                                '
+'''''''''''''''''''''''''''''''
+Public Class CIDSChipEdge
+    Inherits CIDSElements
+
+    Protected X, Y, Z As Double
+    Protected visionParam As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam 'vision parameters
+
+
+    'Property of vision parameters for chip detection                 '
+    '                                                                 '
+
+    Public Property vParam() As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam
+        Get
+            Return visionParam
+        End Get
+        Set(ByVal Value As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam)
+            visionParam = Value
+        End Set
+    End Property
+
+
+    'Property of chip position x                                      '
+    '                                                                 '
+
+    Public Property PosX() As Double
+        Get
+            Return X
+        End Get
+        Set(ByVal Value As Double)
+            X = Value
+        End Set
+    End Property
+
+
+    'Property of chip position y                                      '
+    '                                                                 '
+
+    Public Property PosY() As Double
+        Get
+            Return Y
+        End Get
+        Set(ByVal Value As Double)
+            Y = Value
+        End Set
+    End Property
+
+
+    'Property of chip position z                                      '
+    '                                                                 '
+
+    Public Property PosZ() As Double
+        Get
+            Return Z
+        End Get
+        Set(ByVal Value As Double)
+            Z = Value
+        End Set
+    End Property
+
+
+End Class
+
+
+'''''''''''''''''''''''''''''''
+'                                                                                                '
+'Class CIDSQC                                                                                    '
+'  Despription:                                                                                  '  
+'           QC element data handling class                                                       '    
+'  Created by:                                                                                   ' 
+'           Shen Jian                                                                            '
+'                                                                                                '
+'''''''''''''''''''''''''''''''
+Public Class CIDSQC
+    Inherits CIDSElements
+
+    Protected X, Y, Z As Double
+    Protected visionParam As DLL_Export_Device_Vision.QC.QCParam
+
+
+    'Property of vision parameters for QC inspection                  '
+    '                                                                 '
+
+    Public Property vParam() As DLL_Export_Device_Vision.QC.QCParam
+        Get
+            Return visionParam
+        End Get
+        Set(ByVal Value As DLL_Export_Device_Vision.QC.QCParam)
+            visionParam = Value
+        End Set
+    End Property
+
+
+    'Property of QC checking position x                               '
+    '                                                                 '
+
+    Public Property PosX() As Double
+        Get
+            Return X
+        End Get
+        Set(ByVal Value As Double)
+            X = Value
+        End Set
+    End Property
+
+
+    'Property of QC checking position y                               '
+    '                                                                 '
+
+    Public Property PosY() As Double
+        Get
+            Return Y
+        End Get
+        Set(ByVal Value As Double)
+            Y = Value
+        End Set
+    End Property
+
+
+    'Property of QC checking position z                               '
+    '                                                                 '
+
+    Public Property PosZ() As Double
+        Get
+            Return Z
+        End Get
+        Set(ByVal Value As Double)
+            Z = Value
+        End Set
+    End Property
+
+End Class
+
 
 '''''''''''''''''''''''''''''''
 '                                                                                                '

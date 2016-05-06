@@ -68,9 +68,10 @@ Public Class Heater
     Friend WithEvents SyringeTemp As System.Windows.Forms.Label
     Friend WithEvents NeedleTemp As System.Windows.Forms.Label
     Friend WithEvents PostThermalTemp As System.Windows.Forms.Label
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Buttoned As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents Button1 As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Heater))
         Me.AxMSComm1 = New AxMSCommLib.AxMSComm
@@ -110,9 +111,9 @@ Public Class Heater
         Me.SyringeTemp = New System.Windows.Forms.Label
         Me.NeedleTemp = New System.Windows.Forms.Label
         Me.PostThermalTemp = New System.Windows.Forms.Label
-        Me.Button1 = New System.Windows.Forms.Button
         Me.Button2 = New System.Windows.Forms.Button
         Me.TextBox1 = New System.Windows.Forms.TextBox
+        Me.Button1 = New System.Windows.Forms.Button
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NeedleOperationTemp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SyringeOperationTemp, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -472,15 +473,6 @@ Public Class Heater
         Me.PostThermalTemp.TabIndex = 53
         Me.PostThermalTemp.Visible = False
         '
-        'Button1
-        '
-        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(320, 352)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(120, 48)
-        Me.Button1.TabIndex = 42
-        Me.Button1.Text = "Update Settings"
-        '
         'Button2
         '
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -497,6 +489,15 @@ Public Class Heater
         Me.TextBox1.Size = New System.Drawing.Size(144, 27)
         Me.TextBox1.TabIndex = 54
         Me.TextBox1.Text = ""
+        '
+        'Button1
+        '
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(320, 352)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(120, 48)
+        Me.Button1.TabIndex = 42
+        Me.Button1.Text = "Set Temperature"
         '
         'Heater
         '
@@ -540,9 +541,10 @@ Public Class Heater
         Me.Controls.Add(Me.SyringeTemp)
         Me.Controls.Add(Me.NeedleTemp)
         Me.Controls.Add(Me.PostThermalTemp)
-        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.Button1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Heater"
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NeedleOperationTemp, System.ComponentModel.ISupportInitialize).EndInit()

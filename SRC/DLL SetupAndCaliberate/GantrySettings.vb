@@ -648,7 +648,7 @@ Public Class GantrySettings
 
         'station settings
         SaveGantrySettings()
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
 
     End Sub
 
@@ -716,7 +716,7 @@ Public Class GantrySettings
         IDS.Data.Hardware.Gantry.ElementZSpeed = ElementZSpeed.Value
         IDS.Data.Hardware.Gantry.ServiceXYSpeed = ServiceXYSpeed.Value
         IDS.Data.Hardware.Gantry.ServiceZSpeed = ServiceZSpeed.Value
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveData()
     End Sub
 
     Public Sub RevertData()

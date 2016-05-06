@@ -368,6 +368,7 @@ Public Class Dispenser
         Me.Controls.Add(Me.AxMSComm1)
         Me.Controls.Add(Me.Auger)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Dispenser"
         Me.Text = "Form1"
         Me.GroupBox1.ResumeLayout(False)

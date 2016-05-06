@@ -40,6 +40,7 @@ Public Class Laser
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Status As System.Windows.Forms.TextBox
+    Friend WithEvents Button1 As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Laser))
         Me.AxMSComm1 = New AxMSCommLib.AxMSComm
@@ -50,6 +51,7 @@ Public Class Laser
         Me.Label2 = New System.Windows.Forms.Label
         Me.Status = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
+        Me.Button1 = New System.Windows.Forms.Button
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,10 +124,19 @@ Public Class Laser
         Me.Label3.TabIndex = 8
         Me.Label3.Text = "Status"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(392, 240)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(104, 40)
+        Me.Button1.TabIndex = 9
+        Me.Button1.Text = "Read"
+        '
         'Laser
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
         Me.ClientSize = New System.Drawing.Size(600, 574)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Highest)
         Me.Controls.Add(Me.Lowest)
@@ -135,6 +146,7 @@ Public Class Laser
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label3)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Laser"
         Me.Text = "Laser"
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -156,31 +168,30 @@ Public Class Laser
     'Public AverageValues(10) As Double
     'Public AverageValueIndex As Integer = 0
 
-
     Private Sub Laser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         OpenPort()
     End Sub
     Public Sub OpenPort()
-        'If AxMSComm1.PortOpen = True Then
-        '    Exit Sub
-        'End If
-        'With AxMSComm1
-        '    .CommPort = LaserPort
-        '    .Settings = "115200,N,8,1"
-        '    .InBufferCount = 0
-        '    .InputLen = 12
-        '    .RThreshold = 12
-        '    .SThreshold = 1
-        '    .InputMode = MSCommLib.InputModeConstants.comInputModeText
-        'End With
-        'Try
-        '    If Not AxMSComm1.PortOpen Then
-        '        AxMSComm1.PortOpen = True
-        '    End If
-        'Catch ex As System.Runtime.InteropServices.COMException
-        '    ExceptionDisplay(ex)
-        'End Try
-        'ValueUpdated = False
+        If AxMSComm1.PortOpen = True Then
+            Exit Sub
+        End If
+        With AxMSComm1
+            .CommPort = LaserPort
+            .Settings = "115200,N,8,1"
+            .InBufferCount = 0
+            .InputLen = 12
+            .RThreshold = 12
+            .SThreshold = 1
+            .InputMode = MSCommLib.InputModeConstants.comInputModeText
+        End With
+        Try
+            If Not AxMSComm1.PortOpen Then
+                AxMSComm1.PortOpen = True
+            End If
+        Catch ex As System.Runtime.InteropServices.COMException
+            ExceptionDisplay(ex)
+        End Try
+        ValueUpdated = False
     End Sub
 
     Public Sub ClosePort()
@@ -258,8 +269,8 @@ Public Class Laser
                                 Highest.Text = MM_Reading.ToString
                             End If
                             If MM_Reading < CDbl(Lowest.Text) Then Lowest.Text = MM_Reading.ToString
-                            If last_line = string_result Then
-                            Else
+                            'If last_line = string_result Then
+                            'Else
                                 'display only up to 40 lines at any time
                                 last_line = string_result
                                 raw_result_store = raw_result_store + "Reading: " + string_store + " at: " + DateTime.Now.ToShortTimeString + vbCrLf
@@ -268,7 +279,7 @@ Public Class Laser
                                     raw_result_store = ""
                                     newline_count = 0
                                 End If
-                            End If
+                            'End If
                             'Else
                             'Status.Text = "Bad Reading: " + string_result
                         End If
@@ -300,8 +311,9 @@ Public Class Laser
     End Sub
 
     Public Function WaitForReadingToStabilize() As Boolean
-        doread = True
-        Sleep(250)
+        ValueUpdated = False
+        DoRead = True
+        'Sleep(250)
         start_time = Now
         Do
             Sleep(25)
@@ -317,4 +329,7 @@ Public Class Laser
         End If
     End Function
 
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        WaitForReadingToStabilize()
+    End Sub
 End Class
