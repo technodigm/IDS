@@ -548,18 +548,10 @@ Public Class FormService
                     IDS.FrmExecution.DisplayErrorPopup("1003211")
                 Case "Low Incoming Air Pressure"
                     IDS.FrmExecution.DisplayErrorPopup("1003212")
-                Case "Fiducial Failed"
-                    IDS.FrmExecution.DisplayErrorPopup("1006201")
                 Case "Height Point Failed"
                     IDS.FrmExecution.DisplayErrorPopup("1006202")
-                Case "Chip Finding Failed"
-                    IDS.FrmExecution.DisplayErrorPopup("1006203")
-                Case "Dot Size Check Failed"
-                    IDS.FrmExecution.DisplayErrorPopup("1006204")
                 Case "E-Stop"
                     IDS.FrmExecution.DisplayErrorPopup("1006205")
-                Case "Camera Signal Failed"
-                    IDS.FrmExecution.DisplayErrorPopup("1006299")
                 Case "Volume Calibration Failed"
                     IDS.FrmExecution.DisplayErrorPopup("1006206")
             End Select

@@ -73,12 +73,15 @@ Public Structure SubSheetErrorStruct
 End Structure
 
 
+'''''''''''''''''''''''''''''''
+'                                                                                                
 'Class CIDSPattern                                                                               
 '  Despription:                                                                                   
 '           Pattern file data handling class                                                       
 '  Created by:                                                                                   
-'           Shen Jian/Jiang     
-
+'           Shen Jian/Jiang                                                                      
+'                                                                                                
+'''''''''''''''''''''''''''''''
 Public Class CIDSPattern
     Private Const m_MaxColumnOfPatternWithVision As Integer = 78
     ' Private m_PatternCommand As String
@@ -1571,15 +1574,15 @@ Public Class CIDSPattern
             Dim rec As Object = DataArray(i - 1)
             Dim Type As String = rec.CmdType
 
+            strLine = Type
             If Type.ToUpper = "DOT" Then
-                strLine = "Dot"
                 dotrec = rec
                 strLine = strLine + ","
                 strLine = strLine + dotrec.Param.Needle + ","
                 If dotrec.Param.DispenseOn Then
                     strLine = strLine + "On,"
                 Else
-                    strLine = strLine + "Off,"
+                    strLine = strLine + "offset,"
                 End If
                 strLine = strLine + CStr(dotrec.PosX) + "," + CStr(dotrec.PosY) + "," + CStr(dotrec.PosZ) + ","
                 strLine = strLine + "," + "," + ","
@@ -1601,7 +1604,6 @@ Public Class CIDSPattern
                 strLine = strLine + ",,,,,,,,,,,,"
                 file.Write(strLine, Encrypt)
             ElseIf Type.ToUpper = "FIDUCIAL" Then
-                strLine = "Fiducial"
                 fidrec = rec
                 strLine = strLine + ","
                 strLine = strLine + fidrec.FirstFid + ","
@@ -1611,7 +1613,6 @@ Public Class CIDSPattern
                 strLine = strLine + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
                 file.Write(strLine, Encrypt)
             ElseIf Type.ToUpper = "HEIGHT" Then
-                strLine = "Height"
                 heightrec = rec
                 strLine = strLine + ",,,"
                 strLine = strLine + CStr(heightrec.PosX) + "," + CStr(heightrec.PosY) + "," + CStr(heightrec.PosZ) + ","
@@ -3440,13 +3441,9 @@ Public Class CIDSErrorCheck
                             fRetractHeight = .Cells(j, gRetractHtColumn).Value
                             fNeedleGap = .Cells(j, gNeedleGapColumn).Value
 
-                            If fClearanceHeight > WorkArea.ZMax Or fRetractHeight > WorkArea.ZMax Or fNeedleGap > WorkArea.ZMax Then
-                                Rtn = 1
-                            ElseIf fClearanceHeight < 0 Or fRetractHeight < 0 Or fNeedleGap < 0 Then
+                            If fClearanceHeight < 0 Or fRetractHeight < 0 Or fNeedleGap < 0 Then
                                 Rtn = 1
                             ElseIf fClearanceHeight < fRetractHeight Or fClearanceHeight < fNeedleGap Then
-                                Rtn = 1
-                            ElseIf WorkArea.ZMax - WorkArea.ZMin < fClearanceHeight Then
                                 Rtn = 1
                             End If
 
@@ -3647,11 +3644,6 @@ Public Class CIDSErrorCheck
                     SheetIndex = SubSheetStruct.ExtAbstract(i).SheetIndex
 
                     SheetName = SubSheetStruct.IntAbstract(SheetIndex).SheetName
-
-                    If SheetName = "" Then
-                        MyMsgBox("File name not found")
-                        Return 1
-                    End If
 
                     'Fast extract subSheet first valid pt
                     SubFirstPt.X = SubSheetStruct.IntAbstract(SheetIndex).SubFirstPt.X
@@ -4430,9 +4422,7 @@ Public Class CIDSErrorCheck
         If 0 = CheckSpeedError(sheet, ErrorSheetData) And 0 = CheckHeightError(sheet, ErrorSheetData) Then
             'No error checked for Speed.  Then we check Points
             If 0 = BuildIntReference(sheet, ErrorSheetData) Then
-                If BuildExtReference(sheet, ErrorSheetData) = 1 Then
-                    Rtn = 1
-                End If
+                BuildExtReference(sheet, ErrorSheetData)
             Else
                 Rtn = 1
             End If
@@ -4520,9 +4510,7 @@ Public Class CIDSErrorCheck
 
         'Step 2: Check error
         If 0 = BuildIntReference(sheet, ErrorSheetData) Then
-            If BuildExtReference(sheet, ErrorSheetData) = 1 Then
-                Rtn = 1
-            End If
+            BuildExtReference(sheet, ErrorSheetData)
             If 0 <> CheckXYErrorInOneSheet(CurrentSheetName, sheet, ErrorSheetData) Then
                 Rtn = 1
             End If

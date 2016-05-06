@@ -442,7 +442,7 @@ Public Class EventSettings
         IDS.Data.Hardware.SPC.HeightFailedAction = RB_HeightPrompt.Checked
         IDS.Data.Hardware.SPC.FiducialFailedAction = Rb_FidPrompt.Checked
         IDS.Data.Hardware.SPC.QCFailedAction = RB_QCPrompt.Checked
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
     End Sub
 
     Private Sub ButtonRevert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRevert.Click

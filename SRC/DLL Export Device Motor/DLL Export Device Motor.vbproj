@@ -83,24 +83,22 @@
                     HintPath = "..\BIN\DLL DataManager.dll"
                 />
                 <Reference
-                    Name = "Microsoft.DirectX"
-                    AssemblyName = "Microsoft.DirectX"
-                    HintPath = "bin\Microsoft.DirectX.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "Microsoft.DirectX.DirectInput"
-                    AssemblyName = "Microsoft.DirectX.DirectInput"
-                    HintPath = "bin\Microsoft.DirectX.DirectInput.dll"
-                    Private = "True"
-                />
-                <Reference
                     Name = "TrioPCLib"
                     Guid = "{F1933964-74B0-11D3-8A13-00403393B236}"
                     VersionMajor = "1"
                     VersionMinor = "0"
                     Lcid = "0"
                     WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX"
+                    AssemblyName = "Microsoft.DirectX"
+                    HintPath = "bin\Microsoft.DirectX.dll"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX.DirectInput"
+                    AssemblyName = "Microsoft.DirectX.DirectInput"
+                    HintPath = "bin\Microsoft.DirectX.DirectInput.dll"
                 />
             </References>
             <Imports>

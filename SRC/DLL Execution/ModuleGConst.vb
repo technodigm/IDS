@@ -44,9 +44,9 @@ Public Module ModuleGConst
         gRejectAutoSkip = True
 
         'Needle center offset wrt vision center
-        gLeftNeedleOffs(0) = IDS.Data.Hardware.Needle.Left.CalibratorPos.X - IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X  '-64.5 
-        gLeftNeedleOffs(1) = IDS.Data.Hardware.Needle.Left.CalibratorPos.Y - IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y '-199.4  '
-        gLeftNeedleOffs(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z '-73.8   '     
+        gLeftNeedleOffs(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X
+        gLeftNeedleOffs(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y
+        gLeftNeedleOffs(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
 
         'LASER/LVDT
         'Laser center offset wrt vision center
@@ -241,7 +241,6 @@ Public Module ModuleGConst
 
 
         'Reset level2 sub parameters                                      '
-        '                                                                 '
 
         Public Sub ClearSub2()
             sub2Flag = False
@@ -726,7 +725,6 @@ Public Module MathFunction
     'Coordinate transform from hard home to work origin (system)      '
     '   pt:     position to be transformed                            '
     '   newPt:  position under work coordinate system                 '
-    '                                                                 '
 
     Public Sub HardToSys(ByVal pt() As Double, ByRef newPt() As Double)
         Dim i As Integer
@@ -741,7 +739,6 @@ Public Module MathFunction
     'Coordinate transform from work origin (system) to hard home      '
     '   pt:     position to be transformed                            '
     '   newPt:  position under hard home coordinate system            '
-    '                                                                 '
 
     Public Sub SysToHard(ByVal pt() As Double, ByRef newPt() As Double)  'work to hard
         Dim i As Integer
@@ -752,12 +749,10 @@ Public Module MathFunction
         Next
     End Sub
 
-
     'Coordinate transform from reference to work coordinate           '
     '   pt:      position to be transformed                           '
     '   newPt:   position under work coordinate system                '
     '   referpt: reference point under work coordinate                '
-    '                                                                 '
 
     Public Sub ReferToSys(ByVal pt() As Double, ByRef newPt() As Double, ByVal referpt() As Double)
         Dim i As Integer

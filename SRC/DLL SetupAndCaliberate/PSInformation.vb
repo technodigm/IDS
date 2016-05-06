@@ -173,7 +173,7 @@ Public Class PSInformation
         IDS.Data.Hardware.SPC.ProgAuthorContact = TB_Contact.Text
         IDS.Data.Hardware.SPC.ProductionNote = RTB_Infor.Text
 
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
 
     End Sub
 

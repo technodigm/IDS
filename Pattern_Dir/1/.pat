@@ -4,10 +4,10 @@
 
 ~[ADMINISTRATION]
 +IDSData.Admin.Folder.DataPath =C:\IDS\BIN
-6IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir
-)IDSData.Admin.Folder.FileExtension =Pat
+8IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir\1
+)IDSData.Admin.Folder.FileExtension =pat
 6IDSData.ParameterID.GroupID =Application_Maintenance
- IDSData.ParameterID.RecordID =
+!IDSData.ParameterID.RecordID =1
 ,IDSData.Admin.User.ContactNo =6493 3826‎
 $IDSData.Admin.User.Department =R&D
 IDSData.Admin.User.ID =a
@@ -280,9 +280,9 @@ GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.78233137829912
 2IDSData.Hardware.Needle.Left.HeightApproach =-80
 1IDSData.Hardware.Needle.Left.HeightClearance =0
 /IDSData.Hardware.Needle.Left.HeightRetract =0
-CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =145.653
-DIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-367.917
-CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-72.576
+CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =-28.959
+MIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =0.522999999999968
+PIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-0.00800000000000978
 <IDSData.Hardware.Needle.Left.TouchSensorZPosition =-80.093
 5IDSData.Hardware.Needle.Left.ArrayDotPos1.X =66.189
 7IDSData.Hardware.Needle.Left.ArrayDotPos1.Y =-365.319

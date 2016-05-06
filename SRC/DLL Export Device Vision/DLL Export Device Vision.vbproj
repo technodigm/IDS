@@ -313,14 +313,6 @@
                     Lcid = "0"
                     WrapperTool = "tlbimp"
                 />
-                <Reference
-                    Name = "AxeVision"
-                    Guid = "{9AE86E03-97BC-11D1-A49B-000021633168}"
-                    VersionMajor = "6"
-                    VersionMinor = "7"
-                    Lcid = "0"
-                    WrapperTool = "aximp"
-                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -340,16 +332,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ChipEdgePoints.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ChipEdgePoints.resx"
-                    DependentUpon = "ChipEdgePoints.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "DeviceDIO.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -360,13 +342,13 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "DeviceLighbox.vb"
+                    RelPath = "DeviceLightbox.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DeviceLighbox.resx"
-                    DependentUpon = "DeviceLighbox.vb"
+                    RelPath = "DeviceLightbox.resx"
+                    DependentUpon = "DeviceLightbox.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -377,46 +359,6 @@
                 <File
                     RelPath = "DeviceRegulators.resx"
                     DependentUpon = "DeviceRegulators.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "FiducialMark_Form.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FiducialMark_Form.resx"
-                    DependentUpon = "FiducialMark_Form.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "FormExportVision.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FormExportVision.resx"
-                    DependentUpon = "FormExportVision.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "QC.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "QC.resx"
-                    DependentUpon = "QC.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "RejectPoint.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RejectPoint.resx"
-                    DependentUpon = "RejectPoint.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

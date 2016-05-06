@@ -56,14 +56,18 @@ Imports System.Runtime.Serialization
     End Sub
 
     'to save .pat file that is opened as factorydefault stated in RecordID
-    Public Function SaveData() As Boolean
+    Public Function SaveLocalData() As Boolean
 
         MsgErr = ""
-        'Return SaveFile(ParameterID.RecordID)
         Return SaveFile(IDSData.ParameterID.RecordID)
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        ''' end here
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    End Function
+
+    Public Function SaveGlobalData() As Boolean
+
+        MsgErr = ""
+        Return SaveFile(Nothing)
+
     End Function
 
     'to open .pat file that is opened as factorydefault stated in RecordID
@@ -71,12 +75,8 @@ Imports System.Runtime.Serialization
 
         MsgErr = ""
 
-        'Return openFile(ParameterID.RecordID)
         Return Openfile(IDSData.ParameterID.RecordID)
 
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        ''' end here
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     End Function
 
     'to save pathfile .pat file 
@@ -86,9 +86,6 @@ Imports System.Runtime.Serialization
         StrConvert(MyFileName)
         Return SavePathFileName(MyFileName)
 
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        ''' end here
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     End Function
 
     'extract filename and extension from myfilename
@@ -2185,9 +2182,7 @@ Public Module Module1
         Return Text
     End Function
 
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     'save global data into pat file with path in binary format
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     Friend Function SerializePathFileName(ByVal MyFileName As String) As Boolean
         Dim fs As New FileStream(MyFileName, FileMode.Create)
         Dim formatter As New BinaryFormatter

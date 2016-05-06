@@ -60,8 +60,6 @@ Public Class FormProgramming
     Friend WithEvents MenuItem64 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem65 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem67 As System.Windows.Forms.MenuItem
-    Friend WithEvents DomainUpDown1 As System.Windows.Forms.DomainUpDown
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents ImageListFiles As System.Windows.Forms.ImageList
     Friend WithEvents imageListElement As System.Windows.Forms.ImageList
@@ -83,12 +81,9 @@ Public Class FormProgramming
     '   Friend WithEvents AxSpreadsheet1 As AxOWC10.AxSpreadsheet
     Friend WithEvents ImageListGeneralTools As System.Windows.Forms.ImageList
     Friend WithEvents ButtonHome As System.Windows.Forms.Button
-    Friend WithEvents ButtonVolCal As System.Windows.Forms.Button
-    Friend WithEvents ButtonNeedleCal As System.Windows.Forms.Button
     Friend WithEvents ButtonPurge As System.Windows.Forms.Button
     Friend WithEvents ButtonClean As System.Windows.Forms.Button
     Friend WithEvents ImageListMultiField As System.Windows.Forms.ImageList
-    Friend WithEvents CBDoorLock As System.Windows.Forms.CheckBox
     Friend WithEvents PanelVision As System.Windows.Forms.Panel
     Friend WithEvents PanelVisionCtrl As System.Windows.Forms.Panel
     Friend WithEvents NeedleContextMenu As System.Windows.Forms.ContextMenu
@@ -182,9 +177,9 @@ Public Class FormProgramming
     Friend WithEvents TBBVolumeCal As System.Windows.Forms.ToolBarButton
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
-    Friend WithEvents ValueBrightness As System.Windows.Forms.NumericUpDown
     Friend WithEvents cross_num As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ButtonCalibrate As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProgramming))
@@ -231,7 +226,6 @@ Public Class FormProgramming
         Me.ImageListGeneralTools = New System.Windows.Forms.ImageList(Me.components)
         Me.ButtonPurge = New System.Windows.Forms.Button
         Me.PanelVisionCtrl = New System.Windows.Forms.Panel
-        Me.ValueBrightness = New System.Windows.Forms.NumericUpDown
         Me.CheckBoxLockZ = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotZ = New System.Windows.Forms.TextBox
         Me.CheckBoxLockY = New System.Windows.Forms.CheckBox
@@ -239,8 +233,6 @@ Public Class FormProgramming
         Me.CheckBoxLockX = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotX = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
-        Me.DomainUpDown1 = New System.Windows.Forms.DomainUpDown
-        Me.Label1 = New System.Windows.Forms.Label
         Me.ImageListFiles = New System.Windows.Forms.ImageList(Me.components)
         Me.imageListElement = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageListReference = New System.Windows.Forms.ImageList(Me.components)
@@ -287,11 +279,8 @@ Public Class FormProgramming
         Me.TBBEdit = New System.Windows.Forms.ToolBarButton
         Me.ImageListOper = New System.Windows.Forms.ImageList(Me.components)
         Me.ButtonClean = New System.Windows.Forms.Button
-        Me.ButtonNeedleCal = New System.Windows.Forms.Button
-        Me.ButtonVolCal = New System.Windows.Forms.Button
         Me.ButtonHome = New System.Windows.Forms.Button
         Me.ImageListMultiField = New System.Windows.Forms.ImageList(Me.components)
-        Me.CBDoorLock = New System.Windows.Forms.CheckBox
         Me.NeedleContextMenu = New System.Windows.Forms.ContextMenu
         Me.MenuItem81 = New System.Windows.Forms.MenuItem
         Me.MenuItem82 = New System.Windows.Forms.MenuItem
@@ -331,8 +320,8 @@ Public Class FormProgramming
         Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.cross_num = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
+        Me.ButtonCalibrate = New System.Windows.Forms.Button
         Me.PanelVisionCtrl.SuspendLayout()
-        CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel4.SuspendLayout()
         CType(Me.AxSpreadsheetProgramming, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelMotion.SuspendLayout()
@@ -560,16 +549,15 @@ Public Class FormProgramming
         Me.ButtonPurge.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPurge.ImageIndex = 4
         Me.ButtonPurge.ImageList = Me.ImageListGeneralTools
-        Me.ButtonPurge.Location = New System.Drawing.Point(856, 530)
+        Me.ButtonPurge.Location = New System.Drawing.Point(944, 610)
         Me.ButtonPurge.Name = "ButtonPurge"
-        Me.ButtonPurge.Size = New System.Drawing.Size(88, 80)
+        Me.ButtonPurge.Size = New System.Drawing.Size(84, 80)
         Me.ButtonPurge.TabIndex = 57
         Me.ButtonPurge.Text = "Purge On"
         Me.ButtonPurge.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'PanelVisionCtrl
         '
-        Me.PanelVisionCtrl.Controls.Add(Me.ValueBrightness)
         Me.PanelVisionCtrl.Controls.Add(Me.CheckBoxLockZ)
         Me.PanelVisionCtrl.Controls.Add(Me.TextBoxRobotZ)
         Me.PanelVisionCtrl.Controls.Add(Me.CheckBoxLockY)
@@ -577,23 +565,11 @@ Public Class FormProgramming
         Me.PanelVisionCtrl.Controls.Add(Me.CheckBoxLockX)
         Me.PanelVisionCtrl.Controls.Add(Me.TextBoxRobotX)
         Me.PanelVisionCtrl.Controls.Add(Me.Label4)
-        Me.PanelVisionCtrl.Controls.Add(Me.DomainUpDown1)
-        Me.PanelVisionCtrl.Controls.Add(Me.Label1)
         Me.PanelVisionCtrl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.PanelVisionCtrl.Location = New System.Drawing.Point(84, 940)
         Me.PanelVisionCtrl.Name = "PanelVisionCtrl"
         Me.PanelVisionCtrl.Size = New System.Drawing.Size(768, 32)
         Me.PanelVisionCtrl.TabIndex = 2
-        '
-        'ValueBrightness
-        '
-        Me.ValueBrightness.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ValueBrightness.Location = New System.Drawing.Point(72, 3)
-        Me.ValueBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
-        Me.ValueBrightness.Name = "ValueBrightness"
-        Me.ValueBrightness.Size = New System.Drawing.Size(45, 21)
-        Me.ValueBrightness.TabIndex = 76
-        Me.ValueBrightness.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
         'CheckBoxLockZ
         '
@@ -663,27 +639,6 @@ Public Class FormProgramming
         Me.Label4.Size = New System.Drawing.Size(42, 16)
         Me.Label4.TabIndex = 7
         Me.Label4.Text = "Robot"
-        '
-        'DomainUpDown1
-        '
-        Me.DomainUpDown1.Items.Add("Aa")
-        Me.DomainUpDown1.Items.Add("b")
-        Me.DomainUpDown1.Items.Add("c")
-        Me.DomainUpDown1.Location = New System.Drawing.Point(72, 3)
-        Me.DomainUpDown1.Name = "DomainUpDown1"
-        Me.DomainUpDown1.Size = New System.Drawing.Size(40, 20)
-        Me.DomainUpDown1.TabIndex = 1
-        Me.DomainUpDown1.Text = "50"
-        Me.DomainUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label1
-        '
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(2, 5)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(68, 16)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "Brightness"
         '
         'ImageListFiles
         '
@@ -1009,40 +964,12 @@ Public Class FormProgramming
         Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonClean.ImageIndex = 5
         Me.ButtonClean.ImageList = Me.ImageListGeneralTools
-        Me.ButtonClean.Location = New System.Drawing.Point(856, 690)
+        Me.ButtonClean.Location = New System.Drawing.Point(1028, 610)
         Me.ButtonClean.Name = "ButtonClean"
-        Me.ButtonClean.Size = New System.Drawing.Size(88, 80)
+        Me.ButtonClean.Size = New System.Drawing.Size(84, 80)
         Me.ButtonClean.TabIndex = 58
         Me.ButtonClean.Text = "Clean On"
         Me.ButtonClean.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'ButtonNeedleCal
-        '
-        Me.ButtonNeedleCal.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonNeedleCal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNeedleCal.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonNeedleCal.ImageIndex = 3
-        Me.ButtonNeedleCal.ImageList = Me.ImageListGeneralTools
-        Me.ButtonNeedleCal.Location = New System.Drawing.Point(944, 610)
-        Me.ButtonNeedleCal.Name = "ButtonNeedleCal"
-        Me.ButtonNeedleCal.Size = New System.Drawing.Size(84, 80)
-        Me.ButtonNeedleCal.TabIndex = 56
-        Me.ButtonNeedleCal.Text = "Needle Calib"
-        Me.ButtonNeedleCal.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'ButtonVolCal
-        '
-        Me.ButtonVolCal.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonVolCal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolCal.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonVolCal.ImageIndex = 2
-        Me.ButtonVolCal.ImageList = Me.ImageListGeneralTools
-        Me.ButtonVolCal.Location = New System.Drawing.Point(1028, 610)
-        Me.ButtonVolCal.Name = "ButtonVolCal"
-        Me.ButtonVolCal.Size = New System.Drawing.Size(84, 80)
-        Me.ButtonVolCal.TabIndex = 55
-        Me.ButtonVolCal.Text = "Volume Calib"
-        Me.ButtonVolCal.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'ButtonHome
         '
@@ -1051,7 +978,7 @@ Public Class FormProgramming
         Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonHome.ImageIndex = 0
         Me.ButtonHome.ImageList = Me.ImageListGeneralTools
-        Me.ButtonHome.Location = New System.Drawing.Point(1112, 610)
+        Me.ButtonHome.Location = New System.Drawing.Point(1192, 610)
         Me.ButtonHome.Name = "ButtonHome"
         Me.ButtonHome.Size = New System.Drawing.Size(84, 80)
         Me.ButtonHome.TabIndex = 53
@@ -1063,21 +990,6 @@ Public Class FormProgramming
         Me.ImageListMultiField.ImageSize = New System.Drawing.Size(36, 28)
         Me.ImageListMultiField.ImageStream = CType(resources.GetObject("ImageListMultiField.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageListMultiField.TransparentColor = System.Drawing.Color.White
-        '
-        'CBDoorLock
-        '
-        Me.CBDoorLock.Appearance = System.Windows.Forms.Appearance.Button
-        Me.CBDoorLock.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.CBDoorLock.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBDoorLock.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.CBDoorLock.ImageIndex = 5
-        Me.CBDoorLock.ImageList = Me.ImageListMultiField
-        Me.CBDoorLock.Location = New System.Drawing.Point(1196, 610)
-        Me.CBDoorLock.Name = "CBDoorLock"
-        Me.CBDoorLock.Size = New System.Drawing.Size(84, 80)
-        Me.CBDoorLock.TabIndex = 117
-        Me.CBDoorLock.Text = "Lock Door"
-        Me.CBDoorLock.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'NeedleContextMenu
         '
@@ -1405,6 +1317,20 @@ Public Class FormProgramming
         Me.Label2.TabIndex = 132
         Me.Label2.Text = "clear num"
         '
+        'ButtonCalibrate
+        '
+        Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonCalibrate.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonCalibrate.ImageIndex = 3
+        Me.ButtonCalibrate.ImageList = Me.ImageListGeneralTools
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(1112, 610)
+        Me.ButtonCalibrate.Name = "ButtonCalibrate"
+        Me.ButtonCalibrate.Size = New System.Drawing.Size(84, 80)
+        Me.ButtonCalibrate.TabIndex = 57
+        Me.ButtonCalibrate.Text = "Move Calibrate"
+        Me.ButtonCalibrate.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
         'FormProgramming
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
@@ -1427,11 +1353,9 @@ Public Class FormProgramming
         Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.LabelMessege)
         Me.Controls.Add(Me.AxSpreadsheetProgramming)
-        Me.Controls.Add(Me.CBDoorLock)
         Me.Controls.Add(Me.ButtonHome)
-        Me.Controls.Add(Me.ButtonVolCal)
-        Me.Controls.Add(Me.ButtonNeedleCal)
         Me.Controls.Add(Me.ButtonClean)
+        Me.Controls.Add(Me.ButtonCalibrate)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenuProgramming
@@ -1439,7 +1363,6 @@ Public Class FormProgramming
         Me.Name = "FormProgramming"
         Me.Text = "Programming"
         Me.PanelVisionCtrl.ResumeLayout(False)
-        CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel4.ResumeLayout(False)
         CType(Me.AxSpreadsheetProgramming, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelMotion.ResumeLayout(False)
@@ -1507,7 +1430,6 @@ Public Class FormProgramming
 
         'change GUI settings unique for system setup here
         m_Tri.SteppingButtons.Location = PanelToBeAdded.Location()
-        PanelVision.Controls.Add(Vision.FrmVision.PanelVision)
 
         ' get default value from the default pat file
         IDS.Data.ParameterID.RecordID = "FactoryDefault"
@@ -1545,15 +1467,9 @@ Public Class FormProgramming
         m_NewProjectCreated = False
 
         'hardware
-        Laser.OpenPort()
-        Weighting_Scale.OpenPort()
-        Conveyor.OpenPort()
         'motion controller
         m_Tri.Connect_Controller()
         SetState("Homing")
-        'vision
-        SwitchToTeachCamera()
-        ValueBrightness.Value = CDec(IDS.Data.Hardware.Camera.Brightness)
 
         'Disable part of the menu in File (GUI)
         MenuFileExport.Enabled = False
@@ -1594,10 +1510,6 @@ Public Class FormProgramming
         'error handling
         Form_Service.ResetEventCode()
 
-        'vision
-        SwitchToTeachCamera()
-        IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
-        Vision.IDSV_SetBrightness(0)
         'motion controller
         m_Tri.TrioStop()
         m_Tri.m_TriCtrl.Op(0)
@@ -1613,20 +1525,13 @@ Public Class FormProgramming
         ThreadExecutor.Abort()
 
         'hardware shutdown
-        Conveyor.PositionTimer.Stop()
-        MyConveyorSettings.CloseConveyorSetup()
-        Conveyor.ClosePort()
-        Weighting_Scale.ClosePort()
-        OffLaser()
-        Laser.ClosePort()
         OffTowerLamp()
         UnlockDoor()
 
         'gui
-        PanelVision.Controls.Remove(Vision.FrmVision.PanelVision)
         m_Tri.Disconnect_Controller()
 
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
         IDS.FrmExecution.Hide()
 
     End Sub
@@ -1647,7 +1552,6 @@ Public Class FormProgramming
 
 #Region "Shen Jian"
 
-    Private isJogON As Boolean = False
     Protected m_CamPos(3) As Double
     Private m_Xlocked As Boolean = False
     Private m_Ylocked As Boolean = False
@@ -1655,8 +1559,8 @@ Public Class FormProgramming
     Public cell1, cell2 As Object
 
     Private m_SelectedType As String = ""
-    Dim m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
-    Dim m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
+    Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
+    Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
     Public MouseTimer As System.Threading.Timer
     Private Declare Function InterlockedExchange Lib "kernel32" (ByRef Target As Integer, ByVal Value As Integer) As Integer
 
@@ -1673,14 +1577,6 @@ Public Class FormProgramming
 
     Private Sub ButtonClean_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClean.Click
         If SetState("Clean") Then DoClean()
-    End Sub
-
-    Private Sub ButtonNeedleCal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCal.Click
-        SetState("Needle Calibration")
-    End Sub
-
-    Private Sub ButtonVolCal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolCal.Click
-        SetState("Volume Calibration")
     End Sub
 
     Private Sub VisionMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.Click
@@ -1717,27 +1613,6 @@ Public Class FormProgramming
         DisableReferenceCommandBlock()
         EnableReferenceCommandBlockButton(gHeightCmdIndex) 'Height
 
-    End Sub
-
-    'SJ add door lock/unlock
-    Private Sub CheckBox5_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CBDoorLock.CheckedChanged
-
-        If IsBusy() Then
-            LabelMessage("Can't unlock the door when machine running!")
-            Exit Sub
-        End If
-        If CBDoorLock.Checked = False Then
-            CBDoorLock.Text = "Unlock Door"
-            CBDoorLock.ImageIndex = 6
-            TraceDoEvents()
-            LockDoor()
-        Else
-            CBDoorLock.Text = "Lock Door"
-            CBDoorLock.ImageIndex = 5
-            TraceDoEvents()
-            UnlockDoor()
-
-        End If
     End Sub
 
     Private Sub CheckBoxLockX_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLockX.CheckedChanged
@@ -1831,18 +1706,25 @@ Public Class FormProgramming
         If type = "Needle" And NeedleMode.Checked Then
             Pos(0) = Pos(0) - gLeftNeedleOffs(0)
             Pos(1) = Pos(1) - gLeftNeedleOffs(1)
+            Pos(2) = Pos(2) + gLeftNeedleOffs(2)
         End If
 
         If Not m_Tri.Move_Z(SafePosition) Then Exit Sub
-        If Not m_Tri.Move_XY(Pos) Then Exit Sub
+        If type = "Needle" And NeedleMode.Checked Then
+            m_Tri.Move_XY(Pos)
+            m_Tri.Move_Z(Pos(2))
+        Else
+            m_Tri.Move_XY(Pos)
+        End If
 
     End Sub
 
+    Private isJogON As Boolean = False
     Shared mouse_pos As New Point
     Shared cursor_hide As Boolean = False
     Shared isPress As Boolean
-    Dim deadzone As Integer = 3
-    Dim jogspeed As Integer = 0
+    Private deadzone As Integer = 3
+    Private jogspeed As Integer = 0
     Const maxSpeed As Integer = 100
     Const maxMouseRangeX = 600.0 '6000.0 '4500.0
     Const maxMouseRangeY = 300.0 '2000.0
@@ -1851,281 +1733,286 @@ Public Class FormProgramming
     Dim ratio As Double
     Dim countMouseTimer As Integer = 0
 
-    Private Sub MouseJogging(ByVal state As Object)
+    Public Sub MouseJogging(ByVal state As Object)
 
-        If IsBusy() And Not IsJogging() Then Exit Sub
-        If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Calibrating Or m_Tri.Stepping Then Exit Sub
-
-        m_keyBoard.Poll()
-        m_TrackBall.Poll()
-        isPress = m_keyBoard.State.Item(Key.LeftControl)
-
-        Dim x As Integer
-        Dim y As Integer
-        Dim VrData(3) As Single
-
-        If isPress Then
-
-            SetState("Jogging")
-
-            VrData(0) = 0
-            VrData(1) = 0.0
-            VrData(2) = 0.0
-
-            Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
-            If isPressAlt Then
-                Exit Sub
-            End If
-            x = m_TrackBall.MouseX()
-            y = m_TrackBall.MouseY()
-
-            Dim ratio As Double
-
-            If Math.Abs(x) >= Math.Abs(y) Then
-                If x > deadzone Then
-                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-                    ratio = CDbl(y) / x
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'X+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        VrData(2) = 0
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-                ElseIf x < -deadzone Then
-                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-                    ratio = CDbl(y) / x
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'X-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        VrData(2) = 0
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-                Else
-                    VrData(0) = 2
-                    VrData(1) = 0.0
-                    VrData(2) = 0.0
-
-                    m_Tri.SetTrioMotionValues("Jogging", VrData)
-                    isJogON = True 'False
-                End If
-            Else
-                If y < -deadzone Then
-                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-
-                    ratio = CDbl(x) / y
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        SetState("Jogging")
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'Y+
-                        VrData(0) = 1
-                        VrData(1) = 0
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-
-                ElseIf y > deadzone Then
-                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-                    ratio = CDbl(x) / y
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'Y-
-                        VrData(0) = 1
-                        VrData(1) = 0
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-                Else
-                    VrData(0) = 2
-                    VrData(1) = 0.0
-                    VrData(2) = 0.0
-
-                    m_Tri.SetTrioMotionValues("Jogging", VrData)
-                    isJogON = True 'False
-                End If
-            End If
+        If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
         Else
-            If isJogON Then
-                VrData(0) = 2
+                If IsBusy() And Not IsJogging() Then Exit Sub
+                If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
+            End If
+
+            m_keyBoard.Poll()
+            m_TrackBall.Poll()
+            isPress = m_keyBoard.State.Item(Key.LeftControl)
+
+            Dim x As Integer
+            Dim y As Integer
+            Dim VrData(3) As Single
+
+            If isPress Then
+
+                SetState("Jogging")
+
+                VrData(0) = 0
                 VrData(1) = 0.0
                 VrData(2) = 0.0
 
-                m_Tri.SetTrioMotionValues("Jogging", VrData)
-                isJogON = False
-                If m_EditStateFlag Then
-                    'reset to idle without the camera thing
-                    SetState("Idle")
-                    m_Tri.SetMachineStop()
-                    SetLampsToReadyMode()
-                    UnlockMovementButtons()
-                    ChangeButtonState("Idle")
-                    If ProgrammingMode() Then
-                        Programming.DispensingMode.Enabled = True
-                        Programming.VisionMode.Enabled = True
-                        Programming.NeedleMode.Enabled = True
+                Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+                If isPressAlt Then
+                    Exit Sub
+                End If
+                x = m_TrackBall.MouseX()
+                y = m_TrackBall.MouseY()
+
+                Dim ratio As Double
+
+                If Math.Abs(x) >= Math.Abs(y) Then
+                    If x > deadzone Then
+                        jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                        If (jogspeed > maxSpeed) Then
+                            jogspeed = maxSpeed
+                        End If
+                        ratio = CDbl(y) / x
+                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = -jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        Else   'X+
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = jogspeed
+                            End If
+                            VrData(2) = 0
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        End If
+                    ElseIf x < -deadzone Then
+                        jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                        If (jogspeed > maxSpeed) Then
+                            jogspeed = maxSpeed
+                        End If
+                        ratio = CDbl(y) / x
+                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = -jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = -jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = -jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        Else   'X-
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = -jogspeed
+                            End If
+                            VrData(2) = 0
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        End If
+                    Else
+                        VrData(0) = 2
+                        VrData(1) = 0.0
+                        VrData(2) = 0.0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True 'False
                     End If
                 Else
-                    ResetToIdle()
+                    If y < -deadzone Then
+                        jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                        If (jogspeed > maxSpeed) Then
+                            jogspeed = maxSpeed
+                        End If
+
+                        ratio = CDbl(x) / y
+                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = -jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = jogspeed
+                            End If
+
+                            SetState("Jogging")
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        Else   'Y+
+                            VrData(0) = 1
+                            VrData(1) = 0
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        End If
+
+                    ElseIf y > deadzone Then
+                        jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                        If (jogspeed > maxSpeed) Then
+                            jogspeed = maxSpeed
+                        End If
+                        ratio = CDbl(x) / y
+                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = -jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                            VrData(0) = 1
+                            If m_Xlocked = True Then
+                                VrData(1) = 0.0
+                            Else
+                                VrData(1) = -jogspeed
+                            End If
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = -jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        Else   'Y-
+                            VrData(0) = 1
+                            VrData(1) = 0
+                            If m_Ylocked = True Then
+                                VrData(2) = 0.0
+                            Else
+                                VrData(2) = -jogspeed
+                            End If
+
+                            m_Tri.SetTrioMotionValues("Jogging", VrData)
+                            isJogON = True
+                        End If
+                    Else
+                        VrData(0) = 2
+                        VrData(1) = 0.0
+                        VrData(2) = 0.0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True 'False
+                    End If
+                End If
+            Else
+                If isJogON Then
+                    VrData(0) = 2
+                    VrData(1) = 0.0
+                    VrData(2) = 0.0
+
+                    m_Tri.SetTrioMotionValues("Jogging", VrData)
+                    isJogON = False
+                    If m_EditStateFlag Then
+                        'reset to idle without the camera thing
+                        SetState("Idle")
+                        m_Tri.SetMachineStop()
+                        SetLampsToReadyMode()
+                    UnlockMovementButtons()
+                    ChangeButtonState("Idle")
+                    Programming.DispensingMode.Enabled = True
+                    Programming.VisionMode.Enabled = True
+                    Programming.NeedleMode.Enabled = True
+                Else
+                    If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
+                        Programming.ButtonCalibrate.Enabled = True
+                    Else
+                        ResetToIdle()
+                    End If
                 End If
             End If
 
-            countMouseTimer += 1
-            If (countMouseTimer >= 5) Then
-                TraceGCCollect()
-                countMouseTimer = 0
+                countMouseTimer += 1
+                If (countMouseTimer >= 5) Then
+                    TraceGCCollect()
+                    countMouseTimer = 0
+                End If
             End If
-        End If
 
     End Sub
 
@@ -2205,15 +2092,6 @@ Public Class FormProgramming
     End Sub
 
 #End Region
-
-    Private Sub ValueBrightness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueBrightness.TextChanged
-        If 0 <= ValueBrightness.Value < 255 Then
-            Vision.IDSV_SetBrightness(ValueBrightness.Value)
-        Else
-            ValueBrightness.Value = 128
-            Vision.IDSV_SetBrightness(ValueBrightness.Value)
-        End If
-    End Sub
 
 #Region "Jiang"
     Private Sub MenuItem88_Click(ByVal sender As System.Object, _
@@ -2349,11 +2227,8 @@ Public Class FormProgramming
                 IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
                 IDS.Data.OpenData()
                 IDS.Data.SavePathFileData(gPatternFileName + ".pat")
-                'lim
-                Vision.SetFiducialFilename(gPatternFileName)
 
                 m_EditStateFlag = False
-                MyConveyorSettings.InitializeConveyorSetup()
                 Disp_Dispenser_Unit_info()
 
                 SystemSetupDataRetrieve() 'SJ add 
@@ -2642,13 +2517,13 @@ Public Class FormProgramming
             gFidFileName = gPatternFileName
             m_Row = 2
             IDS.Data.OpenPathFileData(gPatternFileName + ".pat")
-            MyConveyorSettings.InitializeConveyorSetup()
             SystemSetupDataRetrieve() 'SJ add 
             'IDS.StartErrorCheck() 'kr?
 
             IDS.newOpen = True
 
             AxSpreadsheetProgramming.Worksheets("Main").Activate()
+            m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
             'Error checking for all the Spreadsheet
             If m_Execution.m_Pattern.m_ErrorChk.CheckAllError(AxSpreadsheetProgramming, ErrorSubSheet) <> 0 Then
 
@@ -2670,12 +2545,6 @@ Public Class FormProgramming
 
             Production.TextBoxFilename.Text = file
 
-            'set gd settings 'lim
-            If gPatternFileName = Nothing Then
-            Else
-                'lim
-                Vision.SetFiducialFilename(gPatternFileName)
-            End If
         Catch ex As Exception
             MessageBox.Show("Load pattern data unknown error", "Error information", MessageBoxButtons.OK)
         End Try
@@ -2733,9 +2602,8 @@ Public Class FormProgramming
             EnableTeachingButtons()
             DisableElementsCommandBlockButton(gOffsetCmdIndex)
             IDS.Data.OpenPathFileData(gPatternFileName + ".pat")
-            MyConveyorSettings.InitializeConveyorSetup()
             SystemSetupDataRetrieve() 'SJ add 
-            'IDS.StartErrorCheck() 'kr?
+            m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
             IDS.newOpen = True
 
             'Acitvate the "Main" page
@@ -2785,13 +2653,6 @@ Public Class FormProgramming
             If gPatternFileName = Nothing Then
             Else
                 IDS.Data.OpenData()
-                'lim
-                Vision.SetFiducialFilename(gPatternFileName)
-                ''''''''''''''
-                '   Xue Wen                                                                     '
-                '   Note: Do we need to read out other parameters such as "Pixel size",etc.     '
-                ''''''''''''''
-                ValueBrightness.Value = IDS.Data.Hardware.Camera.Brightness
             End If
 
             SaveProgram.UnSave = False
@@ -2825,8 +2686,7 @@ Public Class FormProgramming
                 '           Need to test more.                                                                 
 
                 SelectCell(m_Row + 1, 1)
-                IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
-                IDS.Data.SaveData()
+                IDS.Data.SaveLocalData()
 
                 m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
 
@@ -2865,14 +2725,7 @@ Public Class FormProgramming
                         SelectCell(m_Row + 1, 1)
                         m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
                         'lim
-                        Vision.SetFiducialFilename(gPatternFileName)
-
-                        '''''''''''''''''''''''''''''
-                        '   Xue Wen                 '
-                        '   Save the Brightness.    '
-                        '''''''''''''''''''''''''''''
-                        IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
-                        IDS.Data.SaveData()
+                        IDS.Data.SaveLocalData()
 
                         SaveProgram.UnSave = False
                     End If
@@ -2897,8 +2750,7 @@ Public Class FormProgramming
 
                 m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
 
-                IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
-                IDS.Data.SaveData()
+                IDS.Data.SaveLocalData()
             Else
                 '
                 SavePatternFileDialog.InitialDirectory = "C:\IDS\Pattern_Dir"
@@ -2933,9 +2785,7 @@ Public Class FormProgramming
 
                         SelectCell(m_Row + 1, 1)
                         m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
-                        Vision.SetFiducialFilename(gPatternFileName)
-                        IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
-                        IDS.Data.SaveData()
+                        IDS.Data.SaveLocalData()
                     End If
                 End If
             End If
@@ -3002,7 +2852,6 @@ Public Class FormProgramming
                 m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
 
                 IDS.Data.SavePathFileData(gPatternFileName + ".pat")
-                Vision.SetFiducialFilename(gPatternFileName)
 
                 SaveProgram.UnSave = False
             End If
@@ -3243,8 +3092,6 @@ Public Class FormProgramming
         TimerForUpdate.Start() 'kr nov28
         If CurrentMode = "Program Editor" Then
 
-            OffLaser()
-
             'stepper panel
             MySettings.PanelLeft.Controls.Add(m_Tri.SteppingButtons)
             Controls.Remove(m_Tri.SteppingButtons)
@@ -3273,10 +3120,7 @@ Public Class FormProgramming
         ElseIf CurrentMode = "Basic Setup" Then
 
             MySettings.RemoveCurrentPanel()
-
-            'in case you didn't exit conveyor settings but straightaway pressed program editor
-            MyConveyorSettings.PositionTimer.Stop()
-            Conveyor.PositionTimer.Stop()
+            m_Tri.Move_Z(0)
 
             'stepper panel
             Controls.Add(m_Tri.SteppingButtons)
@@ -3529,7 +3373,7 @@ Public Class FormProgramming
                 pos(2) = pos(2)
 
 
-                If CmdName = "ChipEdge" Or CmdName = "QC" Or CmdName = "Height" Or CmdName = "Fiducial" Or CmdName = "Reject" Then
+                If CmdName = "ChipEdge" Or CmdName = "QC" Or CmdName = "Height" Or CmdName = "Reject" Then
                     MoveToSpreadsheetPoint(pos, "Vision")
                 Else
                     MoveToSpreadsheetPoint(pos, "Needle")
@@ -3812,20 +3656,12 @@ Public Class FormProgramming
         m_TeachStepNumber = 1
         Try
             Select Case (ButtonText)
-                Case "Fiducial"
-                    VisionMode.Checked = True
-                    NeedleMode.Checked = False
-                    VisionMode.Enabled = False
-                    NeedleMode.Enabled = False
-                    TeachCommand(type, cell1, cell2)
                 Case "Reference"            'Absolute coordinate only
                     m_ReferPt(0) = 0.0
                     m_ReferPt(1) = 0.0
                     m_ReferPt(2) = 0.0
                     TeachCommand(type, cell1, cell2)
                 Case "Height"
-                    TeachCommand(type, cell1, cell2)
-                Case "Reject"
                     TeachCommand(type, cell1, cell2)
             End Select
 
@@ -3941,8 +3777,7 @@ Public Class FormProgramming
 
                 Case "Measure"
 
-                Case "Dot", "Move", "Line", "Arc", "Circle", "Rectangle", _
-                    "FillCircle", "FillRectangle", "ChipEdge", "QC", "SubPattern", "Wait", "EdgeDetection", "DotArray"
+                Case "Dot", "Move", "Line", "Arc", "Circle", "Rectangle", "FillCircle", "FillRectangle", "SubPattern", "Wait", "DotArray"
 
                     type = ButtonText
                     m_TeachStepNumber = 1
@@ -3954,108 +3789,10 @@ Public Class FormProgramming
                     Else
                         cell1 = GetCell(m_Row, gPos1XColumn)
                         cell2 = GetCell(m_Row, gPos1ZColumn)
-                        SelectRange(cell1, cell2) 'Select the related cell in spreadsheet
+                        SelectRange(cell1, cell2)
                     End If
 
                     ToolBarSwitch("YesNo")
-
-                    If ButtonText = "ChipEdge" Then
-                        'DisableTeachingButtons()
-                        'DisableTeachingToolbar()
-                        DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                        DisableProgrammingBrightnessToggle()
-                        Vision.IDSV_Form_CE(ValueBrightness.Value)
-                        Dim status As Integer = 0
-                        Dim x, y As Double
-                        Do
-                            While Not (Vision.RobotMotionOffset(x, y) = True Or Vision.GetChipEdgeStatus = 2)
-                                TraceDoEvents()
-                            End While
-                            'moverobot
-                            pos(0) = x
-                            pos(1) = -y
-                            pos(2) = 0
-
-                            m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
-                            m_Tri.MoveRelative_XY(pos)
-                            If status = 3 Then
-                                status = 0 'reset status after 5 points being reset
-                            End If
-                            While status = 0
-                                TraceDoEvents()
-                                status = Vision.GetChipEdgeStatus()
-                            End While
-                        Loop While status = 3 'status 3= reset 5 points
-
-                        DelayForRowDelete()
-                        DisableCoordinateUpdateInSpreadsheet()
-
-                        If status = 2 Then
-                            DeleteRow(m_Row)
-                            UpdateSpreadsheet()
-                            DeletingRowFromExcel = False
-                            DeletingRowFinished = False
-                        ElseIf status = 1 Then 'chipedge finished settings
-                            SetChipEdgeSettings()
-                            ElementsCommandBlock.Enabled = True
-                            ReferenceCommandBlock.Enabled = True
-                            DisplaySpreadsheetTabs()
-                            SelectCell(m_Row + 1, 1)
-                        End If
-                        ToggleButtonsForTeachingStop()
-                        ClearAndDisplayIndicator()
-                        EnableTeachingButtons()
-                        EnableTeachModeSwitching()
-                        m_ProgrammingStateFlag = False
-                        EnableProgrammingBrightnessToggle()
-                        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-                        DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                        DisableTeachingToolbarOKButton()
-                        EnableTeachingToolbarCancelButton()
-                        DisplaySpreadsheetTabs()
-
-                    ElseIf ButtonText = "QC" Then
-                        DisableTeachingButtons()
-                        DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                        DisableTeachingToolbar()
-                        DisableProgrammingBrightnessToggle()
-                        Vision.IDSV_Form_QC(ValueBrightness.Value)
-                        Dim status As Integer = 0
-                        Try
-                            While status = 0 Or status = 3
-                                Do
-                                    TraceDoEvents()
-                                    status = Vision.GetQCStatus()
-                                Loop While status = 3
-                            End While
-                        Catch ex As Exception
-                            ExceptionDisplay(ex)
-                        End Try
-
-                        If status = 2 Then 'Cancel
-                            DelayForRowDelete()
-                            DisableCoordinateUpdateInSpreadsheet()
-                            DeleteRow(m_Row)
-                            UpdateSpreadsheet()
-                            DeletingRowFromExcel = False
-                            DeletingRowFinished = False
-                        ElseIf status = 1 Then 'Ok
-                            SetQCSettings()
-                            DisableCoordinateUpdateInSpreadsheet()
-                            SelectCell(m_Row + 1, 1)
-                        End If
-
-                        EnableProgrammingBrightnessToggle()
-                        EnableTeachModeSwitching()
-                        EnableTeachingButtons()
-                        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-                        DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                        DisableTeachingToolbarOKButton()
-                        EnableTeachingToolbarCancelButton()
-                        DisplaySpreadsheetTabs()
-                        m_ProgrammingStateFlag = False
-                        ClearAndDisplayIndicator()
-                    End If
 
                 Case "Link"
 
@@ -4609,7 +4346,7 @@ Public Class FormProgramming
                             pos(1) = CDbl(InputStr)
                             pos(2) = CDbl(GetCellValue(row, gPos3ZColumn))
                     End Select
-                    If CmdStr = "ChipEdge" Or CmdStr = "QC" Or CmdStr = "Height" Or CmdStr = "Fiducial" Or CmdStr = "Reject" Then
+                    If CmdStr = "Height" Then
                         MoveToSpreadsheetPoint(pos, "Vision")
                     Else
                         MoveToSpreadsheetPoint(pos, "Needle")
@@ -4705,8 +4442,11 @@ Public Class FormProgramming
         Dim inCurrentEditSlot As Boolean = True
         Dim ReselectCells As Boolean = False
 
+        '''''''''''''''''''''''''''''
         '   Xue Wen                 '
         '   To refresh the label.   '
+        '''''''''''''''''''''''''''''
+
 
         If True = m_EditStateFlag Then
             MenuEditSelectAll.Enabled = False
@@ -4799,6 +4539,8 @@ Public Class FormProgramming
             End If
         End If
 
+
+
         m_Row = sel.Row
         SheetRowSelected = False
         DisableCoordinateUpdateInSpreadsheet()
@@ -4880,7 +4622,7 @@ Public Class FormProgramming
 
                     AxSpreadsheetProgramming.Enabled = False
 
-                    If CmdStr = "ChipEdge" Or CmdStr = "QC" Or CmdStr = "Height" Or CmdStr = "Fiducial" Or CmdStr = "Reject" Then
+                    If CmdStr = "Height" Then
                         MoveToSpreadsheetPoint(pos, "Vision")
                     Else
                         MoveToSpreadsheetPoint(pos, "Needle")
@@ -6407,8 +6149,9 @@ Public Class FormProgramming
         offset(2) = gLeftNeedleOffs(2)
 
         If e.Button Is TeachingToolbar.Buttons(0) Then
-            If type <> "Move" Then
-                If CheckSoftLimitXYZ(m_MachinePos, offset) Then Exit Sub
+            If type = "Move" Or type = "Reference" Then
+            Else
+                If CheckSoftLimitXYZ(m_MachinePos, offset) = True Then Exit Sub
             End If
             Confirm()   'Add rows
         Else
@@ -6529,246 +6272,6 @@ Public Class FormProgramming
                         posBack(2) = posBack(2)
                         MoveToSpreadsheetPoint(posBack, "Vision")
                         SelectCell(m_Row + 1, gCommandNameColumn)
-                    ElseIf "FIDUCIAL" = CmdName.ToUpper Then
-                        'For Lim's part
-
-                        Dim brightness As Integer
-
-                        If m_TeachStepNumber = 1 Then
-
-                            SwitchToVisionTeachMode()
-                            DisableTeachModeSwitching()
-
-                            brightness = GetCellValue(m_Row, gBrightnessColumn)
-                            DisableProgrammingBrightnessToggle()
-                            Vision.IDSV_Form_FI_Edit(1, gPatternFileName + "1.mmo", brightness)
-                            While status = 0
-                                TraceDoEvents()
-                                status = Vision.GetFiducialStatus()
-                            End While
-                            Dim fidname As String
-                            If status = 1 Then
-                                fidname = Vision.GetFiducialFilename()
-                                Dim Brightness1 As Integer = Vision.GetFiducialBrightness
-                                SetCellValue(m_Row, gFid1Column, fidname)
-                                SetCellValue(m_Row, gBrightnessColumn, Brightness1)
-                            ElseIf 2 = status Then  'Cancel command
-                                DisableCoordinateUpdateInSpreadsheet()
-                                m_TeachStepNumber = 0
-                                ToggleButtonsForTeachingStop()
-                                DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-                            ElseIf 3 = status Then
-                                fidname = Vision.GetFiducialFilename()
-                                SetCellValue(m_Row, gFid1Column, fidname)
-                            End If
-                        ElseIf m_TeachStepNumber = 2 Then
-                            brightness = GetCellValue(m_Row, gThresholdColumn) 'fiducial 2 brightness value
-                            Vision.FrmVision.SetBrightness(brightness)
-                            DisableProgrammingBrightnessToggle()
-                            Vision.IDSV_Form_FI_Edit(2, gPatternFileName + "2.mmo", brightness)
-                            While status = 0
-                                TraceDoEvents()
-                                status = Vision.GetFiducialStatus()
-                            End While
-                            Dim fidname As String
-                            If status = 1 Then
-                                fidname = Vision.GetFiducialFilename()
-                                Dim Brightness2 As Integer = Vision.GetFiducialBrightness
-                                SetCellValue(m_Row, gFid2Column, fidname)
-                                SetCellValue(m_Row, gThresholdColumn, Brightness2) 'For brightness fiducial no.2
-                            ElseIf 2 = status Then
-                            End If
-                        End If
-                        EnableProgrammingBrightnessToggle()
-                    ElseIf "REJECT" = CmdName.ToUpper Then 'For Lim's part
-                        EnableCoordinateUpdateInSpreadsheet()
-
-                        Dim vPara As DLL_Export_Device_Vision.RejectPoint.RMParam
-                        m_Row = GetActiveCellRow()
-                        vpara._AcceptRatio = GetCellValue(m_Row, gAcceptRatioCoulumn)
-                        vpara._Binarized = GetCellValue(m_Row, gBinarizedColumn)
-                        vpara._BlackWithoutRM = GetCellValue(m_Row, gBlackWithoutRMCoulumn)
-                        vpara._BlackWithRM = GetCellValue(m_Row, gBlackWithRMCoulumn)
-                        vpara._Brightness = GetCellValue(m_Row, gBrightnessColumn)
-                        vpara._MRegionX = GetCellValue(m_Row, gMRegionXColumn)
-                        vpara._MRegionY = GetCellValue(m_Row, gMRegionYColumn)
-                        vpara._MROIx = GetCellValue(m_Row, gMROIxColumn)
-                        vpara._MROIy = GetCellValue(m_Row, gMROIyColumn)
-                        vpara._WhiteWithoutRM = GetCellValue(m_Row, gWhiteWithoutRMCoulumn)
-                        vpara._WhiteWithRM = GetCellValue(m_Row, gWhiteWithRMCoulumn)
-                        vpara._WoRM = GetCellValue(m_Row, gWoRMCoulumn)
-                        vpara._WRM = GetCellValue(m_Row, gWRMCoulumn)
-                        Vision.IDSV_Form_RM_Edit(vpara)
-
-                        Dim x, y As Double
-
-                        While status = 0
-                            TraceDoEvents()
-                            status = Vision.GetRMStatus
-                        End While
-                        DisableCoordinateUpdateInSpreadsheet()
-                        EnableTeachingButtons()
-                        If status = 2 Then          'Cancel
-                            ElementsCommandBlock.Enabled = True
-                            ReferenceCommandBlock.Enabled = True
-                            UpdateSpreadsheet()
-                            SelectCell(m_Row, gCommandNameColumn)
-                        ElseIf status = 1 Then      'Ok
-                            SetRejectMarkSettings()
-                            SelectCell(m_Row + 1, gCommandNameColumn)
-                        End If
-
-                    ElseIf "CHIPEDGE" = CmdName.ToUpper Then 'lim
-                        EnableCoordinateUpdateInSpreadsheet()
-
-                        Dim vPara As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam
-                        m_Row = GetActiveCellRow()
-                        vPara._Brightness = GetCellValue(m_Row, gBrightnessColumn)
-                        vPara._EdgeClearance = GetCellValue(m_Row, gEdgeClearColumn)
-                        vPara._CheckBox_ChipRec_Enable = GetCellValue(m_Row, gCheckBoxColumn)
-                        vPara._Cw_CCw = GetCellValue(m_Row, gCwCCwColumn)
-                        vPara._DispenseModel = GetCellValue(m_Row, gDispModelColumn)
-                        vPara._Inside_out = GetCellValue(m_Row, gInOutColumn)
-                        vPara._MainEdge = GetCellValue(m_Row, gMainEdgeColumn)
-                        vPara._PointX1 = GetCellValue(m_Row, gPointX1Column)
-                        vPara._PointX2 = GetCellValue(m_Row, gPointX2Column)
-                        vPara._PointX3 = GetCellValue(m_Row, gPointX3Column)
-                        vPara._PointX4 = GetCellValue(m_Row, gPointX4Column)
-                        vPara._PointX5 = GetCellValue(m_Row, gPointX5Column)
-                        vPara._PointY1 = GetCellValue(m_Row, gPointY1Column)
-                        vPara._PointY2 = GetCellValue(m_Row, gPointY2Column)
-                        vPara._PointY3 = GetCellValue(m_Row, gPointY3Column)
-                        vPara._PointY4 = GetCellValue(m_Row, gPointY4Column)
-                        vPara._PointY5 = GetCellValue(m_Row, gPointY5Column)
-                        vPara._Pos = GetCellValue(m_Row, gPosColumn)
-                        vPara._PosX = GetCellValue(m_Row, gPosXColumn)
-                        vPara._PosY = GetCellValue(m_Row, gPosYColumn)
-                        vPara._ROI = GetCellValue(m_Row, gROIColumn)
-                        vPara._Rot = GetCellValue(m_Row, gRotColumn)
-                        vPara._Size = GetCellValue(m_Row, gSizeColumn)
-                        vPara._SizeX = GetCellValue(m_Row, gSizeXColumn)
-                        vPara._SizeY = GetCellValue(m_Row, gSizeYColumn)
-                        vPara._Threshold = GetCellValue(m_Row, gThresholdColumn)
-                        vPara._Vertical = GetCellValue(m_Row, gVerticalColumn)
-                        DisableProgrammingBrightnessToggle()
-                        Vision.IDSV_Form_CE_Edit(vPara)
-
-                        Dim x, y As Double
-                        Dim pos(3) As Double
-
-                        Do
-                            While Not (Vision.RobotMotionOffset(x, y) = True Or Vision.GetChipEdgeStatus = 2 Or Vision.GetChipEdgeStatus = 1)
-                                TraceDoEvents()
-                            End While
-
-                            'moverobot
-                            pos(0) = x
-                            pos(1) = -y
-                            pos(2) = 0
-
-                            m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
-                            m_Tri.MoveRelative_XY(pos)
-
-                            If status = 3 Then
-                                status = 0 'reset status after 5 points being reset
-                            End If
-
-                            While status = 0
-                                TraceDoEvents()
-                                status = Vision.GetChipEdgeStatus()
-                            End While
-
-                        Loop While status = 3 'status 3= reset 5 points
-
-                        DisableCoordinateUpdateInSpreadsheet()
-                        ElementsCommandBlock.Enabled = True
-                        ReferenceCommandBlock.Enabled = True
-                        EnableTeachingButtons()
-                        EnableProgrammingBrightnessToggle()
-                        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-                        m_ProgrammingStateFlag = False
-                        If status = 2 Then
-                            UpdateSpreadsheet()
-                            SelectCell(m_Row, gCommandNameColumn)
-                        ElseIf status = 1 Then
-                            Dim bb As Boolean
-                            Vision.GetChipEdgeParameters(vPara)
-                            Vision.SetCEReset()
-
-                            SetCellValue(m_Row, gEdgeClearColumn, vPara._EdgeClearance)
-                            SetCellValue(m_Row, gBrightnessColumn, vPara._Brightness)
-                            SetCellValue(m_Row, gCheckBoxColumn, vPara._CheckBox_ChipRec_Enable)
-                            SetCellValue(m_Row, gCwCCwColumn, vPara._Cw_CCw)
-                            SetCellValue(m_Row, gDispModelColumn, vPara._DispenseModel)
-                            SetCellValue(m_Row, gInOutColumn, vPara._Inside_out)
-                            SetCellValue(m_Row, gMainEdgeColumn, vPara._MainEdge)
-                            SetCellValue(m_Row, gPointX1Column, vPara._PointX1)
-                            SetCellValue(m_Row, gPointX2Column, vPara._PointX2)
-                            SetCellValue(m_Row, gPointX3Column, vPara._PointX3)
-                            SetCellValue(m_Row, gPointX4Column, vPara._PointX4)
-                            SetCellValue(m_Row, gPointX5Column, vPara._PointX5)
-                            SetCellValue(m_Row, gPointY1Column, vPara._PointY1)
-                            SetCellValue(m_Row, gPointY2Column, vPara._PointY2)
-                            SetCellValue(m_Row, gPointY3Column, vPara._PointY3)
-                            SetCellValue(m_Row, gPointY4Column, vPara._PointY4)
-                            SetCellValue(m_Row, gPointY5Column, vPara._PointY5)
-                            SetCellValue(m_Row, gPosColumn, vPara._Pos)
-                            SetCellValue(m_Row, gPosXColumn, vPara._PosX)
-                            SetCellValue(m_Row, gPosYColumn, vPara._PosY)
-                            SetCellValue(m_Row, gROIColumn, vPara._ROI)
-                            SetCellValue(m_Row, gRotColumn, vPara._Rot)
-                            SetCellValue(m_Row, gSizeColumn, vPara._Size)
-                            SetCellValue(m_Row, gSizeXColumn, vPara._SizeX)
-                            SetCellValue(m_Row, gSizeYColumn, vPara._SizeY)
-                            SetCellValue(m_Row, gThresholdColumn, vPara._Threshold)
-                            SetCellValue(m_Row, gVerticalColumn, vPara._Vertical)
-                            cell1 = GetCell(m_Row, gPos1XColumn)
-                            cell2 = GetCell(m_Row, gPos1ZColumn)
-                            m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-                            SelectCell(m_Row, 1)
-                        End If
-
-                    ElseIf "QC" = CmdName.ToUpper Then 'lim
-                        EnableCoordinateUpdateInSpreadsheet()
-
-                        Dim vPara As DLL_Export_Device_Vision.QC.QCParam
-                        m_Row = GetActiveCellRow()
-                        vPara._Brightness = GetCellValue(m_Row, gBrightnessColumn)
-                        vPara._BlackDot = GetCellValue(m_Row, gBlackDotColumn)
-                        vPara._Binarized = GetCellValue(m_Row, gBinarizedColumn)
-                        vPara._MaxArea = GetCellValue(m_Row, gMaxAreaColumn)
-                        vPara._MinArea = GetCellValue(m_Row, gMinAreaColumn)
-                        vPara._Close = GetCellValue(m_Row, gCloseColumn)
-                        vPara._Open = GetCellValue(m_Row, gOpenColumn)
-                        vPara._Roughness = GetCellValue(m_Row, gRoughnessColumn)
-                        vPara._Compactness = GetCellValue(m_Row, gCompactnessColumn)
-                        vPara._MRegionX = GetCellValue(m_Row, gMRegionXColumn)
-                        vPara._MRegionY = GetCellValue(m_Row, gMRegionYColumn)
-                        vPara._MROIx = GetCellValue(m_Row, gMROIxColumn)
-                        vPara._MROIy = GetCellValue(m_Row, gMROIyColumn)
-                        vPara._Tolerance = GetCellValue(m_Row, gToleranceColumn)
-                        vPara._Diameter = GetCellValue(m_Row, gDiameterColumn)
-                        DisableProgrammingBrightnessToggle()
-                        Vision.IDSV_Form_QC_Edit(vPara)
-
-                        While status = 0 Or status = 3
-                            Do
-                                TraceDoEvents()
-                                status = Vision.GetQCStatus()
-                            Loop While status = 3
-                        End While
-                        DisableCoordinateUpdateInSpreadsheet()
-                        EnableProgrammingBrightnessToggle()
-                        EnableTeachingButtons()
-                        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-                        m_ProgrammingStateFlag = False
-                        If status = 2 Then 'Cancel
-                            SelectCell(m_Row, 1)
-                            Vision.SetQCReset()
-                        ElseIf status = 1 Then                         'Ok
-                            SetQCSettings()
-                            SelectCell(m_Row + 1, 1)
-                        End If
                     End If
                     MenuEditCopy.Enabled = True
                     If "" <> CopiedSheetName Then
@@ -6815,7 +6318,6 @@ Public Class FormProgramming
             End If
             DisableCoordinateUpdateInSpreadsheet() 'for delete
             UpdateSpreadsheet()
-            ClearAndDisplayIndicator()
 
         Catch ex As SystemException
             'kr should i put here
@@ -6833,56 +6335,6 @@ Public Class FormProgramming
         m_Row = GetActiveCellRow()
         DisableTeachingToolbar()
         m_ProgrammingStateFlag = False
-    End Sub
-    Public Sub ConfirmReject()
-        EnableCoordinateUpdateInSpreadsheet()
-        DisableProgrammingBrightnessToggle()
-        Vision.IDSV_Form_RM(ValueBrightness.Value)
-        Dim status As Integer = 0
-        Dim x, y As Double
-        While status = 0
-            TraceDoEvents()
-            status = Vision.GetRMStatus
-        End While
-        If status = 2 Then
-            DelayForRowDelete()
-            DisableCoordinateUpdateInSpreadsheet()
-            DisplaySpreadsheetTabs()
-            DeleteRow(m_Row)
-            SelectCell(m_Row, gCommandNameColumn)
-            DeletingRowFromExcel = False
-            DeletingRowFinished = False
-        ElseIf status = 1 Then      'Ok
-            Dim bb As Boolean
-            Dim vpara As DLL_Export_Device_Vision.RejectPoint.RMParam
-            Vision.GetRMParameters(vpara)
-            Vision.SetRMReset()
-            DisableCoordinateUpdateInSpreadsheet()
-            SetCellValue(m_Row, gAcceptRatioCoulumn, vpara._AcceptRatio)
-            SetCellValue(m_Row, gBinarizedColumn, vpara._Binarized)
-            SetCellValue(m_Row, gBlackWithoutRMCoulumn, vpara._BlackWithoutRM)
-            SetCellValue(m_Row, gBlackWithRMCoulumn, vpara._BlackWithRM)
-            SetCellValue(m_Row, gBrightnessColumn, vpara._Brightness)
-            SetCellValue(m_Row, gMRegionXColumn, vpara._MRegionX)
-            SetCellValue(m_Row, gMRegionYColumn, vpara._MRegionY)
-            SetCellValue(m_Row, gMROIxColumn, vpara._MROIx)
-            SetCellValue(m_Row, gMROIyColumn, vpara._MROIy)
-            SetCellValue(m_Row, gWhiteWithoutRMCoulumn, vpara._WhiteWithoutRM)
-            SetCellValue(m_Row, gWhiteWithRMCoulumn, vpara._WhiteWithRM)
-            SetCellValue(m_Row, gWoRMCoulumn, vpara._WoRM)
-            SetCellValue(m_Row, gWRMCoulumn, vpara._WRM)
-            cell1 = GetCell(m_Row, gPos1XColumn)
-            cell2 = GetCell(m_Row, gPos1ZColumn)
-            m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-            DisplaySpreadsheetTabs()
-            SelectCell(m_Row + 1, gCommandNameColumn)
-        End If
-        EnableProgrammingBrightnessToggle()
-        m_ProgrammingStateFlag = False
-        EnableTeachingButtons()
-        DisableElementsCommandBlockButton(gOffsetCmdIndex)
-        DisableTeachingToolbarOKButton()
-        EnableTeachingToolbarCancelButton()
     End Sub
     Public Sub ConfirmHeight()
         DisableCoordinateUpdateInSpreadsheet()
@@ -6972,9 +6424,6 @@ Public Class FormProgramming
                 Case "PURGE", "CLEAN"
                     ConfirmPurge()
 
-                Case "REJECT"
-                    ConfirmReject()
-
                 Case "HEIGHT"
                     ConfirmHeight()
 
@@ -6984,7 +6433,7 @@ Public Class FormProgramming
                 Case "DOT", "REFERENCE", "QC", "MOVE", "CHIPEDGE", "WAIT"
                     ConfirmSinglePointElement()
 
-                Case "LINE", "FIDUCIAL"
+                Case "LINE"
                     EnableCoordinateUpdateInSpreadsheet()
                     HideSpreadsheetTabs()
 
@@ -7001,54 +6450,6 @@ Public Class FormProgramming
                         Spreadsheet_CheckForWithinLinkRange(False)
                         If m_InLinkRange Then
                             UpdateLinkForPreviousRow()
-                        ElseIf type.ToUpper = "FIDUCIAL" Then
-                            LabelMessage("Please confirm the 1st Fiducial pt")
-                            IDS.Data.SaveData()
-                            DisableProgrammingBrightnessToggle()
-                            Vision.IDSV_Form_FI(1, ValueBrightness.Value)
-                            Dim status As Integer = 0 'status: 1=ok, 2=cancel, 3=end with first fiducial
-                            While status = 0
-                                TraceDoEvents()
-                                status = Vision.GetFiducialStatus()
-                            End While
-                            Dim fidname As String
-                            If status = 1 Then
-                                fidname = Vision.GetFiducialFilename()
-                                Dim Brightness1 As Integer = Vision.GetFiducialBrightness
-                                SetCellValue(m_Row, gFid1Column, fidname)
-                                SetCellValue(m_Row, gBrightnessColumn, Brightness1)
-                                LabelMessage("Please confirm the 2nd Fiducial pt")
-                            ElseIf 2 = status Then  'Cancel command
-                                DelayForRowDelete()
-                                DisableCoordinateUpdateInSpreadsheet()
-                                DeleteRow(m_Row)
-                                SelectCell(m_Row, gCommandNameColumn)
-                                DeletingRowFromExcel = False
-                                DeletingRowFinished = False
-                                m_TeachStepNumber = 0
-                                ToggleButtonsForTeachingStop()
-                                DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-                                DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                                Spreadsheet_CheckForWithinLinkRange(True)
-                                DisplaySpreadsheetTabs()
-                                m_ProgrammingStateFlag = False
-                                LabelMessage("")
-                            ElseIf 3 = status Then
-                                DisableCoordinateUpdateInSpreadsheet()
-                                m_TeachStepNumber = 0
-                                SetCellValue(m_Row, gPos2XColumn, GetCellValue(m_Row, gPos1XColumn))
-                                SetCellValue(m_Row, gPos2YColumn, GetCellValue(m_Row, gPos1YColumn))
-                                cell1 = GetCell(m_Row, gPos2XColumn)
-                                cell2 = GetCell(m_Row, gPos2ZColumn)
-                                m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-                                ToggleButtonsForTeachingStop()
-                                DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-                                DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                                Spreadsheet_CheckForWithinLinkRange(True)
-                                DisplaySpreadsheetTabs()
-                                m_ProgrammingStateFlag = False
-                            End If
-                            EnableProgrammingBrightnessToggle()
                         End If
 
                     ElseIf m_TeachStepNumber = 2 Then
@@ -7057,26 +6458,6 @@ Public Class FormProgramming
                         cell2 = GetCell(m_Row, gPos2ZColumn)
                         x2 = GetCellValue(m_Row, gPos2XColumn)
                         y2 = GetCellValue(m_Row, gPos2YColumn)
-                        If type.ToUpper = "LINE" Then
-                        ElseIf type.ToUpper = "FIDUCIAL" Then
-                            DisableProgrammingBrightnessToggle()
-                            Vision.IDSV_Form_FI(2, ValueBrightness.Value)
-                            Dim status As Integer = 0
-                            While status = 0
-                                TraceDoEvents()
-                                status = Vision.GetFiducialStatus()
-                            End While
-                            Dim fidname As String
-                            If status = 1 Then
-                                fidname = Vision.GetFiducialFilename()
-                                SetCellValue(m_Row, gFid2Column, fidname)
-                                Dim Brightness2 As Integer = Vision.GetFiducialBrightness
-                                SetCellValue(m_Row, gThresholdColumn, Brightness2) 'For brightness fiducial no.2
-                            ElseIf 2 = status Then
-                                SetCellValue(m_Row, gPos2XColumn, GetCellValue(m_Row, gPos1XColumn))
-                                SetCellValue(m_Row, gPos2YColumn, GetCellValue(m_Row, gPos1YColumn))
-                            End If
-                        End If
                         UpdateLinkForNextRow()
                         DisableCoordinateUpdateInSpreadsheet()
                         m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
@@ -7094,7 +6475,6 @@ Public Class FormProgramming
                             m_TeachStepNumber = 2
                         End If
                     End If
-                    If type.ToUpper = "FIDUCIAL" Then EnableProgrammingBrightnessToggle()
 
                 Case "ARC", "CIRCLE", "RECTANGLE", "FILLCIRCLE", "FILLRECTANGLE", "ARRAY", "DOTARRAY"
                     EnableCoordinateUpdateInSpreadsheet()
@@ -7306,11 +6686,11 @@ Public Class FormProgramming
     End Sub
 
     Private Sub ButtonPro_LEdit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
     End Sub
 
     Private Sub ButtonPro_REdit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
     End Sub
 
 #End Region
@@ -7560,90 +6940,6 @@ Public Class FormProgramming
         End Try
     End Sub
 
-    Sub SetChipEdgeSettings()
-        Dim bb As Boolean
-        Dim vpara As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam
-        Vision.GetChipEdgeParameters(vpara)
-        Vision.SetCEReset()
-        SetCellValue(m_Row, gEdgeClearColumn, vpara._EdgeClearance)
-        SetCellValue(m_Row, gBrightnessColumn, vpara._Brightness)
-        SetCellValue(m_Row, gCheckBoxColumn, vpara._CheckBox_ChipRec_Enable)
-        SetCellValue(m_Row, gCwCCwColumn, vpara._Cw_CCw)
-        SetCellValue(m_Row, gDispModelColumn, vpara._DispenseModel)
-        SetCellValue(m_Row, gInOutColumn, vpara._Inside_out)
-        SetCellValue(m_Row, gMainEdgeColumn, vpara._MainEdge)
-        SetCellValue(m_Row, gPointX1Column, vpara._PointX1)
-        SetCellValue(m_Row, gPointX2Column, vpara._PointX2)
-        SetCellValue(m_Row, gPointX3Column, vpara._PointX3)
-        SetCellValue(m_Row, gPointX4Column, vpara._PointX4)
-        SetCellValue(m_Row, gPointX5Column, vpara._PointX5)
-        SetCellValue(m_Row, gPointY1Column, vpara._PointY1)
-        SetCellValue(m_Row, gPointY2Column, vpara._PointY2)
-        SetCellValue(m_Row, gPointY3Column, vpara._PointY3)
-        SetCellValue(m_Row, gPointY4Column, vpara._PointY4)
-        SetCellValue(m_Row, gPointY5Column, vpara._PointY5)
-        SetCellValue(m_Row, gPosColumn, vpara._Pos)
-        SetCellValue(m_Row, gPosXColumn, vpara._PosX)
-        SetCellValue(m_Row, gPosYColumn, vpara._PosY)
-        SetCellValue(m_Row, gROIColumn, vpara._ROI)
-        SetCellValue(m_Row, gRotColumn, vpara._Rot)
-        SetCellValue(m_Row, gSizeColumn, vpara._Size)
-        SetCellValue(m_Row, gSizeXColumn, vpara._SizeX)
-        SetCellValue(m_Row, gSizeYColumn, vpara._SizeY)
-        SetCellValue(m_Row, gThresholdColumn, vpara._Threshold)
-        SetCellValue(m_Row, gVerticalColumn, vpara._Vertical)
-        cell1 = GetCell(m_Row, gPos1XColumn)
-        cell2 = GetCell(m_Row, gPos1ZColumn)
-        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-    End Sub
-    Sub SetQCSettings()
-        Dim bb As Boolean
-        Dim vpara As DLL_Export_Device_Vision.QC.QCParam
-        Vision.GetQCParameters(vpara)
-        Vision.SetQCReset()
-        SetCellValue(m_Row, gBrightnessColumn, vpara._Brightness)
-        SetCellValue(m_Row, gBinarizedColumn, vpara._Binarized)
-        SetCellValue(m_Row, gBlackDotColumn, vpara._BlackDot)
-        SetCellValue(m_Row, gOpenColumn, vpara._Open)
-        SetCellValue(m_Row, gCloseColumn, vpara._Close)
-        SetCellValue(m_Row, gCompactnessColumn, vpara._Compactness)
-        SetCellValue(m_Row, gMaxAreaColumn, vpara._MaxArea)
-        SetCellValue(m_Row, gMinAreaColumn, vpara._MinArea)
-        SetCellValue(m_Row, gMRegionXColumn, vpara._MRegionX)
-        SetCellValue(m_Row, gMRegionYColumn, vpara._MRegionY)
-        SetCellValue(m_Row, gMROIxColumn, vpara._MROIx)
-        SetCellValue(m_Row, gMROIyColumn, vpara._MROIy)
-        SetCellValue(m_Row, gRoughnessColumn, vpara._Roughness)
-        SetCellValue(m_Row, gToleranceColumn, vpara._Tolerance)
-        SetCellValue(m_Row, gDiameterColumn, vpara._Diameter)
-        cell1 = GetCell(m_Row, gPos1XColumn)
-        cell2 = GetCell(m_Row, gPos1ZColumn)
-        Vision.SetQCReset()
-        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-    End Sub
-    Sub SetRejectMarkSettings()
-        Dim vPara As DLL_Export_Device_Vision.RejectPoint.RMParam
-        Dim bb As Boolean
-        Vision.GetRMParameters(vPara)
-        Vision.SetRMReset()
-        SetCellValue(m_Row, gAcceptRatioCoulumn, vPara._AcceptRatio)
-        SetCellValue(m_Row, gBinarizedColumn, vPara._Binarized)
-        SetCellValue(m_Row, gBlackWithoutRMCoulumn, vPara._BlackWithoutRM)
-        SetCellValue(m_Row, gBlackWithRMCoulumn, vPara._BlackWithRM)
-        SetCellValue(m_Row, gBrightnessColumn, vPara._Brightness)
-        SetCellValue(m_Row, gMRegionXColumn, vPara._MRegionX)
-        SetCellValue(m_Row, gMRegionYColumn, vPara._MRegionY)
-        SetCellValue(m_Row, gMROIxColumn, vPara._MROIx)
-        SetCellValue(m_Row, gMROIyColumn, vPara._MROIy)
-        SetCellValue(m_Row, gWhiteWithoutRMCoulumn, vPara._WhiteWithoutRM)
-        SetCellValue(m_Row, gWhiteWithRMCoulumn, vPara._WhiteWithRM)
-        SetCellValue(m_Row, gWoRMCoulumn, vPara._WoRM)
-        SetCellValue(m_Row, gWRMCoulumn, vPara._WRM)
-        cell1 = GetCell(m_Row, gPos1XColumn)
-        cell2 = GetCell(m_Row, gPos1ZColumn)
-        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-    End Sub
-
     Sub TeachCommand(ByVal type As String, ByVal cell1 As Object, ByVal cell2 As Object)
         m_Row = GetActiveCellRow()
         AddCommandToSpreadsheet(type)
@@ -7656,21 +6952,6 @@ Public Class FormProgramming
     Dim debounce_counter As Integer = 5
     Public Sub IOCheck_tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IOCheck.Tick
         Try
-
-            'any consequence if we move this from statemonitor to a timer
-            If m_Tri.EStopActivated And Not EStop Then
-                EStopSequence()
-                EStop = True
-            ElseIf Form_Service.EStopPressedOk() And Not m_Tri.EStopActivated Then
-                EStop = False
-                LabelMessage("Restarting motion controller and carrying out homing.")
-                DIO_Service.Off_Siren()
-                m_Tri.Disconnect_Controller()
-                m_Tri.Connect_Controller()
-                SetState("Homing")
-                Form_Service.ResetEventCode()
-            End If
-
             If ProgrammingMode() And CurrentMode = "Basic Setup" Then Exit Sub
             If debounce_counter < 4 Then
                 debounce_counter += 1
@@ -7686,10 +6967,6 @@ Public Class FormProgramming
                         If SetState("Purge") Then DoPurge()
                     Case 3  'Clean
                         If SetState("Clean") Then DoClean()
-                    Case 4  'NeedleCal
-                        SetState("Needle Calibration")
-                    Case 5  'VolumeCal
-                        SetState("Volume Calibration")
                     Case 6  'Run
                         SetState("Start")
                     Case 7  'Stop
@@ -7736,12 +7013,7 @@ Public Class FormProgramming
         VisionMode.Checked = False
     End Sub
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Conveyor.MoveTo(IDS.Data.Hardware.Conveyor.Width)
+    Private Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
+        If SetState("Needle Calibration") Then DoCalibrate()
     End Sub
-
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Conveyor.Command("Read Position")
-    End Sub
-
 End Class

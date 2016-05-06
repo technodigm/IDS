@@ -27,12 +27,14 @@ Public Module ExcelUtilityFunctions
         m_PosUpdate = False
     End Sub
 
+
 #Region "Excel GUI"
 
     Public Sub EnableReferenceCommandBlock()
         Dim i As Integer
         For i = 0 To gMaxReferButtons
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = True
+            If i = 9 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move command for now
         Next
         TraceGCCollect
     End Sub
@@ -41,6 +43,7 @@ Public Module ExcelUtilityFunctions
         Dim i As Integer
         For i = 0 To gMaxReferButtons
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = False
+            If i = 1 Or i = 4 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable fid, reject command for now
         Next
         TraceGCCollect
     End Sub
@@ -64,9 +67,9 @@ Public Module ExcelUtilityFunctions
         Dim i As Integer
         For i = 0 To gMaxElementButtons
             Programming.ElementsCommandBlock.Buttons(i).Enabled = True
-            If i = 9 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move command for now
+            If i = 9 Or i = 13 Or i = 8 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move, qc, chipedge command for now
         Next
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableElementsCommandBlock()
@@ -74,7 +77,7 @@ Public Module ExcelUtilityFunctions
         For i = 0 To gMaxElementButtons
             Programming.ElementsCommandBlock.Buttons(i).Enabled = False
         Next
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableTeachingButtons()

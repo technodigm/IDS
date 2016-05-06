@@ -1028,7 +1028,7 @@ Public Class VolumeCalibrationSettings
             .PressureStepValue = MaterialAirPressureStepValue.Value
         End With
 
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
     End Sub
 
     Public Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
@@ -1097,7 +1097,7 @@ Public Class VolumeCalibrationSettings
                         MyDispenserSettings.DownloadAugerRPM(RPM)
                     End If
                     NextAction = "Init"
-                    IDS.Data.SaveData()
+                    IDS.Data.SaveLocalData()
                     Status.Text = "Volume calibration success."
                     Return True
                 End With

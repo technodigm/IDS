@@ -426,7 +426,7 @@ Public Class LaserCalibration
             .OffsetPos.Y = 127.271 - IDS.Data.Hardware.Camera.ReferencePos.Y
         End With
 
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
     End Sub
 
 
@@ -438,22 +438,25 @@ Public Class LaserCalibration
         m_Tri.SetMachineRun()
         OnLaser()
         If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
+        OffLaser()
         block_height = Laser.MM_Reading
         NewLaserZReference.Text = block_height
         IDS.Data.Hardware.HeightSensor.Laser.HeightReference = block_height
         IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z = block_height
-        IDS.Data.SaveData()
+        IDS.Data.SaveLocalData()
 
         m_Tri.Set_XY_Speed(10)
 
         distance(0) = 7
         distance(1) = 7
-        m_Tri.MoveRelative_XY(distance)
+        distance(2) = 0
+        m_Tri.MoveRelative_XYZ(distance)
         If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         If (Laser.MM_Reading - block_height) > 0.95 And (Laser.MM_Reading - block_height) < 2 Then
             distance(0) = 0
             distance(1) = -7
-            m_Tri.MoveRelative_XY(distance)
+            distance(2) = 0
+            m_Tri.MoveRelative_XYZ(distance)
         Else
             GoTo CalibrationError
         End If
@@ -461,10 +464,10 @@ Public Class LaserCalibration
         calibrator_plate_height = Laser.MM_Reading
         distance(0) = -0.01
         distance(1) = 0
+        distance(2) = 0
         While Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400
             counter = counter + 1
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
         distance(0) = -9
@@ -474,48 +477,46 @@ Public Class LaserCalibration
             m_Tri.GetIDSState()
             m_Tri.m_TriCtrl.SetTable(101, 1, m_Tri.XPosition) 'X rising pos
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         Else
             GoTo CalibrationError
         End If
 
         counter = 0
-        If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         block_height = Laser.MM_Reading
         distance(0) = -0.01
         distance(1) = 0
+        distance(2) = 0
         While Math.Abs(block_height - Laser.MM_Reading) < 0.95 And counter <= 400
             counter = counter + 1
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
         distance(0) = 5
         distance(1) = 6
+        distance(2) = 0
         If Math.Abs(block_height - Laser.MM_Reading) > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
             m_Tri.m_TriCtrl.SetTable(102, 1, m_Tri.XPosition) 'X rising pos
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         Else
             GoTo CalibrationError
         End If
 
         distance(0) = 0
         distance(1) = -0.01
+        distance(2) = 0
         While Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400
             counter = counter + 1
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
         distance(0) = 0
         distance(1) = -9
+        distance(2) = 0
         If Math.Abs(calibrator_plate_height - Laser.MM_Reading) > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
             m_Tri.m_TriCtrl.SetTable(103, 1, m_Tri.YPosition) 'X rising pos
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         Else
             GoTo CalibrationError
         End If
@@ -523,16 +524,15 @@ Public Class LaserCalibration
         counter = 0
         distance(0) = 0
         distance(1) = -0.01
+        distance(2) = 0
         While Math.Abs(block_height - Laser.MM_Reading) < 0.95 And counter <= 400
             counter = counter + 1
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
         If Math.Abs(block_height - Laser.MM_Reading) > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
             m_Tri.m_TriCtrl.SetTable(104, 1, m_Tri.YPosition) 'X rising pos
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         Else
             GoTo CalibrationError
         End If

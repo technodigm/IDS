@@ -404,11 +404,11 @@ Public Class HardwareCommunicationSetup
         LifterStatus.Visible = MySetup.CheckBoxLifter.Checked
     End Sub
 
+    Public Sub ChangeStatus()
+
+    End Sub
+
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
-        Weighting_Scale.Instance.Hide()
-        Conveyor.Instance.Hide()
-        Laser.Instance.Hide()
-        OffLaser()
         RemovePanel(CurrentControl)
     End Sub
 
@@ -417,15 +417,18 @@ Public Class HardwareCommunicationSetup
     End Sub
 
     Private Sub WeighingScaleButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WeighingScaleButton.Click
-        Weighting_Scale.Instance.Show()
+        Dim temp As CIDSService.CIDSServiceDevices.CIDSServiceWeighting = Weighting_Scale.Instance
+        temp.Show()
     End Sub
 
     Private Sub ConveyorButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConveyorButton.Click
-        Conveyor.Instance.Show()
+        Dim temp As CIDSService.CIDSServiceDevices.CIDSServiceConveyor = Conveyor.Instance
+        temp.Show()
     End Sub
 
     Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LaserButton.Click
         OnLaser()
-        Laser.Instance.Show()
+        Dim temp As CIDSService.CIDSServiceDevices.CIDSServiceLaser = Laser.Instance
+        temp.Show()
     End Sub
 End Class

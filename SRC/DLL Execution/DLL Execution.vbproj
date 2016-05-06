@@ -114,6 +114,16 @@
                     HintPath = "..\..\BIN\Interop.OWC10.dll"
                 />
                 <Reference
+                    Name = "Microsoft.DirectX"
+                    AssemblyName = "Microsoft.DirectX"
+                    HintPath = "..\..\BIN\Microsoft.DirectX.dll"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX.DirectInput"
+                    AssemblyName = "Microsoft.DirectX.DirectInput"
+                    HintPath = "..\..\BIN\Microsoft.DirectX.DirectInput.dll"
+                />
+                <Reference
                     Name = "Microsoft.Office.Interop.Owc"
                     AssemblyName = "Microsoft.Office.Interop.Owc"
                     HintPath = "..\..\BIN\Microsoft.Office.Interop.Owc.dll"
@@ -280,16 +290,6 @@
                     Name = "DLL Serial Communication"
                     Project = "{3B5887C1-0CFB-4515-BF54-8637BE091012}"
                     Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
-                />
-                <Reference
-                    Name = "Microsoft.DirectX.DirectInput"
-                    AssemblyName = "Microsoft.DirectX.DirectInput"
-                    HintPath = "bin\Microsoft.DirectX.DirectInput.dll"
-                />
-                <Reference
-                    Name = "Microsoft.DirectX"
-                    AssemblyName = "Microsoft.DirectX"
-                    HintPath = "bin\Microsoft.DirectX.dll"
                 />
             </References>
             <Imports>

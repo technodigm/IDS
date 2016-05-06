@@ -1,0 +1,53 @@
+added m_tri.estopactivated into do .. loop until structure to ensure exit on estop event.
+
+when opening fiducial form, set brightness.
+
+18_01_16 (monday morning)
+
+fixed conveyor automovement.. only call MoveTo function if ConveyorError = "No Error"
+
+also you can only trace ConveyorError when during continuous read, so call PositionTimer when doing InitializeConveyorSetup and disable it after a successful MoveTo. documentation written inside InitializeConveyorSetup
+
+added IsIdle condition and Form_Service.Visible = False to triggering AutoPurge state. do not do countdown when got error status
+
+changed back to 2 different settings for dotting and long distance parameters
+
+- error popup causes window exception, look into reproducing this error
+
+21_01_16 (thursday morning)
+
+disable result textbook in volume calibration settings window maybe? to make it clearer when a result is the present one 
+
+22_01_16 (friday morning)
+
+changes to volume calibration dispense procedure
+
+changes to laser on and off for needle calibration.
+
+a lot of changes for volume calibration.
+
+change default retract height for needle calibration. should be less than clearance height
+
+25_01_16 (monday morning)
+
+warning: MROIX and MROIY for qc_edit sometimes end up as 0. find out why
+
+a lot more changes for volume calibration.
+
+27_01_16 (wed morning)
+
+changed vol calibration to checkstate before moving
+
+does not show the last pressure 
+
+28_01_16 (thurs morning)
+
+e-stop popup still freeze
+
+29_01_16 (fri morning)
+
+change popups to .showdialog instead of .show
+
+sometimes when teaching commands, coordinate in spreadsheet does not update.
+
+changed text in needle calibration

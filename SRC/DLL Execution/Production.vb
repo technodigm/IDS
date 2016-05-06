@@ -66,11 +66,9 @@ Public Class FormProduction
     Friend WithEvents ImageListPotEtc As System.Windows.Forms.ImageList
     Public WithEvents MainMenuProduction As System.Windows.Forms.MainMenu
     Friend WithEvents ImageListGeneralTools As System.Windows.Forms.ImageList
-    Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents TextBoxRobotPos As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents PanelProDownTimeInfor As System.Windows.Forms.Panel
     Friend WithEvents RichTextBoxNote As System.Windows.Forms.RichTextBox
     Friend WithEvents CheckBoxPotOn As System.Windows.Forms.CheckBox
@@ -80,16 +78,12 @@ Public Class FormProduction
     Friend WithEvents ButtonOpenFile As System.Windows.Forms.Button
     Friend WithEvents TextBoxFilename As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents ButtonNdlCalib As System.Windows.Forms.Button
-    Friend WithEvents ButtonVolCalib As System.Windows.Forms.Button
     Friend WithEvents ButtonClean As System.Windows.Forms.Button
     Friend WithEvents ButtonPurge As System.Windows.Forms.Button
     Friend WithEvents ButtonChgSyringe As System.Windows.Forms.Button
     Friend WithEvents ButtonHome As System.Windows.Forms.Button
     Friend WithEvents LabelMessege As System.Windows.Forms.Label
     Friend WithEvents Panel5 As System.Windows.Forms.Panel
-    Friend WithEvents ButtonCV_Prod_Release As System.Windows.Forms.Button
-    Friend WithEvents ButtonCV_Prod_Retrieve As System.Windows.Forms.Button
     Friend WithEvents Panel6 As System.Windows.Forms.Panel
     Friend WithEvents TBOperation As System.Windows.Forms.ToolBar
     Friend WithEvents PBYellow As System.Windows.Forms.PictureBox
@@ -99,27 +93,7 @@ Public Class FormProduction
     Friend WithEvents ImageListOperation As System.Windows.Forms.ImageList
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents TimerMonitor As System.Windows.Forms.Timer
-    Friend WithEvents ButtonStartFirstStage As System.Windows.Forms.Button
-    Friend WithEvents ValueBrightness As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Needle As System.Windows.Forms.Label
-    Friend WithEvents Syringe As System.Windows.Forms.Label
-    Friend WithEvents Station1 As System.Windows.Forms.Label
-    Friend WithEvents Station2 As System.Windows.Forms.Label
-    Friend WithEvents Station3 As System.Windows.Forms.Label
-    Friend WithEvents ContinuousMode As System.Windows.Forms.CheckBox
-    Friend WithEvents Station1Picture As System.Windows.Forms.PictureBox
-    Friend WithEvents Station2Picture As System.Windows.Forms.PictureBox
-    Friend WithEvents Station3Picture As System.Windows.Forms.PictureBox
-    Friend WithEvents SyringePicture As System.Windows.Forms.PictureBox
-    Friend WithEvents NeedlePicture As System.Windows.Forms.PictureBox
-    Friend WithEvents Station3Label As System.Windows.Forms.Label
-    Friend WithEvents Station2Label As System.Windows.Forms.Label
-    Friend WithEvents Station1Label As System.Windows.Forms.Label
-    Friend WithEvents NeedleLabel As System.Windows.Forms.Label
-    Friend WithEvents SyringeLabel As System.Windows.Forms.Label
-    Friend WithEvents ConveyorBox As System.Windows.Forms.GroupBox
     Friend WithEvents PanelVision As System.Windows.Forms.Panel
-    Friend WithEvents HeaterBox As System.Windows.Forms.GroupBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
@@ -130,6 +104,18 @@ Public Class FormProduction
     Friend WithEvents ComboBox2 As System.Windows.Forms.ComboBox
     Friend WithEvents ComboBox3 As System.Windows.Forms.ComboBox
     Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents ButtonCalibrate As System.Windows.Forms.Button
+    Friend WithEvents ContinuousMode As System.Windows.Forms.CheckBox
+    Public WithEvents PanelToBeAdded As System.Windows.Forms.Panel
+    Friend WithEvents ComboBoxFineStep As System.Windows.Forms.NumericUpDown
+    Friend WithEvents ButtonStepZdown As System.Windows.Forms.Button
+    Friend WithEvents ButtonStepZup As System.Windows.Forms.Button
+    Friend WithEvents ButtonStepXminus As System.Windows.Forms.Button
+    Friend WithEvents ButtonStepXplus As System.Windows.Forms.Button
+    Friend WithEvents ButtonStepYminus As System.Windows.Forms.Button
+    Friend WithEvents ButtonStepYplus As System.Windows.Forms.Button
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents LabelStep As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -140,39 +126,16 @@ Public Class FormProduction
         Me.ImageListPotEtc = New System.Windows.Forms.ImageList(Me.components)
         Me.MainMenuProduction = New System.Windows.Forms.MainMenu
         Me.ImageListGeneralTools = New System.Windows.Forms.ImageList(Me.components)
-        Me.Label7 = New System.Windows.Forms.Label
         Me.Panel2 = New System.Windows.Forms.Panel
-        Me.ValueBrightness = New System.Windows.Forms.NumericUpDown
         Me.TextBoxRobotPos = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
-        Me.ConveyorBox = New System.Windows.Forms.GroupBox
-        Me.ButtonStartFirstStage = New System.Windows.Forms.Button
         Me.ContinuousMode = New System.Windows.Forms.CheckBox
-        Me.ButtonCV_Prod_Release = New System.Windows.Forms.Button
-        Me.ButtonCV_Prod_Retrieve = New System.Windows.Forms.Button
         Me.Panel6 = New System.Windows.Forms.Panel
         Me.TBOperation = New System.Windows.Forms.ToolBar
         Me.PBRed = New System.Windows.Forms.PictureBox
         Me.PBGreen = New System.Windows.Forms.PictureBox
         Me.PBYellow = New System.Windows.Forms.PictureBox
-        Me.HeaterBox = New System.Windows.Forms.GroupBox
-        Me.Station3Picture = New System.Windows.Forms.PictureBox
-        Me.Syringe = New System.Windows.Forms.Label
-        Me.Station1 = New System.Windows.Forms.Label
-        Me.Station2 = New System.Windows.Forms.Label
-        Me.Station3 = New System.Windows.Forms.Label
-        Me.SyringePicture = New System.Windows.Forms.PictureBox
-        Me.NeedlePicture = New System.Windows.Forms.PictureBox
-        Me.Station3Label = New System.Windows.Forms.Label
-        Me.Station2Label = New System.Windows.Forms.Label
-        Me.Needle = New System.Windows.Forms.Label
-        Me.Station1Picture = New System.Windows.Forms.PictureBox
-        Me.Station1Label = New System.Windows.Forms.Label
-        Me.Station2Picture = New System.Windows.Forms.PictureBox
-        Me.NeedleLabel = New System.Windows.Forms.Label
-        Me.SyringeLabel = New System.Windows.Forms.Label
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
@@ -192,26 +155,34 @@ Public Class FormProduction
         Me.ButtonOpenFile = New System.Windows.Forms.Button
         Me.TextBoxFilename = New System.Windows.Forms.TextBox
         Me.Label5 = New System.Windows.Forms.Label
-        Me.ButtonNdlCalib = New System.Windows.Forms.Button
         Me.ButtonClean = New System.Windows.Forms.Button
         Me.ButtonPurge = New System.Windows.Forms.Button
         Me.ButtonChgSyringe = New System.Windows.Forms.Button
         Me.ButtonHome = New System.Windows.Forms.Button
         Me.LabelMessege = New System.Windows.Forms.Label
-        Me.ButtonVolCalib = New System.Windows.Forms.Button
+        Me.ButtonCalibrate = New System.Windows.Forms.Button
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.ImageListOperation = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision = New System.Windows.Forms.Panel
+        Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
+        Me.ButtonStepZdown = New System.Windows.Forms.Button
+        Me.ButtonStepZup = New System.Windows.Forms.Button
+        Me.ButtonStepXminus = New System.Windows.Forms.Button
+        Me.ButtonStepXplus = New System.Windows.Forms.Button
+        Me.ButtonStepYminus = New System.Windows.Forms.Button
+        Me.ButtonStepYplus = New System.Windows.Forms.Button
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.LabelStep = New System.Windows.Forms.Label
         Me.Panel2.SuspendLayout()
-        CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
-        Me.ConveyorBox.SuspendLayout()
         Me.Panel6.SuspendLayout()
-        Me.HeaterBox.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.PanelProDownTimeInfor.SuspendLayout()
+        Me.PanelToBeAdded.SuspendLayout()
+        CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TBBStart
@@ -247,36 +218,15 @@ Public Class FormProduction
         Me.ImageListGeneralTools.ImageStream = CType(resources.GetObject("ImageListGeneralTools.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageListGeneralTools.TransparentColor = System.Drawing.Color.White
         '
-        'Label7
-        '
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label7.Location = New System.Drawing.Point(304, 16)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(56, 23)
-        Me.Label7.TabIndex = 134
-        '
         'Panel2
         '
-        Me.Panel2.Controls.Add(Me.ValueBrightness)
         Me.Panel2.Controls.Add(Me.TextBoxRobotPos)
         Me.Panel2.Controls.Add(Me.Label4)
-        Me.Panel2.Controls.Add(Me.Label1)
         Me.Panel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.Panel2.Location = New System.Drawing.Point(0, 960)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(768, 32)
         Me.Panel2.TabIndex = 4
-        '
-        'ValueBrightness
-        '
-        Me.ValueBrightness.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ValueBrightness.Location = New System.Drawing.Point(80, 5)
-        Me.ValueBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
-        Me.ValueBrightness.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.ValueBrightness.Name = "ValueBrightness"
-        Me.ValueBrightness.Size = New System.Drawing.Size(45, 21)
-        Me.ValueBrightness.TabIndex = 77
-        Me.ValueBrightness.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
         'TextBoxRobotPos
         '
@@ -297,86 +247,30 @@ Public Class FormProduction
         Me.Label4.TabIndex = 7
         Me.Label4.Text = "Robot"
         '
-        'Label1
-        '
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(10, 8)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(68, 16)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "Brightness"
-        '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.SystemColors.ScrollBar
-        Me.Panel5.Controls.Add(Me.ConveyorBox)
+        Me.Panel5.Controls.Add(Me.PanelToBeAdded)
         Me.Panel5.Controls.Add(Me.Panel6)
-        Me.Panel5.Controls.Add(Me.HeaterBox)
         Me.Panel5.Controls.Add(Me.TextBox1)
         Me.Panel5.Controls.Add(Me.TextBox2)
         Me.Panel5.Controls.Add(Me.GroupBox1)
+        Me.Panel5.Controls.Add(Me.ContinuousMode)
         Me.Panel5.ForeColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(0, Byte), CType(0, Byte))
         Me.Panel5.Location = New System.Drawing.Point(768, 0)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(504, 992)
         Me.Panel5.TabIndex = 0
         '
-        'ConveyorBox
-        '
-        Me.ConveyorBox.BackColor = System.Drawing.SystemColors.ScrollBar
-        Me.ConveyorBox.Controls.Add(Me.ButtonStartFirstStage)
-        Me.ConveyorBox.Controls.Add(Me.ContinuousMode)
-        Me.ConveyorBox.Controls.Add(Me.ButtonCV_Prod_Release)
-        Me.ConveyorBox.Controls.Add(Me.ButtonCV_Prod_Retrieve)
-        Me.ConveyorBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ConveyorBox.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.ConveyorBox.Location = New System.Drawing.Point(16, 200)
-        Me.ConveyorBox.Name = "ConveyorBox"
-        Me.ConveyorBox.Size = New System.Drawing.Size(480, 128)
-        Me.ConveyorBox.TabIndex = 130
-        Me.ConveyorBox.TabStop = False
-        Me.ConveyorBox.Text = "Conveyor Operation"
-        '
-        'ButtonStartFirstStage
-        '
-        Me.ButtonStartFirstStage.Location = New System.Drawing.Point(56, 80)
-        Me.ButtonStartFirstStage.Name = "ButtonStartFirstStage"
-        Me.ButtonStartFirstStage.Size = New System.Drawing.Size(120, 23)
-        Me.ButtonStartFirstStage.TabIndex = 142
-        Me.ButtonStartFirstStage.Text = "Start"
-        '
         'ContinuousMode
         '
-        Me.ContinuousMode.AutoCheck = False
-        Me.ContinuousMode.Location = New System.Drawing.Point(40, 48)
+        Me.ContinuousMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ContinuousMode.ForeColor = System.Drawing.Color.Black
+        Me.ContinuousMode.Location = New System.Drawing.Point(164, 480)
         Me.ContinuousMode.Name = "ContinuousMode"
-        Me.ContinuousMode.Size = New System.Drawing.Size(160, 24)
-        Me.ContinuousMode.TabIndex = 141
-        Me.ContinuousMode.Text = "Continuous Run"
-        '
-        'ButtonCV_Prod_Release
-        '
-        Me.ButtonCV_Prod_Release.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.ButtonCV_Prod_Release.Image = CType(resources.GetObject("ButtonCV_Prod_Release.Image"), System.Drawing.Image)
-        Me.ButtonCV_Prod_Release.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonCV_Prod_Release.Location = New System.Drawing.Point(344, 48)
-        Me.ButtonCV_Prod_Release.Name = "ButtonCV_Prod_Release"
-        Me.ButtonCV_Prod_Release.Size = New System.Drawing.Size(88, 56)
-        Me.ButtonCV_Prod_Release.TabIndex = 140
-        Me.ButtonCV_Prod_Release.Text = "Release"
-        Me.ButtonCV_Prod_Release.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'ButtonCV_Prod_Retrieve
-        '
-        Me.ButtonCV_Prod_Retrieve.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.ButtonCV_Prod_Retrieve.Image = CType(resources.GetObject("ButtonCV_Prod_Retrieve.Image"), System.Drawing.Image)
-        Me.ButtonCV_Prod_Retrieve.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonCV_Prod_Retrieve.Location = New System.Drawing.Point(224, 48)
-        Me.ButtonCV_Prod_Retrieve.Name = "ButtonCV_Prod_Retrieve"
-        Me.ButtonCV_Prod_Retrieve.Size = New System.Drawing.Size(88, 56)
-        Me.ButtonCV_Prod_Retrieve.TabIndex = 139
-        Me.ButtonCV_Prod_Retrieve.Text = "Retrieve"
-        Me.ButtonCV_Prod_Retrieve.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ContinuousMode.Size = New System.Drawing.Size(176, 40)
+        Me.ContinuousMode.TabIndex = 133
+        Me.ContinuousMode.Text = "Continuous Mode"
         '
         'Panel6
         '
@@ -385,7 +279,7 @@ Public Class FormProduction
         Me.Panel6.Controls.Add(Me.PBRed)
         Me.Panel6.Controls.Add(Me.PBGreen)
         Me.Panel6.Controls.Add(Me.PBYellow)
-        Me.Panel6.Location = New System.Drawing.Point(104, 0)
+        Me.Panel6.Location = New System.Drawing.Point(100, 0)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(304, 184)
         Me.Panel6.TabIndex = 0
@@ -441,208 +335,23 @@ Public Class FormProduction
         Me.PBYellow.TabIndex = 131
         Me.PBYellow.TabStop = False
         '
-        'HeaterBox
-        '
-        Me.HeaterBox.BackColor = System.Drawing.SystemColors.ScrollBar
-        Me.HeaterBox.Controls.Add(Me.Station3Picture)
-        Me.HeaterBox.Controls.Add(Me.Syringe)
-        Me.HeaterBox.Controls.Add(Me.Station1)
-        Me.HeaterBox.Controls.Add(Me.Station2)
-        Me.HeaterBox.Controls.Add(Me.Station3)
-        Me.HeaterBox.Controls.Add(Me.SyringePicture)
-        Me.HeaterBox.Controls.Add(Me.NeedlePicture)
-        Me.HeaterBox.Controls.Add(Me.Station3Label)
-        Me.HeaterBox.Controls.Add(Me.Station2Label)
-        Me.HeaterBox.Controls.Add(Me.Needle)
-        Me.HeaterBox.Controls.Add(Me.Station1Picture)
-        Me.HeaterBox.Controls.Add(Me.Station1Label)
-        Me.HeaterBox.Controls.Add(Me.Station2Picture)
-        Me.HeaterBox.Controls.Add(Me.NeedleLabel)
-        Me.HeaterBox.Controls.Add(Me.SyringeLabel)
-        Me.HeaterBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.HeaterBox.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.HeaterBox.Location = New System.Drawing.Point(16, 344)
-        Me.HeaterBox.Name = "HeaterBox"
-        Me.HeaterBox.Size = New System.Drawing.Size(480, 224)
-        Me.HeaterBox.TabIndex = 130
-        Me.HeaterBox.TabStop = False
-        Me.HeaterBox.Text = "Thermal Readings"
-        '
-        'Station3Picture
-        '
-        Me.Station3Picture.Image = CType(resources.GetObject("Station3Picture.Image"), System.Drawing.Image)
-        Me.Station3Picture.Location = New System.Drawing.Point(320, 92)
-        Me.Station3Picture.Name = "Station3Picture"
-        Me.Station3Picture.Size = New System.Drawing.Size(112, 64)
-        Me.Station3Picture.TabIndex = 138
-        Me.Station3Picture.TabStop = False
-        Me.Station3Picture.Visible = False
-        '
-        'Syringe
-        '
-        Me.Syringe.ForeColor = System.Drawing.Color.Red
-        Me.Syringe.Location = New System.Drawing.Point(324, 32)
-        Me.Syringe.Name = "Syringe"
-        Me.Syringe.Size = New System.Drawing.Size(56, 24)
-        Me.Syringe.TabIndex = 143
-        Me.Syringe.Text = "50 oC"
-        Me.Syringe.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Syringe.Visible = False
-        '
-        'Station1
-        '
-        Me.Station1.ForeColor = System.Drawing.Color.Red
-        Me.Station1.Location = New System.Drawing.Point(72, 180)
-        Me.Station1.Name = "Station1"
-        Me.Station1.Size = New System.Drawing.Size(56, 24)
-        Me.Station1.TabIndex = 143
-        Me.Station1.Text = "50 oC"
-        Me.Station1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Station1.Visible = False
-        '
-        'Station2
-        '
-        Me.Station2.ForeColor = System.Drawing.Color.Red
-        Me.Station2.Location = New System.Drawing.Point(208, 180)
-        Me.Station2.Name = "Station2"
-        Me.Station2.Size = New System.Drawing.Size(56, 24)
-        Me.Station2.TabIndex = 143
-        Me.Station2.Text = "50 oC"
-        Me.Station2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Station2.Visible = False
-        '
-        'Station3
-        '
-        Me.Station3.ForeColor = System.Drawing.Color.Red
-        Me.Station3.Location = New System.Drawing.Point(352, 180)
-        Me.Station3.Name = "Station3"
-        Me.Station3.Size = New System.Drawing.Size(56, 24)
-        Me.Station3.TabIndex = 143
-        Me.Station3.Text = "50 oC"
-        Me.Station3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Station3.Visible = False
-        '
-        'SyringePicture
-        '
-        Me.SyringePicture.Image = CType(resources.GetObject("SyringePicture.Image"), System.Drawing.Image)
-        Me.SyringePicture.Location = New System.Drawing.Point(276, 40)
-        Me.SyringePicture.Name = "SyringePicture"
-        Me.SyringePicture.Size = New System.Drawing.Size(40, 16)
-        Me.SyringePicture.TabIndex = 40
-        Me.SyringePicture.TabStop = False
-        Me.SyringePicture.Visible = False
-        '
-        'NeedlePicture
-        '
-        Me.NeedlePicture.Image = CType(resources.GetObject("NeedlePicture.Image"), System.Drawing.Image)
-        Me.NeedlePicture.Location = New System.Drawing.Point(92, 40)
-        Me.NeedlePicture.Name = "NeedlePicture"
-        Me.NeedlePicture.Size = New System.Drawing.Size(40, 16)
-        Me.NeedlePicture.TabIndex = 39
-        Me.NeedlePicture.TabStop = False
-        Me.NeedlePicture.Visible = False
-        '
-        'Station3Label
-        '
-        Me.Station3Label.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Station3Label.Location = New System.Drawing.Point(320, 156)
-        Me.Station3Label.Name = "Station3Label"
-        Me.Station3Label.Size = New System.Drawing.Size(112, 16)
-        Me.Station3Label.TabIndex = 26
-        Me.Station3Label.Text = "Post Heater"
-        Me.Station3Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Station3Label.Visible = False
-        '
-        'Station2Label
-        '
-        Me.Station2Label.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Station2Label.Location = New System.Drawing.Point(184, 156)
-        Me.Station2Label.Name = "Station2Label"
-        Me.Station2Label.Size = New System.Drawing.Size(112, 16)
-        Me.Station2Label.TabIndex = 25
-        Me.Station2Label.Text = "Disp. Heater"
-        Me.Station2Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Station2Label.Visible = False
-        '
-        'Needle
-        '
-        Me.Needle.ForeColor = System.Drawing.Color.Red
-        Me.Needle.Location = New System.Drawing.Point(148, 32)
-        Me.Needle.Name = "Needle"
-        Me.Needle.Size = New System.Drawing.Size(56, 24)
-        Me.Needle.TabIndex = 143
-        Me.Needle.Text = "50 oC"
-        Me.Needle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Needle.Visible = False
-        '
-        'Station1Picture
-        '
-        Me.Station1Picture.Image = CType(resources.GetObject("Station1Picture.Image"), System.Drawing.Image)
-        Me.Station1Picture.Location = New System.Drawing.Point(48, 92)
-        Me.Station1Picture.Name = "Station1Picture"
-        Me.Station1Picture.Size = New System.Drawing.Size(112, 64)
-        Me.Station1Picture.TabIndex = 136
-        Me.Station1Picture.TabStop = False
-        Me.Station1Picture.Visible = False
-        '
-        'Station1Label
-        '
-        Me.Station1Label.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Station1Label.Location = New System.Drawing.Point(48, 156)
-        Me.Station1Label.Name = "Station1Label"
-        Me.Station1Label.Size = New System.Drawing.Size(112, 16)
-        Me.Station1Label.TabIndex = 24
-        Me.Station1Label.Text = "Pre Heater"
-        Me.Station1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Station1Label.Visible = False
-        '
-        'Station2Picture
-        '
-        Me.Station2Picture.Image = CType(resources.GetObject("Station2Picture.Image"), System.Drawing.Image)
-        Me.Station2Picture.Location = New System.Drawing.Point(184, 92)
-        Me.Station2Picture.Name = "Station2Picture"
-        Me.Station2Picture.Size = New System.Drawing.Size(112, 64)
-        Me.Station2Picture.TabIndex = 137
-        Me.Station2Picture.TabStop = False
-        Me.Station2Picture.Visible = False
-        '
-        'NeedleLabel
-        '
-        Me.NeedleLabel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.NeedleLabel.Location = New System.Drawing.Point(84, 64)
-        Me.NeedleLabel.Name = "NeedleLabel"
-        Me.NeedleLabel.Size = New System.Drawing.Size(128, 16)
-        Me.NeedleLabel.TabIndex = 23
-        Me.NeedleLabel.Text = "Needle Heater"
-        Me.NeedleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.NeedleLabel.Visible = False
-        '
-        'SyringeLabel
-        '
-        Me.SyringeLabel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.SyringeLabel.Location = New System.Drawing.Point(268, 64)
-        Me.SyringeLabel.Name = "SyringeLabel"
-        Me.SyringeLabel.Size = New System.Drawing.Size(128, 16)
-        Me.SyringeLabel.TabIndex = 22
-        Me.SyringeLabel.Text = "Syringe Heater"
-        Me.SyringeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.SyringeLabel.Visible = False
-        '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(0, 8)
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(160, 520)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(104, 20)
+        Me.TextBox1.Size = New System.Drawing.Size(184, 27)
         Me.TextBox1.TabIndex = 132
-        Me.TextBox1.Text = "TextBox1"
+        Me.TextBox1.Text = "prev state"
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(0, 32)
+        Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox2.Location = New System.Drawing.Point(160, 552)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(104, 20)
+        Me.TextBox2.Size = New System.Drawing.Size(184, 27)
         Me.TextBox2.TabIndex = 132
-        Me.TextBox2.Text = "TextBox1"
+        Me.TextBox2.Text = "current state"
         '
         'GroupBox1
         '
@@ -661,7 +370,8 @@ Public Class FormProduction
         Me.GroupBox1.Size = New System.Drawing.Size(480, 256)
         Me.GroupBox1.TabIndex = 130
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Thermal Readings"
+        Me.GroupBox1.Text = "Test"
+        Me.GroupBox1.Visible = False
         '
         'ComboBox1
         '
@@ -746,14 +456,12 @@ Public Class FormProduction
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonOpenFile)
         Me.PanelProDownTimeInfor.Controls.Add(Me.TextBoxFilename)
         Me.PanelProDownTimeInfor.Controls.Add(Me.Label5)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonNdlCalib)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonClean)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonPurge)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonChgSyringe)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonHome)
         Me.PanelProDownTimeInfor.Controls.Add(Me.LabelMessege)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonVolCalib)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.Label7)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonCalibrate)
         Me.PanelProDownTimeInfor.Location = New System.Drawing.Point(0, 0)
         Me.PanelProDownTimeInfor.Name = "PanelProDownTimeInfor"
         Me.PanelProDownTimeInfor.Size = New System.Drawing.Size(768, 384)
@@ -777,7 +485,7 @@ Public Class FormProduction
         Me.CheckBoxPotOn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.CheckBoxPotOn.ImageIndex = 6
         Me.CheckBoxPotOn.ImageList = Me.ImageListPotEtc
-        Me.CheckBoxPotOn.Location = New System.Drawing.Point(475, 0)
+        Me.CheckBoxPotOn.Location = New System.Drawing.Point(448, 0)
         Me.CheckBoxPotOn.Name = "CheckBoxPotOn"
         Me.CheckBoxPotOn.Size = New System.Drawing.Size(75, 56)
         Me.CheckBoxPotOn.TabIndex = 119
@@ -808,7 +516,7 @@ Public Class FormProduction
         Me.ButtonPotReset.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPotReset.ImageIndex = 1
         Me.ButtonPotReset.ImageList = Me.ImageListPotEtc
-        Me.ButtonPotReset.Location = New System.Drawing.Point(550, 0)
+        Me.ButtonPotReset.Location = New System.Drawing.Point(372, 0)
         Me.ButtonPotReset.Name = "ButtonPotReset"
         Me.ButtonPotReset.Size = New System.Drawing.Size(75, 56)
         Me.ButtonPotReset.TabIndex = 105
@@ -855,20 +563,6 @@ Public Class FormProduction
         Me.Label5.Text = "File"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'ButtonNdlCalib
-        '
-        Me.ButtonNdlCalib.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonNdlCalib.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonNdlCalib.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonNdlCalib.ImageIndex = 3
-        Me.ButtonNdlCalib.ImageList = Me.ImageListGeneralTools
-        Me.ButtonNdlCalib.Location = New System.Drawing.Point(300, 0)
-        Me.ButtonNdlCalib.Name = "ButtonNdlCalib"
-        Me.ButtonNdlCalib.Size = New System.Drawing.Size(75, 56)
-        Me.ButtonNdlCalib.TabIndex = 91
-        Me.ButtonNdlCalib.Text = "Ndl. Cal."
-        Me.ButtonNdlCalib.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
         'ButtonClean
         '
         Me.ButtonClean.BackColor = System.Drawing.SystemColors.InactiveCaptionText
@@ -904,7 +598,7 @@ Public Class FormProduction
         Me.ButtonChgSyringe.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonChgSyringe.ImageIndex = 1
         Me.ButtonChgSyringe.ImageList = Me.ImageListGeneralTools
-        Me.ButtonChgSyringe.Location = New System.Drawing.Point(376, 0)
+        Me.ButtonChgSyringe.Location = New System.Drawing.Point(224, 0)
         Me.ButtonChgSyringe.Name = "ButtonChgSyringe"
         Me.ButtonChgSyringe.Size = New System.Drawing.Size(75, 56)
         Me.ButtonChgSyringe.TabIndex = 87
@@ -937,19 +631,19 @@ Public Class FormProduction
         Me.LabelMessege.TabIndex = 85
         Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'ButtonVolCalib
+        'ButtonCalibrate
         '
-        Me.ButtonVolCalib.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonVolCalib.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonVolCalib.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonVolCalib.ImageIndex = 2
-        Me.ButtonVolCalib.ImageList = Me.ImageListGeneralTools
-        Me.ButtonVolCalib.Location = New System.Drawing.Point(225, 0)
-        Me.ButtonVolCalib.Name = "ButtonVolCalib"
-        Me.ButtonVolCalib.Size = New System.Drawing.Size(75, 56)
-        Me.ButtonVolCalib.TabIndex = 90
-        Me.ButtonVolCalib.Text = "Vol. Cal."
-        Me.ButtonVolCalib.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonCalibrate.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonCalibrate.ImageIndex = 5
+        Me.ButtonCalibrate.ImageList = Me.ImageListGeneralTools
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(296, 0)
+        Me.ButtonCalibrate.Name = "ButtonCalibrate"
+        Me.ButtonCalibrate.Size = New System.Drawing.Size(75, 56)
+        Me.ButtonCalibrate.TabIndex = 88
+        Me.ButtonCalibrate.Text = "Move Calibrate"
+        Me.ButtonCalibrate.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'ImageListOperation
         '
@@ -969,6 +663,129 @@ Public Class FormProduction
         Me.PanelVision.Size = New System.Drawing.Size(768, 576)
         Me.PanelVision.TabIndex = 7
         '
+        'PanelToBeAdded
+        '
+        Me.PanelToBeAdded.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.PanelToBeAdded.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelToBeAdded.Controls.Add(Me.ComboBoxFineStep)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepZdown)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepZup)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepXminus)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepXplus)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepYminus)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepYplus)
+        Me.PanelToBeAdded.Controls.Add(Me.Label1)
+        Me.PanelToBeAdded.Controls.Add(Me.LabelStep)
+        Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(84, 192)
+        Me.PanelToBeAdded.Name = "PanelToBeAdded"
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(336, 280)
+        Me.PanelToBeAdded.TabIndex = 134
+        Me.PanelToBeAdded.Visible = False
+        '
+        'ComboBoxFineStep
+        '
+        Me.ComboBoxFineStep.DecimalPlaces = 3
+        Me.ComboBoxFineStep.Location = New System.Drawing.Point(152, 240)
+        Me.ComboBoxFineStep.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.ComboBoxFineStep.Name = "ComboBoxFineStep"
+        Me.ComboBoxFineStep.Size = New System.Drawing.Size(88, 27)
+        Me.ComboBoxFineStep.TabIndex = 9
+        '
+        'ButtonStepZdown
+        '
+        Me.ButtonStepZdown.BackColor = System.Drawing.Color.Linen
+        Me.ButtonStepZdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepZdown.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonStepZdown.Location = New System.Drawing.Point(264, 128)
+        Me.ButtonStepZdown.Name = "ButtonStepZdown"
+        Me.ButtonStepZdown.Size = New System.Drawing.Size(48, 72)
+        Me.ButtonStepZdown.TabIndex = 8
+        Me.ButtonStepZdown.Text = "Dn"
+        Me.ButtonStepZdown.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
+        'ButtonStepZup
+        '
+        Me.ButtonStepZup.BackColor = System.Drawing.Color.Linen
+        Me.ButtonStepZup.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepZup.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonStepZup.Location = New System.Drawing.Point(264, 40)
+        Me.ButtonStepZup.Name = "ButtonStepZup"
+        Me.ButtonStepZup.Size = New System.Drawing.Size(48, 72)
+        Me.ButtonStepZup.TabIndex = 7
+        Me.ButtonStepZup.Text = "Up"
+        Me.ButtonStepZup.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'ButtonStepXminus
+        '
+        Me.ButtonStepXminus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepXminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepXminus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ButtonStepXminus.Location = New System.Drawing.Point(24, 96)
+        Me.ButtonStepXminus.Name = "ButtonStepXminus"
+        Me.ButtonStepXminus.Size = New System.Drawing.Size(80, 48)
+        Me.ButtonStepXminus.TabIndex = 6
+        Me.ButtonStepXminus.Text = "X-"
+        Me.ButtonStepXminus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'ButtonStepXplus
+        '
+        Me.ButtonStepXplus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepXplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepXplus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ButtonStepXplus.Location = New System.Drawing.Point(152, 96)
+        Me.ButtonStepXplus.Name = "ButtonStepXplus"
+        Me.ButtonStepXplus.Size = New System.Drawing.Size(80, 48)
+        Me.ButtonStepXplus.TabIndex = 5
+        Me.ButtonStepXplus.Text = "X+"
+        Me.ButtonStepXplus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'ButtonStepYminus
+        '
+        Me.ButtonStepYminus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepYminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepYminus.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonStepYminus.Location = New System.Drawing.Point(104, 144)
+        Me.ButtonStepYminus.Name = "ButtonStepYminus"
+        Me.ButtonStepYminus.Size = New System.Drawing.Size(48, 80)
+        Me.ButtonStepYminus.TabIndex = 4
+        Me.ButtonStepYminus.Text = "Y-"
+        Me.ButtonStepYminus.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
+        'ButtonStepYplus
+        '
+        Me.ButtonStepYplus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepYplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepYplus.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonStepYplus.Location = New System.Drawing.Point(104, 16)
+        Me.ButtonStepYplus.Name = "ButtonStepYplus"
+        Me.ButtonStepYplus.Size = New System.Drawing.Size(48, 80)
+        Me.ButtonStepYplus.TabIndex = 3
+        Me.ButtonStepYplus.Text = "Y+"
+        Me.ButtonStepYplus.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'Label1
+        '
+        Me.Label1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label1.Location = New System.Drawing.Point(248, 240)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(40, 24)
+        Me.Label1.TabIndex = 2
+        Me.Label1.Text = "mm"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LabelStep
+        '
+        Me.LabelStep.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.LabelStep.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LabelStep.Location = New System.Drawing.Point(56, 240)
+        Me.LabelStep.Name = "LabelStep"
+        Me.LabelStep.Size = New System.Drawing.Size(88, 24)
+        Me.LabelStep.TabIndex = 0
+        Me.LabelStep.Text = "Fine Step:"
+        Me.LabelStep.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'FormProduction
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -979,15 +796,15 @@ Public Class FormProduction
         Me.Controls.Add(Me.Panel2)
         Me.Menu = Me.MainMenuProduction
         Me.Name = "FormProduction"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Production"
         Me.Panel2.ResumeLayout(False)
-        CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel5.ResumeLayout(False)
-        Me.ConveyorBox.ResumeLayout(False)
         Me.Panel6.ResumeLayout(False)
-        Me.HeaterBox.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.PanelProDownTimeInfor.ResumeLayout(False)
+        Me.PanelToBeAdded.ResumeLayout(False)
+        CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1000,7 +817,10 @@ Public Class FormProduction
         ResetToIdle()
 
         'gui visibility
-        HeaterBox.Visible = IDS.Data.Hardware.Thermal.HeaterFeatureEnabled
+        Panel5.Controls.Add(m_Tri.SteppingButtons)
+        m_Tri.SteppingButtons.Location = New Point(84, 192)
+        m_Tri.SteppingButtons.BringToFront()
+        m_Tri.SteppingButtons.Show()
 
         'initialize private flags
         HasBeenRunning = False
@@ -1030,15 +850,8 @@ Public Class FormProduction
         Form_Service.ResetEventCode()
 
         'hardware
-        Laser.OpenPort()
-        Weighting_Scale.OpenPort()
-        'conveyor
-        Conveyor.OpenPort()
 
         'vision
-        PanelVision.Controls.Add(Vision.FrmVision.PanelVision) 'lsgoh
-        SwitchToTeachCamera()
-        ValueBrightness.Value = IDS.Data.Hardware.Camera.Brightness
 
         'motion controller
         m_Tri.Connect_Controller()
@@ -1059,6 +872,223 @@ Public Class FormProduction
         ThreadExecutor.Priority = Threading.ThreadPriority.Normal
         ThreadExecutor.Start()
 
+        MouseTimer = New System.Threading.Timer(AddressOf MouseJogging, Nothing, 0, 200)
+
+    End Sub
+
+    Private isJogON As Boolean = False
+    Shared mouse_pos As New Point
+    Shared cursor_hide As Boolean = False
+    Shared isPress As Boolean
+    Dim deadzone As Integer = 3
+    Dim jogspeed As Integer = 0
+    Const maxSpeed As Integer = 100
+    Const maxMouseRangeX = 600.0 '6000.0 '4500.0
+    Const maxMouseRangeY = 300.0 '2000.0
+    Const ratioLB = 0.4
+    Const ratioUB = 1.05
+    Dim ratio As Double
+    Dim countMouseTimer As Integer = 0
+    Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
+    Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
+
+    Private Sub MouseJogging(ByVal state As Object)
+
+        If Production.ButtonCalibrate.Text = "Set Calibrate" Then
+        Else
+            If IsBusy() And Not IsJogging() Then Exit Sub
+            If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
+        End If
+
+        m_keyBoard.Poll()
+        m_TrackBall.Poll()
+        isPress = m_keyBoard.State.Item(Key.LeftControl)
+
+        Dim x As Integer
+        Dim y As Integer
+        Dim VrData(3) As Single
+
+        If isPress Then
+
+            SetState("Jogging")
+
+            VrData(0) = 0
+            VrData(1) = 0.0
+            VrData(2) = 0.0
+
+            Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+            If isPressAlt Then
+                Exit Sub
+            End If
+            x = m_TrackBall.MouseX()
+            y = m_TrackBall.MouseY()
+
+            Dim ratio As Double
+
+            If Math.Abs(x) >= Math.Abs(y) Then
+                If x > deadzone Then
+                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(y) / x
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                        VrData(0) = 1
+                        VrData(1) = jogspeed
+                        VrData(2) = -jogspeed
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                        VrData(0) = 1
+                        VrData(1) = jogspeed
+                        VrData(2) = jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'X+
+                        VrData(0) = 1
+                        VrData(1) = jogspeed
+                        VrData(2) = 0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                ElseIf x < -deadzone Then
+                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(y) / x
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                        VrData(0) = 1
+                        VrData(1) = -jogspeed
+                        VrData(2) = jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                        VrData(0) = 1
+                        VrData(1) = -jogspeed
+                        VrData(2) = -jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'X-
+                        VrData(0) = 1
+                        VrData(1) = -jogspeed
+                        VrData(2) = 0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                Else
+                    VrData(0) = 2
+                    VrData(1) = 0.0
+                    VrData(2) = 0.0
+
+                    m_Tri.SetTrioMotionValues("Jogging", VrData)
+                    isJogON = True 'False
+                End If
+            Else
+                If y < -deadzone Then
+                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+
+                    ratio = CDbl(x) / y
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                        VrData(0) = 1
+                        VrData(1) = -jogspeed
+                        VrData(2) = jogspeed
+
+                        SetState("Jogging")
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                        VrData(0) = 1
+                        VrData(1) = jogspeed
+                        VrData(2) = jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'Y+
+                        VrData(0) = 1
+                        VrData(1) = 0
+                        VrData(2) = jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+
+                ElseIf y > deadzone Then
+                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(x) / y
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                        VrData(0) = 1
+                        VrData(1) = jogspeed
+                        VrData(2) = -jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                        VrData(0) = 1
+                        VrData(1) = -jogspeed
+                        VrData(2) = -jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'Y-
+                        VrData(0) = 1
+                        VrData(1) = 0
+                        VrData(2) = -jogspeed
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                Else
+                    VrData(0) = 2
+                    VrData(1) = 0.0
+                    VrData(2) = 0.0
+
+                    m_Tri.SetTrioMotionValues("Jogging", VrData)
+                    isJogON = True 'False
+                End If
+            End If
+        Else
+            If isJogON Then
+                VrData(0) = 2
+                VrData(1) = 0.0
+                VrData(2) = 0.0
+
+                m_Tri.SetTrioMotionValues("Jogging", VrData)
+                isJogON = False
+                If m_EditStateFlag Then
+                    'reset to idle without the camera thing
+                    SetState("Idle")
+                    m_Tri.SetMachineStop()
+                    SetLampsToReadyMode()
+                    UnlockMovementButtons()
+                    ChangeButtonState("Idle")
+                Else
+                    If Production.ButtonCalibrate.Text = "Set Calibrate" Then
+                        Production.ButtonCalibrate.Enabled = True
+                    Else
+                        ResetToIdle()
+                    End If
+                End If
+            End If
+
+            countMouseTimer += 1
+            If (countMouseTimer >= 5) Then
+                TraceGCCollect()
+                countMouseTimer = 0
+            End If
+        End If
+
     End Sub
 
     Private Sub FormProduction_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
@@ -1071,8 +1101,6 @@ Public Class FormProduction
         Form_Service.ResetEventCode()
 
         'vision
-        SwitchToTeachCamera()
-        PanelVision.Controls.Remove(Vision.FrmVision.PanelVision) 'lim
 
         'timers stop
         IDS.StopErrorCheck()
@@ -1080,17 +1108,13 @@ Public Class FormProduction
         Programming.IOCheck.Stop()
         ThreadMonitor.Abort()
         ThreadExecutor.Abort()
+        MouseTimer.Dispose()
 
         'motion controller
         m_Tri.TurnOff("Material Air")
         m_Tri.Disconnect_Controller()
 
         'hardware
-        Conveyor.PositionTimer.Stop()
-        MyConveyorSettings.CloseConveyorSetup()
-        Conveyor.ClosePort()
-        Weighting_Scale.ClosePort()
-        Laser.ClosePort()
         OffLaser()
         OffTowerLamp()
         UnlockDoor()
@@ -1143,20 +1167,15 @@ Public Class FormProduction
             Return
         End If
 
+        LabelMessage("Please wait, system is uploading..")
         Dim filename As String = m_Execution.m_File.FolderWithNameFromFileName(TextBoxFilename.Text)
+        m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
         Programming.Disp_Dispenser_Unit_info()
 
-        LabelMessage("Please wait, system is uploading..")
         TextBoxFilename.Refresh()
         RichTextBoxNote.Refresh()
 
         ProductionInfoDisp()
-
-        HeaterSettings()
-        OnHeaters()
-
-        PressureSettings()
-        OnPressure()
 
         LabelMessage("Finish..")
         ButtonOpenFile.Enabled = True
@@ -1261,6 +1280,7 @@ StopCalibration:
         ElseIf e.Button Is TBOperation.Buttons(2) Then 'stop
 
             StopDispensing()
+
         End If
 
     End Sub
@@ -1279,14 +1299,6 @@ StopCalibration:
 
     Private Sub ButtonClean_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClean.Click
         If SetState("Clean") Then DoClean()
-    End Sub
-
-    Private Sub ButtonVolCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolCalib.Click
-        SetState("Volume Calibration")
-    End Sub
-
-    Private Sub ButtonNdlCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNdlCalib.Click
-        SetState("Needle Calibration")
     End Sub
 
     Private Sub DoorLock_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DoorLock.CheckedChanged
@@ -1353,19 +1365,8 @@ StopCalibration:
         End If
     End Sub
 
-    Private Sub ButtonCV_Prod_Retrieve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCV_Prod_Retrieve.Click
-        Conveyor.Command("Retrieve")
-    End Sub
 
-    Private Sub ButtonCV_Prod_Release_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCV_Prod_Release.Click
-        Conveyor.Command("Release")
-    End Sub
-
-    Private Sub ButtonStartFirstStage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStartFirstStage.Click
-        DIO_Service.TriggerUpstream()
-    End Sub
-
-    Public Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContinuousMode.Click
+    Public Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
         '                                       kr                                       '
         ' this option allows user to choose between continuous operation or to operate   '
@@ -1378,38 +1379,17 @@ StopCalibration:
             LabelMessage("Door is open. Please close to turn on continuous mode.")
             Exit Sub
         ElseIf ContinuousMode.Checked Then
-            Conveyor.Command("Manual Mode")
             If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
                 LabelMessage("Auto purging and auto cleaning is turned off.")
             End If
         ElseIf ContinuousMode.Checked = False Then
-            Conveyor.Command("Auto Mode")
             If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
                 LabelMessage("Auto purging and auto cleaning is turned on.")
             End If
         End If
 
-        If ContinuousMode.Checked Then
-            ButtonStartFirstStage.Enabled = True
-            ButtonCV_Prod_Retrieve.Enabled = True
-            ButtonCV_Prod_Release.Enabled = True
-        Else
-            ButtonStartFirstStage.Enabled = False
-            ButtonCV_Prod_Retrieve.Enabled = False
-            ButtonCV_Prod_Release.Enabled = False
-        End If
-
         ContinuousMode.Checked = Not ContinuousMode.Checked
 
-    End Sub
-
-    Private Sub ValueBrightness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueBrightness.ValueChanged
-        If 0 <= ValueBrightness.Value < 255 Then
-            Vision.IDSV_SetBrightness(ValueBrightness.Value)
-        Else
-            ValueBrightness.Value = 128
-            Vision.IDSV_SetBrightness(ValueBrightness.Value)
-        End If
     End Sub
 
     Public Sub WriteSPCReport()
@@ -1687,13 +1667,13 @@ StopCalibration:
         '1) door is not closed when door interlocked is true
         '2) program is currently paused or running
         '3) conveyor mode is not ticked
-        If (door_close = False And door_interlock = True) Or ContinuousMode.Checked = False And IsIdle() Then
+        If (door_close = False And door_interlock = True) And IsIdle() Then
             ResetTimer("Reset Autopurging Timers")
             ResetTimer("Reset Potlife Start Timer")
             Exit Sub
         End If
 
-        Dim auto_purging_enabled As Boolean = IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption And ContinuousMode.Checked And IsIdle() And Form_Service.Visible = False
+        Dim auto_purging_enabled As Boolean = IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption And IsIdle() And Form_Service.Visible = False
         CurrentTime = Now
 
         If m_PotLifeOn Then
@@ -1716,4 +1696,9 @@ StopCalibration:
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         Form_Service.DisplayErrorMessage(ComboBox3.SelectedItem.ToString)
     End Sub
+
+    Private Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
+        If SetState("Needle Calibration") Then DoCalibrate()
+    End Sub
+
 End Class

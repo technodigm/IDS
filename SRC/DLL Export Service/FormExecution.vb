@@ -505,14 +505,9 @@ Public Class FormExecution
         End Get
     End Property
 
-    Private Delegate Sub zzz()
     Public Sub CenterPopup()
-        m_instance.Show()
-        m_instance.CenterToScreen()
-    End Sub
-
-    Private Sub HideAndDispose()
-        m_instance.Hide()
+        Me.ShowDialog()
+        Me.CenterToScreen()
     End Sub
 
     Public Sub LogAnEvent(ByVal ID As String)
@@ -543,11 +538,7 @@ Public Class FormExecution
                             Case 1 'EVENT ID
                                 ToBeLogged = CStr(ID)
                             Case 2 'EVENT NAME, TIME
-                                If ID = "1007412" Or ID = "1006204" Then
-                                    ToBeLogged &= "	" & strfields + Vision.GetQCSuccess
-                                Else
-                                    ToBeLogged &= "	" & strfields
-                                End If
+                                ToBeLogged &= "	" & strfields
                                 ToBeLogged &= "	" & CStr(Now())
                             Case 3 'SOURCE, USER/GROUP, PATTERNNAME, MATERIALBATCH
                                 ToBeLogged &= "	" & strfields
@@ -618,9 +609,7 @@ Public Class FormExecution
         Try
             While (RderEvtDef.Peek() > -1)
 
-                If ID = "1006204" Then
-                    additional_information = FormattingString + Vision.ReportQCFailure()
-                ElseIf ID = "1003201" Then
+                If ID = "1003201" Then
                     additional_information = FormattingString + Conveyor.ReportWidthAdjustFailure()
                 End If
 
@@ -665,65 +654,65 @@ Public Class FormExecution
                                         display_text(10) = corrections
                                     End If
                                 Next
-                                m_instance.RichTextBox1.Text = display_text(0) & display_text(1) & "	" & display_text(2) & ControlChars.CrLf & ControlChars.CrLf & display_text(3) & ControlChars.CrLf & display_text(4) & additional_information & ControlChars.CrLf & ControlChars.CrLf & "		" & display_text(19) & ControlChars.CrLf & ControlChars.CrLf & "		" & display_text(5) & display_text(6) & ControlChars.CrLf & "		" & display_text(7) & display_text(8) & ControlChars.CrLf & "		" & display_text(9) & display_text(10) & ControlChars.CrLf
+                                Me.RichTextBox1.Text = display_text(0) & display_text(1) & "	" & display_text(2) & ControlChars.CrLf & ControlChars.CrLf & display_text(3) & ControlChars.CrLf & display_text(4) & additional_information & ControlChars.CrLf & ControlChars.CrLf & "		" & display_text(19) & ControlChars.CrLf & ControlChars.CrLf & "		" & display_text(5) & display_text(6) & ControlChars.CrLf & "		" & display_text(7) & display_text(8) & ControlChars.CrLf & "		" & display_text(9) & display_text(10) & ControlChars.CrLf
 
-                                m_instance.RichTextBox1.Find(display_text(1))
-                                m_instance.RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Bold)
-                                m_instance.RichTextBox1.Find(display_text(2))
-                                m_instance.RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Bold)
-                                m_instance.RichTextBox1.Find(display_text(4))
-                                m_instance.RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Bold)
-                                m_instance.RichTextBox1.SelectionColor = Color.Red
-                                m_instance.RichTextBox1.Find(display_text(19))
-                                m_instance.RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Underline)
-                                m_instance.RichTextBox1.Select(0, 0)
+                                RichTextBox1.Find(display_text(1))
+                                RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Bold)
+                                RichTextBox1.Find(display_text(2))
+                                RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Bold)
+                                RichTextBox1.Find(display_text(4))
+                                RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Bold)
+                                RichTextBox1.SelectionColor = Color.Red
+                                RichTextBox1.Find(display_text(19))
+                                RichTextBox1.SelectionFont = New Font(RichTextBox1.Font, FontStyle.Underline)
+                                RichTextBox1.Select(0, 0)
                         End Select
 
                         If strfieldsindex = 15 Then
-                            m_instance.Button1.Hide()
-                            m_instance.Button2.Hide()
-                            m_instance.Button3.Hide()
-                            m_instance.Button4.Hide()
-                            m_instance.Button5.Hide()
-                            m_instance.Button6.Hide()
-                            m_instance.Button7.Hide()
-                            m_instance.Button8.Hide()
-                            m_instance.Button8.Hide()
-                            m_instance.Button10_ToBeAutoClicked.Hide()
-                            m_instance.Button12.Hide()
-                            m_instance.Button13.Hide()
-                            m_instance.Button14.Hide()
-                            m_instance.Button15.Hide()
+                            Me.Button1.Hide()
+                            Me.Button2.Hide()
+                            Me.Button3.Hide()
+                            Me.Button4.Hide()
+                            Me.Button5.Hide()
+                            Me.Button6.Hide()
+                            Me.Button7.Hide()
+                            Me.Button8.Hide()
+                            Me.Button8.Hide()
+                            Me.Button10_ToBeAutoClicked.Hide()
+                            Me.Button12.Hide()
+                            Me.Button13.Hide()
+                            Me.Button14.Hide()
+                            Me.Button15.Hide()
                             Dim strbutton As String
                             For Each strbutton In strfields.Split(",")
                                 If strbutton = "1" Then
-                                    m_instance.Button1.Show()
+                                    Me.Button1.Show()
                                 ElseIf strbutton = "2" Then
-                                    m_instance.Button2.Show()
+                                    Me.Button2.Show()
                                 ElseIf strbutton = "3" Then
-                                    m_instance.Button3.Show()
+                                    Me.Button3.Show()
                                 ElseIf strbutton = "4" Then
-                                    m_instance.Button4.Show()
+                                    Me.Button4.Show()
                                 ElseIf strbutton = "5" Then
-                                    m_instance.Button5.Show()
+                                    Me.Button5.Show()
                                 ElseIf strbutton = "6" Then
-                                    m_instance.Button6.Show()
+                                    Me.Button6.Show()
                                 ElseIf strbutton = "7" Then
-                                    m_instance.Button7.Show()
+                                    Me.Button7.Show()
                                 ElseIf strbutton = "8" Then
-                                    m_instance.Button8.Show()
+                                    Me.Button8.Show()
                                 ElseIf strbutton = "9" Then
-                                    m_instance.Button9.Show()
+                                    Me.Button9.Show()
                                 ElseIf strbutton = "10" Then
-                                    m_instance.Button10_ToBeAutoClicked.Show()
+                                    Me.Button10_ToBeAutoClicked.Show()
                                 ElseIf strbutton = "12" Then
-                                    m_instance.Button12.Show()
+                                    Me.Button12.Show()
                                 ElseIf strbutton = "13" Then
-                                    m_instance.Button13.Show()
+                                    Me.Button13.Show()
                                 ElseIf strbutton = "14" Then
-                                    m_instance.Button14.Show()
+                                    Me.Button14.Show()
                                 ElseIf strbutton = "15" Then
-                                    m_instance.Button15.Show()
+                                    Me.Button15.Show()
                                 End If
                             Next
                         End If
@@ -734,11 +723,10 @@ Public Class FormExecution
             'IDS.Devices.DIO.DIO.TurnOnTowerSiren()
             IDS.Devices.DIO.DIO.TurnOnTowerLightRed()
             Form_Service.SetEventCode(ID)
-            'm_instance.Invoke(New zzz(AddressOf CenterPopup))
             CenterPopup()
-            'GC.Collect()
+            GC.Collect()
 
-            'Catch ex As InvalidOperationException
+        Catch ex As InvalidOperationException
         Catch ex As Exception
             ExceptionDisplay(ex)
         End Try
@@ -888,6 +876,10 @@ Public Class FormExecution
         IDS.Devices.DIO.DIO.TurnOffTowerSiren()
     End Sub
 
+    Private Sub HideAndDispose()
+        Me.Hide()
+        'GC.Collect()
+    End Sub
 #End Region
 
 End Class
