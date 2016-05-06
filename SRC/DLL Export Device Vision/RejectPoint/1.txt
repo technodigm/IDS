@@ -1,0 +1,13 @@
+128
+128
+True
+False
+5
+False
+True
+False
+False
+384
+288
+100
+100

@@ -1,0 +1,21 @@
+#File name: C:\IDS\Pattern_Dir\qc_dotty\qc_dotty.txt
+#
+#Objective: Data format defination for Pattern data. ptp file is used to store pattern defination in txt files.
+#
+#
+#Note: 1, Empty line is allowed
+#      2, Items are seperated by commas
+
+#Pattern starts
+PatternID =ABCDE_GHIJ_KLMN
+
+#  0  1       2         3   4   5   6   7   8   9   10  11  12    13        14       15       16       17   18    19    20     21        22     23    24    25      26     27      28   29
+#Cmd, Needle, Dispense, x1, y1, z1, x2, y2, z2, x3, y3, z3, Speed,NeedleGap,Duration,TrvDelay,RetDelay,AppH,RetV, RetH, ClearH,DTailDist,ArcRad,Pitch,FillH,RunTime,Sprial,RtAngle,Edge,IO
+#
+
+
+[Page=Main]
+Fiducial,1.mno,2.mno,228.449,199.362,0,269.103,199.309,0,,,,,,,,,,,,,,,,,,,,,,,,,,10,,,,,,,,,,,,,,,,,,,,,,,,10,,,,,,,,,,,,,,,,,,,
+QC,,,269.103,199.309,0,,,,,,,,,,,,,,,,,,,,,,,,,3,3,False,110,25,,,,,,,,,,,,,,,,,,,,,,,,,,3,2,0.1,0.2,2.2,384,288,123.375,120.734375,3,,,,,,,,
+QC,,,228.464,199.416,0,,,,,,,,,,,,,,,,,,,,,,,,,3,3,False,110,25,,,,,,,,,,,,,,,,,,,,,,,,,,3,2,0.1,0.2,2.2,384,288,123.375,120.734375,3,,,,,,,,
+DotArray,Left,Off,228.464,199.417,0,228.464,219.417,0,248.464,219.417,0,6x6,0.5,50,,100,1,50,1,1,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

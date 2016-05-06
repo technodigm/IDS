@@ -1,0 +1,431 @@
+<VisualStudioProject>
+    <VisualBasic
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "DLL Export Device Vision"
+                AssemblyOriginatorKeyFile = ""
+                AssemblyOriginatorKeyMode = "None"
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                OptionCompare = "Binary"
+                OptionExplicit = "On"
+                OptionStrict = "Off"
+                RootNamespace = "DLL_Export_Device_Vision"
+                StartupObject = "DLL_Export_Device_Vision.(None)"
+            >
+                <Config
+                    Name = "Debug"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "true"
+                    DefineTrace = "true"
+                    DebugSymbols = "true"
+                    IncrementalBuild = "true"
+                    Optimize = "false"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+                <Config
+                    Name = "Release"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "false"
+                    DefineTrace = "true"
+                    DebugSymbols = "false"
+                    IncrementalBuild = "false"
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                />
+                <Reference
+                    Name = "stdole"
+                    Guid = "{00020430-0000-0000-C000-000000000046}"
+                    VersionMajor = "2"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "primary"
+                />
+                <Reference
+                    Name = "Interop.MSForms"
+                    AssemblyName = "Interop.MSForms"
+                    HintPath = "bin\Interop.MSForms.dll"
+                />
+                <Reference
+                    Name = "AxInterop.FlUplLib"
+                    AssemblyName = "AxInterop.FlUplLib"
+                    HintPath = "bin\AxInterop.FlUplLib.dll"
+                />
+                <Reference
+                    Name = "AxInterop.MCI"
+                    AssemblyName = "AxInterop.MCI"
+                    HintPath = "bin\AxInterop.MCI.dll"
+                />
+                <Reference
+                    Name = "AxInterop.MSComctlLib"
+                    AssemblyName = "AxInterop.MSComctlLib"
+                    HintPath = "bin\AxInterop.MSComctlLib.dll"
+                />
+                <Reference
+                    Name = "AxInterop.MSForms"
+                    AssemblyName = "AxInterop.MSForms"
+                    HintPath = "bin\AxInterop.MSForms.dll"
+                />
+                <Reference
+                    Name = "FiducialMark_Form"
+                    AssemblyName = "FiducialMark_Form"
+                    HintPath = "bin\FiducialMark_Form.dll"
+                />
+                <Reference
+                    Name = "Interop.FlUplLib"
+                    AssemblyName = "Interop.FlUplLib"
+                    HintPath = "bin\Interop.FlUplLib.dll"
+                />
+                <Reference
+                    Name = "Interop.MCI"
+                    AssemblyName = "Interop.MCI"
+                    HintPath = "bin\Interop.MCI.dll"
+                />
+                <Reference
+                    Name = "MULTICAMLib"
+                    Guid = "{F655EB21-B77E-11D3-8092-00A0C91CA1C6}"
+                    VersionMajor = "4"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxMULTICAMLib"
+                    Guid = "{F655EB21-B77E-11D3-8092-00A0C91CA1C6}"
+                    VersionMajor = "4"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "axowc10"
+                    AssemblyName = "AxOWC10"
+                    HintPath = "..\..\..\owc10\axowc10.dll"
+                />
+                <Reference
+                    Name = "MSDATASRC"
+                    AssemblyName = "MSDATASRC"
+                    HintPath = "..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\MSDATASRC.dll"
+                    AssemblyFolderKey = "hklm\primary interop assemblies"
+                />
+                <Reference
+                    Name = "ADODB"
+                    AssemblyName = "ADODB"
+                    HintPath = "..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\ADODB.dll"
+                    AssemblyFolderKey = "hklm\primary interop assemblies"
+                />
+                <Reference
+                    Name = "AxInterop.DAQAOLib"
+                    AssemblyName = "AxInterop.DAQAOLib"
+                    HintPath = "..\..\BIN\AxInterop.DAQAOLib.dll"
+                />
+                <Reference
+                    Name = "AxInterop.DAQDILib"
+                    AssemblyName = "AxInterop.DAQDILib"
+                    HintPath = "..\..\BIN\AxInterop.DAQDILib.dll"
+                />
+                <Reference
+                    Name = "AxInterop.DAQDOLib"
+                    AssemblyName = "AxInterop.DAQDOLib"
+                    HintPath = "..\..\BIN\AxInterop.DAQDOLib.dll"
+                />
+                <Reference
+                    Name = "Interop.DAQAOLib"
+                    AssemblyName = "Interop.DAQAOLib"
+                    HintPath = "..\..\BIN\Interop.DAQAOLib.dll"
+                />
+                <Reference
+                    Name = "Interop.DAQDILib"
+                    AssemblyName = "Interop.DAQDILib"
+                    HintPath = "..\..\BIN\Interop.DAQDILib.dll"
+                />
+                <Reference
+                    Name = "Interop.DAQDOLib"
+                    AssemblyName = "Interop.DAQDOLib"
+                    HintPath = "..\..\BIN\Interop.DAQDOLib.dll"
+                />
+                <Reference
+                    Name = "OpenFileDialogPreview"
+                    AssemblyName = "OpenFileDialogPreview"
+                    HintPath = "bin\OpenFileDialogPreview.dll"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL"
+                    Guid = "{A700DC51-04A2-11D3-BF87-00A024D24992}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.BlobAnalysis"
+                    Guid = "{154919D3-A7DA-11D1-9F0C-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.Calibration"
+                    Guid = "{A1592490-137D-11D3-AEC0-006008AB3788}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.CharacterRecognition"
+                    Guid = "{A0EEEC93-A7D2-11D1-9F0C-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.Code"
+                    Guid = "{DAF83293-A796-11D1-9F0C-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.ImageProcessing"
+                    Guid = "{4FD68BB3-A7E7-11D1-9F0D-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.Measurement"
+                    Guid = "{242F02F3-A862-11D1-9F0D-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.PatternMatching"
+                    Guid = "{B1599D63-A7CA-11D1-9F0C-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxMatrox.ActiveMIL"
+                    Guid = "{A700DC51-04A2-11D3-BF87-00A024D24992}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "AxMatrox.ActiveMIL.ImageProcessing"
+                    Guid = "{4FD68BB3-A7E7-11D1-9F0D-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "AxMatrox.ActiveMIL.Measurement"
+                    Guid = "{242F02F3-A862-11D1-9F0D-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "AxMatrox.ActiveMIL.PatternMatching"
+                    Guid = "{B1599D63-A7CA-11D1-9F0C-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "AxMatrox.ActiveMIL.BlobAnalysis"
+                    Guid = "{154919D3-A7DA-11D1-9F0C-00608CC9F9FB}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "AxMatrox.ActiveMIL.Calibration"
+                    Guid = "{A1592490-137D-11D3-AEC0-006008AB3788}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "eVision"
+                    Guid = "{9AE86E03-97BC-11D1-A49B-000021633168}"
+                    VersionMajor = "6"
+                    VersionMinor = "7"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxeVision"
+                    Guid = "{9AE86E03-97BC-11D1-A49B-000021633168}"
+                    VersionMajor = "6"
+                    VersionMinor = "7"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+            </References>
+            <Imports>
+                <Import Namespace = "Microsoft.VisualBasic" />
+                <Import Namespace = "System" />
+                <Import Namespace = "System.Collections" />
+                <Import Namespace = "System.Data" />
+                <Import Namespace = "System.Drawing" />
+                <Import Namespace = "System.Diagnostics" />
+                <Import Namespace = "System.Windows.Forms" />
+            </Imports>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssemblyInfo.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ChipEdgePoints.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ChipEdgePoints.resx"
+                    DependentUpon = "ChipEdgePoints.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "DeviceDIO.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DeviceDIO.resx"
+                    DependentUpon = "DeviceDIO.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "DeviceLighbox.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DeviceLighbox.resx"
+                    DependentUpon = "DeviceLighbox.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "DeviceRegulators.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DeviceRegulators.resx"
+                    DependentUpon = "DeviceRegulators.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "FiducialMark_Form.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FiducialMark_Form.resx"
+                    DependentUpon = "FiducialMark_Form.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "FormExportVision.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FormExportVision.resx"
+                    DependentUpon = "FormExportVision.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "QC.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "QC.resx"
+                    DependentUpon = "QC.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "RejectPoint.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RejectPoint.resx"
+                    DependentUpon = "RejectPoint.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "VisionModule.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </VisualBasic>
+</VisualStudioProject>
+

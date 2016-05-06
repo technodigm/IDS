@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL DataManager", "DLL DataManager.vbproj", "{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Debug.ActiveCfg = Debug|.NET
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Debug.Build.0 = Debug|.NET
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Release.ActiveCfg = Release|.NET
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

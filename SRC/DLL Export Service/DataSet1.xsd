@@ -1,0 +1,42 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="DataSet1" targetNamespace="http://www.tempuri.org/DataSet1.xsd" xmlns:mstns="http://www.tempuri.org/DataSet1.xsd" xmlns="http://www.tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:Locale="zh-CN">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="Log">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msdata:AutoIncrement="true" type="xs:int" />
+              <xs:element name="EvtID" type="xs:int" minOccurs="0" />
+              <xs:element name="EvtName" type="xs:string" minOccurs="0" />
+              <xs:element name="Time" type="xs:string" minOccurs="0" />
+              <xs:element name="Source" type="xs:string" minOccurs="0" />
+              <xs:element name="User_x002F_Group" type="xs:string" minOccurs="0" />
+              <xs:element name="PatternName" type="xs:string" minOccurs="0" />
+              <xs:element name="MaterialBatch" type="xs:string" minOccurs="0" />
+              <xs:element name="Type" type="xs:string" minOccurs="0" />
+              <xs:element name="in_x0023_" type="xs:string" minOccurs="0" />
+              <xs:element name="out_x0023_" type="xs:string" minOccurs="0" />
+              <xs:element name="pass_x0023_" type="xs:string" minOccurs="0" />
+              <xs:element name="Fp_x0023_" type="xs:string" minOccurs="0" />
+              <xs:element name="Ft_x0023_" type="xs:string" minOccurs="0" />
+              <xs:element name="time_x002F_B" type="xs:string" minOccurs="0" />
+              <xs:element name="B_x002F_h" type="xs:string" minOccurs="0" />
+              <xs:element name="RunTime" type="xs:string" minOccurs="0" />
+              <xs:element name="DownTime" type="xs:string" minOccurs="0" />
+              <xs:element name="Pause" type="xs:string" minOccurs="0" />
+              <xs:element name="VolCal" type="xs:string" minOccurs="0" />
+              <xs:element name="NeedleCal" type="xs:string" minOccurs="0" />
+              <xs:element name="SPCName" type="xs:string" minOccurs="0" />
+              <xs:element name="UserAction" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Log" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

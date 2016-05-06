@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GraphicalDisplay", "GraphicalDisplay.vbproj", "{7D0FD821-2346-4E29-8CAF-FC6FFE50B61D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{7D0FD821-2346-4E29-8CAF-FC6FFE50B61D}.Debug.ActiveCfg = Debug|.NET
+		{7D0FD821-2346-4E29-8CAF-FC6FFE50B61D}.Debug.Build.0 = Debug|.NET
+		{7D0FD821-2346-4E29-8CAF-FC6FFE50B61D}.Release.ActiveCfg = Release|.NET
+		{7D0FD821-2346-4E29-8CAF-FC6FFE50B61D}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

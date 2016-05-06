@@ -1,0 +1,436 @@
+<VisualStudioProject>
+    <VisualBasic
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{04C543DB-2845-44F8-B6E0-5FD1B3467ECD}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "DLL SetupAndCalibrate"
+                AssemblyOriginatorKeyFile = ""
+                AssemblyOriginatorKeyMode = "None"
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                OptionCompare = "Binary"
+                OptionExplicit = "On"
+                OptionStrict = "Off"
+                RootNamespace = "DLL_SetupAndCalibrate"
+                StartupObject = "DLL_SetupAndCalibrate.(None)"
+            >
+                <Config
+                    Name = "Debug"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "true"
+                    DefineTrace = "true"
+                    DebugSymbols = "true"
+                    IncrementalBuild = "true"
+                    Optimize = "false"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+                <Config
+                    Name = "Release"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DefineDebug = "false"
+                    DefineTrace = "true"
+                    DebugSymbols = "false"
+                    IncrementalBuild = "false"
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                />
+                <Reference
+                    Name = "axowc10"
+                    AssemblyName = "AxOWC10"
+                    HintPath = "..\..\..\owc10\axowc10.dll"
+                />
+                <Reference
+                    Name = "Microsoft.Office.Interop.Owc"
+                    AssemblyName = "Microsoft.Office.Interop.Owc"
+                    HintPath = "bin\Microsoft.Office.Interop.Owc.dll"
+                />
+                <Reference
+                    Name = "MSDATASRC"
+                    AssemblyName = "MSDATASRC"
+                    HintPath = "..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\MSDATASRC.dll"
+                    AssemblyFolderKey = "hklm\primary interop assemblies"
+                />
+                <Reference
+                    Name = "mscomctl"
+                    AssemblyName = "mscomctl"
+                    HintPath = "bin\mscomctl.dll"
+                />
+                <Reference
+                    Name = "ADODB"
+                    AssemblyName = "ADODB"
+                    HintPath = "..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\ADODB.dll"
+                    AssemblyFolderKey = "hklm\primary interop assemblies"
+                />
+                <Reference
+                    Name = "MSCommLib"
+                    Guid = "{648A5603-2C6E-101B-82B6-000000000014}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxMSCommLib"
+                    Guid = "{648A5603-2C6E-101B-82B6-000000000014}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "DAQDOLib"
+                    Guid = "{DD19B926-A6A4-11D2-AA04-002018650913}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxDAQDOLib"
+                    Guid = "{DD19B926-A6A4-11D2-AA04-002018650913}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "DAQDILib"
+                    Guid = "{B69B88D6-A697-11D2-AA03-002018650913}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxDAQDILib"
+                    Guid = "{B69B88D6-A697-11D2-AA03-002018650913}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "Interop.TRIOPCLib"
+                    AssemblyName = "Interop.TrioPCLib"
+                    HintPath = "..\..\BIN\Interop.TRIOPCLib.dll"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX"
+                    AssemblyName = "Microsoft.DirectX"
+                    HintPath = "..\..\BIN\Microsoft.DirectX.dll"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX.DirectInput"
+                    AssemblyName = "Microsoft.DirectX.DirectInput"
+                    HintPath = "..\..\BIN\Microsoft.DirectX.DirectInput.dll"
+                />
+                <Reference
+                    Name = "DLL DataManager"
+                    Project = "{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
+                <Reference
+                    Name = "DLL Export Service"
+                    Project = "{1FE839CF-8CF7-443F-B7D6-2D0AC490C00E}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
+                <Reference
+                    Name = "DLL Export Device Vision"
+                    Project = "{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
+                <Reference
+                    Name = "DLL Export Device Motor"
+                    Project = "{9A844E95-E935-464C-9570-B04DCF7EAE0C}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
+                <Reference
+                    Name = "DLL Serial Communication"
+                    Project = "{3B5887C1-0CFB-4515-BF54-8637BE091012}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
+            </References>
+            <Imports>
+                <Import Namespace = "Microsoft.VisualBasic" />
+                <Import Namespace = "System" />
+                <Import Namespace = "System.Collections" />
+                <Import Namespace = "System.Data" />
+                <Import Namespace = "System.Drawing" />
+                <Import Namespace = "System.Diagnostics" />
+                <Import Namespace = "System.Windows.Forms" />
+            </Imports>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "app.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "AssemblyInfo.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CameraSetup.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CameraSetup.resx"
+                    DependentUpon = "CameraSetup.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ConveyorSettings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConveyorSettings.resx"
+                    DependentUpon = "ConveyorSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "DispenserSettings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DispenserSettings.resx"
+                    DependentUpon = "DispenserSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "EventSettings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EventSettings.resx"
+                    DependentUpon = "EventSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "GantrySettings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "GantrySettings.resx"
+                    DependentUpon = "GantrySettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "GantrySetup.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "GantrySetup.resx"
+                    DependentUpon = "GantrySetup.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HardwareCommunicationSetup.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HardwareCommunicationSetup.resx"
+                    DependentUpon = "HardwareCommunicationSetup.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HeaterSettings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HeaterSettings.resx"
+                    DependentUpon = "HeaterSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LaserCalibration.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LaserCalibration.resx"
+                    DependentUpon = "LaserCalibration.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LVDTCalibration1.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LVDTCalibration1.resx"
+                    DependentUpon = "LVDTCalibration1.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LVDTCalibration2.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LVDTCalibration2.resx"
+                    DependentUpon = "LVDTCalibration2.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSettings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSettings.resx"
+                    DependentUpon = "NeedleCalibrationSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup1.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup1.resx"
+                    DependentUpon = "NeedleCalibrationSetup1.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup2.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup2.resx"
+                    DependentUpon = "NeedleCalibrationSetup2.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup3.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NeedleCalibrationSetup3.resx"
+                    DependentUpon = "NeedleCalibrationSetup3.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "PSInformation.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "PSInformation.resx"
+                    DependentUpon = "PSInformation.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Settings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Settings.resx"
+                    DependentUpon = "Settings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Setup.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Setup.resx"
+                    DependentUpon = "Setup.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SetupModule.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SPCLogging.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SPCLogging.resx"
+                    DependentUpon = "SPCLogging.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SystemIO.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SystemIO.resx"
+                    DependentUpon = "SystemIO.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "VolumeCalibrationSettings.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VolumeCalibrationSettings.resx"
+                    DependentUpon = "VolumeCalibrationSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+            </Include>
+        </Files>
+    </VisualBasic>
+</VisualStudioProject>
+

@@ -1,0 +1,80 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL SetupAndCaliberate", "..\SRC\DLL SetupAndCaliberate\DLL SetupAndCaliberate.vbproj", "{04C543DB-2845-44F8-B6E0-5FD1B3467ECD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC} = {7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A} = {976F71F7-D1AE-45C4-BBEF-0A485F5C962A}
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL Export Device Vision", "..\SRC\DLL Export Device Vision\DLL Export Device Vision.vbproj", "{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A} = {976F71F7-D1AE-45C4-BBEF-0A485F5C962A}
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL DataManager", "..\SRC\DLL DataManager\DLL DataManager.vbproj", "{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL Execution", "..\SRC\DLL Execution\DLL Execution.vbproj", "{00F7ACC6-5822-4B5A-8979-F390EF5C38EA}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "IDSProject", "IDSProject.vbproj", "{6F443588-4E86-492F-B674-D64C2D796065}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL Export Service", "..\SRC\DLL Export Service\DLL Export Service.vbproj", "{1FE839CF-8CF7-443F-B7D6-2D0AC490C00E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL Export Device Motor", "..\SRC\DLL Export Device Motor\DLL Export Device Motor.vbproj", "{9A844E95-E935-464C-9570-B04DCF7EAE0C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL Serial Communication", "..\SRC\DLL Serial Communication\DLL Serial Communication.vbproj", "{3B5887C1-0CFB-4515-BF54-8637BE091012}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{04C543DB-2845-44F8-B6E0-5FD1B3467ECD}.Debug.ActiveCfg = Debug|.NET
+		{04C543DB-2845-44F8-B6E0-5FD1B3467ECD}.Debug.Build.0 = Debug|.NET
+		{04C543DB-2845-44F8-B6E0-5FD1B3467ECD}.Release.ActiveCfg = Release|.NET
+		{04C543DB-2845-44F8-B6E0-5FD1B3467ECD}.Release.Build.0 = Release|.NET
+		{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}.Debug.ActiveCfg = Debug|.NET
+		{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}.Debug.Build.0 = Debug|.NET
+		{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}.Release.ActiveCfg = Release|.NET
+		{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}.Release.Build.0 = Release|.NET
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Debug.ActiveCfg = Debug|.NET
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Debug.Build.0 = Debug|.NET
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Release.ActiveCfg = Release|.NET
+		{976F71F7-D1AE-45C4-BBEF-0A485F5C962A}.Release.Build.0 = Release|.NET
+		{00F7ACC6-5822-4B5A-8979-F390EF5C38EA}.Debug.ActiveCfg = Debug|.NET
+		{00F7ACC6-5822-4B5A-8979-F390EF5C38EA}.Debug.Build.0 = Debug|.NET
+		{00F7ACC6-5822-4B5A-8979-F390EF5C38EA}.Release.ActiveCfg = Release|.NET
+		{00F7ACC6-5822-4B5A-8979-F390EF5C38EA}.Release.Build.0 = Release|.NET
+		{6F443588-4E86-492F-B674-D64C2D796065}.Debug.ActiveCfg = Debug|.NET
+		{6F443588-4E86-492F-B674-D64C2D796065}.Debug.Build.0 = Debug|.NET
+		{6F443588-4E86-492F-B674-D64C2D796065}.Release.ActiveCfg = Release|.NET
+		{6F443588-4E86-492F-B674-D64C2D796065}.Release.Build.0 = Release|.NET
+		{1FE839CF-8CF7-443F-B7D6-2D0AC490C00E}.Debug.ActiveCfg = Debug|.NET
+		{1FE839CF-8CF7-443F-B7D6-2D0AC490C00E}.Debug.Build.0 = Debug|.NET
+		{1FE839CF-8CF7-443F-B7D6-2D0AC490C00E}.Release.ActiveCfg = Release|.NET
+		{1FE839CF-8CF7-443F-B7D6-2D0AC490C00E}.Release.Build.0 = Release|.NET
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Debug.ActiveCfg = Debug|.NET
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Debug.Build.0 = Debug|.NET
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Release.ActiveCfg = Release|.NET
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Release.Build.0 = Release|.NET
+		{3B5887C1-0CFB-4515-BF54-8637BE091012}.Debug.ActiveCfg = Debug|.NET
+		{3B5887C1-0CFB-4515-BF54-8637BE091012}.Debug.Build.0 = Debug|.NET
+		{3B5887C1-0CFB-4515-BF54-8637BE091012}.Release.ActiveCfg = Release|.NET
+		{3B5887C1-0CFB-4515-BF54-8637BE091012}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
