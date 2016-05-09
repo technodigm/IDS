@@ -34,33 +34,32 @@ Public Module ExcelUtilityFunctions
         Dim i As Integer
         For i = 0 To gMaxReferButtons
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = True
-            If i = 9 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move command for now
+            If i = 0 Or i = 3 Then Programming.ReferenceCommandBlock.Buttons(i).Enabled = False
         Next
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableReferenceCommandBlock()
         Dim i As Integer
         For i = 0 To gMaxReferButtons
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = False
-            If i = 1 Or i = 4 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable fid, reject command for now
         Next
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub EnableReferenceCommandBlockButton(ByVal CmdButton As Integer)
         Programming.ReferenceCommandBlock.Buttons(CmdButton - 1).Enabled = True
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub EnableElementsCommandBlockButton(ByVal CmdButton As Integer)
         Programming.ElementsCommandBlock.Buttons(CmdButton - 1).Enabled = True
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableElementsCommandBlockButton(ByVal CmdButton As Integer)
         Programming.ElementsCommandBlock.Buttons(CmdButton - 1).Enabled = False
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub EnableElementsCommandBlock()

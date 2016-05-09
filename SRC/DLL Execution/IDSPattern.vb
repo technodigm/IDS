@@ -3644,7 +3644,10 @@ Public Class CIDSErrorCheck
                     SheetIndex = SubSheetStruct.ExtAbstract(i).SheetIndex
 
                     SheetName = SubSheetStruct.IntAbstract(SheetIndex).SheetName
-
+                    If SheetName = "" Then
+                        MyMsgBox("Subpattern element file does not exit")
+                        Return -1
+                    End If
                     'Fast extract subSheet first valid pt
                     SubFirstPt.X = SubSheetStruct.IntAbstract(SheetIndex).SubFirstPt.X
                     SubFirstPt.Y = SubSheetStruct.IntAbstract(SheetIndex).SubFirstPt.Y
@@ -4422,7 +4425,9 @@ Public Class CIDSErrorCheck
         If 0 = CheckSpeedError(sheet, ErrorSheetData) And 0 = CheckHeightError(sheet, ErrorSheetData) Then
             'No error checked for Speed.  Then we check Points
             If 0 = BuildIntReference(sheet, ErrorSheetData) Then
-                BuildExtReference(sheet, ErrorSheetData)
+                If BuildExtReference(sheet, ErrorSheetData) <> 0 Then
+                    Rtn = 1
+                End If
             Else
                 Rtn = 1
             End If
@@ -4510,7 +4515,9 @@ Public Class CIDSErrorCheck
 
         'Step 2: Check error
         If 0 = BuildIntReference(sheet, ErrorSheetData) Then
-            BuildExtReference(sheet, ErrorSheetData)
+            If BuildExtReference(sheet, ErrorSheetData) <> 0 Then
+                Rtn = 1
+            End If
             If 0 <> CheckXYErrorInOneSheet(CurrentSheetName, sheet, ErrorSheetData) Then
                 Rtn = 1
             End If
@@ -4526,7 +4533,7 @@ Public Class CIDSErrorCheck
 
 
         Return Rtn
-        TraceGCCollect
+        TraceGCCollect()
     End Function
 
 

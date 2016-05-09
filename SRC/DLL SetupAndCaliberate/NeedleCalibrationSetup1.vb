@@ -45,15 +45,15 @@ Public Class NeedleCalibrationSetup1
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSetup1))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
-        Me.ButtonSetCalibratorPosition = New System.Windows.Forms.Button
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.ButtonExit = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.ZPosition = New System.Windows.Forms.Label
         Me.YPosition = New System.Windows.Forms.Label
         Me.XPosition = New System.Windows.Forms.Label
         Me.Label7 = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
+        Me.ButtonSetCalibratorPosition = New System.Windows.Forms.Button
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.ButtonExit = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.SuspendLayout()
@@ -74,38 +74,6 @@ Public Class NeedleCalibrationSetup1
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
         Me.PanelToBeAdded.TabIndex = 39
-        '
-        'ButtonSetCalibratorPosition
-        '
-        Me.ButtonSetCalibratorPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSetCalibratorPosition.Location = New System.Drawing.Point(160, 527)
-        Me.ButtonSetCalibratorPosition.Name = "ButtonSetCalibratorPosition"
-        Me.ButtonSetCalibratorPosition.Size = New System.Drawing.Size(192, 40)
-        Me.ButtonSetCalibratorPosition.TabIndex = 62
-        Me.ButtonSetCalibratorPosition.Text = "Set Calibrator Position"
-        '
-        'Label9
-        '
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label9.Location = New System.Drawing.Point(0, 0)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(272, 32)
-        Me.Label9.TabIndex = 46
-        Me.Label9.Text = "Needle Calibration Setup"
-        '
-        'ButtonExit
-        '
-        Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
-        Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(416, 16)
-        Me.ButtonExit.Name = "ButtonExit"
-        Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
-        Me.ButtonExit.TabIndex = 45
-        Me.ButtonExit.TabStop = False
-        Me.ButtonExit.Text = "Exit"
-        Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'Label4
         '
@@ -164,6 +132,38 @@ Public Class NeedleCalibrationSetup1
         Me.Label6.TabIndex = 98
         Me.Label6.Text = "Y"
         '
+        'ButtonSetCalibratorPosition
+        '
+        Me.ButtonSetCalibratorPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonSetCalibratorPosition.Location = New System.Drawing.Point(160, 527)
+        Me.ButtonSetCalibratorPosition.Name = "ButtonSetCalibratorPosition"
+        Me.ButtonSetCalibratorPosition.Size = New System.Drawing.Size(192, 40)
+        Me.ButtonSetCalibratorPosition.TabIndex = 62
+        Me.ButtonSetCalibratorPosition.Text = "Set Calibrator Position"
+        '
+        'Label9
+        '
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label9.Location = New System.Drawing.Point(0, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(272, 32)
+        Me.Label9.TabIndex = 46
+        Me.Label9.Text = "Needle Calibration Setup"
+        '
+        'ButtonExit
+        '
+        Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
+        Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonExit.Location = New System.Drawing.Point(416, 16)
+        Me.ButtonExit.Name = "ButtonExit"
+        Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
+        Me.ButtonExit.TabIndex = 45
+        Me.ButtonExit.TabStop = False
+        Me.ButtonExit.Text = "Exit"
+        Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -195,7 +195,7 @@ Public Class NeedleCalibrationSetup1
         IDS.Data.Hardware.Needle.Left.CalibratorPos.X = m_Tri.XPosition()
         IDS.Data.Hardware.Needle.Left.CalibratorPos.Y = m_Tri.YPosition()
         IDS.Data.Hardware.Needle.Left.CalibratorPos.Z = m_Tri.ZPosition()
-        IDS.Data.SaveGlobalData()
+        IDS.Data.SaveLocalData()
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
@@ -217,5 +217,9 @@ Public Class NeedleCalibrationSetup1
         If Not m_Tri.Move_Z(0) Then Exit Sub
         If Not m_Tri.Move_XY(pos) Then Exit Sub
         If Not m_Tri.Move_Z(IDS.Data.Hardware.Needle.Left.CalibratorPos.Z) Then Exit Sub
+    End Sub
+
+    Private Sub NeedleCalibrationSetup1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
     End Sub
 End Class

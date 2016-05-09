@@ -1,4 +1,4 @@
-#File name: C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls
+#File name: C:\IDS\Pattern_Dir\Dot_sub\Dot_sub.txt
 #
 #Objective: Data format defination for Pattern data. ptp file is used to store pattern defination in txt files.
 #

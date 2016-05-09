@@ -567,7 +567,7 @@ Public Class Setup
         Me.TextBoxRobotX.ReadOnly = True
         Me.TextBoxRobotX.Size = New System.Drawing.Size(74, 21)
         Me.TextBoxRobotX.TabIndex = 6
-        Me.TextBoxRobotX.Text = "Z: 100.000"
+        Me.TextBoxRobotX.Text = "X: 100.000"
         '
         'Label1
         '
@@ -823,7 +823,7 @@ Public Class Setup
             'we may want more detailed functionality here
             m_Tri.GetIDSState()
 
-            TextBoxRobotX.Text = "Z: " & m_Tri.StateContainer(2).ToString
+            TextBoxRobotX.Text = "X: " & m_Tri.StateContainer(0).ToString
             TextBoxRobotY.Text = "Y: " & m_Tri.StateContainer(1).ToString
             TextBoxRobotZ.Text = "Z: " & m_Tri.StateContainer(2).ToString
 
@@ -1199,4 +1199,7 @@ Public Class Setup
         MyConveyorSettings.e_stop_T1_Tick()
     End Sub
 
+    Private Sub PanelVision_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PanelVision.Paint
+
+    End Sub
 End Class
