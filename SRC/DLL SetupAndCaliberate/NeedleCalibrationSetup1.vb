@@ -195,7 +195,7 @@ Public Class NeedleCalibrationSetup1
         IDS.Data.Hardware.Needle.Left.CalibratorPos.X = m_Tri.XPosition()
         IDS.Data.Hardware.Needle.Left.CalibratorPos.Y = m_Tri.YPosition()
         IDS.Data.Hardware.Needle.Left.CalibratorPos.Z = m_Tri.ZPosition()
-        IDS.Data.SaveLocalData()
+        IDS.Data.SaveGlobalData()
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click

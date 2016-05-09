@@ -66,7 +66,7 @@ Imports System.Runtime.Serialization
     Public Function SaveGlobalData() As Boolean
 
         MsgErr = ""
-        Return SaveFile(Nothing)
+        Return SavePathFileName("C:\IDS\Pattern_Dir\factorydefault.pat")
 
     End Function
 
@@ -2254,7 +2254,11 @@ Public Module Module1
             PatDisplayArray.Add("IDSData.Admin.Folder.DataPath")
             PatArray.Add(IDSData.Admin.Folder.DataPath)
             PatDisplayArray.Add("IDSData.Admin.Folder.PatternPath")
-            PatArray.Add(IDSData.Admin.Folder.PatternPath)
+            If MyFileName = "C:\IDS\Pattern_Dir\factorydefault.pat" Then
+                PatArray.Add("C:\IDS\Pattern_Dir")
+            Else
+                PatArray.Add(IDSData.Admin.Folder.PatternPath)
+            End If
             PatDisplayArray.Add("IDSData.Admin.Folder.FileExtension")
             PatArray.Add(IDSData.Admin.Folder.FileExtension)
 

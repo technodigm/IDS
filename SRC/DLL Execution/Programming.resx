@@ -1109,7 +1109,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListYesNo.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 54</value>
+    <value>856, 17</value>
   </data>
   <data name="ImageListYesNo.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1293,7 +1293,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListOper.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>148, 54</value>
+    <value>987, 17</value>
   </data>
   <data name="ImageListOper.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1400,7 +1400,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListMultiField.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>272, 54</value>
+    <value>17, 54</value>
   </data>
   <data name="ImageListMultiField.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1489,7 +1489,7 @@
     <value>Assembly</value>
   </data>
   <data name="NeedleContextMenu.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>419, 54</value>
+    <value>164, 54</value>
   </data>
   <data name="NeedleContextMenu.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1537,7 +1537,7 @@
     <value>Assembly</value>
   </data>
   <data name="OpenPatternFileDialog.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>570, 54</value>
+    <value>315, 54</value>
   </data>
   <data name="SavePatternFileDialog.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1546,7 +1546,7 @@
     <value>Assembly</value>
   </data>
   <data name="SavePatternFileDialog.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>732, 54</value>
+    <value>477, 54</value>
   </data>
   <data name="ImageListLineArc.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1555,7 +1555,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListLineArc.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 91</value>
+    <value>636, 54</value>
   </data>
   <data name="ImageListLineArc.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1630,7 +1630,7 @@
     <value>Assembly</value>
   </data>
   <data name="TimerForUpdate.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>154, 91</value>
+    <value>773, 54</value>
   </data>
   <data name="TimerForUpdate.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1642,16 +1642,16 @@
     <value>Assembly</value>
   </data>
   <data name="SaveFileDialog1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>286, 91</value>
+    <value>905, 54</value>
+  </data>
+  <data name="AxSpreadsheetProgramming.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxSpreadsheetProgramming.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxSpreadsheetProgramming.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
-  </data>
-  <data name="AxSpreadsheetProgramming.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
   </data>
   <data name="AxSpreadsheetProgramming.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1697,7 +1697,7 @@
     <value>Assembly</value>
   </data>
   <data name="IOCheck.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>415, 91</value>
+    <value>1034, 54</value>
   </data>
   <data name="IOCheck.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Public</value>
@@ -3688,11 +3688,11 @@
   <data name="TextBox2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="TextBox2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="TextBox2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="TextBox2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="cross_num.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -3733,6 +3733,9 @@
   <data name="$this.Localizable" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
+  <data name="$this.Name">
+    <value>FormProgramming</value>
+  </data>
   <data name="$this.GridSize" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>8, 8</value>
   </data>
@@ -3741,9 +3744,6 @@
   </data>
   <data name="$this.TrayHeight" type="System.Int32, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>155</value>
-  </data>
-  <data name="$this.Name">
-    <value>FormProgramming</value>
   </data>
   <data name="$this.SnapToGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

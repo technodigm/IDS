@@ -4,10 +4,10 @@
 
 ~[ADMINISTRATION]
 +IDSData.Admin.Folder.DataPath =C:\IDS\BIN
-8IDSData.Admin.Folder.PatternPath =C:\ids\Pattern_Dir\0
+9IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir\11
 )IDSData.Admin.Folder.FileExtension =pat
 6IDSData.ParameterID.GroupID =Application_Maintenance
-!IDSData.ParameterID.RecordID =0
+"IDSData.ParameterID.RecordID =11
 ,IDSData.Admin.User.ContactNo =6493 3826‎
 $IDSData.Admin.User.Department =R&D
 IDSData.Admin.User.ID =a
@@ -151,7 +151,7 @@ EIDSData.Admin.User.Group.SystemHardwareArray (3) =VolumeCalibration
 =IDSData.Hardware.Camera.ResultRotation =-0.0533886083664307
 
 ~[CONVEYOR]
-&IDSData.Hardware.Conveyor.Width =129
+&IDSData.Hardware.Conveyor.Width =150
 (IDSData.Hardware.Conveyor.FullWidth =3
 )IDSData.Hardware.Conveyor.MinWidth =310
 &IDSData.Hardware.Conveyor.Speed =300
@@ -245,8 +245,8 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 ~[HEIGHTSENOR@LASER]
 5IDSData.Hardware.HeightSensor.Laser.CurrentPos.X =0
 5IDSData.Hardware.HeightSensor.Laser.CurrentPos.Y =0
-DIDSData.Hardware.HeightSensor.Laser.CurrentPos.Z =10.0311583577713
-GIDSData.Hardware.HeightSensor.Laser.HeightReference =10.0311583577713
+DIDSData.Hardware.HeightSensor.Laser.CurrentPos.Z =8.78233137829912
+GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.78233137829912
 :IDSData.Hardware.HeightSensor.Laser.OffsetPos.X =-74.452
 :IDSData.Hardware.HeightSensor.Laser.OffsetPos.Y =488.103
 
@@ -274,25 +274,25 @@ GIDSData.Hardware.HeightSensor.Laser.HeightReference =10.0311583577713
 
 ~[NEEDLE@LEFT]
 +IDSData.Hardware.Needle.Left.ArcRadius =0
-@IDSData.Hardware.Needle.Left.CalibratorPos.X =51.3480440032815
-AIDSData.Hardware.Needle.Left.CalibratorPos.Y =-365.249544932945
-7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-73.449
+5IDSData.Hardware.Needle.Left.CalibratorPos.X =50.09
+8IDSData.Hardware.Needle.Left.CalibratorPos.Y =-387.945
+7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-77.001
 2IDSData.Hardware.Needle.Left.HeightApproach =-80
 1IDSData.Hardware.Needle.Left.HeightClearance =0
 /IDSData.Hardware.Needle.Left.HeightRetract =0
-CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =141.093
-DIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-367.393
-CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-73.448
-:IDSData.Hardware.Needle.Left.TouchSensorZPosition =-73.6
+NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =-0.730999999999995
+NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-0.586999999999989
+BIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-1.994
+<IDSData.Hardware.Needle.Left.TouchSensorZPosition =-80.093
 5IDSData.Hardware.Needle.Left.ArrayDotPos1.X =66.189
 7IDSData.Hardware.Needle.Left.ArrayDotPos1.Y =-365.319
 0IDSData.Hardware.Needle.Left.ArrayDotPos1.Z =0
 4IDSData.Hardware.Needle.Left.ArrayDotPos3.X =96.19
 7IDSData.Hardware.Needle.Left.ArrayDotPos3.Y =-395.318
 0IDSData.Hardware.Needle.Left.ArrayDotPos3.Z =0
-3IDSData.Hardware.Needle.Left.CalBackground =False
-/IDSData.Hardware.Needle.Left.CalBrightness =5
-0IDSData.Hardware.Needle.Left.CalThreshold =170
+2IDSData.Hardware.Needle.Left.CalBackground =True
+/IDSData.Hardware.Needle.Left.CalBrightness =6
+0IDSData.Hardware.Needle.Left.CalThreshold =100
 )IDSData.Hardware.Needle.Left.CalOpen =1
 *IDSData.Hardware.Needle.Left.CalClose =3
 .IDSData.Hardware.Needle.Left.CalMaxRadius =2
@@ -303,23 +303,23 @@ CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-73.448
 7IDSData.Hardware.Needle.Left.DispenseDot.ArcRadius =0
 >IDSData.Hardware.Needle.Left.DispenseDot.ClearanceHeight =30
 @IDSData.Hardware.Needle.Left.DispenseDot.DispenseDuration =500
-9IDSData.Hardware.Needle.Left.DispenseDot.NeedleGap =0.5
+9IDSData.Hardware.Needle.Left.DispenseDot.NeedleGap =0.2
 :IDSData.Hardware.Needle.Left.DispenseDot.RetractDelay =0
-;IDSData.Hardware.Needle.Left.DispenseDot.RetractHeight =5
+<IDSData.Hardware.Needle.Left.DispenseDot.RetractHeight =50
 <IDSData.Hardware.Needle.Left.DispenseDot.RetractSpeed =100
 
 ~[NEEDLE@RIGHT]
 ,IDSData.Hardware.Needle.Right.ArcRadius =0
-AIDSData.Hardware.Needle.Right.CalibratorPos.X =51.3480440032815
-BIDSData.Hardware.Needle.Right.CalibratorPos.Y =-365.249544932945
-8IDSData.Hardware.Needle.Right.CalibratorPos.Z =-73.449
+AIDSData.Hardware.Needle.Right.CalibratorPos.X =51.3868830528564
+BIDSData.Hardware.Needle.Right.CalibratorPos.Y =-365.296873892298
+8IDSData.Hardware.Needle.Right.CalibratorPos.Z =-79.999
 3IDSData.Hardware.Needle.Right.HeightApproach =-80
 2IDSData.Hardware.Needle.Right.HeightClearance =0
 0IDSData.Hardware.Needle.Right.HeightRetract =0
 >IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.X =0
 >IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Y =0
 >IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Z =0
-;IDSData.Hardware.Needle.Right.TouchSensorZPosition =-73.6
+=IDSData.Hardware.Needle.Right.TouchSensorZPosition =-80.093
 1IDSData.Hardware.Needle.Right.ArrayDotPos1.X =0
 1IDSData.Hardware.Needle.Right.ArrayDotPos1.Y =0
 1IDSData.Hardware.Needle.Right.ArrayDotPos1.Z =0
@@ -409,7 +409,7 @@ P(5)IDSData.Hardware.SystemIO.Template.IOName =Z Axis Forward Limit Reed Switch
 4(6)IDSData.Hardware.SystemIO.Template.IO =MC-IN-06
 1(6)IDSData.Hardware.SystemIO.Template.IOName =-
 :(6)IDSData.Hardware.SystemIO.Template.ModuleName =System
-3(6)IDSData.Hardware.SystemIO.Template.Status =OFF
+2(6)IDSData.Hardware.SystemIO.Template.Status =ON
 3(6)IDSData.Hardware.SystemIO.Template.Type =Input
 
 :(7)IDSData.Hardware.SystemIO.Template.CableName =TRM1-10
@@ -456,7 +456,7 @@ O(12)IDSData.Hardware.SystemIO.Template.IOName =Board Ready For Dispense Input
 
 ;(13)IDSData.Hardware.SystemIO.Template.CableName =TRM1-19
 5(13)IDSData.Hardware.SystemIO.Template.IO =MC-IN-14
-N(13)IDSData.Hardware.SystemIO.Template.IOName =Z Calibrator Downwards sensor
+M(13)IDSData.Hardware.SystemIO.Template.IOName =Z Calibrtor Downwards sensor
 ;(13)IDSData.Hardware.SystemIO.Template.ModuleName =System
 3(13)IDSData.Hardware.SystemIO.Template.Status =ON
 4(13)IDSData.Hardware.SystemIO.Template.Type =Input
@@ -498,14 +498,14 @@ H(18)IDSData.Hardware.SystemIO.Template.IOName =Dispense Cleaning Valve
 
 ;(19)IDSData.Hardware.SystemIO.Template.CableName =TRM1-17
 6(19)IDSData.Hardware.SystemIO.Template.IO =MC-OUT-12
-N(19)IDSData.Hardware.SystemIO.Template.IOName =Right Dispense Head O/P Valve
+N(19)IDSData.Hardware.SystemIO.Template.IOName =Right Didpense Head O/P Valve
 ;(19)IDSData.Hardware.SystemIO.Template.ModuleName =System
 3(19)IDSData.Hardware.SystemIO.Template.Status =ON
 5(19)IDSData.Hardware.SystemIO.Template.Type =Output
 
 ;(20)IDSData.Hardware.SystemIO.Template.CableName =TRM1-18
 6(20)IDSData.Hardware.SystemIO.Template.IO =MC-OUT-13
-M(20)IDSData.Hardware.SystemIO.Template.IOName =Left Dispense Head O/P Valve
+M(20)IDSData.Hardware.SystemIO.Template.IOName =Left Didpense Head O/P Valve
 ;(20)IDSData.Hardware.SystemIO.Template.ModuleName =System
 3(20)IDSData.Hardware.SystemIO.Template.Status =ON
 5(20)IDSData.Hardware.SystemIO.Template.Type =Output
@@ -955,7 +955,7 @@ E(83)IDSData.Hardware.SystemIO.Template.IOName =Left Material Sensor
 5(84)IDSData.Hardware.SystemIO.Template.IO =PC-IN-09
 F(84)IDSData.Hardware.SystemIO.Template.IOName =Right material Sensor
 @(84)IDSData.Hardware.SystemIO.Template.ModuleName =Control I/O
-3(84)IDSData.Hardware.SystemIO.Template.Status =ON
+4(84)IDSData.Hardware.SystemIO.Template.Status =OFF
 4(84)IDSData.Hardware.SystemIO.Template.Type =Input
 
 ;(85)IDSData.Hardware.SystemIO.Template.CableName =TRM5-25
@@ -969,7 +969,7 @@ F(84)IDSData.Hardware.SystemIO.Template.IOName =Right material Sensor
 5(86)IDSData.Hardware.SystemIO.Template.IO =PC-IN-13
 2(86)IDSData.Hardware.SystemIO.Template.IOName =-
 @(86)IDSData.Hardware.SystemIO.Template.ModuleName =Control I/O
-3(86)IDSData.Hardware.SystemIO.Template.Status =ON
+4(86)IDSData.Hardware.SystemIO.Template.Status =OFF
 4(86)IDSData.Hardware.SystemIO.Template.Type =Input
 
 ;(87)IDSData.Hardware.SystemIO.Template.CableName =TRM5-27
@@ -1062,6 +1062,13 @@ B(99)IDSData.Hardware.SystemIO.Template.IOName =Green Tower Light
 @(99)IDSData.Hardware.SystemIO.Template.ModuleName =Control I/O
 4(99)IDSData.Hardware.SystemIO.Template.Status =OFF
 5(99)IDSData.Hardware.SystemIO.Template.Type =Output
+
+<(100)IDSData.Hardware.SystemIO.Template.CableName =TRM1-10
+6(100)IDSData.Hardware.SystemIO.Template.IO =MC-IN-07
+R(100)IDSData.Hardware.SystemIO.Template.IOName =Probe Slide Retract Limit Switch
+<(100)IDSData.Hardware.SystemIO.Template.ModuleName =System
+4(100)IDSData.Hardware.SystemIO.Template.Status =ON
+5(100)IDSData.Hardware.SystemIO.Template.Type =Input
 
 ~[SYSTEMIO END]
 

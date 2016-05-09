@@ -176,7 +176,7 @@ Public Module ExecutionModule
                 SetCellValue(m_Row, colmX, XCor) 'm_CamPos(0) '
                 SetCellValue(m_Row, colmY, YCor) 'm_CamPos(1) '
                 If Programming.IsNeedleTeachMode Or Programming.m_TeachMode = 2 Then 'LEFT Right
-                    SetCellValue(m_Row, colmZ, ZCor) 'm_CamPos(1) 
+                    SetCellValue(m_Row, colmZ, ZCor - gLeftNeedleOffs(2)) 'm_CamPos(1) 
                 Else
                     SetCellValue(m_Row, colmZ, 0) 'm_CamPos(1) 
                 End If
@@ -625,7 +625,7 @@ ResetMachineState:
             Case "Volume Calibration"
                 If IsBusy() Then Return False
             Case "Needle Calibration"
-                If MachineState = "Needle Calibration" Then
+                If MachineState = "Needle Calibration" Or MachineState = "Jogging" Then
                     Return True
                 ElseIf IsBusy() Then
                     Return False
@@ -1024,9 +1024,10 @@ ResetMachineState:
             With IDS.Data.Hardware.Needle.Left
                 .NeedleCalibrationPosition.X = .CalibratorPos.X - m_Tri.XPosition()
                 .NeedleCalibrationPosition.Y = .CalibratorPos.Y - m_Tri.YPosition()
-                .NeedleCalibrationPosition.Z = -(.CalibratorPos.Z - m_Tri.ZPosition())
+                .NeedleCalibrationPosition.Z = .CalibratorPos.Z - m_Tri.ZPosition()
             End With
             IDS.Data.SaveLocalData()
+            IDS.Data.SaveGlobalData()
             Programming.ButtonCalibrate.Text = "Move Calibrate"
             Production.ButtonCalibrate.Text = "Move Calibrate"
             gLeftNeedleOffs(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X

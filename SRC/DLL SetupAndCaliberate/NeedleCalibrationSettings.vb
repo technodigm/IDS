@@ -207,7 +207,7 @@ Public Class NeedleCalibrationSettings
         With IDS.Data.Hardware.Needle.Left
             XOffset.Text = .CalibratorPos.X - m_Tri.XPosition()
             YOffset.Text = .CalibratorPos.Y - m_Tri.YPosition()
-            ZOffset.Text = .CalibratorPos.Z - m_Tri.ZPosition()
+            ZOffset.Text = -(.CalibratorPos.Z - m_Tri.ZPosition())
             .NeedleCalibrationPosition.X = .CalibratorPos.X - m_Tri.XPosition()
             .NeedleCalibrationPosition.Y = .CalibratorPos.Y - m_Tri.YPosition()
             .NeedleCalibrationPosition.Z = -(.CalibratorPos.Z - m_Tri.ZPosition())

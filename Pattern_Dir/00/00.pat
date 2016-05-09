@@ -4,10 +4,10 @@
 
 ~[ADMINISTRATION]
 +IDSData.Admin.Folder.DataPath =C:\IDS\BIN
-8IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir\1
+9IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir\00
 )IDSData.Admin.Folder.FileExtension =pat
 6IDSData.ParameterID.GroupID =Application_Maintenance
-!IDSData.ParameterID.RecordID =1
+"IDSData.ParameterID.RecordID =00
 ,IDSData.Admin.User.ContactNo =6493 3826‎
 $IDSData.Admin.User.Department =R&D
 IDSData.Admin.User.ID =a
@@ -233,7 +233,7 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 )IDSData.Hardware.Gantry.WorkArea.Y =370
 ,IDSData.Hardware.Gantry.WorkArea.Z.Max =10
 -IDSData.Hardware.Gantry.WorkArea.Z.Min =-95
--IDSData.Hardware.Gantry.ServiceXYSpeed =100
+,IDSData.Hardware.Gantry.ServiceXYSpeed =50
 +IDSData.Hardware.Gantry.ServiceZSpeed =50
 
 ~[HEIGHTSENOR]
@@ -274,15 +274,15 @@ GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.78233137829912
 
 ~[NEEDLE@LEFT]
 +IDSData.Hardware.Needle.Left.ArcRadius =0
-6IDSData.Hardware.Needle.Left.CalibratorPos.X =40.059
-8IDSData.Hardware.Needle.Left.CalibratorPos.Y =-386.336
-7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-84.999
+5IDSData.Hardware.Needle.Left.CalibratorPos.X =50.09
+8IDSData.Hardware.Needle.Left.CalibratorPos.Y =-387.945
+7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-77.001
 2IDSData.Hardware.Needle.Left.HeightApproach =-80
 1IDSData.Hardware.Needle.Left.HeightClearance =0
 /IDSData.Hardware.Needle.Left.HeightRetract =0
-CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =-28.959
-MIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =0.522999999999968
-PIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-0.00800000000000978
+CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =-30.337
+NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-0.906000000000006
+BIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-9.996
 <IDSData.Hardware.Needle.Left.TouchSensorZPosition =-80.093
 5IDSData.Hardware.Needle.Left.ArrayDotPos1.X =66.189
 7IDSData.Hardware.Needle.Left.ArrayDotPos1.Y =-365.319

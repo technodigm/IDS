@@ -1737,262 +1737,262 @@ Public Class FormProgramming
 
         If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
         Else
-                If IsBusy() And Not IsJogging() Then Exit Sub
-                If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
+            If IsBusy() And Not IsJogging() Then Exit Sub
+            If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
+        End If
+
+        m_keyBoard.Poll()
+        m_TrackBall.Poll()
+        isPress = m_keyBoard.State.Item(Key.LeftControl)
+
+        Dim x As Integer
+        Dim y As Integer
+        Dim VrData(3) As Single
+
+        If isPress Then
+
+            SetState("Jogging")
+
+            VrData(0) = 0
+            VrData(1) = 0.0
+            VrData(2) = 0.0
+
+            Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+            If isPressAlt Then
+                Exit Sub
             End If
+            x = m_TrackBall.MouseX()
+            y = m_TrackBall.MouseY()
 
-            m_keyBoard.Poll()
-            m_TrackBall.Poll()
-            isPress = m_keyBoard.State.Item(Key.LeftControl)
+            Dim ratio As Double
 
-            Dim x As Integer
-            Dim y As Integer
-            Dim VrData(3) As Single
-
-            If isPress Then
-
-                SetState("Jogging")
-
-                VrData(0) = 0
-                VrData(1) = 0.0
-                VrData(2) = 0.0
-
-                Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
-                If isPressAlt Then
-                    Exit Sub
-                End If
-                x = m_TrackBall.MouseX()
-                y = m_TrackBall.MouseY()
-
-                Dim ratio As Double
-
-                If Math.Abs(x) >= Math.Abs(y) Then
-                    If x > deadzone Then
-                        jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
-                        If (jogspeed > maxSpeed) Then
-                            jogspeed = maxSpeed
+            If Math.Abs(x) >= Math.Abs(y) Then
+                If x > deadzone Then
+                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(y) / x
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
                         End If
-                        ratio = CDbl(y) / x
-                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = -jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        Else   'X+
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = jogspeed
-                            End If
-                            VrData(2) = 0
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
                         End If
-                    ElseIf x < -deadzone Then
-                        jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
-                        If (jogspeed > maxSpeed) Then
-                            jogspeed = maxSpeed
-                        End If
-                        ratio = CDbl(y) / x
-                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = -jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = -jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = -jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        Else   'X-
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = -jogspeed
-                            End If
-                            VrData(2) = 0
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        End If
-                    Else
-                        VrData(0) = 2
-                        VrData(1) = 0.0
-                        VrData(2) = 0.0
 
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True 'False
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'X+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        VrData(2) = 0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                ElseIf x < -deadzone Then
+                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(y) / x
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'X-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        VrData(2) = 0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
                     End If
                 Else
-                    If y < -deadzone Then
-                        jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
-                        If (jogspeed > maxSpeed) Then
-                            jogspeed = maxSpeed
-                        End If
-
-                        ratio = CDbl(x) / y
-                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = -jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = jogspeed
-                            End If
-
-                            SetState("Jogging")
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        Else   'Y+
-                            VrData(0) = 1
-                            VrData(1) = 0
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        End If
-
-                    ElseIf y > deadzone Then
-                        jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
-                        If (jogspeed > maxSpeed) Then
-                            jogspeed = maxSpeed
-                        End If
-                        ratio = CDbl(x) / y
-                        If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = -jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
-                            VrData(0) = 1
-                            If m_Xlocked = True Then
-                                VrData(1) = 0.0
-                            Else
-                                VrData(1) = -jogspeed
-                            End If
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = -jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        Else   'Y-
-                            VrData(0) = 1
-                            VrData(1) = 0
-                            If m_Ylocked = True Then
-                                VrData(2) = 0.0
-                            Else
-                                VrData(2) = -jogspeed
-                            End If
-
-                            m_Tri.SetTrioMotionValues("Jogging", VrData)
-                            isJogON = True
-                        End If
-                    Else
-                        VrData(0) = 2
-                        VrData(1) = 0.0
-                        VrData(2) = 0.0
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True 'False
-                    End If
-                End If
-            Else
-                If isJogON Then
                     VrData(0) = 2
                     VrData(1) = 0.0
                     VrData(2) = 0.0
 
                     m_Tri.SetTrioMotionValues("Jogging", VrData)
-                    isJogON = False
-                    If m_EditStateFlag Then
-                        'reset to idle without the camera thing
-                        SetState("Idle")
-                        m_Tri.SetMachineStop()
-                        SetLampsToReadyMode()
+                    isJogON = True 'False
+                End If
+            Else
+                If y < -deadzone Then
+                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+
+                    ratio = CDbl(x) / y
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        SetState("Jogging")
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'Y+
+                        VrData(0) = 1
+                        VrData(1) = 0
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+
+                ElseIf y > deadzone Then
+                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(x) / y
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'Y-
+                        VrData(0) = 1
+                        VrData(1) = 0
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                Else
+                    VrData(0) = 2
+                    VrData(1) = 0.0
+                    VrData(2) = 0.0
+
+                    m_Tri.SetTrioMotionValues("Jogging", VrData)
+                    isJogON = True 'False
+                End If
+            End If
+        Else
+            If isJogON Then
+                VrData(0) = 2
+                VrData(1) = 0.0
+                VrData(2) = 0.0
+
+                m_Tri.SetTrioMotionValues("Jogging", VrData)
+                isJogON = False
+                If m_EditStateFlag Then
+                    'reset to idle without the camera thing
+                    SetState("Idle")
+                    m_Tri.SetMachineStop()
+                    SetLampsToReadyMode()
                     UnlockMovementButtons()
                     ChangeButtonState("Idle")
                     Programming.DispensingMode.Enabled = True
@@ -2001,18 +2001,19 @@ Public Class FormProgramming
                 Else
                     If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
                         Programming.ButtonCalibrate.Enabled = True
+                        m_Tri.SteppingButtons.Enabled = True
                     Else
                         ResetToIdle()
                     End If
                 End If
             End If
 
-                countMouseTimer += 1
-                If (countMouseTimer >= 5) Then
-                    TraceGCCollect()
-                    countMouseTimer = 0
-                End If
+            countMouseTimer += 1
+            If (countMouseTimer >= 5) Then
+                TraceGCCollect()
+                countMouseTimer = 0
             End If
+        End If
 
     End Sub
 

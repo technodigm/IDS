@@ -823,9 +823,9 @@ Public Class Setup
             'we may want more detailed functionality here
             m_Tri.GetIDSState()
 
-            TextBoxRobotX.Text = "X: " & m_Tri.StateContainer(0).ToString
-            TextBoxRobotY.Text = "Y: " & m_Tri.StateContainer(1).ToString
-            TextBoxRobotZ.Text = "Z: " & m_Tri.StateContainer(2).ToString
+            TextBoxRobotX.Text = "X: " & m_Tri.XPosition
+            TextBoxRobotY.Text = "Y: " & m_Tri.YPosition
+            TextBoxRobotZ.Text = "Z: " & m_Tri.ZPosition
 
             If m_Tri.HomingFinished() Then
                 GC.Collect()
