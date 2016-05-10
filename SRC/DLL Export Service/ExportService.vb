@@ -4,18 +4,6 @@ Imports DLL_Export_Device_Vision
 Imports DLL_Export_Device_Motor
 Imports DLL_Serial_Communication
 
-Public Class CIDSDevices
-
-    'device driver from Lim and Kim
-    Public DIO As New DLL_Export_Device_Vision.CIDSDIO
-    Public Regulator As New DLL_Export_Device_Vision.CIDSRegulator
-    Public Vision As DLL_Export_Device_Vision.CIDSVision
-    'device driver from Shen Jian
-    Public Motor As DLL_Export_Device_Motor.CIDSTrioController
-    'device driver from Xu long
-
-End Class
-
 Public Class CIDSService
 
     Private Declare Sub Sleep Lib "kernel32" Alias "Sleep" (ByVal dwMilliseconds As Long)  'delay function
@@ -36,7 +24,6 @@ Public Class CIDSService
 
     Public Devices As New CIDSServiceDevices
     Public Class CIDSServiceDevices
-        Inherits CIDSDevices
 
 #Region "Conveyor Part"
         Public Shadows Conveyor As New CIDSServiceConveyor
@@ -63,38 +50,6 @@ Public Class CIDSService
 
             End Property
 
-            'Public Sub GetConveyorError(ByRef ID As String)
-            '    MyBase.GetError(ID)
-            '    If ID = 1003211 Then '''''''Communication No Signal
-            '        No_Signal_time = No_Signal_time + 1
-            '        If No_Signal_time = 10 Then
-            '            No_Signal_time = 0
-            '            'Dim form_service As New FormService
-            '            Form_Service.DisplayErrorMessage(ID)
-            '        Else
-            '            ID = 1003200
-            '        End If
-            '        com_error_time = 0
-            '    ElseIf ID = 1003210 Then  ''''''''''Communication Data Error
-            '        com_error_time = com_error_time + 1
-            '        If com_error_time = 3 Then
-            '            com_error_time = 0
-            '            'Dim form_service As New FormService
-            '            Form_Service.DisplayErrorMessage(ID)
-            '        Else
-            '            ID = 1003200
-            '        End If
-            '        No_Signal_time = 0
-            '    ElseIf ID > 1003200 And ID < 1003300 Then
-            '        'Dim form_service As New FormService
-            '        Form_Service.DisplayErrorMessage(ID)
-            '        com_error_time = 0
-            '        No_Signal_time = 0
-            '    Else
-            '        com_error_time = 0
-            '        No_Signal_time = 0
-            '    End If
-            'End Sub
         End Class
 
 #End Region
@@ -194,6 +149,23 @@ Public Class CIDSService
             End Property
         End Class
 #End Region
+
+        Public Shadows Regulator As New CIDSServiceRegulator
+        ' track class vision
+        Public Class CIDSServiceRegulator
+            Inherits CIDSRegulator
+
+            Private Shared m_instance As CIDSServiceRegulator
+            Public Shared ReadOnly Property Instance() As CIDSServiceRegulator
+                Get
+                    If m_instance Is Nothing Then
+                        m_instance = New CIDSServiceRegulator
+                    Else
+                    End If
+                    Return m_instance
+                End Get
+            End Property
+        End Class
 
 #Region "Regulator Events"
 #End Region

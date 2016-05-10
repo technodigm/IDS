@@ -7345,7 +7345,7 @@ Public Class FormProgramming
         If Respond = DialogResult.Yes Then
             'Initialize trio controller IO 
             Dim I As Integer = 0
-            IDS.Devices.Motor.SetAllDIOsOff()
+            m_Tri.SetAllDIOsOff()
 
             'Initialize PCIO card
             For I = 0 To 7   'iterate thru the io bits
@@ -7356,7 +7356,7 @@ Public Class FormProgramming
             'Initialize CAN IO 
             For I = 32 To 47    'iterate thru the io bits
                 MySleep(10)
-                IDS.Devices.Motor.SetDIOs(1, I, False)
+                m_Tri.SetDIOs(1, I, False)
             Next
         End If
     End Sub
