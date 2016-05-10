@@ -651,3 +651,45 @@ Total run time of this production:	382 Second(s)
 Number of pauses:			0
 Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+************************************************************************
+SPC Report. Automatically Generated at: 5/10/2016 4:25:14 PM
+************************************************************************
+Production Start:			5/10/2016 4:24:06 PM
+Production End:				5/10/2016 4:25:13 PM
+Duration:				0.019 Hour(s)
+Operator ID:				a
+Pattern File:				C:\IDS\Pattern_Dir\TestNeddleCalibration_Dots
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		8
+Number of outgoing boards:		7
+Number of passed boards:		7
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 9.571 Second(s)
+Number of boards per hour:		376.119
+Total down time of this production:	0 Second(s)
+Total run time of this production:	67 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 5/10/2016 5:43:35 PM
+************************************************************************
+Production Start:			5/10/2016 5:42:58 PM
+Production End:				5/10/2016 5:43:35 PM
+Duration:				0.010 Hour(s)
+Operator ID:				a
+Pattern File:				C:\IDS\Pattern_Dir\TestNeddleCalibration_Dots
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		5
+Number of outgoing boards:		4
+Number of passed boards:		4
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 9.250 Second(s)
+Number of boards per hour:		389.189
+Total down time of this production:	0 Second(s)
+Total run time of this production:	37 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+

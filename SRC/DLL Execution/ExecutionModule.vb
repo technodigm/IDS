@@ -1013,7 +1013,7 @@ ResetMachineState:
             With IDS.Data.Hardware.Needle.Left
                 .NeedleCalibrationPosition.X = .CalibratorPos.X - m_Tri.XPosition()
                 .NeedleCalibrationPosition.Y = .CalibratorPos.Y - m_Tri.YPosition()
-                .NeedleCalibrationPosition.Z = .CalibratorPos.Z - m_Tri.ZPosition()
+                .NeedleCalibrationPosition.Z = -(.CalibratorPos.Z - m_Tri.ZPosition())
             End With
             IDS.Data.SaveLocalData()
             IDS.Data.SaveGlobalData()
@@ -1025,6 +1025,7 @@ ResetMachineState:
             pos(0) = IDS.Data.Hardware.Gantry.ParkPosition.X
             pos(1) = IDS.Data.Hardware.Gantry.ParkPosition.Y
             LabelMessage("Needle calibration complete.")
+            UnlockMovementButtons()
             If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
             If Not m_Tri.Move_XY(pos) Then GoTo Reset
         End If

@@ -21,14 +21,12 @@ $IDSData.Admin.User.Group.Remark =1
 @IDSData.Admin.User.Group.PrivilegeArray (2) =EventFailedAction
 ;IDSData.Admin.User.Group.PrivilegeArray (3) =HeightSensor
 @IDSData.Admin.User.Group.PrivilegeArray (4) =NeedleCalibration
-@IDSData.Admin.User.Group.PrivilegeArray (5) =VolumeCalibration
-9IDSData.Admin.User.Group.PrivilegeArray (6) =Programmer
-9IDSData.Admin.User.Group.PrivilegeArray (7) =SPCLogging
-=IDSData.Admin.User.Group.PrivilegeArray (8) =StationSetting
+9IDSData.Admin.User.Group.PrivilegeArray (5) =Programmer
+9IDSData.Admin.User.Group.PrivilegeArray (6) =SPCLogging
+=IDSData.Admin.User.Group.PrivilegeArray (7) =StationSetting
 <IDSData.Admin.User.Group.SystemHardwareArray (0) =Conveyor
 @IDSData.Admin.User.Group.SystemHardwareArray (1) =HeightSensor
 EIDSData.Admin.User.Group.SystemHardwareArray (2) =NeedleCalibration
-EIDSData.Admin.User.Group.SystemHardwareArray (3) =VolumeCalibration
 <IDSData.Admin.ALLPrivileges.IDArray (0) =VolumeCalibration
 <IDSData.Admin.ALLPrivileges.IDArray (1) =ThermalController
 9IDSData.Admin.ALLPrivileges.IDArray (2) =StationSetting

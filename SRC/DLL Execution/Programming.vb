@@ -669,7 +669,7 @@ Public Class FormProgramming
         Me.ReferenceCommandBlock.DropDownArrows = True
         Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(0, 360)
+        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(0, 315)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
         Me.ReferenceCommandBlock.ShowToolTips = True
         Me.ReferenceCommandBlock.Size = New System.Drawing.Size(86, 90)
@@ -708,7 +708,7 @@ Public Class FormProgramming
         Me.ElementsCommandBlock.DropDownArrows = True
         Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(0, 464)
+        Me.ElementsCommandBlock.Location = New System.Drawing.Point(0, 419)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
         Me.ElementsCommandBlock.ShowToolTips = True
         Me.ElementsCommandBlock.Size = New System.Drawing.Size(88, 468)
@@ -1323,7 +1323,7 @@ Public Class FormProgramming
         'FormProgramming
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(1276, 969)
+        Me.ClientSize = New System.Drawing.Size(1276, 878)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.Controls.Add(Me.ButtonPurge)
@@ -1596,8 +1596,8 @@ Public Class FormProgramming
 
         MoveZToSafePosition()
 
-        VisionMode.Checked = Not VisionMode.Checked
-        NeedleMode.Checked = Not NeedleMode.Checked
+        'VisionMode.Checked = Not VisionMode.Checked 'yy
+        'NeedleMode.Checked = Not NeedleMode.Checked
 
         DisableElementsCommandBlockButton(gQCCmdIndex) 'QC
         DisableElementsCommandBlockButton(gChipEdgeCmdIndex) 'ChipEdge

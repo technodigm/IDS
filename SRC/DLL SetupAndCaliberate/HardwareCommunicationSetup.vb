@@ -128,6 +128,7 @@ Public Class HardwareCommunicationSetup
         Me.LifterBox.TabIndex = 3
         Me.LifterBox.TabStop = False
         Me.LifterBox.Text = "Lifter Test"
+        Me.LifterBox.Visible = False
         '
         'ButtonPostLifterOn
         '
@@ -180,6 +181,7 @@ Public Class HardwareCommunicationSetup
         Me.ConveyorBox.TabIndex = 3
         Me.ConveyorBox.TabStop = False
         Me.ConveyorBox.Text = "Conveyor Test"
+        Me.ConveyorBox.Visible = False
         '
         'BT_UpSignal
         '
@@ -244,7 +246,7 @@ Public Class HardwareCommunicationSetup
         'HeaterStatus
         '
         Me.HeaterStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.HeaterStatus.Location = New System.Drawing.Point(16, 168)
+        Me.HeaterStatus.Location = New System.Drawing.Point(16, 24)
         Me.HeaterStatus.Name = "HeaterStatus"
         Me.HeaterStatus.Size = New System.Drawing.Size(64, 24)
         Me.HeaterStatus.TabIndex = 0
@@ -253,7 +255,7 @@ Public Class HardwareCommunicationSetup
         'LifterStatus
         '
         Me.LifterStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LifterStatus.Location = New System.Drawing.Point(16, 208)
+        Me.LifterStatus.Location = New System.Drawing.Point(16, 62)
         Me.LifterStatus.Name = "LifterStatus"
         Me.LifterStatus.Size = New System.Drawing.Size(48, 24)
         Me.LifterStatus.TabIndex = 0
@@ -262,7 +264,7 @@ Public Class HardwareCommunicationSetup
         'WeighingScaleStatus
         '
         Me.WeighingScaleStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.WeighingScaleStatus.Location = New System.Drawing.Point(16, 128)
+        Me.WeighingScaleStatus.Location = New System.Drawing.Point(16, 176)
         Me.WeighingScaleStatus.Name = "WeighingScaleStatus"
         Me.WeighingScaleStatus.Size = New System.Drawing.Size(136, 24)
         Me.WeighingScaleStatus.TabIndex = 0
@@ -271,7 +273,7 @@ Public Class HardwareCommunicationSetup
         'MotionControllerStatus
         '
         Me.MotionControllerStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MotionControllerStatus.Location = New System.Drawing.Point(16, 48)
+        Me.MotionControllerStatus.Location = New System.Drawing.Point(16, 100)
         Me.MotionControllerStatus.Name = "MotionControllerStatus"
         Me.MotionControllerStatus.Size = New System.Drawing.Size(144, 24)
         Me.MotionControllerStatus.TabIndex = 0
@@ -280,7 +282,7 @@ Public Class HardwareCommunicationSetup
         'ConveyorStatus
         '
         Me.ConveyorStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ConveyorStatus.Location = New System.Drawing.Point(16, 88)
+        Me.ConveyorStatus.Location = New System.Drawing.Point(16, 138)
         Me.ConveyorStatus.Name = "ConveyorStatus"
         Me.ConveyorStatus.Size = New System.Drawing.Size(88, 24)
         Me.ConveyorStatus.TabIndex = 0
@@ -288,23 +290,25 @@ Public Class HardwareCommunicationSetup
         '
         'WeighingScaleButton
         '
-        Me.WeighingScaleButton.Location = New System.Drawing.Point(16, 424)
+        Me.WeighingScaleButton.Location = New System.Drawing.Point(16, 476)
         Me.WeighingScaleButton.Name = "WeighingScaleButton"
         Me.WeighingScaleButton.Size = New System.Drawing.Size(232, 40)
         Me.WeighingScaleButton.TabIndex = 49
         Me.WeighingScaleButton.Text = "Weighing Scale Interface"
+        Me.WeighingScaleButton.Visible = False
         '
         'ConveyorButton
         '
-        Me.ConveyorButton.Location = New System.Drawing.Point(16, 360)
+        Me.ConveyorButton.Location = New System.Drawing.Point(16, 534)
         Me.ConveyorButton.Name = "ConveyorButton"
         Me.ConveyorButton.Size = New System.Drawing.Size(232, 40)
         Me.ConveyorButton.TabIndex = 49
         Me.ConveyorButton.Text = "Conveyor Interface"
+        Me.ConveyorButton.Visible = False
         '
         'HeaterButton
         '
-        Me.HeaterButton.Location = New System.Drawing.Point(16, 552)
+        Me.HeaterButton.Location = New System.Drawing.Point(16, 418)
         Me.HeaterButton.Name = "HeaterButton"
         Me.HeaterButton.Size = New System.Drawing.Size(232, 40)
         Me.HeaterButton.TabIndex = 49
@@ -312,7 +316,7 @@ Public Class HardwareCommunicationSetup
         '
         'LaserButton
         '
-        Me.LaserButton.Location = New System.Drawing.Point(16, 488)
+        Me.LaserButton.Location = New System.Drawing.Point(16, 360)
         Me.LaserButton.Name = "LaserButton"
         Me.LaserButton.Size = New System.Drawing.Size(232, 40)
         Me.LaserButton.TabIndex = 49
@@ -393,7 +397,7 @@ Public Class HardwareCommunicationSetup
     End Sub
 
     Public Sub RefreshDisplay()
-        WeighingScaleButton.Visible = MySetup.CheckBoxVolume.Checked
+        'WeighingScaleButton.Visible = MySetup.CheckBoxVolume.Checked 'yy
         HeaterButton.Visible = MySetup.CheckBoxHeater.Checked
         LifterBox.Visible = MySetup.CheckBoxLifter.Checked
     End Sub

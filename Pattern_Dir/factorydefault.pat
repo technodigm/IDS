@@ -261,15 +261,15 @@ GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.78233137829912
 
 ~[NEEDLE@LEFT]
 +IDSData.Hardware.Needle.Left.ArcRadius =0
-5IDSData.Hardware.Needle.Left.CalibratorPos.X =50.09
-8IDSData.Hardware.Needle.Left.CalibratorPos.Y =-387.945
-7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-77.001
+6IDSData.Hardware.Needle.Left.CalibratorPos.X =50.194
+8IDSData.Hardware.Needle.Left.CalibratorPos.Y =-387.041
+7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-74.357
 2IDSData.Hardware.Needle.Left.HeightApproach =-80
 1IDSData.Hardware.Needle.Left.HeightClearance =0
 /IDSData.Hardware.Needle.Left.HeightRetract =0
-NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =-0.730999999999995
-NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-0.586999999999989
-BIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-1.994
+AIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =3.552
+NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =0.0790000000000077
+AIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =1.242
 <IDSData.Hardware.Needle.Left.TouchSensorZPosition =-80.093
 5IDSData.Hardware.Needle.Left.ArrayDotPos1.X =66.189
 7IDSData.Hardware.Needle.Left.ArrayDotPos1.Y =-365.319
@@ -1061,7 +1061,7 @@ R(100)IDSData.Hardware.SystemIO.Template.IOName =Probe Slide Retract Limit Switc
 
 
 ~[THERMAL]
-6IDSData.Hardware.Thermal.HeaterFeatureEnabled =False
+5IDSData.Hardware.Thermal.HeaterFeatureEnabled =True
 2IDSData.Hardware.Thermal.Needle.OperationTemp =0
 1IDSData.Hardware.Thermal.Needle.StandbyTemp =20
 3IDSData.Hardware.Thermal.Needle.AlarmThreshold =0

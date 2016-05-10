@@ -1076,6 +1076,7 @@ Public Class FormProduction
                 Else
                     If Production.ButtonCalibrate.Text = "Set Calibrate" Then
                         Production.ButtonCalibrate.Enabled = True
+                        m_Tri.SteppingButtons.Enabled = True
                     Else
                         ResetToIdle()
                     End If
@@ -1425,33 +1426,33 @@ StopCalibration:
 
     Public Sub Conveyor_Check()
 
-        Dim onoff As Integer = 1
-        Dim conveyorErrorID, ErrorID As Integer
+        'Dim onoff As Integer = 1
+        'Dim conveyorErrorID, ErrorID As Integer
 
-        ChangeButtonState("Only Stop Displayed")
+        'ChangeButtonState("Only Stop Displayed")
 
-        While onoff = 1 And Not m_Tri.MotionError
+        'While onoff = 1 And Not m_Tri.MotionError
 
-            m_Tri.m_TriCtrl.In(gIOloadReady, gIOloadReady, onoff) 'when ready set onoff = 0
-            LabelMessage("Waiting for board..")
-            TraceDoEvents()
+        '    m_Tri.m_TriCtrl.In(gIOloadReady, gIOloadReady, onoff) 'when ready set onoff = 0
+        '    LabelMessage("Waiting for board..")
+        '    TraceDoEvents()
 
-            If IsIdle() Or m_Tri.MotionError Then
-                Form_Service.LogEventInSPCReport("Motion controller error")
-                ResetToIdle()
-                Exit Sub
-            End If
+        '    If IsIdle() Or m_Tri.MotionError Then
+        '        Form_Service.LogEventInSPCReport("Motion controller error")
+        '        ResetToIdle()
+        '        Exit Sub
+        '    End If
 
-            '3202,3203,3204 are errors from lifter
-            '3205,3206,3208 are conveyor retrieve or stage 1/3 jamming errors.
-            conveyorErrorID = CInt(IDS.__ID) Mod 10000
-            If conveyorErrorID = 3202 Or conveyorErrorID = 3203 Or conveyorErrorID = 3204 Or conveyorErrorID = 3205 Or conveyorErrorID = 3206 Or conveyorErrorID = 3208 Then
-                LabelMessage("No board is coming or conveyor jammed.")
-                ResetToIdle()
-                Exit Sub
-            End If
+        '    '3202,3203,3204 are errors from lifter
+        '    '3205,3206,3208 are conveyor retrieve or stage 1/3 jamming errors.
+        '    conveyorErrorID = CInt(IDS.__ID) Mod 10000
+        '    If conveyorErrorID = 3202 Or conveyorErrorID = 3203 Or conveyorErrorID = 3204 Or conveyorErrorID = 3205 Or conveyorErrorID = 3206 Or conveyorErrorID = 3208 Then
+        '        LabelMessage("No board is coming or conveyor jammed.")
+        '        ResetToIdle()
+        '        Exit Sub
+        '    End If
 
-        End While
+        'End While
 
         'ErrorID = CInt(IDS.__ID) Mod 100
         'While ErrorID <> 0

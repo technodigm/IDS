@@ -54,7 +54,6 @@ Public Module Module1
     Public MyPSInformation As New PSInformation
 
     'outside of this DLL
-    Public Conveyor As CIDSService.CIDSServiceDevices.CIDSServiceConveyor = Conveyor.Instance
     Public Weighting_Scale As CIDSService.CIDSServiceDevices.CIDSServiceWeighting = Weighting_Scale.Instance
     Public Heater As CIDSService.CIDSServiceDevices.CIDSServiceThermal = Heater.Instance
     Public Laser As CIDSService.CIDSServiceDevices.CIDSServiceLaser = Laser.Instance

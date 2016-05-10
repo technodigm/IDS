@@ -157,9 +157,14 @@ Public Class Laser
     'Public AverageValueIndex As Integer = 0
 
 
+    Private Sub Laser_Closed(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Closed
+        ClosePort()
+    End Sub
+
     Private Sub Laser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         OpenPort()
     End Sub
+
     Public Sub OpenPort()
         'If AxMSComm1.PortOpen = True Then
         '    Exit Sub
@@ -300,7 +305,7 @@ Public Class Laser
     End Sub
 
     Public Function WaitForReadingToStabilize() As Boolean
-        doread = True
+        DoRead = True
         Sleep(250)
         start_time = Now
         Do

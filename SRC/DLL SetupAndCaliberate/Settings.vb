@@ -40,7 +40,6 @@ Public Class Settings
     Friend WithEvents ButtonStationPositions As System.Windows.Forms.Button
     Friend WithEvents ButtonNeedleCalibSettings As System.Windows.Forms.Button
     Friend WithEvents ButtonEventHandling As System.Windows.Forms.Button
-    Friend WithEvents ButtonConveyorSettings As System.Windows.Forms.Button
     Friend WithEvents ButtonSPCLogging As System.Windows.Forms.Button
     Friend WithEvents ButtonDispenserSettings As System.Windows.Forms.Button
     Public WithEvents ButtonVolumeCalibSettings As System.Windows.Forms.Button
@@ -53,7 +52,6 @@ Public Class Settings
         Me.ButtonVolumeCalibSettings = New System.Windows.Forms.Button
         Me.ButtonNeedleCalibSettings = New System.Windows.Forms.Button
         Me.ButtonEventHandling = New System.Windows.Forms.Button
-        Me.ButtonConveyorSettings = New System.Windows.Forms.Button
         Me.ButtonThermalSettings = New System.Windows.Forms.Button
         Me.ButtonSPCLogging = New System.Windows.Forms.Button
         Me.ButtonDispenserSettings = New System.Windows.Forms.Button
@@ -82,7 +80,6 @@ Public Class Settings
         Me.Panel3.Controls.Add(Me.ButtonVolumeCalibSettings)
         Me.Panel3.Controls.Add(Me.ButtonNeedleCalibSettings)
         Me.Panel3.Controls.Add(Me.ButtonEventHandling)
-        Me.Panel3.Controls.Add(Me.ButtonConveyorSettings)
         Me.Panel3.Controls.Add(Me.ButtonThermalSettings)
         Me.Panel3.Controls.Add(Me.ButtonSPCLogging)
         Me.Panel3.Controls.Add(Me.ButtonDispenserSettings)
@@ -137,15 +134,6 @@ Public Class Settings
         Me.ButtonEventHandling.Size = New System.Drawing.Size(224, 30)
         Me.ButtonEventHandling.TabIndex = 47
         Me.ButtonEventHandling.Text = "Event Handling"
-        '
-        'ButtonConveyorSettings
-        '
-        Me.ButtonConveyorSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonConveyorSettings.Location = New System.Drawing.Point(24, 216)
-        Me.ButtonConveyorSettings.Name = "ButtonConveyorSettings"
-        Me.ButtonConveyorSettings.Size = New System.Drawing.Size(224, 30)
-        Me.ButtonConveyorSettings.TabIndex = 45
-        Me.ButtonConveyorSettings.Text = "Conveyor"
         '
         'ButtonThermalSettings
         '
@@ -274,15 +262,6 @@ Public Class Settings
         CurrentPanel = MyEventSettings.PanelToBeAdded
         AddPanel(PanelRight, MyEventSettings.PanelToBeAdded)
         MyEventSettings.RevertData()
-    End Sub
-
-    Private Sub ButtonConveyorSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonConveyorSettings.Click
-        CurrentPanel = MyConveyorSettings.PanelToBeAdded
-        AddPanel(PanelRight, MyConveyorSettings.PanelToBeAdded)
-        Conveyor.OpenPort()
-        Conveyor.PositionTimer.Start()
-        MyConveyorSettings.PositionTimer.Start()
-        MyConveyorSettings.RevertData()
     End Sub
 
     Private Sub ButtonThermalSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonThermalSettings.Click

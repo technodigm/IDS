@@ -105,8 +105,6 @@ Public Class GantrySetup
         Me.StationPosition = New System.Windows.Forms.ComboBox
         Me.MoveButton = New System.Windows.Forms.Button
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
-        Me.Vision = New System.Windows.Forms.RadioButton
-        Me.Needle = New System.Windows.Forms.RadioButton
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
         Me.ButtonTeachPos = New System.Windows.Forms.Button
         Me.ButtonGotoUserInput = New System.Windows.Forms.Button
@@ -189,6 +187,7 @@ Public Class GantrySetup
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSPCancel)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSPOK)
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox1)
+        Me.PanelToBeAdded.Controls.Add(Me.GroupBox4)
         Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PanelToBeAdded.Location = New System.Drawing.Point(8, 8)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
@@ -202,7 +201,6 @@ Public Class GantrySetup
         Me.GroupBox6.Controls.Add(Me.XPosition)
         Me.GroupBox6.Controls.Add(Me.StationPosition)
         Me.GroupBox6.Controls.Add(Me.MoveButton)
-        Me.GroupBox6.Controls.Add(Me.GroupBox4)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
         Me.GroupBox6.Location = New System.Drawing.Point(8, 152)
         Me.GroupBox6.Name = "GroupBox6"
@@ -241,7 +239,7 @@ Public Class GantrySetup
         '
         Me.StationPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.StationPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.StationPosition.Items.AddRange(New Object() {"Park Position", "Purge Position", "Clean Position", "Change Syringe Position", "Volume Calibration Position", "Needle Calibration First Row First Dot Position", "Needle Calibration Last Row Last Dot Position"})
+        Me.StationPosition.Items.AddRange(New Object() {"Park Position", "Purge Position", "Clean Position", "Change Syringe Position"})
         Me.StationPosition.Location = New System.Drawing.Point(112, 120)
         Me.StationPosition.Name = "StationPosition"
         Me.StationPosition.Size = New System.Drawing.Size(272, 28)
@@ -257,34 +255,15 @@ Public Class GantrySetup
         '
         'GroupBox4
         '
-        Me.GroupBox4.Controls.Add(Me.Vision)
-        Me.GroupBox4.Controls.Add(Me.Needle)
         Me.GroupBox4.Controls.Add(Me.GroupBox5)
         Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.GroupBox4.Location = New System.Drawing.Point(24, 40)
+        Me.GroupBox4.Location = New System.Drawing.Point(184, 8)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(200, 64)
+        Me.GroupBox4.Size = New System.Drawing.Size(128, 24)
         Me.GroupBox4.TabIndex = 61
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Mode"
-        '
-        'Vision
-        '
-        Me.Vision.Checked = True
-        Me.Vision.Location = New System.Drawing.Point(112, 32)
-        Me.Vision.Name = "Vision"
-        Me.Vision.Size = New System.Drawing.Size(80, 24)
-        Me.Vision.TabIndex = 3
-        Me.Vision.TabStop = True
-        Me.Vision.Text = "Vision"
-        '
-        'Needle
-        '
-        Me.Needle.Location = New System.Drawing.Point(16, 32)
-        Me.Needle.Name = "Needle"
-        Me.Needle.Size = New System.Drawing.Size(88, 24)
-        Me.Needle.TabIndex = 2
-        Me.Needle.Text = "Needle"
+        Me.GroupBox4.Visible = False
         '
         'GroupBox5
         '
@@ -328,9 +307,9 @@ Public Class GantrySetup
         Me.GroupBox7.Controls.Add(Me.LeftHead)
         Me.GroupBox7.Controls.Add(Me.GroupBox8)
         Me.GroupBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.GroupBox7.Location = New System.Drawing.Point(272, 40)
+        Me.GroupBox7.Location = New System.Drawing.Point(112, 40)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(200, 64)
+        Me.GroupBox7.Size = New System.Drawing.Size(272, 64)
         Me.GroupBox7.TabIndex = 61
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Current Head"
@@ -864,10 +843,10 @@ Public Class GantrySetup
 
     Private Sub SaveGantrySettings()
 
-        If Vision.Checked Then
-            offset_x = 0
-            offset_y = 0
-        Else
+        'If Vision.Checked Then
+        '    offset_x = 0
+        '    offset_y = 0
+        'Else
             With IDS.Data.Hardware.Needle
                 If LeftHead.Checked Then
                     offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
@@ -877,7 +856,7 @@ Public Class GantrySetup
                     offset_y = .Right.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
                 End If
             End With
-        End If
+        'End If 'yy
 
         m_Tri.GetIDSState()
         x = m_Tri.XPosition + offset_x
@@ -899,28 +878,28 @@ Public Class GantrySetup
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.X = x
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.Y = y
 
-        ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-            IDS.Data.Hardware.Gantry.WeighingScalePosition.X = x
-            IDS.Data.Hardware.Gantry.WeighingScalePosition.Y = y
-        Else
+            'ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+            '    IDS.Data.Hardware.Gantry.WeighingScalePosition.X = x
+            '    IDS.Data.Hardware.Gantry.WeighingScalePosition.Y = y
+            'Else
 
-            If LeftHead.Checked Then
-                If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X = x
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y = y
-                ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X = x
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y = y
-                End If
-            ElseIf RightHead.Checked Then
-                If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X = x
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y = y
-                ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X = x
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y = y
-                End If
-            End If
+            '    If LeftHead.Checked Then
+            '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X = x
+            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y = y
+            '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X = x
+            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y = y
+            '        End If
+            '    ElseIf RightHead.Checked Then
+            '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X = x
+            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y = y
+            '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X = x
+            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y = y
+            '        End If
+            '    End If 'yy
 
         End If
 
@@ -989,43 +968,43 @@ Public Class GantrySetup
             ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
                 x = .ChangeSyringePosition.X
                 y = .ChangeSyringePosition.Y
-            ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-                x = .WeighingScalePosition.X
-                y = .WeighingScalePosition.Y
+                'ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+                '    x = .WeighingScalePosition.X
+                '    y = .WeighingScalePosition.Y 'yy
             End If
         End With
 
-        With IDS.Data.Hardware.Needle
-            If LeftHead.Checked Then
-                offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
-                offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
-                If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    x = .Left.ArrayDotPos1.X
-                    y = .Left.ArrayDotPos1.Y
-                ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    x = .Left.ArrayDotPos3.X
-                    y = .Left.ArrayDotPos3.Y
-                End If
-            ElseIf RightHead.Checked Then
-                offset_x = .Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
-                offset_y = .Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
-                If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    x = .Right.ArrayDotPos1.X
-                    y = .Right.ArrayDotPos1.Y
-                ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    x = .Right.ArrayDotPos3.X
-                    y = .Right.ArrayDotPos3.Y
-                End If
-            End If
-        End With
+        'With IDS.Data.Hardware.Needle
+        '    If LeftHead.Checked Then
+        '        offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
+        '        offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
+        '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+        '            x = .Left.ArrayDotPos1.X
+        '            y = .Left.ArrayDotPos1.Y
+        '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+        '            x = .Left.ArrayDotPos3.X
+        '            y = .Left.ArrayDotPos3.Y
+        '        End If
+        '    ElseIf RightHead.Checked Then
+        '        offset_x = .Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
+        '        offset_y = .Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
+        '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+        '            x = .Right.ArrayDotPos1.X
+        '            y = .Right.ArrayDotPos1.Y
+        '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+        '            x = .Right.ArrayDotPos3.X
+        '            y = .Right.ArrayDotPos3.Y
+        '        End If
+        '    End If
+        'End With 'yy
 
-        If Vision.Checked Then
-            position(0) = x
-            position(1) = y
-        ElseIf Needle.Checked Then
+        'If Vision.Checked Then
+        '    position(0) = x
+        '    position(1) = y
+        'ElseIf Needle.Checked Then
             position(0) = x - offset_x
             position(1) = y - offset_y
-        End If
+        'End If
 
         If Not m_Tri.Move_XY(position) Then Exit Sub
 
@@ -1042,13 +1021,13 @@ Public Class GantrySetup
     Private Sub StationPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StationPosition.SelectedIndexChanged
 
         If StationPosition.SelectedItem = "Needle Calibration Position" Then
-            Vision.Enabled = False
-            If Vision.Checked Then
-                Vision.Checked = False
-                LeftHead.Checked = True
-            End If
-        Else
-            Vision.Enabled = True
+            'Vision.Enabled = False
+            'If Vision.Checked Then
+            'Vision.Checked = False
+            LeftHead.Checked = True
+            'End If
+            'Else
+            '    Vision.Enabled = True 'yy
         End If
 
         With IDS.Data.Hardware.Gantry
@@ -1064,37 +1043,37 @@ Public Class GantrySetup
             ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
                 XPosition.Text = "X: " + CStr(.ChangeSyringePosition.X)
                 YPosition.Text = "Y: " + CStr(.ChangeSyringePosition.Y)
-            ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-                XPosition.Text = "X: " + CStr(.WeighingScalePosition.X)
-                YPosition.Text = "Y: " + CStr(.WeighingScalePosition.Y)
-            ElseIf StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                If LeftHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y)
-                ElseIf RightHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y)
-                End If
-            ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                If LeftHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y)
-                ElseIf RightHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y)
-                End If
+                'ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+                '    XPosition.Text = "X: " + CStr(.WeighingScalePosition.X)
+                '    YPosition.Text = "Y: " + CStr(.WeighingScalePosition.Y)
+                'ElseIf StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+                '    If LeftHead.Checked Then
+                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X)
+                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y)
+                '    ElseIf RightHead.Checked Then
+                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X)
+                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y)
+                '    End If
+                'ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+                '    If LeftHead.Checked Then
+                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X)
+                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y)
+                '    ElseIf RightHead.Checked Then
+                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X)
+                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y)
+                '    End If 'yy
             End If
         End With
 
     End Sub
 
-    Private Sub Vision_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Vision.Click
-        Needle.Checked = Not Vision.Checked
-    End Sub
+    'Private Sub Vision_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Vision.Click
+    '    Needle.Checked = Not Vision.Checked
+    'End Sub
 
-    Private Sub Needle_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Needle.Click
-        Vision.Checked = Not Needle.Checked
-    End Sub
+    'Private Sub Needle_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Needle.Click
+    '    Vision.Checked = Not Needle.Checked
+    'End Sub 'yy
 
     Private Sub LeftHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LeftHead.Click
         LeftHead.Checked = Not RightHead.Checked

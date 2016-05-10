@@ -41,13 +41,8 @@ Public Class GantrySettings
     Friend WithEvents SavePositionButton As System.Windows.Forms.Button
     Friend WithEvents StationPosition As System.Windows.Forms.ComboBox
     Friend WithEvents MoveButton As System.Windows.Forms.Button
-    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
     Public WithEvents Vision As System.Windows.Forms.RadioButton
     Public WithEvents Needle As System.Windows.Forms.RadioButton
-    Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
-    Friend WithEvents ButtonTeachPos As System.Windows.Forms.Button
-    Friend WithEvents ButtonGotoUserInput As System.Windows.Forms.Button
-    Friend WithEvents ButtonGotoPositionDefined As System.Windows.Forms.Button
     Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
     Public WithEvents RightHead As System.Windows.Forms.RadioButton
     Public WithEvents LeftHead As System.Windows.Forms.RadioButton
@@ -80,13 +75,6 @@ Public Class GantrySettings
         Me.ZPosition = New System.Windows.Forms.Label
         Me.StationPosition = New System.Windows.Forms.ComboBox
         Me.MoveButton = New System.Windows.Forms.Button
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox
-        Me.Vision = New System.Windows.Forms.RadioButton
-        Me.Needle = New System.Windows.Forms.RadioButton
-        Me.GroupBox5 = New System.Windows.Forms.GroupBox
-        Me.ButtonTeachPos = New System.Windows.Forms.Button
-        Me.ButtonGotoUserInput = New System.Windows.Forms.Button
-        Me.ButtonGotoPositionDefined = New System.Windows.Forms.Button
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
         Me.RightHead = New System.Windows.Forms.RadioButton
         Me.LeftHead = New System.Windows.Forms.RadioButton
@@ -115,8 +103,6 @@ Public Class GantrySettings
         Me.chkDualHead = New System.Windows.Forms.CheckBox
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
-        Me.GroupBox5.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -155,7 +141,6 @@ Public Class GantrySettings
         Me.GroupBox6.Controls.Add(Me.ZPosition)
         Me.GroupBox6.Controls.Add(Me.StationPosition)
         Me.GroupBox6.Controls.Add(Me.MoveButton)
-        Me.GroupBox6.Controls.Add(Me.GroupBox4)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
         Me.GroupBox6.Location = New System.Drawing.Point(8, 80)
         Me.GroupBox6.Name = "GroupBox6"
@@ -185,7 +170,7 @@ Public Class GantrySettings
         '
         Me.StationPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.StationPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.StationPosition.Items.AddRange(New Object() {"Park Z Position", "Purge Z Position", "Clean Z Position", "Change Syringe Z Position", "Volume Calibration Z Position"})
+        Me.StationPosition.Items.AddRange(New Object() {"Park Z Position", "Purge Z Position", "Clean Z Position", "Change Syringe Z Position"})
         Me.StationPosition.Location = New System.Drawing.Point(112, 120)
         Me.StationPosition.Name = "StationPosition"
         Me.StationPosition.Size = New System.Drawing.Size(272, 28)
@@ -199,89 +184,22 @@ Public Class GantrySettings
         Me.MoveButton.TabIndex = 65
         Me.MoveButton.Text = "Move to Saved Station Position"
         '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.Vision)
-        Me.GroupBox4.Controls.Add(Me.Needle)
-        Me.GroupBox4.Controls.Add(Me.GroupBox5)
-        Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.GroupBox4.Location = New System.Drawing.Point(24, 40)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(200, 64)
-        Me.GroupBox4.TabIndex = 61
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Mode"
-        '
-        'Vision
-        '
-        Me.Vision.Checked = True
-        Me.Vision.Location = New System.Drawing.Point(112, 32)
-        Me.Vision.Name = "Vision"
-        Me.Vision.Size = New System.Drawing.Size(80, 24)
-        Me.Vision.TabIndex = 3
-        Me.Vision.TabStop = True
-        Me.Vision.Text = "Vision"
-        '
-        'Needle
-        '
-        Me.Needle.Location = New System.Drawing.Point(16, 32)
-        Me.Needle.Name = "Needle"
-        Me.Needle.Size = New System.Drawing.Size(88, 24)
-        Me.Needle.TabIndex = 2
-        Me.Needle.Text = "Needle"
-        '
-        'GroupBox5
-        '
-        Me.GroupBox5.Controls.Add(Me.ButtonTeachPos)
-        Me.GroupBox5.Controls.Add(Me.ButtonGotoUserInput)
-        Me.GroupBox5.Controls.Add(Me.ButtonGotoPositionDefined)
-        Me.GroupBox5.Location = New System.Drawing.Point(-16, 64)
-        Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(480, 248)
-        Me.GroupBox5.TabIndex = 76
-        Me.GroupBox5.TabStop = False
-        Me.GroupBox5.Text = "GroupBox5"
-        '
-        'ButtonTeachPos
-        '
-        Me.ButtonTeachPos.Location = New System.Drawing.Point(16, 160)
-        Me.ButtonTeachPos.Name = "ButtonTeachPos"
-        Me.ButtonTeachPos.Size = New System.Drawing.Size(80, 64)
-        Me.ButtonTeachPos.TabIndex = 75
-        Me.ButtonTeachPos.Text = "Save Current StationPosition"
-        '
-        'ButtonGotoUserInput
-        '
-        Me.ButtonGotoUserInput.Location = New System.Drawing.Point(112, 160)
-        Me.ButtonGotoUserInput.Name = "ButtonGotoUserInput"
-        Me.ButtonGotoUserInput.Size = New System.Drawing.Size(108, 64)
-        Me.ButtonGotoUserInput.TabIndex = 57
-        Me.ButtonGotoUserInput.Text = "Move to Saved StationPosition"
-        '
-        'ButtonGotoPositionDefined
-        '
-        Me.ButtonGotoPositionDefined.Location = New System.Drawing.Point(240, 160)
-        Me.ButtonGotoPositionDefined.Name = "ButtonGotoPositionDefined"
-        Me.ButtonGotoPositionDefined.Size = New System.Drawing.Size(80, 64)
-        Me.ButtonGotoPositionDefined.TabIndex = 72
-        Me.ButtonGotoPositionDefined.Text = "Revert"
-        '
         'GroupBox7
         '
         Me.GroupBox7.Controls.Add(Me.RightHead)
         Me.GroupBox7.Controls.Add(Me.LeftHead)
         Me.GroupBox7.Controls.Add(Me.GroupBox8)
         Me.GroupBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.GroupBox7.Location = New System.Drawing.Point(272, 40)
+        Me.GroupBox7.Location = New System.Drawing.Point(112, 40)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(200, 64)
+        Me.GroupBox7.Size = New System.Drawing.Size(272, 64)
         Me.GroupBox7.TabIndex = 61
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Current Head"
         '
         'RightHead
         '
-        Me.RightHead.Location = New System.Drawing.Point(112, 32)
+        Me.RightHead.Location = New System.Drawing.Point(152, 32)
         Me.RightHead.Name = "RightHead"
         Me.RightHead.Size = New System.Drawing.Size(72, 24)
         Me.RightHead.TabIndex = 3
@@ -537,8 +455,6 @@ Public Class GantrySettings
         Me.Text = "GantrySettings"
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.GroupBox6.ResumeLayout(False)
-        Me.GroupBox4.ResumeLayout(False)
-        Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox7.ResumeLayout(False)
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
@@ -555,10 +471,10 @@ Public Class GantrySettings
 
     Private Sub SaveGantrySettings()
 
-        If Vision.Checked Then
-            offset_x = 0
-            offset_y = 0
-        Else
+        'If Vision.Checked Then
+        '    offset_x = 0
+        '    offset_y = 0
+        'Else
             With IDS.Data.Hardware.Needle
                 If LeftHead.Checked Then
                     offset_z = .Left.NeedleCalibrationPosition.Z
@@ -566,7 +482,7 @@ Public Class GantrySettings
                     offset_z = .Right.NeedleCalibrationPosition.Z
                 End If
             End With
-        End If
+        'End If 'yy
 
         m_Tri.GetIDSState()
         z = m_Tri.ZPosition - offset_z
@@ -579,8 +495,8 @@ Public Class GantrySettings
             IDS.Data.Hardware.Gantry.CleanPosition.Z = z
         ElseIf StationPosition.SelectedItem.ToString = "Change Syringe Z Position" Then
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.Z = z
-        ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
-            IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = z
+            'ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
+            'IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = z 'yy
         End If
 
         ZPosition.Text = "Z: " + CStr(z)
@@ -609,10 +525,10 @@ Public Class GantrySettings
                 x = .ChangeSyringePosition.X
                 y = .ChangeSyringePosition.Y
                 z = .ChangeSyringePosition.Z
-            ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
-                x = .WeighingScalePosition.X
-                y = .WeighingScalePosition.Y
-                z = .WeighingScalePosition.Z
+                'ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
+                '    x = .WeighingScalePosition.X
+                '    y = .WeighingScalePosition.Y
+                '    z = .WeighingScalePosition.Z 'yy
             End If
         End With
 
@@ -628,15 +544,16 @@ Public Class GantrySettings
             End If
         End With
 
-        If Vision.Checked Then
-            position(0) = x
-            position(1) = y
-            position(2) = z
-        ElseIf Needle.Checked Then
-            position(0) = x - offset_x
-            position(1) = y - offset_y
-            position(2) = z + offset_z
-        End If
+        'If Vision.Checked Then
+        '    position(0) = x
+        '    position(1) = y
+        '    position(2) = z
+        'Else 'yy
+        'If Needle.Checked Then
+        position(0) = x - offset_x
+        position(1) = y - offset_y
+        position(2) = z + offset_z
+        'End If 'yy Only in needle mode
 
         If Not m_Tri.Move_Z(0) Then Exit Sub
         If Not m_Tri.Move_XY(position) Then Exit Sub
@@ -673,20 +590,20 @@ Public Class GantrySettings
                 ZPosition.Text = "Z: " + CStr(.CleanPosition.Z)
             ElseIf StationPosition.SelectedItem.ToString = "Change Syringe Z Position" Then
                 ZPosition.Text = "Z: " + CStr(.ChangeSyringePosition.Z)
-            ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
-                ZPosition.Text = "Z: " + CStr(.WeighingScalePosition.Z)
+                'ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
+                '    ZPosition.Text = "Z: " + CStr(.WeighingScalePosition.Z) 'yy
             End If
         End With
 
     End Sub
 
-    Private Sub Vision_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Needle.Checked = Not Vision.Checked
-    End Sub
+    'Private Sub Vision_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        'Needle.Checked = Not Vision.Checked
+    'End Sub 'yy
 
-    Private Sub Needle_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Needle.Click
-        Vision.Checked = Not Needle.Checked
-    End Sub
+    'Private Sub Needle_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Needle.Click
+        'Vision.Checked = Not Needle.Checked
+    'End Sub 'yy
 
     Private Sub LeftHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LeftHead.Click
         LeftHead.Checked = Not RightHead.Checked

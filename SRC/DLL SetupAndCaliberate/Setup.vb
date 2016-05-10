@@ -105,7 +105,6 @@ Public Class Setup
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.Label8 = New System.Windows.Forms.Label
         Me.ButtonGantrySetup = New System.Windows.Forms.Button
-        Me.ButtonCameraSetup = New System.Windows.Forms.Button
         Me.ButtonNeedleCalibSetup = New System.Windows.Forms.Button
         Me.ButtonHardwareCommunicationSetup = New System.Windows.Forms.Button
         Me.ButtonSystemIO = New System.Windows.Forms.Button
@@ -265,6 +264,7 @@ Public Class Setup
         Me.CheckBoxLifter.Size = New System.Drawing.Size(184, 23)
         Me.CheckBoxLifter.TabIndex = 66
         Me.CheckBoxLifter.Text = "Lifter Integration"
+        Me.CheckBoxLifter.Visible = False
         '
         'CheckBoxHeater
         '
@@ -283,6 +283,7 @@ Public Class Setup
         Me.CheckBoxVolume.Size = New System.Drawing.Size(184, 23)
         Me.CheckBoxVolume.TabIndex = 66
         Me.CheckBoxVolume.Text = "Volume Calibration"
+        Me.CheckBoxVolume.Visible = False
         '
         'OneHead
         '
@@ -315,7 +316,6 @@ Public Class Setup
         '
         Me.PanelToBeAdded.Controls.Add(Me.Label8)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonGantrySetup)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonCameraSetup)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonNeedleCalibSetup)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonHardwareCommunicationSetup)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSystemIO)
@@ -345,19 +345,10 @@ Public Class Setup
         Me.ButtonGantrySetup.TabIndex = 43
         Me.ButtonGantrySetup.Text = "Gantry Parameters"
         '
-        'ButtonCameraSetup
-        '
-        Me.ButtonCameraSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonCameraSetup.Location = New System.Drawing.Point(264, 96)
-        Me.ButtonCameraSetup.Name = "ButtonCameraSetup"
-        Me.ButtonCameraSetup.Size = New System.Drawing.Size(224, 30)
-        Me.ButtonCameraSetup.TabIndex = 42
-        Me.ButtonCameraSetup.Text = "Camera Setup"
-        '
         'ButtonNeedleCalibSetup
         '
         Me.ButtonNeedleCalibSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNeedleCalibSetup.Location = New System.Drawing.Point(24, 152)
+        Me.ButtonNeedleCalibSetup.Location = New System.Drawing.Point(24, 96)
         Me.ButtonNeedleCalibSetup.Name = "ButtonNeedleCalibSetup"
         Me.ButtonNeedleCalibSetup.Size = New System.Drawing.Size(224, 30)
         Me.ButtonNeedleCalibSetup.TabIndex = 44
@@ -375,7 +366,7 @@ Public Class Setup
         'ButtonSystemIO
         '
         Me.ButtonSystemIO.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSystemIO.Location = New System.Drawing.Point(264, 152)
+        Me.ButtonSystemIO.Location = New System.Drawing.Point(264, 96)
         Me.ButtonSystemIO.Name = "ButtonSystemIO"
         Me.ButtonSystemIO.Size = New System.Drawing.Size(224, 30)
         Me.ButtonSystemIO.TabIndex = 37
@@ -384,7 +375,7 @@ Public Class Setup
         'ButtonLaserSetup
         '
         Me.ButtonLaserSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonLaserSetup.Location = New System.Drawing.Point(24, 96)
+        Me.ButtonLaserSetup.Location = New System.Drawing.Point(24, 160)
         Me.ButtonLaserSetup.Name = "ButtonLaserSetup"
         Me.ButtonLaserSetup.Size = New System.Drawing.Size(224, 30)
         Me.ButtonLaserSetup.TabIndex = 45
@@ -429,8 +420,9 @@ Public Class Setup
         '
         'ButtonVolumeCalibSettings
         '
+        Me.ButtonVolumeCalibSettings.Enabled = False
         Me.ButtonVolumeCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(264, 104)
+        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(264, 216)
         Me.ButtonVolumeCalibSettings.Name = "ButtonVolumeCalibSettings"
         Me.ButtonVolumeCalibSettings.Size = New System.Drawing.Size(224, 30)
         Me.ButtonVolumeCalibSettings.TabIndex = 46
@@ -457,17 +449,19 @@ Public Class Setup
         '
         'ButtonConveyorSettings
         '
+        Me.ButtonConveyorSettings.Enabled = False
         Me.ButtonConveyorSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonConveyorSettings.Location = New System.Drawing.Point(24, 216)
         Me.ButtonConveyorSettings.Name = "ButtonConveyorSettings"
         Me.ButtonConveyorSettings.Size = New System.Drawing.Size(224, 30)
         Me.ButtonConveyorSettings.TabIndex = 45
         Me.ButtonConveyorSettings.Text = "Conveyor"
+        Me.ButtonConveyorSettings.Visible = False
         '
         'ButtonThermalSettings
         '
         Me.ButtonThermalSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonThermalSettings.Location = New System.Drawing.Point(264, 216)
+        Me.ButtonThermalSettings.Location = New System.Drawing.Point(24, 160)
         Me.ButtonThermalSettings.Name = "ButtonThermalSettings"
         Me.ButtonThermalSettings.Size = New System.Drawing.Size(224, 30)
         Me.ButtonThermalSettings.TabIndex = 46
@@ -477,7 +471,7 @@ Public Class Setup
         'ButtonSPCLogging
         '
         Me.ButtonSPCLogging.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCLogging.Location = New System.Drawing.Point(24, 160)
+        Me.ButtonSPCLogging.Location = New System.Drawing.Point(264, 104)
         Me.ButtonSPCLogging.Name = "ButtonSPCLogging"
         Me.ButtonSPCLogging.Size = New System.Drawing.Size(224, 30)
         Me.ButtonSPCLogging.TabIndex = 51
@@ -901,9 +895,9 @@ Public Class Setup
 
         'hardware
         OffLaser()
-        Laser.ClosePort()
-        Conveyor.ClosePort()
-        Weighting_Scale.ClosePort()
+        'Laser.ClosePort()
+        'Conveyor.ClosePort()
+        'Weighting_Scale.ClosePort()
 
     End Sub
 
@@ -1041,11 +1035,11 @@ Public Class Setup
 
     Private Sub CheckBoxVolume_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxVolume.CheckedChanged
         'Present flag
-        If CheckBoxVolume.Checked = True Then
-            ButtonVolumeCalibSettings.Visible = True
-        Else
-            ButtonVolumeCalibSettings.Visible = False
-        End If
+        'If CheckBoxVolume.Checked = True Then
+        '    ButtonVolumeCalibSettings.Visible = True
+        'Else
+        '    ButtonVolumeCalibSettings.Visible = False
+        'End If ''yy
         MyHardwareCommunicationSetup.RefreshDisplay()
         MyHardwareCommunicationSetup.UpdateStatus()
     End Sub
@@ -1148,11 +1142,12 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonConveyorSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonConveyorSettings.Click
-        AddPanel(PanelRight, MyConveyorSettings.PanelToBeAdded)
-        Conveyor.OpenPort()
-        Conveyor.PositionTimer.Start()
-        MyConveyorSettings.PositionTimer.Start()
-        MySettings.RevertData()
+        'AddPanel(PanelRight, MyConveyorSettings.PanelToBeAdded)
+        'Conveyor.OpenPort()
+        'Conveyor.PositionTimer.Start()
+        'MyConveyorSettings.PositionTimer.Start()
+        'MySettings.RevertData()
+        'yy remove converyor
     End Sub
 
     Private Sub ButtonThermalSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonThermalSettings.Click
@@ -1161,8 +1156,8 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonVolumeCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolumeCalibSettings.Click
-        AddPanel(PanelRight, MyVolumeCalibrationSettings.PanelToBeAdded)
-        MyVolumeCalibrationSettings.RevertData()
+        'AddPanel(PanelRight, MyVolumeCalibrationSettings.PanelToBeAdded)
+        'MyVolumeCalibrationSettings.RevertData()
     End Sub
 
     Private Sub OneHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OneHead.CheckStateChanged
@@ -1170,10 +1165,12 @@ Public Class Setup
             TwoHead.Checked = False
             IDS.Data.Hardware.Dispenser.CurrentHeads = 1
             MyGantrySetup.RightHead.Visible = False
+            MyGantrySettings.RightHead.Visible = False
         Else
             TwoHead.Checked = True
             IDS.Data.Hardware.Dispenser.CurrentHeads = 2
             MyGantrySetup.RightHead.Visible = True
+            MyGantrySettings.RightHead.Visible = True
         End If
         IDS.Data.SaveLocalData()
     End Sub
@@ -1196,7 +1193,7 @@ Public Class Setup
     End Sub
 
     Private Sub Timer1_Elapsed(ByVal sender As System.Object, ByVal e As System.Timers.ElapsedEventArgs) Handles Timer1.Elapsed
-        MyConveyorSettings.e_stop_T1_Tick()
+        'MyConveyorSettings.e_stop_T1_Tick() 'yy remove timer for converyor
     End Sub
 
     Private Sub PanelVision_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PanelVision.Paint
