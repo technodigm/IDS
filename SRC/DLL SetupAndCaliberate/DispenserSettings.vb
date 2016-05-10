@@ -1113,7 +1113,7 @@ Public Class DispenserSettings
     End Sub
 
     Public Sub DownloadMaterialAirPressure(ByVal MaterialAirPressure As Double, ByVal SuckbackPressure As Double)
-        IDS.Devices.Regulator.FrmRegulator.Left_SetPressure(0, MaterialAirPressure, -(SuckbackPressure + 1))
+        Regulator.FrmRegulator.Left_SetPressure(0, MaterialAirPressure, -(SuckbackPressure + 1))
     End Sub
 
     Public Sub DownloadDispenserSettings(ByVal CurrentHead As String)

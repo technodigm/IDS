@@ -5,17 +5,6 @@ Imports DLL_DataManager
 Imports Microsoft.DirectX.DirectInput
 Imports System.Threading
 
-Public Class CIDSExe
-
-    Public Function CALLME()
-    End Function
-
-    'Setting system setup parameters to execution moudle's global data
-    Public Function SetExecutionSetupParam()
-        SystemSetupDataRetrieve()
-    End Function
-
-End Class
 
 Public Module ExecutionModule
 
@@ -55,7 +44,6 @@ Public Module ExecutionModule
     'gui instantiation within this module
     Public Production As New FormProduction
     Public Programming As New FormProgramming
-    Public IDSExe As New CIDSExe
     Public m_Execution As New IDSExecution
     Public MouseTimer As System.Threading.Timer
 
@@ -177,6 +165,7 @@ Public Module ExecutionModule
                 SetCellValue(m_Row, colmY, YCor) 'm_CamPos(1) '
                 If Programming.IsNeedleTeachMode Or Programming.m_TeachMode = 2 Then 'LEFT Right
                     SetCellValue(m_Row, colmZ, ZCor - gLeftNeedleOffs(2)) 'm_CamPos(1) 
+                    'SetCellValue(m_Row, colmZ, ZCor) 'm_CamPos(1)
                 Else
                     SetCellValue(m_Row, colmZ, 0) 'm_CamPos(1) 
                 End If
@@ -517,7 +506,7 @@ ResetMachineState:
                                 TravelToParkPosition()
                                 ResetToIdle()
                                 Programming.NeedleMode.Enabled = True
-                                Programming.VisionMode.Enabled = True
+                                'Programming.VisionMode.Enabled = True 'yy
                                 TraceGCCollect()
                             Else
                                 If Production.ContinuousMode.Checked = True Then
@@ -735,7 +724,7 @@ ResetMachineState:
         ChangeButtonState("Idle")
         If ProgrammingMode() Then
             Programming.DispensingMode.Enabled = True
-            Programming.VisionMode.Enabled = True
+            'Programming.VisionMode.Enabled = True 'yy
             Programming.NeedleMode.Enabled = True
         End If
 

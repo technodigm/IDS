@@ -60,6 +60,7 @@ Public Module Module1
     Public Laser As CIDSService.CIDSServiceDevices.CIDSServiceLaser = Laser.Instance
     Public Dispenser As CIDSService.CIDSServiceDevices.CIDSServiceDispenser = Dispenser.Instance
     Public Vision As CIDSService.CIDSServiceDevices.CIDSServiceVision = Vision.Minstance
+    Public Regulator As CIDSService.CIDSServiceDevices.CIDSServiceRegulator = regulator.instance
 
     'needs to be fixed. ids.data.hardware.heightsensor.laser.offsetoos.X/Y is WRONG.
     Public LaserOffX As Double = 74.668

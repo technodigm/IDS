@@ -10,6 +10,8 @@ Imports Microsoft.VisualBasic.ComClassAttribute
 Imports System.Math
 Imports System.IO
 
+
+
 Public Class FormProgramming
     Inherits System.Windows.Forms.Form
 
@@ -267,7 +269,6 @@ Public Class FormProgramming
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ImageListYesNo = New System.Windows.Forms.ImageList(Me.components)
         Me.Label5 = New System.Windows.Forms.Label
-        Me.VisionMode = New System.Windows.Forms.RadioButton
         Me.CBExpandSpreadsheet = New System.Windows.Forms.CheckBox
         Me.Panel4 = New System.Windows.Forms.Panel
         Me.NeedleMode = New System.Windows.Forms.RadioButton
@@ -858,18 +859,6 @@ Public Class FormProgramming
         Me.Label5.TabIndex = 87
         Me.Label5.Text = "Teach Mode:"
         '
-        'VisionMode
-        '
-        Me.VisionMode.AutoCheck = False
-        Me.VisionMode.Checked = True
-        Me.VisionMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.VisionMode.Location = New System.Drawing.Point(182, 16)
-        Me.VisionMode.Name = "VisionMode"
-        Me.VisionMode.Size = New System.Drawing.Size(80, 24)
-        Me.VisionMode.TabIndex = 86
-        Me.VisionMode.TabStop = True
-        Me.VisionMode.Text = "Vision"
-        '
         'CBExpandSpreadsheet
         '
         Me.CBExpandSpreadsheet.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
@@ -882,7 +871,6 @@ Public Class FormProgramming
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.SystemColors.ScrollBar
-        Me.Panel4.Controls.Add(Me.VisionMode)
         Me.Panel4.Controls.Add(Me.NeedleMode)
         Me.Panel4.Controls.Add(Me.Label5)
         Me.Panel4.Location = New System.Drawing.Point(852, 320)
@@ -894,6 +882,7 @@ Public Class FormProgramming
         '
         Me.NeedleMode.AutoCheck = False
         Me.NeedleMode.BackColor = System.Drawing.SystemColors.ScrollBar
+        Me.NeedleMode.Checked = True
         Me.NeedleMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.NeedleMode.Location = New System.Drawing.Point(286, 16)
         Me.NeedleMode.Name = "NeedleMode"
@@ -1065,14 +1054,14 @@ Public Class FormProgramming
         '
         'DispensingMode
         '
+        Me.DispensingMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.DispensingMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.DispensingMode.ItemHeight = 20
-        Me.DispensingMode.Items.AddRange(New Object() {"Vision Mode", "Dry Needle Mode", "Wet Needle Mode"})
+        Me.DispensingMode.Items.AddRange(New Object() {"Dry Needle Without Z", "Dry Needle Mode", "Wet Needle Mode"})
         Me.DispensingMode.Location = New System.Drawing.Point(61, 112)
         Me.DispensingMode.Name = "DispensingMode"
         Me.DispensingMode.Size = New System.Drawing.Size(214, 28)
         Me.DispensingMode.TabIndex = 52
-        Me.DispensingMode.Text = "Vision Mode"
         '
         'PBRed
         '
@@ -1416,7 +1405,8 @@ Public Class FormProgramming
     End Sub
 
     Private Sub FormProgramming_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        'yy
+        DispensingMode.SelectedIndex = 0
         'debugging
         cross_num.Text = CStr(0)
 
@@ -1470,6 +1460,7 @@ Public Class FormProgramming
         'motion controller
         m_Tri.Connect_Controller()
         SetState("Homing")
+
 
         'Disable part of the menu in File (GUI)
         MenuFileExport.Enabled = False
@@ -1548,7 +1539,7 @@ Public Class FormProgramming
     Public m_ReferPt() As Double = {0.0, 0.0, 0.0}
     Public m_BoardnRefBlkDist As Double = 0.0
     Public m_TeachMode As Integer = 0 '0:vision; 1:Left; 2: Right
-    Public m_RunMode As Integer = 0 'runmode:  0-vision 1-dry 2-dry left 3-dry right 4-wet 5-dry left 6-dry right 
+    Public m_RunMode As Integer = 0 'yy change to 1 from 0 'runmode:  0-vision 1-dry 2-dry left 3-dry right 4-wet 5-dry left 6-dry right 
 
 #Region "Shen Jian"
 
@@ -1579,22 +1570,22 @@ Public Class FormProgramming
         If SetState("Clean") Then DoClean()
     End Sub
 
-    Private Sub VisionMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.Click
+    'Private Sub VisionMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.Click
 
-        If IsBusy() Then
-            LabelMessage("Can't change mode when machine is running!")
-            Exit Sub
-        End If
+    '    If IsBusy() Then
+    '        LabelMessage("Can't change mode when machine is running!")
+    '        Exit Sub
+    '    End If
 
-        VisionMode.Checked = Not VisionMode.Checked
-        NeedleMode.Checked = Not NeedleMode.Checked
+    '    VisionMode.Checked = Not VisionMode.Checked
+    '    NeedleMode.Checked = Not NeedleMode.Checked
 
-        EnableReferenceCommandBlock()
-        EnableElementsCommandBlock()
+    '    EnableReferenceCommandBlock()
+    '    EnableElementsCommandBlock()
 
-        MoveZToSafePosition()
+    '    MoveZToSafePosition()
 
-    End Sub
+    'End Sub yy
 
     Private Sub NeedleMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NeedleMode.Click
 
@@ -1706,7 +1697,7 @@ Public Class FormProgramming
         If type = "Needle" And NeedleMode.Checked Then
             Pos(0) = Pos(0) - gLeftNeedleOffs(0)
             Pos(1) = Pos(1) - gLeftNeedleOffs(1)
-            Pos(2) = Pos(2) + gLeftNeedleOffs(2)
+            Pos(2) = Pos(2) + gLeftNeedleOffs(2) 'yy
         End If
 
         If Not m_Tri.Move_Z(SafePosition) Then Exit Sub
@@ -1996,7 +1987,7 @@ Public Class FormProgramming
                     UnlockMovementButtons()
                     ChangeButtonState("Idle")
                     Programming.DispensingMode.Enabled = True
-                    Programming.VisionMode.Enabled = True
+                    'Programming.VisionMode.Enabled = True yy
                     Programming.NeedleMode.Enabled = True
                 Else
                     If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
@@ -2019,15 +2010,16 @@ Public Class FormProgramming
 
     Private Function CheckSoftLimitXYZ(ByVal pt() As Double, ByVal off() As Double) 'check whether to apply offset for ref/needle point when teaching
         Dim x, y, z As Double
-        If VisionMode.Checked Then 'no offset, for refer
-            x = pt(0)
-            y = pt(1)
-            z = pt(2)
-        Else
+        'If VisionMode.Checked Then 'no offset, for refer
+        '    x = pt(0)
+        '    y = pt(1)
+        '    z = pt(2)
+        'Else
             x = pt(0) - off(0)
             y = pt(1) - off(1)
             z = pt(2)
-        End If
+        'End If
+        'yy
 
         '''''''''''''''''''''''''''''''''''''
         'Check(SoftLimit)                '
@@ -6726,7 +6718,7 @@ Public Class FormProgramming
         If Respond = DialogResult.Yes Then
             'Initialize trio controller IO 
             Dim I As Integer = 0
-            IDS.Devices.Motor.SetAllDIOsOff()
+            m_tri.SetAllDIOsOff()
 
             'Initialize PCIO card
             For I = 0 To 7   'iterate thru the io bits
@@ -6737,7 +6729,7 @@ Public Class FormProgramming
             'Initialize CAN IO 
             For I = 32 To 47    'iterate thru the io bits
                 MySleep(10)
-                IDS.Devices.Motor.SetDIOs(1, I, False)
+                m_tri.SetDIOs(1, I, False)
             Next
         End If
     End Sub
@@ -6985,9 +6977,10 @@ Public Class FormProgramming
             ExceptionDisplay(ex)
         End Try
     End Sub
-
+    'yy
     Public Function IsVisionTeachMode()
-        Return VisionMode.Checked
+        Return False
+        'Return VisionMode.Checked
     End Function
 
     Public Function IsNeedleTeachMode()
@@ -6996,25 +6989,29 @@ Public Class FormProgramming
 
     Public Sub DisableTeachModeSwitching()
         NeedleMode.Enabled = False
-        VisionMode.Enabled = False
+        'VisionMode.Enabled = False 'yy
     End Sub
 
     Public Sub EnableTeachModeSwitching()
         NeedleMode.Enabled = True
-        VisionMode.Enabled = True
+        'VisionMode.Enabled = True 'yy
     End Sub
 
-    Public Sub SwitchToVisionTeachMode()
-        NeedleMode.Checked = False
-        VisionMode.Checked = True
-    End Sub
+    'Public Sub SwitchToVisionTeachMode()
+    '    NeedleMode.Checked = False
+    '    VisionMode.Checked = True
+    'End Sub
 
     Public Sub SwitchToNeedleTeachMode()
         NeedleMode.Checked = True
-        VisionMode.Checked = False
+        'VisionMode.Checked = False
     End Sub
 
     Private Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
         If SetState("Needle Calibration") Then DoCalibrate()
     End Sub
+    'yy
+    'Private Sub VisionMode_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.CheckedChanged
+
+    'End Sub
 End Class

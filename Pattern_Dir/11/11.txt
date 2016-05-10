@@ -1,4 +1,4 @@
-#File name: C:\IDS\Pattern_Dir\00\00.txt
+#File name: C:\IDS\Pattern_Dir\11\11.txt
 #
 #Objective: Data format defination for Pattern data. ptp file is used to store pattern defination in txt files.
 #
@@ -15,4 +15,4 @@ PatternID =ABCDE_GHIJ_KLMN
 
 
 [Page=Main]
-Dot,Left,Off,277.193,97.425,-76.003,,,,,,,,0.5,200,,100,5,500,5,30,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Dot,Left,Off,277.195,97.428,-76.001,,,,,,,,0.5,300,,100,5,50,5,30,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

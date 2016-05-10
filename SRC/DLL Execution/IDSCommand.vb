@@ -20,7 +20,7 @@ Public Class CIDSCommand
     Protected m_MainSubList As New ArrayList  'main/sub sheet name list
     Protected m_DispenseList As New ArrayList 'dispensing command list
     Protected m_CompilerStatus As Integer = 0 'compiling status flag
-    'Protected m_Tri As CIDSTrioController = IDS.Devices.Motor
+    'Protected m_Tri As CIDSTrioController = m_tri
     Protected m_Optim As Integer = 0
 
     Public Sub New()
@@ -2153,7 +2153,7 @@ Public Class CIDSPatternLoader
                             End If
                             DebugAddList(list, fillrectData)
                         End If
-                    
+
                 End Select
             End If
             'SJ add for GUI freezing
@@ -8150,7 +8150,7 @@ End Class
 
 'Downloading motion data to triomotion controller class
 Public Class CIDSPattnBurn
-    'Protected m_Tri As CIDSTrioController = IDS.Devices.Motor
+    'Protected m_Tri As CIDSTrioController = m_tri
 
     'Public Sub New(ByVal tri As CIDSTrioController)
     '    m_Tri = tri

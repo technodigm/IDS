@@ -4,10 +4,10 @@
 
 ~[ADMINISTRATION]
 +IDSData.Admin.Folder.DataPath =C:\IDS\BIN
-6IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir
+9IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir\01
 )IDSData.Admin.Folder.FileExtension =pat
 6IDSData.ParameterID.GroupID =Application_Maintenance
- IDSData.ParameterID.RecordID =
+"IDSData.ParameterID.RecordID =01
 ,IDSData.Admin.User.ContactNo =6493 3826‎
 $IDSData.Admin.User.Department =R&D
 IDSData.Admin.User.ID =a
