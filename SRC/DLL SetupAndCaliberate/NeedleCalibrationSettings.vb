@@ -1,5 +1,6 @@
 Imports System.IO
 Imports DLL_Export_Service
+Imports DLL_DataManager 'yy
 
 Public Class NeedleCalibrationSettings
     Inherits System.Windows.Forms.Form
@@ -233,10 +234,12 @@ Public Class NeedleCalibrationSettings
         Console.WriteLine("#Calibaration Z offset" & IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z.ToString("F3"))
         IDS.Data.SaveLocalData()
         IDS.Data.SaveGlobalData()
+        ' get default value from the default pat file
     End Sub
 
     Public Sub Revert()
-        IDS.Data.OpenData()
+        'IDS.Data.OpenData() 'yy
+        OpenPathFileName("C:\IDS\Pattern_Dir\factorydefault.pat")
         With IDS.Data.Hardware.Needle.Left
             XOffset.Text = .NeedleCalibrationPosition.X
             YOffset.Text = .NeedleCalibrationPosition.Y

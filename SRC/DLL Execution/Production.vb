@@ -116,6 +116,7 @@ Public Class FormProduction
     Friend WithEvents ButtonStepYplus As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents LabelStep As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -176,6 +177,7 @@ Public Class FormProduction
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision = New System.Windows.Forms.Panel
+        Me.Label2 = New System.Windows.Forms.Label
         Me.Panel2.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
@@ -250,6 +252,7 @@ Public Class FormProduction
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.SystemColors.ScrollBar
+        Me.Panel5.Controls.Add(Me.Label2)
         Me.Panel5.Controls.Add(Me.PanelToBeAdded)
         Me.Panel5.Controls.Add(Me.Panel6)
         Me.Panel5.Controls.Add(Me.TextBox1)
@@ -276,7 +279,7 @@ Public Class FormProduction
         Me.PanelToBeAdded.Controls.Add(Me.Label1)
         Me.PanelToBeAdded.Controls.Add(Me.LabelStep)
         Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(84, 192)
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(84, 256)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
         Me.PanelToBeAdded.Size = New System.Drawing.Size(336, 280)
         Me.PanelToBeAdded.TabIndex = 134
@@ -394,7 +397,7 @@ Public Class FormProduction
         Me.Panel6.Controls.Add(Me.PBYellow)
         Me.Panel6.Location = New System.Drawing.Point(100, 0)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(304, 184)
+        Me.Panel6.Size = New System.Drawing.Size(308, 216)
         Me.Panel6.TabIndex = 0
         '
         'TBOperation
@@ -409,7 +412,7 @@ Public Class FormProduction
         Me.TBOperation.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.TBOperation.ForeColor = System.Drawing.Color.Black
         Me.TBOperation.ImageList = Me.ImageListOper
-        Me.TBOperation.Location = New System.Drawing.Point(16, 96)
+        Me.TBOperation.Location = New System.Drawing.Point(18, 112)
         Me.TBOperation.Name = "TBOperation"
         Me.TBOperation.ShowToolTips = True
         Me.TBOperation.Size = New System.Drawing.Size(274, 68)
@@ -451,20 +454,24 @@ Public Class FormProduction
         'TextBox1
         '
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(160, 520)
+        Me.TextBox1.Location = New System.Drawing.Point(24, 952)
         Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(184, 27)
         Me.TextBox1.TabIndex = 132
         Me.TextBox1.Text = "prev state"
+        Me.TextBox1.Visible = False
         '
         'TextBox2
         '
         Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(160, 552)
+        Me.TextBox2.Location = New System.Drawing.Point(232, 600)
         Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.ReadOnly = True
         Me.TextBox2.Size = New System.Drawing.Size(184, 27)
         Me.TextBox2.TabIndex = 132
         Me.TextBox2.Text = "current state"
+        Me.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'GroupBox1
         '
@@ -478,7 +485,7 @@ Public Class FormProduction
         Me.GroupBox1.Controls.Add(Me.Button4)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.GroupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.GroupBox1.Location = New System.Drawing.Point(16, 592)
+        Me.GroupBox1.Location = New System.Drawing.Point(16, 680)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(480, 256)
         Me.GroupBox1.TabIndex = 130
@@ -562,7 +569,7 @@ Public Class FormProduction
         '
         Me.ContinuousMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ContinuousMode.ForeColor = System.Drawing.Color.Black
-        Me.ContinuousMode.Location = New System.Drawing.Point(164, 480)
+        Me.ContinuousMode.Location = New System.Drawing.Point(96, 552)
         Me.ContinuousMode.Name = "ContinuousMode"
         Me.ContinuousMode.Size = New System.Drawing.Size(176, 40)
         Me.ContinuousMode.TabIndex = 133
@@ -583,20 +590,20 @@ Public Class FormProduction
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonPurge)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonChgSyringe)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonHome)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.LabelMessege)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonCalibrate)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.LabelMessege)
         Me.PanelProDownTimeInfor.Location = New System.Drawing.Point(0, 0)
         Me.PanelProDownTimeInfor.Name = "PanelProDownTimeInfor"
-        Me.PanelProDownTimeInfor.Size = New System.Drawing.Size(768, 384)
+        Me.PanelProDownTimeInfor.Size = New System.Drawing.Size(768, 960)
         Me.PanelProDownTimeInfor.TabIndex = 6
         '
         'RichTextBoxNote
         '
         Me.RichTextBoxNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.RichTextBoxNote.Location = New System.Drawing.Point(56, 128)
+        Me.RichTextBoxNote.Location = New System.Drawing.Point(16, 184)
         Me.RichTextBoxNote.Name = "RichTextBoxNote"
         Me.RichTextBoxNote.ReadOnly = True
-        Me.RichTextBoxNote.Size = New System.Drawing.Size(688, 208)
+        Me.RichTextBoxNote.Size = New System.Drawing.Size(728, 720)
         Me.RichTextBoxNote.TabIndex = 98
         Me.RichTextBoxNote.Text = ""
         '
@@ -608,7 +615,7 @@ Public Class FormProduction
         Me.CheckBoxPotOn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.CheckBoxPotOn.ImageIndex = 6
         Me.CheckBoxPotOn.ImageList = Me.ImageListPotEtc
-        Me.CheckBoxPotOn.Location = New System.Drawing.Point(448, 0)
+        Me.CheckBoxPotOn.Location = New System.Drawing.Point(458, 16)
         Me.CheckBoxPotOn.Name = "CheckBoxPotOn"
         Me.CheckBoxPotOn.Size = New System.Drawing.Size(75, 56)
         Me.CheckBoxPotOn.TabIndex = 119
@@ -625,7 +632,7 @@ Public Class FormProduction
         Me.DoorLock.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.DoorLock.ImageIndex = 3
         Me.DoorLock.ImageList = Me.ImageListPotEtc
-        Me.DoorLock.Location = New System.Drawing.Point(650, 0)
+        Me.DoorLock.Location = New System.Drawing.Point(656, 16)
         Me.DoorLock.Name = "DoorLock"
         Me.DoorLock.Size = New System.Drawing.Size(75, 56)
         Me.DoorLock.TabIndex = 116
@@ -639,7 +646,7 @@ Public Class FormProduction
         Me.ButtonPotReset.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPotReset.ImageIndex = 1
         Me.ButtonPotReset.ImageList = Me.ImageListPotEtc
-        Me.ButtonPotReset.Location = New System.Drawing.Point(372, 0)
+        Me.ButtonPotReset.Location = New System.Drawing.Point(383, 16)
         Me.ButtonPotReset.Name = "ButtonPotReset"
         Me.ButtonPotReset.Size = New System.Drawing.Size(75, 56)
         Me.ButtonPotReset.TabIndex = 105
@@ -649,17 +656,17 @@ Public Class FormProduction
         'Label6
         '
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label6.Location = New System.Drawing.Point(8, 128)
+        Me.Label6.Location = New System.Drawing.Point(8, 160)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(48, 23)
+        Me.Label6.Size = New System.Drawing.Size(64, 23)
         Me.Label6.TabIndex = 97
-        Me.Label6.Text = "Note"
+        Me.Label6.Text = "Note :"
         '
         'ButtonOpenFile
         '
         Me.ButtonOpenFile.BackColor = System.Drawing.SystemColors.ActiveBorder
         Me.ButtonOpenFile.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonOpenFile.Location = New System.Drawing.Point(672, 80)
+        Me.ButtonOpenFile.Location = New System.Drawing.Point(672, 112)
         Me.ButtonOpenFile.Name = "ButtonOpenFile"
         Me.ButtonOpenFile.Size = New System.Drawing.Size(72, 26)
         Me.ButtonOpenFile.TabIndex = 96
@@ -669,7 +676,7 @@ Public Class FormProduction
         '
         Me.TextBoxFilename.BackColor = System.Drawing.Color.White
         Me.TextBoxFilename.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TextBoxFilename.Location = New System.Drawing.Point(56, 80)
+        Me.TextBoxFilename.Location = New System.Drawing.Point(56, 112)
         Me.TextBoxFilename.Name = "TextBoxFilename"
         Me.TextBoxFilename.ReadOnly = True
         Me.TextBoxFilename.Size = New System.Drawing.Size(600, 27)
@@ -679,11 +686,11 @@ Public Class FormProduction
         'Label5
         '
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label5.Location = New System.Drawing.Point(8, 80)
+        Me.Label5.Location = New System.Drawing.Point(8, 112)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(48, 23)
         Me.Label5.TabIndex = 94
-        Me.Label5.Text = "File"
+        Me.Label5.Text = "File:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ButtonClean
@@ -693,7 +700,7 @@ Public Class FormProduction
         Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonClean.ImageIndex = 5
         Me.ButtonClean.ImageList = Me.ImageListGeneralTools
-        Me.ButtonClean.Location = New System.Drawing.Point(150, 0)
+        Me.ButtonClean.Location = New System.Drawing.Point(158, 16)
         Me.ButtonClean.Name = "ButtonClean"
         Me.ButtonClean.Size = New System.Drawing.Size(75, 56)
         Me.ButtonClean.TabIndex = 89
@@ -707,7 +714,7 @@ Public Class FormProduction
         Me.ButtonPurge.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPurge.ImageIndex = 4
         Me.ButtonPurge.ImageList = Me.ImageListGeneralTools
-        Me.ButtonPurge.Location = New System.Drawing.Point(75, 0)
+        Me.ButtonPurge.Location = New System.Drawing.Point(83, 16)
         Me.ButtonPurge.Name = "ButtonPurge"
         Me.ButtonPurge.Size = New System.Drawing.Size(75, 56)
         Me.ButtonPurge.TabIndex = 88
@@ -721,7 +728,7 @@ Public Class FormProduction
         Me.ButtonChgSyringe.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonChgSyringe.ImageIndex = 1
         Me.ButtonChgSyringe.ImageList = Me.ImageListGeneralTools
-        Me.ButtonChgSyringe.Location = New System.Drawing.Point(224, 0)
+        Me.ButtonChgSyringe.Location = New System.Drawing.Point(233, 16)
         Me.ButtonChgSyringe.Name = "ButtonChgSyringe"
         Me.ButtonChgSyringe.Size = New System.Drawing.Size(75, 56)
         Me.ButtonChgSyringe.TabIndex = 87
@@ -735,7 +742,7 @@ Public Class FormProduction
         Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonHome.ImageIndex = 0
         Me.ButtonHome.ImageList = Me.ImageListGeneralTools
-        Me.ButtonHome.Location = New System.Drawing.Point(0, 0)
+        Me.ButtonHome.Location = New System.Drawing.Point(8, 16)
         Me.ButtonHome.Name = "ButtonHome"
         Me.ButtonHome.Size = New System.Drawing.Size(75, 56)
         Me.ButtonHome.TabIndex = 86
@@ -748,11 +755,11 @@ Public Class FormProduction
         Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessege.ForeColor = System.Drawing.Color.Blue
-        Me.LabelMessege.Location = New System.Drawing.Point(0, 352)
+        Me.LabelMessege.Location = New System.Drawing.Point(8, 920)
         Me.LabelMessege.Name = "LabelMessege"
-        Me.LabelMessege.Size = New System.Drawing.Size(760, 32)
+        Me.LabelMessege.Size = New System.Drawing.Size(750, 32)
         Me.LabelMessege.TabIndex = 85
-        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'ButtonCalibrate
         '
@@ -761,7 +768,7 @@ Public Class FormProduction
         Me.ButtonCalibrate.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonCalibrate.ImageIndex = 5
         Me.ButtonCalibrate.ImageList = Me.ImageListGeneralTools
-        Me.ButtonCalibrate.Location = New System.Drawing.Point(296, 0)
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(308, 16)
         Me.ButtonCalibrate.Name = "ButtonCalibrate"
         Me.ButtonCalibrate.Size = New System.Drawing.Size(75, 56)
         Me.ButtonCalibrate.TabIndex = 88
@@ -783,8 +790,20 @@ Public Class FormProduction
         Me.PanelVision.BackColor = System.Drawing.Color.SlateGray
         Me.PanelVision.Location = New System.Drawing.Point(0, 384)
         Me.PanelVision.Name = "PanelVision"
-        Me.PanelVision.Size = New System.Drawing.Size(768, 576)
+        Me.PanelVision.Size = New System.Drawing.Size(760, 32)
         Me.PanelVision.TabIndex = 7
+        Me.PanelVision.Visible = False
+        '
+        'Label2
+        '
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.Black
+        Me.Label2.Location = New System.Drawing.Point(88, 600)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(136, 23)
+        Me.Label2.TabIndex = 135
+        Me.Label2.Text = "Machine State :"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'FormProduction
         '
@@ -794,10 +813,12 @@ Public Class FormProduction
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.PanelProDownTimeInfor)
         Me.Controls.Add(Me.Panel2)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Menu = Me.MainMenuProduction
         Me.Name = "FormProduction"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Production"
+        Me.TopMost = True
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.Panel2.ResumeLayout(False)
         Me.Panel5.ResumeLayout(False)

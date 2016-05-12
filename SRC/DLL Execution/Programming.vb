@@ -2597,6 +2597,14 @@ Public Class FormProgramming
             m_Row = 2
             EnableTeachingButtons()
             DisableElementsCommandBlockButton(gOffsetCmdIndex)
+
+            ' get default value from the default pat file
+            IDS.Data.ParameterID.RecordID = "FactoryDefault"
+            IDSData.Admin.Folder.FileExtension = "Pat"
+            IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
+            IDS.Data.OpenData()
+            SystemSetupDataRetrieve(SettingsMode.GlobalSettings)
+
             IDS.Data.OpenPathFileData(gPatternFileName + ".pat")
             SystemSetupDataRetrieve(SettingsMode.LocalSettings) 'SJ add 
             m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()

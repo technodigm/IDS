@@ -69,7 +69,7 @@ Public Class CIDSTrioController
         Me.SteppingButtons.Controls.Add(Me.Label6)
         Me.SteppingButtons.Controls.Add(Me.LabelStep)
         Me.SteppingButtons.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.SteppingButtons.Location = New System.Drawing.Point(32, 32)
+        Me.SteppingButtons.Location = New System.Drawing.Point(8, 8)
         Me.SteppingButtons.Name = "SteppingButtons"
         Me.SteppingButtons.Size = New System.Drawing.Size(336, 280)
         Me.SteppingButtons.TabIndex = 23
@@ -187,7 +187,7 @@ Public Class CIDSTrioController
         'CIDSTrioController
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(568, 494)
+        Me.ClientSize = New System.Drawing.Size(352, 294)
         Me.Controls.Add(Me.SteppingButtons)
         Me.Name = "CIDSTrioController"
         Me.Text = "CIDSTrioController"
