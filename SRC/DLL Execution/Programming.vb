@@ -1426,7 +1426,7 @@ Public Class FormProgramming
         IDSData.Admin.Folder.FileExtension = "Pat"
         IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
         IDS.Data.OpenData()
-        SystemSetupDataRetrieve()
+        SystemSetupDataRetrieve(SettingsMode.GlobalSettings)
         m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
 
         'spreadsheet ini
@@ -1460,6 +1460,7 @@ Public Class FormProgramming
         'motion controller
         m_Tri.Connect_Controller()
         SetState("Homing")
+
 
 
         'Disable part of the menu in File (GUI)
@@ -1501,6 +1502,7 @@ Public Class FormProgramming
         'error handling
         Form_Service.ResetEventCode()
 
+        MoveZToSafePosition() 'yy to prevent the Syringe stop at unsafe position
         'motion controller
         m_Tri.TrioStop()
         m_Tri.m_TriCtrl.Op(0)
@@ -1695,9 +1697,10 @@ Public Class FormProgramming
         SysToHard(Pos, Pos)
 
         If type = "Needle" And NeedleMode.Checked Then
-            Pos(0) = Pos(0) - gLeftNeedleOffs(0)
+            Pos(0) = Pos(0) - gLeftNeedleOffs(0) 'calibration
             Pos(1) = Pos(1) - gLeftNeedleOffs(1)
-            Pos(2) = Pos(2) + gLeftNeedleOffs(2) 'yy
+            'Pos(2) = Pos(2) + gLeftNeedleOffs(2) 'yy
+            Pos(2) = Pos(2) + gLeftNeedleOffs(2)
         End If
 
         If Not m_Tri.Move_Z(SafePosition) Then Exit Sub
@@ -2219,12 +2222,12 @@ Public Class FormProgramming
                 IDSData.Admin.Folder.FileExtension = "Pat"
                 IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
                 IDS.Data.OpenData()
-                IDS.Data.SavePathFileData(gPatternFileName + ".pat")
+                IDS.Data.SavePathFileData(gPatternFileName + ".pat") 'Here is to duplicate factory setting file into local settings file that used for program files process, such as gantry speed and etc.
 
                 m_EditStateFlag = False
                 Disp_Dispenser_Unit_info()
 
-                SystemSetupDataRetrieve() 'SJ add 
+                SystemSetupDataRetrieve(SettingsMode.LocalSettings) 'SJ add 
 
                 '   Set cursor position.                        '
                 SelectCell(m_Row, 1)
@@ -2510,7 +2513,7 @@ Public Class FormProgramming
             gFidFileName = gPatternFileName
             m_Row = 2
             IDS.Data.OpenPathFileData(gPatternFileName + ".pat")
-            SystemSetupDataRetrieve() 'SJ add 
+            SystemSetupDataRetrieve(SettingsMode.LocalSettings) 'SJ add 
             'IDS.StartErrorCheck() 'kr?
 
             IDS.newOpen = True
@@ -2595,7 +2598,7 @@ Public Class FormProgramming
             EnableTeachingButtons()
             DisableElementsCommandBlockButton(gOffsetCmdIndex)
             IDS.Data.OpenPathFileData(gPatternFileName + ".pat")
-            SystemSetupDataRetrieve() 'SJ add 
+            SystemSetupDataRetrieve(SettingsMode.LocalSettings) 'SJ add 
             m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
             IDS.newOpen = True
 
@@ -3132,7 +3135,7 @@ Public Class FormProgramming
             Me.PanelVisionCtrl.Location = New Point(84, 940)
             IDS.Data.OpenData()
             'SJ
-            SystemSetupDataRetrieve()
+            SystemSetupDataRetrieve(ModuleGConst.SettingsMode.LocalSettings)
             EnableDisableMenuBar()
         End If
     End Sub

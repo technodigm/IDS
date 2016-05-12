@@ -2171,7 +2171,7 @@ Public Class CIDSPatternLoader
         Dim referencePt(3) As Double
         Dim heightcomp As Double = 0.0
         Dim fiducialpt(3) As Double
-        Dim offset(3) As Double
+        'Dim offset(3) As Double
         Dim compangle As Double = 0.0
         compData.ClearAll()
 
@@ -2181,9 +2181,9 @@ Public Class CIDSPatternLoader
         fiducialpt(0) = 0.0
         fiducialpt(1) = 0.0
         fiducialpt(2) = 0.0
-        offset(0) = 0.0
-        offset(1) = 0.0
-        offset(2) = 0.0
+        'offset(0) = 0.0
+        'offset(1) = 0.0
+        'offset(2) = 0.0
 
         Dim Rows, Colums As Integer
         If list.Count > 0 Then

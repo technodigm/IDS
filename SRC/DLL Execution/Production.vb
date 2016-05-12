@@ -130,7 +130,16 @@ Public Class FormProduction
         Me.TextBoxRobotPos = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
-        Me.ContinuousMode = New System.Windows.Forms.CheckBox
+        Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
+        Me.ButtonStepZdown = New System.Windows.Forms.Button
+        Me.ButtonStepZup = New System.Windows.Forms.Button
+        Me.ButtonStepXminus = New System.Windows.Forms.Button
+        Me.ButtonStepXplus = New System.Windows.Forms.Button
+        Me.ButtonStepYminus = New System.Windows.Forms.Button
+        Me.ButtonStepYplus = New System.Windows.Forms.Button
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.LabelStep = New System.Windows.Forms.Label
         Me.Panel6 = New System.Windows.Forms.Panel
         Me.TBOperation = New System.Windows.Forms.ToolBar
         Me.PBRed = New System.Windows.Forms.PictureBox
@@ -146,6 +155,7 @@ Public Class FormProduction
         Me.ComboBox2 = New System.Windows.Forms.ComboBox
         Me.ComboBox3 = New System.Windows.Forms.ComboBox
         Me.Button4 = New System.Windows.Forms.Button
+        Me.ContinuousMode = New System.Windows.Forms.CheckBox
         Me.PanelProDownTimeInfor = New System.Windows.Forms.Panel
         Me.RichTextBoxNote = New System.Windows.Forms.RichTextBox
         Me.CheckBoxPotOn = New System.Windows.Forms.CheckBox
@@ -166,23 +176,13 @@ Public Class FormProduction
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision = New System.Windows.Forms.Panel
-        Me.PanelToBeAdded = New System.Windows.Forms.Panel
-        Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
-        Me.ButtonStepZdown = New System.Windows.Forms.Button
-        Me.ButtonStepZup = New System.Windows.Forms.Button
-        Me.ButtonStepXminus = New System.Windows.Forms.Button
-        Me.ButtonStepXplus = New System.Windows.Forms.Button
-        Me.ButtonStepYminus = New System.Windows.Forms.Button
-        Me.ButtonStepYplus = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.LabelStep = New System.Windows.Forms.Label
         Me.Panel2.SuspendLayout()
         Me.Panel5.SuspendLayout()
+        Me.PanelToBeAdded.SuspendLayout()
+        CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel6.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.PanelProDownTimeInfor.SuspendLayout()
-        Me.PanelToBeAdded.SuspendLayout()
-        CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TBBStart
@@ -262,15 +262,128 @@ Public Class FormProduction
         Me.Panel5.Size = New System.Drawing.Size(504, 992)
         Me.Panel5.TabIndex = 0
         '
-        'ContinuousMode
+        'PanelToBeAdded
         '
-        Me.ContinuousMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ContinuousMode.ForeColor = System.Drawing.Color.Black
-        Me.ContinuousMode.Location = New System.Drawing.Point(164, 480)
-        Me.ContinuousMode.Name = "ContinuousMode"
-        Me.ContinuousMode.Size = New System.Drawing.Size(176, 40)
-        Me.ContinuousMode.TabIndex = 133
-        Me.ContinuousMode.Text = "Continuous Mode"
+        Me.PanelToBeAdded.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.PanelToBeAdded.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelToBeAdded.Controls.Add(Me.ComboBoxFineStep)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepZdown)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepZup)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepXminus)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepXplus)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepYminus)
+        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepYplus)
+        Me.PanelToBeAdded.Controls.Add(Me.Label1)
+        Me.PanelToBeAdded.Controls.Add(Me.LabelStep)
+        Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(84, 192)
+        Me.PanelToBeAdded.Name = "PanelToBeAdded"
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(336, 280)
+        Me.PanelToBeAdded.TabIndex = 134
+        Me.PanelToBeAdded.Visible = False
+        '
+        'ComboBoxFineStep
+        '
+        Me.ComboBoxFineStep.DecimalPlaces = 3
+        Me.ComboBoxFineStep.Location = New System.Drawing.Point(152, 240)
+        Me.ComboBoxFineStep.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.ComboBoxFineStep.Name = "ComboBoxFineStep"
+        Me.ComboBoxFineStep.Size = New System.Drawing.Size(88, 27)
+        Me.ComboBoxFineStep.TabIndex = 9
+        '
+        'ButtonStepZdown
+        '
+        Me.ButtonStepZdown.BackColor = System.Drawing.Color.Linen
+        Me.ButtonStepZdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepZdown.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonStepZdown.Location = New System.Drawing.Point(264, 128)
+        Me.ButtonStepZdown.Name = "ButtonStepZdown"
+        Me.ButtonStepZdown.Size = New System.Drawing.Size(48, 72)
+        Me.ButtonStepZdown.TabIndex = 8
+        Me.ButtonStepZdown.Text = "Dn"
+        Me.ButtonStepZdown.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
+        'ButtonStepZup
+        '
+        Me.ButtonStepZup.BackColor = System.Drawing.Color.Linen
+        Me.ButtonStepZup.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepZup.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonStepZup.Location = New System.Drawing.Point(264, 40)
+        Me.ButtonStepZup.Name = "ButtonStepZup"
+        Me.ButtonStepZup.Size = New System.Drawing.Size(48, 72)
+        Me.ButtonStepZup.TabIndex = 7
+        Me.ButtonStepZup.Text = "Up"
+        Me.ButtonStepZup.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'ButtonStepXminus
+        '
+        Me.ButtonStepXminus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepXminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepXminus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ButtonStepXminus.Location = New System.Drawing.Point(24, 96)
+        Me.ButtonStepXminus.Name = "ButtonStepXminus"
+        Me.ButtonStepXminus.Size = New System.Drawing.Size(80, 48)
+        Me.ButtonStepXminus.TabIndex = 6
+        Me.ButtonStepXminus.Text = "X-"
+        Me.ButtonStepXminus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'ButtonStepXplus
+        '
+        Me.ButtonStepXplus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepXplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepXplus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ButtonStepXplus.Location = New System.Drawing.Point(152, 96)
+        Me.ButtonStepXplus.Name = "ButtonStepXplus"
+        Me.ButtonStepXplus.Size = New System.Drawing.Size(80, 48)
+        Me.ButtonStepXplus.TabIndex = 5
+        Me.ButtonStepXplus.Text = "X+"
+        Me.ButtonStepXplus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'ButtonStepYminus
+        '
+        Me.ButtonStepYminus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepYminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepYminus.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonStepYminus.Location = New System.Drawing.Point(104, 144)
+        Me.ButtonStepYminus.Name = "ButtonStepYminus"
+        Me.ButtonStepYminus.Size = New System.Drawing.Size(48, 80)
+        Me.ButtonStepYminus.TabIndex = 4
+        Me.ButtonStepYminus.Text = "Y-"
+        Me.ButtonStepYminus.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
+        'ButtonStepYplus
+        '
+        Me.ButtonStepYplus.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.ButtonStepYplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonStepYplus.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonStepYplus.Location = New System.Drawing.Point(104, 16)
+        Me.ButtonStepYplus.Name = "ButtonStepYplus"
+        Me.ButtonStepYplus.Size = New System.Drawing.Size(48, 80)
+        Me.ButtonStepYplus.TabIndex = 3
+        Me.ButtonStepYplus.Text = "Y+"
+        Me.ButtonStepYplus.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'Label1
+        '
+        Me.Label1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label1.Location = New System.Drawing.Point(248, 240)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(40, 24)
+        Me.Label1.TabIndex = 2
+        Me.Label1.Text = "mm"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'LabelStep
+        '
+        Me.LabelStep.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.LabelStep.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LabelStep.Location = New System.Drawing.Point(56, 240)
+        Me.LabelStep.Name = "LabelStep"
+        Me.LabelStep.Size = New System.Drawing.Size(88, 24)
+        Me.LabelStep.TabIndex = 0
+        Me.LabelStep.Text = "Fine Step:"
+        Me.LabelStep.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Panel6
         '
@@ -444,6 +557,16 @@ Public Class FormProduction
         Me.Button4.TabIndex = 139
         Me.Button4.Text = "generate popup"
         Me.Button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'ContinuousMode
+        '
+        Me.ContinuousMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ContinuousMode.ForeColor = System.Drawing.Color.Black
+        Me.ContinuousMode.Location = New System.Drawing.Point(164, 480)
+        Me.ContinuousMode.Name = "ContinuousMode"
+        Me.ContinuousMode.Size = New System.Drawing.Size(176, 40)
+        Me.ContinuousMode.TabIndex = 133
+        Me.ContinuousMode.Text = "Continuous Mode"
         '
         'PanelProDownTimeInfor
         '
@@ -663,129 +786,6 @@ Public Class FormProduction
         Me.PanelVision.Size = New System.Drawing.Size(768, 576)
         Me.PanelVision.TabIndex = 7
         '
-        'PanelToBeAdded
-        '
-        Me.PanelToBeAdded.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.PanelToBeAdded.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PanelToBeAdded.Controls.Add(Me.ComboBoxFineStep)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepZdown)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepZup)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepXminus)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepXplus)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepYminus)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonStepYplus)
-        Me.PanelToBeAdded.Controls.Add(Me.Label1)
-        Me.PanelToBeAdded.Controls.Add(Me.LabelStep)
-        Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(84, 192)
-        Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(336, 280)
-        Me.PanelToBeAdded.TabIndex = 134
-        Me.PanelToBeAdded.Visible = False
-        '
-        'ComboBoxFineStep
-        '
-        Me.ComboBoxFineStep.DecimalPlaces = 3
-        Me.ComboBoxFineStep.Location = New System.Drawing.Point(152, 240)
-        Me.ComboBoxFineStep.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
-        Me.ComboBoxFineStep.Name = "ComboBoxFineStep"
-        Me.ComboBoxFineStep.Size = New System.Drawing.Size(88, 27)
-        Me.ComboBoxFineStep.TabIndex = 9
-        '
-        'ButtonStepZdown
-        '
-        Me.ButtonStepZdown.BackColor = System.Drawing.Color.Linen
-        Me.ButtonStepZdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonStepZdown.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.ButtonStepZdown.Location = New System.Drawing.Point(264, 128)
-        Me.ButtonStepZdown.Name = "ButtonStepZdown"
-        Me.ButtonStepZdown.Size = New System.Drawing.Size(48, 72)
-        Me.ButtonStepZdown.TabIndex = 8
-        Me.ButtonStepZdown.Text = "Dn"
-        Me.ButtonStepZdown.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        '
-        'ButtonStepZup
-        '
-        Me.ButtonStepZup.BackColor = System.Drawing.Color.Linen
-        Me.ButtonStepZup.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonStepZup.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonStepZup.Location = New System.Drawing.Point(264, 40)
-        Me.ButtonStepZup.Name = "ButtonStepZup"
-        Me.ButtonStepZup.Size = New System.Drawing.Size(48, 72)
-        Me.ButtonStepZup.TabIndex = 7
-        Me.ButtonStepZup.Text = "Up"
-        Me.ButtonStepZup.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'ButtonStepXminus
-        '
-        Me.ButtonStepXminus.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.ButtonStepXminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonStepXminus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ButtonStepXminus.Location = New System.Drawing.Point(24, 96)
-        Me.ButtonStepXminus.Name = "ButtonStepXminus"
-        Me.ButtonStepXminus.Size = New System.Drawing.Size(80, 48)
-        Me.ButtonStepXminus.TabIndex = 6
-        Me.ButtonStepXminus.Text = "X-"
-        Me.ButtonStepXminus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'ButtonStepXplus
-        '
-        Me.ButtonStepXplus.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.ButtonStepXplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonStepXplus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ButtonStepXplus.Location = New System.Drawing.Point(152, 96)
-        Me.ButtonStepXplus.Name = "ButtonStepXplus"
-        Me.ButtonStepXplus.Size = New System.Drawing.Size(80, 48)
-        Me.ButtonStepXplus.TabIndex = 5
-        Me.ButtonStepXplus.Text = "X+"
-        Me.ButtonStepXplus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'ButtonStepYminus
-        '
-        Me.ButtonStepYminus.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.ButtonStepYminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonStepYminus.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.ButtonStepYminus.Location = New System.Drawing.Point(104, 144)
-        Me.ButtonStepYminus.Name = "ButtonStepYminus"
-        Me.ButtonStepYminus.Size = New System.Drawing.Size(48, 80)
-        Me.ButtonStepYminus.TabIndex = 4
-        Me.ButtonStepYminus.Text = "Y-"
-        Me.ButtonStepYminus.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        '
-        'ButtonStepYplus
-        '
-        Me.ButtonStepYplus.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.ButtonStepYplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonStepYplus.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonStepYplus.Location = New System.Drawing.Point(104, 16)
-        Me.ButtonStepYplus.Name = "ButtonStepYplus"
-        Me.ButtonStepYplus.Size = New System.Drawing.Size(48, 80)
-        Me.ButtonStepYplus.TabIndex = 3
-        Me.ButtonStepYplus.Text = "Y+"
-        Me.ButtonStepYplus.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'Label1
-        '
-        Me.Label1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label1.Location = New System.Drawing.Point(248, 240)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(40, 24)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "mm"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LabelStep
-        '
-        Me.LabelStep.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.LabelStep.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LabelStep.Location = New System.Drawing.Point(56, 240)
-        Me.LabelStep.Name = "LabelStep"
-        Me.LabelStep.Size = New System.Drawing.Size(88, 24)
-        Me.LabelStep.TabIndex = 0
-        Me.LabelStep.Text = "Fine Step:"
-        Me.LabelStep.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'FormProduction
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -798,13 +798,14 @@ Public Class FormProduction
         Me.Name = "FormProduction"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Production"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.Panel2.ResumeLayout(False)
         Me.Panel5.ResumeLayout(False)
+        Me.PanelToBeAdded.ResumeLayout(False)
+        CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel6.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.PanelProDownTimeInfor.ResumeLayout(False)
-        Me.PanelToBeAdded.ResumeLayout(False)
-        CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -836,7 +837,7 @@ Public Class FormProduction
         IDSData.Admin.Folder.FileExtension = "Pat"
         IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
         IDS.Data.OpenData()
-        SystemSetupDataRetrieve()
+        SystemSetupDataRetrieve(SettingsMode.GlobalSettings)
         m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
 
         'if jetting valve or auger valve turn on material air
@@ -1161,7 +1162,9 @@ Public Class FormProduction
             ButtonOpenFile.Enabled = True
             Exit Sub
         End If
-
+        'IDS.Data.ParameterID.RecordID = ""
+        'IDSData.Admin.Folder.FileExtension = "Pat"
+        'IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
         IDS.Data.OpenData()
         If Nothing = TextBoxFilename.Text Then
             ButtonOpenFile.Enabled = True

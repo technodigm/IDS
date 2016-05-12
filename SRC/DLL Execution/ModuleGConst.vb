@@ -12,8 +12,12 @@ Public Module ModuleGConst
 
     'Set system setup parameters to execution global varibles         '
     '                                                                 '
+    Enum SettingsMode 'yy added to make sure gLeftNeedleOffset() wont be override when loading local settings file
+        GlobalSettings
+        LocalSettings
+    End Enum
 
-    Public Function SystemSetupDataRetrieve() As Integer
+    Public Function SystemSetupDataRetrieve(ByVal mode As SettingsMode) As Integer
         'Read system setting parameters
         IDS.Data.OpenData()
 
@@ -43,11 +47,12 @@ Public Module ModuleGConst
         'Production parameters
         gRejectAutoSkip = True
 
-        'Needle center offset wrt vision center
-        gLeftNeedleOffs(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X
-        gLeftNeedleOffs(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y
-        gLeftNeedleOffs(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
-
+        If mode = SettingsMode.GlobalSettings Then 'yy Only override the following values if file is global settings file
+            'Needle center offset wrt vision center
+            gLeftNeedleOffs(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X
+            gLeftNeedleOffs(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y
+            gLeftNeedleOffs(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
+        End If
         'LASER/LVDT
         'Laser center offset wrt vision center
         gLaserOffX = -IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X

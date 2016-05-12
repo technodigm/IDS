@@ -165,7 +165,7 @@ Public Module ExecutionModule
                 SetCellValue(m_Row, colmY, YCor) 'm_CamPos(1) '
                 If Programming.IsNeedleTeachMode Or Programming.m_TeachMode = 2 Then 'LEFT Right
                     SetCellValue(m_Row, colmZ, ZCor - gLeftNeedleOffs(2)) 'm_CamPos(1) 
-                    'SetCellValue(m_Row, colmZ, ZCor) 'm_CamPos(1)
+                    'SetCellValue(m_Row, colmZ, ZCor + gLeftNeedleOffs(2)) 'm_CamPos(1) 'yy
                 Else
                     SetCellValue(m_Row, colmZ, 0) 'm_CamPos(1) 
                 End If
@@ -319,6 +319,7 @@ ResetMachineState:
                     off(0) = gLeftNeedleOffs(0)
                     off(1) = gLeftNeedleOffs(1)
                     off(2) = -gLeftNeedleOffs(2)
+                    'off(2) = gLeftNeedleOffs(2) 'yy
                 Else 'vision
                     off(0) = 0.0
                     off(1) = 0.0
@@ -326,8 +327,8 @@ ResetMachineState:
                 End If
                 Spos(0) = Spos(0) + off(0)
                 Spos(1) = Spos(1) + off(1)
-                Spos(2) = Spos(2) + off(2) + Programming.m_BoardnRefBlkDist
-
+                Spos(2) = Spos(2) + off(2) + Programming.m_BoardnRefBlkDist 'yy
+                'Spos(2) = Spos(2) - off(2) + Programming.m_BoardnRefBlkDist
                 'here is where the co-ordinates are set. Rx, Ry and Rz are shown on spreadsheet
                 'SPos = Work Coordinate System (use when teaching)
                 'HPos = Hard Home Coordinate System (use when in basic setup)  
@@ -336,7 +337,7 @@ ResetMachineState:
                 RoundTo3DecimalPoints(Hpos)
                 WorkX = Spos(0)
                 WorkY = Spos(1)
-                WorkZ = Spos(2)
+                WorkZ = Spos(2) ' why it works when we delete gleftneedleoffs(2) twice?
                 HomeX = Hpos(0)
                 HomeY = Hpos(1)
                 HomeZ = Hpos(2)
@@ -349,11 +350,13 @@ ResetMachineState:
                     updateCoordinater.BeginInvoke(HomeX, HomeY, HomeZ, AddressOf Callback, updateCoordinater)
                 ElseIf Programming.CurrentMode = "Program Editor" Or ProductionMode() Then
 
-                    If Programming.IsNeedleTeachMode Then
-                        WorkZ -= (-gLeftNeedleOffs(2))
-                    End If
-
-                    updateCoordinater.BeginInvoke(WorkX, WorkY, WorkZ, AddressOf Callback, updateCoordinater)
+                    'If Programming.IsNeedleTeachMode Then
+                    '    WorkZ -= (-gLeftNeedleOffs(2))
+                    'End If 'yy
+                    RoundTo3DecimalPoints(WorkX)
+                    RoundTo3DecimalPoints(WorkY)
+                    RoundTo3DecimalPoints(WorkZ)
+                    updateCoordinater.BeginInvoke(WorkX.ToString("F3"), WorkY.ToString("F3"), WorkZ.ToString("F3"), AddressOf Callback, updateCoordinater)
                 End If
 
                 If ProgrammingMode() Then
@@ -818,8 +821,8 @@ ResetMachineState:
 
     Public Sub LockMovementButtons()
         ChangeButtonState("Disabled")
+        m_Tri.SteppingButtons.Enabled = False 'stepping buttons
         If ProgrammingMode() Then
-            m_Tri.SteppingButtons.Enabled = False 'stepping buttons
             With Programming
                 .ButtonHome.Enabled = False
                 .ButtonPurge.Enabled = False
@@ -834,14 +837,20 @@ ResetMachineState:
                 .ButtonClean.Enabled = False
                 .ButtonPurge.Enabled = False
                 .ButtonCalibrate.Enabled = False
+                .ButtonStepYplus.Enabled = False 'yy
+                '.ButtonStepXplus.Enabled = False
+                '.ButtonStepZup.Enabled = False
+                '.ButtonStepYminus.Enabled = False
+                '.ButtonStepXminus.Enabled = False
+                '.ButtonStepZdown.Enabled = False
             End With
         End If
     End Sub
 
     Public Sub UnlockMovementButtons()
         button_lock_flag = False
+        m_Tri.SteppingButtons.Enabled = True
         If ProgrammingMode() Then
-            m_Tri.SteppingButtons.Enabled = True
             With Programming
                 .ButtonHome.Enabled = True
                 .ButtonPurge.Enabled = True
@@ -1001,7 +1010,8 @@ ResetMachineState:
                 pos(1) = .CalibratorPos.Y - .NeedleCalibrationPosition.Y
                 If Not m_Tri.Move_Z(0) Then Exit Sub
                 If Not m_Tri.Move_XY(pos) Then Exit Sub
-                If Not m_Tri.Move_Z(.CalibratorPos.Z + .NeedleCalibrationPosition.Z) Then Exit Sub
+                If Not m_Tri.Move_Z(.CalibratorPos.Z + .NeedleCalibrationPosition.Z) Then Exit Sub 'yy
+                'If Not m_Tri.Move_Z(.CalibratorPos.Z - .NeedleCalibrationPosition.Z) Then Exit Sub
             End With
             LabelMessage("Position needle above fixture.")
             Programming.ButtonCalibrate.Enabled = True
@@ -1014,6 +1024,7 @@ ResetMachineState:
                 .NeedleCalibrationPosition.X = .CalibratorPos.X - m_Tri.XPosition()
                 .NeedleCalibrationPosition.Y = .CalibratorPos.Y - m_Tri.YPosition()
                 .NeedleCalibrationPosition.Z = -(.CalibratorPos.Z - m_Tri.ZPosition())
+                '.NeedleCalibrationPosition.Z = .CalibratorPos.Z - m_Tri.ZPosition()  'yy
             End With
             IDS.Data.SaveLocalData()
             IDS.Data.SaveGlobalData()

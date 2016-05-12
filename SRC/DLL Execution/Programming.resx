@@ -1097,7 +1097,7 @@
     <value>Assembly</value>
   </data>
   <data name="ToolTip1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 54</value>
+    <value>762, 17</value>
   </data>
   <data name="ToolTip1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1109,7 +1109,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListYesNo.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>111, 54</value>
+    <value>856, 17</value>
   </data>
   <data name="ImageListYesNo.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1226,22 +1226,22 @@
   <data name="Panel4.GridSize" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>8, 8</value>
   </data>
-  <data name="NeedleMode.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="NeedleMode.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="NeedleMode.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
+  <data name="NeedleMode.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
   <data name="TeachingToolbar.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="TeachingToolbar.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="TeachingToolbar.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="TeachingToolbar.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="TeachingToolbar.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="TBBOk.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1284,7 +1284,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListOper.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>242, 54</value>
+    <value>987, 17</value>
   </data>
   <data name="ImageListOper.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1391,7 +1391,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListMultiField.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>366, 54</value>
+    <value>17, 54</value>
   </data>
   <data name="ImageListMultiField.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1480,7 +1480,7 @@
     <value>Assembly</value>
   </data>
   <data name="NeedleContextMenu.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>513, 54</value>
+    <value>164, 54</value>
   </data>
   <data name="NeedleContextMenu.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1528,7 +1528,7 @@
     <value>Assembly</value>
   </data>
   <data name="OpenPatternFileDialog.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>664, 54</value>
+    <value>315, 54</value>
   </data>
   <data name="SavePatternFileDialog.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1537,7 +1537,7 @@
     <value>Assembly</value>
   </data>
   <data name="SavePatternFileDialog.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 91</value>
+    <value>477, 54</value>
   </data>
   <data name="ImageListLineArc.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1546,7 +1546,7 @@
     <value>Assembly</value>
   </data>
   <data name="ImageListLineArc.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>176, 91</value>
+    <value>636, 54</value>
   </data>
   <data name="ImageListLineArc.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1621,7 +1621,7 @@
     <value>Assembly</value>
   </data>
   <data name="TimerForUpdate.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>313, 91</value>
+    <value>773, 54</value>
   </data>
   <data name="TimerForUpdate.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1633,10 +1633,7 @@
     <value>Assembly</value>
   </data>
   <data name="SaveFileDialog1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>445, 91</value>
-  </data>
-  <data name="AxSpreadsheetProgramming.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
+    <value>905, 54</value>
   </data>
   <data name="AxSpreadsheetProgramming.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1644,12 +1641,15 @@
   <data name="AxSpreadsheetProgramming.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
+  <data name="AxSpreadsheetProgramming.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
   <data name="AxSpreadsheetProgramming.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
         MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACFT
-        eXN0ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAArAcA
-        AAIBAAAAAQAAAAAXAAAATXkgcnVuLXRpbWUgbGljZW5zZSBrZXkAAAAAgAcAADw/eG1sIHZlcnNpb249
+        eXN0ZW0uV2luZG93cy5Gb3Jtcy5BeEhvc3QrU3RhdGUBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAArQcA
+        AAIBAAAAAQAAAAAXAAAATXkgcnVuLXRpbWUgbGljZW5zZSBrZXkAAAAAgQcAADw/eG1sIHZlcnNpb249
         IjEuMCI/Pg0KPHNzOldvcmtib29rIHhtbG5zOng9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2Zm
         aWNlOmV4Y2VsIg0KIHhtbG5zOnNzPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpzcHJl
         YWRzaGVldCINCiB4bWxuczpjPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpjb21wb25l
@@ -1673,22 +1673,22 @@
         CiAgPHg6SGVpZ2h0Pjc0MDg8L3g6SGVpZ2h0Pg0KICA8eDpXaWR0aD4zMzg2NzwveDpXaWR0aD4NCiA8
         L3g6V29ya2Jvb2tPcHRpb25zPg0KIDxzczpXb3Jrc2hlZXQgc3M6TmFtZT0iTWFpbiI+DQogIDx4Oldv
         cmtzaGVldE9wdGlvbnM+DQogICA8eDpTZWxlY3RlZC8+DQogICA8eDpWaWV3YWJsZVJhbmdlPlIxOlIy
-        NjIxNDQ8L3g6Vmlld2FibGVSYW5nZT4NCiAgIDx4OlNlbGVjdGlvbj5SNUMxPC94OlNlbGVjdGlvbj4N
-        CiAgIDx4OkZyZWV6ZVBhbmVzLz4NCiAgIDx4OkZyb3plbk5vU3BsaXQvPg0KICAgPHg6TGVmdENvbHVt
-        blZpc2libGU+MDwveDpMZWZ0Q29sdW1uVmlzaWJsZT4NCiAgIDx4OkxlZnRDb2x1bW5SaWdodFBhbmU+
-        MTwveDpMZWZ0Q29sdW1uUmlnaHRQYW5lPg0KICAgPHg6U3BsaXRWZXJ0aWNhbD4xPC94OlNwbGl0VmVy
-        dGljYWw+DQogICA8eDpBY3RpdmVQYW5lPjE8L3g6QWN0aXZlUGFuZT4NCiAgIDx4OlByb3RlY3RDb250
-        ZW50cz5GYWxzZTwveDpQcm90ZWN0Q29udGVudHM+DQogIDwveDpXb3Jrc2hlZXRPcHRpb25zPg0KICA8
-        YzpXb3Jrc2hlZXRPcHRpb25zPg0KICA8L2M6V29ya3NoZWV0T3B0aW9ucz4NCiAgPHNzOlRhYmxlIHNz
-        OkRlZmF1bHRDb2x1bW5XaWR0aD0iNDguMCIgc3M6RGVmYXVsdFJvd0hlaWdodD0iMTIuNzUiPg0KICA8
-        L3NzOlRhYmxlPg0KIDwvc3M6V29ya3NoZWV0Pg0KPC9zczpXb3JrYm9vaz4NCgs=
+        NjIxNDQ8L3g6Vmlld2FibGVSYW5nZT4NCiAgIDx4OlNlbGVjdGlvbj5SMkMxMTwveDpTZWxlY3Rpb24+
+        DQogICA8eDpGcmVlemVQYW5lcy8+DQogICA8eDpGcm96ZW5Ob1NwbGl0Lz4NCiAgIDx4OkxlZnRDb2x1
+        bW5WaXNpYmxlPjA8L3g6TGVmdENvbHVtblZpc2libGU+DQogICA8eDpMZWZ0Q29sdW1uUmlnaHRQYW5l
+        PjE8L3g6TGVmdENvbHVtblJpZ2h0UGFuZT4NCiAgIDx4OlNwbGl0VmVydGljYWw+MTwveDpTcGxpdFZl
+        cnRpY2FsPg0KICAgPHg6QWN0aXZlUGFuZT4xPC94OkFjdGl2ZVBhbmU+DQogICA8eDpQcm90ZWN0Q29u
+        dGVudHM+RmFsc2U8L3g6UHJvdGVjdENvbnRlbnRzPg0KICA8L3g6V29ya3NoZWV0T3B0aW9ucz4NCiAg
+        PGM6V29ya3NoZWV0T3B0aW9ucz4NCiAgPC9jOldvcmtzaGVldE9wdGlvbnM+DQogIDxzczpUYWJsZSBz
+        czpEZWZhdWx0Q29sdW1uV2lkdGg9IjQ4LjAiIHNzOkRlZmF1bHRSb3dIZWlnaHQ9IjEyLjc1Ij4NCiAg
+        PC9zczpUYWJsZT4NCiA8L3NzOldvcmtzaGVldD4NCjwvc3M6V29ya2Jvb2s+DQoL
 </value>
   </data>
   <data name="IOCheck.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="IOCheck.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>574, 91</value>
+    <value>1034, 54</value>
   </data>
   <data name="IOCheck.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Public</value>
@@ -3715,6 +3715,9 @@
   <data name="$this.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
+  <data name="$this.Name">
+    <value>FormProgramming</value>
+  </data>
   <data name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>(Default)</value>
   </data>
@@ -3738,8 +3741,5 @@
   </data>
   <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
-  </data>
-  <data name="$this.Name">
-    <value>FormProgramming</value>
   </data>
 </root>

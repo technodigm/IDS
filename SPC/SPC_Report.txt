@@ -693,3 +693,24 @@ Total run time of this production:	37 Second(s)
 Number of pauses:			0
 Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+************************************************************************
+SPC Report. Automatically Generated at: 5/12/2016 9:52:29 AM
+************************************************************************
+Production Start:			5/12/2016 9:51:50 AM
+Production End:				5/12/2016 9:52:29 AM
+Duration:				0.011 Hour(s)
+Operator ID:				a
+Pattern File:				C:\IDS\Pattern_Dir\ProgramA
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		5
+Number of outgoing boards:		4
+Number of passed boards:		4
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 9.750 Second(s)
+Number of boards per hour:		369.231
+Total down time of this production:	0 Second(s)
+Total run time of this production:	39 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+

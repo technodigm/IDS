@@ -45,6 +45,7 @@ Public Class NeedleCalibrationSettings
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents BtMoveToCalibratorPost As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSettings))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
@@ -57,15 +58,17 @@ Public Class NeedleCalibrationSettings
         Me.Label21 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.ButtonCalibrate = New System.Windows.Forms.Button
+        Me.Button1 = New System.Windows.Forms.Button
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-        Me.Button1 = New System.Windows.Forms.Button
+        Me.BtMoveToCalibratorPost = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.SuspendLayout()
         '
         'PanelToBeAdded
         '
         Me.PanelToBeAdded.BackColor = System.Drawing.SystemColors.Control
+        Me.PanelToBeAdded.Controls.Add(Me.BtMoveToCalibratorPost)
         Me.PanelToBeAdded.Controls.Add(Me.Label4)
         Me.PanelToBeAdded.Controls.Add(Me.ZOffset)
         Me.PanelToBeAdded.Controls.Add(Me.YOffset)
@@ -160,9 +163,17 @@ Public Class NeedleCalibrationSettings
         '
         Me.ButtonCalibrate.Location = New System.Drawing.Point(160, 486)
         Me.ButtonCalibrate.Name = "ButtonCalibrate"
-        Me.ButtonCalibrate.Size = New System.Drawing.Size(176, 40)
+        Me.ButtonCalibrate.Size = New System.Drawing.Size(184, 40)
         Me.ButtonCalibrate.TabIndex = 61
         Me.ButtonCalibrate.Text = "Calibrate"
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(160, 536)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(184, 48)
+        Me.Button1.TabIndex = 61
+        Me.Button1.Text = "Move to Calibrator Position with Offset"
         '
         'OpenFileDialog1
         '
@@ -174,13 +185,13 @@ Public Class NeedleCalibrationSettings
         Me.SaveFileDialog1.DefaultExt = "txt"
         Me.SaveFileDialog1.Filter = "(*.txt)|*"
         '
-        'Button1
+        'BtMoveToCalibratorPost
         '
-        Me.Button1.Location = New System.Drawing.Point(160, 536)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(176, 48)
-        Me.Button1.TabIndex = 61
-        Me.Button1.Text = "Move to Calibrator Position"
+        Me.BtMoveToCalibratorPost.Location = New System.Drawing.Point(160, 600)
+        Me.BtMoveToCalibratorPost.Name = "BtMoveToCalibratorPost"
+        Me.BtMoveToCalibratorPost.Size = New System.Drawing.Size(184, 48)
+        Me.BtMoveToCalibratorPost.TabIndex = 97
+        Me.BtMoveToCalibratorPost.Text = "Move To Calibrator Post"
         '
         'NeedleCalibrationSettings
         '
@@ -205,13 +216,21 @@ Public Class NeedleCalibrationSettings
 
     Private Sub ButtonCalibratePosition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
         With IDS.Data.Hardware.Needle.Left
-            XOffset.Text = .CalibratorPos.X - m_Tri.XPosition()
-            YOffset.Text = .CalibratorPos.Y - m_Tri.YPosition()
-            ZOffset.Text = -(.CalibratorPos.Z - m_Tri.ZPosition())
+            'XOffset.Text = .CalibratorPos.X - m_Tri.XPosition()
+            'YOffset.Text = .CalibratorPos.Y - m_Tri.YPosition()
+            'ZOffset.Text = -(.CalibratorPos.Z - m_Tri.ZPosition())
+
             .NeedleCalibrationPosition.X = .CalibratorPos.X - m_Tri.XPosition()
             .NeedleCalibrationPosition.Y = .CalibratorPos.Y - m_Tri.YPosition()
             .NeedleCalibrationPosition.Z = -(.CalibratorPos.Z - m_Tri.ZPosition())
+            '.NeedleCalibrationPosition.Z = .CalibratorPos.Z - m_Tri.ZPosition()  'yy
+
+
+            XOffset.Text = .NeedleCalibrationPosition.X 'yy 'calibration
+            YOffset.Text = .NeedleCalibrationPosition.Y
+            ZOffset.Text = .NeedleCalibrationPosition.Z
         End With
+        Console.WriteLine("#Calibaration Z offset" & IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z.ToString("F3"))
         IDS.Data.SaveLocalData()
         IDS.Data.SaveGlobalData()
     End Sub
@@ -236,4 +255,14 @@ Public Class NeedleCalibrationSettings
         End With
     End Sub
 
+    Private Sub BtMoveToCalibratorPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtMoveToCalibratorPost.Click
+        Dim pos(1) As Double
+        With IDS.Data.Hardware.Needle.Left
+            pos(0) = .CalibratorPos.X
+            pos(1) = .CalibratorPos.Y
+            If Not m_Tri.Move_Z(0) Then Exit Sub
+            If Not m_Tri.Move_XY(pos) Then Exit Sub
+            If Not m_Tri.Move_Z(.CalibratorPos.Z) Then Exit Sub
+        End With
+    End Sub
 End Class

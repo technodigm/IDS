@@ -2160,6 +2160,9 @@ Public Module Module1
     End Function
     'open global data into pat file
     Public Function Openfile(ByRef FileName As String) As Boolean
+        If FileName Is Nothing Then
+            FileName = "FactoryDefault"
+        End If
         Dim str As String = IDSData.Admin.Folder.PatternPath + "\" + FileName + "." + IDSData.Admin.Folder.FileExtension
         Return OpenPathFileName(str)
     End Function
@@ -3353,10 +3356,13 @@ Public Module Module1
 
 
         If Textflag = False Then
+            Dim Fs1 As FileStream 'yy
+            Dim Br As BinaryReader
 
-            Dim Fs1 As FileStream = New FileStream(path, FileMode.Open)
-            Dim Br As BinaryReader = New BinaryReader(Fs1)
             Try
+                Fs1 = New FileStream(path, FileMode.Open)
+                Br = New BinaryReader(Fs1)
+
                 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 '''''' save data from memory to binary file
                 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -3378,8 +3384,12 @@ Public Module Module1
                 Br.Close()
                 Fs1.Close()
             Catch ex As Exception
-                Br.Close()
-                Fs1.Close()
+                If (Not (Br Is Nothing)) Then 'yy
+                    Br.Close()
+                End If
+                If (Not (Fs1 Is Nothing)) Then
+                    Fs1.Close()
+                End If
                 IDSData.MsgErr = ""
                 If ex.Message = "Unable to read beyond the end of the stream." Then
                     IDSData.MsgErr = ex.message
@@ -3967,6 +3977,114 @@ Public Module Module1
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     'to extract substrings from string
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Public Function RetrieveParamsFromFullPathFile(ByRef FullPath As String, ByRef Pos() As Double) As Boolean
+
+        Dim path As String = FullPath
+
+        Dim SWVersion As Double                             'Global data version number
+        Dim Index As Integer                                'Variable Record Index
+        Dim I As Integer
+
+        IDSData.MsgErr = ""
+
+        Dim PatDisplayArray1 As New ArrayList    'temporary working variable
+        Dim PatArray1 As New ArrayList
+
+        If Textflag = False Then
+            Dim Fs1 As FileStream 'yy
+            Dim Br As BinaryReader
+
+            Try
+                Fs1 = New FileStream(path, FileMode.Open)
+                Br = New BinaryReader(Fs1)
+
+                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                '''''' save data from memory to binary file
+                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                Br.BaseStream.Seek(0, SeekOrigin.Begin)
+                I = 0
+                PatDisplayArray1.Clear()                         'clear the working arraylist
+                PatArray1.Clear()
+
+                Dim c As Integer = Br.PeekChar
+                While Fs1.Position < Fs1.Length
+                    Dim str As String = Br.ReadString
+                    str = str.Replace(vbCrLf, "")
+                    Dim Retstr As String() = Splitstring(str)   'extract substrings from string line
+                    PatDisplayArray1.Add(Retstr(0))              'added to the arrylist (discription) 
+                    PatArray1.Add(Retstr(Retstr.Length - 1))     'added to the arraylist (value)
+                    c = Br.PeekChar
+                End While
+                Br.Close()
+                Fs1.Close()
+            Catch ex As Exception
+                If (Not (Br Is Nothing)) Then 'yy
+                    Br.Close()
+                End If
+                If (Not (Fs1 Is Nothing)) Then
+                    Fs1.Close()
+                End If
+                IDSData.MsgErr = ""
+                If ex.Message = "Unable to read beyond the end of the stream." Then
+                    IDSData.MsgErr = ex.message
+                End If
+            End Try
+        End If
+
+
+        '"Unable to read beyond the end of the stream." 
+        If Textflag = True Or IDSData.MsgErr <> "" Then
+            Dim Sr As StreamReader = New StreamReader(path)
+
+            Try
+                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                '''''' save data from memory to text file
+                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                'Create reader stream
+                Sr = File.OpenText(path)                        'Create a file to write to.
+                I = 0
+                PatDisplayArray1.Clear()                         'clear the working arraylist
+                PatArray1.Clear()
+                Do While Sr.Peek() >= 0                         'is it the reader stream end?
+                    Dim str As String = Sr.ReadLine()           'read string line from file
+                    Dim Retstr As String() = Splitstring(str)   'extract substrings from string line
+                    PatDisplayArray1.Add(Retstr(0))              'added to the arrylist (discription) 
+                    PatArray1.Add(Retstr(Retstr.Length - 1))     'added to the arraylist (value)
+                Loop
+            Catch ex As Exception
+                IDSData.MsgErr = "Reading Error found at << " & CStr(PatDisplayArray.Item(Index)) & " >> " + vbCrLf + vbCrLf + ex.ToString
+                MessageBox.Show(IDSData.MsgErr)
+                Sr.Close()
+                Return False
+            End Try
+            Sr.Close()
+        End If
+
+        Try
+            'needle
+            Index = PatArray1.IndexOf("[NEEDLE@LEFT]")
+            'IDSData.Hardware.Needle.Left.ArcRadius = CDouble(PatArray1.Item(Index + 1))
+            'IDSData.Hardware.Needle.Left.CalibratorPos.X = CDouble(PatArray1.Item(Index + 2))
+            'IDSData.Hardware.Needle.Left.CalibratorPos.Y = CDouble(PatArray1.Item(Index + 3))
+            'IDSData.Hardware.Needle.Left.CalibratorPos.Z = CDouble(PatArray1.Item(Index + 4))
+
+            'IDSData.Hardware.Needle.Left.HeightApproach = CInteger(PatArray1.Item(Index))
+            'IDSData.Hardware.Needle.Left.HeightClearance = CDouble(PatArray1.Item(Index))
+            'IDSData.Hardware.Needle.Left.HeightRetract = CInteger(PatArray1.Item(Index))
+            Pos(0) = CDouble(PatArray1.Item(Index + 8))
+            Pos(1) = CDouble(PatArray1.Item(Index + 9))
+            Pos(2) = CDouble(PatArray1.Item(Index + 10))
+
+        Catch ex As Exception
+            IDSData.MsgErr = "Reading Error found at << " & CStr(PatDisplayArray.Item(Index)) & " >> " + vbCrLf + vbCrLf + ex.ToString
+            MessageBox.Show(IDSData.MsgErr)
+            Return False
+        End Try
+        Return True
+
+    End Function
     Friend Function Splitstring(ByRef str As String) As String()
         Dim delimStr As String = "~="
         Dim delimiter As Char() = delimStr.ToCharArray()
