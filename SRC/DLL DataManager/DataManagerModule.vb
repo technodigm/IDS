@@ -2158,11 +2158,17 @@ Public Module Module1
     Dim PatArray As New ArrayList           'temporary working variable
     'save global data into pat file
     Public Function SaveFile(ByRef FileName As String) As Boolean
+        If FileName Is Nothing Then
+            FileName = "factorydefault"
+        End If
         Dim str As String = IDSData.Admin.Folder.PatternPath + "\" + FileName + "." + IDSData.Admin.Folder.FileExtension
         Return SavePathFileName(str)
     End Function
     'open global data into pat file
     Public Function Openfile(ByRef FileName As String) As Boolean
+        If FileName Is Nothing Then
+            FileName = "factorydefault"
+        End If
         Dim str As String = IDSData.Admin.Folder.PatternPath + "\" + FileName + "." + IDSData.Admin.Folder.FileExtension
         Return OpenPathFileName(str)
     End Function

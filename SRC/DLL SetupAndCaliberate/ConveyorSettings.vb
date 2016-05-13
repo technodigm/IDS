@@ -52,13 +52,11 @@ Public Class ConveyorSettings
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Public WithEvents PositionTimer As System.Windows.Forms.Timer
     Friend WithEvents TimeOut As System.Windows.Forms.NumericUpDown
     Friend WithEvents Speed As System.Windows.Forms.NumericUpDown
     Friend WithEvents WidthMoveStep As System.Windows.Forms.NumericUpDown
     Friend WithEvents Width As System.Windows.Forms.NumericUpDown
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConveyorSettings))
         Me.ButtonRevert = New System.Windows.Forms.Button
         Me.ButtonSave = New System.Windows.Forms.Button
@@ -86,7 +84,6 @@ Public Class ConveyorSettings
         Me.Label17 = New System.Windows.Forms.Label
         Me.gpbDualHead = New System.Windows.Forms.GroupBox
         Me.chkDualHead = New System.Windows.Forms.CheckBox
-        Me.PositionTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.TimeOut, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -376,10 +373,6 @@ Public Class ConveyorSettings
         Me.chkDualHead.TabIndex = 0
         Me.chkDualHead.Text = "Dual Head"
         '
-        'PositionTimer
-        '
-        Me.PositionTimer.Interval = 250
-        '
         'ConveyorSettings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -444,6 +437,7 @@ Public Class ConveyorSettings
         Conveyor.Command("Start Mode")
         Conveyor.Command("Manual Mode")
         Conveyor.Command("Non Production Mode")
+        Conveyor.Command("Reset PLC Logic")
     End Sub
 
     Private Sub ConveyorMove(ByVal width As Double)
@@ -495,7 +489,7 @@ Public Class ConveyorSettings
         Conveyor.SetCommand("Retrieve Timer", IDS.Data.Hardware.Conveyor.TimeOut)
         Conveyor.Command("Production Mode")
 
-        Conveyor.PositionTimer.Stop()
+        'Conveyor.PositionTimer.Stop()
 
     End Sub
 
@@ -522,7 +516,7 @@ Public Class ConveyorSettings
             If Conveyor.GetError = "No Error" Then
                 Conveyor.Command("Normal Mode")
                 Conveyor.MoveTo(IDS.Data.Hardware.Conveyor.Width)
-                Conveyor.PositionTimer.Stop()
+                'Conveyor.PositionTimer.Stop()
             End If
             Form_Service.ResetEventCode()
 
@@ -532,7 +526,7 @@ Public Class ConveyorSettings
             Conveyor.Command("Normal Mode")
             Conveyor.Command("Reset Width Error") 'reset width mode error (M90)
             Conveyor.ConveyorError = "No Error"
-            Conveyor.PositionTimer.Stop()
+            'Conveyor.PositionTimer.Stop()
             Form_Service.ResetEventCode()
 
             '1013210/1013211 - PLC Communication Error or PLC No Signal Conveyor
@@ -634,7 +628,6 @@ Public Class ConveyorSettings
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
-        PositionTimer.Stop()
         Conveyor.PositionTimer.Stop()
         RemovePanel(CurrentControl)
     End Sub
@@ -662,7 +655,7 @@ Public Class ConveyorSettings
         Conveyor.Command("Normal Mode")
     End Sub
 
-    Private Sub MyConveyorSettings_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PositionTimer.Tick
+    Private Sub MyConveyorSettings_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         WidthDisplay.Text = CStr(Conveyor.WidthPosition)
     End Sub
 

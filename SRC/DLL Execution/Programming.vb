@@ -185,6 +185,9 @@ Public Class FormProgramming
     Friend WithEvents ValueBrightness As System.Windows.Forms.NumericUpDown
     Friend WithEvents cross_num As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ButtonStartFirstStage As System.Windows.Forms.Button
+    Friend WithEvents ButtonCV_Prod_Release As System.Windows.Forms.Button
+    Friend WithEvents ButtonCV_Prod_Retrieve As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProgramming))
@@ -331,6 +334,9 @@ Public Class FormProgramming
         Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.cross_num = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
+        Me.ButtonStartFirstStage = New System.Windows.Forms.Button
+        Me.ButtonCV_Prod_Release = New System.Windows.Forms.Button
+        Me.ButtonCV_Prod_Retrieve = New System.Windows.Forms.Button
         Me.PanelVisionCtrl.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel4.SuspendLayout()
@@ -1405,10 +1411,44 @@ Public Class FormProgramming
         Me.Label2.TabIndex = 132
         Me.Label2.Text = "clear num"
         '
+        'ButtonStartFirstStage
+        '
+        Me.ButtonStartFirstStage.Location = New System.Drawing.Point(856, 612)
+        Me.ButtonStartFirstStage.Name = "ButtonStartFirstStage"
+        Me.ButtonStartFirstStage.Size = New System.Drawing.Size(88, 80)
+        Me.ButtonStartFirstStage.TabIndex = 145
+        Me.ButtonStartFirstStage.Text = "Start"
+        '
+        'ButtonCV_Prod_Release
+        '
+        Me.ButtonCV_Prod_Release.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.ButtonCV_Prod_Release.Image = CType(resources.GetObject("ButtonCV_Prod_Release.Image"), System.Drawing.Image)
+        Me.ButtonCV_Prod_Release.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonCV_Prod_Release.Location = New System.Drawing.Point(856, 824)
+        Me.ButtonCV_Prod_Release.Name = "ButtonCV_Prod_Release"
+        Me.ButtonCV_Prod_Release.Size = New System.Drawing.Size(88, 56)
+        Me.ButtonCV_Prod_Release.TabIndex = 144
+        Me.ButtonCV_Prod_Release.Text = "Release"
+        Me.ButtonCV_Prod_Release.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'ButtonCV_Prod_Retrieve
+        '
+        Me.ButtonCV_Prod_Retrieve.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.ButtonCV_Prod_Retrieve.Image = CType(resources.GetObject("ButtonCV_Prod_Retrieve.Image"), System.Drawing.Image)
+        Me.ButtonCV_Prod_Retrieve.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonCV_Prod_Retrieve.Location = New System.Drawing.Point(856, 768)
+        Me.ButtonCV_Prod_Retrieve.Name = "ButtonCV_Prod_Retrieve"
+        Me.ButtonCV_Prod_Retrieve.Size = New System.Drawing.Size(88, 56)
+        Me.ButtonCV_Prod_Retrieve.TabIndex = 143
+        Me.ButtonCV_Prod_Retrieve.Text = "Retrieve"
+        Me.ButtonCV_Prod_Retrieve.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
         'FormProgramming
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
         Me.ClientSize = New System.Drawing.Size(1276, 969)
+        Me.Controls.Add(Me.ButtonStartFirstStage)
+        Me.Controls.Add(Me.ButtonCV_Prod_Release)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.Controls.Add(Me.ButtonPurge)
@@ -1432,6 +1472,7 @@ Public Class FormProgramming
         Me.Controls.Add(Me.ButtonVolCal)
         Me.Controls.Add(Me.ButtonNeedleCal)
         Me.Controls.Add(Me.ButtonClean)
+        Me.Controls.Add(Me.ButtonCV_Prod_Retrieve)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenuProgramming
@@ -3275,7 +3316,6 @@ Public Class FormProgramming
             MySettings.RemoveCurrentPanel()
 
             'in case you didn't exit conveyor settings but straightaway pressed program editor
-            MyConveyorSettings.PositionTimer.Stop()
             Conveyor.PositionTimer.Stop()
 
             'stepper panel
@@ -7744,4 +7784,15 @@ Public Class FormProgramming
         Conveyor.Command("Read Position")
     End Sub
 
+    Private Sub ButtonStartFirstStage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStartFirstStage.Click
+        DIO_Service.TriggerUpstream()
+    End Sub
+
+    Private Sub ButtonCV_Prod_Retrieve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCV_Prod_Retrieve.Click
+        Conveyor.Command("Retrieve")
+    End Sub
+
+    Private Sub ButtonCV_Prod_Release_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCV_Prod_Release.Click
+        Conveyor.Command("Release")
+    End Sub
 End Class

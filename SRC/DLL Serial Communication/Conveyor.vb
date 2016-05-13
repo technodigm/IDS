@@ -143,7 +143,7 @@ Public Class Conveyor
         '
         'PositionTimer
         '
-        Me.PositionTimer.Interval = 250
+        Me.PositionTimer.Interval = 500
         '
         'BoxToBeAdded
         '
@@ -193,7 +193,7 @@ Public Class Conveyor
         Me.TimeOutEnter.Name = "TimeOutEnter"
         Me.TimeOutEnter.Size = New System.Drawing.Size(64, 27)
         Me.TimeOutEnter.TabIndex = 46
-        Me.TimeOutEnter.Value = New Decimal(New Integer() {250, 0, 0, 0})
+        Me.TimeOutEnter.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
         'Label9
         '
@@ -538,6 +538,8 @@ Public Class Conveyor
                 output_str = output_str + Chr(&H50)   'reset Lifter Limit Error
             Case "Reset Width Error"
                 output_str = output_str + Chr(&H55)   'reset width mode error (M90)
+            Case "Reset PLC Logic"
+                output_str = output_str + Chr(&HFF)   'reset conveyor status
             Case "Width Mode"
                 output_str = output_str + Chr(&H9)   'width mode
             Case "Normal Mode"
@@ -587,6 +589,7 @@ Public Class Conveyor
         Command("Reset S3-Down")
         Command("Reset S2")
         Command("Reset Lifter Limit Error")
+        ConveyorError = "No Error"
     End Sub
 
     Public Sub SetCommand(ByVal command As String, ByVal value As Decimal)
@@ -692,5 +695,9 @@ Public Class Conveyor
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Command("Read Position")
+    End Sub
+
+    Private Sub ResetPLCLogic_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetPLCLogic.Click
+        Command("Reset PLC Logic")
     End Sub
 End Class

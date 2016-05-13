@@ -130,6 +130,7 @@ Public Class FormProduction
     Friend WithEvents ComboBox2 As System.Windows.Forms.ComboBox
     Friend WithEvents ComboBox3 As System.Windows.Forms.ComboBox
     Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents ResetPLCLogic As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -204,6 +205,7 @@ Public Class FormProduction
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision = New System.Windows.Forms.Panel
+        Me.ResetPLCLogic = New System.Windows.Forms.Button
         Me.Panel2.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
@@ -324,6 +326,7 @@ Public Class FormProduction
         'ConveyorBox
         '
         Me.ConveyorBox.BackColor = System.Drawing.SystemColors.ScrollBar
+        Me.ConveyorBox.Controls.Add(Me.ResetPLCLogic)
         Me.ConveyorBox.Controls.Add(Me.ButtonStartFirstStage)
         Me.ConveyorBox.Controls.Add(Me.ContinuousMode)
         Me.ConveyorBox.Controls.Add(Me.ButtonCV_Prod_Release)
@@ -332,7 +335,7 @@ Public Class FormProduction
         Me.ConveyorBox.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.ConveyorBox.Location = New System.Drawing.Point(16, 200)
         Me.ConveyorBox.Name = "ConveyorBox"
-        Me.ConveyorBox.Size = New System.Drawing.Size(480, 128)
+        Me.ConveyorBox.Size = New System.Drawing.Size(480, 184)
         Me.ConveyorBox.TabIndex = 130
         Me.ConveyorBox.TabStop = False
         Me.ConveyorBox.Text = "Conveyor Operation"
@@ -461,7 +464,7 @@ Public Class FormProduction
         Me.HeaterBox.Controls.Add(Me.SyringeLabel)
         Me.HeaterBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.HeaterBox.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.HeaterBox.Location = New System.Drawing.Point(16, 344)
+        Me.HeaterBox.Location = New System.Drawing.Point(16, 456)
         Me.HeaterBox.Name = "HeaterBox"
         Me.HeaterBox.Size = New System.Drawing.Size(480, 224)
         Me.HeaterBox.TabIndex = 130
@@ -656,7 +659,7 @@ Public Class FormProduction
         Me.GroupBox1.Controls.Add(Me.Button4)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.GroupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.GroupBox1.Location = New System.Drawing.Point(16, 592)
+        Me.GroupBox1.Location = New System.Drawing.Point(16, 704)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(480, 256)
         Me.GroupBox1.TabIndex = 130
@@ -969,6 +972,15 @@ Public Class FormProduction
         Me.PanelVision.Size = New System.Drawing.Size(768, 576)
         Me.PanelVision.TabIndex = 7
         '
+        'ResetPLCLogic
+        '
+        Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ResetPLCLogic.Location = New System.Drawing.Point(140, 120)
+        Me.ResetPLCLogic.Name = "ResetPLCLogic"
+        Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
+        Me.ResetPLCLogic.TabIndex = 143
+        Me.ResetPLCLogic.Text = "Reset PLC Logic"
+        '
         'FormProduction
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -1048,6 +1060,7 @@ Public Class FormProduction
         IDS.StartErrorCheck()
         TimerMonitor.Start()
         Programming.IOCheck.Start()
+        Conveyor.PositionTimer.Start()
 
         ' background threads help to update UI without slowing them down.
         ThreadMonitor = New Threading.Thread(AddressOf StateMonitor)
@@ -1080,13 +1093,13 @@ Public Class FormProduction
         Programming.IOCheck.Stop()
         ThreadMonitor.Abort()
         ThreadExecutor.Abort()
+        Conveyor.PositionTimer.Stop()
 
         'motion controller
         m_Tri.TurnOff("Material Air")
         m_Tri.Disconnect_Controller()
 
         'hardware
-        Conveyor.PositionTimer.Stop()
         MyConveyorSettings.CloseConveyorSetup()
         Conveyor.ClosePort()
         Weighting_Scale.ClosePort()
@@ -1715,5 +1728,9 @@ StopCalibration:
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         Form_Service.DisplayErrorMessage(ComboBox3.SelectedItem.ToString)
+    End Sub
+
+    Private Sub ResetPLCLogic_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetPLCLogic.Click
+        Conveyor.Command("Reset PLC Logic")
     End Sub
 End Class
