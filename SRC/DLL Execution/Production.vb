@@ -814,6 +814,7 @@ Public Class FormProduction
         Me.Controls.Add(Me.PanelProDownTimeInfor)
         Me.Controls.Add(Me.Panel2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.KeyPreview = True
         Me.Menu = Me.MainMenuProduction
         Me.Name = "FormProduction"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -912,7 +913,7 @@ Public Class FormProduction
     Dim ratio As Double
     Dim countMouseTimer As Integer = 0
     Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
-    Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
+    'Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
 
     Private Sub MouseJogging(ByVal state As Object)
 
@@ -922,9 +923,9 @@ Public Class FormProduction
             If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
         End If
 
-        m_keyBoard.Poll()
+        'm_keyBoard.Poll()
         m_TrackBall.Poll()
-        isPress = m_keyBoard.State.Item(Key.LeftControl)
+        'isPress = m_keyBoard.State.Item(Key.LeftControl)
 
         Dim x As Integer
         Dim y As Integer
@@ -938,10 +939,10 @@ Public Class FormProduction
             VrData(1) = 0.0
             VrData(2) = 0.0
 
-            Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
-            If isPressAlt Then
-                Exit Sub
-            End If
+            'Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+            'If isPressAlt Then
+            '    Exit Sub
+            'End If
             x = m_TrackBall.MouseX()
             y = m_TrackBall.MouseY()
 
@@ -1120,6 +1121,7 @@ Public Class FormProduction
             ContinuousMode.Checked = False
         End If
 
+        isPress = False
 
         'error handling
         Form_Service.ResetEventCode()
@@ -1731,4 +1733,20 @@ StopCalibration:
 
     End Sub
 
+    Private Sub FormProduction_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = True
+        End If
+    End Sub
+
+    Private Sub FormProduction_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = False
+        End If
+    End Sub
+
+
+    Private Sub FormProduction_Deactivate(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Deactivate
+        isPress = False
+    End Sub
 End Class

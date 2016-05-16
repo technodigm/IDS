@@ -90,12 +90,13 @@ Public Class FormStartup
         'FormStartup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1292, 1036)
+        Me.ClientSize = New System.Drawing.Size(1286, 1012)
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.BtnExit)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Button2)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "FormStartup"
@@ -212,5 +213,9 @@ Public Class FormStartup
         LoginName = "Application_Programmer"
         formlg.StartPosition = FormStartPosition.CenterScreen
         formlg.ShowDialog()
+    End Sub
+
+    Private Sub FormStartup_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        Console.WriteLine("Key Down")
     End Sub
 End Class

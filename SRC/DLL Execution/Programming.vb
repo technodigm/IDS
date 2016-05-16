@@ -1346,6 +1346,7 @@ Public Class FormProgramming
         Me.Controls.Add(Me.ButtonClean)
         Me.Controls.Add(Me.ButtonCalibrate)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenuProgramming
         Me.MinimizeBox = False
@@ -1498,7 +1499,7 @@ Public Class FormProgramming
             End If
             SaveProgram.UnSave = False
         End If
-
+        isPress = False
         'error handling
         Form_Service.ResetEventCode()
 
@@ -1553,7 +1554,7 @@ Public Class FormProgramming
 
     Private m_SelectedType As String = ""
     Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
-    Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
+    'Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
     Public MouseTimer As System.Threading.Timer
     Private Declare Function InterlockedExchange Lib "kernel32" (ByRef Target As Integer, ByVal Value As Integer) As Integer
 
@@ -1735,9 +1736,9 @@ Public Class FormProgramming
             If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
         End If
 
-        m_keyBoard.Poll()
+        'm_keyBoard.Poll()
         m_TrackBall.Poll()
-        isPress = m_keyBoard.State.Item(Key.LeftControl)
+        'isPress = m_keyBoard.State.Item(Key.LeftControl)
 
         Dim x As Integer
         Dim y As Integer
@@ -1751,10 +1752,10 @@ Public Class FormProgramming
             VrData(1) = 0.0
             VrData(2) = 0.0
 
-            Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
-            If isPressAlt Then
-                Exit Sub
-            End If
+            'Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+            'If isPressAlt Then
+            '    Exit Sub
+            'End If
             x = m_TrackBall.MouseX()
             y = m_TrackBall.MouseY()
 
@@ -7025,4 +7026,25 @@ Public Class FormProgramming
     'Private Sub VisionMode_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.CheckedChanged
 
     'End Sub
+
+    Private Sub FormProgramming_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = True
+        End If
+    End Sub
+
+    Private Sub FormProgramming_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = False
+        End If
+    End Sub
+
+    Private Sub FormProgramming_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
+        Console.WriteLine("Key Pressed")
+    End Sub
+
+
+    Private Sub FormProgramming_Deactivate(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Deactivate
+        isPress = False
+    End Sub
 End Class
