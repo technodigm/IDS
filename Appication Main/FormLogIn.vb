@@ -997,7 +997,6 @@ Public Class FormLogin
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         IDS.Data.SystemAtLogin = True
-
         '   load data from database to ds
         '   and refresh it to the display component
 
@@ -1806,5 +1805,6 @@ Public Class FormLogin
         BtnLogin_Click(sender, e)
     End Sub
 #End Region
+
 
 End Class

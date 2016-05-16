@@ -1,5 +1,5 @@
-Imports Microsoft.DirectX
-Imports Microsoft.DirectX.DirectInput
+'Imports Microsoft.DirectX
+'Imports Microsoft.DirectX.DirectInput
 Imports DLL_Export_Service
 
 'Execution global functions                                                                      '

@@ -3,7 +3,7 @@ Imports System
 Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports DLL_Export_Service
-Imports Microsoft.DirectX.DirectInput
+'Imports Microsoft.DirectX.DirectInput
 Imports System.Text
 Imports Microsoft.Win32
 Imports Microsoft.Office.Interop

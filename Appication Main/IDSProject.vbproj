@@ -128,6 +128,16 @@
                     Project = "{1FE839CF-8CF7-443F-B7D6-2D0AC490C00E}"
                     Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
                 />
+                <Reference
+                    Name = "Microsoft.DirectX"
+                    AssemblyName = "Microsoft.DirectX"
+                    HintPath = "..\BIN\Microsoft.DirectX.dll"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX.DirectInput"
+                    AssemblyName = "Microsoft.DirectX.DirectInput"
+                    HintPath = "..\BIN\Microsoft.DirectX.DirectInput.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -179,6 +189,11 @@
                     RelPath = "FormStartup.resx"
                     DependentUpon = "FormStartup.vb"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "KeyboardControl.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Module1.vb"

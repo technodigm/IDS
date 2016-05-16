@@ -1,9 +1,9 @@
 Imports DLL_DataManager
 Imports DLL_Export_Service
 Imports Microsoft.DirectX.DirectInput
-Imports DLL_SetupAndCalibrate
+'Imports DLL_SetupAndCalibrate
 Imports System.Threading
-Imports Microsoft.win32
+'Imports Microsoft.win32
 Imports Microsoft.Office.Interop
 Imports System.Messaging
 
@@ -131,6 +131,7 @@ Public Class FormProduction
         Me.TextBoxRobotPos = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
+        Me.Label2 = New System.Windows.Forms.Label
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
         Me.ButtonStepZdown = New System.Windows.Forms.Button
@@ -170,14 +171,13 @@ Public Class FormProduction
         Me.ButtonPurge = New System.Windows.Forms.Button
         Me.ButtonChgSyringe = New System.Windows.Forms.Button
         Me.ButtonHome = New System.Windows.Forms.Button
-        Me.LabelMessege = New System.Windows.Forms.Label
         Me.ButtonCalibrate = New System.Windows.Forms.Button
+        Me.LabelMessege = New System.Windows.Forms.Label
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.ImageListOperation = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision = New System.Windows.Forms.Panel
-        Me.Label2 = New System.Windows.Forms.Label
         Me.Panel2.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
@@ -264,6 +264,17 @@ Public Class FormProduction
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(504, 992)
         Me.Panel5.TabIndex = 0
+        '
+        'Label2
+        '
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.Black
+        Me.Label2.Location = New System.Drawing.Point(88, 600)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(136, 23)
+        Me.Label2.TabIndex = 135
+        Me.Label2.Text = "Machine State :"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PanelToBeAdded
         '
@@ -749,18 +760,6 @@ Public Class FormProduction
         Me.ButtonHome.Text = "Home"
         Me.ButtonHome.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
-        'LabelMessege
-        '
-        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Menu
-        Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelMessege.ForeColor = System.Drawing.Color.Blue
-        Me.LabelMessege.Location = New System.Drawing.Point(8, 920)
-        Me.LabelMessege.Name = "LabelMessege"
-        Me.LabelMessege.Size = New System.Drawing.Size(750, 32)
-        Me.LabelMessege.TabIndex = 85
-        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'ButtonCalibrate
         '
         Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.InactiveCaptionText
@@ -774,6 +773,18 @@ Public Class FormProduction
         Me.ButtonCalibrate.TabIndex = 88
         Me.ButtonCalibrate.Text = "Move Calibrate"
         Me.ButtonCalibrate.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'LabelMessege
+        '
+        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Menu
+        Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMessege.ForeColor = System.Drawing.Color.Blue
+        Me.LabelMessege.Location = New System.Drawing.Point(8, 920)
+        Me.LabelMessege.Name = "LabelMessege"
+        Me.LabelMessege.Size = New System.Drawing.Size(750, 32)
+        Me.LabelMessege.TabIndex = 85
+        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'ImageListOperation
         '
@@ -793,17 +804,6 @@ Public Class FormProduction
         Me.PanelVision.Size = New System.Drawing.Size(760, 32)
         Me.PanelVision.TabIndex = 7
         Me.PanelVision.Visible = False
-        '
-        'Label2
-        '
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.Color.Black
-        Me.Label2.Location = New System.Drawing.Point(88, 600)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(136, 23)
-        Me.Label2.TabIndex = 135
-        Me.Label2.Text = "Machine State :"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'FormProduction
         '
@@ -1119,6 +1119,7 @@ Public Class FormProduction
         If ContinuousMode.Checked = True Then
             ContinuousMode.Checked = False
         End If
+
 
         'error handling
         Form_Service.ResetEventCode()
@@ -1724,6 +1725,10 @@ StopCalibration:
 
     Private Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
         If SetState("Needle Calibration") Then DoCalibrate()
+    End Sub
+
+    Private Sub RichTextBoxNote_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RichTextBoxNote.TextChanged
+
     End Sub
 
 End Class

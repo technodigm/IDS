@@ -99,7 +99,9 @@ Public Class FormStartup
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "FormStartup"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "FormStartup"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ResumeLayout(False)
 
     End Sub
@@ -159,7 +161,7 @@ Public Class FormStartup
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
 
         formlg.Dispose()
-
+        KeyboardControl.ReleaseControls()
         '   Xue Wen                                     '
         '   Testing (Kill the application directly)     '
         Dim procRunning() As Process
@@ -183,6 +185,7 @@ Public Class FormStartup
     End Sub
 
     Private Sub FormStartup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        KeyboardControl.GainControls()
         formlg.StartPosition = FormStartPosition.CenterScreen
         formlg.Show()
         formlg.Hide()

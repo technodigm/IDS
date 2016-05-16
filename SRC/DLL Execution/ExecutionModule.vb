@@ -2,7 +2,7 @@ Imports DLL_Export_Service
 Imports DLL_Export_Device_Motor
 Imports DLL_SetupAndCalibrate
 Imports DLL_DataManager
-Imports Microsoft.DirectX.DirectInput
+'Imports Microsoft.DirectX.DirectInput
 Imports System.Threading
 
 
