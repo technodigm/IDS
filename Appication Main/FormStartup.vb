@@ -51,34 +51,37 @@ Public Class FormStartup
         '
         'BtnExit
         '
+        Me.BtnExit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BtnExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnExit.Location = New System.Drawing.Point(550, 574)
+        Me.BtnExit.Location = New System.Drawing.Point(1192, 8)
         Me.BtnExit.Name = "BtnExit"
-        Me.BtnExit.Size = New System.Drawing.Size(192, 32)
+        Me.BtnExit.Size = New System.Drawing.Size(82, 66)
         Me.BtnExit.TabIndex = 1
         Me.BtnExit.Text = "Exit"
         '
         'Button1
         '
+        Me.Button1.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(550, 430)
+        Me.Button1.Location = New System.Drawing.Point(543, 430)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(192, 32)
+        Me.Button1.Size = New System.Drawing.Size(200, 64)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Production"
         '
         'Button2
         '
+        Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.Location = New System.Drawing.Point(550, 502)
+        Me.Button2.Location = New System.Drawing.Point(543, 518)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(192, 32)
+        Me.Button2.Size = New System.Drawing.Size(200, 64)
         Me.Button2.TabIndex = 0
         Me.Button2.Text = "Teach Program"
-        Me.Button2.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'PictureBox2
         '
+        Me.PictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
         Me.PictureBox2.Location = New System.Drawing.Point(0, 920)
         Me.PictureBox2.Name = "PictureBox2"

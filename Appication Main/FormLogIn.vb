@@ -241,7 +241,7 @@ Public Class FormLogin
         Me.CBGroupID.Name = "CBGroupID"
         Me.CBGroupID.Size = New System.Drawing.Size(176, 23)
         Me.CBGroupID.Sorted = True
-        Me.CBGroupID.TabIndex = 0
+        Me.CBGroupID.TabIndex = 1
         Me.CBGroupID.Text = "Application_ALL"
         '
         'TextCurrentUSerID
@@ -410,7 +410,7 @@ Public Class FormLogin
         Me.BtnLogin.Location = New System.Drawing.Point(112, 192)
         Me.BtnLogin.Name = "BtnLogin"
         Me.BtnLogin.Size = New System.Drawing.Size(88, 32)
-        Me.BtnLogin.TabIndex = 3
+        Me.BtnLogin.TabIndex = 4
         Me.BtnLogin.Text = "Login >>"
         '
         'PanelIDSLogin
@@ -436,7 +436,7 @@ Public Class FormLogin
         Me.ButtonSetupRegistry.Location = New System.Drawing.Point(112, 192)
         Me.ButtonSetupRegistry.Name = "ButtonSetupRegistry"
         Me.ButtonSetupRegistry.Size = New System.Drawing.Size(80, 32)
-        Me.ButtonSetupRegistry.TabIndex = 55
+        Me.ButtonSetupRegistry.TabIndex = 3
         Me.ButtonSetupRegistry.Text = "Setup &Registry"
         '
         'PanelUserID

@@ -61,6 +61,7 @@ Public Class FormProduction
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         TimerMonitor.Enabled = False
+        HardwareInitTimer.Enabled = False
         If disposing Then
             If Not (components Is Nothing) Then
                 components.Dispose()
@@ -133,6 +134,8 @@ Public Class FormProduction
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents LabelStep As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents btExit As System.Windows.Forms.Button
+    Friend WithEvents HardwareInitTimer As System.Windows.Forms.Timer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -147,6 +150,7 @@ Public Class FormProduction
         Me.TextBoxRobotPos = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
+        Me.btExit = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
@@ -194,6 +198,7 @@ Public Class FormProduction
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision = New System.Windows.Forms.Panel
+        Me.HardwareInitTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Panel2.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
@@ -267,7 +272,11 @@ Public Class FormProduction
         '
         'Panel5
         '
+        Me.Panel5.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel5.BackColor = System.Drawing.SystemColors.ScrollBar
+        Me.Panel5.Controls.Add(Me.btExit)
         Me.Panel5.Controls.Add(Me.Label2)
         Me.Panel5.Controls.Add(Me.PanelToBeAdded)
         Me.Panel5.Controls.Add(Me.Panel6)
@@ -280,6 +289,17 @@ Public Class FormProduction
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(504, 992)
         Me.Panel5.TabIndex = 0
+        '
+        'btExit
+        '
+        Me.btExit.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btExit.ForeColor = System.Drawing.Color.Black
+        Me.btExit.Location = New System.Drawing.Point(424, 8)
+        Me.btExit.Name = "btExit"
+        Me.btExit.Size = New System.Drawing.Size(72, 48)
+        Me.btExit.TabIndex = 136
+        Me.btExit.Text = "Exit"
         '
         'Label2
         '
@@ -626,6 +646,7 @@ Public Class FormProduction
         '
         'RichTextBoxNote
         '
+        Me.RichTextBoxNote.Enabled = False
         Me.RichTextBoxNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.RichTextBoxNote.Location = New System.Drawing.Point(16, 184)
         Me.RichTextBoxNote.Name = "RichTextBoxNote"
@@ -821,6 +842,9 @@ Public Class FormProduction
         Me.PanelVision.TabIndex = 7
         Me.PanelVision.Visible = False
         '
+        'HardwareInitTimer
+        '
+        '
         'FormProduction
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -851,24 +875,21 @@ Public Class FormProduction
 #End Region
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         'reset!
+        Console.WriteLine(DateTime.Now & "#1")
         ResetToIdle()
         'gui visibility
         Panel5.Controls.Add(m_Tri.SteppingButtons)
         m_Tri.SteppingButtons.Location = New Point(84, 192)
         m_Tri.SteppingButtons.BringToFront()
         m_Tri.SteppingButtons.Show()
-
         'initialize private flags
         HasBeenRunning = False
         m_PotLifeOn = False
         TextBoxFilename.Text = " "
         ProductionInfoDispClear()
-
         m_Execution.m_Pattern.SubCallSheetInitialization(200)     '200 subsheets maximum without duplicated name
         Programming.ErrorSubSheetStructIni(200, 500)    '500 subsheets maximum with duplicated name
-
         ' get default value from the default pat file
         IDS.Data.ParameterID.RecordID = "FactoryDefault"
         IDSData.Admin.Folder.FileExtension = "Pat"
@@ -888,8 +909,9 @@ Public Class FormProduction
         'hardware
         'vision
         'motion controller
-        m_Tri.Connect_Controller()
-        SetState("Homing")
+        'm_Tri.Connect_Controller()
+        'SetState("Homing")
+        HardwareInitTimer.Start()
         'timers start
         IDS.StartErrorCheck()
         TimerMonitor.Start()
@@ -1109,29 +1131,29 @@ Public Class FormProduction
     End Sub
 
     Private Sub FormProduction_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-        If ContinuousMode.Checked = True Then
-            ContinuousMode.Checked = False
-        End If
-        isPress = False
-        'error handling
-        Form_Service.ResetEventCode()
-        'vision
-        'timers stop
-        IDS.StopErrorCheck()
-        TimerMonitor.Stop()
-        Programming.IOCheck.Stop()
-        ThreadMonitor.Abort()
-        ThreadExecutor.Abort()
-        MouseTimer.Dispose()
-        'motion controller
-        m_Tri.TurnOff("Material Air")
-        m_Tri.Disconnect_Controller()
-        'hardware
-        OffLaser()
-        OffTowerLamp()
-        UnlockDoor()
-        Close()
-        IDS.FrmExecution.Hide()
+        'If ContinuousMode.Checked = True Then
+        '    ContinuousMode.Checked = False
+        'End If
+        'isPress = False
+        ''error handling
+        'Form_Service.ResetEventCode()
+        ''vision
+        ''timers stop
+        'IDS.StopErrorCheck()
+        'TimerMonitor.Stop()
+        'Programming.IOCheck.Stop()
+        'ThreadMonitor.Abort()
+        'ThreadExecutor.Abort()
+        'MouseTimer.Dispose()
+        ''motion controller
+        'm_Tri.TurnOff("Material Air")
+        'm_Tri.Disconnect_Controller()
+        ''hardware
+        'OffLaser()
+        'OffTowerLamp()
+        'UnlockDoor()
+        ''Close()
+        'IDS.FrmExecution.Hide()
     End Sub
 
     Public Sub ProductionInfoDispClear()
@@ -1722,5 +1744,42 @@ StopCalibration:
 
     Private Sub FormProduction_Deactivate(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Deactivate
         isPress = False
+    End Sub
+
+    Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
+        If ContinuousMode.Checked = True Then
+            ContinuousMode.Checked = False
+        End If
+        isPress = False
+        'error handling
+        Form_Service.ResetEventCode()
+        'vision
+        'timers stop
+        IDS.StopErrorCheck()
+        TimerMonitor.Stop()
+        HardwareInitTimer.Stop()
+        HardwareInitTimer.Dispose()
+        Programming.IOCheck.Stop()
+        ThreadMonitor.Abort()
+        ThreadExecutor.Abort()
+        MouseTimer.Dispose()
+        'motion controller
+        m_Tri.TurnOff("Material Air")
+        m_Tri.Disconnect_Controller()
+        'hardware
+        OffLaser()
+        OffTowerLamp()
+        UnlockDoor()
+        'Close()
+        IDS.FrmExecution.Hide()
+        Close()
+    End Sub
+
+    Private Sub HardwareInitTimer_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles HardwareInitTimer.Tick
+        HardwareInitTimer.Stop()
+        HardwareInitTimer.Enabled = False
+        m_Tri.Connect_Controller()
+        SetState("Homing")
+        Console.WriteLine("Hardware Init Timer Called")
     End Sub
 End Class
