@@ -56,6 +56,7 @@ Public Class ConveyorSettings
     Friend WithEvents Speed As System.Windows.Forms.NumericUpDown
     Friend WithEvents WidthMoveStep As System.Windows.Forms.NumericUpDown
     Friend WithEvents Width As System.Windows.Forms.NumericUpDown
+    Friend WithEvents PositionTimer As System.Timers.Timer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConveyorSettings))
         Me.ButtonRevert = New System.Windows.Forms.Button
@@ -84,6 +85,7 @@ Public Class ConveyorSettings
         Me.Label17 = New System.Windows.Forms.Label
         Me.gpbDualHead = New System.Windows.Forms.GroupBox
         Me.chkDualHead = New System.Windows.Forms.CheckBox
+        Me.PositionTimer = New System.Timers.Timer
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.TimeOut, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,6 +93,7 @@ Public Class ConveyorSettings
         CType(Me.WidthMoveStep, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Width, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpbDualHead.SuspendLayout()
+        CType(Me.PositionTimer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ButtonRevert
@@ -373,6 +376,11 @@ Public Class ConveyorSettings
         Me.chkDualHead.TabIndex = 0
         Me.chkDualHead.Text = "Dual Head"
         '
+        'PositionTimer
+        '
+        Me.PositionTimer.Enabled = True
+        Me.PositionTimer.SynchronizingObject = Me
+        '
         'ConveyorSettings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -389,6 +397,7 @@ Public Class ConveyorSettings
         CType(Me.WidthMoveStep, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Width, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gpbDualHead.ResumeLayout(False)
+        CType(Me.PositionTimer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -462,11 +471,9 @@ Public Class ConveyorSettings
 
         'reset so you don't quit the loop too fast.
         Conveyor.ConveyorError = "No Error"
-        Conveyor.WidthPosition = 0
 
         Conveyor.Command("Width Mode")
         Conveyor.MoveToWidth = IDS.Data.Hardware.Conveyor.Width
-        Conveyor.PositionTimer.Start()
 
         'wait abit to get position value from positiontimer_tick otherwise widthposition = 0
         For i As Integer = 1 To 5
@@ -655,8 +662,7 @@ Public Class ConveyorSettings
         Conveyor.Command("Normal Mode")
     End Sub
 
-    Private Sub MyConveyorSettings_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Overloads Sub MyConveyorSettings_Tick(ByVal sender As System.Object, ByVal e As System.Timers.ElapsedEventArgs) Handles PositionTimer.Elapsed
         WidthDisplay.Text = CStr(Conveyor.WidthPosition)
     End Sub
-
 End Class

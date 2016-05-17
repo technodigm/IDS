@@ -1577,6 +1577,7 @@ Public Class FormProgramming
         MouseTimer = New System.Threading.Timer(AddressOf MouseJogging, Nothing, 0, 200)
         IDS.StartErrorCheck()
         IOCheck.Start()
+        Conveyor.PositionTimer.Start()
         Me.Text = "Programming"
 
         'flags
@@ -6952,7 +6953,7 @@ Public Class FormProgramming
         OffLaser()
         If rtn Then                     'No laser readout error
             posOffset = Laser.MM_Reading - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
-            SetCellValue(m_Row, gPos1ZColumn, CInt(posOffset))
+            SetCellValue(m_Row, gPos1ZColumn, posOffset)
         Else
             MessageBox.Show("laser sensor out of range")
             m_TeachStepNumber = 0

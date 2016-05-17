@@ -288,6 +288,7 @@ Public Class Settings
         AddPanel(PanelRight, MyConveyorSettings.PanelToBeAdded)
         Conveyor.OpenPort()
         Conveyor.PositionTimer.Start()
+        MyConveyorSettings.PositionTimer.Start()
         MyConveyorSettings.RevertData()
     End Sub
 
