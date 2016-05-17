@@ -30,6 +30,22 @@ Public Class FormProduction
     'constants
     Public Const tickToMinute As Double = 0.0000000016666666  '0.0000001/60.0
 
+    Private isJogON As Boolean = False
+    Shared mouse_pos As New Point
+    Shared cursor_hide As Boolean = False
+    Shared isPress As Boolean
+    Dim deadzone As Integer = 3
+    Dim jogspeed As Integer = 0
+    Const maxSpeed As Integer = 100
+    Const maxMouseRangeX = 600.0 '6000.0 '4500.0
+    Const maxMouseRangeY = 300.0 '2000.0
+    Const ratioLB = 0.4
+    Const ratioUB = 1.05
+    Dim ratio As Double
+    Dim countMouseTimer As Integer = 0
+    Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
+    'Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
+
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -838,7 +854,6 @@ Public Class FormProduction
 
         'reset!
         ResetToIdle()
-
         'gui visibility
         Panel5.Controls.Add(m_Tri.SteppingButtons)
         m_Tri.SteppingButtons.Location = New Point(84, 192)
@@ -868,23 +883,17 @@ Public Class FormProduction
                 m_Tri.TurnOn("Material Air")
             End If
         End With
-
         'error handling message
         Form_Service.ResetEventCode()
-
         'hardware
-
         'vision
-
         'motion controller
         m_Tri.Connect_Controller()
         SetState("Homing")
-
         'timers start
         IDS.StartErrorCheck()
         TimerMonitor.Start()
         Programming.IOCheck.Start()
-
         ' background threads help to update UI without slowing them down.
         ThreadMonitor = New Threading.Thread(AddressOf StateMonitor)
         ThreadMonitor.Priority = Threading.ThreadPriority.Normal
@@ -898,22 +907,6 @@ Public Class FormProduction
         MouseTimer = New System.Threading.Timer(AddressOf MouseJogging, Nothing, 0, 200)
 
     End Sub
-
-    Private isJogON As Boolean = False
-    Shared mouse_pos As New Point
-    Shared cursor_hide As Boolean = False
-    Shared isPress As Boolean
-    Dim deadzone As Integer = 3
-    Dim jogspeed As Integer = 0
-    Const maxSpeed As Integer = 100
-    Const maxMouseRangeX = 600.0 '6000.0 '4500.0
-    Const maxMouseRangeY = 300.0 '2000.0
-    Const ratioLB = 0.4
-    Const ratioUB = 1.05
-    Dim ratio As Double
-    Dim countMouseTimer As Integer = 0
-    Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
-    'Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
 
     Private Sub MouseJogging(ByVal state As Object)
 
@@ -1116,18 +1109,13 @@ Public Class FormProduction
     End Sub
 
     Private Sub FormProduction_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-
         If ContinuousMode.Checked = True Then
             ContinuousMode.Checked = False
         End If
-
         isPress = False
-
         'error handling
         Form_Service.ResetEventCode()
-
         'vision
-
         'timers stop
         IDS.StopErrorCheck()
         TimerMonitor.Stop()
@@ -1135,19 +1123,15 @@ Public Class FormProduction
         ThreadMonitor.Abort()
         ThreadExecutor.Abort()
         MouseTimer.Dispose()
-
         'motion controller
         m_Tri.TurnOff("Material Air")
         m_Tri.Disconnect_Controller()
-
         'hardware
         OffLaser()
         OffTowerLamp()
         UnlockDoor()
-
         Close()
         IDS.FrmExecution.Hide()
-
     End Sub
 
     Public Sub ProductionInfoDispClear()
@@ -1159,7 +1143,6 @@ Public Class FormProduction
         RichTextBoxNote.Lines = Production_info
         RichTextBoxNote.Show()
     End Sub
-
 
     Public Sub ProductionInfoDisp()
         '  IDS.Data.OpenData()
@@ -1176,7 +1159,6 @@ Public Class FormProduction
         RichTextBoxNote.Show()
         If Not GetInputState = 0 Then Application.DoEvents()
     End Sub
-
     ' open file sub
     Private Sub OpenFile()
 
@@ -1377,7 +1359,6 @@ StopCalibration:
     ' changes in run state also updates the tower lights                             '
     ' timermonitor updates continuously, does not disable itself                     '
     ' calls prodpurgeclean, volumcalib and prodchangesyringe                         '
-
     Public Delegate Sub DispensingFinish()
     Public DispensingFinishCallback As DispensingFinish = New DispensingFinish(AddressOf DispensingCallback)
 
@@ -1392,7 +1373,6 @@ StopCalibration:
             ResetToIdle()
         End If
     End Sub
-
 
     Public Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
@@ -1440,8 +1420,6 @@ StopCalibration:
 
 
     End Sub
-
-
     '                                       kr                                       '
     ' tmrRunPro_tick ensures continuous operation in production (if conveyor ticked) '
     ' enabled by tmrfinish, prodpurgeclean, prodvolumcalib and prodchangesyringe     '
@@ -1450,7 +1428,6 @@ StopCalibration:
     ' or else it will exit. if all checks are passed, the last check is for a signal '
     ' from the PLC to tell when the board is ready for dispensing.                   '
     ' then it will call Start                                                    '
-
     Public Sub Conveyor_Check()
 
         'Dim onoff As Integer = 1
@@ -1508,7 +1485,6 @@ StopCalibration:
     '                                       kr                                       '
     ' show and set tower light according to machine state                            '
     '''''''''''''''
-
     Public Sub Finish_Dispensing()
 
         ' for both single and continuous run
@@ -1526,7 +1502,6 @@ StopCalibration:
         End If
 
     End Sub
-
 
     Public Function DoorCheck()
 
@@ -1744,7 +1719,6 @@ StopCalibration:
             isPress = False
         End If
     End Sub
-
 
     Private Sub FormProduction_Deactivate(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Deactivate
         isPress = False
