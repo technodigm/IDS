@@ -1050,7 +1050,7 @@ Public Class FormProgramming
         Me.LabelMessege.Size = New System.Drawing.Size(688, 42)
         Me.LabelMessege.TabIndex = 84
         Me.LabelMessege.Text = "Message Bar"
-        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'DispensingMode
         '
@@ -1490,7 +1490,6 @@ Public Class FormProgramming
     End Sub
 
     Private Sub FormProgramming_Closed(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-
         Dim response As MsgBoxResult
         If (m_NewProjectCreated) And (SaveProgram.UnSave = True) Then
             response = MyMsgBox("Do you want to save the file before exit?", MsgBoxStyle.YesNo)
@@ -3844,8 +3843,11 @@ Public Class FormProgramming
 
                     EnableCoordinateUpdateInSpreadsheet()
                     Dim ArrayDlg As New ArrayGenerate
-
+                    ArrayDlg.TopLevel = False
+                    ArrayDlg.Parent = Me
+                    ArrayDlg.Font = New Font("Microsoft Sans Serif", 8.25)
                     ArrayDlg.SetDefaultPara(m_Execution.m_Pattern.m_CurrentDPara)
+                    ArrayDlg.BringToFront()
                     ArrayDlg.Show()
                     Dim DlgReturn = ArrayDlg.DialogResult()
                     Dim PointX, PointY, PointZ As Double
@@ -7037,10 +7039,6 @@ Public Class FormProgramming
         If e.KeyCode = Keys.ControlKey Then
             isPress = False
         End If
-    End Sub
-
-    Private Sub FormProgramming_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
-        Console.WriteLine("Key Pressed")
     End Sub
 
 

@@ -214,8 +214,8 @@ Public Class FormStartup
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         LoginName = "Application_Programmer"
-        formlg.StartPosition = FormStartPosition.CenterScreen
         formlg.ShowDialog()
+        'formlg.StartPosition = FormStartPosition.CenterScreen
     End Sub
 
     Private Sub FormStartup_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

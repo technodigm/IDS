@@ -808,6 +808,7 @@ Public Class FormLogin
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
         Me.Name = "FormLogin"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Login"
         Me.GroupBox1.ResumeLayout(False)
         Me.PanelIDSLogin.ResumeLayout(False)

@@ -931,7 +931,7 @@ Public Class ArrayGenerate
         Me.Controls.Add(Me.Button_OnCancel)
         Me.Controls.Add(Me.Button_OnOK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Location = New System.Drawing.Point(0, 86)
+        Me.Location = New System.Drawing.Point(0, 41)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ArrayGenerate"
