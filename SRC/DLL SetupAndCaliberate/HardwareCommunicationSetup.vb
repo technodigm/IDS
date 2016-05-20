@@ -36,10 +36,7 @@ Public Class HardwareCommunicationSetup
     Friend WithEvents ButtonPostLifterOn As System.Windows.Forms.Button
     Friend WithEvents BT_DownSignal As System.Windows.Forms.Button
     Friend WithEvents BT_UpSignal As System.Windows.Forms.Button
-    Friend WithEvents BT_Retrieve As System.Windows.Forms.Button
     Friend WithEvents ButtonDispenseLifterON As System.Windows.Forms.Button
-    Friend WithEvents ResetPLCLogic As System.Windows.Forms.Button
-    Friend WithEvents BT_Release As System.Windows.Forms.Button
     Friend WithEvents ButtonPreLifterOn As System.Windows.Forms.Button
     Friend WithEvents Label17 As System.Windows.Forms.Label
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
@@ -54,6 +51,9 @@ Public Class HardwareCommunicationSetup
     Friend WithEvents WeighingScaleButton As System.Windows.Forms.Button
     Friend WithEvents ConveyorButton As System.Windows.Forms.Button
     Friend WithEvents LaserButton As System.Windows.Forms.Button
+    Friend WithEvents ResetPLCLogic As System.Windows.Forms.Button
+    Friend WithEvents BT_Retrieve As System.Windows.Forms.Button
+    Friend WithEvents BT_Release As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(HardwareCommunicationSetup))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
@@ -65,10 +65,7 @@ Public Class HardwareCommunicationSetup
         Me.Label17 = New System.Windows.Forms.Label
         Me.ConveyorBox = New System.Windows.Forms.GroupBox
         Me.BT_UpSignal = New System.Windows.Forms.Button
-        Me.BT_Retrieve = New System.Windows.Forms.Button
-        Me.BT_Release = New System.Windows.Forms.Button
         Me.BT_DownSignal = New System.Windows.Forms.Button
-        Me.ResetPLCLogic = New System.Windows.Forms.Button
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.HeaterStatus = New System.Windows.Forms.Label
         Me.LifterStatus = New System.Windows.Forms.Label
@@ -79,6 +76,9 @@ Public Class HardwareCommunicationSetup
         Me.ConveyorButton = New System.Windows.Forms.Button
         Me.HeaterButton = New System.Windows.Forms.Button
         Me.LaserButton = New System.Windows.Forms.Button
+        Me.ResetPLCLogic = New System.Windows.Forms.Button
+        Me.BT_Retrieve = New System.Windows.Forms.Button
+        Me.BT_Release = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.LifterBox.SuspendLayout()
         Me.ConveyorBox.SuspendLayout()
@@ -190,24 +190,6 @@ Public Class HardwareCommunicationSetup
         Me.BT_UpSignal.TabIndex = 21
         Me.BT_UpSignal.Text = "Up-Flow"
         '
-        'BT_Retrieve
-        '
-        Me.BT_Retrieve.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_Retrieve.Location = New System.Drawing.Point(16, 120)
-        Me.BT_Retrieve.Name = "BT_Retrieve"
-        Me.BT_Retrieve.Size = New System.Drawing.Size(88, 48)
-        Me.BT_Retrieve.TabIndex = 19
-        Me.BT_Retrieve.Text = "Retrieve"
-        '
-        'BT_Release
-        '
-        Me.BT_Release.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_Release.Location = New System.Drawing.Point(128, 120)
-        Me.BT_Release.Name = "BT_Release"
-        Me.BT_Release.Size = New System.Drawing.Size(88, 48)
-        Me.BT_Release.TabIndex = 20
-        Me.BT_Release.Text = "Release"
-        '
         'BT_DownSignal
         '
         Me.BT_DownSignal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -216,15 +198,6 @@ Public Class HardwareCommunicationSetup
         Me.BT_DownSignal.Size = New System.Drawing.Size(88, 48)
         Me.BT_DownSignal.TabIndex = 22
         Me.BT_DownSignal.Text = "Down-Flow"
-        '
-        'ResetPLCLogic
-        '
-        Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetPLCLogic.Location = New System.Drawing.Point(16, 192)
-        Me.ResetPLCLogic.Name = "ResetPLCLogic"
-        Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
-        Me.ResetPLCLogic.TabIndex = 31
-        Me.ResetPLCLogic.Text = "Reset PLC Logic"
         '
         'GroupBox2
         '
@@ -288,7 +261,7 @@ Public Class HardwareCommunicationSetup
         '
         'WeighingScaleButton
         '
-        Me.WeighingScaleButton.Location = New System.Drawing.Point(16, 424)
+        Me.WeighingScaleButton.Location = New System.Drawing.Point(16, 488)
         Me.WeighingScaleButton.Name = "WeighingScaleButton"
         Me.WeighingScaleButton.Size = New System.Drawing.Size(232, 40)
         Me.WeighingScaleButton.TabIndex = 49
@@ -312,11 +285,38 @@ Public Class HardwareCommunicationSetup
         '
         'LaserButton
         '
-        Me.LaserButton.Location = New System.Drawing.Point(16, 488)
+        Me.LaserButton.Location = New System.Drawing.Point(16, 424)
         Me.LaserButton.Name = "LaserButton"
         Me.LaserButton.Size = New System.Drawing.Size(232, 40)
         Me.LaserButton.TabIndex = 49
         Me.LaserButton.Text = "Laser Interface"
+        '
+        'ResetPLCLogic
+        '
+        Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ResetPLCLogic.Location = New System.Drawing.Point(16, 192)
+        Me.ResetPLCLogic.Name = "ResetPLCLogic"
+        Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
+        Me.ResetPLCLogic.TabIndex = 31
+        Me.ResetPLCLogic.Text = "Reset PLC Logic"
+        '
+        'BT_Retrieve
+        '
+        Me.BT_Retrieve.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BT_Retrieve.Location = New System.Drawing.Point(16, 120)
+        Me.BT_Retrieve.Name = "BT_Retrieve"
+        Me.BT_Retrieve.Size = New System.Drawing.Size(88, 48)
+        Me.BT_Retrieve.TabIndex = 19
+        Me.BT_Retrieve.Text = "Retrieve"
+        '
+        'BT_Release
+        '
+        Me.BT_Release.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BT_Release.Location = New System.Drawing.Point(128, 120)
+        Me.BT_Release.Name = "BT_Release"
+        Me.BT_Release.Size = New System.Drawing.Size(88, 48)
+        Me.BT_Release.TabIndex = 20
+        Me.BT_Release.Text = "Release"
         '
         'HardwareCommunicationSetup
         '
@@ -356,11 +356,11 @@ Public Class HardwareCommunicationSetup
         Static Dim checkClick As Boolean = True
         If checkClick = True Then
             IDS.Devices.DIO.DIO_SetOutputBit(1, 3, True)
-            mysleep(40)
+            MySleep(40)
             checkClick = False
         Else
             IDS.Devices.DIO.DIO_SetOutputBit(1, 3, False)
-            mysleep(40)
+            MySleep(40)
             checkClick = True
         End If
     End Sub

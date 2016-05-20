@@ -867,7 +867,7 @@ Public Class FormVision
         '
         'Button_Close
         '
-        Me.Button_Close.Location = New System.Drawing.Point(704, 584)
+        Me.Button_Close.Location = New System.Drawing.Point(704, 592)
         Me.Button_Close.Name = "Button_Close"
         Me.Button_Close.Size = New System.Drawing.Size(56, 24)
         Me.Button_Close.TabIndex = 79
@@ -875,7 +875,7 @@ Public Class FormVision
         '
         'Button_LoadImage
         '
-        Me.Button_LoadImage.Location = New System.Drawing.Point(584, 584)
+        Me.Button_LoadImage.Location = New System.Drawing.Point(584, 592)
         Me.Button_LoadImage.Name = "Button_LoadImage"
         Me.Button_LoadImage.Size = New System.Drawing.Size(104, 24)
         Me.Button_LoadImage.TabIndex = 77
@@ -883,7 +883,7 @@ Public Class FormVision
         '
         'Button_SaveImage
         '
-        Me.Button_SaveImage.Location = New System.Drawing.Point(488, 584)
+        Me.Button_SaveImage.Location = New System.Drawing.Point(488, 592)
         Me.Button_SaveImage.Name = "Button_SaveImage"
         Me.Button_SaveImage.Size = New System.Drawing.Size(96, 24)
         Me.Button_SaveImage.TabIndex = 76

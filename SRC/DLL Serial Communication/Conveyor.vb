@@ -31,7 +31,6 @@ Public Class Conveyor
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents ButtonConveyorMoveForward As System.Windows.Forms.Button
     Friend WithEvents ConveyorFineAdjust As System.Windows.Forms.NumericUpDown
     Friend WithEvents ButtonConveyorMoveReverse As System.Windows.Forms.Button
@@ -48,21 +47,20 @@ Public Class Conveyor
     Friend WithEvents ConveyorWidthEnter As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
-    Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents ConveyorWidth As System.Windows.Forms.Label
     Friend WithEvents BoxToBeAdded As System.Windows.Forms.GroupBox
     Public WithEvents AxMSComm1 As AxMSCommLib.AxMSComm
-    Friend WithEvents BT_UpSignal As System.Windows.Forms.Button
     Friend WithEvents BT_Retrieve As System.Windows.Forms.Button
     Friend WithEvents BT_Release As System.Windows.Forms.Button
-    Friend WithEvents BT_DownSignal As System.Windows.Forms.Button
     Friend WithEvents ResetPLCLogic As System.Windows.Forms.Button
     Public WithEvents PositionTimer As System.Windows.Forms.Timer
+    Friend WithEvents ButtonHome As System.Windows.Forms.Button
+    Friend WithEvents ButtonApply As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Conveyor))
         Me.AxMSComm1 = New AxMSCommLib.AxMSComm
-        Me.Button2 = New System.Windows.Forms.Button
+        Me.ButtonHome = New System.Windows.Forms.Button
         Me.ButtonConveyorMoveReverse = New System.Windows.Forms.Button
         Me.ButtonConveyorMoveForward = New System.Windows.Forms.Button
         Me.ConveyorFineAdjust = New System.Windows.Forms.NumericUpDown
@@ -82,11 +80,9 @@ Public Class Conveyor
         Me.ConveyorWidthEnter = New System.Windows.Forms.NumericUpDown
         Me.Label8 = New System.Windows.Forms.Label
         Me.Label12 = New System.Windows.Forms.Label
-        Me.Button3 = New System.Windows.Forms.Button
-        Me.BT_UpSignal = New System.Windows.Forms.Button
+        Me.ButtonApply = New System.Windows.Forms.Button
         Me.BT_Retrieve = New System.Windows.Forms.Button
         Me.BT_Release = New System.Windows.Forms.Button
-        Me.BT_DownSignal = New System.Windows.Forms.Button
         Me.ResetPLCLogic = New System.Windows.Forms.Button
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ConveyorFineAdjust, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,20 +94,21 @@ Public Class Conveyor
         '
         'AxMSComm1
         '
+        Me.AxMSComm1.ContainingControl = Me
         Me.AxMSComm1.Enabled = True
-        Me.AxMSComm1.Location = New System.Drawing.Point(472, 320)
+        Me.AxMSComm1.Location = New System.Drawing.Point(448, 240)
         Me.AxMSComm1.Name = "AxMSComm1"
         Me.AxMSComm1.OcxState = CType(resources.GetObject("AxMSComm1.OcxState"), System.Windows.Forms.AxHost.State)
         Me.AxMSComm1.Size = New System.Drawing.Size(38, 38)
         Me.AxMSComm1.TabIndex = 0
         '
-        'Button2
+        'ButtonHome
         '
-        Me.Button2.Location = New System.Drawing.Point(392, 80)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(72, 40)
-        Me.Button2.TabIndex = 1
-        Me.Button2.Text = "Home"
+        Me.ButtonHome.Location = New System.Drawing.Point(392, 80)
+        Me.ButtonHome.Name = "ButtonHome"
+        Me.ButtonHome.Size = New System.Drawing.Size(72, 40)
+        Me.ButtonHome.TabIndex = 1
+        Me.ButtonHome.Text = "Home"
         '
         'ButtonConveyorMoveReverse
         '
@@ -163,9 +160,10 @@ Public Class Conveyor
         Me.BoxToBeAdded.Controls.Add(Me.Label12)
         Me.BoxToBeAdded.Controls.Add(Me.ButtonConveyorMoveReverse)
         Me.BoxToBeAdded.Controls.Add(Me.ButtonConveyorMoveForward)
-        Me.BoxToBeAdded.Controls.Add(Me.Button2)
+        Me.BoxToBeAdded.Controls.Add(Me.ButtonHome)
         Me.BoxToBeAdded.Controls.Add(Me.ConveyorFineAdjust)
-        Me.BoxToBeAdded.Controls.Add(Me.Button3)
+        Me.BoxToBeAdded.Controls.Add(Me.ButtonApply)
+        Me.BoxToBeAdded.Controls.Add(Me.AxMSComm1)
         Me.BoxToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BoxToBeAdded.Location = New System.Drawing.Point(16, 16)
         Me.BoxToBeAdded.Name = "BoxToBeAdded"
@@ -308,27 +306,18 @@ Public Class Conveyor
         Me.Label12.TabIndex = 45
         Me.Label12.Text = "mm"
         '
-        'Button3
+        'ButtonApply
         '
-        Me.Button3.Location = New System.Drawing.Point(336, 208)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(75, 40)
-        Me.Button3.TabIndex = 19
-        Me.Button3.Text = "Apply"
-        '
-        'BT_UpSignal
-        '
-        Me.BT_UpSignal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_UpSignal.Location = New System.Drawing.Point(16, 320)
-        Me.BT_UpSignal.Name = "BT_UpSignal"
-        Me.BT_UpSignal.Size = New System.Drawing.Size(88, 48)
-        Me.BT_UpSignal.TabIndex = 52
-        Me.BT_UpSignal.Text = "Up-Flow"
+        Me.ButtonApply.Location = New System.Drawing.Point(336, 208)
+        Me.ButtonApply.Name = "ButtonApply"
+        Me.ButtonApply.Size = New System.Drawing.Size(75, 40)
+        Me.ButtonApply.TabIndex = 19
+        Me.ButtonApply.Text = "Apply"
         '
         'BT_Retrieve
         '
         Me.BT_Retrieve.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_Retrieve.Location = New System.Drawing.Point(16, 392)
+        Me.BT_Retrieve.Location = New System.Drawing.Point(52, 320)
         Me.BT_Retrieve.Name = "BT_Retrieve"
         Me.BT_Retrieve.Size = New System.Drawing.Size(88, 48)
         Me.BT_Retrieve.TabIndex = 50
@@ -337,25 +326,16 @@ Public Class Conveyor
         'BT_Release
         '
         Me.BT_Release.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_Release.Location = New System.Drawing.Point(128, 392)
+        Me.BT_Release.Location = New System.Drawing.Point(164, 320)
         Me.BT_Release.Name = "BT_Release"
         Me.BT_Release.Size = New System.Drawing.Size(88, 48)
         Me.BT_Release.TabIndex = 51
         Me.BT_Release.Text = "Release"
         '
-        'BT_DownSignal
-        '
-        Me.BT_DownSignal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_DownSignal.Location = New System.Drawing.Point(128, 320)
-        Me.BT_DownSignal.Name = "BT_DownSignal"
-        Me.BT_DownSignal.Size = New System.Drawing.Size(88, 48)
-        Me.BT_DownSignal.TabIndex = 53
-        Me.BT_DownSignal.Text = "Down-Flow"
-        '
         'ResetPLCLogic
         '
         Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetPLCLogic.Location = New System.Drawing.Point(16, 464)
+        Me.ResetPLCLogic.Location = New System.Drawing.Point(276, 320)
         Me.ResetPLCLogic.Name = "ResetPLCLogic"
         Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
         Me.ResetPLCLogic.TabIndex = 54
@@ -364,14 +344,11 @@ Public Class Conveyor
         'Conveyor
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(528, 526)
-        Me.Controls.Add(Me.BT_UpSignal)
+        Me.ClientSize = New System.Drawing.Size(528, 384)
         Me.Controls.Add(Me.BT_Retrieve)
         Me.Controls.Add(Me.BT_Release)
-        Me.Controls.Add(Me.BT_DownSignal)
         Me.Controls.Add(Me.ResetPLCLogic)
         Me.Controls.Add(Me.BoxToBeAdded)
-        Me.Controls.Add(Me.AxMSComm1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Conveyor"
@@ -662,7 +639,7 @@ Public Class Conveyor
         End If
     End Sub
 
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHome.Click
         Command("Width Mode")
         Command("Homing")
         Command("Normal Mode")
@@ -684,7 +661,7 @@ Public Class Conveyor
         Command("Read Position")
     End Sub
 
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonApply.Click
         SetCommand("Retrieve Timer", TimeOutEnter.Value)
         SetCommand("speed", SpeedEnter.Value)
     End Sub
@@ -693,11 +670,17 @@ Public Class Conveyor
         MoveTo(ConveyorWidthEnter.Value)
     End Sub
 
-    Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Command("Read Position")
-    End Sub
 
     Private Sub ResetPLCLogic_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetPLCLogic.Click
         Command("Reset PLC Logic")
+    End Sub
+
+
+    Private Sub BT_Retrieve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BT_Retrieve.Click
+        Command("Retrieve")
+    End Sub
+
+    Private Sub BT_Release_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BT_Release.Click
+        Command("Release")
     End Sub
 End Class

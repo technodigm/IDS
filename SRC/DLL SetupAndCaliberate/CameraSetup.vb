@@ -145,7 +145,6 @@ Public Class VisionSetup
     Friend WithEvents ButtonExit As System.Windows.Forms.Button
     Friend WithEvents PanelToBeAdded As System.Windows.Forms.Panel
     Friend WithEvents Label20 As System.Windows.Forms.Label
-    Friend WithEvents Button7 As System.Windows.Forms.Button
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents PanelToBeAdded2 As System.Windows.Forms.Panel
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
@@ -263,7 +262,6 @@ Public Class VisionSetup
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.PanelToBeAdded2 = New System.Windows.Forms.Panel
         Me.Label20 = New System.Windows.Forms.Label
-        Me.Button7 = New System.Windows.Forms.Button
         Me.Panel3 = New System.Windows.Forms.Panel
         Me.GroupBox12.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -957,6 +955,7 @@ Public Class VisionSetup
         Me.GroupBox9.Controls.Add(Me.Button_Test)
         Me.GroupBox9.Controls.Add(Me.Label40)
         Me.GroupBox9.Controls.Add(Me.Label28)
+        Me.GroupBox9.Controls.Add(Me.Button6)
         Me.GroupBox9.Location = New System.Drawing.Point(8, 24)
         Me.GroupBox9.Name = "GroupBox9"
         Me.GroupBox9.Size = New System.Drawing.Size(466, 184)
@@ -1372,7 +1371,7 @@ Public Class VisionSetup
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(16, 16)
+        Me.Button6.Location = New System.Drawing.Point(24, 144)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(232, 32)
         Me.Button6.TabIndex = 43
@@ -1395,7 +1394,6 @@ Public Class VisionSetup
         'PanelToBeAdded2
         '
         Me.PanelToBeAdded2.Controls.Add(Me.Label20)
-        Me.PanelToBeAdded2.Controls.Add(Me.Button7)
         Me.PanelToBeAdded2.Controls.Add(Me.Panel3)
         Me.PanelToBeAdded2.Location = New System.Drawing.Point(560, 8)
         Me.PanelToBeAdded2.Name = "PanelToBeAdded2"
@@ -1412,23 +1410,9 @@ Public Class VisionSetup
         Me.Label20.TabIndex = 46
         Me.Label20.Text = "Camera Calibration Setup"
         '
-        'Button7
-        '
-        Me.Button7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button7.Image = CType(resources.GetObject("Button7.Image"), System.Drawing.Image)
-        Me.Button7.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.Button7.Location = New System.Drawing.Point(416, 16)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(75, 50)
-        Me.Button7.TabIndex = 45
-        Me.Button7.TabStop = False
-        Me.Button7.Text = "Exit"
-        Me.Button7.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
         'Panel3
         '
         Me.Panel3.Controls.Add(Me.GroupBox1)
-        Me.Panel3.Controls.Add(Me.Button6)
         Me.Panel3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel3.Location = New System.Drawing.Point(0, 80)
         Me.Panel3.Name = "Panel3"
@@ -1438,7 +1422,7 @@ Public Class VisionSetup
         'VisionSetup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1088, 878)
+        Me.ClientSize = New System.Drawing.Size(1088, 968)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.Controls.Add(Me.PanelToBeAdded2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -1684,6 +1668,7 @@ Public Class VisionSetup
         Panel2.Controls.Remove(GroupBox1)
         'GroupBox1.BringToFront()
         ResetVariables_Back()
+        IDS.Devices.Vision.FrmVision.DisableChipEdgeDrawing()
     End Sub
     Private Sub ButtonRevert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         GroupBox3.BringToFront()
@@ -1752,6 +1737,7 @@ Public Class VisionSetup
         Panel2.Controls.Add(Me.GroupBox1)
         GroupBox1.BringToFront()
         GroupBox1.Location = New Point(8, 56) '(8,72)?
+        IDS.Devices.Vision.FrmVision.EnableChipEdgeDrawing()
     End Sub
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         If Clickno = 1 Then
@@ -1804,6 +1790,7 @@ Public Class VisionSetup
         Timer1.Stop()
         IDS.Devices.Vision.FrmVision.ClearDisplay()
         IDS.Devices.Vision.FrmVision.DisplayIndicator()
+        IDS.Devices.Vision.FrmVision.DisableChipEdgeDrawing()
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -1892,5 +1879,10 @@ Public Class VisionSetup
 
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
         IDS.Devices.Vision.FrmVision.ResetChipEdgePoint()
+        IDS.Devices.Vision.FrmVision.EnableChipEdgeDrawing()
+    End Sub
+
+    Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        IDS.Devices.Vision.FrmVision.DisableChipEdgeDrawing()
     End Sub
 End Class

@@ -7,13 +7,13 @@
 6IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir
 )IDSData.Admin.Folder.FileExtension =Pat
 6IDSData.ParameterID.GroupID =Application_Maintenance
-.IDSData.ParameterID.RecordID =factorydefault
+.IDSData.ParameterID.RecordID =FactoryDefault
 ,IDSData.Admin.User.ContactNo =6493 3826‎
 $IDSData.Admin.User.Department =R&D
 IDSData.Admin.User.ID =a
 &IDSData.Admin.User.Name =Techno-Digm
 IDSData.Admin.User.PassWord =
-/IDSData.Admin.User.RunApplication =Programmer
++IDSData.Admin.User.RunApplication =System
 6IDSData.Admin.User.Group.ID =Application_Maintenance
 $IDSData.Admin.User.Group.Remark =1
 8IDSData.Admin.User.Group.PrivilegeArray (0) =Dispenser
@@ -119,9 +119,9 @@ EIDSData.Admin.User.Group.SystemHardwareArray (3) =ThermalController
 ,IDSData.Hardware.Camera.OffsetRNeedle.Y =0
 /IDSData.Hardware.Camera.OffsetTouchProbe.X =0
 /IDSData.Hardware.Camera.OffsetTouchProbe.Y =0
-9IDSData.Hardware.Camera.PixelsToMM.X =0.021076925151246
-9IDSData.Hardware.Camera.PixelsToMM.Y =0.021154001421289
-7IDSData.Hardware.Camera.PixelRatio =0.996356421250618
+:IDSData.Hardware.Camera.PixelsToMM.X =0.0210959332509594
+:IDSData.Hardware.Camera.PixelsToMM.Y =0.0211581633108921
+7IDSData.Hardware.Camera.PixelRatio =0.997058815596689
 1IDSData.Hardware.Camera.ReferencePos.X =127.271
 2IDSData.Hardware.Camera.ReferencePos.Y =-360.832
 +IDSData.Hardware.Camera.ReferencePos.Z =0
@@ -129,7 +129,7 @@ EIDSData.Admin.User.Group.SystemHardwareArray (3) =ThermalController
 *IDSData.Hardware.Camera.SoftHomePos.Y =0
 *IDSData.Hardware.Camera.SoftHomePos.Z =0
 3IDSData.Hardware.Camera.CalibrationNumColumns =32
-0IDSData.Hardware.Camera.CalibrationNumRows =23
+0IDSData.Hardware.Camera.CalibrationNumRows =24
 /IDSData.Hardware.Camera.CalibrationSpacing =0
 2IDSData.Hardware.Camera.CalibrationBlockPos.X =0
 2IDSData.Hardware.Camera.CalibrationBlockPos.Y =0
@@ -151,11 +151,11 @@ EIDSData.Admin.User.Group.SystemHardwareArray (3) =ThermalController
 =IDSData.Hardware.Camera.ResultRotation =-0.0533886083664307
 
 ~[CONVEYOR]
-&IDSData.Hardware.Conveyor.Width =150
+&IDSData.Hardware.Conveyor.Width =290
 (IDSData.Hardware.Conveyor.FullWidth =3
 )IDSData.Hardware.Conveyor.MinWidth =310
 &IDSData.Hardware.Conveyor.Speed =300
-'IDSData.Hardware.Conveyor.TimeOut =30
+(IDSData.Hardware.Conveyor.TimeOut =500
 ,IDSData.Hardware.Conveyor.WidthMoveStep =5
 
 ~[DISPENSER]
@@ -230,7 +230,7 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 .IDSData.Hardware.Gantry.SystemOriginPos.Z =0
 *IDSData.Hardware.Gantry.SystemUnit =True
 )IDSData.Hardware.Gantry.WorkArea.X =400
-)IDSData.Hardware.Gantry.WorkArea.Y =370
+)IDSData.Hardware.Gantry.WorkArea.Y =400
 ,IDSData.Hardware.Gantry.WorkArea.Z.Max =10
 -IDSData.Hardware.Gantry.WorkArea.Z.Min =-95
 -IDSData.Hardware.Gantry.ServiceXYSpeed =100
@@ -245,8 +245,8 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 ~[HEIGHTSENOR@LASER]
 5IDSData.Hardware.HeightSensor.Laser.CurrentPos.X =0
 5IDSData.Hardware.HeightSensor.Laser.CurrentPos.Y =0
-DIDSData.Hardware.HeightSensor.Laser.CurrentPos.Z =10.0311583577713
-GIDSData.Hardware.HeightSensor.Laser.HeightReference =10.0311583577713
+DIDSData.Hardware.HeightSensor.Laser.CurrentPos.Z =8.83592375366569
+GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.83592375366569
 :IDSData.Hardware.HeightSensor.Laser.OffsetPos.X =-74.452
 :IDSData.Hardware.HeightSensor.Laser.OffsetPos.Y =488.103
 
@@ -274,16 +274,16 @@ GIDSData.Hardware.HeightSensor.Laser.HeightReference =10.0311583577713
 
 ~[NEEDLE@LEFT]
 +IDSData.Hardware.Needle.Left.ArcRadius =0
-@IDSData.Hardware.Needle.Left.CalibratorPos.X =51.3480440032815
-AIDSData.Hardware.Needle.Left.CalibratorPos.Y =-365.249544932945
-7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-73.449
+@IDSData.Hardware.Needle.Left.CalibratorPos.X =51.3513942130544
+AIDSData.Hardware.Needle.Left.CalibratorPos.Y =-365.269799301819
+7IDSData.Hardware.Needle.Left.CalibratorPos.Z =-76.348
 2IDSData.Hardware.Needle.Left.HeightApproach =-80
 1IDSData.Hardware.Needle.Left.HeightClearance =0
 /IDSData.Hardware.Needle.Left.HeightRetract =0
 CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =141.093
 DIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-367.393
 CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-73.448
-:IDSData.Hardware.Needle.Left.TouchSensorZPosition =-73.6
+<IDSData.Hardware.Needle.Left.TouchSensorZPosition =-76.505
 5IDSData.Hardware.Needle.Left.ArrayDotPos1.X =66.189
 7IDSData.Hardware.Needle.Left.ArrayDotPos1.Y =-365.319
 0IDSData.Hardware.Needle.Left.ArrayDotPos1.Z =0
@@ -310,16 +310,16 @@ CIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =-73.448
 
 ~[NEEDLE@RIGHT]
 ,IDSData.Hardware.Needle.Right.ArcRadius =0
-AIDSData.Hardware.Needle.Right.CalibratorPos.X =51.3480440032815
-BIDSData.Hardware.Needle.Right.CalibratorPos.Y =-365.249544932945
-8IDSData.Hardware.Needle.Right.CalibratorPos.Z =-73.449
+AIDSData.Hardware.Needle.Right.CalibratorPos.X =51.3513942130544
+BIDSData.Hardware.Needle.Right.CalibratorPos.Y =-365.269799301819
+8IDSData.Hardware.Needle.Right.CalibratorPos.Z =-76.348
 3IDSData.Hardware.Needle.Right.HeightApproach =-80
 2IDSData.Hardware.Needle.Right.HeightClearance =0
 0IDSData.Hardware.Needle.Right.HeightRetract =0
 >IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.X =0
 >IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Y =0
 >IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Z =0
-;IDSData.Hardware.Needle.Right.TouchSensorZPosition =-73.6
+=IDSData.Hardware.Needle.Right.TouchSensorZPosition =-76.505
 1IDSData.Hardware.Needle.Right.ArrayDotPos1.X =0
 1IDSData.Hardware.Needle.Right.ArrayDotPos1.Y =0
 1IDSData.Hardware.Needle.Right.ArrayDotPos1.Z =0

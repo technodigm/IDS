@@ -60,7 +60,11 @@ Public Class LaserCalibration
     Friend WithEvents PanelToBeAdded As System.Windows.Forms.Panel
     Friend WithEvents ButtonRevert As System.Windows.Forms.Button
     Friend WithEvents ButtonSave As System.Windows.Forms.Button
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
+    Friend WithEvents LaserReading As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(LaserCalibration))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
@@ -92,6 +96,9 @@ Public Class LaserCalibration
         Me.LaserOffsetY = New System.Windows.Forms.Label
         Me.Label21 = New System.Windows.Forms.Label
         Me.LaserOffsetZ = New System.Windows.Forms.Label
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.LaserReading = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
@@ -105,6 +112,8 @@ Public Class LaserCalibration
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.ButtonSave)
+        Me.GroupBox1.Controls.Add(Me.LaserReading)
+        Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(8, 72)
         Me.GroupBox1.Name = "GroupBox1"
@@ -124,7 +133,7 @@ Public Class LaserCalibration
         Me.GroupBox2.Controls.Add(Me.Label6)
         Me.GroupBox2.Controls.Add(Me.Label5)
         Me.GroupBox2.Controls.Add(Me.ButtonLSStart)
-        Me.GroupBox2.Location = New System.Drawing.Point(40, 224)
+        Me.GroupBox2.Location = New System.Drawing.Point(40, 280)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(392, 376)
         Me.GroupBox2.TabIndex = 14
@@ -219,7 +228,7 @@ Public Class LaserCalibration
         'Label2
         '
         Me.Label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label2.Location = New System.Drawing.Point(32, 168)
+        Me.Label2.Location = New System.Drawing.Point(32, 128)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(222, 30)
         Me.Label2.TabIndex = 10
@@ -246,7 +255,7 @@ Public Class LaserCalibration
         '
         Me.Label1.Location = New System.Drawing.Point(-102, -8)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 21)
+        Me.Label1.Size = New System.Drawing.Size(77, 21)
         Me.Label1.TabIndex = 30
         Me.Label1.Text = "Sensor"
         '
@@ -392,6 +401,26 @@ Public Class LaserCalibration
         Me.LaserOffsetZ.Text = "100.000"
         Me.LaserOffsetZ.Visible = False
         '
+        'Timer1
+        '
+        Me.Timer1.Interval = 10
+        '
+        'LaserReading
+        '
+        Me.LaserReading.Location = New System.Drawing.Point(296, 208)
+        Me.LaserReading.Name = "LaserReading"
+        Me.LaserReading.Size = New System.Drawing.Size(88, 24)
+        Me.LaserReading.TabIndex = 16
+        '
+        'Label9
+        '
+        Me.Label9.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.Label9.Location = New System.Drawing.Point(64, 208)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(184, 25)
+        Me.Label9.TabIndex = 12
+        Me.Label9.Text = "Laser Reading (mm) :"
+        '
         'LaserCalibration
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 19)
@@ -432,12 +461,16 @@ Public Class LaserCalibration
 
     Private Sub ButtonLSStart_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLSStart.Click
 
-        Dim counter As Integer = 0
-        Dim calibrator_plate_height, block_height As Double
-
+        Timer1.Start()
         m_Tri.SetMachineRun()
-        OnLaser()
-        If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
+        Laser.EnableContinuousRead()
+
+        Dim counter As Integer = 0
+        Dim calibrator_plate_height, block_height, difference As Double
+        Dim position(3) As Double
+
+        Laser.MM_Reading = 0
+        WaitLoop()
         block_height = Laser.MM_Reading
         NewLaserZReference.Text = block_height
         IDS.Data.Hardware.HeightSensor.Laser.HeightReference = block_height
@@ -446,101 +479,120 @@ Public Class LaserCalibration
 
         m_Tri.Set_XY_Speed(10)
 
+        '1) move to the top right position outside block
         distance(0) = 7
         distance(1) = 7
         m_Tri.MoveRelative_XY(distance)
-        If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
-        If (Laser.MM_Reading - block_height) > 0.95 And (Laser.MM_Reading - block_height) < 2 Then
+
+        '2) move to the center right position outside block
+        'MySleep(100)
+        difference = Math.Abs(Laser.MM_Reading - block_height)
+        If difference > 0.95 And difference < 2 Then
             distance(0) = 0
             distance(1) = -7
             m_Tri.MoveRelative_XY(distance)
+            WaitLoop()
+            calibrator_plate_height = Laser.MM_Reading
         Else
             GoTo CalibrationError
         End If
 
-        calibrator_plate_height = Laser.MM_Reading
-        distance(0) = -0.01
-        distance(1) = 0
+        '3) move from center right position outside block to
+        '   the right side of the block edge
         While Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400
+            distance(0) = -0.01
+            distance(1) = 0
             counter = counter + 1
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
-        distance(0) = -9
-        distance(1) = 0
-        distance(2) = 0
-        If Math.Abs(calibrator_plate_height - Laser.MM_Reading) > 0.95 And counter < 400 Then
+        '4) move to the center x position inside block
+        'MySleep(100)
+        difference = Math.Abs(Laser.MM_Reading - calibrator_plate_height)
+        If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
-            m_Tri.m_TriCtrl.SetTable(101, 1, m_Tri.XPosition) 'X rising pos
+            position(0) = m_Tri.XPosition
+            distance(0) = -9
+            distance(1) = 0
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
+            WaitLoop()
+            block_height = Laser.MM_Reading
         Else
             GoTo CalibrationError
         End If
 
+        '5) move from center x position inside block to
+        '   left side of the block edge
         counter = 0
-        If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
-        block_height = Laser.MM_Reading
-        distance(0) = -0.01
-        distance(1) = 0
         While Math.Abs(block_height - Laser.MM_Reading) < 0.95 And counter <= 400
             counter = counter + 1
+            distance(0) = -0.01
+            distance(1) = 0
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
-        distance(0) = 5
-        distance(1) = 6
-        If Math.Abs(block_height - Laser.MM_Reading) > 0.95 And counter < 400 Then
+        '6) move from left side of the block edge 
+        '   to top center position outside of block
+        'MySleep(100)
+        difference = Math.Abs(Laser.MM_Reading - block_height)
+        If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
-            m_Tri.m_TriCtrl.SetTable(102, 1, m_Tri.XPosition) 'X rising pos
+            position(1) = m_Tri.XPosition
+            distance(0) = 7
+            distance(1) = 7
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
+            WaitLoop()
+            calibrator_plate_height = Laser.MM_Reading
         Else
             GoTo CalibrationError
         End If
 
-        distance(0) = 0
-        distance(1) = -0.01
+        '7) move from top center position outside of block
+        '   to top edge of the block
         While Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400
             counter = counter + 1
+            distance(0) = 0
+            distance(1) = -0.01
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
-        distance(0) = 0
-        distance(1) = -9
-        If Math.Abs(calibrator_plate_height - Laser.MM_Reading) > 0.95 And counter < 400 Then
+        '8) move from top edge of the block
+        '   to the center y position of the block
+        'MySleep(100)
+        difference = Math.Abs(Laser.MM_Reading - calibrator_plate_height)
+        If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
-            m_Tri.m_TriCtrl.SetTable(103, 1, m_Tri.YPosition) 'X rising pos
+            position(2) = m_Tri.YPosition
+            distance(0) = 0
+            distance(1) = -9
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
+            WaitLoop()
+            block_height = Laser.MM_Reading
         Else
             GoTo CalibrationError
         End If
 
+        '9) move from the center y position of the block
+        '   to the bottom edge of the block
         counter = 0
-        distance(0) = 0
-        distance(1) = -0.01
         While Math.Abs(block_height - Laser.MM_Reading) < 0.95 And counter <= 400
             counter = counter + 1
+            distance(0) = 0
+            distance(1) = -0.01
             m_Tri.MoveRelative_XY(distance)
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
         End While
 
-        If Math.Abs(block_height - Laser.MM_Reading) > 0.95 And counter < 400 Then
+        '10) get the y position of the bottom edge of the block
+        difference = Math.Abs(Laser.MM_Reading - block_height)
+        If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
-            m_Tri.m_TriCtrl.SetTable(104, 1, m_Tri.YPosition) 'X rising pos
-            If Not Laser.WaitForReadingToStabilize() Then GoTo calibrationerror
+            position(3) = m_Tri.YPosition
         Else
             GoTo CalibrationError
         End If
 
         'finish
         TraceDoEvents()
-        Dim position(3) As Double
-        m_Tri.m_TriCtrl.GetTable(101, 4, position)
         distance(0) = (position(0) - position(1)) / 2 + position(1)
         distance(1) = (position(2) - position(3)) / 2 + position(3)
         distance(2) = 0
@@ -549,13 +601,19 @@ Public Class LaserCalibration
         MessageBox.Show("finish")
         NewLaserXOffset.Text = distance(0)
         NewLaserYOffset.Text = distance(1)
+
+        'after successful setup disable the following
+        Laser.DisableContinuousRead()
+        LaserReading.Text = ""
+        m_Tri.ResetCalibrationFlag()
         m_Tri.SetMachineStop()
         Exit Sub
 
 CalibrationError:
-        OffLaser()
-        m_Tri.ResetCalibrationFlag()
         MessageBox.Show("Error")
+        LaserReading.Text = ""
+        Laser.DisableContinuousRead()
+        m_Tri.ResetCalibrationFlag()
         m_Tri.SetMachineStop()
 
     End Sub
@@ -575,4 +633,22 @@ CalibrationError:
         RemovePanel(CurrentControl)
     End Sub
 
+    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+        'LaserReading.Text = CStr(Laser.MM_Reading)
+    End Sub
+
+    Private Sub WaitLoop()
+        Dim CurrentTime, StartTime As DateTime
+        Dim ElapsedTime As TimeSpan
+        StartTime = Now
+        Dim ReadingReceived As Boolean = False
+        While ReadingReceived = False
+            TraceDoEvents()
+            CurrentTime = Now
+            ElapsedTime = CurrentTime.Subtract(StartTime)
+            If ElapsedTime.TotalSeconds > 2 Then
+                ReadingReceived = True
+            End If
+        End While
+    End Sub
 End Class

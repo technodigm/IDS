@@ -41,6 +41,8 @@ Public Class Laser
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Status As System.Windows.Forms.TextBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents ContinuousReadButton As System.Windows.Forms.Button
+    Friend WithEvents lbReading As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Laser))
         Me.AxMSComm1 = New AxMSCommLib.AxMSComm
@@ -52,6 +54,8 @@ Public Class Laser
         Me.Status = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
         Me.Button1 = New System.Windows.Forms.Button
+        Me.ContinuousReadButton = New System.Windows.Forms.Button
+        Me.lbReading = New System.Windows.Forms.Label
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -126,16 +130,31 @@ Public Class Laser
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(392, 240)
+        Me.Button1.Location = New System.Drawing.Point(360, 128)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(104, 40)
+        Me.Button1.Size = New System.Drawing.Size(152, 40)
         Me.Button1.TabIndex = 9
-        Me.Button1.Text = "Read"
+        Me.Button1.Text = "Read Once"
+        '
+        'ContinuousReadButton
+        '
+        Me.ContinuousReadButton.Location = New System.Drawing.Point(360, 184)
+        Me.ContinuousReadButton.Name = "ContinuousReadButton"
+        Me.ContinuousReadButton.Size = New System.Drawing.Size(152, 48)
+        Me.ContinuousReadButton.TabIndex = 9
+        Me.ContinuousReadButton.Text = "Enable Continuous Read"
+        '
+        'lbReading
+        '
+        Me.lbReading.Location = New System.Drawing.Point(360, 248)
+        Me.lbReading.Name = "lbReading"
+        Me.lbReading.TabIndex = 10
         '
         'Laser
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
         Me.ClientSize = New System.Drawing.Size(600, 574)
+        Me.Controls.Add(Me.lbReading)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Highest)
@@ -145,6 +164,7 @@ Public Class Laser
         Me.Controls.Add(Me.AxMSComm1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.ContinuousReadButton)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Laser"
@@ -161,6 +181,7 @@ Public Class Laser
     Private last_line As String
     Private newline_count As Integer
     Private DoRead As Boolean
+    Private ContinuousRead As Boolean = False
 
     'exposed to other modules
     Public MM_Reading As Double
@@ -216,12 +237,12 @@ Public Class Laser
         Dim raw_result As Object 'raw char values from serial port'
         Dim string_result As String = "" 'coverted into a string
         Dim valid_reading As Boolean 'whether the reading is acceptable
-        Dim averaged_out As Boolean 'set to true after getting 5 readings that are close in range to each other.
+        ' Dim averaged_out As Boolean 'set to true after getting 5 readings that are close in range to each other.
         Dim string_iterator As IEnumerator = string_result.GetEnumerator
         Dim digit_count As Integer = 0
         Dim string_store As String
 
-        If DoRead = False Then
+        If DoRead = False And ContinuousRead = False Then
             Exit Sub
         End If
 
@@ -262,6 +283,7 @@ Public Class Laser
                             Status.Text = "OK"
                             'apply formula and format to 3 decimal places
                             MM_Reading = ConvertReadingToMM(string_store)
+                            lbReading.Text = FormatNumber(MM_Reading, 3)
                             string_result = FormatNumber(MM_Reading, 3)
 
                             'everything below is for interface window only.
@@ -271,21 +293,25 @@ Public Class Laser
                             If MM_Reading < CDbl(Lowest.Text) Then Lowest.Text = MM_Reading.ToString
                             'If last_line = string_result Then
                             'Else
-                                'display only up to 40 lines at any time
-                                last_line = string_result
-                                raw_result_store = raw_result_store + "Reading: " + string_store + " at: " + DateTime.Now.ToShortTimeString + vbCrLf
-                                newline_count += 1
-                                If newline_count > 30 Then
-                                    raw_result_store = ""
-                                    newline_count = 0
-                                End If
+                            'display only up to 40 lines at any time
+
+
+                            'last_line = string_result
+                            'raw_result_store = raw_result_store + "Reading: " + string_store + " at: " + DateTime.Now.ToShortTimeString + vbCrLf
+                            'newline_count += 1
+                            'If newline_count > 30 Then
+                            '    raw_result_store = ""
+                            '    newline_count = 0
+                            'End If
+
+
                             'End If
                             'Else
                             'Status.Text = "Bad Reading: " + string_result
                         End If
 
                         .RThreshold = 12
-                        Display.Text = raw_result_store
+                        'Display.Text = raw_result_store
                 End Select
             End With
 
@@ -310,6 +336,14 @@ Public Class Laser
         End Try
     End Sub
 
+    Public Sub EnableContinuousRead()
+        ContinuousRead = True
+    End Sub
+
+    Public Sub DisableContinuousRead()
+        ContinuousRead = False
+    End Sub
+
     Public Function WaitForReadingToStabilize() As Boolean
         ValueUpdated = False
         DoRead = True
@@ -331,5 +365,15 @@ Public Class Laser
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         WaitForReadingToStabilize()
+    End Sub
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContinuousReadButton.Click
+        If ContinuousReadButton.Text = "Enable Continuous Read" Then
+            EnableContinuousRead()
+            ContinuousReadButton.Text = "Disable Continuous Read"
+        ElseIf ContinuousReadButton.Text = "Disable Continuous Read" Then
+            DisableContinuousRead()
+            ContinuousReadButton.Text = "Enable Continuous Read"
+        End If
     End Sub
 End Class

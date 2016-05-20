@@ -943,6 +943,7 @@ Public Class Setup
 
         'timers
         IDS.StartErrorCheck()
+        Conveyor.PositionTimer.Start()
         Timer1.Start()
         ThreadMonitor = New Threading.Thread(AddressOf TheThreadMonitor)
         ThreadMonitor.Priority = Threading.ThreadPriority.BelowNormal
@@ -964,6 +965,10 @@ Public Class Setup
         PanelRight.Controls.Remove(CurrentControl)
         MyGantrySettings.Controls.Clear()
 
+        Weighting_Scale.Instance.Hide()
+        Laser.Instance.Hide()
+        Conveyor.Instance.Hide()
+
         'motion controller stop
         m_Tri.Disconnect_Controller()
 
@@ -975,6 +980,7 @@ Public Class Setup
         ThreadMonitor.Abort()
         MouseTimer.Dispose()
         Timer1.Stop()
+        Conveyor.PositionTimer.Stop()
 
         'hardware
         OffLaser()

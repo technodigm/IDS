@@ -154,10 +154,10 @@
   <data name="AxImage11.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="AxImage11.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage11.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImage11.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage11.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImage11.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -179,10 +179,10 @@
   <data name="AxImage10.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="AxImage10.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage10.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImage10.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage10.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImage10.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -195,13 +195,13 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAs=
 </value>
   </data>
-  <data name="AxPatternMatching3.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxPatternMatching3.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="AxPatternMatching3.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="AxPatternMatching3.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxPatternMatching3.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -263,14 +263,14 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACw==
 </value>
   </data>
-  <data name="AxDisplay2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxDisplay2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxDisplay2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="AxDisplay2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxDisplay2.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -293,11 +293,11 @@
         AQAAAAAAAAAIAAAAAAAAAAs=
 </value>
   </data>
-  <data name="AxImageProcessing1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxImageProcessing1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="AxImageProcessing1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxImageProcessing1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -314,10 +314,10 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAs=
 </value>
   </data>
-  <data name="AxMeasurement6.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxMeasurement6.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement6.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxMeasurement6.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxMeasurement6.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -336,11 +336,11 @@
   <data name="AxMeasurement5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement5.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
   <data name="AxMeasurement5.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
+  </data>
+  <data name="AxMeasurement5.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxMeasurement5.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -355,11 +355,11 @@
   <data name="AxMeasurement4.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement4.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxMeasurement4.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="AxMeasurement4.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxMeasurement4.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -374,11 +374,11 @@
   <data name="AxMeasurement3.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement3.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxMeasurement3.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="AxMeasurement3.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxMeasurement3.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -393,11 +393,11 @@
   <data name="AxMeasurement2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxMeasurement2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="AxMeasurement2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxMeasurement2.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -428,14 +428,14 @@
         AQEAAAAACw==
 </value>
   </data>
-  <data name="AxMeasurement12.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
+  <data name="AxMeasurement12.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxMeasurement12.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement12.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <data name="AxMeasurement12.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxMeasurement12.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -447,14 +447,14 @@
         AQEBAQAAAAAL
 </value>
   </data>
-  <data name="AxMeasurement11.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <data name="AxMeasurement11.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxMeasurement11.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement11.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
+  <data name="AxMeasurement11.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxMeasurement11.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -466,14 +466,14 @@
         AQEBAAAAAAs=
 </value>
   </data>
-  <data name="AxMeasurement9.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
   <data name="AxMeasurement9.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxMeasurement9.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
+  </data>
+  <data name="AxMeasurement9.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxMeasurement9.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -485,14 +485,14 @@
         AQEAAAAACw==
 </value>
   </data>
+  <data name="AxMeasurement10.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
   <data name="AxMeasurement10.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxMeasurement10.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
-  </data>
-  <data name="AxMeasurement10.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
   </data>
   <data name="AxMeasurement10.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -526,11 +526,11 @@
   <data name="AxMeasurement7.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxMeasurement7.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
   <data name="AxMeasurement7.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
+  </data>
+  <data name="AxMeasurement7.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxMeasurement7.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -545,10 +545,10 @@
   <data name="AxImageProcessing5.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="AxImageProcessing5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImageProcessing5.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImageProcessing5.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImageProcessing5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImageProcessing5.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -566,10 +566,10 @@
   <data name="AxImage9.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="AxImage9.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage9.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImage9.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage9.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImage9.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -625,10 +625,10 @@
   <data name="AxImageProcessing3.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="AxImageProcessing3.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImageProcessing3.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImageProcessing3.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImageProcessing3.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImageProcessing3.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -643,10 +643,10 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAs=
 </value>
   </data>
-  <data name="AxGraphicContext5.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxGraphicContext5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxGraphicContext5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxGraphicContext5.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxGraphicContext5.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -662,13 +662,13 @@
         AAAAAAs=
 </value>
   </data>
-  <data name="AxImage2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxImage2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="AxImage2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="AxImage2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImage2.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -705,14 +705,14 @@
         AAAAAAASQXhQYXR0ZXJuTWF0Y2hpbmcxAQEAAAlBeFN5c3RlbTEIQXhJbWFnZTIAAAAAAAAAABAL
 </value>
   </data>
-  <data name="AxImage5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
+  <data name="AxImage5.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxImage5.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImage5.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <data name="AxImage5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxImage5.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -743,14 +743,14 @@
         bWFnZQEAAAAAAf///wABAAAAAAs=
 </value>
   </data>
+  <data name="AxPatternMatching2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
   <data name="AxPatternMatching2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxPatternMatching2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
-  </data>
-  <data name="AxPatternMatching2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
   </data>
   <data name="AxPatternMatching2.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -761,14 +761,14 @@
         AAAAAAASQXhQYXR0ZXJuTWF0Y2hpbmcyAQEAAAlBeFN5c3RlbTEIQXhJbWFnZTMAAAAAAAAAABAL
 </value>
   </data>
-  <data name="AxCalibration1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxCalibration1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxCalibration1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="AxCalibration1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxCalibration1.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -780,13 +780,13 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAlBeFN5c3RlbTEL
 </value>
   </data>
-  <data name="AxBlobAnalysis2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxBlobAnalysis2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="AxBlobAnalysis2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="AxBlobAnalysis2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxBlobAnalysis2.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -825,13 +825,13 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAs=
 </value>
   </data>
+  <data name="AxImageProcessing6.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
   <data name="AxImageProcessing6.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="AxImageProcessing6.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="AxImageProcessing6.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImageProcessing6.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -846,13 +846,13 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACw==
 </value>
   </data>
-  <data name="AxImage13.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxImage13.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="AxImage13.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="AxImage13.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImage13.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -874,10 +874,10 @@
   <data name="AxImageProcessing2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="AxImageProcessing2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImageProcessing2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImageProcessing2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImageProcessing2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImageProcessing2.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -895,10 +895,10 @@
   <data name="AxImage17.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="AxImage17.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage17.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxImage17.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="AxImage17.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImage17.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -938,13 +938,13 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACw==
 </value>
   </data>
-  <data name="AxImage16.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxImage16.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="AxImage16.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="AxImage16.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxImage16.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -981,11 +981,11 @@
   <data name="AxGraphicContext2.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxGraphicContext2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxGraphicContext2.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </data>
+  <data name="AxGraphicContext2.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxGraphicContext2.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -997,14 +997,14 @@
         T3ZlcmxheUltYWdlAQAAAAABAP8AAAEAAAAACw==
 </value>
   </data>
-  <data name="AxGraphicContext1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <data name="AxGraphicContext1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxGraphicContext1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxGraphicContext1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
+  <data name="AxGraphicContext1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxGraphicContext1.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1016,11 +1016,11 @@
         bWFnZQEAAAAAAf8AAAABAAAAAAs=
 </value>
   </data>
-  <data name="AxImage3.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
   <data name="AxImage3.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
+  </data>
+  <data name="AxImage3.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxImage3.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
@@ -1041,13 +1041,13 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACw==
 </value>
   </data>
-  <data name="AxSystem1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="AxSystem1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="AxSystem1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="AxSystem1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxSystem1.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -1096,14 +1096,14 @@
   <data name="Button5.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxECamera1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <data name="AxECamera1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxECamera1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxECamera1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
+  <data name="AxECamera1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxECamera1.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1113,14 +1113,14 @@
         AAIBAAAAAQAAAAAAAAAAAAAAAAQAAAAAAwAACw==
 </value>
   </data>
-  <data name="AxEBoard1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
+  <data name="AxEBoard1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="AxEBoard1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="AxEBoard1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <data name="AxEBoard1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
   </data>
   <data name="AxEBoard1.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1151,10 +1151,10 @@
   <data name="Button_Close.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="Button_Close.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="Button_Close.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="Button_Close.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="Button_Close.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="Button_LoadImage.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1166,13 +1166,13 @@
   <data name="Button_LoadImage.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="Button_SaveImage.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
   <data name="Button_SaveImage.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
   <data name="Button_SaveImage.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
+  <data name="Button_SaveImage.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="TBReference.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1322,14 +1322,14 @@
         AAAAAAABAAABAAAAAAAAAAgAAAAAAAAACw==
 </value>
   </data>
+  <data name="AxMGraphicContext1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Assembly</value>
+  </data>
   <data name="AxMGraphicContext1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
   <data name="AxMGraphicContext1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
-  </data>
-  <data name="AxMGraphicContext1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
   </data>
   <data name="AxMGraphicContext1.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1384,7 +1384,7 @@
     <value>Assembly</value>
   </data>
   <data name="OpenFileDialog_RM.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>566, 17</value>
+    <value>17, 54</value>
   </data>
   <data name="$this.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -1404,14 +1404,14 @@
   <data name="$this.DrawGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </data>
+  <data name="$this.Name">
+    <value>FormVision</value>
+  </data>
   <data name="$this.TrayHeight" type="System.Int32, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>45</value>
   </data>
   <data name="$this.SnapToGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
-  <data name="$this.Name">
-    <value>FormVision</value>
   </data>
   <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
