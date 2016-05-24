@@ -51,7 +51,6 @@ Public Class FormLogin
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents OleDbConnection1 As System.Data.OleDb.OleDbConnection
     Friend WithEvents TextLoginPW As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
@@ -111,10 +110,10 @@ Public Class FormLogin
     Friend WithEvents PanelgroupID As System.Windows.Forms.Panel
     Friend WithEvents ButtonSetupRegistry As System.Windows.Forms.Button
     Public WithEvents BtnWelcomeOK As System.Windows.Forms.Button
+    Friend WithEvents pnLogin As System.Windows.Forms.GroupBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormLogin))
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.TextLoginPW = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
@@ -141,6 +140,7 @@ Public Class FormLogin
         Me.BtnWelcomeChangeUserID = New System.Windows.Forms.Button
         Me.BtnLogin = New System.Windows.Forms.Button
         Me.PanelIDSLogin = New System.Windows.Forms.Panel
+        Me.pnLogin = New System.Windows.Forms.GroupBox
         Me.ButtonSetupRegistry = New System.Windows.Forms.Button
         Me.PanelUserID = New System.Windows.Forms.Panel
         Me.CBUserID = New System.Windows.Forms.ComboBox
@@ -182,6 +182,7 @@ Public Class FormLogin
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.PanelIDSLogin.SuspendLayout()
+        Me.pnLogin.SuspendLayout()
         Me.PanelUserID.SuspendLayout()
         Me.PanelgroupID.SuspendLayout()
         Me.Panelwelcome.SuspendLayout()
@@ -191,16 +192,6 @@ Public Class FormLogin
         Me.GroupBox2.SuspendLayout()
         Me.PanelSSetup.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(152, 24)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(40, 24)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1.TabIndex = 52
-        Me.PictureBox1.TabStop = False
         '
         'Label1
         '
@@ -212,16 +203,18 @@ Public Class FormLogin
         '
         'TextLoginPW
         '
-        Me.TextLoginPW.Location = New System.Drawing.Point(88, 152)
+        Me.TextLoginPW.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextLoginPW.Location = New System.Drawing.Point(88, 140)
         Me.TextLoginPW.Name = "TextLoginPW"
         Me.TextLoginPW.PasswordChar = Microsoft.VisualBasic.ChrW(42)
         Me.TextLoginPW.Size = New System.Drawing.Size(176, 21)
         Me.TextLoginPW.TabIndex = 2
-        Me.TextLoginPW.Text = ""
+        Me.TextLoginPW.Text = "a"
         '
         'Label2
         '
-        Me.Label2.Location = New System.Drawing.Point(24, 152)
+        Me.Label2.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(24, 140)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(64, 16)
         Me.Label2.TabIndex = 2
@@ -406,8 +399,9 @@ Public Class FormLogin
         '
         'BtnLogin
         '
+        Me.BtnLogin.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLogin.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.BtnLogin.Location = New System.Drawing.Point(112, 192)
+        Me.BtnLogin.Location = New System.Drawing.Point(112, 180)
         Me.BtnLogin.Name = "BtnLogin"
         Me.BtnLogin.Size = New System.Drawing.Size(88, 32)
         Me.BtnLogin.TabIndex = 3
@@ -416,13 +410,7 @@ Public Class FormLogin
         'PanelIDSLogin
         '
         Me.PanelIDSLogin.ContextMenu = Me.CMPrimaryKey
-        Me.PanelIDSLogin.Controls.Add(Me.BtnLogin)
-        Me.PanelIDSLogin.Controls.Add(Me.ButtonSetupRegistry)
-        Me.PanelIDSLogin.Controls.Add(Me.PanelUserID)
-        Me.PanelIDSLogin.Controls.Add(Me.PanelgroupID)
-        Me.PanelIDSLogin.Controls.Add(Me.Label2)
-        Me.PanelIDSLogin.Controls.Add(Me.PictureBox1)
-        Me.PanelIDSLogin.Controls.Add(Me.TextLoginPW)
+        Me.PanelIDSLogin.Controls.Add(Me.pnLogin)
         Me.PanelIDSLogin.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PanelIDSLogin.Location = New System.Drawing.Point(0, 0)
         Me.PanelIDSLogin.Name = "PanelIDSLogin"
@@ -430,10 +418,26 @@ Public Class FormLogin
         Me.PanelIDSLogin.TabIndex = 59
         Me.ToolTip1.SetToolTip(Me.PanelIDSLogin, "Right click to select User ID or Group ID as SleSelect GroupID as Primary Key")
         '
+        'pnLogin
+        '
+        Me.pnLogin.Controls.Add(Me.TextLoginPW)
+        Me.pnLogin.Controls.Add(Me.Label2)
+        Me.pnLogin.Controls.Add(Me.BtnLogin)
+        Me.pnLogin.Controls.Add(Me.ButtonSetupRegistry)
+        Me.pnLogin.Controls.Add(Me.PanelUserID)
+        Me.pnLogin.Controls.Add(Me.PanelgroupID)
+        Me.pnLogin.Location = New System.Drawing.Point(16, 32)
+        Me.pnLogin.Name = "pnLogin"
+        Me.pnLogin.Size = New System.Drawing.Size(296, 232)
+        Me.pnLogin.TabIndex = 56
+        Me.pnLogin.TabStop = False
+        Me.pnLogin.Text = "Login Panel: "
+        '
         'ButtonSetupRegistry
         '
+        Me.ButtonSetupRegistry.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonSetupRegistry.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonSetupRegistry.Location = New System.Drawing.Point(112, 192)
+        Me.ButtonSetupRegistry.Location = New System.Drawing.Point(112, 180)
         Me.ButtonSetupRegistry.Name = "ButtonSetupRegistry"
         Me.ButtonSetupRegistry.Size = New System.Drawing.Size(80, 32)
         Me.ButtonSetupRegistry.TabIndex = 55
@@ -443,7 +447,8 @@ Public Class FormLogin
         '
         Me.PanelUserID.Controls.Add(Me.Label1)
         Me.PanelUserID.Controls.Add(Me.CBUserID)
-        Me.PanelUserID.Location = New System.Drawing.Point(16, 104)
+        Me.PanelUserID.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PanelUserID.Location = New System.Drawing.Point(16, 92)
         Me.PanelUserID.Name = "PanelUserID"
         Me.PanelUserID.Size = New System.Drawing.Size(264, 40)
         Me.PanelUserID.TabIndex = 54
@@ -462,7 +467,8 @@ Public Class FormLogin
         '
         Me.PanelgroupID.Controls.Add(Me.CBGroupID)
         Me.PanelgroupID.Controls.Add(Me.Label6)
-        Me.PanelgroupID.Location = New System.Drawing.Point(16, 64)
+        Me.PanelgroupID.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PanelgroupID.Location = New System.Drawing.Point(16, 52)
         Me.PanelgroupID.Name = "PanelgroupID"
         Me.PanelgroupID.Size = New System.Drawing.Size(264, 40)
         Me.PanelgroupID.TabIndex = 53
@@ -804,6 +810,7 @@ Public Class FormLogin
         Me.Controls.Add(Me.PanelChangeUserID)
         Me.Controls.Add(Me.Panelwelcome)
         Me.Controls.Add(Me.PanelIDSLogin)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
@@ -811,6 +818,7 @@ Public Class FormLogin
         Me.Text = "Login"
         Me.GroupBox1.ResumeLayout(False)
         Me.PanelIDSLogin.ResumeLayout(False)
+        Me.pnLogin.ResumeLayout(False)
         Me.PanelUserID.ResumeLayout(False)
         Me.PanelgroupID.ResumeLayout(False)
         Me.Panelwelcome.ResumeLayout(False)
@@ -1071,11 +1079,7 @@ Public Class FormLogin
 
         If DBView.Count = 1 Then
             Dim Row As DataRow = DBView(0).Row
-
-
             ' user login in and info to display 
-
-
             If TextLoginPW.Text = CStr(Row("UserPassword")) Then
                 PaneLReset()
                 Panelwelcome.Visible = True
@@ -1421,16 +1425,16 @@ Public Class FormLogin
 
                     If IDS.Data.Admin.User.Group.PrivilegeArray.Contains("System") = True Then
                         IDS.Data.Admin.User.RunApplication = "System"
-                        Call LoadSSetup()
+                        LoadSSetup()
                     ElseIf IDS.Data.Admin.User.Group.PrivilegeArray.Contains("Programmer") = True Then
                         IDS.Data.Admin.User.RunApplication = "Programmer"
-                        Call LoadProgrammerMaintenance()
+                        LoadProgrammerMaintenance()
                     ElseIf IDS.Data.Admin.User.Group.PrivilegeArray.Contains("Maintenance") = True Then
                         IDS.Data.Admin.User.RunApplication = "Maintenace"
-                        Call LoadProgrammerMaintenance()
+                        LoadProgrammerMaintenance()
                     ElseIf IDS.Data.Admin.User.Group.PrivilegeArray.Contains("Operator") = True Then
                         IDS.Data.Admin.User.RunApplication = "Operator"
-                        Call LoadProgrammerMaintenance()
+                        LoadProgrammerMaintenance()
                     End If
 
                 End If

@@ -1,4 +1,4 @@
-#File name: C:\ids\Pattern_Dir\alibaba\alibaba.txt
+#File name: C:\IDS\Pattern_Dir\alibaba\alibaba.txt
 #
 #Objective: Data format defination for Pattern data. ptp file is used to store pattern defination in txt files.
 #

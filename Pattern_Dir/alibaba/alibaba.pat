@@ -144,7 +144,7 @@ EIDSData.Admin.User.Group.SystemHardwareArray (4) =VolumeCalibration
 ,IDSData.Hardware.Camera.ImageFindDir =True
 .IDSData.Hardware.Camera.ImageVertical =False
 'IDSData.Hardware.Camera.Threshold =15
-(IDSData.Hardware.Camera.Brightness =10
+'IDSData.Hardware.Camera.Brightness =5
 &IDSData.Hardware.Camera.Contrast =55
 &IDSData.Hardware.Camera.ROISize =1.2
 8IDSData.Hardware.Camera.ResultSize.X =9.97436452978177
@@ -153,7 +153,7 @@ EIDSData.Admin.User.Group.SystemHardwareArray (4) =VolumeCalibration
 =IDSData.Hardware.Camera.ResultRotation =-0.0533886083664307
 
 ~[CONVEYOR]
-&IDSData.Hardware.Conveyor.Width =150
+&IDSData.Hardware.Conveyor.Width =290
 (IDSData.Hardware.Conveyor.FullWidth =3
 )IDSData.Hardware.Conveyor.MinWidth =310
 &IDSData.Hardware.Conveyor.Speed =300

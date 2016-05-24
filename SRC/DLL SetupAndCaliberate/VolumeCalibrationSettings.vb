@@ -463,6 +463,7 @@ Public Class VolumeCalibrationSettings
         '
         'CalibrationType
         '
+        Me.CalibrationType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CalibrationType.Items.AddRange(New Object() {"By Desired Weight", "By Current Parameters"})
         Me.CalibrationType.Location = New System.Drawing.Point(100, 32)
         Me.CalibrationType.Name = "CalibrationType"

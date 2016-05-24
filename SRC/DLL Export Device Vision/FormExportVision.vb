@@ -6903,4 +6903,7 @@ Public Class FormVision
         ChipEdgePoints_form.Location = New Point(0, 50)
     End Sub
 
+    Private Sub AxDisplay1_KeyDownEvent(ByVal sender As Object, ByVal e As AxMatrox.ActiveMIL.IDisplayEvents_KeyDownEvent) Handles AxDisplay1.KeyDownEvent
+        Console.WriteLine("KeyDown in vision")
+    End Sub
 End Class

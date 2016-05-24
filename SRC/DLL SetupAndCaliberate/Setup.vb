@@ -694,7 +694,6 @@ Public Class Setup
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.PanelVision)
         Me.Controls.Add(Me.Panel1)
-        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
@@ -745,6 +744,8 @@ Public Class Setup
         m_TrackBall.Poll()
 
         'isPress = m_keyBoard.State.Item(Key.LeftControl)
+        isPress = KeyboardControl.ControlKeyPressed
+
         Dim x As Integer
         Dim y As Integer
         Dim CmdStr As String
@@ -912,7 +913,7 @@ Public Class Setup
     End Sub
 
     Private Sub Setup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        KeyboardControl.GainControls()
         'display the stepping panel
         Panel1.Controls.Add(m_Tri.SteppingButtons)
         m_Tri.SteppingButtons.BringToFront()
@@ -958,7 +959,7 @@ Public Class Setup
     End Sub
 
     Private Sub Setup_Closed(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Closed
-
+        KeyboardControl.ReleaseControls()
         'gui clear
         UpdatetoSystemConfigureTable()
         PanelVision.Controls.Clear()
@@ -1369,15 +1370,15 @@ Public Class Setup
         MyConveyorSettings.e_stop_T1_Tick()
     End Sub
 
-    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = True
-        End If
-    End Sub
+    'Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+    '    If e.KeyCode = Keys.ControlKey Then
+    '        isPress = True
+    '    End If
+    'End Sub
 
-    Protected Overrides Sub OnKeyUp(ByVal e As System.Windows.Forms.KeyEventArgs)
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = False
-        End If
-    End Sub
+    'Protected Overrides Sub OnKeyUp(ByVal e As System.Windows.Forms.KeyEventArgs)
+    '    If e.KeyCode = Keys.ControlKey Then
+    '        isPress = False
+    '    End If
+    'End Sub
 End Class

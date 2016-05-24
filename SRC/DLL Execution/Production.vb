@@ -131,6 +131,7 @@ Public Class FormProduction
     Friend WithEvents ComboBox3 As System.Windows.Forms.ComboBox
     Friend WithEvents Button4 As System.Windows.Forms.Button
     Friend WithEvents ResetPLCLogic As System.Windows.Forms.Button
+    Friend WithEvents btExit As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -149,6 +150,7 @@ Public Class FormProduction
         Me.Label1 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
         Me.ConveyorBox = New System.Windows.Forms.GroupBox
+        Me.ResetPLCLogic = New System.Windows.Forms.Button
         Me.ButtonStartFirstStage = New System.Windows.Forms.Button
         Me.ContinuousMode = New System.Windows.Forms.CheckBox
         Me.ButtonCV_Prod_Release = New System.Windows.Forms.Button
@@ -205,7 +207,7 @@ Public Class FormProduction
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision = New System.Windows.Forms.Panel
-        Me.ResetPLCLogic = New System.Windows.Forms.Button
+        Me.btExit = New System.Windows.Forms.Button
         Me.Panel2.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
@@ -311,12 +313,14 @@ Public Class FormProduction
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.SystemColors.ScrollBar
+        Me.Panel5.Controls.Add(Me.btExit)
         Me.Panel5.Controls.Add(Me.ConveyorBox)
         Me.Panel5.Controls.Add(Me.Panel6)
         Me.Panel5.Controls.Add(Me.HeaterBox)
         Me.Panel5.Controls.Add(Me.TextBox1)
         Me.Panel5.Controls.Add(Me.TextBox2)
         Me.Panel5.Controls.Add(Me.GroupBox1)
+        Me.Panel5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel5.ForeColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(0, Byte), CType(0, Byte))
         Me.Panel5.Location = New System.Drawing.Point(768, 0)
         Me.Panel5.Name = "Panel5"
@@ -339,6 +343,15 @@ Public Class FormProduction
         Me.ConveyorBox.TabIndex = 130
         Me.ConveyorBox.TabStop = False
         Me.ConveyorBox.Text = "Conveyor Operation"
+        '
+        'ResetPLCLogic
+        '
+        Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ResetPLCLogic.Location = New System.Drawing.Point(140, 120)
+        Me.ResetPLCLogic.Name = "ResetPLCLogic"
+        Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
+        Me.ResetPLCLogic.TabIndex = 143
+        Me.ResetPLCLogic.Text = "Reset PLC Logic"
         '
         'ButtonStartFirstStage
         '
@@ -635,7 +648,7 @@ Public Class FormProduction
         '
         Me.TextBox1.Location = New System.Drawing.Point(0, 8)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(104, 20)
+        Me.TextBox1.Size = New System.Drawing.Size(104, 26)
         Me.TextBox1.TabIndex = 132
         Me.TextBox1.Text = "TextBox1"
         '
@@ -643,7 +656,7 @@ Public Class FormProduction
         '
         Me.TextBox2.Location = New System.Drawing.Point(0, 32)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(104, 20)
+        Me.TextBox2.Size = New System.Drawing.Size(104, 26)
         Me.TextBox2.TabIndex = 132
         Me.TextBox2.Text = "TextBox1"
         '
@@ -972,14 +985,14 @@ Public Class FormProduction
         Me.PanelVision.Size = New System.Drawing.Size(768, 576)
         Me.PanelVision.TabIndex = 7
         '
-        'ResetPLCLogic
+        'btExit
         '
-        Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetPLCLogic.Location = New System.Drawing.Point(140, 120)
-        Me.ResetPLCLogic.Name = "ResetPLCLogic"
-        Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
-        Me.ResetPLCLogic.TabIndex = 143
-        Me.ResetPLCLogic.Text = "Reset PLC Logic"
+        Me.btExit.ForeColor = System.Drawing.Color.Black
+        Me.btExit.Location = New System.Drawing.Point(416, 8)
+        Me.btExit.Name = "btExit"
+        Me.btExit.Size = New System.Drawing.Size(80, 48)
+        Me.btExit.TabIndex = 133
+        Me.btExit.Text = "Exit"
         '
         'FormProduction
         '
@@ -989,6 +1002,7 @@ Public Class FormProduction
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.PanelProDownTimeInfor)
         Me.Controls.Add(Me.Panel2)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Menu = Me.MainMenuProduction
         Me.Name = "FormProduction"
         Me.Text = "Production"
@@ -1075,41 +1089,6 @@ Public Class FormProduction
     End Sub
 
     Private Sub FormProduction_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-
-        If ContinuousMode.Checked = True Then
-            ContinuousMode.Checked = False
-        End If
-
-        'error handling
-        Form_Service.ResetEventCode()
-
-        'vision
-        SwitchToTeachCamera()
-        PanelVision.Controls.Remove(Vision.FrmVision.PanelVision) 'lim
-
-        'timers stop
-        IDS.StopErrorCheck()
-        TimerMonitor.Stop()
-        Programming.IOCheck.Stop()
-        ThreadMonitor.Abort()
-        ThreadExecutor.Abort()
-        Conveyor.PositionTimer.Stop()
-
-        'motion controller
-        m_Tri.TurnOff("Material Air")
-        m_Tri.Disconnect_Controller()
-
-        'hardware
-        MyConveyorSettings.CloseConveyorSetup()
-        Conveyor.ClosePort()
-        Weighting_Scale.ClosePort()
-        Laser.ClosePort()
-        OffLaser()
-        OffTowerLamp()
-        UnlockDoor()
-
-        Close()
-        IDS.FrmExecution.Hide()
 
     End Sub
 
@@ -1732,5 +1711,44 @@ StopCalibration:
 
     Private Sub ResetPLCLogic_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetPLCLogic.Click
         Conveyor.Command("Reset PLC Logic")
+    End Sub
+
+    Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
+
+        If ContinuousMode.Checked = True Then
+            ContinuousMode.Checked = False
+        End If
+
+        'error handling
+        Form_Service.ResetEventCode()
+
+        'vision
+        SwitchToTeachCamera()
+        PanelVision.Controls.Remove(Vision.FrmVision.PanelVision) 'lim
+
+        'timers stop
+        IDS.StopErrorCheck()
+        TimerMonitor.Stop()
+        Programming.IOCheck.Stop()
+        ThreadMonitor.Abort()
+        ThreadExecutor.Abort()
+        Conveyor.PositionTimer.Stop()
+
+        'motion controller
+        m_Tri.TurnOff("Material Air")
+        m_Tri.Disconnect_Controller()
+
+        'hardware
+        MyConveyorSettings.CloseConveyorSetup()
+        Conveyor.ClosePort()
+        Weighting_Scale.ClosePort()
+        Laser.ClosePort()
+        OffLaser()
+        OffTowerLamp()
+        UnlockDoor()
+
+        Close()
+        IDS.FrmExecution.Hide()
+
     End Sub
 End Class

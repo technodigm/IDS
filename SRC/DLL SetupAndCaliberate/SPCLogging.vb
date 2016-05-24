@@ -64,6 +64,7 @@ Public Class SPCLogging
     Friend WithEvents CB_SPCTimePerBoard As System.Windows.Forms.CheckBox
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents ButtonExit As System.Windows.Forms.Button
+    Friend WithEvents tbReportDirectory As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(SPCLogging))
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
@@ -99,6 +100,7 @@ Public Class SPCLogging
         Me.Label17 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+        Me.tbReportDirectory = New System.Windows.Forms.TextBox
         Me.GroupBox2.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
         CType(Me.Nud_EventCleanInterval, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -289,7 +291,7 @@ Public Class SPCLogging
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Button1.Location = New System.Drawing.Point(408, 128)
+        Me.Button1.Location = New System.Drawing.Point(408, 130)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 32)
         Me.Button1.TabIndex = 14
@@ -297,12 +299,13 @@ Public Class SPCLogging
         '
         'CB_ReportDirectory
         '
+        Me.CB_ReportDirectory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CB_ReportDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.CB_ReportDirectory.Location = New System.Drawing.Point(40, 128)
+        Me.CB_ReportDirectory.Location = New System.Drawing.Point(256, 0)
         Me.CB_ReportDirectory.Name = "CB_ReportDirectory"
         Me.CB_ReportDirectory.Size = New System.Drawing.Size(352, 28)
         Me.CB_ReportDirectory.TabIndex = 13
-        Me.CB_ReportDirectory.Text = "C:\IDS\SPC\report_pattern1.txt"
+        Me.CB_ReportDirectory.Visible = False
         '
         'Label1
         '
@@ -325,6 +328,7 @@ Public Class SPCLogging
         'PanelToBeAdded
         '
         Me.PanelToBeAdded.BackColor = System.Drawing.SystemColors.Control
+        Me.PanelToBeAdded.Controls.Add(Me.tbReportDirectory)
         Me.PanelToBeAdded.Controls.Add(Me.Label5)
         Me.PanelToBeAdded.Controls.Add(Me.Label3)
         Me.PanelToBeAdded.Controls.Add(Me.Nud_EventCleanInterval)
@@ -422,6 +426,16 @@ Public Class SPCLogging
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
+        'tbReportDirectory
+        '
+        Me.tbReportDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbReportDirectory.Location = New System.Drawing.Point(32, 136)
+        Me.tbReportDirectory.Name = "tbReportDirectory"
+        Me.tbReportDirectory.ReadOnly = True
+        Me.tbReportDirectory.Size = New System.Drawing.Size(368, 26)
+        Me.tbReportDirectory.TabIndex = 47
+        Me.tbReportDirectory.Text = ""
+        '
         'SPCLogging
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -475,7 +489,8 @@ Public Class SPCLogging
 
         Nud_EventCleanInterval.Text = IDS.Data.Hardware.SPC.CleanUpInterval
         CB_EnableSPCLog.Checked = IDS.Data.Hardware.SPC.EnableSPCReport
-        CB_ReportDirectory.Text = IDS.Data.Hardware.SPC.ReportFileName
+        'CB_ReportDirectory.Text = IDS.Data.Hardware.SPC.ReportFileName
+        tbReportDirectory.Text = IDS.Data.Hardware.SPC.ReportFileName
         CB_SPCMaterialBatch.Checked = Convert.ToByte(IDS.Data.Hardware.SPC.ItemsToBeReported.Chars(0)) - 48
         CB_SPCIncomeNum.Checked = Convert.ToByte(IDS.Data.Hardware.SPC.ItemsToBeReported.Chars(1)) - 48
         CB_SPCOutgoNum.Checked = Convert.ToByte(IDS.Data.Hardware.SPC.ItemsToBeReported.Chars(2)) - 48
@@ -497,7 +512,8 @@ Public Class SPCLogging
         OpenFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
         OpenFileDialog1.FilterIndex = 0
         If OpenFileDialog1.ShowDialog = DialogResult.OK Then
-            CB_ReportDirectory.Text = OpenFileDialog1.FileName
+            'CB_ReportDirectory.Text = OpenFileDialog1.FileName
+            tbReportDirectory.Text = IDS.Data.Hardware.SPC.ReportFileName
         End If
     End Sub
 

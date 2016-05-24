@@ -204,12 +204,12 @@ Public Class ArrayGenerate
         '
         'CombElementType
         '
+        Me.CombElementType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CombElementType.Items.AddRange(New Object() {"Dot", "Line", "Arc", "Circle", "FillCircle", "Rectangle", "FillRectangle", "SubPattern"})
         Me.CombElementType.Location = New System.Drawing.Point(120, 48)
         Me.CombElementType.Name = "CombElementType"
         Me.CombElementType.Size = New System.Drawing.Size(104, 21)
         Me.CombElementType.TabIndex = 2
-        Me.CombElementType.Text = "Select Item"
         '
         'TextBox_Needle
         '
@@ -856,7 +856,7 @@ Public Class ArrayGenerate
         Me.AcceptButton = Me.Button_OnOK
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.CancelButton = Me.Button_OnCancel
-        Me.ClientSize = New System.Drawing.Size(1285, 260)
+        Me.ClientSize = New System.Drawing.Size(1285, 262)
         Me.ControlBox = False
         Me.Controls.Add(Me.RadioButton_P7)
         Me.Controls.Add(Me.RadioButton_P4)
@@ -931,7 +931,7 @@ Public Class ArrayGenerate
         Me.Controls.Add(Me.Button_OnCancel)
         Me.Controls.Add(Me.Button_OnOK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Location = New System.Drawing.Point(0, 42)
+        Me.Location = New System.Drawing.Point(0, 78)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ArrayGenerate"
@@ -2186,4 +2186,15 @@ Public Class ArrayGenerate
         Me.Close()
     End Sub
 
+    Private Sub CombElementType_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles CombElementType.SelectedIndexChanged
+        Dim typeSelected As String = CombElementType.SelectedItem
+        RadioButton_P1.Enabled = True
+        ArrayButtonEnable(typeSelected)
+        ArrayTextBoxEnable(typeSelected)
+
+        ArrayTextBoxFillIn(typeSelected)
+        Button_OnOK.Enabled = True
+        Button_OnCancel.Enabled = True
+        TraceGCCollect()
+    End Sub
 End Class

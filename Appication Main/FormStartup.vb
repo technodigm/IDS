@@ -41,56 +41,66 @@ Public Class FormStartup
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+    Friend WithEvents loginPanel As System.Windows.Forms.Panel
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormStartup))
         Me.BtnExit = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
         Me.Button2 = New System.Windows.Forms.Button
         Me.PictureBox2 = New System.Windows.Forms.PictureBox
+        Me.loginPanel = New System.Windows.Forms.Panel
         Me.SuspendLayout()
         '
         'BtnExit
         '
         Me.BtnExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnExit.Location = New System.Drawing.Point(550, 574)
+        Me.BtnExit.Location = New System.Drawing.Point(1144, 16)
         Me.BtnExit.Name = "BtnExit"
-        Me.BtnExit.Size = New System.Drawing.Size(192, 32)
+        Me.BtnExit.Size = New System.Drawing.Size(112, 64)
         Me.BtnExit.TabIndex = 1
         Me.BtnExit.Text = "Exit"
         '
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(550, 430)
+        Me.Button1.Location = New System.Drawing.Point(544, 248)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(192, 32)
+        Me.Button1.Size = New System.Drawing.Size(194, 58)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Production"
         '
         'Button2
         '
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.Location = New System.Drawing.Point(550, 502)
+        Me.Button2.Location = New System.Drawing.Point(16, 8)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(192, 32)
+        Me.Button2.Size = New System.Drawing.Size(194, 58)
         Me.Button2.TabIndex = 0
         Me.Button2.Text = "Teach Program"
-        Me.Button2.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.Button2.Visible = False
         '
         'PictureBox2
         '
         Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
-        Me.PictureBox2.Location = New System.Drawing.Point(0, 920)
+        Me.PictureBox2.Location = New System.Drawing.Point(-24, 920)
         Me.PictureBox2.Name = "PictureBox2"
         Me.PictureBox2.Size = New System.Drawing.Size(1340, 119)
         Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox2.TabIndex = 3
         Me.PictureBox2.TabStop = False
         '
+        'loginPanel
+        '
+        Me.loginPanel.Location = New System.Drawing.Point(462, 328)
+        Me.loginPanel.Name = "loginPanel"
+        Me.loginPanel.Size = New System.Drawing.Size(368, 488)
+        Me.loginPanel.TabIndex = 4
+        '
         'FormStartup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1292, 1036)
+        Me.Controls.Add(Me.loginPanel)
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.BtnExit)
         Me.Controls.Add(Me.Button1)
@@ -160,7 +170,7 @@ Public Class FormStartup
 
         formlg.Dispose()
         KeyboardControl.ReleaseControls()
-        'Taskbar.ShowTaskBar(True)
+        Taskbar.ShowTaskBar(True)
         '   Xue Wen                                     '
         '   Testing (Kill the application directly)     '
         Dim procRunning() As Process
@@ -185,10 +195,15 @@ Public Class FormStartup
 
     Private Sub FormStartup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
-        'Taskbar.ShowTaskBar(False)
-        formlg.StartPosition = FormStartPosition.CenterScreen
+        Taskbar.ShowTaskBar(False)
+        'formlg.StartPosition = FormStartPosition.CenterScreen
+        'formlg.Show()
+        'formlg.Hide()
+        formlg.StartPosition = FormStartPosition.Manual
+        formlg.TopLevel = False
+        formlg.Parent = Me
+        loginPanel.Controls.Add(formlg)
         formlg.Show()
-        formlg.Hide()
     End Sub
 
     Public frmLogin As New FormLogin

@@ -719,7 +719,7 @@ Public Class FormProgramming
         Me.ReferenceCommandBlock.DropDownArrows = True
         Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(0, 360)
+        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(0, 339)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
         Me.ReferenceCommandBlock.ShowToolTips = True
         Me.ReferenceCommandBlock.Size = New System.Drawing.Size(86, 90)
@@ -758,7 +758,7 @@ Public Class FormProgramming
         Me.ElementsCommandBlock.DropDownArrows = True
         Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(0, 464)
+        Me.ElementsCommandBlock.Location = New System.Drawing.Point(0, 443)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
         Me.ElementsCommandBlock.ShowToolTips = True
         Me.ElementsCommandBlock.Size = New System.Drawing.Size(88, 468)
@@ -1446,7 +1446,7 @@ Public Class FormProgramming
         'FormProgramming
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(1276, 969)
+        Me.ClientSize = New System.Drawing.Size(1276, 927)
         Me.Controls.Add(Me.ButtonStartFirstStage)
         Me.Controls.Add(Me.ButtonCV_Prod_Release)
         Me.Controls.Add(Me.Label2)
@@ -1474,7 +1474,7 @@ Public Class FormProgramming
         Me.Controls.Add(Me.ButtonClean)
         Me.Controls.Add(Me.ButtonCV_Prod_Retrieve)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.KeyPreview = True
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenuProgramming
         Me.MinimizeBox = False
@@ -1535,7 +1535,7 @@ Public Class FormProgramming
     End Sub
 
     Private Sub FormProgramming_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        KeyboardControl.GainControls()
         'debugging
         cross_num.Text = CStr(0)
 
@@ -1593,7 +1593,7 @@ Public Class FormProgramming
         Conveyor.OpenPort()
         'motion controller
         m_Tri.Connect_Controller()
-        SetState("Homing")
+        'SetState("Homing")
         'vision
         SwitchToTeachCamera()
         ValueBrightness.Value = CDec(IDS.Data.Hardware.Camera.Brightness)
@@ -1624,7 +1624,7 @@ Public Class FormProgramming
     End Sub
 
     Private Sub FormProgramming_Closed(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-
+        KeyboardControl.ReleaseControls()
         Dim response As MsgBoxResult
         If (m_NewProjectCreated) And (SaveProgram.UnSave = True) Then
             response = MyMsgBox("Do you want to save the file before exit?", MsgBoxStyle.YesNo)
@@ -1902,7 +1902,7 @@ Public Class FormProgramming
         'm_keyBoard.Poll()
         m_TrackBall.Poll()
         'isPress = m_keyBoard.State.Item(Key.LeftControl)
-
+        isPress = KeyboardControl.ControlKeyPressed
         Dim x As Integer
         Dim y As Integer
         Dim VrData(3) As Single
@@ -4144,10 +4144,8 @@ Public Class FormProgramming
 
                     EnableCoordinateUpdateInSpreadsheet()
                     Dim ArrayDlg As New ArrayGenerate
-                    ArrayDlg.TopLevel = False
-                    ArrayDlg.Parent = Me
-                    ArrayDlg.Font = New Font("Microsoft Sans Serif", 8.25)
                     ArrayDlg.SetDefaultPara(m_Execution.m_Pattern.m_CurrentDPara)
+                    ArrayDlg.BringToFront()
                     ArrayDlg.Show()
                     Dim DlgReturn = ArrayDlg.DialogResult()
                     Dim PointX, PointY, PointZ As Double
@@ -7803,21 +7801,21 @@ Public Class FormProgramming
         Conveyor.Command("Release")
     End Sub
 
-    Private Sub FormProgramming_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = True
-        End If
-    End Sub
+    'Private Sub FormProgramming_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+    '    If e.KeyCode = Keys.ControlKey Then
+    '        isPress = True
+    '    End If
+    'End Sub
 
-    Private Sub FormProgramming_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = False
-        End If
-    End Sub
+    'Private Sub FormProgramming_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
+    '    If e.KeyCode = Keys.ControlKey Then
+    '        isPress = False
+    '    End If
+    'End Sub
 
-    Private Sub AxSpreadsheetProgramming_KeyUpEvent(ByVal sender As Object, ByVal e As AxOWC10.ISpreadsheetEventSink_KeyUpEvent) Handles AxSpreadsheetProgramming.KeyUpEvent
-        If e.keyCode = Keys.ControlKey Then
-            isPress = False
-        End If
-    End Sub
+    'Private Sub AxSpreadsheetProgramming_KeyUpEvent(ByVal sender As Object, ByVal e As AxOWC10.ISpreadsheetEventSink_KeyUpEvent) Handles AxSpreadsheetProgramming.KeyUpEvent
+    '    If e.keyCode = Keys.ControlKey Then
+    '        isPress = False
+    '    End If
+    'End Sub
 End Class
