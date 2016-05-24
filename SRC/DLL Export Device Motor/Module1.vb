@@ -119,31 +119,31 @@ Public Module Jogging
 
         'open keyboard device for polling its states
         Public Sub New(ByVal form As Form)
-            _device = New Device(SystemGuid.Keyboard)
-            _device.SetCooperativeLevel(form, CooperativeLevelFlags.Background Or CooperativeLevelFlags.NonExclusive)
-            _device.SetDataFormat(DeviceDataFormat.Keyboard)
-            Try
-                _device.Acquire()
-            Catch ex As DirectXException
-                'Console.WriteLine(ex.Message)
-            End Try
+            '_device = New Device(SystemGuid.Keyboard)
+            '_device.SetCooperativeLevel(form, CooperativeLevelFlags.Background Or CooperativeLevelFlags.NonExclusive)
+            '_device.SetDataFormat(DeviceDataFormat.Keyboard)
+            'Try
+            '    _device.Acquire()
+            'Catch ex As DirectXException
+            '    'Console.WriteLine(ex.Message)
+            'End Try
         End Sub
 
 
         'polling keyboard's states  
         Public Sub Poll()
-            Try
-                _device.Poll()
-                _state = _device.GetCurrentKeyboardState
-            Catch generatedExceptionVariable0 As NotAcquiredException
-                Try
-                    _device.Acquire()
-                Catch iex As InputException
-                    '   Console.WriteLine(iex.Message)
-                End Try
-            Catch ex2 As InputException
-                'Console.WriteLine(ex2.Message)
-            End Try
+            'Try
+            '    _device.Poll()
+            '    _state = _device.GetCurrentKeyboardState
+            'Catch generatedExceptionVariable0 As NotAcquiredException
+            '    Try
+            '        _device.Acquire()
+            '    Catch iex As InputException
+            '        '   Console.WriteLine(iex.Message)
+            '    End Try
+            'Catch ex2 As InputException
+            '    'Console.WriteLine(ex2.Message)
+            'End Try
         End Sub
 
 

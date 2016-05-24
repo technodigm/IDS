@@ -1474,6 +1474,7 @@ Public Class FormProgramming
         Me.Controls.Add(Me.ButtonClean)
         Me.Controls.Add(Me.ButtonCV_Prod_Retrieve)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenuProgramming
         Me.MinimizeBox = False
@@ -1898,9 +1899,9 @@ Public Class FormProgramming
         If IsBusy() And Not IsJogging() Then Exit Sub
         If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Calibrating Or m_Tri.Stepping Then Exit Sub
 
-        m_keyBoard.Poll()
+        'm_keyBoard.Poll()
         m_TrackBall.Poll()
-        isPress = m_keyBoard.State.Item(Key.LeftControl)
+        'isPress = m_keyBoard.State.Item(Key.LeftControl)
 
         Dim x As Integer
         Dim y As Integer
@@ -1914,10 +1915,10 @@ Public Class FormProgramming
             VrData(1) = 0.0
             VrData(2) = 0.0
 
-            Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
-            If isPressAlt Then
-                Exit Sub
-            End If
+            'Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+            'If isPressAlt Then
+            '    Exit Sub
+            'End If
             x = m_TrackBall.MouseX()
             y = m_TrackBall.MouseY()
 
@@ -4143,7 +4144,9 @@ Public Class FormProgramming
 
                     EnableCoordinateUpdateInSpreadsheet()
                     Dim ArrayDlg As New ArrayGenerate
-
+                    ArrayDlg.TopLevel = False
+                    ArrayDlg.Parent = Me
+                    ArrayDlg.Font = New Font("Microsoft Sans Serif", 8.25)
                     ArrayDlg.SetDefaultPara(m_Execution.m_Pattern.m_CurrentDPara)
                     ArrayDlg.Show()
                     Dim DlgReturn = ArrayDlg.DialogResult()
@@ -4465,6 +4468,9 @@ Public Class FormProgramming
             If (keyValue = 16) Or (keyValue = 107) Or (keyValue = 109) Or (keyValue = 187) Or (keyValue = 189) Then
                 specialKey = True
             End If
+        End If
+        If e.keyCode = Keys.ControlKey Then
+            isPress = True
         End If
         TraceGCCollect()
     End Sub
@@ -7795,5 +7801,23 @@ Public Class FormProgramming
 
     Private Sub ButtonCV_Prod_Release_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCV_Prod_Release.Click
         Conveyor.Command("Release")
+    End Sub
+
+    Private Sub FormProgramming_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = True
+        End If
+    End Sub
+
+    Private Sub FormProgramming_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = False
+        End If
+    End Sub
+
+    Private Sub AxSpreadsheetProgramming_KeyUpEvent(ByVal sender As Object, ByVal e As AxOWC10.ISpreadsheetEventSink_KeyUpEvent) Handles AxSpreadsheetProgramming.KeyUpEvent
+        If e.keyCode = Keys.ControlKey Then
+            isPress = False
+        End If
     End Sub
 End Class

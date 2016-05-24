@@ -159,7 +159,8 @@ Public Class FormStartup
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
 
         formlg.Dispose()
-
+        KeyboardControl.ReleaseControls()
+        'Taskbar.ShowTaskBar(True)
         '   Xue Wen                                     '
         '   Testing (Kill the application directly)     '
         Dim procRunning() As Process
@@ -183,6 +184,8 @@ Public Class FormStartup
     End Sub
 
     Private Sub FormStartup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        KeyboardControl.GainControls()
+        'Taskbar.ShowTaskBar(False)
         formlg.StartPosition = FormStartPosition.CenterScreen
         formlg.Show()
         formlg.Hide()

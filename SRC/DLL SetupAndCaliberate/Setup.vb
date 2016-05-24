@@ -694,6 +694,7 @@ Public Class Setup
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.PanelVision)
         Me.Controls.Add(Me.Panel1)
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
@@ -740,20 +741,20 @@ Public Class Setup
         If IDS.Data.SystemAtLogin = True Then Exit Sub
         If MachineRunning() Then Exit Sub
 
-        m_keyBoard.Poll()
+        'm_keyBoard.Poll()
         m_TrackBall.Poll()
 
-        isPress = m_keyBoard.State.Item(Key.LeftControl)
+        'isPress = m_keyBoard.State.Item(Key.LeftControl)
         Dim x As Integer
         Dim y As Integer
         Dim CmdStr As String
         Dim VrData(3) As Single
         If isPress Then
 
-            Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
-            If isPressAlt Then
-                Exit Sub
-            End If
+            'Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+            'If isPressAlt Then
+            '    Exit Sub
+            'End If
 
             x = m_TrackBall.MouseX()
             y = m_TrackBall.MouseY()
@@ -1368,4 +1369,15 @@ Public Class Setup
         MyConveyorSettings.e_stop_T1_Tick()
     End Sub
 
+    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = True
+        End If
+    End Sub
+
+    Protected Overrides Sub OnKeyUp(ByVal e As System.Windows.Forms.KeyEventArgs)
+        If e.KeyCode = Keys.ControlKey Then
+            isPress = False
+        End If
+    End Sub
 End Class
