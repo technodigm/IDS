@@ -476,6 +476,7 @@ Public Class FormExecution
         Me.Controls.Add(Me.Button11)
         Me.Controls.Add(Me.Button12)
         Me.Controls.Add(Me.RichTextBox1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "FormExecution"

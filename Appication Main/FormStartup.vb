@@ -98,7 +98,6 @@ Public Class FormStartup
         Me.Controls.Add(Me.BtnExit)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Button2)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -166,6 +165,7 @@ Public Class FormStartup
 
         formlg.Dispose()
         KeyboardControl.ReleaseControls()
+        Taskbar.ShowTaskBar(True)
         '   Xue Wen                                     '
         '   Testing (Kill the application directly)     '
         Dim procRunning() As Process
@@ -190,6 +190,7 @@ Public Class FormStartup
 
     Private Sub FormStartup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
+        Taskbar.ShowTaskBar(False)
         formlg.StartPosition = FormStartPosition.CenterScreen
         formlg.Show()
         formlg.Hide()

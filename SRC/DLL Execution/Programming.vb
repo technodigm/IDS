@@ -4103,6 +4103,12 @@ Public Class FormProgramming
     'Handle Del Key
     '   e: ActiveX component event handler
     '
+    Private Sub AxSpreadsheetProgramming_KeyUpEvent(ByVal sender As Object, ByVal e As AxOWC10.ISpreadsheetEventSink_KeyUpEvent) Handles AxSpreadsheetProgramming.KeyUpEvent
+        If e.keyCode = Keys.ControlKey Then
+            Console.WriteLine("Control Key release in spreadsheet control event")
+            isPress = False
+        End If
+    End Sub
 
     Dim cellString As String
     Private Sub Spreadsheet_BeforeButtonDelInput(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_BeforeKeyDownEvent) Handles AxSpreadsheetProgramming.BeforeKeyDown
@@ -4168,6 +4174,11 @@ Public Class FormProgramming
             If (keyValue = 16) Or (keyValue = 107) Or (keyValue = 109) Or (keyValue = 187) Or (keyValue = 189) Then
                 specialKey = True
             End If
+        End If
+        'yy
+        If e.keyCode = Keys.ControlKey Then
+            isPress = True
+            Console.WriteLine("Control Key pressed in spreadsheet control event")
         End If
         TraceGCCollect()
     End Sub
