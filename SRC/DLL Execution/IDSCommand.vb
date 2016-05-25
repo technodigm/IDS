@@ -8237,7 +8237,10 @@ Public Class CIDSPattnBurn
         Dim Buffer(OnePageElements - 1) As Single
         Dim download_page_number = 1
         count = 0
+        'Dim enterTime As Long = DateTime.Now.Ticks
         m_Tri.RunTrioMotionProgram("CLEARTABLE", 2)
+        'Console.WriteLine("Clear table time(ms) required: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+        'Console.WriteLine("Burn table started, Dispensing List : #" & dispenselist.Count.ToString())
         Try
             For page_number = 1 To downloads
                 If CheckButtonState() = -1 Then Return False
@@ -8292,7 +8295,7 @@ Public Class CIDSPattnBurn
     '   bufferpos: current index of one page buffer
 
     Public Function DownloadOnePageTable(ByRef download_page_number As Integer, ByRef tablepos As Integer, ByRef buffer() As Single) As Boolean
-
+        Dim enterTime As Long = DateTime.Now.Ticks
         Dim rtn As Boolean = False
         Dim firstpos, firstEleValue As Integer
         Dim runmode As Integer = 0
@@ -8314,12 +8317,19 @@ Public Class CIDSPattnBurn
 
         buffer(0) = 1.0
         buffer(OnePageElements - 1) = 9999.0
+        'Dim beforeSetTableTime As Long = DateTime.Now.Ticks
+        'Dim time1 As Long = (beforeSetTableTime - enterTime) / 10000 'miliseconds
 
         Do
             counter += 1
             rtn = m_Tri.m_TriCtrl.SetTable(firstpos, OnePageElements, buffer)
         Loop Until rtn = True Or counter = 5 Or m_Tri.EStopActivated
 
+        'Console.WriteLine("Total time(ms) from enter to wait for writeable = " & time1.ToString())
+
+        'Dim time2 As Long = (DateTime.Now.Ticks - beforeSetTableTime) / 10000 ' miliseconds
+        'Console.WriteLine("Total time(ms) for set table = " & time2.ToString())
+        'Console.WriteLine("Total time(ms) = " & (time1 + time2).ToString())
         If m_Tri.EStopActivated Then
             Return False
         End If

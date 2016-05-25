@@ -29,7 +29,7 @@ Public Module ExecutionModule
 
     'downloading variables
     Public OnePageElements As Integer = 1000  '(change also in DISPENSE trio program)
-    Public MaxPages As Integer = 5 '15 '5 (change also in DISPENSE trio program)
+    Public MaxPages As Integer = 30 'yy '5 '15 '5 (change also in DISPENSE trio program)
     Public StartDispPage As Integer = 2 '25 '5 (starting form 2) (no change in DISPENSE trio program)
     Public StartPosition As Integer = 1000 '(please do not change)
 
