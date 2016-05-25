@@ -853,8 +853,7 @@ Public Class FormProduction
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.PanelProDownTimeInfor)
         Me.Controls.Add(Me.Panel2)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.KeyPreview = True
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Menu = Me.MainMenuProduction
         Me.Name = "FormProduction"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -876,6 +875,7 @@ Public Class FormProduction
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'reset!
+        KeyboardControl.GainControls()
         Console.WriteLine(DateTime.Now & "#1")
         ResetToIdle()
         'gui visibility
@@ -941,6 +941,7 @@ Public Class FormProduction
         'm_keyBoard.Poll()
         m_TrackBall.Poll()
         'isPress = m_keyBoard.State.Item(Key.LeftControl)
+        isPress = KeyboardControl.ControlKeyPressed
 
         Dim x As Integer
         Dim y As Integer
@@ -1730,27 +1731,12 @@ StopCalibration:
 
     End Sub
 
-    Private Sub FormProduction_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = True
-        End If
-    End Sub
-
-    Private Sub FormProduction_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = False
-        End If
-    End Sub
-
-    Private Sub FormProduction_Deactivate(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Deactivate
-        isPress = False
-    End Sub
-
     Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
         If ContinuousMode.Checked = True Then
             ContinuousMode.Checked = False
         End If
         isPress = False
+        KeyboardControl.ReleaseControls()
         'error handling
         Form_Service.ResetEventCode()
         'vision

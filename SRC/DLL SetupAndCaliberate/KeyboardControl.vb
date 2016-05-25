@@ -29,24 +29,12 @@ Public Class KeyboardControl
         'This is using the my.computer.keyboard to get the
         'flags instead
         Dim KeyboardSruct As KBDLLHOOKSTRUCT = Marshal.PtrToStructure(lParam, GetType(KBDLLHOOKSTRUCT))
-        'If KeyboardSruct.vkCode = Vk_Tab And My.Computer.Keyboard.AltKeyDown Then
-        '    'Alt Tab
-        '    Return 1
-        'ElseIf KeyboardSruct.vkCode = Vk_Escape And My.Computer.Keyboard.CtrlKeyDown Then
-        '    'Control Escape
-        '    Return 1
-        If KeyboardSruct.vkCode = VK_LWinKey Or KeyboardSruct.vkCode = VK_RWinKey Then
-            'Console.WriteLine(DateTime.Now & "LWin or RWin pressed")
-            Return 1
-        End If
         'Send the message along  
         If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
             ControlKeyPressed = True
-            Console.WriteLine("IDS Key Down" & Hex(KeyboardSruct.vkCode))
         End If
         If wParam = WM_KEYUP And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
             ControlKeyPressed = False
-            Console.WriteLine("IDS Key Up" & Hex(KeyboardSruct.vkCode))
         End If
         Return CallNextHookEx(HookId, nCode, New IntPtr(wParam), lParam)
     End Function

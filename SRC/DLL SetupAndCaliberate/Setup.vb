@@ -613,7 +613,6 @@ Public Class Setup
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.PanelVision)
         Me.Controls.Add(Me.Panel1)
-        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
@@ -663,12 +662,13 @@ Public Class Setup
         m_TrackBall.Poll()
 
         'isPress = m_keyBoard.State.Item(Key.LeftControl)
+        isPress = KeyboardControl.ControlKeyPressed
         Dim x As Integer
         Dim y As Integer
         Dim CmdStr As String
         Dim VrData(3) As Single
         If isPress Then
-
+            m_Tri.SteppingButtons.Enabled = False
             'Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
             'If isPressAlt Then
             '    Exit Sub
@@ -804,6 +804,7 @@ Public Class Setup
                 VrData(2) = 0
                 m_Tri.SetTrioMotionValues("Jogging", VrData)
                 isJogON = False
+                m_Tri.SteppingButtons.Enabled = True
             End If
 
         End If
@@ -937,7 +938,7 @@ Public Class Setup
 
     Private Sub Setup_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         Dim mode As Integer = 0
-
+        KeyboardControl.ReleaseControls()
         m_Tri.m_TriCtrl.GetTable(21, 1, mode)
         If mode <> 0 Then
             m_Tri.m_TriCtrl.SetTable(21, 1, 0)
@@ -1103,7 +1104,7 @@ Public Class Setup
 #Region " Data Reference "
     ' this function need to be removed after it is compiled as DLL .
     Private Sub SystemConfig_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        KeyboardControl.GainControls()
         Conn = OleDbConnection1
         Call DataLoad()
 
@@ -1200,21 +1201,5 @@ Public Class Setup
 
     Private Sub PanelVision_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PanelVision.Paint
 
-    End Sub
-
-    Private Sub Setup_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = True
-        End If
-    End Sub
-
-    Private Sub Setup_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = False
-        End If
-    End Sub
-
-    Private Sub Setup_Deactivate(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Deactivate
-        isPress = False
     End Sub
 End Class

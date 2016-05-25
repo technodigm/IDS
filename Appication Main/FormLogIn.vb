@@ -51,7 +51,6 @@ Public Class FormLogin
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents OleDbConnection1 As System.Data.OleDb.OleDbConnection
     Friend WithEvents TextLoginPW As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
@@ -111,10 +110,10 @@ Public Class FormLogin
     Friend WithEvents PanelgroupID As System.Windows.Forms.Panel
     Friend WithEvents ButtonSetupRegistry As System.Windows.Forms.Button
     Public WithEvents BtnWelcomeOK As System.Windows.Forms.Button
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormLogin))
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.TextLoginPW = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
@@ -180,6 +179,7 @@ Public Class FormLogin
         Me.Label7 = New System.Windows.Forms.Label
         Me.MainMenu1 = New System.Windows.Forms.MainMenu
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox
         Me.GroupBox1.SuspendLayout()
         Me.PanelIDSLogin.SuspendLayout()
         Me.PanelUserID.SuspendLayout()
@@ -190,17 +190,8 @@ Public Class FormLogin
         Me.PanelSelectApplication.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.PanelSSetup.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(152, 24)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(40, 24)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox1.TabIndex = 52
-        Me.PictureBox1.TabStop = False
         '
         'Label1
         '
@@ -416,13 +407,7 @@ Public Class FormLogin
         'PanelIDSLogin
         '
         Me.PanelIDSLogin.ContextMenu = Me.CMPrimaryKey
-        Me.PanelIDSLogin.Controls.Add(Me.BtnLogin)
-        Me.PanelIDSLogin.Controls.Add(Me.ButtonSetupRegistry)
-        Me.PanelIDSLogin.Controls.Add(Me.PanelUserID)
-        Me.PanelIDSLogin.Controls.Add(Me.PanelgroupID)
-        Me.PanelIDSLogin.Controls.Add(Me.Label2)
-        Me.PanelIDSLogin.Controls.Add(Me.PictureBox1)
-        Me.PanelIDSLogin.Controls.Add(Me.TextLoginPW)
+        Me.PanelIDSLogin.Controls.Add(Me.GroupBox3)
         Me.PanelIDSLogin.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PanelIDSLogin.Location = New System.Drawing.Point(0, 0)
         Me.PanelIDSLogin.Name = "PanelIDSLogin"
@@ -794,6 +779,21 @@ Public Class FormLogin
         Me.Label7.TabIndex = 53
         Me.Label7.Text = "Authentication Code"
         '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.BtnLogin)
+        Me.GroupBox3.Controls.Add(Me.ButtonSetupRegistry)
+        Me.GroupBox3.Controls.Add(Me.PanelUserID)
+        Me.GroupBox3.Controls.Add(Me.PanelgroupID)
+        Me.GroupBox3.Controls.Add(Me.TextLoginPW)
+        Me.GroupBox3.Controls.Add(Me.Label2)
+        Me.GroupBox3.Location = New System.Drawing.Point(16, 16)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(296, 264)
+        Me.GroupBox3.TabIndex = 55
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Login :"
+        '
         'FormLogin
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -804,6 +804,7 @@ Public Class FormLogin
         Me.Controls.Add(Me.PanelChangeUserID)
         Me.Controls.Add(Me.Panelwelcome)
         Me.Controls.Add(Me.PanelIDSLogin)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
@@ -820,6 +821,7 @@ Public Class FormLogin
         Me.PanelSelectApplication.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.PanelSSetup.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

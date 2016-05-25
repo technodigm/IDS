@@ -1346,7 +1346,6 @@ Public Class FormProgramming
         Me.Controls.Add(Me.ButtonClean)
         Me.Controls.Add(Me.ButtonCalibrate)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenuProgramming
         Me.MinimizeBox = False
@@ -1406,6 +1405,7 @@ Public Class FormProgramming
     End Sub
 
     Private Sub FormProgramming_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        KeyboardControl.GainControls()
         'yy
         DispensingMode.SelectedIndex = 0
         'debugging
@@ -1523,7 +1523,7 @@ Public Class FormProgramming
 
         'gui
         m_Tri.Disconnect_Controller()
-
+        KeyboardControl.ReleaseControls()
         IDS.Data.SaveLocalData()
         IDS.FrmExecution.Hide()
 
@@ -1738,7 +1738,7 @@ Public Class FormProgramming
         'm_keyBoard.Poll()
         m_TrackBall.Poll()
         'isPress = m_keyBoard.State.Item(Key.LeftControl)
-
+        isPress = KeyboardControl.ControlKeyPressed
         Dim x As Integer
         Dim y As Integer
         Dim VrData(3) As Single
@@ -4103,13 +4103,6 @@ Public Class FormProgramming
     'Handle Del Key
     '   e: ActiveX component event handler
     '
-    Private Sub AxSpreadsheetProgramming_KeyUpEvent(ByVal sender As Object, ByVal e As AxOWC10.ISpreadsheetEventSink_KeyUpEvent) Handles AxSpreadsheetProgramming.KeyUpEvent
-        If e.keyCode = Keys.ControlKey Then
-            Console.WriteLine("Control Key release in spreadsheet control event")
-            isPress = False
-        End If
-    End Sub
-
     Dim cellString As String
     Private Sub Spreadsheet_BeforeButtonDelInput(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_BeforeKeyDownEvent) Handles AxSpreadsheetProgramming.BeforeKeyDown
 
@@ -4174,11 +4167,6 @@ Public Class FormProgramming
             If (keyValue = 16) Or (keyValue = 107) Or (keyValue = 109) Or (keyValue = 187) Or (keyValue = 189) Then
                 specialKey = True
             End If
-        End If
-        'yy
-        If e.keyCode = Keys.ControlKey Then
-            isPress = True
-            Console.WriteLine("Control Key pressed in spreadsheet control event")
         End If
         TraceGCCollect()
     End Sub
@@ -7039,21 +7027,4 @@ Public Class FormProgramming
     'Private Sub VisionMode_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.CheckedChanged
 
     'End Sub
-
-    Private Sub FormProgramming_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = True
-        End If
-    End Sub
-
-    Private Sub FormProgramming_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyUp
-        If e.KeyCode = Keys.ControlKey Then
-            isPress = False
-        End If
-    End Sub
-
-
-    Private Sub FormProgramming_Deactivate(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Deactivate
-        isPress = False
-    End Sub
 End Class

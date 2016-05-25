@@ -288,6 +288,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "KeyboardControl.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "LaserCalibration.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
