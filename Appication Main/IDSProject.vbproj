@@ -191,11 +191,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Module2.vb"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Taskbar.vb"
                     SubType = "Code"
                     BuildAction = "Compile"

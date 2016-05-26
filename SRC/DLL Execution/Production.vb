@@ -1021,7 +1021,10 @@ Public Class FormProduction
 #End Region
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        Init()
+        While isInited = False
+            Application.DoEvents()
+        End While
         'reset!
         ResetToIdle()
 
@@ -1067,7 +1070,7 @@ Public Class FormProduction
         ValueBrightness.Value = IDS.Data.Hardware.Camera.Brightness
 
         'motion controller
-        m_Tri.Connect_Controller()
+        'm_Tri.Connect_Controller()
         SetState("Homing")
 
         'timers start
@@ -1089,7 +1092,7 @@ Public Class FormProduction
     End Sub
 
     Private Sub FormProduction_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-
+        InitThread.Abort()
     End Sub
 
     Public Sub ProductionInfoDispClear()

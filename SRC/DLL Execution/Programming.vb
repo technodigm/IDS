@@ -1536,6 +1536,10 @@ Public Class FormProgramming
 
     Private Sub FormProgramming_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
+        Init()
+        While isInited = False
+            Application.DoEvents()
+        End While
         'debugging
         cross_num.Text = CStr(0)
 
@@ -1592,8 +1596,8 @@ Public Class FormProgramming
         Weighting_Scale.OpenPort()
         Conveyor.OpenPort()
         'motion controller
-        m_Tri.Connect_Controller()
-        'SetState("Homing")
+        'm_Tri.Connect_Controller()
+        SetState("Homing")
         'vision
         SwitchToTeachCamera()
         ValueBrightness.Value = CDec(IDS.Data.Hardware.Camera.Brightness)
@@ -1654,6 +1658,8 @@ Public Class FormProgramming
         MouseTimer.Dispose()
         ThreadMonitor.Abort()
         ThreadExecutor.Abort()
+
+        InitThread.Abort()
 
         'hardware shutdown
         Conveyor.PositionTimer.Stop()
@@ -3282,7 +3288,6 @@ Public Class FormProgramming
     End Sub
 
     Private Sub ButtonToggleMode_click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonToggleMode.Click
-
         TimerForUpdate.Start() 'kr nov28
         If CurrentMode = "Program Editor" Then
 

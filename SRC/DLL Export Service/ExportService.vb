@@ -241,8 +241,7 @@ Public Class CIDSService
             Inherits CIDSTrioController
 
             Private Shared m_instance As CIDSMotor
-
-            Private Sub New()
+            Public Sub New()
                 'InitializeComponent();
             End Sub
 

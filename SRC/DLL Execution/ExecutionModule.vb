@@ -26,6 +26,8 @@ Public Module ExecutionModule
     Public ThreadMonitor As Threading.Thread
     Public ThreadExecutor As Threading.Thread
 
+    Public InitThread As Threading.Thread
+
     Public VolumeCalibrationRunning As Boolean = False
 
     'external functions imported from DLLs
@@ -40,12 +42,12 @@ Public Module ExecutionModule
 
     'downloading variables
     Public OnePageElements As Integer = 1000  '(change also in DISPENSE trio program)
-    Public MaxPages As Integer = 5 '15 '5 (change also in DISPENSE trio program)
+    Public MaxPages As Integer = 30 '15 '5 (change also in DISPENSE trio program)
     Public StartDispPage As Integer = 2 '25 '5 (starting form 2) (no change in DISPENSE trio program)
     Public StartPosition As Integer = 1000 '(please do not change)
 
     'gui instantiation from other modules
-    Public m_Tri As CIDSService.CIDSServiceDevices.CIDSMotor = m_Tri.Instance
+    Public m_Tri As CIDSService.CIDSServiceDevices.CIDSMotor ' = m_Tri.Instance
     Public Conveyor As CIDSService.CIDSServiceDevices.CIDSServiceConveyor = Conveyor.Instance
     Public Weighting_Scale As CIDSService.CIDSServiceDevices.CIDSServiceWeighting = Weighting_Scale.Instance
     Public Heater As CIDSService.CIDSServiceDevices.CIDSServiceThermal = Heater.Instance
@@ -528,7 +530,6 @@ ResetMachineState:
 
     'THREAD
     Public Sub DownloadProgram()
-
         Try
             Dim rtn As Integer = DispensingCtrl()
             If Not rtn = 0 Then ResetToIdle() 'error message
@@ -656,6 +657,44 @@ ResetMachineState:
         Loop
     End Sub
 
+    Private startInit As AutoResetEvent = New AutoResetEvent(False)
+    Private abortInit As AutoResetEvent = New AutoResetEvent(False)
+    Private waitHandles() As WaitHandle = {abortInit, startInit}
+    Public isInited As Boolean = False
+    Public isExited As Boolean = False
+    Public Sub Init()
+        InitThread = New System.Threading.Thread(AddressOf ControllerThread)
+        InitThread.Priority = ThreadPriority.Normal
+        InitThread.Start()
+        startInit.Set()
+    End Sub
+    Public Sub ExitInit()
+        abortInit.Set()
+    End Sub
+    'Thread
+    Public Sub ControllerThread()
+        While (1)
+            Dim i As Integer = WaitHandle.WaitAny(waitHandles)
+            Select Case i
+                Case 0
+                    'Abort
+                    Console.WriteLine("Thread exit #1")
+                    abortInit.Reset()
+                    isExited = True
+                    Return
+                Case 1
+                    Console.WriteLine("Thread create Motor instance")
+                    If m_Tri Is Nothing Then
+                        m_Tri = New CIDSService.CIDSServiceDevices.CIDSMotor
+                    End If
+                    m_Tri.Connect_Controller()
+                    isInited = True
+                    startInit.Reset()
+                    'Init
+            End Select
+        End While
+    End Sub
+
 #End Region
 
 #Region "states"
@@ -745,8 +784,10 @@ ResetMachineState:
     End Function
     'why would machinestate be "idle" yet calibrating or have a motion error
     Public Function IsIdle()
+        If m_Tri Is Nothing Then Return False
         If MachineState = "Idle" And Not m_Tri.Calibrating And Not m_Tri.MotionError Then Return True
         Return False
+
     End Function
     Public Function IsStart()
         If MachineState = "Start" Then Return True
@@ -783,7 +824,7 @@ ResetMachineState:
     End Function
 
     Public Sub ResetToIdle()
-
+        If m_Tri Is Nothing Then Return
         'machinestate
         SetState("Idle")
         m_Tri.SetMachineStop()
@@ -1348,6 +1389,5 @@ Reset:
     End Sub
 
 #End Region
-
 
 End Module

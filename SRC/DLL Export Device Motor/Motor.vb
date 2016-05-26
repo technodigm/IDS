@@ -239,6 +239,7 @@ Public Class CIDSTrioController
     Public m_TriCtrl As New TrioPCLib.TrioPCClass
     Public StateContainer(250) As Double
 
+
 #Region " Connection "
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -449,7 +450,7 @@ Public Class CIDSTrioController
         order(0) = 0
         order(1) = 1
         order(2) = 2
-        m_TriCtrl.Base(3, Order)
+        m_TriCtrl.Base(3, order)
     End Sub
     Public Function Move_Z(ByVal Height As Double)
         WaitForEndOfMove()
@@ -873,6 +874,18 @@ Public Class CIDSTrioController
         End If
 
     End Sub
+    'yy
+    Public Sub Disconnect()
+
+        If m_TriCtrl.IsOpen(0) Then
+            m_TriCtrl.Close(0)
+        End If
+
+    End Sub
+
+    Public Function Connect()
+        Return TrioConnectEthernet("192.168.0.250", 3240)
+    End Function
 
     Public Function Connect_Controller()
 
@@ -881,7 +894,6 @@ Public Class CIDSTrioController
         'StopTrioMotionProgram("DISPENSE")
         'StopTrioMotionProgram("SETDATUM")
         'StopTrioMotionProgram("CALIBRATIONS")
-
         If TrioConnectEthernet("192.168.0.250", 3240) Then
             RunTrioMotionProgram("STARTUP")
             Sleep(500)
