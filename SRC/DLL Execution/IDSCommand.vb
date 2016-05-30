@@ -339,8 +339,10 @@ Public Class CIDSPatternLoader
 
     Public Function GetReferencePtData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef referPt() As Double) As Integer
         Dim Ratio As Double = 1.0
-        referPt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        referPt(1) = (sheet.Cells(row, gPos1YColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A" & row, "AD" & row).Value
+        referPt(0) = array(1, gPos1XColumn)
+        referPt(1) = array(1, gPos1YColumn)
         referPt(2) = 0.0 'sheet.Cells(row, gPos1ZColum).value
 
         Return 0
@@ -380,9 +382,13 @@ Public Class CIDSPatternLoader
     '      row:   pattern command row number
 
     Public Function SetHeightRecData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSHeight) As Integer
-        data.PosX = (sheet.Cells(row, gPos1XColumn).value)
-        data.PosY = (sheet.Cells(row, gPos1YColumn).value)
-        data.PosZ = (sheet.Cells(row, gPos1ZColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        data.PosX = array(j, gPos1XColumn)
+        data.PosY = array(j, gPos1YColumn)
+        data.PosZ = array(j, gPos1ZColumn)
         data.CmdLineNo = row
         data.CmdType = "HEIGHT"
         Return 0
@@ -405,10 +411,14 @@ Public Class CIDSPatternLoader
 
         Dim offX1, offY1, offX2, offY2 As Double
         heightComps = 0.0
+
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A" & row, "AD" & row).Value
+        Dim j As Integer = 1
         'get detecting height position wrf work co.
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt, referPt, fidComp, comp) 'transform to hard home coordinate
 
         'offset laser 
@@ -480,10 +490,14 @@ Public Class CIDSPatternLoader
         Dim vpara As DLL_Export_Device_Vision.RejectPoint.RMParam
         Dim offX1, offY1, offX2, offY2 As Double
 
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A" & row, "BZ" & row).Value
+        Dim j As Integer = 1
+
         'Get reject mark position wrt work coord.
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt, referPt, fidComp, comp) 'Transform to hard home coord.
 
         If Not WorkAreaErrorCheckXY(comp) Then
@@ -496,25 +510,25 @@ Public Class CIDSPatternLoader
         PosY = comp(1)
 
         'set vision parameters for reject mark detection
-        vpara._AcceptRatio = sheet.Cells(row, gAcceptRatioCoulumn).value
-        vpara._Binarized = sheet.Cells(row, gBinarizedColumn).value
-        vpara._BlackWithoutRM = sheet.Cells(row, gBlackWithoutRMCoulumn).value
-        vpara._BlackWithRM = sheet.Cells(row, gBlackWithRMCoulumn).value
-        vpara._Brightness = sheet.Cells(row, gBrightnessColumn).value
-        vpara._MRegionX = sheet.Cells(row, gMRegionXColumn).value
-        vpara._MRegionY = sheet.Cells(row, gMRegionYColumn).value
-        vpara._MROIx = sheet.Cells(row, gMROIxColumn).value
-        vpara._MROIy = sheet.Cells(row, gMROIyColumn).value
-        vpara._WhiteWithoutRM = sheet.Cells(row, gWhiteWithoutRMCoulumn).value
-        vpara._WhiteWithRM = sheet.Cells(row, gWhiteWithRMCoulumn).value
-        vpara._WoRM = sheet.Cells(row, gWoRMCoulumn).value
-        vpara._WRM = sheet.Cells(row, gWRMCoulumn).value
+        vpara._AcceptRatio = array(j, gAcceptRatioCoulumn)
+        vpara._Binarized = array(j, gBinarizedColumn)
+        vpara._BlackWithoutRM = array(j, gBlackWithoutRMCoulumn)
+        vpara._BlackWithRM = array(j, gBlackWithRMCoulumn)
+        vpara._Brightness = array(j, gBrightnessColumn)
+        vpara._MRegionX = array(j, gMRegionXColumn)
+        vpara._MRegionY = array(j, gMRegionYColumn)
+        vpara._MROIx = array(j, gMROIxColumn)
+        vpara._MROIy = array(j, gMROIyColumn)
+        vpara._WhiteWithoutRM = array(j, gWhiteWithoutRMCoulumn)
+        vpara._WhiteWithRM = array(j, gWhiteWithRMCoulumn)
+        vpara._WoRM = array(j, gWoRMCoulumn)
+        vpara._WRM = array(j, gWRMCoulumn)
 
         ''
         '   Xue Wen                                                                                 '
         '   Set the brightness before doing the movement. This will affect vision(ActiveX) less.    '
         ''
-        Vision.IDSV_SetBrightness(sheet.Cells(row, gBrightnessColumn).value)
+        Vision.IDSV_SetBrightness(array(j, gBrightnessColumn))
 
         Dim rtn As Integer = 0
         rtn = MoveToCheckRejectMark(PosX, PosY, vpara)
@@ -539,14 +553,18 @@ Public Class CIDSPatternLoader
         data.CmdType = "FIDUCIAL"
         data.SheetName = sheet.Name
 
-        data.PosX1 = (sheet.Cells(row, gPos1XColumn).value)
-        data.PosY1 = (sheet.Cells(row, gPos1YColumn).value)
-        data.PosZ1 = (sheet.Cells(row, gPos1ZColumn).value)
-        data.PosX2 = (sheet.Cells(row, gPos2XColumn).value)
-        data.PosY2 = (sheet.Cells(row, gPos2YColumn).value)
-        data.PosZ2 = (sheet.Cells(row, gPos2ZColumn).value)
-        data.FirstFid = (sheet.Cells(row, gFid1Column).value)
-        data.SecondFid = (sheet.Cells(row, gFid2Column).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        data.PosX1 = array(j, gPos1XColumn)
+        data.PosY1 = array(j, gPos1YColumn)
+        data.PosZ1 = array(j, gPos1ZColumn)
+        data.PosX2 = array(j, gPos2XColumn)
+        data.PosY2 = array(j, gPos2YColumn)
+        data.PosZ2 = array(j, gPos2ZColumn)
+        data.FirstFid = array(j, gFid1Column)
+        data.SecondFid = array(j, gFid2Column)
         If data.SecondFid = Nothing Then
             data.NumOfFid = 1
         Else
@@ -575,9 +593,14 @@ Public Class CIDSPatternLoader
         Dim FidNames As String
         Dim offX1, offY1, offX2, offY2 As Double
         'Get fiducial point 1 position
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
+
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A" & row, "BZ" & row).Value
+        Dim j As Integer = 1
+
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt, referPt, fidComp, comp)
 
         If Not WorkAreaErrorCheckXY(comp) Then Return -1
@@ -585,9 +608,9 @@ Public Class CIDSPatternLoader
         PosX1 = comp(0)
         PosY1 = comp(1)
         'Get fiducial point 2 position
-        pt(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt(0) = array(j, gPos2XColumn)
+        pt(1) = array(j, gPos2YColumn)
+        pt(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt, referPt, fidComp, comp)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp) Then
@@ -602,10 +625,10 @@ Public Class CIDSPatternLoader
         Dim result As Boolean
         'only one fiducial point
         If Math.Abs(PosX1 - PosX2) < 1.0 And Math.Abs(PosY1 - PosY2) < 1.0 Then
-            FidNames = sheet.Cells(row, gFid1Column).value
+            FidNames = array(j, gFid1Column)
             FidNames = gFidFileName + FidNames
             Dim Brightness As Integer
-            Brightness = sheet.Cells(row, gBrightnessColumn).value
+            Brightness = array(j, gBrightnessColumn)
             Vision.IDSV_SetBrightness(Brightness)
             position(0) = PosX1
             position(1) = PosY1
@@ -641,10 +664,10 @@ Public Class CIDSPatternLoader
         End If
         'two fiducial points checking
         'fiducial 1
-        FidNames = sheet.Cells(row, gFid1Column).value
+        FidNames = array(j, gFid1Column)
         FidNames = gFidFileName + FidNames
         Dim Brightness1 As Integer
-        Brightness1 = sheet.Cells(row, gBrightnessColumn).value
+        Brightness1 = array(j, gBrightnessColumn)
         Vision.IDSV_SetBrightness(Brightness1)
         position(0) = PosX1
         position(1) = PosY1
@@ -673,10 +696,10 @@ Public Class CIDSPatternLoader
         End If
 
         'fiducial 2
-        FidNames = sheet.Cells(row, gFid2Column).value
+        FidNames = array(j, gFid2Column)
         FidNames = gFidFileName + FidNames
         Dim Brightness2 As Integer
-        Brightness2 = sheet.Cells(row, gThresholdColumn).value
+        Brightness2 = array(j, gThresholdColumn)
         Vision.IDSV_SetBrightness(Brightness2)
         position(0) = PosX2
         position(1) = PosY2
@@ -762,9 +785,13 @@ Public Class CIDSPatternLoader
         data.CmdType = "QC"
         data.SheetName = sheet.Name
 
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "BZ" & row).Value
+
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt, referPt, fidComp, comp) 'Transform QC position to hard home coord.
 
         Dim sheetname As String = sheet.Name
@@ -778,21 +805,21 @@ Public Class CIDSPatternLoader
         data.PosZ = comp(2)
 
         'set vision data
-        vPara._Brightness = sheet.Cells(row, gBrightnessColumn).value
-        vPara._Binarized = sheet.Cells(row, gBinarizedColumn).value
-        vPara._BlackDot = sheet.Cells(row, gBlackDotColumn).value
-        vPara._Open = sheet.Cells(row, gOpenColumn).value
-        vPara._Close = sheet.Cells(row, gCloseColumn).value
-        vPara._Compactness = sheet.Cells(row, gCompactnessColumn).value
-        vPara._MaxArea = sheet.Cells(row, gMaxAreaColumn).value
-        vPara._MinArea = sheet.Cells(row, gMinAreaColumn).value
-        vPara._MRegionX = sheet.Cells(row, gMRegionXColumn).value
-        vPara._MRegionY = sheet.Cells(row, gMRegionYColumn).value
-        vPara._MROIx = sheet.Cells(row, gMROIxColumn).value
-        vPara._MROIy = sheet.Cells(row, gMROIyColumn).value
-        vPara._Roughness = sheet.Cells(row, gRoughnessColumn).value
-        vPara._Diameter = sheet.Cells(row, gDiameterColumn).value
-        vPara._Tolerance = sheet.Cells(row, gToleranceColumn).value
+        vPara._Brightness = array(j, gBrightnessColumn)
+        vPara._Binarized = array(j, gBinarizedColumn)
+        vPara._BlackDot = array(j, gBlackDotColumn)
+        vPara._Open = array(j, gOpenColumn)
+        vPara._Close = array(j, gCloseColumn)
+        vPara._Compactness = array(j, gCompactnessColumn)
+        vPara._MaxArea = array(j, gMaxAreaColumn)
+        vPara._MinArea = array(j, gMinAreaColumn)
+        vPara._MRegionX = array(j, gMRegionXColumn)
+        vPara._MRegionY = array(j, gMRegionYColumn)
+        vPara._MROIx = array(j, gMROIxColumn)
+        vPara._MROIy = array(j, gMROIyColumn)
+        vPara._Roughness = array(j, gRoughnessColumn)
+        vPara._Diameter = array(j, gDiameterColumn)
+        vPara._Tolerance = array(j, gToleranceColumn)
 
         data.vParam = vPara
 
@@ -819,10 +846,14 @@ Public Class CIDSPatternLoader
         data.CmdType = "CHIPEDGE"
         data.SheetName = sheet.Name
 
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A" & row, "BZ" & row).Value
+        Dim j As Integer = 1
+
         'Set chip edge detecting position
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt, referPt, fidComp, comp)
 
         Dim sheetname As String = sheet.Name
@@ -840,39 +871,39 @@ Public Class CIDSPatternLoader
         PosY = data.PosY
 
         'set vision paramerers
-        vPara._Brightness = sheet.Cells(row, gBrightnessColumn).value
-        vPara._EdgeClearance = (sheet.Cells(row, gEdgeClearColumn).value)
-        vPara._CheckBox_ChipRec_Enable = sheet.Cells(row, gCheckBoxColumn).value
-        vPara._Cw_CCw = sheet.Cells(row, gCwCCwColumn).value
-        vPara._DispenseModel = sheet.Cells(row, gDispModelColumn).value
-        vPara._Inside_out = sheet.Cells(row, gInOutColumn).value
-        vPara._MainEdge = sheet.Cells(row, gMainEdgeColumn).value
-        vPara._PointX1 = sheet.Cells(row, gPointX1Column).value
-        vPara._PointX2 = sheet.Cells(row, gPointX2Column).value
-        vPara._PointX3 = sheet.Cells(row, gPointX3Column).value
-        vPara._PointX4 = sheet.Cells(row, gPointX4Column).value
-        vPara._PointX5 = sheet.Cells(row, gPointX5Column).value
-        vPara._PointY1 = sheet.Cells(row, gPointY1Column).value
-        vPara._PointY2 = sheet.Cells(row, gPointY2Column).value
-        vPara._PointY3 = sheet.Cells(row, gPointY3Column).value
-        vPara._PointY4 = sheet.Cells(row, gPointY4Column).value
-        vPara._PointY5 = sheet.Cells(row, gPointY5Column).value
-        vPara._Pos = sheet.Cells(row, gPosColumn).value
-        vPara._PosX = sheet.Cells(row, gPosXColumn).value
-        vPara._PosY = sheet.Cells(row, gPosYColumn).value
-        vPara._ROI = sheet.Cells(row, gROIColumn).value
-        vPara._Rot = sheet.Cells(row, gRotColumn).value
-        vPara._Size = sheet.Cells(row, gSizeColumn).value
-        vPara._SizeX = sheet.Cells(row, gSizeXColumn).value
-        vPara._SizeY = sheet.Cells(row, gSizeYColumn).value
-        vPara._Threshold = sheet.Cells(row, gThresholdColumn).value
-        vPara._Vertical = sheet.Cells(row, gVerticalColumn).value
+        vPara._Brightness = array(j, gBrightnessColumn)
+        vPara._EdgeClearance = array(j, gEdgeClearColumn)
+        vPara._CheckBox_ChipRec_Enable = array(j, gCheckBoxColumn)
+        vPara._Cw_CCw = array(j, gCwCCwColumn)
+        vPara._DispenseModel = array(j, gDispModelColumn)
+        vPara._Inside_out = array(j, gInOutColumn)
+        vPara._MainEdge = array(j, gMainEdgeColumn)
+        vPara._PointX1 = array(j, gPointX1Column)
+        vPara._PointX2 = array(j, gPointX2Column)
+        vPara._PointX3 = array(j, gPointX3Column)
+        vPara._PointX4 = array(j, gPointX4Column)
+        vPara._PointX5 = array(j, gPointX5Column)
+        vPara._PointY1 = array(j, gPointY1Column)
+        vPara._PointY2 = array(j, gPointY2Column)
+        vPara._PointY3 = array(j, gPointY3Column)
+        vPara._PointY4 = array(j, gPointY4Column)
+        vPara._PointY5 = array(j, gPointY5Column)
+        vPara._Pos = array(j, gPosColumn)
+        vPara._PosX = array(j, gPosXColumn)
+        vPara._PosY = array(j, gPosYColumn)
+        vPara._ROI = array(j, gROIColumn)
+        vPara._Rot = array(j, gRotColumn)
+        vPara._Size = array(j, gSizeColumn)
+        vPara._SizeX = array(j, gSizeXColumn)
+        vPara._SizeY = array(j, gSizeYColumn)
+        vPara._Threshold = array(j, gThresholdColumn)
+        vPara._Vertical = array(j, gVerticalColumn)
 
         ''
         '   Xue Wen                                                                                 '
         '   Set the brightness before doing the movement. This will affect vision(ActiveX) less.    '
         ''
-        Vision.IDSV_SetBrightness(sheet.Cells(row, gBrightnessColumn).value)
+        Vision.IDSV_SetBrightness(array(j, gBrightnessColumn))
 
         Dim rtn As Integer = 0
         rtn = MoveToCheckChipEdge(PosX, PosY, vPara) 'move to check chip edge
@@ -885,7 +916,7 @@ Public Class CIDSPatternLoader
 
         data.vParam = vPara
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -893,18 +924,18 @@ Public Class CIDSPatternLoader
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.EdgeClearance = (sheet.Cells(row, gEdgeClearColumn).value)
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
+        para.EdgeClearance = array(j, gEdgeClearColumn)
         data.Param = para
         Return 0
     End Function
@@ -959,10 +990,14 @@ Public Class CIDSPatternLoader
     Public Function SetWaitRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSWait, ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
+        para.Needle = array(j, gNeedleColumn)
         FidandSubTransform(pt, referPt, fidComp, comp)
         If Not WorkAreaErrorCheckXY(comp) Then
             Dim sheetname As String = sheet.Name
@@ -972,7 +1007,7 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "WAIT"
         data.SheetName = sheet.Name
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+        para.Duration = array(j, gDurationColumn)
         data.PosX = comp(0)
         data.PosY = comp(1)
         data.PosZ = comp(2)
@@ -1040,8 +1075,12 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "VOLUMECALIBRATION"
         data.SheetName = sheet.Name
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        para.Needle = array(j, gNeedleColumn)
+        para.Duration = array(j, gDurationColumn)
         data.Param = para
         Return 0
     End Function
@@ -1057,8 +1096,11 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "CLEAN"
         data.SheetName = sheet.Name
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+        para.Needle = array(j, gNeedleColumn)
+        para.Duration = array(j, gDurationColumn)
         data.Param = para
         Return 0
     End Function
@@ -1075,8 +1117,12 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "PURGE"
         data.SheetName = sheet.Name
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        para.Needle = array(j, gNeedleColumn)
+        para.Duration = array(j, gDurationColumn)
         data.Param = para
         Return 0
     End Function
@@ -1095,12 +1141,15 @@ Public Class CIDSPatternLoader
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
 
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         FidandSubTransform(pt, referPt, fidComp, comp)
 
         If Not WorkAreaErrorCheckXY(comp) Then
@@ -1131,29 +1180,44 @@ Public Class CIDSPatternLoader
     '      height:  height compensation value
 
     Public Function SetDotRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSDot, _
-                                     ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
+                ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
+        Dim enterTime As Long = DateTime.Now.Ticks
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
         Dim dispStr As String = "ON"
         Dim Ratio As Double = 1.0
 
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-
-        dispStr = sheet.Cells(row, gDispensColumn).value
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value) * Ratio
-        para.Duration = sheet.Cells(row, gDurationColumn).value
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value) * Ratio
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value) * Ratio
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value) * Ratio
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value) * Ratio
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value) * Ratio
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-
+        'Dim oneCell As OWC10.Range
+        Dim i As Integer = 1
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+        'Console.WriteLine(array(1, 1))
+        'For Each oneCell In sheetRange
+        '    'modify the array if the value looks like a date, else skip it
+        '    Console.WriteLine(oneCell.Value2)
+        '    i += 1
+        'Next oneCell
+        pt(0) = array(j, gPos1XColumn) '(sheet.Cells(row, gPos1XColumn).value)
+        pt(1) = array(j, gPos1YColumn) '(sheet.Cells(row, gPos1YColumn).value)
+        pt(2) = array(j, gPos1ZColumn) '(sheet.Cells(row, gPos1ZColumn).value)
+        'Console.WriteLine("#1 :" & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+        Dim testTime As Long = DateTime.Now.Ticks
+        dispStr = array(j, gDispensColumn) 'sheet.Cells(row, gDispensColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn) * Ratio '(sheet.Cells(row, gNeedleGapColumn).value) * Ratio
+        para.Duration = array(j, gDurationColumn) 'sheet.Cells(row, gDurationColumn).value
+        para.ApproachHeight = array(j, gApproachHtColumn) * Ratio ' (sheet.Cells(row, gApproachHtColumn).value) * Ratio
+        para.RetractDelay = array(j, gRetractDelayColumn) 'sheet.Cells(row, gRetractDelayColumn).value
+        para.RetractSpeed = array(j, gRetractSpeedColumn) * Ratio '(sheet.Cells(row, gRetractSpeedColumn).value) * Ratio
+        para.RetractHeight = array(j, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
+        para.ClearanceHeight = array(j, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
+        para.ArcRadius = array(j, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
+        para.Needle = array(j, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
         FidandSubTransform(pt, referPt, fidComp, comp)
-
+        'Console.WriteLine("#3 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
         If m_Optim = 0 Then
             If Not WorkAreaErrorCheckXY(comp) Then
                 Dim sheetname As String = sheet.Name
@@ -1161,7 +1225,8 @@ Public Class CIDSPatternLoader
                 Return -1
             End If
         End If
-
+        'Console.WriteLine("#4 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
         data.CmdLineNo = row
         data.CmdType = "DOT"
         data.SheetName = sheet.Name
@@ -1169,7 +1234,7 @@ Public Class CIDSPatternLoader
         data.PosY = comp(1)
         data.PosZ = comp(2)
         data.HeightCompS = height
-
+        'Console.WriteLine("#5 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1178,6 +1243,78 @@ Public Class CIDSPatternLoader
         End If
 
         data.Param = para
+        Dim duration As Long = (DateTime.Now.Ticks - enterTime) / 10000 'miliseconds
+        'Console.WriteLine("Set Dot Record Data = " & duration.ToString())
+        Return 0
+    End Function
+
+    Public Function TSetDotRecordData(ByRef array As Object(,), ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSDot, _
+                                     ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
+        Dim enterTime As Long = DateTime.Now.Ticks
+        Dim para As DispensePara
+        Dim pt(3), comp(3), tmp(3) As Double
+        Dim dispStr As String = "ON"
+        Dim Ratio As Double = 1.0
+        'Dim sheetRange As OWC10.Range
+        ' sheetRange = sheet.Range("A" & row, "AD" & row)
+
+        'Dim oneCell As OWC10.Range
+        'Dim i As Integer = 1
+        'Dim array As Object(,) ' array start at (1,1)
+        'array = sheet.Range("A" & row, "AD" & row).Value
+        'Console.WriteLine(array(1, 1))
+        'For Each oneCell In sheetRange
+        '    'modify the array if the value looks like a date, else skip it
+        '    Console.WriteLine(oneCell.Value2)
+        '    i += 1
+        'Next oneCell
+        pt(0) = array(row, gPos1XColumn) '(sheet.Cells(row, gPos1XColumn).value)
+        pt(1) = array(row, gPos1YColumn) '(sheet.Cells(row, gPos1YColumn).value)
+        pt(2) = array(row, gPos1ZColumn) '(sheet.Cells(row, gPos1ZColumn).value)
+        'Console.WriteLine("#1 :" & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+        Dim testTime As Long = DateTime.Now.Ticks
+        dispStr = array(row, gDispensColumn) 'sheet.Cells(row, gDispensColumn).value
+        para.NeedleGap = array(row, gNeedleGapColumn) * Ratio '(sheet.Cells(row, gNeedleGapColumn).value) * Ratio
+        para.Duration = array(row, gDurationColumn) 'sheet.Cells(row, gDurationColumn).value
+        para.ApproachHeight = array(row, gApproachHtColumn) * Ratio ' (sheet.Cells(row, gApproachHtColumn).value) * Ratio
+        para.RetractDelay = array(row, gRetractDelayColumn) 'sheet.Cells(row, gRetractDelayColumn).value
+        para.RetractSpeed = array(row, gRetractSpeedColumn) * Ratio '(sheet.Cells(row, gRetractSpeedColumn).value) * Ratio
+        para.RetractHeight = array(row, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
+        para.ClearanceHeight = array(row, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
+        para.ArcRadius = array(row, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
+        para.Needle = array(row, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
+        FidandSubTransform(pt, referPt, fidComp, comp)
+        'Console.WriteLine("#3 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
+        If m_Optim = 0 Then
+            If Not WorkAreaErrorCheckXY(comp) Then
+                Dim sheetname As String = sheet.Name
+                CompileErrorDisplay(sheetname, row, 0)
+                Return -1
+            End If
+        End If
+        'Console.WriteLine("#4 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
+        data.CmdLineNo = row
+        data.CmdType = "DOT"
+        data.SheetName = sheet.Name
+        data.PosX = comp(0)
+        data.PosY = comp(1)
+        data.PosZ = comp(2)
+        data.HeightCompS = height
+        'Console.WriteLine("#5 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        dispStr = dispStr.ToUpper()
+        If dispStr = "ON" Then
+            para.DispenseOn = True
+        Else
+            para.DispenseOn = False
+        End If
+
+        data.Param = para
+        Dim duration As Long = (DateTime.Now.Ticks - enterTime) / 10000 'miliseconds
+        'Console.WriteLine("Set Dot Record Data = " & duration.ToString())
         Return 0
     End Function
 
@@ -1226,9 +1363,14 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "LINE"
         data.SheetName = sheet.Name
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1236,9 +1378,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
         If Not WorkAreaErrorCheckXY(comp2) Then
             CompileErrorDisplay(sheetname, row, 0)
@@ -1252,7 +1394,7 @@ Public Class CIDSPatternLoader
         data.PosY2 = comp2(1)
         data.PosZ2 = comp2(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1260,17 +1402,17 @@ Public Class CIDSPatternLoader
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         data.Param = para
         Return 0
 
@@ -1282,9 +1424,13 @@ Public Class CIDSPatternLoader
         Dim pt2(3), comp2(3), tmp2(3) As Double
         Dim pt3(3), comp3(3), tmp3(3) As Double
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1292,9 +1438,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1302,9 +1448,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1326,7 +1472,7 @@ Public Class CIDSPatternLoader
         data.SheetName = sheet.Name
 
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1334,17 +1480,17 @@ Public Class CIDSPatternLoader
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.Duration = sheet.Cells(row, gDurationColumn).value
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.Duration = array(j, gDurationColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
 
-        Dim RowColumnInformationString As String = sheet.Cells(row, gTravelSpeedColumn).value
+        Dim RowColumnInformationString As String = array(j, gTravelSpeedColumn)
         Dim RowsAndColumns(1) As String
         RowsAndColumns = RowColumnInformationString.Split("x")
         para.Rows = CInt(RowsAndColumns(0))
@@ -1373,9 +1519,13 @@ Public Class CIDSPatternLoader
         data.CmdType = "ARC"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1383,9 +1533,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1393,9 +1543,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1414,7 +1564,7 @@ Public Class CIDSPatternLoader
         data.PosZ3 = comp3(2)
 
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1422,17 +1572,17 @@ Public Class CIDSPatternLoader
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         data.Param = para
         Return 0
     End Function
@@ -1458,27 +1608,31 @@ Public Class CIDSPatternLoader
         data.CmdType = "CIRCLE"
         data.SheetName = sheet.Name
 
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        Dim dispStr As String = array(j, gDispensColumn)
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
 
 
         FidandSubTransform(pt1, referPt, fidComp, comp1)
@@ -1543,9 +1697,13 @@ Public Class CIDSPatternLoader
         data.CmdType = "RECTANGLE"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1553,9 +1711,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1563,9 +1721,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1583,7 +1741,7 @@ Public Class CIDSPatternLoader
         data.PosY3 = comp3(1)
         data.PosZ3 = comp3(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1591,17 +1749,17 @@ Public Class CIDSPatternLoader
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         data.Param = para
         Return 0
     End Function
@@ -1625,9 +1783,13 @@ Public Class CIDSPatternLoader
         data.CmdType = "FILLCIRCLE"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1635,9 +1797,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1646,9 +1808,9 @@ Public Class CIDSPatternLoader
         End If
 
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1666,7 +1828,7 @@ Public Class CIDSPatternLoader
         data.PosY3 = comp3(1)
         data.PosZ3 = comp3(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1674,21 +1836,21 @@ Public Class CIDSPatternLoader
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Pitch = (sheet.Cells(row, gPitchColumn).value)
-        para.NoOfRun = sheet.Cells(row, gNoOfRunColumn).value
-        para.SprialIn = sheet.Cells(row, gSprialColumn).value
-        para.FillHeight = (sheet.Cells(row, gFillHeightColumn).value)
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
+        para.Pitch = array(j, gPitchColumn)
+        para.NoOfRun = array(j, gNoOfRunColumn)
+        para.SprialIn = array(j, gSprialColumn)
+        para.FillHeight = array(j, gFillHeightColumn)
         data.Param = para
         Return 0
     End Function
@@ -1712,9 +1874,13 @@ Public Class CIDSPatternLoader
         data.CmdType = "FILLRECTANGLE"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1722,9 +1888,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1732,9 +1898,9 @@ Public Class CIDSPatternLoader
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1752,7 +1918,7 @@ Public Class CIDSPatternLoader
         data.PosY3 = comp3(1)
         data.PosZ3 = comp3(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1760,21 +1926,21 @@ Public Class CIDSPatternLoader
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Pitch = (sheet.Cells(row, gPitchColumn).value)
-        para.NoOfRun = sheet.Cells(row, gNoOfRunColumn).value
-        para.SprialIn = sheet.Cells(row, gSprialColumn).value
-        para.FillHeight = (sheet.Cells(row, gFillHeightColumn).value)
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
+        para.Pitch = array(j, gPitchColumn)
+        para.NoOfRun = array(j, gNoOfRunColumn)
+        para.SprialIn = array(j, gSprialColumn)
+        para.FillHeight = array(j, gFillHeightColumn)
         data.Param = para
         Return 0
     End Function
@@ -1820,33 +1986,37 @@ Public Class CIDSPatternLoader
         Dim x, y, z As Double
         Dim Type As String
         'set first element position
-        For i = 1 To Rows
-            Type = arraysheet.Cells(i, gCommandNameColumn).Value
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = arraysheet.Range("A1", "AD" & Rows).Value
 
+        For i = 1 To Rows
+            'Type = arraysheet.Cells(i, gCommandNameColumn).Value
+            Type = array(i, gCommandNameColumn)
             If Type <> Nothing Then
                 Type = Type.Trim(" ")
                 Type = Type.ToUpper
                 Select Case Type
                     Case "DOT", "LINE", "RECTANGLE", "FILLRECTANGLE"
-                        x = (arraysheet.Cells(i, gPos1XColumn).value)
-                        y = (arraysheet.Cells(i, gPos1YColumn).value)
-                        z = (arraysheet.Cells(i, gPos1ZColumn).value)
+                        x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "ARC", "CIRCLE", "FILLCIRCLE"
-                        x = (arraysheet.Cells(i, gPos1XColumn).value)
-                        y = (arraysheet.Cells(i, gPos1YColumn).value)
-                        z = (arraysheet.Cells(i, gPos1ZColumn).value)
+                        x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "SUBPATTERN", "CHIPEDGE"
-                        x = (arraysheet.Cells(i, gPos1XColumn).value)
-                        y = (arraysheet.Cells(i, gPos1YColumn).value)
-                        z = (arraysheet.Cells(i, gPos1ZColumn).value)
+                        x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -1878,42 +2048,47 @@ Public Class CIDSPatternLoader
         firstPos(0) = 0.0
         firstPos(1) = 0.0
         firstPos(2) = 0.0
+
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A1", "AD" & rows).Value
+
         For i = 1 To rows
-            type = sheet.Cells(i, gCommandNameColumn).Value
+            type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
                     Case "REFERENCE"
-                        referencePt(0) = (sheet.Cells(i, gPos1XColumn).value)
-                        referencePt(1) = (sheet.Cells(i, gPos1YColumn).value)
-                        referencePt(2) = (sheet.Cells(i, gPos1ZColumn).value)
+                        referencePt(0) = array(i, gPos1XColumn)
+                        referencePt(1) = array(i, gPos1YColumn)
+                        referencePt(2) = array(i, gPos1ZColumn)
                     Case "DOT", "LINE", "RECTANGLE", "FILLRECTANGLE", "DOTARRAY"
-                        x = (sheet.Cells(i, gPos1XColumn).value)
-                        y = (sheet.Cells(i, gPos1YColumn).value)
-                        z = (sheet.Cells(i, gPos1ZColumn).value)
+                        x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "ARC", "CIRCLE", "FILLCIRCLE"
-                        x = (sheet.Cells(i, gPos1XColumn).value)
-                        y = (sheet.Cells(i, gPos1YColumn).value)
-                        z = (sheet.Cells(i, gPos1ZColumn).value)
+                        x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "SUBPATTERN", "CHIPEDGE"
-                        x = (sheet.Cells(i, gPos1XColumn).value)
-                        y = (sheet.Cells(i, gPos1YColumn).value)
-                        z = (sheet.Cells(i, gPos1ZColumn).value)
+                        x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "ARRAY"
-                        Dim arrayname As String = sheet.Cells(i, gArraynameColumn).value
+                        Dim arrayname As String = array(i, gArraynameColumn)
                         If arrayname = Nothing Then Return -1
                         Dim arraysheetname As String = subname + "." + arrayname
                         Return GetArrayFirstPos(sheetlist, arraysheetname, referencePt, firstPos)
@@ -1958,7 +2133,12 @@ Public Class CIDSPatternLoader
         Dim compangle As Double = 0.0
         Dim heightcomp As Double = heightcomps
         Dim subsheet As OWC10.Worksheet
-        Dim subfilename As String = sheet.Cells(row, gSubnameColumn).value
+
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        Dim subfilename As String = array(j, gSubnameColumn)
         Dim sheetname As String
         sheetname = sheet.Name
         If subfilename = Nothing Then
@@ -2007,10 +2187,10 @@ Public Class CIDSPatternLoader
         End If
 
         Dim subInsPt(3), subInsAngle As Double  'get sub insert point and angle
-        subInsPt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        subInsPt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        subInsPt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        subInsAngle = (sheet.Cells(row, gRtAngleColumn).value) * Math.PI / 180.0
+        subInsPt(0) = array(j, gPos1XColumn)
+        subInsPt(1) = array(j, gPos1YColumn)
+        subInsPt(2) = array(j, gPos1ZColumn)
+        subInsAngle = array(j, gRtAngleColumn) * Math.PI / 180.0
 
         Dim firstPos(3) As Double ' get sub's first point location
         If GetFirstElementPos(subfilename, sheetlist, subsheet, Rows, referencePt, firstPos) < 0 Then
@@ -2027,9 +2207,12 @@ Public Class CIDSPatternLoader
         subRecS.level = 2
         DebugAddList(list, subRecS)  'add breakpoint to pattern list
         '
+
+        array = subsheet.Range("A1" & row, "AD" & Rows).Value
+
         Dim rtn As Integer = 0
         For i = 1 To Rows  'handling all pattern commands 
-            Dim type As String = subsheet.Cells(i, gCommandNameColumn).Value
+            Dim type As String = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
@@ -2408,11 +2591,15 @@ Public Class CIDSPatternLoader
             Return -1  'empty sheet or error
         End If
 
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
         Dim subInsPt(3), subInsAngle As Double
-        subInsPt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        subInsPt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        subInsPt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        subInsAngle = (sheet.Cells(row, gRtAngleColumn).value) * Math.PI / 180.0
+        subInsPt(0) = array(j, gPos1XColumn)
+        subInsPt(1) = array(j, gPos1YColumn)
+        subInsPt(2) = array(j, gPos1ZColumn)
+        subInsAngle = array(j, gRtAngleColumn) * Math.PI / 180.0
         Dim firstPos(3) As Double
         If GetFirstElementPos(subfilename, sheetlist, subsheet, Rows, referencePt, firstPos) < 0 Then
             CompileErrorDisplay(sheetname, 0, 4)
@@ -2428,8 +2615,10 @@ Public Class CIDSPatternLoader
         '
         Dim type As String
         Dim rtn As Integer = 0
+        array = subsheet.Range("A1", "AD" & Rows).Value
         For i = 1 To Rows
-            type = subsheet.Cells(i, gCommandNameColumn).Value
+            'type = subsheet.Cells(i, gCommandNameColumn).Value
+            type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
@@ -2808,16 +2997,27 @@ Public Class CIDSPatternLoader
             CompileErrorDisplay(sheetname, 0, 3)
             Return -1  'empty sheet or error
         End If
-
+        Dim enterTime As Long = DateTime.Now.Ticks
         Dim type As String
         Dim rtn As Integer = 0
         'array should be of one type only
+        Dim array As Object(,) ' array start at (1,1)
+        array = arraysheet.Range("A1", "AD" & Rows).Value
         For i = 1 To Rows
-            type = arraysheet.Cells(i, gCommandNameColumn).Value
+            type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
+                    Case "DOT" 'set dot record
+                        Dim dotData As New CIDSDot
+                        'If SetDotRecordData(arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
+                        '    Return -1
+                        'End If
+                        If TSetDotRecordData(array, arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
+                            Return -1
+                        End If
+                        DebugAddList(list, dotData)
                     Case "SUBPATTERN"  'call sub
                         If (level = 1) Then
                             rtn = SetSubPatternRecordData(sheetlist, arraysheet, i, list, referencePt, heightComp, compData)
@@ -2833,12 +3033,6 @@ Public Class CIDSPatternLoader
                         ElseIf rtn > 0 Then
                             Return rtn
                         End If
-                    Case "DOT" 'set dot record
-                        Dim dotData As New CIDSDot
-                        If SetDotRecordData(arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
-                            Return -1
-                        End If
-                        DebugAddList(list, dotData)
                     Case "LINE"
                         If m_Optim = 0 Then
                             Dim lineData As New CIDSLine
@@ -2931,6 +3125,9 @@ Public Class CIDSPatternLoader
             'SJ add for GUI freezing
             'TraceDoEvents()
         Next i
+        Dim Duration As Long = (DateTime.Now.Ticks - enterTime) / 10000
+        Console.WriteLine("Total time(ms) set array record data: " & Duration.ToString())
+
         Return 0
     End Function
 
@@ -2986,6 +3183,8 @@ Public Class CIDSPatternLoader
 
         Dim countUp As Integer = 1
         Dim startCount As Boolean = False
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A1", "AD" & Rows).Value
         I = 1
         Do Until (countUp > Rows)
             If (I > Rows) Then
@@ -3002,7 +3201,7 @@ Public Class CIDSPatternLoader
 
             gFidFileName = Programming.gPatternFileName 'for fiducial. added by kr
 
-            Dim type As String = sheet.Cells(I, gCommandNameColumn).Value
+            Dim type As String = array(I, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper

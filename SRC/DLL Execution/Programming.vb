@@ -1597,7 +1597,7 @@ Public Class FormProgramming
         Conveyor.OpenPort()
         'motion controller
         'm_Tri.Connect_Controller()
-        SetState("Homing")
+        'SetState("Homing")
         'vision
         SwitchToTeachCamera()
         ValueBrightness.Value = CDec(IDS.Data.Hardware.Camera.Brightness)
@@ -2773,13 +2773,16 @@ Public Class FormProgramming
         ErrorSubSheetStructIni(200, 500)
 
         Try
+            Me.Cursor = Cursors.WaitCursor
             'IDS.StopErrorCheck() 'kr?
             AxSpreadsheetProgramming.Caption = file
             m_Execution.m_Pattern.LoadTxtPatternPara(AxSpreadsheetProgramming, file, 0, 0, False)
+            Me.Cursor = Cursors.WaitCursor
             gPatternFileName = m_Execution.m_File.FolderWithNameFromFileName(file)
             gFidFileName = gPatternFileName
             m_Row = 2
             EnableTeachingButtons()
+
             DisableElementsCommandBlockButton(gOffsetCmdIndex)
             IDS.Data.OpenPathFileData(gPatternFileName + ".pat")
             MyConveyorSettings.InitializeConveyorSetup()
@@ -2790,6 +2793,7 @@ Public Class FormProgramming
             'Acitvate the "Main" page
             AxSpreadsheetProgramming.Worksheets("Main").Activate()
 
+            LabelMessage("Please wait, Checking content.....")
             'Error checking for all the Spreadsheet
             If 0 <> m_Execution.m_Pattern.m_ErrorChk.CheckAllError(AxSpreadsheetProgramming, ErrorSubSheet) Then
 
@@ -2844,6 +2848,7 @@ Public Class FormProgramming
             End If
 
             SaveProgram.UnSave = False
+            Me.Cursor = Cursors.Default
 
         Catch ex As Exception
             ExceptionDisplay(ex)
@@ -2852,6 +2857,7 @@ Public Class FormProgramming
             MenuFileImport.Enabled = True
             MenuFileSave.Enabled = True
             MenuFileSaveAs.Enabled = True
+            Me.Cursor = Cursors.Default
         End Try
 
         LabelMessage("Finish.....")
@@ -3072,6 +3078,9 @@ Public Class FormProgramming
     '               1 is fast, used for single row without sub and array            
 
     Private Sub UndoData_Logging(ByVal UndoLevel As Integer)
+
+        Return 'Disable undo operation. this function is terribely wrong...
+
         m_Execution.m_Undo.UndoLevel = UndoLevel
 
         If 0 = UndoLevel Then
@@ -3090,6 +3099,55 @@ Public Class FormProgramming
             m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
             m_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
             m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
+        Else
+            Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
+
+            Dim m_rowCount As Integer = sel.Rows.Count()
+            Dim m_columnCount As Integer = sel.Columns.Count()
+            Dim m_StartRow As Integer = sel.Row
+            Dim m_columnStart As Integer = sel.Column
+
+            m_Execution.m_Undo.UndoRow = m_StartRow
+
+            Dim SheetName As String = GetActiveSheetName()
+            If 1 = m_rowCount Then
+                If m_Execution.m_Undo.hasBackupData Then
+                    m_Execution.m_Undo.UndoPatternRec_B = m_Execution.m_Undo.UndoPatternRec_A
+                End If
+
+                m_Execution.m_Pattern.m_ErrorChk.ConvertToDataStruct(m_Execution.m_Undo.UndoPatternRec_A, _
+                    AxSpreadsheetProgramming, SheetName, m_StartRow)
+            End If
+        End If
+
+
+        MenuEditUndo.Enabled = True
+        MenuEditRedo.Enabled = False
+        TraceGCCollect()
+    End Sub
+    'yy
+    'To change the way that undo operation before it got peformace issue like function above
+    Dim undo As Object(,)
+    Private Sub TUndoData_Logging(ByVal UndoLevel As Integer)
+        m_Execution.m_Undo.UndoLevel = UndoLevel
+
+        If 0 = UndoLevel Then
+            Dim FolderName As String = "C:\IDS\Pattern_Dir\SysSwapData"
+            If Not System.IO.Directory.Exists(FolderName) Then
+                System.IO.Directory.CreateDirectory(FolderName)
+            End If
+
+            'Backup the previous undo data
+            If m_Execution.m_Undo.hasBackupData Then
+                'The Excel filename extension can also be used as a text file format
+                System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", _
+                    "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", True)
+                m_Execution.m_Undo.CurrentPageName_B = m_Execution.m_Undo.CurrentPageName_A
+            End If
+            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
+            m_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
+            m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
+
         Else
             Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
 
