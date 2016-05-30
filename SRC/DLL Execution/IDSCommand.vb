@@ -160,6 +160,7 @@ Public Class CIDSCommand
             Type = elementRec.CmdType
             Type = Type.ToUpper
             If Type = "DOT" Then
+
                 dot = elementRec
                 xelements(i - start_no) = dot.PosX
                 yelements(i - start_no) = dot.PosY
@@ -205,6 +206,11 @@ Public Class CIDSCommand
 
         Dim comP As New IDSPattnCompiler(m_PatternList)
         comP.SetRunMode(runmode) 'set run mode for compiling
+
+
+
+
+
 
         'generate dispensing command list
         If comP.Compile(m_DispenseList) < 0 Then
@@ -333,8 +339,11 @@ Public Class CIDSPatternLoader
 
     Public Function GetReferencePtData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef referPt() As Double) As Integer
         Dim Ratio As Double = 1.0
-        referPt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        referPt(1) = (sheet.Cells(row, gPos1YColumn).value)
+
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A" & row, "AD" & row).Value
+        referPt(0) = array(1, gPos1XColumn)
+        referPt(1) = array(1, gPos1YColumn)
         referPt(2) = 0.0 'sheet.Cells(row, gPos1ZColum).value
 
         Return 0
@@ -374,9 +383,14 @@ Public Class CIDSPatternLoader
     '      row:   pattern command row number
 
     Public Function SetHeightRecData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSHeight) As Integer
-        data.PosX = (sheet.Cells(row, gPos1XColumn).value)
-        data.PosY = (sheet.Cells(row, gPos1YColumn).value)
-        data.PosZ = (sheet.Cells(row, gPos1ZColumn).value)
+
+  Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+
+        data.PosX = array(j, gPos1XColumn)
+        data.PosY = array(j, gPos1YColumn)
+        data.PosZ = array(j, gPos1ZColumn)
         data.CmdLineNo = row
         data.CmdType = "HEIGHT"
         Return 0
@@ -399,10 +413,17 @@ Public Class CIDSPatternLoader
 
         Dim offX1, offY1, offX2, offY2 As Double
         heightComps = 0.0
+
+
+
+
+Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A" & row, "AD" & row).Value
+        Dim j As Integer = 1
         'get detecting height position wrf work co.
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt, referPt, fidComp, comp) 'transform to hard home coordinate
 
         'offset laser 
@@ -424,6 +445,543 @@ Public Class CIDSPatternLoader
         End If
         heightComps = height - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
         Return 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     End Function
 
     'Set wait command record data
@@ -438,6 +996,11 @@ Public Class CIDSPatternLoader
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
         pt(0) = (sheet.Cells(row, gPos1XColumn).value)
+
+
+
+
+
         pt(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
         para.Needle = sheet.Cells(row, gNeedleColumn).value
@@ -518,6 +1081,10 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "VOLUMECALIBRATION"
         data.SheetName = sheet.Name
+
+
+
+
         para.Needle = sheet.Cells(row, gNeedleColumn).value
         para.Duration = sheet.Cells(row, gDurationColumn).value
         data.Param = para
@@ -535,6 +1102,9 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "CLEAN"
         data.SheetName = sheet.Name
+
+
+
         para.Needle = sheet.Cells(row, gNeedleColumn).value
         para.Duration = sheet.Cells(row, gDurationColumn).value
         data.Param = para
@@ -553,6 +1123,10 @@ Public Class CIDSPatternLoader
         data.CmdLineNo = row
         data.CmdType = "PURGE"
         data.SheetName = sheet.Name
+
+
+
+
         para.Needle = sheet.Cells(row, gNeedleColumn).value
         para.Duration = sheet.Cells(row, gDurationColumn).value
         data.Param = para
@@ -578,6 +1152,14 @@ Public Class CIDSPatternLoader
         pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
         para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
         para.Needle = sheet.Cells(row, gNeedleColumn).value
+
+
+
+
+
+
+
+
 
         FidandSubTransform(pt, referPt, fidComp, comp)
 
@@ -610,14 +1192,67 @@ Public Class CIDSPatternLoader
 
     Public Function SetDotRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSDot, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
+
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
         Dim dispStr As String = "ON"
         Dim Ratio As Double = 1.0
 
+
+
+
+
+
+
+
+
+
+
+
         pt(0) = (sheet.Cells(row, gPos1XColumn).value)
         pt(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         dispStr = sheet.Cells(row, gDispensColumn).value
         para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value) * Ratio
@@ -630,7 +1265,51 @@ Public Class CIDSPatternLoader
         para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value) * Ratio
         para.Needle = sheet.Cells(row, gNeedleColumn).value
 
+
+
+
+
+
         FidandSubTransform(pt, referPt, fidComp, comp)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         If m_Optim = 0 Then
             If Not WorkAreaErrorCheckXY(comp) Then
@@ -640,6 +1319,8 @@ Public Class CIDSPatternLoader
             End If
         End If
 
+
+
         data.CmdLineNo = row
         data.CmdType = "DOT"
         data.SheetName = sheet.Name
@@ -647,6 +1328,7 @@ Public Class CIDSPatternLoader
         data.PosY = comp(1)
         data.PosZ = comp(2)
         data.HeightCompS = height
+
 
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
@@ -656,6 +1338,8 @@ Public Class CIDSPatternLoader
         End If
 
         data.Param = para
+
+
         Return 0
     End Function
 
@@ -705,6 +1389,12 @@ Public Class CIDSPatternLoader
         data.CmdType = "LINE"
         data.SheetName = sheet.Name
         pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+
+
+
+
+
+
         pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
@@ -761,6 +1451,11 @@ Public Class CIDSPatternLoader
         Dim pt3(3), comp3(3), tmp3(3) As Double
 
         pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+
+
+
+
+
         pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
@@ -852,6 +1547,11 @@ Public Class CIDSPatternLoader
         data.SheetName = sheet.Name
 
         pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+
+
+
+
+
         pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
@@ -959,6 +1659,31 @@ Public Class CIDSPatternLoader
         para.Needle = sheet.Cells(row, gNeedleColumn).value
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1022,6 +1747,11 @@ Public Class CIDSPatternLoader
         data.SheetName = sheet.Name
 
         pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+
+
+
+
+
         pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
@@ -1104,6 +1834,11 @@ Public Class CIDSPatternLoader
         data.SheetName = sheet.Name
 
         pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+
+
+
+
+
         pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
@@ -1191,6 +1926,11 @@ Public Class CIDSPatternLoader
         data.SheetName = sheet.Name
 
         pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+
+
+
+
+
         pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
         pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
@@ -1301,6 +2041,12 @@ Public Class CIDSPatternLoader
         For i = 1 To Rows
             Type = arraysheet.Cells(i, gCommandNameColumn).Value
 
+
+
+
+
+
+
             If Type <> Nothing Then
                 Type = Type.Trim(" ")
                 Type = Type.ToUpper
@@ -1309,6 +2055,9 @@ Public Class CIDSPatternLoader
                         x = (arraysheet.Cells(i, gPos1XColumn).value)
                         y = (arraysheet.Cells(i, gPos1YColumn).value)
                         z = (arraysheet.Cells(i, gPos1ZColumn).value)
+
+
+
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -1317,6 +2066,9 @@ Public Class CIDSPatternLoader
                         x = (arraysheet.Cells(i, gPos1XColumn).value)
                         y = (arraysheet.Cells(i, gPos1YColumn).value)
                         z = (arraysheet.Cells(i, gPos1ZColumn).value)
+
+
+
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -1325,6 +2077,9 @@ Public Class CIDSPatternLoader
                         x = (arraysheet.Cells(i, gPos1XColumn).value)
                         y = (arraysheet.Cells(i, gPos1YColumn).value)
                         z = (arraysheet.Cells(i, gPos1ZColumn).value)
+
+
+
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -1356,6 +2111,11 @@ Public Class CIDSPatternLoader
         firstPos(0) = 0.0
         firstPos(1) = 0.0
         firstPos(2) = 0.0
+
+
+
+
+
         For i = 1 To rows
             type = sheet.Cells(i, gCommandNameColumn).Value
             If type <> Nothing Then
@@ -1370,6 +2130,9 @@ Public Class CIDSPatternLoader
                         x = (sheet.Cells(i, gPos1XColumn).value)
                         y = (sheet.Cells(i, gPos1YColumn).value)
                         z = (sheet.Cells(i, gPos1ZColumn).value)
+
+
+
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -1378,6 +2141,9 @@ Public Class CIDSPatternLoader
                         x = (sheet.Cells(i, gPos1XColumn).value)
                         y = (sheet.Cells(i, gPos1YColumn).value)
                         z = (sheet.Cells(i, gPos1ZColumn).value)
+
+
+
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -1386,6 +2152,9 @@ Public Class CIDSPatternLoader
                         x = (sheet.Cells(i, gPos1XColumn).value)
                         y = (sheet.Cells(i, gPos1YColumn).value)
                         z = (sheet.Cells(i, gPos1ZColumn).value)
+
+
+
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -1437,6 +2206,12 @@ Public Class CIDSPatternLoader
         Dim heightcomp As Double = heightcomps
         Dim subsheet As OWC10.Worksheet
         Dim subfilename As String = sheet.Cells(row, gSubnameColumn).value
+
+
+
+
+
+
         Dim sheetname As String
         sheetname = sheet.Name
         If subfilename = Nothing Then
@@ -1505,6 +2280,9 @@ Public Class CIDSPatternLoader
         subRecS.level = 2
         DebugAddList(list, subRecS)  'add breakpoint to pattern list
         '
+
+
+
         Dim rtn As Integer = 0
         For i = 1 To Rows  'handling all pattern commands 
             Dim type As String = subsheet.Cells(i, gCommandNameColumn).Value
@@ -1512,6 +2290,47 @@ Public Class CIDSPatternLoader
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "HEIGHT"  'height detection
                         If m_Optim = 0 Then
                             Dim heightc As Double
@@ -1560,6 +2379,21 @@ Public Class CIDSPatternLoader
                                 heightcomp = heightc
                             End If
                         End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "REFERENCE"  'get reference point
                         GetReferencePtData(subsheet, i, referencePt)
                     Case "WAIT" 'set wait element data
@@ -1623,6 +2457,53 @@ Public Class CIDSPatternLoader
                         ElseIf rtn > 0 Then
                             Return rtn
                         End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "MOVE"  'set move element data
                         If m_Optim = 0 Then
                             Dim moveData As New CIDSMove
@@ -1783,6 +2664,10 @@ Public Class CIDSPatternLoader
             Return -1  'empty sheet or error
         End If
 
+
+
+
+
         Dim subInsPt(3), subInsAngle As Double
         subInsPt(0) = (sheet.Cells(row, gPos1XColumn).value)
         subInsPt(1) = (sheet.Cells(row, gPos1YColumn).value)
@@ -1803,12 +2688,60 @@ Public Class CIDSPatternLoader
         '
         Dim type As String
         Dim rtn As Integer = 0
+
         For i = 1 To Rows
             type = subsheet.Cells(i, gCommandNameColumn).Value
+
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "HEIGHT"   'height detection
                         If m_Optim = 0 Then
                             Dim heightc As Double
@@ -1859,6 +2792,21 @@ Public Class CIDSPatternLoader
                             End If
 
                         End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "REFERENCE"    'get reference point
                         GetReferencePtData(subsheet, i, referencePt)
                     Case "WAIT"         'set wait element data
@@ -1927,6 +2875,54 @@ Public Class CIDSPatternLoader
                         ElseIf rtn > 0 Then
                             Return rtn
                         End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "MOVE"           'set move element data
                         If m_Optim = 0 Then
                             Dim moveData As New CIDSMove
@@ -2075,15 +3071,27 @@ Public Class CIDSPatternLoader
             Return -1  'empty sheet or error
         End If
 
+
         Dim type As String
         Dim rtn As Integer = 0
         'array should be of one type only
+
+
         For i = 1 To Rows
             type = arraysheet.Cells(i, gCommandNameColumn).Value
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
+
+
+
+
+
+
+
+
+
                     Case "SUBPATTERN"  'call sub
                         If (level = 1) Then
                             rtn = SetSubPatternRecordData(sheetlist, arraysheet, i, list, referencePt, heightComp, compData)
@@ -2154,11 +3162,52 @@ Public Class CIDSPatternLoader
                             DebugAddList(list, fillrectData)
                         End If
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 End Select
             End If
             'SJ add for GUI freezing
             'TraceDoEvents()
         Next i
+
+
+
         Return 0
     End Function
 
@@ -2214,6 +3263,8 @@ Public Class CIDSPatternLoader
 
         Dim countUp As Integer = 1
         Dim startCount As Boolean = False
+
+
         I = 1
         Do Until (countUp > Rows)
             If (I > Rows) Then
@@ -2235,6 +3286,23 @@ Public Class CIDSPatternLoader
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "HEIGHT"  'height detection
                         If m_Optim = 0 Then
                             Dim heightc As Double
@@ -2255,6 +3323,18 @@ Public Class CIDSPatternLoader
                             SetHeightRecData(sheet, I, htdata)
                             DebugAddList(list, htdata)
                         End If
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "REFERENCE"
                         GetReferencePtData(sheet, I, referencePt)
                     Case "WAIT"
@@ -2319,6 +3399,53 @@ Public Class CIDSPatternLoader
                         ElseIf rtn > 0 Then
                             Return rtn
                         End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Case "MOVE"
                         If m_Optim = 0 Then
                             Dim moveData As New CIDSMove
@@ -2964,6 +4091,541 @@ Public Class IDSPattnCompiler
     End Function
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     'Generate clean motion command 
     '  disCmdList:    dispensing command list
     '
@@ -4119,6 +5781,230 @@ Public Class IDSPattnCompiler
         'm_PrevRetractSpeed = move.Param.RetractSpeed
         Return 0
     End Function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     Public Function GenerateDotArrayCommandSet(ByVal elemData As Object, ByRef disCmdList As ArrayList) As Integer
         Dim dotarray As CIDSDotArray = elemData
@@ -7862,6 +9748,10 @@ Public Class IDSPattnCompiler
                     If row = count Then
                         If GenerateNoMoveCommandSet(dispenselist) < 0 Then Return -1
                     End If
+
+
+
+
                 Case "WAIT"
                     If GenerateWaitCommandSet(elemData, dispenselist) < 0 Then
                         Return -1
@@ -7878,6 +9768,11 @@ Public Class IDSPattnCompiler
                     If GenerateCleanCommandSet(elemData, dispenselist) < 0 Then
                         Return -1
                     End If
+
+
+
+
+
                 Case "MOVE"
                     If GenerateMoveCommandSet(elemData, dispenselist) < 0 Then
                         Return -1
@@ -8296,6 +10191,7 @@ Public Class CIDSPattnBurn
 
     Public Function DownloadOnePageTable(ByRef download_page_number As Integer, ByRef tablepos As Integer, ByRef buffer() As Single) As Boolean
         Dim enterTime As Long = DateTime.Now.Ticks
+
         Dim rtn As Boolean = False
         Dim firstpos, firstEleValue As Integer
         Dim runmode As Integer = 0
