@@ -417,7 +417,7 @@ Public Class CIDSPatternLoader
 
 
 
-Dim array As Object(,) ' array start at (1,1)
+        Dim array As Object(,) ' array start at (1,1)
         array = sheet.Range("A" & row, "AD" & row).Value
         Dim j As Integer = 1
         'get detecting height position wrf work co.
@@ -995,15 +995,15 @@ Dim array As Object(,) ' array start at (1,1)
     Public Function SetWaitRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSWait, ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
+         Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
 
-
-
-
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
+        para.Needle = array(j, gNeedleColumn)
         FidandSubTransform(pt, referPt, fidComp, comp)
         If Not WorkAreaErrorCheckXY(comp) Then
             Dim sheetname As String = sheet.Name
@@ -1013,7 +1013,7 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdLineNo = row
         data.CmdType = "WAIT"
         data.SheetName = sheet.Name
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+        para.Duration = array(j, gDurationColumn)
         data.PosX = comp(0)
         data.PosY = comp(1)
         data.PosZ = comp(2)
@@ -1082,11 +1082,11 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdType = "VOLUMECALIBRATION"
         data.SheetName = sheet.Name
 
-
-
-
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+        para.Needle = array(j, gNeedleColumn)
+        para.Duration = array(j, gDurationColumn)
         data.Param = para
         Return 0
     End Function
@@ -1105,8 +1105,11 @@ Dim array As Object(,) ' array start at (1,1)
 
 
 
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+         Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+        para.Needle = array(j, gNeedleColumn)
+        para.Duration = array(j, gDurationColumn)
         data.Param = para
         Return 0
     End Function
@@ -1123,12 +1126,12 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdLineNo = row
         data.CmdType = "PURGE"
         data.SheetName = sheet.Name
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
-
-
-
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Duration = sheet.Cells(row, gDurationColumn).value
+        para.Needle = array(j, gNeedleColumn)
+        para.Duration = array(j, gDurationColumn)
         data.Param = para
         Return 0
     End Function
@@ -1147,20 +1150,15 @@ Dim array As Object(,) ' array start at (1,1)
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
 
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+       Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
-
-
-
-
-
-
-
-
+        pt(0) = array(j, gPos1XColumn)
+        pt(1) = array(j, gPos1YColumn)
+        pt(2) = array(j, gPos1ZColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         FidandSubTransform(pt, referPt, fidComp, comp)
 
         If Not WorkAreaErrorCheckXY(comp) Then
@@ -1192,125 +1190,42 @@ Dim array As Object(,) ' array start at (1,1)
 
     Public Function SetDotRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSDot, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
-
+		Dim enterTime As Long = DateTime.Now.Ticks
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
         Dim dispStr As String = "ON"
         Dim Ratio As Double = 1.0
 
-
-
-
-
-
-
-
-
-
-
-
-        pt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        dispStr = sheet.Cells(row, gDispensColumn).value
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value) * Ratio
-        para.Duration = sheet.Cells(row, gDurationColumn).value
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value) * Ratio
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value) * Ratio
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value) * Ratio
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value) * Ratio
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value) * Ratio
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-
-
-
-
-
-
+        'Dim oneCell As OWC10.Range
+        Dim i As Integer = 1
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+        'Console.WriteLine(array(1, 1))
+        'For Each oneCell In sheetRange
+        '    'modify the array if the value looks like a date, else skip it
+        '    Console.WriteLine(oneCell.Value2)
+        '    i += 1
+        'Next oneCell
+        pt(0) = array(j, gPos1XColumn) '(sheet.Cells(row, gPos1XColumn).value)
+        pt(1) = array(j, gPos1YColumn) '(sheet.Cells(row, gPos1YColumn).value)
+        pt(2) = array(j, gPos1ZColumn) '(sheet.Cells(row, gPos1ZColumn).value)
+        'Console.WriteLine("#1 :" & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+        Dim testTime As Long = DateTime.Now.Ticks
+        dispStr = array(j, gDispensColumn) 'sheet.Cells(row, gDispensColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn) * Ratio '(sheet.Cells(row, gNeedleGapColumn).value) * Ratio
+        para.Duration = array(j, gDurationColumn) 'sheet.Cells(row, gDurationColumn).value
+        para.ApproachHeight = array(j, gApproachHtColumn) * Ratio ' (sheet.Cells(row, gApproachHtColumn).value) * Ratio
+        para.RetractDelay = array(j, gRetractDelayColumn) 'sheet.Cells(row, gRetractDelayColumn).value
+        para.RetractSpeed = array(j, gRetractSpeedColumn) * Ratio '(sheet.Cells(row, gRetractSpeedColumn).value) * Ratio
+        para.RetractHeight = array(j, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
+        para.ClearanceHeight = array(j, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
+        para.ArcRadius = array(j, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
+        para.Needle = array(j, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
         FidandSubTransform(pt, referPt, fidComp, comp)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
         If m_Optim = 0 Then
             If Not WorkAreaErrorCheckXY(comp) Then
                 Dim sheetname As String = sheet.Name
@@ -1318,9 +1233,6 @@ Dim array As Object(,) ' array start at (1,1)
                 Return -1
             End If
         End If
-
-
-
         data.CmdLineNo = row
         data.CmdType = "DOT"
         data.SheetName = sheet.Name
@@ -1328,8 +1240,6 @@ Dim array As Object(,) ' array start at (1,1)
         data.PosY = comp(1)
         data.PosZ = comp(2)
         data.HeightCompS = height
-
-
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1338,12 +1248,80 @@ Dim array As Object(,) ' array start at (1,1)
         End If
 
         data.Param = para
-
-
         Return 0
     End Function
 
+	Public Function TSetDotRecordData(ByRef array As Object(,), ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSDot, _
+                                     ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
+        Dim enterTime As Long = DateTime.Now.Ticks
+        Dim para As DispensePara
+        Dim pt(3), comp(3), tmp(3) As Double
+        Dim dispStr As String = "ON"
+        Dim Ratio As Double = 1.0
+        'Dim sheetRange As OWC10.Range
+        ' sheetRange = sheet.Range("A" & row, "AD" & row)
 
+        'Dim oneCell As OWC10.Range
+        'Dim i As Integer = 1
+        'Dim array As Object(,) ' array start at (1,1)
+        'array = sheet.Range("A" & row, "AD" & row).Value
+        'Console.WriteLine(array(1, 1))
+        'For Each oneCell In sheetRange
+        '    'modify the array if the value looks like a date, else skip it
+        '    Console.WriteLine(oneCell.Value2)
+        '    i += 1
+        'Next oneCell
+        pt(0) = array(row, gPos1XColumn) '(sheet.Cells(row, gPos1XColumn).value)
+        pt(1) = array(row, gPos1YColumn) '(sheet.Cells(row, gPos1YColumn).value)
+        pt(2) = array(row, gPos1ZColumn) '(sheet.Cells(row, gPos1ZColumn).value)
+        'Console.WriteLine("#1 :" & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+        Dim testTime As Long = DateTime.Now.Ticks
+        dispStr = array(row, gDispensColumn) 'sheet.Cells(row, gDispensColumn).value
+        para.NeedleGap = array(row, gNeedleGapColumn) * Ratio '(sheet.Cells(row, gNeedleGapColumn).value) * Ratio
+        para.Duration = array(row, gDurationColumn) 'sheet.Cells(row, gDurationColumn).value
+        para.ApproachHeight = array(row, gApproachHtColumn) * Ratio ' (sheet.Cells(row, gApproachHtColumn).value) * Ratio
+        para.RetractDelay = array(row, gRetractDelayColumn) 'sheet.Cells(row, gRetractDelayColumn).value
+        para.RetractSpeed = array(row, gRetractSpeedColumn) * Ratio '(sheet.Cells(row, gRetractSpeedColumn).value) * Ratio
+        para.RetractHeight = array(row, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
+        para.ClearanceHeight = array(row, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
+        para.ArcRadius = array(row, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
+        para.Needle = array(row, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
+        FidandSubTransform(pt, referPt, fidComp, comp)
+        'Console.WriteLine("#3 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
+        If m_Optim = 0 Then
+            If Not WorkAreaErrorCheckXY(comp) Then
+                Dim sheetname As String = sheet.Name
+                CompileErrorDisplay(sheetname, row, 0)
+                Return -1
+            End If
+        End If
+        'Console.WriteLine("#4 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        testTime = DateTime.Now.Ticks
+        data.CmdLineNo = row
+        data.CmdType = "DOT"
+        data.SheetName = sheet.Name
+        data.PosX = comp(0)
+        data.PosY = comp(1)
+        data.PosZ = comp(2)
+        data.HeightCompS = height
+        'Console.WriteLine("#5 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
+        dispStr = dispStr.ToUpper()
+        If dispStr = "ON" Then
+            para.DispenseOn = True
+        Else
+            para.DispenseOn = False
+        End If
+
+        data.Param = para
+        Dim duration As Long = (DateTime.Now.Ticks - enterTime) / 10000 'miliseconds
+        'Console.WriteLine("Set Dot Record Data = " & duration.ToString())
+        Return 0
+    End Function
+	
+	
     'Set link start command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1388,15 +1366,12 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdLineNo = row
         data.CmdType = "LINE"
         data.SheetName = sheet.Name
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-
-
-
-
-
-
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1404,9 +1379,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
         If Not WorkAreaErrorCheckXY(comp2) Then
             CompileErrorDisplay(sheetname, row, 0)
@@ -1420,7 +1395,7 @@ Dim array As Object(,) ' array start at (1,1)
         data.PosY2 = comp2(1)
         data.PosZ2 = comp2(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1428,17 +1403,17 @@ Dim array As Object(,) ' array start at (1,1)
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+         para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         data.Param = para
         Return 0
 
@@ -1450,14 +1425,17 @@ Dim array As Object(,) ' array start at (1,1)
         Dim pt2(3), comp2(3), tmp2(3) As Double
         Dim pt3(3), comp3(3), tmp3(3) As Double
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
 
 
 
+		
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
-
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1465,9 +1443,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1475,9 +1453,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1499,7 +1477,7 @@ Dim array As Object(,) ' array start at (1,1)
         data.SheetName = sheet.Name
 
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1507,17 +1485,17 @@ Dim array As Object(,) ' array start at (1,1)
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.Duration = sheet.Cells(row, gDurationColumn).value
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.Duration = array(j, gDurationColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
 
-        Dim RowColumnInformationString As String = sheet.Cells(row, gTravelSpeedColumn).value
+        Dim RowColumnInformationString As String = array(j, gTravelSpeedColumn)
         Dim RowsAndColumns(1) As String
         RowsAndColumns = RowColumnInformationString.Split("x")
         para.Rows = CInt(RowsAndColumns(0))
@@ -1546,14 +1524,14 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdType = "ARC"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+       Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
 
-
-
-
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1561,9 +1539,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1571,9 +1549,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1592,7 +1570,7 @@ Dim array As Object(,) ' array start at (1,1)
         data.PosZ3 = comp3(2)
 
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1600,17 +1578,17 @@ Dim array As Object(,) ' array start at (1,1)
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         data.Param = para
         Return 0
     End Function
@@ -1636,53 +1614,31 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdType = "CIRCLE"
         data.SheetName = sheet.Name
 
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+         Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        Dim dispStr As String = array(j, gDispensColumn)
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
 
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
@@ -1746,14 +1702,19 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdType = "RECTANGLE"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
-
-
-
-
-
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        
+		
+		
+		
+		
+		
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
+		
+		pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1761,9 +1722,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1771,9 +1732,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1791,7 +1752,7 @@ Dim array As Object(,) ' array start at (1,1)
         data.PosY3 = comp3(1)
         data.PosZ3 = comp3(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1799,17 +1760,17 @@ Dim array As Object(,) ' array start at (1,1)
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
         data.Param = para
         Return 0
     End Function
@@ -1833,14 +1794,15 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdType = "FILLCIRCLE"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+        
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
 
-
-
-
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1848,9 +1810,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1859,9 +1821,9 @@ Dim array As Object(,) ' array start at (1,1)
         End If
 
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1879,7 +1841,7 @@ Dim array As Object(,) ' array start at (1,1)
         data.PosY3 = comp3(1)
         data.PosZ3 = comp3(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1887,21 +1849,21 @@ Dim array As Object(,) ' array start at (1,1)
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Pitch = (sheet.Cells(row, gPitchColumn).value)
-        para.NoOfRun = sheet.Cells(row, gNoOfRunColumn).value
-        para.SprialIn = sheet.Cells(row, gSprialColumn).value
-        para.FillHeight = (sheet.Cells(row, gFillHeightColumn).value)
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
+        para.Pitch = array(j, gPitchColumn)
+        para.NoOfRun = array(j, gNoOfRunColumn)
+        para.SprialIn = array(j, gSprialColumn)
+        para.FillHeight = array(j, gFillHeightColumn)
         data.Param = para
         Return 0
     End Function
@@ -1925,14 +1887,14 @@ Dim array As Object(,) ' array start at (1,1)
         data.CmdType = "FILLRECTANGLE"
         data.SheetName = sheet.Name
 
-        pt1(0) = (sheet.Cells(row, gPos1XColumn).value)
+       Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
 
 
-
-
-
-        pt1(1) = (sheet.Cells(row, gPos1YColumn).value)
-        pt1(2) = (sheet.Cells(row, gPos1ZColumn).value)
+        pt1(0) = array(j, gPos1XColumn)
+        pt1(1) = array(j, gPos1YColumn)
+        pt1(2) = array(j, gPos1ZColumn)
         FidandSubTransform(pt1, referPt, fidComp, comp1)
         Dim sheetname As String = sheet.Name
         If Not WorkAreaErrorCheckXY(comp1) Then
@@ -1940,9 +1902,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt2(0) = (sheet.Cells(row, gPos2XColumn).value)
-        pt2(1) = (sheet.Cells(row, gPos2YColumn).value)
-        pt2(2) = (sheet.Cells(row, gPos2ZColumn).value)
+        pt2(0) = array(j, gPos2XColumn)
+        pt2(1) = array(j, gPos2YColumn)
+        pt2(2) = array(j, gPos2ZColumn)
         FidandSubTransform(pt2, referPt, fidComp, comp2)
 
         If Not WorkAreaErrorCheckXY(comp2) Then
@@ -1950,9 +1912,9 @@ Dim array As Object(,) ' array start at (1,1)
             Return -1
         End If
 
-        pt3(0) = (sheet.Cells(row, gPos3XColumn).value)
-        pt3(1) = (sheet.Cells(row, gPos3YColumn).value)
-        pt3(2) = (sheet.Cells(row, gPos3ZColumn).value)
+        pt3(0) = array(j, gPos3XColumn)
+        pt3(1) = array(j, gPos3YColumn)
+        pt3(2) = array(j, gPos3ZColumn)
         FidandSubTransform(pt3, referPt, fidComp, comp3)
 
         If Not WorkAreaErrorCheckXY(comp3) Then
@@ -1970,7 +1932,7 @@ Dim array As Object(,) ' array start at (1,1)
         data.PosY3 = comp3(1)
         data.PosZ3 = comp3(2)
         data.HeightCompS = height
-        Dim dispStr As String = sheet.Cells(row, gDispensColumn).value
+        Dim dispStr As String = array(j, gDispensColumn)
         dispStr = dispStr.ToUpper()
         If dispStr = "ON" Then
             para.DispenseOn = True
@@ -1978,21 +1940,21 @@ Dim array As Object(,) ' array start at (1,1)
             para.DispenseOn = False
         End If
 
-        para.NeedleGap = (sheet.Cells(row, gNeedleGapColumn).value)
-        para.TravelDelay = sheet.Cells(row, gTravelDelayColumn).value
-        para.TravelSpeed = (sheet.Cells(row, gTravelSpeedColumn).value)
-        para.DeTailDist = (sheet.Cells(row, gDTaiDistColumn).value)
-        para.ApproachHeight = (sheet.Cells(row, gApproachHtColumn).value)
-        para.RetractDelay = sheet.Cells(row, gRetractDelayColumn).value
-        para.RetractSpeed = (sheet.Cells(row, gRetractSpeedColumn).value)
-        para.RetractHeight = (sheet.Cells(row, gRetractHtColumn).value)
-        para.ClearanceHeight = (sheet.Cells(row, gClearanceHtColumn).value)
-        para.ArcRadius = (sheet.Cells(row, gArcRadiusColumn).value)
-        para.Needle = sheet.Cells(row, gNeedleColumn).value
-        para.Pitch = (sheet.Cells(row, gPitchColumn).value)
-        para.NoOfRun = sheet.Cells(row, gNoOfRunColumn).value
-        para.SprialIn = sheet.Cells(row, gSprialColumn).value
-        para.FillHeight = (sheet.Cells(row, gFillHeightColumn).value)
+        para.NeedleGap = array(j, gNeedleGapColumn)
+        para.TravelDelay = array(j, gTravelDelayColumn)
+        para.TravelSpeed = array(j, gTravelSpeedColumn)
+        para.DeTailDist = array(j, gDTaiDistColumn)
+        para.ApproachHeight = array(j, gApproachHtColumn)
+        para.RetractDelay = array(j, gRetractDelayColumn)
+        para.RetractSpeed = array(j, gRetractSpeedColumn)
+        para.RetractHeight = array(j, gRetractHtColumn)
+        para.ClearanceHeight = array(j, gClearanceHtColumn)
+        para.ArcRadius = array(j, gArcRadiusColumn)
+        para.Needle = array(j, gNeedleColumn)
+        para.Pitch = array(j, gPitchColumn)
+        para.NoOfRun = array(j, gNoOfRunColumn)
+        para.SprialIn = array(j, gSprialColumn)
+        para.FillHeight = array(j, gFillHeightColumn)
         data.Param = para
         Return 0
     End Function
@@ -2038,15 +2000,14 @@ Dim array As Object(,) ' array start at (1,1)
         Dim x, y, z As Double
         Dim Type As String
         'set first element position
+		
+		 Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = arraysheet.Range("A1", "AD" & Rows).Value
+		
         For i = 1 To Rows
-            Type = arraysheet.Cells(i, gCommandNameColumn).Value
-
-
-
-
-
-
-
+            'Type = arraysheet.Cells(i, gCommandNameColumn).Value
+			Type = array(i, gCommandNameColumn)
             If Type <> Nothing Then
                 Type = Type.Trim(" ")
                 Type = Type.ToUpper
@@ -2055,31 +2016,22 @@ Dim array As Object(,) ' array start at (1,1)
                         x = (arraysheet.Cells(i, gPos1XColumn).value)
                         y = (arraysheet.Cells(i, gPos1YColumn).value)
                         z = (arraysheet.Cells(i, gPos1ZColumn).value)
-
-
-
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "ARC", "CIRCLE", "FILLCIRCLE"
-                        x = (arraysheet.Cells(i, gPos1XColumn).value)
-                        y = (arraysheet.Cells(i, gPos1YColumn).value)
-                        z = (arraysheet.Cells(i, gPos1ZColumn).value)
-
-
-
+                         x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "SUBPATTERN"
-                        x = (arraysheet.Cells(i, gPos1XColumn).value)
-                        y = (arraysheet.Cells(i, gPos1YColumn).value)
-                        z = (arraysheet.Cells(i, gPos1ZColumn).value)
-
-
-
+						x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
@@ -2113,54 +2065,48 @@ Dim array As Object(,) ' array start at (1,1)
         firstPos(2) = 0.0
 
 
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A1", "AD" & rows).Value
 
-
-
+		
+		
         For i = 1 To rows
-            type = sheet.Cells(i, gCommandNameColumn).Value
+            type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
                     Case "REFERENCE"
-                        referencePt(0) = (sheet.Cells(i, gPos1XColumn).value)
-                        referencePt(1) = (sheet.Cells(i, gPos1YColumn).value)
-                        referencePt(2) = (sheet.Cells(i, gPos1ZColumn).value)
+                        referencePt(0) = array(i, gPos1XColumn)
+                        referencePt(1) = array(i, gPos1YColumn)
+                        referencePt(2) = array(i, gPos1ZColumn)
                     Case "DOT", "LINE", "RECTANGLE", "FILLRECTANGLE", "DOTARRAY"
-                        x = (sheet.Cells(i, gPos1XColumn).value)
-                        y = (sheet.Cells(i, gPos1YColumn).value)
-                        z = (sheet.Cells(i, gPos1ZColumn).value)
-
-
-
+                        x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "ARC", "CIRCLE", "FILLCIRCLE"
-                        x = (sheet.Cells(i, gPos1XColumn).value)
-                        y = (sheet.Cells(i, gPos1YColumn).value)
-                        z = (sheet.Cells(i, gPos1ZColumn).value)
-
-
-
+						x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "SUBPATTERN"
-                        x = (sheet.Cells(i, gPos1XColumn).value)
-                        y = (sheet.Cells(i, gPos1YColumn).value)
-                        z = (sheet.Cells(i, gPos1ZColumn).value)
-
-
-
+						x = array(i, gPos1XColumn)
+                        y = array(i, gPos1YColumn)
+                        z = array(i, gPos1ZColumn)
                         firstPos(0) = x + referencePt(0)
                         firstPos(1) = y + referencePt(1)
                         firstPos(2) = z + referencePt(2)
                         Return 0
                     Case "ARRAY"
-                        Dim arrayname As String = sheet.Cells(i, gArraynameColumn).value
+						Dim arrayname As String = array(i, gArraynameColumn)
                         If arrayname = Nothing Then Return -1
                         Dim arraysheetname As String = subname + "." + arrayname
                         Return GetArrayFirstPos(sheetlist, arraysheetname, referencePt, firstPos)
@@ -2210,8 +2156,9 @@ Dim array As Object(,) ' array start at (1,1)
 
 
 
-
-
+		Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
         Dim sheetname As String
         sheetname = sheet.Name
         If subfilename = Nothing Then
@@ -2260,10 +2207,10 @@ Dim array As Object(,) ' array start at (1,1)
         End If
 
         Dim subInsPt(3), subInsAngle As Double  'get sub insert point and angle
-        subInsPt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        subInsPt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        subInsPt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        subInsAngle = (sheet.Cells(row, gRtAngleColumn).value) * Math.PI / 180.0
+        subInsPt(0) = array(j, gPos1XColumn)
+        subInsPt(1) = array(j, gPos1YColumn)
+        subInsPt(2) = array(j, gPos1ZColumn)
+        subInsAngle = array(j, gRtAngleColumn) * Math.PI / 180.0
 
         Dim firstPos(3) As Double ' get sub's first point location
         If GetFirstElementPos(subfilename, sheetlist, subsheet, Rows, referencePt, firstPos) < 0 Then
@@ -2282,10 +2229,11 @@ Dim array As Object(,) ' array start at (1,1)
         '
 
 
+		array = subsheet.Range("A1" & row, "AD" & Rows).Value
 
         Dim rtn As Integer = 0
         For i = 1 To Rows  'handling all pattern commands 
-            Dim type As String = subsheet.Cells(i, gCommandNameColumn).Value
+            Dim type As String = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
@@ -2665,14 +2613,17 @@ Dim array As Object(,) ' array start at (1,1)
         End If
 
 
+ Dim array As Object(,) ' array start at (1,1)
 
 
 
+        Dim j = 1
+        array = sheet.Range("A" & row, "AD" & row).Value
         Dim subInsPt(3), subInsAngle As Double
-        subInsPt(0) = (sheet.Cells(row, gPos1XColumn).value)
-        subInsPt(1) = (sheet.Cells(row, gPos1YColumn).value)
-        subInsPt(2) = (sheet.Cells(row, gPos1ZColumn).value)
-        subInsAngle = (sheet.Cells(row, gRtAngleColumn).value) * Math.PI / 180.0
+        subInsPt(0) = array(j, gPos1XColumn)
+        subInsPt(1) = array(j, gPos1YColumn)
+        subInsPt(2) = array(j, gPos1ZColumn)
+        subInsAngle = array(j, gRtAngleColumn) * Math.PI / 180.0
         Dim firstPos(3) As Double
         If GetFirstElementPos(subfilename, sheetlist, subsheet, Rows, referencePt, firstPos) < 0 Then
             CompileErrorDisplay(sheetname, 0, 4)
@@ -2689,9 +2640,11 @@ Dim array As Object(,) ' array start at (1,1)
         Dim type As String
         Dim rtn As Integer = 0
 
+		array = subsheet.Range("A1", "AD" & Rows).Value
         For i = 1 To Rows
-            type = subsheet.Cells(i, gCommandNameColumn).Value
+            'type = subsheet.Cells(i, gCommandNameColumn).Value
 
+			type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
@@ -3077,8 +3030,10 @@ Dim array As Object(,) ' array start at (1,1)
         'array should be of one type only
 
 
+		Dim array As Object(,) ' array start at (1,1)
+        array = arraysheet.Range("A1", "AD" & Rows).Value
         For i = 1 To Rows
-            type = arraysheet.Cells(i, gCommandNameColumn).Value
+			type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
@@ -3109,7 +3064,9 @@ Dim array As Object(,) ' array start at (1,1)
                         End If
                     Case "DOT" 'set dot record
                         Dim dotData As New CIDSDot
-                        If SetDotRecordData(arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
+                        'If SetDotRecordData(arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
+                            'Return -1
+						If TSetDotRecordData(array, arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
                             Return -1
                         End If
                         DebugAddList(list, dotData)
@@ -3264,7 +3221,8 @@ Dim array As Object(,) ' array start at (1,1)
         Dim countUp As Integer = 1
         Dim startCount As Boolean = False
 
-
+		Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A1", "AD" & Rows).Value
         I = 1
         Do Until (countUp > Rows)
             If (I > Rows) Then
@@ -3281,7 +3239,7 @@ Dim array As Object(,) ' array start at (1,1)
 
             gFidFileName = Programming.gPatternFileName 'for fiducial. added by kr
 
-            Dim type As String = sheet.Cells(I, gCommandNameColumn).Value
+            Dim type As String = array(I, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper

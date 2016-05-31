@@ -2633,10 +2633,10 @@ Public Class FormProgramming
                     MenuFileImport.Enabled = True
                     MenuFileSave.Enabled = True
                     MenuFileSaveAs.Enabled = True
-                    UndoData_Logging(0)
+                    'UndoData_Logging(0) 'This undo function was disable because it work badly when big data were loaded.
                 End If
             Else
-                UndoData_Logging(0)
+                'UndoData_Logging(0) 'This undo function was disable because it work badly when big data were loaded.
 
                 MenuFileExport.Enabled = True
                 MenuFileImport.Enabled = True
