@@ -238,7 +238,7 @@ Public Class CIDSService
 
             Private Shared m_instance As CIDSMotor
 
-            Private Sub New()
+            Public Sub New()
                 'InitializeComponent();
             End Sub
 

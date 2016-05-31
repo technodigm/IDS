@@ -1563,13 +1563,22 @@ Public Class CIDSPattern
         TraceGCCollect()
     End Function
 
-    Function ReadTextFile(ByRef array As ArrayList, ByVal path As String)
-        Dim sr As StreamReader = New StreamReader(path)
-        Do While sr.Peek() >= 0
-            array.Add(sr.ReadLine())
-        Loop
-        sr.Close()
-        Console.WriteLine(array.Count)
+    Function ReadTextFile(ByRef array As ArrayList, ByVal path As String) As Boolean
+        Dim sr As StreamReader
+        Try
+            sr = New StreamReader(path)
+            Do While sr.Peek() >= 0
+                array.Add(sr.ReadLine())
+            Loop
+            sr.Close()
+            Console.WriteLine(array.Count)
+        Catch ex As Exception
+            If sr Is Nothing Then
+                Return False
+            End If
+            sr.Close()
+        End Try
+
     End Function
     Function GetPageItemCount(ByRef array As ArrayList, ByVal pageName As String) As Integer
         Dim pageFound As Boolean = False
@@ -1615,7 +1624,7 @@ Public Class CIDSPattern
 
         file.Close()
         Return 0
-        TraceGCCollect
+        TraceGCCollect()
     End Function
 
 
@@ -1649,7 +1658,7 @@ Public Class CIDSPattern
         file.Close()
 
         Return Rtn
-        TraceGCCollect
+        TraceGCCollect()
     End Function
 
 
@@ -1744,7 +1753,7 @@ Public Class CIDSPattern
 
         'Only export the "Main" and the attached Array
         If "ptp" = file.ExtOnlyFromFullPath(Filename) Then
-            TraceGCCollect
+            TraceGCCollect()
             Return Rtn
         End If
 
@@ -1766,7 +1775,7 @@ Public Class CIDSPattern
             i += 1
         Loop
         Return Rtn
-        TraceGCCollect
+        TraceGCCollect()
     End Function
 
 
@@ -1811,7 +1820,7 @@ Public Class CIDSPattern
         file.Write(strLine, Encrypt)
         strLine = ""
         file.Write(strLine, Encrypt)
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
 
@@ -2082,7 +2091,7 @@ Public Class CIDSPattern
                 End With
             End If
         Next i
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
 
@@ -2212,7 +2221,7 @@ Public Class CIDSPattern
                 End With
             End If
         Next i
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
 
@@ -2338,7 +2347,7 @@ Public Class CIDSPattern
 
         objExcel.Quit()
         objExcel = Nothing
-        TraceGCCollect
+        TraceGCCollect()
 
         'For undo operation, the whole sheets are loaded once.  It not need to check the subs
         'comes with.
@@ -2361,7 +2370,7 @@ Public Class CIDSPattern
 
 
         Return Rtn  '0=no error
-        TraceGCCollect
+        TraceGCCollect()
     End Function
 
 

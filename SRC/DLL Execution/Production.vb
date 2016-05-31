@@ -876,6 +876,10 @@ Public Class FormProduction
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'reset!
         KeyboardControl.GainControls()
+        Init()
+        While isInited = False
+            Application.DoEvents()
+        End While
         Console.WriteLine(DateTime.Now & "#1")
         ResetToIdle()
         'gui visibility
@@ -910,7 +914,7 @@ Public Class FormProduction
         'vision
         'motion controller
         'm_Tri.Connect_Controller()
-        'SetState("Homing")
+        SetState("Homing")
         HardwareInitTimer.Start()
         'timers start
         IDS.StartErrorCheck()
@@ -1155,6 +1159,7 @@ Public Class FormProduction
         'UnlockDoor()
         ''Close()
         'IDS.FrmExecution.Hide()
+        InitThread.Abort()
     End Sub
 
     Public Sub ProductionInfoDispClear()
