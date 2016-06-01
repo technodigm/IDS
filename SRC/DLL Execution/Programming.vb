@@ -1860,7 +1860,7 @@ Public Class FormProgramming
     End Sub
 
     Private Sub MoveToSpreadsheetPoint(ByVal Pos() As Double, ByVal type As String)
-
+        Console.WriteLine("MoveTo SP Point")
         If IsBusy() Then
             LabelMessage("Can't move when program is running!")
             Exit Sub
@@ -2513,7 +2513,7 @@ Public Class FormProgramming
         'should get from data mamager 
         SavePatternFileDialog.InitialDirectory = "C:\IDS\Pattern_Dir"
         SavePatternFileDialog.AddExtension = True
-        SavePatternFileDialog.Filter = "Excel Pattern files (*.Xls)|*.Xls|Txt Pattern files (*.ptp)|*.ptp"
+        SavePatternFileDialog.Filter = "Excel Pattern files (*.xls)|*.xls|Txt Pattern files (*.txt)|*.txt"
         SavePatternFileDialog.FileName = ""
         SavePatternFileDialog.ShowDialog()
 
@@ -2532,9 +2532,9 @@ Public Class FormProgramming
 
         If file <> Nothing Then
             strTmp = file.Split(".")
-            If "Xls" = strTmp(1) Then
+            If "xls" = strTmp(1).ToLower() Then
                 ExportExcelPatternFile(file)
-            ElseIf "ptp" = strTmp(1) Then
+            ElseIf "txt" = strTmp(1).ToLower() Then
                 ExportTxtPatternFile(file)
             End If
         End If
@@ -2587,7 +2587,8 @@ Public Class FormProgramming
 
         Try
             AxSpreadsheetProgramming.Caption = file
-            If 0 = m_Execution.m_Pattern.LoadTxtPatternPara(AxSpreadsheetProgramming, file, 2, m_Row, False) Then
+            'If 0 = m_Execution.m_Pattern.LoadTxtPatternPara(AxSpreadsheetProgramming, file, 2, m_Row, False) Then
+            If 0 = m_Execution.m_Pattern.LoadTxtPatternPara(AxSpreadsheetProgramming, file, 2, 0, False) Then
                 m_Row = 2
 
                 'Error checking for all the Spreadsheet
@@ -2637,11 +2638,15 @@ Public Class FormProgramming
         'FlushSpreadsheet()
         'init_spreadsheet()
 
-        If "Xls" = strInfo(1) Then
-            ImportExcelPatternFile(file)
-        ElseIf "ptp" = strInfo(1) Then
-            ImportTxtPatternFile(file)
-        End If
+        'If "XLS" = strInfo(1).ToUpper() Then
+        '    ImportExcelPatternFile(file)
+        'ElseIf "ptp" = strInfo(1) Then
+        ImportTxtPatternFile(file)
+        'gPatternFileName = file
+        'End If
+        Me.Cursor = System.Windows.Forms.Cursors.Default
+        MenuFileSaveAs.Enabled = True
+        MenuFileSave.Enabled = True
         TraceGCCollect()
     End Sub
 
@@ -2927,7 +2932,8 @@ Public Class FormProgramming
                         '   Save the Brightness.    '
                         '''''''''''''''''''''''''''''
                         IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
-                        IDS.Data.SaveData()
+                        'IDS.Data.SaveData()
+                        IDS.Data.SavePathFileData(gPatternFileName + ".pat")
 
                         SaveProgram.UnSave = False
                     End If
@@ -3079,7 +3085,7 @@ Public Class FormProgramming
 
     Private Sub UndoData_Logging(ByVal UndoLevel As Integer)
 
-        Return 'Disable undo operation. this function is terribely wrong...
+        'Return 'Disable undo operation. this function is terribely wrong...
 
         m_Execution.m_Undo.UndoLevel = UndoLevel
 
@@ -3181,13 +3187,25 @@ Public Class FormProgramming
     Private Sub MenuEditRedo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditRedo.Click
 
         If 0 = m_Execution.m_Undo.UndoLevel Then
-            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
-            m_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
-            m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
+            'm_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
+            'm_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
+            'm_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
 
+            'm_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls"
+            'FlushSpreadsheet()
+            'm_Execution.m_Undo.DataLoadFor_Undo(AxSpreadsheetProgramming)
             m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls"
             FlushSpreadsheet()
             m_Execution.m_Undo.DataLoadFor_Undo(AxSpreadsheetProgramming)
+
+            System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", _
+                   "C:\IDS\Pattern_Dir\SysSwapData\tempHolder.Xls", True)
+
+            System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", _
+                   "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", True)
+
+            System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\tempHolder.Xls", _
+                   "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", True)
 
             AxSpreadsheetProgramming.Worksheets(m_Execution.m_Undo.CurrentPageName_B).Activate()
         Else
@@ -3217,13 +3235,26 @@ Public Class FormProgramming
     Private Sub MenuEditUndo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditUndo.Click
 
         If 0 = m_Execution.m_Undo.UndoLevel Then
-            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls"
-            m_Execution.m_Undo.CurrentPageName_B = GetActiveSheetName()
-            m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
+            'm_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls"
+            'm_Execution.m_Undo.CurrentPageName_B = GetActiveSheetName()
+            'm_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
 
-            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
+            'm_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
+            'FlushSpreadsheet()
+            'm_Execution.m_Undo.DataLoadFor_Undo(AxSpreadsheetProgramming)
+
+            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls"
             FlushSpreadsheet()
             m_Execution.m_Undo.DataLoadFor_Undo(AxSpreadsheetProgramming)
+
+            System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", _
+                   "C:\IDS\Pattern_Dir\SysSwapData\tempHolder.Xls", True)
+
+            System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", _
+                   "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", True)
+
+            System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\tempHolder.Xls", _
+                   "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", True)
 
             AxSpreadsheetProgramming.Worksheets(m_Execution.m_Undo.CurrentPageName_A).Activate()
         Else
@@ -3318,7 +3349,7 @@ Public Class FormProgramming
             Else
                 UndoData_Logging(0)
 
-                m_Execution.m_Pattern.LoadTxtPatternParaAllSheets(AxSpreadsheetProgramming, _
+                m_Execution.m_Pattern.TLoadTxtPatternParaAllSheets(AxSpreadsheetProgramming, _
                     "C:\IDS\Pattern_Dir\SysSwapData\CopyPaste.txt", _
                     CopiedSheetName, 2, m_StartRow, False)
             End If
@@ -4542,7 +4573,8 @@ Public Class FormProgramming
     '
 
     Private Sub Spreadsheet_StartEdit(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_StartEditEvent) Handles AxSpreadsheetProgramming.StartEdit
-
+        Console.WriteLine("Sp start edit")
+        LabelMessage("Editing......")
         Dim row As Integer = GetActiveCellRow()
         Dim colum As Integer = GetActiveCellColumn()
         Dim cellValue As Object = GetActiveCellValue()
@@ -4657,6 +4689,8 @@ Public Class FormProgramming
     '
 
     Private Sub Spreadsheet_EndEdit(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_EndEditEvent) Handles AxSpreadsheetProgramming.EndEdit
+
+        Console.WriteLine("Sp end edit")
         Dim row As Integer = GetActiveCellRow()
         Dim colum As Integer = GetActiveCellColumn()
         Dim dVal As Double
@@ -4792,7 +4826,8 @@ Public Class FormProgramming
     'Check the click event, detail Buttons and flags will be reset accordingly
     '   e: ActiveX component event handler
     Private Sub Spreadsheet_ClickEvent(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.ClickEvent
-
+        'Console.WriteLine("Sp click")
+        'Return
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
 
         Dim m_rowCount As Integer = sel.Rows.Count()
@@ -5335,19 +5370,29 @@ Public Class FormProgramming
 
     Public Sub Spreadsheet_DeleteMultiRow(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet)
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
-        Dim m_rowCount As Integer = sel.Rows.Count()
-        Dim m_rowLocal As Integer = sel.Row
 
-        Dim DeltedRowNo As Integer = 0
-        Dim DeletedRowNoEachtime As Integer = 1
+        If AxSpreadsheetProgramming.ActiveSheet.Name <> "Main" Then
+            If sel.Count >= AxSpreadsheetProgramming.ActiveSheet.UsedRange.Count Then
+                MessageBox.Show("Cannot clear all items in other sheet except in main sheet!")
+            Else
+                sel.Clear()
+            End If
+        Else
+            sel.Clear()
+        End If
+        'Dim m_rowCount As Integer = sel.Rows.Count()
+        'Dim m_rowLocal As Integer = sel.Row
 
-        If m_rowCount < 1 Then Return
+        'Dim DeltedRowNo As Integer = 0
+        'Dim DeletedRowNoEachtime As Integer = 1
 
-        Do
-            Spreadsheet_DeleteOneRow(DeletedRowNoEachtime, m_rowLocal, AxSpreadsheet)
+        'If m_rowCount < 1 Then Return
 
-            DeltedRowNo = DeltedRowNo + DeletedRowNoEachtime
-        Loop Until (DeltedRowNo >= m_rowCount)
+        'Do
+        '    Spreadsheet_DeleteOneRow(DeletedRowNoEachtime, m_rowLocal, AxSpreadsheet)
+
+        '    DeltedRowNo = DeltedRowNo + DeletedRowNoEachtime
+        'Loop Until (DeltedRowNo >= m_rowCount)
 
     End Sub
 
@@ -6573,7 +6618,7 @@ Public Class FormProgramming
         Try
             If m_rowCount = 1 Then
                 type = GetCellValue(m_Row, gCommandNameColumn)
-                UndoData_Logging(0)
+                'UndoData_Logging(0)
 
                 If "" = type Then
                     DeleteRow(m_Row)
@@ -6900,11 +6945,12 @@ Public Class FormProgramming
                     SaveProgram.UnSave = True
                 End If
             Else
-                UndoData_Logging(0)
+                'Multiple rows delete
+                'UndoData_Logging(0)
                 Spreadsheet_DeleteMultiRow(AxSpreadsheetProgramming)
                 SaveProgram.UnSave = True
             End If
-
+            UndoData_Logging(0)
             m_EditStateFlag = False
             Spreadsheet_CheckForWithinLinkRange(True)
             DisableTeachingToolbarOKButton()

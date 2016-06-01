@@ -1,4 +1,4 @@
-#File name: C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls
+#File name: C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls
 #
 #Objective: Data format defination for Pattern data. ptp file is used to store pattern defination in txt files.
 #
@@ -15,4 +15,7 @@ PatternID =ABCDE_GHIJ_KLMN
 
 
 [Page=Main]
-Fiducial,1.mno,2.mno,71.42,358.452,0,332.64,207.346,0,,,,,,,,,,,,,,,,,,,,,,,,,,10,,,,,,,,,,,,,,,,,,,,,,,,10,,,,,,,,,,,,,,,,,,,
+Array,,Dot_1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+[Page=Dot_1]
+Dot,Left,On,165.884,265.526,9.614,,,,,,,,0.5,0,,100,5,50,5,30,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

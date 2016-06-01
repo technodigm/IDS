@@ -407,6 +407,7 @@ Public Class ConveyorSettings
     Dim ButtonConveyorHome_Clicked As Boolean = False
     Dim CurrentWidthValue As Double
     Friend WithEvents T1 As Timer = IDS.T1
+    Private Testing As Boolean = True
 
     Private Sub ButtonSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSave.Click
         With IDS.Data.Hardware.Conveyor
@@ -501,7 +502,6 @@ Public Class ConveyorSettings
     End Sub
 
     Friend Sub Conveyor_T1_Tick()
-
         If Form_Service.NoActionToExecute Then
             If Conveyor.GetError() <> "No Error" Then
                 Form_Service.DisplayErrorMessage(Conveyor.GetError())
@@ -606,7 +606,7 @@ Public Class ConveyorSettings
     Dim pressure_counter As Integer = 0 'use this temporarily to record how many times pressure_t1_tick is called before re-showing error pop up if pressureerror_flag = true all the time
 
     Public Sub Pressure_T1_Tick()
-
+        If Testing Then Return
         If IDS.Devices.DIO.DIO.pressureerror_flag = True And Form_Service.NoActionToExecute Then
             If pressure_counter = 0 Then
                 pressure_counter = 100

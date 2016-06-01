@@ -1042,6 +1042,221 @@ Public Class CIDSPattern
         TraceGCCollect
     End Function
 
+    Function TLoadTxtPatternParaAllSheets(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, ByVal Filename As String, _
+          ByVal Subname As String, ByVal AttachFlag As Integer, ByVal StartRow As Integer, _
+          ByVal Encrypt As Boolean) As Integer
+        Dim file As New CIDSFileHandler
+        Dim array As ArrayList = New ArrayList
+        ReadTextFile(array, Filename)
+        Dim ret As Integer = file.OpenR(Filename)
+        Dim rowOfLoad As Integer = 0
+        Dim strInfo As String
+
+        If (ret <> 0) Then
+            'Error Message
+            file.Close()
+            Return 1
+        End If
+
+        Dim eof As String = ""
+        Dim LineStr(80) As String
+        Dim SubPageExist As Boolean = False
+
+        Dim dataArray(1, gWRMCoulumn) As Object
+        Dim pageItemCnt As Integer = 0
+
+        Do Until eof.Equals("EOF")
+            eof = file.Read(Encrypt)
+
+            If "EOF" = eof Then
+                file.Close()
+                If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                    Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                    range.Value2 = dataArray
+                    pageItemCnt = 0
+                    Application.DoEvents()
+                End If
+                If rowOfLoad > 1 Then
+                    Return 0
+                Else
+                    Return 1
+                End If
+            End If
+
+            If "" = eof Then
+                Do Until eof <> ""
+                    eof = file.Read(Encrypt)
+                Loop
+            End If
+
+            If (eof <> Nothing Or eof <> "") And (eof.Chars(0)) <> "#"c Then
+                LineStr = eof.Split("=")
+                Dim value As Double = 0.0
+                If 2 = LineStr.Length Then
+                    LineStr(0) = LineStr(0).Trim(" ")
+                    LineStr(1) = LineStr(1).Trim(" ")
+
+                    If "[" = eof.ToString.Chars(0) Then
+                        LineStr(0) = LineStr(0).Trim("[")
+                        LineStr(1) = LineStr(1).Trim("]")
+
+                        If "Page" = LineStr(0) Then
+                            If "Main" <> LineStr(1) And "" <> LineStr(1) Then   'Attached as new
+                                'Check the page name existance.  Skip if yes
+
+                                Do
+                                    SubPageExist = Spreadsheet_CheckSubsheetExist(AxSpreadsheet, LineStr(1))
+                                    If True = SubPageExist Then
+                                        LineStr(1) = GotoNextPageTxtPattern(file, Encrypt)
+                                    End If
+                                    If "EOF" = LineStr(1) Then
+                                        Exit Do
+                                    End If
+                                Loop Until (False = SubPageExist)
+
+                                If True = SubPageExist Then
+                                    Exit Do
+                                Else
+
+                                    If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                                        Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                        range.Value2 = dataArray
+                                        pageItemCnt = 0
+                                    End If
+
+                                    AxSpreadsheet.Sheets.Add.Name = LineStr(1)
+                                    AxSpreadsheet.Worksheets(LineStr(1)).Activate()
+
+                                    AxSpreadsheet.ActiveWindow.FreezePanes = False
+                                    AxSpreadsheet.Worksheets(LineStr(1)).Range("B1:B1").Select()
+                                    AxSpreadsheet.ActiveWindow.FreezePanes = True
+                                    rowOfLoad = 0
+
+                                    pageItemCnt = GetPageItemCount(array, LineStr(1))
+                                    If pageItemCnt > 0 Then
+                                        ReDim dataArray(pageItemCnt - 1, gWRMCoulumn)
+                                    End If
+                                End If
+
+                            ElseIf 1 = AttachFlag And "Main" = LineStr(1) Then  'Attached as sub
+                                pageItemCnt = GetPageItemCount(array, LineStr(1))
+                                LineStr(1) = Subname
+                                'Check the page name existance.  Skip if yes
+
+                                Do
+                                    SubPageExist = Spreadsheet_CheckSubsheetExist(AxSpreadsheet, LineStr(1))
+                                    If True = SubPageExist Then
+                                        LineStr(1) = GotoNextPageTxtPattern(file, Encrypt)
+                                    End If
+                                    If "EOF" = LineStr(1) Then
+                                        Exit Do
+                                    End If
+                                Loop Until (False = SubPageExist)
+
+                                If True = SubPageExist Then
+                                    Exit Do
+                                Else
+                                    AxSpreadsheet.Sheets.Add.Name = LineStr(1)
+                                    AxSpreadsheet.Worksheets(LineStr(1)).Activate()
+
+                                    AxSpreadsheet.ActiveWindow.FreezePanes = False
+                                    AxSpreadsheet.Worksheets(LineStr(1)).Range("B1:B1").Select()
+                                    AxSpreadsheet.ActiveWindow.FreezePanes = True
+                                    rowOfLoad = 0
+                                End If
+
+                            ElseIf 2 = AttachFlag And "Main" = LineStr(1) Then  'Attached as import
+                                rowOfLoad = StartRow - 1
+                                If rowOfLoad < 0 Then
+                                    rowOfLoad = 0
+                                End If
+                            Else
+                                If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                                    Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                    range.Value2 = dataArray
+                                    pageItemCnt = 0
+                                    AxSpreadsheet.ActiveWindow.ActiveSheet.Cells(1, 1).Select()
+                                    Application.DoEvents()
+                                End If
+                                'Here to create the new two dimention array to hold the next set of data for
+                                pageItemCnt = GetPageItemCount(array, LineStr(1))
+                                If pageItemCnt > 0 Then
+                                    ReDim dataArray(pageItemCnt - 1, gWRMCoulumn)
+
+                                End If
+                                AxSpreadsheet.Worksheets(LineStr(1)).Activate()
+                                rowOfLoad = 0
+                            End If
+
+                        End If
+                    Else
+                        LineStr(0) = LineStr(0).ToUpper()
+                        LineStr(1) = LineStr(1).ToUpper()
+                        Select Case LineStr(0)
+                            Case "PATTERNFILENAME"
+
+                            Case "PATTERNID"
+
+                            Case Else
+
+                        End Select
+                    End If
+
+
+                ElseIf 1 = LineStr.Length Then
+
+                    'Insert an empty line to avoid data overwrite
+                    rowOfLoad += 1
+                    'AxSpreadsheet.ActiveWindow.ActiveSheet.Cells(rowOfLoad, 1).Select()
+                    'AxSpreadsheet.Selection.EntireRow.Insert()
+                    'AxSpreadsheet.ActiveSheet.Rows(rowOfLoad).clear()
+
+                    LineStr = eof.Split(",")
+
+                    'Error checking for loading data record
+                    'm_ErrorChk.ConvertToDataStruct(LineStr)
+
+                    If LineStr.Length < gMaxColumns Or LineStr.Length > m_MaxColumnOfPatternWithVision Then
+                        strInfo = "Number of data is incorrect in record:"
+                        strInfo = strInfo + CStr(rowOfLoad - 1)
+                        MessageBox.Show(strInfo, "Warning message")
+                    Else
+                        'Insert an empty line
+
+                        'kr change to increase the number of columns loaded from linestr into spreadsheet
+                        'this is because of invisible cells (30 + onwards) that are not loaded when 
+                        'copying and pasting vision elements like QC
+                        For i As Integer = 1 To m_MaxColumnOfPatternWithVision
+
+                            LineStr(i - 1) = LineStr(i - 1).Trim(" ")
+                            If LineStr(i - 1) = "" Then
+                                Do Until LineStr(i - 1) <> ""
+                                    i = i + 1
+                                    'kr change to increase the number of columns loaded from linestr into spreadsheet
+                                    'this is because of invisible cells (30 + onwards) that are not loaded when 
+                                    'copying and pasting vision elements like QC
+                                    If i = m_MaxColumnOfPatternWithVision + 1 Then
+                                        Exit For
+                                    End If
+                                    LineStr(i - 1) = LineStr(i - 1).Trim(" ")
+                                Loop
+                            End If
+
+                            If "" <> LineStr(i - 1) Then
+                                dataArray(rowOfLoad - 1, i - 1) = LineStr(i - 1)
+                                'AxSpreadsheet.ActiveSheet.Cells(rowOfLoad, i) = LineStr(i - 1)
+                            End If
+                        Next i
+                    End If
+                End If
+            End If
+        Loop
+
+        file.Close()
+        Return 0
+        TraceGCCollect()
+    End Function
+
 
 
     'Read text pattern file into activeX spreadsheet                  '
@@ -1077,7 +1292,7 @@ Public Class CIDSPattern
         Loop
 
         Return Rtn  '0=no error
-        TraceGCCollect
+        TraceGCCollect()
     End Function
 
 
@@ -1185,41 +1400,41 @@ Public Class CIDSPattern
                                         AxSpreadsheet.Worksheets(LineStr(1)).Range("B1:B1").Select()
                                         AxSpreadsheet.ActiveWindow.FreezePanes = True
                                         rowOfLoad = 0
-                                        End If
+                                    End If
 
                                 ElseIf "Main" = LineStr(1) And 1 = AttachFlag Then   'Attached as sub
-                                        LineStr(1) = Subname
-                                        'Check the page name existance.  Skip if yes
+                                    LineStr(1) = Subname
+                                    'Check the page name existance.  Skip if yes
 
-                                        Do
-                                            SubPageExist = Spreadsheet_CheckSubsheetExist(AxSpreadsheet, LineStr(1))
-                                            If True = SubPageExist Then
-                                                LineStr(1) = GotoNextPageTxtPattern(file, Encrypt)
-                                            End If
-                                            If "EOF" = LineStr(1) Then
-                                                Exit Do
-                                            End If
-                                        Loop Until (False = SubPageExist)
-
+                                    Do
+                                        SubPageExist = Spreadsheet_CheckSubsheetExist(AxSpreadsheet, LineStr(1))
                                         If True = SubPageExist Then
-                                            Exit Do
-                                        Else
-                                            AxSpreadsheet.Sheets.Add.Name = LineStr(1)
-                                            AxSpreadsheet.Worksheets(LineStr(1)).Activate()
-                                            AxSpreadsheet.ActiveWindow.FreezePanes = False
-                                            AxSpreadsheet.Worksheets(LineStr(1)).Range("B1:B1").Select()
-                                            AxSpreadsheet.ActiveWindow.FreezePanes = True
-                                            rowOfLoad = 0
+                                            LineStr(1) = GotoNextPageTxtPattern(file, Encrypt)
                                         End If
+                                        If "EOF" = LineStr(1) Then
+                                            Exit Do
+                                        End If
+                                    Loop Until (False = SubPageExist)
+
+                                    If True = SubPageExist Then
+                                        Exit Do
+                                    Else
+                                        AxSpreadsheet.Sheets.Add.Name = LineStr(1)
+                                        AxSpreadsheet.Worksheets(LineStr(1)).Activate()
+                                        AxSpreadsheet.ActiveWindow.FreezePanes = False
+                                        AxSpreadsheet.Worksheets(LineStr(1)).Range("B1:B1").Select()
+                                        AxSpreadsheet.ActiveWindow.FreezePanes = True
+                                        rowOfLoad = 0
+                                    End If
 
                                 ElseIf 2 = AttachFlag And "Main" = LineStr(1) Then  'Attached as import
-                                        rowOfLoad = StartRow - 1
-                                        If rowOfLoad < 0 Then
-                                            rowOfLoad = 0
-                                        End If
-                                Else
-                                        AxSpreadsheet.Worksheets(LineStr(1)).Activate()
+                                    rowOfLoad = StartRow - 1
+                                    If rowOfLoad < 0 Then
                                         rowOfLoad = 0
+                                    End If
+                                Else
+                                    AxSpreadsheet.Worksheets(LineStr(1)).Activate()
+                                    rowOfLoad = 0
                                 End If
 
                             End If
@@ -1305,7 +1520,7 @@ Public Class CIDSPattern
 
         file.Close()
         Return 0
-        TraceGCCollect
+        TraceGCCollect()
     End Function
 
     'To test if can set value to spreadsheet faster than the function above
@@ -1613,7 +1828,7 @@ Public Class CIDSPattern
         End If
 
         WriteHeaderDispara(file, Filename, "ABCDE_GHIJ_KLMN", Encrypt)
-        WritePatternParaAll(file, AxSpreadsheet, SelectFlag, Encrypt)
+        TWritePatternParaAll(file, AxSpreadsheet, SelectFlag, Encrypt)
 
         file.Close()
         Return 0
@@ -2214,6 +2429,141 @@ Public Class CIDSPattern
                     Loop Until kk > UsedRowNumber   'Rows at which it will terminate the saving record.
 
                 End With
+            End If
+        Next i
+        TraceGCCollect()
+    End Sub
+
+    'Write activeX spreadsheet to pattern file                        
+    'Modify the way to write pattern, the above method is too slow                                                               
+
+    Private Sub TWritePatternParaAll(ByRef file As CIDSFileHandler, ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, _
+            ByVal SelectFlag As Integer, ByVal Encrypt As Boolean)
+        Dim strLine As String
+        Dim strTmp As String
+        Dim m_rowLocal As Integer = 0
+
+        Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheet.Selection
+
+        Dim m_rowCount As Integer = sel.Rows.Count()
+        Dim m_columnCount As Integer = sel.Columns.Count()
+        Dim m_StartRow As Integer = sel.Row
+        Dim m_columnStart As Integer = sel.Column
+
+
+        If 0 = SelectFlag Then  'For Undo instead of Copy/Paste/Cut
+            m_StartRow = 1
+            m_rowCount = AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count
+        End If
+
+
+        'Step1: Save the selected as Main
+        strLine = ""
+        file.Write(strLine, Encrypt)
+        strLine = "[Page=" + "Main" + "]"
+        file.Write(strLine, Encrypt)
+
+        Dim kk As Integer = 0
+        Dim i, j As Integer
+        m_rowLocal = m_StartRow - 1
+
+        Dim SelectedInSheetName As String = "Main"
+        Dim array As Object(,) ' array start at (1,1)
+        Dim startID = 1
+        Dim TotalSheets As Integer = AxSpreadsheet.ActiveWorkbook.Worksheets.Count()
+        For i = TotalSheets To 1 Step -1
+            If AxSpreadsheet.ActiveWorkbook.Worksheets(i).name() = "Main" Then
+
+                array = AxSpreadsheet.ActiveWorkbook.Worksheets(i).Range("A1", "BZ" & AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count).Value
+                'With AxSpreadsheet.ActiveSheet
+                Do
+                    kk += 1
+                    m_rowLocal = m_rowLocal + 1
+                    strLine = ""
+                    strTmp = array(m_rowLocal, gCommandNameColumn) '.Cells(m_rowLocal, gCommandNameColumn).Value
+
+                    If "" <> strTmp Then
+                        strLine = strLine + strTmp
+                        For j = gNeedleColumn To gWRMCoulumn
+                            strLine = strLine + "," + CStr(array(m_rowLocal, j)) '.Cells(m_rowLocal, j).Value)
+                        Next
+                        file.Write(strLine, Encrypt)
+                    End If
+                Loop Until kk >= m_rowCount   'exceed lines will terminate the saving record.
+                'End With
+                Exit For
+            End If
+        Next i
+
+        'Step2: Find necessary sub/array to be saved using connection checking.
+        'It will update SubCallSheetName data structure
+        If 1 = SelectFlag Then          'For Copy/Paste/Cut
+            Spreadsheet_BuildRootConnectedArraySub(AxSpreadsheet)
+        End If
+
+        'Step3: Save the Sub and Array selected
+        'TotalSheets = AxSpreadsheet.ActiveWorkbook.Worksheets.Count()
+
+        Dim SheetName As String
+        Dim sub_sheet As OWC10.Worksheet
+        Dim UsedRowNumber As Integer
+        Dim k As Integer
+        Dim bSubOrArrayFound As Boolean
+
+        'AxSpreadsheet.ActiveSheet.Name
+
+        For i = TotalSheets To 1 Step -1
+
+            kk = 0
+            m_rowLocal = 0
+            bSubOrArrayFound = False
+
+            SheetName = AxSpreadsheet.ActiveWorkbook.Worksheets(i).name()
+
+            'Find the sheet should be saved or not
+            If 1 = SelectFlag Then              'For Copy/Paste/Cut
+                For k = 0 To TotalSheets - 1
+                    If SheetName = SubCallSheetName.SheetName(k).SheetName And _
+                        SubCallSheetName.SheetName(k).SheetRootRelated > 0 Then
+                        bSubOrArrayFound = True
+                        Exit For
+                    End If
+                Next k
+            Else                                'For Undo
+                If SelectedInSheetName = SheetName Then
+                    bSubOrArrayFound = False    'Exclude active sheet
+                Else
+                    bSubOrArrayFound = True
+                End If
+            End If
+
+
+            If bSubOrArrayFound = True Then
+                UsedRowNumber = Spreadsheet_CountRowUsed(AxSpreadsheet, SheetName)
+                If UsedRowNumber > 0 Then
+                    strLine = ""
+                    file.Write(strLine, Encrypt)
+                    strLine = "[Page=" + SheetName + "]"
+                    file.Write(strLine, Encrypt)
+                    array = AxSpreadsheet.Worksheets(SheetName).Range("A1", "BZ" & UsedRowNumber).Value
+                    'With AxSpreadsheet.Worksheets(SheetName)
+                    Do
+                        kk += 1
+                        m_rowLocal = m_rowLocal + 1
+                        strLine = ""
+                        strTmp = array(m_rowLocal, gCommandNameColumn) '.Cells(m_rowLocal, gCommandNameColumn).Value
+
+                        If "" <> strTmp Then
+                            strLine = strLine + strTmp
+                            For j = gNeedleColumn To gWRMCoulumn
+                                strLine = strLine + "," + CStr(array(m_rowLocal, j)) '.Cells(m_rowLocal, j).Value)
+                            Next
+
+                            file.Write(strLine, Encrypt)
+                        End If
+                    Loop Until kk >= UsedRowNumber   'Rows at which it will terminate the saving record.
+                End If
+                'End With
             End If
         Next i
         TraceGCCollect()
@@ -5074,8 +5424,8 @@ Public Class CIDSUndo
 
         Try
             'Load data in text format --> faster
-            m_Execution.m_Pattern.LoadTxtPatternParaAllSheets(AxSpreadsheet, _
-                UndoFilename, "", 0, 1, False)
+            m_Execution.m_Pattern.TLoadTxtPatternParaAllSheets(AxSpreadsheet, _
+            UndoFilename, "", 0, 1, False)
 
             'Load data in excel format  --> Slower
             'Ptn.LoadExcelPatternFile(AxSpreadsheet, UndoFilename, 1, True, strUnit)
