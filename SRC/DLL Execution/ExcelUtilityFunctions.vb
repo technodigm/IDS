@@ -13,6 +13,7 @@ Public Module ExcelUtilityFunctions
     'this contains the command currently being taught/edited
     Friend type As String = ""
 
+    Friend m_SteppingPostFlag As Boolean = False
     'flags
     Friend m_Row As Integer = 2
     Friend m_InLinkRange As Boolean = False

@@ -404,15 +404,15 @@ Public Class CIDSPattern
     '   flag:   color control flag = true:grey, = false: white        
     Public Sub Spreadsheet_CellGrey(ByVal cell1 As Object, ByVal cell2 As Object, _
     ByVal flag As Boolean, ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet)
-        AxSpreadsheet.ActiveSheet.Range(cell1, cell2).Select()
-        With AxSpreadsheet.Selection
-            If True = flag Then
-                .Interior.Color = RGB(190, 190, 190)
-            Else
-                .Interior.Color = RGB(255, 255, 255)
-            End If
-        End With
-        TraceGCCollect
+        'AxSpreadsheet.ActiveSheet.Range(cell1, cell2).Select()
+        'With AxSpreadsheet.Selection
+        '    If True = flag Then
+        '        .Interior.Color = RGB(190, 190, 190)
+        '    Else
+        '        .Interior.Color = RGB(255, 255, 255)
+        '    End If
+        'End With
+        'TraceGCCollect()
     End Sub
 
     'Scan Spreadsheet to find unoptimizable ele                       
@@ -1073,7 +1073,7 @@ Public Class CIDSPattern
 
             If "EOF" = eof Then
                 file.Close()
-                If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
                     Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
                     range.Value2 = dataArray
                     pageItemCnt = 0
@@ -1121,7 +1121,7 @@ Public Class CIDSPattern
                                     Exit Do
                                 Else
 
-                                    If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                                    If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
                                         Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
                                         range.Value2 = dataArray
                                         pageItemCnt = 0
@@ -1169,12 +1169,13 @@ Public Class CIDSPattern
                                 End If
 
                             ElseIf 2 = AttachFlag And "Main" = LineStr(1) Then  'Attached as import
+                                pageItemCnt = GetPageItemCount(array, LineStr(1))
                                 rowOfLoad = StartRow - 1
                                 If rowOfLoad < 0 Then
                                     rowOfLoad = 0
                                 End If
                             Else
-                                If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                                If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
                                     Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
                                     range.Value2 = dataArray
                                     pageItemCnt = 0
@@ -1564,7 +1565,7 @@ Public Class CIDSPattern
                     '   Note: a.) This is only for "Main page".                                 '
                     '         b.) Check for "Sub/Array page".                                   '
                     ''''''''''
-                    If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                    If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
                         Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
                         range.Value2 = dataArray
                         pageItemCnt = 0
@@ -1598,7 +1599,7 @@ Public Class CIDSPattern
                                 If "Main" <> LineStr(1) And "" <> LineStr(1) Then   'Attached as new ' Here page = Main page
                                     'Check the page name existance.  Skip if yes
                                     If 1 = AttachFlag Or 2 = AttachFlag Then
-                                        LineStr(1) = Subname + "." + LineStr(1)
+                                        LineStr(1) = Subname + "." + LineStr(1) 'This operation is to make sure the sheet do not have the same name. 'yy
                                     End If
 
                                     Do 'Look for sub page or subsheet
@@ -1617,7 +1618,7 @@ Public Class CIDSPattern
                                         'If LineStr(1).Length > 31 Then
                                         '    LineStr(1) = LineStr(1).Remove(31, LineStr(1).Length - 31)
                                         'End If
-                                        If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                                        If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
                                             Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
                                             range.Value2 = dataArray
                                             pageItemCnt = 0
@@ -1629,8 +1630,14 @@ Public Class CIDSPattern
                                         AxSpreadsheet.Worksheets(LineStr(1)).Range("B1:B1").Select()
                                         AxSpreadsheet.ActiveWindow.FreezePanes = True
                                         rowOfLoad = 0
+                                        If 1 = AttachFlag Or 2 = AttachFlag Then
+                                            Dim names() As String = LineStr(1).Split(".")
+                                            Dim iCnt As Integer = names.Length
+                                            pageItemCnt = GetPageItemCount(array, names(iCnt - 1))
+                                        Else
+                                            pageItemCnt = GetPageItemCount(array, LineStr(1))
+                                        End If
 
-                                        pageItemCnt = GetPageItemCount(array, LineStr(1))
                                         If pageItemCnt > 0 Then
                                             ReDim dataArray(pageItemCnt - 1, gWRMCoulumn)
                                         End If
@@ -1664,13 +1671,16 @@ Public Class CIDSPattern
 
                                 ElseIf 2 = AttachFlag And "Main" = LineStr(1) Then  'Attached as import
                                     pageItemCnt = GetPageItemCount(array, LineStr(1))
+                                    If pageItemCnt > 0 Then
+                                        ReDim dataArray(pageItemCnt - 1, gWRMCoulumn)
+                                    End If
                                     rowOfLoad = StartRow - 1
                                     If rowOfLoad < 0 Then
                                         rowOfLoad = 0
                                     End If
                                 Else
                                     'Here to activate the sheet, start from main to all the subsheet
-                                    If rowOfLoad <> 0 Then 'From here to add the data to that particular sheet
+                                    If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
                                         Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
                                         range.Value2 = dataArray
                                         pageItemCnt = 0
@@ -1718,7 +1728,7 @@ Public Class CIDSPattern
                         If LineStr.Length < gMaxColumns Or _
                             LineStr.Length > m_MaxColumnOfPatternWithVision Then
                             strInfo = "Number of data is incorrect in record:"
-                            strInfo = strInfo + CStr(rowOfLoad - 1)
+                            strInfo = strInfo + CStr(rowOfLoad - 1) + " Cmd:" + LineStr(0)
                             MessageBox.Show(strInfo, "Warning message")
                         Else
 
@@ -2471,35 +2481,53 @@ Public Class CIDSPattern
         Dim kk As Integer = 0
         Dim i, j As Integer
         m_rowLocal = m_StartRow - 1
-
-        Dim SelectedInSheetName As String = "Main"
         Dim array As Object(,) ' array start at (1,1)
+        Dim SelectedInSheetName As String = "Main"
         Dim startID = 1
         Dim TotalSheets As Integer = AxSpreadsheet.ActiveWorkbook.Worksheets.Count()
-        For i = TotalSheets To 1 Step -1
-            If AxSpreadsheet.ActiveWorkbook.Worksheets(i).name() = "Main" Then
+        If SelectFlag = 0 Then
+            For i = TotalSheets To 1 Step -1
+                If AxSpreadsheet.ActiveWorkbook.Worksheets(i).name() = "Main" Then
 
-                array = AxSpreadsheet.ActiveWorkbook.Worksheets(i).Range("A1", "BZ" & AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count).Value
-                'With AxSpreadsheet.ActiveSheet
-                Do
-                    kk += 1
-                    m_rowLocal = m_rowLocal + 1
-                    strLine = ""
-                    strTmp = array(m_rowLocal, gCommandNameColumn) '.Cells(m_rowLocal, gCommandNameColumn).Value
+                    Array = AxSpreadsheet.ActiveWorkbook.Worksheets(i).Range("A1", "BZ" & AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count).Value
+                    'With AxSpreadsheet.ActiveSheet
+                    Do
+                        kk += 1
+                        m_rowLocal = m_rowLocal + 1
+                        strLine = ""
+                        strTmp = Array(m_rowLocal, gCommandNameColumn) '.Cells(m_rowLocal, gCommandNameColumn).Value
 
-                    If "" <> strTmp Then
-                        strLine = strLine + strTmp
-                        For j = gNeedleColumn To gWRMCoulumn
-                            strLine = strLine + "," + CStr(array(m_rowLocal, j)) '.Cells(m_rowLocal, j).Value)
-                        Next
-                        file.Write(strLine, Encrypt)
-                    End If
-                Loop Until kk >= m_rowCount   'exceed lines will terminate the saving record.
-                'End With
-                Exit For
-            End If
-        Next i
+                        If "" <> strTmp Then
+                            strLine = strLine + strTmp
+                            For j = gNeedleColumn To gWRMCoulumn
+                                strLine = strLine + "," + CStr(Array(m_rowLocal, j)) '.Cells(m_rowLocal, j).Value)
+                            Next
+                            file.Write(strLine, Encrypt)
+                        End If
+                    Loop Until kk >= m_rowCount   'exceed lines will terminate the saving record.
+                    'End With
+                    Exit For
+                End If
+            Next i
+        ElseIf SelectFlag = 1 Then 'For Cut/Copy, this is to save only the selected row to CopyPaste file.
+            'With AxSpreadsheet.ActiveSheet
+            array = AxSpreadsheet.ActiveSheet.Range("A1", "BZ" & AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count).Value
+            Do
+                kk += 1
+                m_rowLocal = m_rowLocal + 1
+                strLine = ""
+                strTmp = array(m_rowLocal, gCommandNameColumn) '.Cells(m_rowLocal, gCommandNameColumn).Value
 
+                If "" <> strTmp Then
+                    strLine = strLine + strTmp
+                    For j = gNeedleColumn To gWRMCoulumn
+                        strLine = strLine + "," + CStr(array(m_rowLocal, j)) '.Cells(m_rowLocal, j).Value)
+                    Next
+                    file.Write(strLine, Encrypt)
+                End If
+            Loop Until m_rowLocal >= (sel.Row - 1 + m_rowCount) 'AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count   'exceed lines will terminate the saving record.
+            'End With
+        End If
         'Step2: Find necessary sub/array to be saved using connection checking.
         'It will update SubCallSheetName data structure
         If 1 = SelectFlag Then          'For Copy/Paste/Cut
@@ -4946,124 +4974,128 @@ Public Class CIDSErrorCheck
 
             j = 0
             emptyLine = 0
-            With AxSpreadsheet.Worksheets(SheetName)
-                Do
-                    'Only check the error inside the specify sheet
-                    If SheetName <> CurrentSheetName Then
-                        Exit Do
-                    End If
+            Dim array As Object(,) ' array start at (1,1)
+            Dim arraysheet As OWC10.Worksheet = AxSpreadsheet.Worksheets(SheetName)
+            array = arraysheet.Range("A1", "AD" & arraysheet.UsedRange.Rows.Count).Value
 
-                    j = j + 1
-                    cmdStr = .Cells(j, gCommandNameColumn).Value
+            'With AxSpreadsheet.Worksheets(SheetName)
+            Do
+                'Only check the error inside the specify sheet
+                If SheetName <> CurrentSheetName Then
+                    Exit Do
+                End If
 
-                    If "" = cmdStr Then
-                        emptyLine = emptyLine + 1
-                    ElseIf "Reference" = cmdStr Then
-                        emptyLine = 0
-                        'Don't need to check Ref Pts error.  If a RefPt is outside the effective working area, the
-                        'offset result data may still be inside the area.
-                        ReferencePt.X = .Cells(j, gPos1XColumn).Value
-                        ReferencePt.Y = .Cells(j, gPos1YColumn).Value
-                        ReferencePt.Z = .Cells(j, gPos1ZColumn).Value
-                    ElseIf "Array" = cmdStr Then
-                        emptyLine = 0
-                    Else
-                        If CheckRequiredPt3XY(cmdStr) Then
-                            If "Circle" = cmdStr Or "FillCircle" = cmdStr Then
-                                'Convert 3Pts to a circle with Center and radius
+                j = j + 1
+                cmdStr = array(j, gCommandNameColumn)
 
-                                pt1(0) = .Cells(j, gPos1XColumn).Value : pt1(1) = .Cells(j, gPos1YColumn).Value : pt1(2) = .Cells(j, gPos1ZColumn).Value
-                                pt2(0) = .Cells(j, gPos2XColumn).Value : pt2(1) = .Cells(j, gPos2YColumn).Value : pt2(2) = .Cells(j, gPos2ZColumn).Value
-                                pt3(0) = .Cells(j, gPos3XColumn).Value : pt3(1) = .Cells(j, gPos3YColumn).Value : pt3(2) = .Cells(j, gPos3ZColumn).Value
-                                MathFunction.Get3dCircleCentre(pt1, pt2, pt3, cen1, radius)
-                                ExtractedPt.X = cen1(0) + ReferencePt.X
-                                ExtractedPt.Y = cen1(1) + ReferencePt.Y
-                                Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
+                If "" = cmdStr Then
+                    emptyLine = emptyLine + 1
+                ElseIf "Reference" = cmdStr Then
+                    emptyLine = 0
+                    'Don't need to check Ref Pts error.  If a RefPt is outside the effective working area, the
+                    'offset result data may still be inside the area.
+                    ReferencePt.X = array(j, gPos1XColumn)
+                    ReferencePt.Y = array(j, gPos1YColumn)
+                    ReferencePt.Z = array(j, gPos1ZColumn)
+                ElseIf "Array" = cmdStr Then
+                    emptyLine = 0
+                Else
+                    If CheckRequiredPt3XY(cmdStr) Then
+                        If "Circle" = cmdStr Or "FillCircle" = cmdStr Then
+                            'Convert 3Pts to a circle with Center and radius
 
-                                'Check 4 Pts for a circle
-                                ExtractedPt.X = AbsolutePt.X
-                                ExtractedPt.Y = AbsolutePt.Y
+                            pt1(0) = array(j, gPos1XColumn) : pt1(1) = array(j, gPos1YColumn) : pt1(2) = array(j, gPos1ZColumn)
+                            pt2(0) = array(j, gPos2XColumn) : pt2(1) = array(j, gPos2YColumn) : pt2(2) = array(j, gPos2ZColumn)
+                            pt3(0) = array(j, gPos3XColumn) : pt3(1) = array(j, gPos3YColumn) : pt3(2) = array(j, gPos3ZColumn)
+                            MathFunction.Get3dCircleCentre(pt1, pt2, pt3, cen1, radius)
+                            ExtractedPt.X = cen1(0) + ReferencePt.X
+                            ExtractedPt.Y = cen1(1) + ReferencePt.Y
+                            Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
 
-                                AbsolutePt.X = ExtractedPt.X + radius
-                                Rtn = CheckPtXYError(AbsolutePt)
-                                AbsolutePt.X = ExtractedPt.X - radius
-                                Rtn = Rtn + CheckPtXYError(AbsolutePt)
+                            'Check 4 Pts for a circle
+                            ExtractedPt.X = AbsolutePt.X
+                            ExtractedPt.Y = AbsolutePt.Y
 
-                                AbsolutePt.X = ExtractedPt.X
-                                AbsolutePt.Y = ExtractedPt.Y + radius
-                                Rtn = Rtn + CheckPtXYError(AbsolutePt)
-                                AbsolutePt.Y = ExtractedPt.Y - radius
-                                Rtn = Rtn + CheckPtXYError(AbsolutePt)
+                            AbsolutePt.X = ExtractedPt.X + radius
+                            Rtn = CheckPtXYError(AbsolutePt)
+                            AbsolutePt.X = ExtractedPt.X - radius
+                            Rtn = Rtn + CheckPtXYError(AbsolutePt)
 
-                            Else
-                                'Check the 1st Pt
-                                ExtractedPt.X = .Cells(j, gPos1XColumn).Value() + ReferencePt.X
-                                ExtractedPt.Y = .Cells(j, gPos1YColumn).Value() + ReferencePt.Y
+                            AbsolutePt.X = ExtractedPt.X
+                            AbsolutePt.Y = ExtractedPt.Y + radius
+                            Rtn = Rtn + CheckPtXYError(AbsolutePt)
+                            AbsolutePt.Y = ExtractedPt.Y - radius
+                            Rtn = Rtn + CheckPtXYError(AbsolutePt)
 
-                                Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
-                                AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
-                                AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
-                                Rtn = CheckPtXYError(AbsolutePt)
-
-                                'Check the 2nd Pt
-                                ExtractedPt.X = .Cells(j, gPos2XColumn).Value() + ReferencePt.X
-                                ExtractedPt.Y = .Cells(j, gPos2YColumn).Value() + ReferencePt.Y
-
-                                Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
-                                AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
-                                AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
-                                Rtn = Rtn + CheckPtXYError(AbsolutePt)
-
-                                'Check the 3rd Pt
-                                ExtractedPt.X = .Cells(j, gPos3XColumn).Value() + ReferencePt.X
-                                ExtractedPt.Y = .Cells(j, gPos3YColumn).Value() + ReferencePt.Y
-
-                                Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
-                                AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
-                                AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
-                                Rtn = Rtn + CheckPtXYError(AbsolutePt)
-                            End If
-
-                        ElseIf CheckRequiredPt2XY(cmdStr) Then
-                            ExtractedPt.X = .Cells(j, gPos1XColumn).Value() + ReferencePt.X
-                            ExtractedPt.Y = .Cells(j, gPos1YColumn).Value() + ReferencePt.Y
+                        Else
+                            'Check the 1st Pt
+                            ExtractedPt.X = array(j, gPos1XColumn) + ReferencePt.X
+                            ExtractedPt.Y = array(j, gPos1YColumn) + ReferencePt.Y
 
                             Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
                             AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
                             AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
                             Rtn = CheckPtXYError(AbsolutePt)
 
-
-                            ExtractedPt.X = .Cells(j, gPos2XColumn).Value() + ReferencePt.X
-                            ExtractedPt.Y = .Cells(j, gPos2YColumn).Value() + ReferencePt.Y
+                            'Check the 2nd Pt
+                            ExtractedPt.X = array(j, gPos2XColumn) + ReferencePt.X
+                            ExtractedPt.Y = array(j, gPos2YColumn) + ReferencePt.Y
 
                             Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
                             AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
                             AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
                             Rtn = Rtn + CheckPtXYError(AbsolutePt)
 
-                        ElseIf CheckRequiredPt1XY(cmdStr) Then
-                            ExtractedPt.X = .Cells(j, gPos1XColumn).Value() + ReferencePt.X
-                            ExtractedPt.Y = .Cells(j, gPos1YColumn).Value() + ReferencePt.Y
+                            'Check the 3rd Pt
+                            ExtractedPt.X = array(j, gPos3XColumn) + ReferencePt.X
+                            ExtractedPt.Y = array(j, gPos3YColumn) + ReferencePt.Y
 
                             Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
                             AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
                             AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
-                            Rtn = CheckPtXYError(AbsolutePt)
+                            Rtn = Rtn + CheckPtXYError(AbsolutePt)
                         End If
 
-                        emptyLine = 0
+                    ElseIf CheckRequiredPt2XY(cmdStr) Then
+                        ExtractedPt.X = array(j, gPos1XColumn) + ReferencePt.X
+                        ExtractedPt.Y = array(j, gPos1YColumn) + ReferencePt.Y
 
-                        'If 0 <> Rtn Then
-                        '    ErrorMsg = "Element XY coordinate error on Sheet: " + SheetName + ", "
-                        '    ErrorMsg = ErrorMsg + "Row: " + CStr(j)
-                        '    MyMsgBox(ErrorMsg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Element coordinate error")
-                        '    Return (Rtn)
-                        'End If
+                        Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
+                        AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
+                        AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
+                        Rtn = CheckPtXYError(AbsolutePt)
+
+
+                        ExtractedPt.X = array(j, gPos2XColumn) + ReferencePt.X
+                        ExtractedPt.Y = array(j, gPos2YColumn) + ReferencePt.Y
+
+                        Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
+                        AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
+                        AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
+                        Rtn = Rtn + CheckPtXYError(AbsolutePt)
+
+                    ElseIf CheckRequiredPt1XY(cmdStr) Then
+                        ExtractedPt.X = array(j, gPos1XColumn) + ReferencePt.X
+                        ExtractedPt.Y = array(j, gPos1YColumn) + ReferencePt.Y
+
+                        Point2DRotateTranslate(AbsolutePt, ExtractedPt, SubFirstPt, ExtRotateAngleRad)
+                        AbsolutePt.X = ExtRefPt.X + AbsolutePt.X
+                        AbsolutePt.Y = ExtRefPt.Y + AbsolutePt.Y
+                        Rtn = CheckPtXYError(AbsolutePt)
                     End If
 
-                Loop Until 20 < emptyLine 'Successive 20 empty excel lines will terminate the saving record.
-            End With
+                    emptyLine = 0
+
+                    'If 0 <> Rtn Then
+                    '    ErrorMsg = "Element XY coordinate error on Sheet: " + SheetName + ", "
+                    '    ErrorMsg = ErrorMsg + "Row: " + CStr(j)
+                    '    MyMsgBox(ErrorMsg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Element coordinate error")
+                    '    Return (Rtn)
+                    'End If
+                End If
+
+            Loop Until j >= arraysheet.UsedRange.Rows.Count 'Successive 20 empty excel lines will terminate the saving record.
+            'End With
         Next i
         TraceGCCollect()
     End Function
