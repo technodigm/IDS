@@ -1862,7 +1862,7 @@ Public Class FormProgramming
     Private Sub MoveToSpreadsheetPoint(ByVal Pos() As Double, ByVal type As String)
         Console.WriteLine("MoveTo SP Point")
         If IsBusy() Then
-            LabelMessage("Can't move when program is running!")
+            LabelMessage("Axes are busy. Can't move at the moment. Try later")
             Exit Sub
         End If
 
@@ -2620,7 +2620,7 @@ Public Class FormProgramming
         'should get from data mamager 
         OpenPatternFileDialog.InitialDirectory = "C:\IDS\Pattern_Dir"
         OpenPatternFileDialog.AddExtension = True
-        OpenPatternFileDialog.Filter = "Excel pattern files (*.Xls)|*.Xls|Txt pattern files(*.ptp)|*.ptp"
+        OpenPatternFileDialog.Filter = "Excel pattern files (*.xls)|*.xls|Txt pattern files(*.txt)|*.txt"
         OpenPatternFileDialog.FileName = ""
 
         OpenPatternFileDialog.ShowDialog()
@@ -3255,8 +3255,12 @@ Public Class FormProgramming
 
             System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\tempHolder.Xls", _
                    "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", True)
+            Try
 
-            AxSpreadsheetProgramming.Worksheets(m_Execution.m_Undo.CurrentPageName_A).Activate()
+                AxSpreadsheetProgramming.Worksheets(m_Execution.m_Undo.CurrentPageName_A).Activate()
+            Catch ex As Exception
+                'AxSpreadsheetProgramming.Worksheets(m_Execution.m_Undo.CurrentPageName_A).Activate()
+            End Try
         Else
             Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
 
@@ -3291,7 +3295,7 @@ Public Class FormProgramming
         Dim SheetName As String = GetActiveSheetName()
         If m_columnCount = gMaxColumns Then
             CopiedSheetName = GetActiveSheetName()
-
+            UndoData_Logging(0)
             'Copy selected data and also with the related Array/Sub data
             m_Execution.m_Pattern.SavePatternParaAllSheets(AxSpreadsheetProgramming, _
                 "C:\IDS\Pattern_Dir\SysSwapData\CopyPaste.txt", 1, False)
@@ -3347,11 +3351,10 @@ Public Class FormProgramming
             If m_InLinkRange Then
                 MyMsgBox("Paste is not allowed inside LINK range", MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Paste is not alowed")
             Else
-                UndoData_Logging(0)
-
-                m_Execution.m_Pattern.TLoadTxtPatternParaAllSheets(AxSpreadsheetProgramming, _
+                m_Execution.m_Pattern.LoadTxtPatternParaAllSheets(AxSpreadsheetProgramming, _
                     "C:\IDS\Pattern_Dir\SysSwapData\CopyPaste.txt", _
                     CopiedSheetName, 2, m_StartRow, False)
+                UndoData_Logging(0)
             End If
         End If
         TraceGCCollect()
@@ -3360,6 +3363,7 @@ Public Class FormProgramming
     'menu: Edit-->Delete: Delecte all select                                                                        
 
     Private Sub MenuEditDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditDelete.Click
+        UndoData_Logging(0)
         Cancel()
         TraceGCCollect()
     End Sub
@@ -3546,6 +3550,7 @@ Public Class FormProgramming
         Dim idFlag As Integer = 0
         If e.Button Is EditingToolbar.Buttons(0) Then
             idFlag = 1
+            m_SteppingPostFlag = True
         End If
 
         EditingToolbar_Implementation(idFlag)
@@ -4293,7 +4298,7 @@ Public Class FormProgramming
                                 PatternLineRecord(1), PatternLineRecord(2), arraydata)
 
                             'Load sub and array data within the sub
-                            Spreadsheet_AddSubandArrayInSub(PatternLineRecord(0).pPara.DispenseFlag)
+                            'Spreadsheet_AddSubandArrayInSub(PatternLineRecord(0).pPara.DispenseFlag)
 
                             EnableTeachingButtons()
                             DisableElementsCommandBlockButton(gOffsetCmdIndex)
@@ -4580,6 +4585,13 @@ Public Class FormProgramming
         Dim cellValue As Object = GetActiveCellValue()
         DisableCoordinateUpdateInSpreadsheet()
 
+        If (colum >= gPos1XColumn And colum <= gPos3ZColumn) Then
+            LabelMessage("Can't change value directly")
+            '           System.Windows.Forms.MessageBox.Show("not allowed to edit", "Add Dot")
+            SetCellValue(row, colum, cellValue)
+            Return
+        End If
+        Console.WriteLine("After Check")
         If colum = gTravelSpeedColumn And cellValue = "DotArray" Then
             Exit Sub
         End If
@@ -4591,9 +4603,11 @@ Public Class FormProgramming
                     SubSheetName = GetCellValue(row, gSubnameColumn)
                     SetActiveCellValue(cellValue)
                     AxSpreadsheetProgramming.Worksheets(SubSheetName).Activate()
+                    LabelMessage("")
                     Exit Sub
                 Else
                     SetCellValue(row, colum, cellValue)
+                    LabelMessage("Can't change value directly")
                 End If
             ElseIf (colum >= gNeedleColumn And colum <= gDispensColumn) Then
                 LabelMessage("Can't change value directly")
@@ -4689,8 +4703,9 @@ Public Class FormProgramming
     '
 
     Private Sub Spreadsheet_EndEdit(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_EndEditEvent) Handles AxSpreadsheetProgramming.EndEdit
-
+        'Return
         Console.WriteLine("Sp end edit")
+        LabelMessage("")
         Dim row As Integer = GetActiveCellRow()
         Dim colum As Integer = GetActiveCellColumn()
         Dim dVal As Double
@@ -4751,11 +4766,11 @@ Public Class FormProgramming
                             pos(1) = CDbl(InputStr)
                             pos(2) = CDbl(GetCellValue(row, gPos3ZColumn))
                     End Select
-                    If CmdStr = "ChipEdge" Or CmdStr = "QC" Or CmdStr = "Height" Or CmdStr = "Fiducial" Or CmdStr = "Reject" Then
-                        MoveToSpreadsheetPoint(pos, "Vision")
-                    Else
-                        MoveToSpreadsheetPoint(pos, "Needle")
-                    End If
+                    'If CmdStr = "ChipEdge" Or CmdStr = "QC" Or CmdStr = "Height" Or CmdStr = "Fiducial" Or CmdStr = "Reject" Then
+                    '    MoveToSpreadsheetPoint(pos, "Vision")
+                    'Else
+                    '    MoveToSpreadsheetPoint(pos, "Needle")
+                    'End If
                 Catch ex As Exception
                     LabelMessage("invalid value")
                     e.cancel.Value = True 'Cancel the edit
@@ -4826,17 +4841,18 @@ Public Class FormProgramming
     'Check the click event, detail Buttons and flags will be reset accordingly
     '   e: ActiveX component event handler
     Private Sub Spreadsheet_ClickEvent(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.ClickEvent
-        'Console.WriteLine("Sp click")
-        'Return
+        Console.WriteLine("Click")
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
-
         Dim m_rowCount As Integer = sel.Rows.Count()
         Dim m_columnCount As Integer = sel.Columns.Count()
         Dim m_StartRow As Integer = sel.Row
         Dim m_columnStart As Integer = sel.Column
         Dim m_EndRow As Integer = m_StartRow + m_rowCount - 1
         Dim RefPos() As Double = {0, 0, 0}
-
+        Dim commandName As String = GetCellValue(m_StartRow, gCommandNameColumn)
+        If m_rowCount = 1 And commandName = Nothing Then
+            LabelMessage("")
+        End If
         If "" = gPatternFileName Then
             Exit Sub
         End If
@@ -4851,7 +4867,7 @@ Public Class FormProgramming
         '   Xue Wen                 '
         '   To refresh the label.   '
 
-        If True = m_EditStateFlag Then
+        If True = m_EditStateFlag Then 'when edit pen clicked and m_EditStageFlag assigned to true
             MenuEditSelectAll.Enabled = False
             CellStr = GetCellValue(m_Row, m_columnStart)
             CmdStr = GetCellValue(m_Row, gCommandNameColumn)
@@ -4894,7 +4910,7 @@ Public Class FormProgramming
                 Exit Sub
             End If
 
-        ElseIf True = m_ProgrammingStateFlag Then
+        ElseIf True = m_ProgrammingStateFlag Then 'When One of the teaching tool (Fiducial/Line) was selected/clicked
             MenuEditSelectAll.Enabled = False
             CmdStr = GetCellValue(m_Row, gCommandNameColumn)
             If "LinkEnd" = CmdStr Then
@@ -4936,7 +4952,9 @@ Public Class FormProgramming
 
             If m_Row <> m_StartRow Or inCurrentEditSlot = False Then
                 If m_Row <> m_StartRow Or ReselectCells = True Then
-                    SelectRange(cell1, cell2)
+                    If cell1 <> Nothing Or cell2 <> Nothing Then
+                        SelectRange(cell1, cell2)
+                    End If
                 End If
                 Exit Sub
             End If
@@ -4952,7 +4970,7 @@ Public Class FormProgramming
         'Set motion ref for any single row selected
         If 1 = m_rowCount Then
             m_Execution.m_Pattern.Spreadsheet_GetRowLocalReference(AxSpreadsheetProgramming, m_Row, RefPos)
-            Spreadsheet_SetMotionRef(RefPos)
+            Spreadsheet_SetMotionRef(RefPos) 'This to update the XYZ position on GUI
         End If
 
         If gMaxRows = m_rowCount And gMaxColumns = m_columnCount Then
@@ -4987,6 +5005,7 @@ Public Class FormProgramming
 
                 DisableEditingToolbarEditButton()                    'Edit start
                 EnableTeachingToolbarCancelButton()
+                m_SteppingPostFlag = False 'Disable this flag to allow user to delete the entire row when selected new row and X button clicked
             Else
                 DisableElementsCommandBlockButton(gOffsetCmdIndex)
                 DisableEditingToolbar()
@@ -5037,6 +5056,7 @@ Public Class FormProgramming
                     EnableElementsCommandBlockButton(gOffsetCmdIndex)         'Offset
                     EnableEditingToolbarSwitchButton()                     'Goto next
                     DisableEditingToolbarEditButton()                    'Edit start
+                    m_SteppingPostFlag = False 'Disable this flag to allow user to delete the entire row when selected new row and X button clicked
                 ElseIf "" = CmdStr Then
                     DisableElementsCommandBlockButton(gOffsetCmdIndex)
                     DisableEditingToolbar()
@@ -5076,7 +5096,7 @@ Public Class FormProgramming
                 End If
                 DisableEditingToolbar()
             End If
-
+            'When the Header of column clicked
         ElseIf 1 = m_columnCount Then   'Update elements column-wise, need to be improved later to
             m_Column = sel.Column       'exclude part of data
             DisableTeachingToolbar()
@@ -5100,6 +5120,7 @@ Public Class FormProgramming
                     MyMsgBox("Update column is not allowed", MsgBoxStyle.OKOnly)
                 End If
             End If
+            'when the header of row clicked
         ElseIf 1 = m_rowCount Then
             m_Execution.m_Pattern.Spreadsheet_GetRowLocalReference(AxSpreadsheetProgramming, m_Row, RefPos)
             Spreadsheet_SetMotionRef(RefPos)
@@ -5374,27 +5395,26 @@ Public Class FormProgramming
         If AxSpreadsheetProgramming.ActiveSheet.Name <> "Main" Then
             If sel.Count >= AxSpreadsheetProgramming.ActiveSheet.UsedRange.Count Then
                 MessageBox.Show("Cannot clear all items in other sheet except in main sheet!")
-            Else
-                sel.Clear()
+                Return
             End If
-        Else
-            sel.Clear()
         End If
-        'Dim m_rowCount As Integer = sel.Rows.Count()
-        'Dim m_rowLocal As Integer = sel.Row
+        Dim m_rowCount As Integer = sel.Rows.Count()
+        Dim m_rowLocal As Integer = sel.Row
 
-        'Dim DeltedRowNo As Integer = 0
-        'Dim DeletedRowNoEachtime As Integer = 1
+        Dim DeltedRowNo As Integer = 0
+        Dim DeletedRowNoEachtime As Integer = 1
 
-        'If m_rowCount < 1 Then Return
+        If m_rowCount < 1 Then Return
 
-        'Do
-        '    Spreadsheet_DeleteOneRow(DeletedRowNoEachtime, m_rowLocal, AxSpreadsheet)
+        Do
+            Spreadsheet_DeleteOneRow(DeletedRowNoEachtime, m_rowLocal, AxSpreadsheet)
 
-        '    DeltedRowNo = DeltedRowNo + DeletedRowNoEachtime
-        'Loop Until (DeltedRowNo >= m_rowCount)
-
+            DeltedRowNo = DeltedRowNo + DeletedRowNoEachtime
+        Loop Until (DeltedRowNo >= m_rowCount)
+        'Dim dir As Object = Microsoft.Office.Interop.OWC.XlDeleteShiftDirection.xlShiftUp
+        'sel.Delete()
     End Sub
+
 
     Public Sub Spreadsheet_DeleteMultiRow2(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet)
         '''''''''''''''''''''''''''''''''''''''''''''''''
@@ -6566,12 +6586,37 @@ Public Class FormProgramming
             Confirm()   'Add rows
         Else
             If m_EditStateFlag = False Then
-                DelayForRowDelete()
-                Cancel()   'Cancel or delete rows
-                DeletingRowFromExcel = False
-                DeletingRowFinished = False
+                'DelayForRowDelete()
+                If m_SteppingPostFlag Then
+                    Spreadsheet_CheckForWithinLinkRange(True)
+                    DisableTeachingToolbarOKButton()
+                    EnableTeachingToolbarCancelButton()
+                    DisableEditingToolbar()
+                    DisableCoordinateUpdateInSpreadsheet()
+                    SelectCell(m_Row, gCommandNameColumn)
+                    m_SteppingPostFlag = False
+                    LabelMessage("")
+                Else
+                    If (MessageBox.Show("Are you sure you want to delete the row/rows?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes) Then
+                        Cancel()   'Cancel or delete rows
+                    End If
+                End If
+                'DeletingRowFromExcel = False
+                'DeletingRowFinished = False
             Else
-                Cancel()   'Cancel or delete rows
+                m_EditStateFlag = False
+                m_SteppingPostFlag = False
+                Spreadsheet_CheckForWithinLinkRange(True)
+                DisableTeachingToolbarOKButton()
+                EnableTeachingToolbarCancelButton()
+                DisableEditingToolbar()
+                DisableCoordinateUpdateInSpreadsheet()
+                SelectCell(m_Row, gCommandNameColumn)
+                LabelMessage("")
+                'If (MessageBox.Show("Are you sure you want to delete the row/rows?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes) Then
+                'Cancel()   'Cancel or delete rows
+                'End If
+
             End If
         End If
 
@@ -7927,4 +7972,8 @@ Public Class FormProgramming
     '        isPress = False
     '    End If
     'End Sub
+
+    Private Sub AxSpreadsheetProgramming_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.LostFocus
+
+    End Sub
 End Class
