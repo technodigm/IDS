@@ -2707,6 +2707,8 @@ Public Class FormProgramming
                 m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
 
                 SaveProgram.UnSave = False
+                MenuEditUndo.Enabled = False
+                MenuEditRedo.Enabled = False
             Else
                 '
                 SavePatternFileDialog.InitialDirectory = "C:\IDS\Pattern_Dir"
@@ -2744,6 +2746,8 @@ Public Class FormProgramming
                         IDS.Data.SavePathFileData(gPatternFileName + ".pat")
 
                         SaveProgram.UnSave = False
+                        MenuEditUndo.Enabled = False
+                        MenuEditRedo.Enabled = False
                     End If
                 End If
             End If
@@ -2870,6 +2874,8 @@ Public Class FormProgramming
                 IDS.Data.SavePathFileData(gPatternFileName + ".pat")
 
                 SaveProgram.UnSave = False
+                MenuEditUndo.Enabled = False
+                MenuEditRedo.Enabled = False
             End If
 
         Catch ex As Exception
@@ -3779,10 +3785,13 @@ Public Class FormProgramming
         If m_Execution.m_Pattern.Spreadsheet_IsAnArraySheet(AxSpreadsheetProgramming, SheetName) Then
             MessageBox.Show("Command is not allowed in an Array sheet", "Warnning!")
         Else
+            'If "Measure" <> buttonText Then
+            '    UndoData_Logging(0)
+            'End If
+            TeachElementCommand(buttonText)
             If "Measure" <> buttonText Then
                 UndoData_Logging(0)
             End If
-            TeachElementCommand(buttonText)
         End If
 
     End Sub
@@ -6295,6 +6304,7 @@ Public Class FormProgramming
                     LabelMessage("")
                 Else
                     If (MessageBox.Show("Are you sure you want to delete the row/rows?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes) Then
+                        DisableCoordinateUpdateInSpreadsheet()
                         Cancel()   'Cancel or delete rows
                     End If
                 End If
