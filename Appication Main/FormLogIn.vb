@@ -1523,29 +1523,29 @@ Public Class FormLogin
         '  for process setup 
         '  to control the visibility of the radio button 
         '  with repects to user's login group's hardware setup list
-        If IDS.Data.Admin.User.Group.SystemHardwareArray.Contains("ThermalController") = True Then
-            MySettings.buttonthermalsettings.Visible = True
-        Else
-            MySettings.buttonthermalsettings.Visible = False
-        End If
-        If IDS.Data.Admin.User.Group.SystemHardwareArray.Contains("VolumeCalibration") = True Then
-            MySettings.ButtonVolumeCalibSettings.Visible = True
-        Else
-            MySettings.ButtonVolumeCalibSettings.Visible = False
-        End If
+        'If IDS.Data.Admin.User.Group.SystemHardwareArray.Contains("ThermalController") = True Then
+        '    MySettings.buttonthermalsettings.Visible = True
+        'Else
+        '    MySettings.buttonthermalsettings.Visible = False
+        'End If
+        'If IDS.Data.Admin.User.Group.SystemHardwareArray.Contains("VolumeCalibration") = True Then
+        '    MySettings.ButtonVolumeCalibSettings.Visible = True
+        'Else
+        '    MySettings.ButtonVolumeCalibSettings.Visible = False
+        'End If
 
         ' to enable the radio button with repects to the login group's privilege
-        If IDS.Data.Admin.User.Group.PrivilegeArray.Contains("ThermalController") = True Then
-            MySettings.buttonthermalsettings.Enabled = True
-        Else
-            MySettings.buttonthermalsettings.Enabled = False
-        End If
+        'If IDS.Data.Admin.User.Group.PrivilegeArray.Contains("ThermalController") = True Then
+        '    MySettings.buttonthermalsettings.Enabled = True
+        'Else
+        '    MySettings.buttonthermalsettings.Enabled = False
+        'End If
 
-        If IDS.Data.Admin.User.Group.PrivilegeArray.Contains("VolumeCalibration") = True Then
-            MySettings.ButtonVolumeCalibSettings.Enabled = True
-        Else
-            MySettings.ButtonVolumeCalibSettings.Enabled = False
-        End If
+        'If IDS.Data.Admin.User.Group.PrivilegeArray.Contains("VolumeCalibration") = True Then
+        '    MySettings.ButtonVolumeCalibSettings.Enabled = True
+        'Else
+        '    MySettings.ButtonVolumeCalibSettings.Enabled = False
+        'End If
 
         ' create new instance for programming and production forms
         Production = New DLL_Execution.FormProduction

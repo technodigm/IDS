@@ -206,6 +206,7 @@ Public Class FormStartup
         'formlg.StartPosition = FormStartPosition.CenterScreen
         'formlg.Show()
         'formlg.Hide()
+        LoginName = "Application_Programmer"
         formlg.TopLevel = False
         formlg.Parent = Me
         formlg.StartPosition = FormStartPosition.CenterParent
@@ -232,7 +233,7 @@ Public Class FormStartup
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         LoginName = "Application_Programmer"
-        formlg.ShowDialog()
+        'formlg.ShowDialog()
         'formlg.StartPosition = FormStartPosition.CenterScreen
     End Sub
 

@@ -31,12 +31,9 @@ Public Class Settings
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents Label17 As System.Windows.Forms.Label
     Public WithEvents PanelLeft As System.Windows.Forms.Panel
-    Public WithEvents PanelRight As System.Windows.Forms.Panel
     Public WithEvents RichTextBox1 As System.Windows.Forms.RichTextBox
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ButtonStationPositions As System.Windows.Forms.Button
     Friend WithEvents ButtonNeedleCalibSettings As System.Windows.Forms.Button
     Friend WithEvents ButtonEventHandling As System.Windows.Forms.Button
@@ -44,10 +41,12 @@ Public Class Settings
     Friend WithEvents ButtonDispenserSettings As System.Windows.Forms.Button
     Public WithEvents ButtonVolumeCalibSettings As System.Windows.Forms.Button
     Public WithEvents ButtonThermalSettings As System.Windows.Forms.Button
+    Public WithEvents panelRight As System.Windows.Forms.Panel
+    Friend WithEvents gbXYZ As System.Windows.Forms.GroupBox
+    Friend WithEvents gbProgramSettings As System.Windows.Forms.GroupBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.PanelRight = New System.Windows.Forms.Panel
+        Me.panelRight = New System.Windows.Forms.Panel
         Me.Panel3 = New System.Windows.Forms.Panel
-        Me.Label1 = New System.Windows.Forms.Label
         Me.ButtonStationPositions = New System.Windows.Forms.Button
         Me.ButtonVolumeCalibSettings = New System.Windows.Forms.Button
         Me.ButtonNeedleCalibSettings = New System.Windows.Forms.Button
@@ -55,157 +54,161 @@ Public Class Settings
         Me.ButtonThermalSettings = New System.Windows.Forms.Button
         Me.ButtonSPCLogging = New System.Windows.Forms.Button
         Me.ButtonDispenserSettings = New System.Windows.Forms.Button
-        Me.Label17 = New System.Windows.Forms.Label
         Me.PanelLeft = New System.Windows.Forms.Panel
+        Me.gbXYZ = New System.Windows.Forms.GroupBox
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
-        Me.PanelRight.SuspendLayout()
+        Me.gbProgramSettings = New System.Windows.Forms.GroupBox
         Me.Panel3.SuspendLayout()
         Me.PanelLeft.SuspendLayout()
+        Me.gbProgramSettings.SuspendLayout()
         Me.SuspendLayout()
         '
-        'PanelRight
+        'panelRight
         '
-        Me.PanelRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PanelRight.Controls.Add(Me.Panel3)
-        Me.PanelRight.Controls.Add(Me.Label17)
-        Me.PanelRight.Location = New System.Drawing.Point(768, 24)
-        Me.PanelRight.Name = "PanelRight"
-        Me.PanelRight.Size = New System.Drawing.Size(512, 911)
-        Me.PanelRight.TabIndex = 32
+        Me.panelRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.panelRight.Location = New System.Drawing.Point(768, 24)
+        Me.panelRight.Name = "panelRight"
+        Me.panelRight.Size = New System.Drawing.Size(512, 928)
+        Me.panelRight.TabIndex = 32
         '
         'Panel3
         '
-        Me.Panel3.Controls.Add(Me.Label1)
-        Me.Panel3.Controls.Add(Me.ButtonStationPositions)
-        Me.Panel3.Controls.Add(Me.ButtonVolumeCalibSettings)
-        Me.Panel3.Controls.Add(Me.ButtonNeedleCalibSettings)
-        Me.Panel3.Controls.Add(Me.ButtonEventHandling)
-        Me.Panel3.Controls.Add(Me.ButtonThermalSettings)
-        Me.Panel3.Controls.Add(Me.ButtonSPCLogging)
-        Me.Panel3.Controls.Add(Me.ButtonDispenserSettings)
+        Me.Panel3.Controls.Add(Me.gbProgramSettings)
         Me.Panel3.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Panel3.Location = New System.Drawing.Point(0, 440)
+        Me.Panel3.Location = New System.Drawing.Point(16, 8)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(512, 328)
+        Me.Panel3.Size = New System.Drawing.Size(744, 328)
         Me.Panel3.TabIndex = 65
-        '
-        'Label1
-        '
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label1.Location = New System.Drawing.Point(0, 8)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(192, 32)
-        Me.Label1.TabIndex = 17
-        Me.Label1.Text = "Program Settings"
         '
         'ButtonStationPositions
         '
         Me.ButtonStationPositions.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonStationPositions.Location = New System.Drawing.Point(264, 48)
+        Me.ButtonStationPositions.Location = New System.Drawing.Point(376, 40)
         Me.ButtonStationPositions.Name = "ButtonStationPositions"
-        Me.ButtonStationPositions.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonStationPositions.Size = New System.Drawing.Size(232, 56)
         Me.ButtonStationPositions.TabIndex = 43
         Me.ButtonStationPositions.Text = "Gantry Settings"
         '
         'ButtonVolumeCalibSettings
         '
         Me.ButtonVolumeCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(264, 104)
+        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(440, 280)
         Me.ButtonVolumeCalibSettings.Name = "ButtonVolumeCalibSettings"
-        Me.ButtonVolumeCalibSettings.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonVolumeCalibSettings.Size = New System.Drawing.Size(168, 24)
         Me.ButtonVolumeCalibSettings.TabIndex = 46
         Me.ButtonVolumeCalibSettings.Text = "Volume Calibration"
+        Me.ButtonVolumeCalibSettings.Visible = False
         '
         'ButtonNeedleCalibSettings
         '
         Me.ButtonNeedleCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNeedleCalibSettings.Location = New System.Drawing.Point(24, 104)
+        Me.ButtonNeedleCalibSettings.Location = New System.Drawing.Point(112, 128)
         Me.ButtonNeedleCalibSettings.Name = "ButtonNeedleCalibSettings"
-        Me.ButtonNeedleCalibSettings.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonNeedleCalibSettings.Size = New System.Drawing.Size(232, 56)
         Me.ButtonNeedleCalibSettings.TabIndex = 44
         Me.ButtonNeedleCalibSettings.Text = "Needle Calibration"
         '
         'ButtonEventHandling
         '
         Me.ButtonEventHandling.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonEventHandling.Location = New System.Drawing.Point(264, 160)
+        Me.ButtonEventHandling.Location = New System.Drawing.Point(376, 128)
         Me.ButtonEventHandling.Name = "ButtonEventHandling"
-        Me.ButtonEventHandling.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonEventHandling.Size = New System.Drawing.Size(232, 56)
         Me.ButtonEventHandling.TabIndex = 47
         Me.ButtonEventHandling.Text = "Event Handling"
         '
         'ButtonThermalSettings
         '
         Me.ButtonThermalSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonThermalSettings.Location = New System.Drawing.Point(264, 216)
+        Me.ButtonThermalSettings.Location = New System.Drawing.Point(632, 272)
         Me.ButtonThermalSettings.Name = "ButtonThermalSettings"
-        Me.ButtonThermalSettings.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonThermalSettings.Size = New System.Drawing.Size(80, 30)
         Me.ButtonThermalSettings.TabIndex = 46
         Me.ButtonThermalSettings.Text = "Heater"
+        Me.ButtonThermalSettings.Visible = False
         '
         'ButtonSPCLogging
         '
         Me.ButtonSPCLogging.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCLogging.Location = New System.Drawing.Point(24, 160)
+        Me.ButtonSPCLogging.Location = New System.Drawing.Point(112, 216)
         Me.ButtonSPCLogging.Name = "ButtonSPCLogging"
-        Me.ButtonSPCLogging.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonSPCLogging.Size = New System.Drawing.Size(232, 56)
         Me.ButtonSPCLogging.TabIndex = 51
         Me.ButtonSPCLogging.Text = "SPC Logging"
         '
         'ButtonDispenserSettings
         '
         Me.ButtonDispenserSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonDispenserSettings.Location = New System.Drawing.Point(24, 48)
+        Me.ButtonDispenserSettings.Location = New System.Drawing.Point(112, 40)
         Me.ButtonDispenserSettings.Name = "ButtonDispenserSettings"
-        Me.ButtonDispenserSettings.Size = New System.Drawing.Size(224, 30)
+        Me.ButtonDispenserSettings.Size = New System.Drawing.Size(232, 56)
         Me.ButtonDispenserSettings.TabIndex = 42
         Me.ButtonDispenserSettings.Text = "Dispenser"
         '
-        'Label17
-        '
-        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label17.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label17.Location = New System.Drawing.Point(0, 0)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(136, 32)
-        Me.Label17.TabIndex = 32
-        Me.Label17.Text = "Basic Setup"
-        '
         'PanelLeft
         '
-        Me.PanelLeft.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.PanelLeft.BackColor = System.Drawing.SystemColors.Control
         Me.PanelLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelLeft.Controls.Add(Me.gbXYZ)
         Me.PanelLeft.Controls.Add(Me.RichTextBox1)
-        Me.PanelLeft.Location = New System.Drawing.Point(0, 56)
+        Me.PanelLeft.Controls.Add(Me.Panel3)
+        Me.PanelLeft.Location = New System.Drawing.Point(0, 24)
         Me.PanelLeft.Name = "PanelLeft"
-        Me.PanelLeft.Size = New System.Drawing.Size(768, 311)
+        Me.PanelLeft.Size = New System.Drawing.Size(768, 928)
         Me.PanelLeft.TabIndex = 33
+        '
+        'gbXYZ
+        '
+        Me.gbXYZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbXYZ.Location = New System.Drawing.Point(127, 408)
+        Me.gbXYZ.Name = "gbXYZ"
+        Me.gbXYZ.Size = New System.Drawing.Size(512, 376)
+        Me.gbXYZ.TabIndex = 66
+        Me.gbXYZ.TabStop = False
+        Me.gbXYZ.Text = "XYZ Stages:"
         '
         'RichTextBox1
         '
         Me.RichTextBox1.BackColor = System.Drawing.SystemColors.Info
         Me.RichTextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.RichTextBox1.ForeColor = System.Drawing.Color.DarkBlue
-        Me.RichTextBox1.Location = New System.Drawing.Point(47, 16)
+        Me.RichTextBox1.Location = New System.Drawing.Point(16, 440)
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.ReadOnly = True
-        Me.RichTextBox1.Size = New System.Drawing.Size(288, 272)
+        Me.RichTextBox1.Size = New System.Drawing.Size(72, 40)
         Me.RichTextBox1.TabIndex = 19
         Me.RichTextBox1.Text = "It is highly recommended to go through the entire process setup for a new pattern" & _
         "." & Microsoft.VisualBasic.ChrW(10) & Microsoft.VisualBasic.ChrW(10) & "For an existing pattern, the process setup can also be modified."
+        Me.RichTextBox1.Visible = False
+        '
+        'gbProgramSettings
+        '
+        Me.gbProgramSettings.Controls.Add(Me.ButtonVolumeCalibSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonNeedleCalibSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonEventHandling)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonThermalSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonSPCLogging)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonDispenserSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonStationPositions)
+        Me.gbProgramSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbProgramSettings.Location = New System.Drawing.Point(16, 8)
+        Me.gbProgramSettings.Name = "gbProgramSettings"
+        Me.gbProgramSettings.Size = New System.Drawing.Size(720, 312)
+        Me.gbProgramSettings.TabIndex = 52
+        Me.gbProgramSettings.TabStop = False
+        Me.gbProgramSettings.Text = "Program Settings:"
         '
         'Settings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1284, 878)
-        Me.Controls.Add(Me.PanelRight)
+        Me.ClientSize = New System.Drawing.Size(1288, 958)
+        Me.Controls.Add(Me.panelRight)
         Me.Controls.Add(Me.PanelLeft)
         Me.Name = "Settings"
         Me.Text = "Basic Setup"
-        Me.PanelRight.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         Me.PanelLeft.ResumeLayout(False)
+        Me.gbProgramSettings.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

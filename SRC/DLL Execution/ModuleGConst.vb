@@ -496,10 +496,15 @@ Public Module ModuleGConst
     Public gAIOLaser As Integer = 32   'Lase or LVDT  share
 
     'Pattern Programmming commanddefine
-    Public gFidCmdIndex As Integer = 1
-    Public gReferenceCmdIndex As Integer = 2
-    Public gHeightCmdIndex As Integer = 3
-    Public gRejectCmdIndex As Integer = 4
+    'Public gFidCmdIndex As Integer = 1
+    'Public gReferenceCmdIndex As Integer = 2
+    'Public gHeightCmdIndex As Integer = 3
+    'Public gRejectCmdIndex As Integer = 4
+
+    Public gReferenceCmdIndex As Integer = 1
+    Public gHeightCmdIndex As Integer = 2
+    Public gRejectCmdIndex As Integer = 3
+
 
     Public gDotCmdIndex As Integer = 1
     Public gLineCmdIndex As Integer = 2

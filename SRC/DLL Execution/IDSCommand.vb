@@ -10079,7 +10079,7 @@ Public Class CIDSPattnBurn
         Return 0
     End Function
 
-    'Download motion data to trio controller
+    'Download motion data to trio controller 
     '   CmdList: dispensing element list
 
     Public Function BurnTable(ByVal dispenselist As ArrayList) As Boolean

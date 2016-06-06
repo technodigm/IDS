@@ -239,21 +239,19 @@ ResetMachineState:
 
         Try
             If m_Execution.m_Command.CompileStatus > 0 Then
-
                 Dispensinglist = m_Execution.m_Command.DispenseList
                 m_Tri.SetMachineRunMode(Programming.m_RunMode)
-
+                LabelMessage("Uploading Process Started.")
                 If cmdBurn.BurnTable(Dispensinglist) = False Then
                     LabelMessage("Downloading failed or cancelled.")
                     Return -1
                 Else
                     SetLampsToRunningMode()
-                    LabelMessage("Download finished.")
+                    LabelMessage("Dispensing......")
                 End If
             End If
         Catch ex As Exception
         End Try
-
         Return 0
     End Function
 
@@ -506,8 +504,10 @@ ResetMachineState:
                             If ProgrammingMode() Then
                                 LabelMessage("Dispensing finished.")
                                 LockMovementButtons()
+                                LabelMessage("Move to Park Position.")
                                 TravelToParkPosition()
                                 ResetToIdle()
+                                LabelMessage("System Idle.")
                                 Programming.NeedleMode.Enabled = True
                                 'Programming.VisionMode.Enabled = True 'yy
                                 TraceGCCollect()
@@ -673,8 +673,7 @@ ResetMachineState:
             Production.TextBox1.Text = PreviousMachineState
             Production.TextBox2.Text = MachineState
         Else
-            Programming.TextBox1.Text = PreviousMachineState
-            Programming.TextBox2.Text = MachineState
+            'Programming.tbCurrState.Text = MachineState
         End If
         Return True
     End Function
@@ -875,7 +874,7 @@ ResetMachineState:
                 .ButtonClean.Enabled = False
                 .ButtonPurge.Enabled = False
                 .ButtonCalibrate.Enabled = False
-                .ButtonStepYplus.Enabled = False 'yy
+                '.ButtonStepYplus.Enabled = False 'yy
                 '.ButtonStepXplus.Enabled = False
                 '.ButtonStepZup.Enabled = False
                 '.ButtonStepYminus.Enabled = False
@@ -936,13 +935,19 @@ ResetMachineState:
         DIO_Service.On_Green_Tower_Lamp()
         DIO_Service.Off_Yellow_Tower_Lamp()
         If gExeMode <> "Operator" Then
-            Programming.PBRed.Hide()
-            Programming.PBYellow.Hide()
-            Programming.PBGreen.Show()
+            ' Programming.PBRed.Hide()
+            ' Programming.PBYellow.Hide()
+            'Programming.PBGreen.Show()
+            Programming.pbGreenLight.Image = Programming.TowerLightImageList.Images.Item(0)
+            Programming.pbAmberLight.Image = Programming.TowerLightImageList.Images.Item(3)
+            Programming.pbRedLight.Image = Programming.TowerLightImageList.Images.Item(3)
         Else
-            Production.PBRed.Hide()
-            Production.PBYellow.Hide()
-            Production.PBGreen.Show()
+            'Production.PBRed.Hide()
+            'Production.PBYellow.Hide()
+            'Production.PBGreen.Show()
+            Production.pbRedLight.Image = Production.TowerLightImageList.Images.Item(3)
+            Production.pbAmberLight.Image = Production.TowerLightImageList.Images.Item(3)
+            Production.pbGreenLight.Image = Production.TowerLightImageList.Images.Item(2)
         End If
     End Sub
 
@@ -951,13 +956,20 @@ ResetMachineState:
         DIO_Service.Off_Green_Tower_Lamp()
         DIO_Service.On_Yellow_Tower_Lamp()
         If gExeMode <> "Operator" Then
-            Programming.PBRed.Hide()
-            Programming.PBYellow.Show()
-            Programming.PBGreen.Hide()
+            'Programming.PBRed.Hide()
+            'Programming.PBYellow.Show()
+            'Programming.PBGreen.Hide()
+            Programming.pbGreenLight.Image = Programming.TowerLightImageList.Images.Item(3)
+            Programming.pbAmberLight.Image = Programming.TowerLightImageList.Images.Item(1)
+            Programming.pbRedLight.Image = Programming.TowerLightImageList.Images.Item(3)
         Else
-            Production.PBRed.Hide()
-            Production.PBYellow.Show()
-            Production.PBGreen.Hide()
+            'Production.PBRed.Hide()
+            'Production.PBYellow.Show()
+            'Production.PBGreen.Hide()
+            Production.pbRedLight.Image = Production.TowerLightImageList.Images.Item(3)
+            Production.pbAmberLight.Image = Production.TowerLightImageList.Images.Item(1)
+            Production.pbGreenLight.Image = Production.TowerLightImageList.Images.Item(3)
+            
         End If
     End Sub
 
@@ -966,57 +978,65 @@ ResetMachineState:
         DIO_Service.Off_Green_Tower_Lamp()
         DIO_Service.Off_Yellow_Tower_Lamp()
         If gExeMode <> "Operator" Then
-            Programming.PBRed.Show()
-            Programming.PBYellow.Hide()
-            Programming.PBGreen.Hide()
+            'Programming.PBRed.Show()
+            'Programming.PBYellow.Hide()
+            'Programming.PBGreen.Hide()
+            Programming.pbGreenLight.Image = Programming.TowerLightImageList.Images.Item(3)
+            Programming.pbAmberLight.Image = Programming.TowerLightImageList.Images.Item(3)
+            Programming.pbRedLight.Image = Programming.TowerLightImageList.Images.Item(2)
         Else
-            Production.PBRed.Show()
-            Production.PBYellow.Hide()
-            Production.PBGreen.Hide()
+            'Production.PBRed.Show()
+            'Production.PBYellow.Hide()
+            'Production.PBGreen.Hide()
+            Production.pbRedLight.Image = Production.TowerLightImageList.Images.Item(0)
+            Production.pbAmberLight.Image = Production.TowerLightImageList.Images.Item(3)
+            Production.pbGreenLight.Image = Production.TowerLightImageList.Images.Item(3)
         End If
     End Sub
 
     Public Sub ChangeButtonState(ByVal state As String) 'kr
 
         If state = "Running" Then 'running so pause or stop only
-            Programming.TBOperation.Buttons(0).Enabled = False
-            Programming.TBOperation.Buttons(1).Enabled = True
-            Programming.TBOperation.Buttons(2).Enabled = True
-            Production.TBOperation.Buttons(0).Enabled = False
-            Production.TBOperation.Buttons(1).Enabled = True
-            Production.TBOperation.Buttons(2).Enabled = True
-        ElseIf state = "Idle" Then 'idle so run only
-            Programming.TBOperation.Buttons(0).Enabled = True
-            Programming.TBOperation.Buttons(1).Enabled = False
-            Programming.TBOperation.Buttons(2).Enabled = False
-            Production.TBOperation.Buttons(0).Enabled = True
-            Production.TBOperation.Buttons(1).Enabled = False
-            Production.TBOperation.Buttons(2).Enabled = False
-        ElseIf state = "Disabled" Then 'disable all
-            Programming.TBOperation.Buttons(0).Enabled = False
-            Programming.TBOperation.Buttons(1).Enabled = False
-            Programming.TBOperation.Buttons(2).Enabled = False
-            Production.TBOperation.Buttons(0).Enabled = False
-            Production.TBOperation.Buttons(1).Enabled = False
-            Production.TBOperation.Buttons(2).Enabled = False
-        ElseIf state = "Paused" Then 'pause
-            Programming.TBOperation.Buttons(0).Enabled = True
-            Programming.TBOperation.Buttons(1).Enabled = False
-            Programming.TBOperation.Buttons(2).Enabled = True
-            Production.TBOperation.Buttons(0).Enabled = True
-            Production.TBOperation.Buttons(1).Enabled = False
-            Production.TBOperation.Buttons(2).Enabled = True
-        ElseIf state = "Only Stop Displayed" Then 'stop only
-            Programming.TBOperation.Buttons(0).Enabled = False
-            Programming.TBOperation.Buttons(1).Enabled = False
-            Programming.TBOperation.Buttons(2).Enabled = True
-            Production.TBOperation.Buttons(0).Enabled = False
-            Production.TBOperation.Buttons(1).Enabled = False
-            Production.TBOperation.Buttons(2).Enabled = True
-        End If
-        Programming.TBOperation.Refresh()
-        Production.TBOperation.Refresh()
+            Programming.btStart.Enabled = False
+            Programming.btPause.Enabled = True
+            Programming.btStop.Enabled = True
 
+            Production.btStart.Enabled = False
+            Production.btPause.Enabled = True
+            Production.btStop.Enabled = True
+        ElseIf state = "Idle" Then 'idle so run only
+            Programming.btStart.Enabled = True
+            Programming.btPause.Enabled = False
+            Programming.btStop.Enabled = False
+
+            Production.btStart.Enabled = True
+            Production.btPause.Enabled = False
+            Production.btStop.Enabled = False
+        ElseIf state = "Disabled" Then 'disable all
+            Programming.btStart.Enabled = False
+            Programming.btPause.Enabled = False
+            Programming.btStop.Enabled = False
+
+            Production.btStart.Enabled = False
+            Production.btPause.Enabled = False
+            Production.btStop.Enabled = False
+        ElseIf state = "Paused" Then 'pause
+            Programming.btStart.Enabled = True
+            Programming.btPause.Enabled = False
+            Programming.btStop.Enabled = True
+
+            Production.btStart.Enabled = True
+            Production.btPause.Enabled = False
+            Production.btStop.Enabled = True
+        ElseIf state = "Only Stop Displayed" Then 'stop only
+            Programming.btStart.Enabled = False
+            Programming.btPause.Enabled = False
+            Programming.btStop.Enabled = True
+
+            Production.btStart.Enabled = False
+            Production.btPause.Enabled = False
+            Production.btStop.Enabled = True
+        End If
     End Sub
 
 #End Region
@@ -1272,10 +1292,11 @@ Reset:
             If Not ThreadExecution Is Nothing Then ThreadExecution.Abort()
             If VolumeCalibrationRunning = True Then MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped"
             VolumeCalibrationRunning = False
-            LabelMessage("Dispensing Stop!")
+            LabelMessage("Dispensing Stop! Moving to Parking Position...")
             If Not WasStart() Then
                 LockMovementButtons()
                 TravelToParkPosition()
+                LabelMessage("System Idle")
                 ResetToIdle()
             End If
             If ProductionMode() Then

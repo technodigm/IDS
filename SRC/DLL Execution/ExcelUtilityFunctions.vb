@@ -33,16 +33,16 @@ Public Module ExcelUtilityFunctions
 
     Public Sub EnableReferenceCommandBlock()
         Dim i As Integer
-        For i = 0 To gMaxReferButtons
+        For i = 0 To Programming.ReferenceCommandBlock.Buttons.Count - 1
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = True
-            If i = 0 Or i = 3 Then Programming.ReferenceCommandBlock.Buttons(i).Enabled = False
+            'If i = 0 Or i = 3 Then Programming.ReferenceCommandBlock.Buttons(i).Enabled = False
         Next
         TraceGCCollect()
     End Sub
 
     Public Sub DisableReferenceCommandBlock()
         Dim i As Integer
-        For i = 0 To gMaxReferButtons
+        For i = 0 To Programming.ReferenceCommandBlock.Buttons.Count - 1
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = False
         Next
         TraceGCCollect()
@@ -65,16 +65,16 @@ Public Module ExcelUtilityFunctions
 
     Public Sub EnableElementsCommandBlock()
         Dim i As Integer
-        For i = 0 To gMaxElementButtons
+        For i = 0 To Programming.ElementsCommandBlock.Buttons.Count - 1
             Programming.ElementsCommandBlock.Buttons(i).Enabled = True
-            If i = 9 Or i = 13 Or i = 8 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move, qc, chipedge command for now
+            If i = gSeperatorCmdIndex - 1 Or i = gChipEdgeCmdIndex - 1 Or i = gMoveCmdIndex - 1 Or i = gQCCmdIndex - 1 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move, qc, chipedge command for now
         Next
         TraceGCCollect()
     End Sub
 
     Public Sub DisableElementsCommandBlock()
         Dim i As Integer
-        For i = 0 To gMaxElementButtons
+        For i = 0 To Programming.ElementsCommandBlock.Buttons.Count - 1
             Programming.ElementsCommandBlock.Buttons(i).Enabled = False
         Next
         TraceGCCollect()
