@@ -291,7 +291,7 @@ Public Class CIDSPattern
         m_CurrentDPara.RetractHeight = 5.0
         m_CurrentDPara.RetractSpeed = 50.0
         m_CurrentDPara.DetailingDistance = 0.0
-        m_CurrentDPara.ClearanceHeight = 30.0
+        m_CurrentDPara.ClearanceHeight = 8.0
         m_CurrentDPara.ArcRadius = 3.0
         m_CurrentDPara.Pitch = 2.0
         m_CurrentDPara.NumofRun = 2

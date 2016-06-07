@@ -665,7 +665,7 @@ Public Class FormProgramming
         Me.ReferenceCommandBlock.DropDownArrows = True
         Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 48)
+        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 24)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
         Me.ReferenceCommandBlock.ShowToolTips = True
         Me.ReferenceCommandBlock.Size = New System.Drawing.Size(128, 48)
@@ -698,7 +698,7 @@ Public Class FormProgramming
         Me.ElementsCommandBlock.DropDownArrows = True
         Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 48)
+        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 24)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
         Me.ElementsCommandBlock.ShowToolTips = True
         Me.ElementsCommandBlock.Size = New System.Drawing.Size(888, 48)
