@@ -4160,11 +4160,26 @@ Public Class FormProgramming
 
     Private Sub Spreadsheet_StartEdit(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_StartEditEvent) Handles AxSpreadsheetProgramming.StartEdit
         Console.WriteLine("Sp start edit")
-        LabelMessage("Editing......")
+
         Dim row As Integer = GetActiveCellRow()
         Dim colum As Integer = GetActiveCellColumn()
         Dim cellValue As Object = GetActiveCellValue()
         DisableCoordinateUpdateInSpreadsheet()
+
+        Dim command As String = GetCellValue(row, gCommandNameColumn)
+        If command Is Nothing Then
+            SetCellValue(row, colum, Nothing)
+            Return
+        End If
+        LabelMessage("Editing......")
+        Dim m_ItemLUT As New CIDSItemsLUT
+        m_ItemLUT.Cmd2Index(command.ToUpper)
+        'This is to check if data insert is allowed for this cell of the particular command.
+        If m_ItemLUT.GetFlag(colum) = 0 Then
+            LabelMessage("Add Value to This Cell Is Not Allowed!")
+            SetCellValue(row, colum, Nothing)
+            Return
+        End If
 
         If (colum >= gPos1XColumn And colum <= gPos3ZColumn) Then
             LabelMessage("Can't change value directly")
@@ -4308,8 +4323,7 @@ Public Class FormProgramming
 
         If (colum >= gPos1XColumn And colum <= gPos1YColumn) Or _
             (colum >= gPos2XColumn And colum <= gPos2YColumn) Or _
-            (colum >= gPos3XColumn And colum <= gPos3YColumn) Then ' And _
-            '       (row > 0) And ( ) Then
+            (colum >= gPos3XColumn And colum <= gPos3YColumn) Then
 
             ErrorFound = m_Execution.m_Pattern.m_ErrorChk.CheckCellXYError(ActSheetName, InputStr, row, colum, AxSpreadsheetProgramming, ErrorSubSheet)
 
@@ -4398,7 +4412,7 @@ Public Class FormProgramming
                 ElseIf (colum = gDurationColumn) Or (colum = gTravelDelayColumn) Or (colum = gRetractDelayColumn) Then
                     MyMsgBox("Time doesn't have negetive value, click 'Ok' to restore", MsgBoxStyle.Information + MsgBoxStyle.OKOnly, "Input error")
                 Else
-                    MyMsgBox("Found edit error, click Ok to restore", MsgBoxStyle.Information + MsgBoxStyle.OKOnly, "Input error")
+                    MyMsgBox("Found edit error:" & m_Execution.m_Pattern.m_ErrorChk.ErrorMessage() & ". Click Ok to restore", MsgBoxStyle.Information + MsgBoxStyle.OKOnly, "Input error")
                 End If
 
                 e.cancel.Value = True

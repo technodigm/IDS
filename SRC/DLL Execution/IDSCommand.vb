@@ -206,12 +206,6 @@ Public Class CIDSCommand
 
         Dim comP As New IDSPattnCompiler(m_PatternList)
         comP.SetRunMode(runmode) 'set run mode for compiling
-
-
-
-
-
-
         'generate dispensing command list
         If comP.Compile(m_DispenseList) < 0 Then
             m_CompilerStatus = -1
@@ -6107,7 +6101,7 @@ Public Class IDSPattnCompiler
             comp(1) = p(1) - off(1)
             comp(2) = NeedleGapZ
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(sheetname, dot.CmdLineNo, 0)
+                CompileErrorDisplay(sheetname, dot.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -6128,7 +6122,7 @@ Public Class IDSPattnCompiler
 
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(sheetname, dot.CmdLineNo, 0)
+                CompileErrorDisplay(sheetname, dot.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
@@ -6311,7 +6305,7 @@ Public Class IDSPattnCompiler
             comp2(1) = p2(1) - off(1)
             comp2(2) = zDisp2
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 0)
+                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -6334,7 +6328,7 @@ Public Class IDSPattnCompiler
 
         'detailing point
         If PointOnLine3d(comp1, comp2, Line.Param.DeTailDist, detatchPt) < 0 Then
-            CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 11)
+            CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, LineLengthError)
             Return -1
         End If
         If Not WorkAreaErrorCheckXYZ(m_RunMode, detatchPt) Then
@@ -6363,11 +6357,11 @@ Public Class IDSPattnCompiler
         CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 0)
+                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 0)
+                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -6545,7 +6539,7 @@ Public Class IDSPattnCompiler
             comp2(1) = p2(1) - off(1)
             comp2(2) = zDisp2
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 0)
+                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -6568,7 +6562,7 @@ Public Class IDSPattnCompiler
 
         If m_IsEndElementLink Then   'last link element
             If PointOnLine3d(comp1, comp2, m_LinkPara.DeTailDist, detatchPt) < 0 Then 'detailing point
-                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 11)
+                CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, LineLengthError)
                 Return -1
             End If
 
@@ -6597,11 +6591,11 @@ Public Class IDSPattnCompiler
             CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
             If NotVisionMode(m_RunMode) Then
                 If Not WorkAreaErrorCheckZ(RetractZ) Then
-                    CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 0)
+                    CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, RetractZError)
                     Return -1
                 End If
                 If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                    CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, 0)
+                    CompileErrorDisplay(Line.SheetName, Line.CmdLineNo, ClearanceZError)
                     Return -1
                 End If
             End If
@@ -6883,7 +6877,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -6958,12 +6952,12 @@ Public Class IDSPattnCompiler
         CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, RetractZError)
                 Return -1
             End If
 
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -7117,7 +7111,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -7168,11 +7162,11 @@ Public Class IDSPattnCompiler
         CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -7381,7 +7375,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -7462,11 +7456,11 @@ Public Class IDSPattnCompiler
 
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -7672,7 +7666,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -7729,11 +7723,11 @@ Public Class IDSPattnCompiler
         CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, 0)
+                CompileErrorDisplay(Arc.SheetName, Arc.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -7960,7 +7954,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, 0)
+                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -8034,11 +8028,11 @@ Public Class IDSPattnCompiler
         CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, 0)
+                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, 0)
+                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -8192,7 +8186,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, 0)
+                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -8243,11 +8237,11 @@ Public Class IDSPattnCompiler
         CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, 0)
+                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, 0)
+                CompileErrorDisplay(Circle.SheetName, Circle.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -8421,7 +8415,7 @@ Public Class IDSPattnCompiler
             p3(1) = p3(1) - off(1)
             p3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, 0)
+                CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -8579,11 +8573,11 @@ Public Class IDSPattnCompiler
             CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
             If NotVisionMode(m_RunMode) Then
                 If Not WorkAreaErrorCheckZ(RetractZ) Then
-                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, 0)
+                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, RetractZError)
                     Return -1
                 End If
                 If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, 0)
+                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, ClearanceZError)
                     Return -1
                 End If
             End If
@@ -8621,11 +8615,11 @@ Public Class IDSPattnCompiler
             CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
             If NotVisionMode(m_RunMode) Then
                 If Not WorkAreaErrorCheckZ(RetractZ) Then
-                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, 0)
+                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, RetractZError)
                     Return -1
                 End If
                 If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, 0)
+                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, ClearanceZError)
                     Return -1
                 End If
             End If
@@ -8667,11 +8661,11 @@ Public Class IDSPattnCompiler
             CheckRetractClearHeight(ndgapZ, RetractZ, ClearanceZ)
             If NotVisionMode(m_RunMode) Then
                 If Not WorkAreaErrorCheckZ(RetractZ) Then
-                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, 0)
+                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, RetractZError)
                     Return -1
                 End If
                 If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, 0)
+                    CompileErrorDisplay(Rect.SheetName, Rect.CmdLineNo, ClearanceZError)
                     Return -1
                 End If
             End If
@@ -8772,7 +8766,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(zApht) Then
-                CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, 0)
+                CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -8835,7 +8829,7 @@ Public Class IDSPattnCompiler
                     Return -1
                 End If
                 If Not WorkAreaErrorCheckZ(zApht) Then
-                    CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, 0)
+                    CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, ApproachZError)
                     Return -1
                 End If
             End If
@@ -8856,11 +8850,11 @@ Public Class IDSPattnCompiler
 
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(zRetr) Then
-                CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, 0)
+                CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(zClear) Then
-                CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, 0)
+                CompileErrorDisplay(FillCircle.SheetName, FillCircle.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -9390,7 +9384,7 @@ Public Class IDSPattnCompiler
             comp3(1) = p3(1) - off(1)
             comp3(2) = zDisp3
             If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, 0)
+                CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, ApproachZError)
                 Return -1
             End If
         Else
@@ -9448,7 +9442,7 @@ Public Class IDSPattnCompiler
                     Return -1
                 End If
                 If Not WorkAreaErrorCheckZ(ApproachZ) Then
-                    CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, 0)
+                    CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, ApproachZError)
                     Return -1
                 End If
             End If
@@ -9470,11 +9464,11 @@ Public Class IDSPattnCompiler
 
         If NotVisionMode(m_RunMode) Then
             If Not WorkAreaErrorCheckZ(RetractZ) Then
-                CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, 0)
+                CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, RetractZError)
                 Return -1
             End If
             If Not WorkAreaErrorCheckZ(ClearanceZ) Then
-                CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, 0)
+                CompileErrorDisplay(FillRect.SheetName, FillRect.CmdLineNo, ClearanceZError)
                 Return -1
             End If
         End If
@@ -9706,10 +9700,6 @@ Public Class IDSPattnCompiler
                     If row = count Then
                         If GenerateNoMoveCommandSet(dispenselist) < 0 Then Return -1
                     End If
-
-
-
-
                 Case "WAIT"
                     If GenerateWaitCommandSet(elemData, dispenselist) < 0 Then
                         Return -1
@@ -9726,11 +9716,6 @@ Public Class IDSPattnCompiler
                     If GenerateCleanCommandSet(elemData, dispenselist) < 0 Then
                         Return -1
                     End If
-
-
-
-
-
                 Case "MOVE"
                     If GenerateMoveCommandSet(elemData, dispenselist) < 0 Then
                         Return -1

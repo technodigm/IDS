@@ -9,7 +9,6 @@ Imports DLL_Export_Service
 Public Module ModuleGConst
 
 
-
     'Set system setup parameters to execution global varibles         '
     '                                                                 '
     Enum SettingsMode 'yy added to make sure gLeftNeedleOffset() wont be override when loading local settings file
@@ -70,8 +69,8 @@ Public Module ModuleGConst
     Public Structure DispensePara
         Public DispenseOn As Boolean
         Public NeedleGap As Double
-        Public Duration As Double
-        Public TravelDelay As Double
+        Public Duration As Double 'This is the Wait duration after turn on dispensing output and before turn it of. Dispensing Duration.
+        Public TravelDelay As Double  'This Travel Delay is the Delay after turning on the Dispensing Output signal before start to dispense Line, arc & etc except dot.
         Public TravelSpeed As Double
         Public DeTailDist As Double
         Public ApproachHeight As Double
@@ -539,7 +538,11 @@ End Module
 
 Public Module MathFunction
 
-
+    Public Const RetractZError = -100
+    Public Const ApproachZError = -101
+    Public Const ClearanceZError = -102
+    Public Const LineLengthError = -103
+    Dim lastErrorMessage As String = ""
     '3D point structure                                               '
     '                                                                 '
 
@@ -572,12 +575,28 @@ Public Module MathFunction
                                     "Fill spiral error!", _
                                     "IO number must be between 32 and 47!" _
                                    }
+
+        Dim errStr As String = ""
+        If error_id < 0 Then
+            errStr = "Sheet name: " + sheetname + "; Row: " + row.ToString
+            If error_id = RetractZError Then
+                lastErrorMessage = errStr + "; " + "Retract Z Error: " + lastErrorMessage
+            ElseIf error_id = ApproachZError Then
+                lastErrorMessage = errStr + "; " + "Approach Z Error: " + lastErrorMessage
+            ElseIf error_id = ClearanceZError Then
+                lastErrorMessage = errStr + "; " + "Clearance Z Error: " + lastErrorMessage
+            ElseIf error_id = LineLengthError Then
+                lastErrorMessage = errStr + "; " + "Line Length Error: " + lastErrorMessage
+            End If
+        ElseIf error_id = 0 Then
+            lastErrorMessage = "Sheet name: " + sheetname + "; Row: " + row.ToString + "; Error: " + lastErrorMessage
+        Else
+            lastErrorMessage = "Sheet name: " + sheetname + "; Row: " + row.ToString + "; Error: " + ErrorMsg(error_id)
+        End If
         If ProgrammingMode() Then
-            Dim errStr As String = "Sheet name: " + sheetname + "; Row: " + row.ToString + "; Error: " + ErrorMsg(error_id)
-            MyMsgBox(errStr, MsgBoxStyle.OKOnly, "Compiling error")
+            MyMsgBox(lastErrorMessage, MsgBoxStyle.OKOnly, "Compiling error")
         End If
     End Sub
-
 
     'Inch convert to mm                                               '
     '   Pos:  position to be converted                                '
@@ -609,11 +628,17 @@ Public Module MathFunction
         Dim errorON As Boolean = False
 
         If (Pt(0) > gWorkLimitXmax) Or (Pt(0) < gWorkLimitXmin) Then
-            Return False
+            If Pt(0) > gWorkLimitXmax Then
+                Return SetError("X position: " & Pt(0) & " cannot be bigger than maximum value of X: " & gWorkLimitXmax, 1)
+            End If
+            Return SetError("X position: " & Pt(0) & " cannot be smaller than minimum value of X: " & gWorkLimitXmin, 1)
         ElseIf (Pt(1) > gWorkLimitYmax) Or (Pt(1) < gWorkLimitYmin) Then
-            Return False
+            If Pt(1) > gWorkLimitYmax Then
+                Return SetError("Y position: " & Pt(1) & " cannot be bigger than maximum value of Y: " & gWorkLimitYmax, 1)
+            End If
+            Return SetError("Y position: " & Pt(1) & " cannot be smaller than minimum value of Y: " & gWorkLimitYmin, 1)
         End If
-        Return True
+        Return SetError("", 0)
     End Function
 
 
@@ -625,17 +650,26 @@ Public Module MathFunction
         Dim errorON As Boolean = False
 
         If (Pt(0) > gWorkLimitXmax) Or (Pt(0) < gWorkLimitXmin) Then
-            Return False
+            If Pt(0) > gWorkLimitXmax Then
+                Return SetError("X position: " & Pt(0) & " cannot be bigger than maximum value of X: " & gWorkLimitXmax, 1)
+            End If
+            Return SetError("X position: " & Pt(0) & " cannot be smaller than minimum value of X: " & gWorkLimitXmin, 1)
         ElseIf (Pt(1) > gWorkLimitYmax) Or (Pt(1) < gWorkLimitYmin) Then
-            Return False
+            If Pt(1) > gWorkLimitYmax Then
+                Return SetError("Y position: " & Pt(1) & " cannot be bigger than maximum value of Y: " & gWorkLimitYmax, 1)
+            End If
+            Return SetError("Y position: " & Pt(1) & " cannot be smaller than minimum value of Y: " & gWorkLimitYmin, 1)
         End If
         If runMode <> 0 Then
             If (Pt(2) > gWorkLimitZmax) Or (Pt(2) < gWorkLimitZmin) Then
-                Return False
+                If Pt(2) > gWorkLimitZmax Then
+                    Return SetError("Z position: " & Pt(2) & " cannot be bigger than maximum value of Z: " & gWorkLimitZmax, 1)
+                End If
+                Return SetError("Z position: " & Pt(2) & " cannot be smaller than minimum value of Z: " & gWorkLimitZmin, 1)
                 'jan 20 test - need to take into account revised z value for jetting
             End If
         End If
-        Return True
+        Return SetError("", 0)
     End Function
 
 
@@ -644,12 +678,26 @@ Public Module MathFunction
     '                                                                 '
     Public Function WorkAreaErrorCheckZ(ByVal z As Double) As Boolean
         If (z > gWorkLimitZmax) Or (z < gWorkLimitZmin) Then
-            Return False
-            'jan 20 test
+            If z > gWorkLimitZmax Then
+                Return SetError("Z position: " & z & " cannot be bigger than maximum value of Z: " & gWorkLimitZmax, 1)
+            End If
+            Return SetError("Z position: " & z & " cannot be smaller than minimum value of Z: " & gWorkLimitZmin, 1)
         End If
+        Return SetError("", 0)
+    End Function
+    'Set the error message as last error message, or clear last error message
+    Private Function SetError(ByVal errorMessage As String, ByVal errorCode As Integer) As Boolean
+        If errorCode <> 0 Then
+            lastErrorMessage = errorMessage
+            Return False
+        End If
+        lastErrorMessage = ""
         Return True
     End Function
-
+    'Return the last error message
+    Public Function ErrorMessage() As String
+        Return lastErrorMessage
+    End Function
 
     '2d translation operation                                         '
     '   pt:     position to be translated                             '
@@ -865,6 +913,7 @@ Public Module MathFunction
         End If
 
         If length < 0.001 Then
+            SetError("Length of line is shorter than 1 micron", -1)
             Return -1
         Else
             newPt(0) = ((length + ddist) * Pt2(0) - ddist * Pt1(0)) / length

@@ -209,7 +209,8 @@ Public Module ExecutionModule
         LabelMessage("Compiling program.")
 
         If m_Execution.m_Command.Compile(Programming.m_RunMode) < 0 Then
-            LabelMessage("Compilation error.")
+            LabelMessage(ErrorMessage())
+            ' LabelMessage("Compilation error.")
             GoTo resetmachinestate
         End If
 
