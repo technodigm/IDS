@@ -3581,6 +3581,8 @@ Public Class CIDSErrorCheck
     Dim ReferencePtY As Double = 0
     Dim ReferencePtZ As Double = 0
 
+    Dim lastErrorMsg As String = ""
+    Dim errorCode As Integer = 0
     Dim Record As CIDSPattern.PatternRecord
 
     'Get position coordination limits for error checking 
@@ -5236,26 +5238,39 @@ Public Class CIDSErrorCheck
         ByVal fClearanceHeight, ByVal fRetractHeight, ByVal fNeedleGap) As Integer
         Dim Rtn As Integer = 0
 
-        If CurrentHeight < WorkArea.ZMin Or CurrentHeight > WorkArea.ZMax Then
-            Rtn = 1
+        If CurrentHeight < WorkArea.ZMin Then
+            Return SetError("Current Height cannot be smaller than minimum value of Z: " & WorkArea.ZMin, 1)
+        End If
+
+        If CurrentHeight > WorkArea.ZMax Then
+            Return SetError("Current Height cannot be greater than maximum value of Z: " & WorkArea.ZMax, 1)
         End If
 
         If fClearanceHeight > WorkArea.ZMax Or fRetractHeight > WorkArea.ZMax Or fNeedleGap > WorkArea.ZMax Then
-            Rtn = 1
-            'ElseIf fClearanceHeight < 0 Or fRetractHeight < 0 Or fNeedleGap < 0 Then
+            If fClearanceHeight > WorkArea.ZMax Then
+                Return SetError("Clearance height cannot be greater than maximum value of Z: " & WorkArea.ZMax, 1)
+
+            ElseIf fRetractHeight > WorkArea.ZMax Then
+                Return SetError("Retract height cannot be greater than maximum value of Z: " & WorkArea.ZMax, 1)
+            Else
+                Return SetError("Needle Gap cannot be greater than maximum value of Z: " & WorkArea.ZMax, 1)
+            End If
+
         ElseIf fClearanceHeight < 0 Or fRetractHeight < 0 Then
-            Rtn = 1
+            If fClearanceHeight < 0 Then
+                Return SetError("Clearance height cannot be smaller than 0", 1)
+            End If
+            Return SetError("Retract height cannot be smaller than 0", 1)
         ElseIf fClearanceHeight < fRetractHeight Or fClearanceHeight < fNeedleGap Then
-            Rtn = 1
+            If fClearanceHeight < fRetractHeight Then
+                Return SetError("Clearance height cannot be smaller than Retract height", 1)
+            End If
+            Return SetError("Clearance height cannot be smaller than needle gap", 1)
         ElseIf WorkArea.ZMax - WorkArea.ZMin < fClearanceHeight Then
-            Rtn = 1
+            Return SetError("Clearance height cannot be greater than Z Axis stroke", 1)
         End If
-
         Return Rtn
-        TraceGCCollect()
     End Function
-
-
 
     'Check errors for XY cell only
     '   CurrentSheetName: Current active sheet name
@@ -5302,10 +5317,6 @@ Public Class CIDSErrorCheck
         Return Rtn
         TraceGCCollect()
     End Function
-
-
-
-
 
     'Check errors for cells exclude XY and height related
     '   CmdStr: command string
@@ -5389,6 +5400,22 @@ Public Class CIDSErrorCheck
         Return Rtn
         TraceGCCollect()
     End Function
+
+    Private Function SetError(ByVal errMsg As String, ByVal errorCode As Integer) As Integer
+        If errorCode <> 0 Then
+            lastErrorMsg = errMsg
+        Else
+            lastErrorMsg = ""
+        End If
+        Me.errorCode = errorCode
+        Return errorCode
+    End Function
+
+    Public ReadOnly Property ErrorMessage()
+        Get
+            Return lastErrorMsg
+        End Get
+    End Property
 
 End Class
 
