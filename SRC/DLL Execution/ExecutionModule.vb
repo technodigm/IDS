@@ -8,6 +8,7 @@ Imports System.Threading
 
 Public Module ExecutionModule
 
+#Region "Declaration"
     'threading declarations
     Public PreviousMachineState As String = "Idle"
     Public MachineState As String = "Idle"
@@ -49,6 +50,8 @@ Public Module ExecutionModule
 
     'for z position
     Public SafePosition As Double = 0.0 'original -> Dim SafePosition As Double = gSoftHome(2) + gSystemOrigin(2)
+
+#End Region
 
 #Region "useful utilities"
 
@@ -164,8 +167,8 @@ Public Module ExecutionModule
                 SetCellValue(m_Row, colmX, XCor) 'm_CamPos(0) '
                 SetCellValue(m_Row, colmY, YCor) 'm_CamPos(1) '
                 If Programming.IsNeedleTeachMode Or Programming.m_TeachMode = 2 Then 'LEFT Right
-                    SetCellValue(m_Row, colmZ, ZCor - gLeftNeedleOffs(2)) 'm_CamPos(1) 
-                    'SetCellValue(m_Row, colmZ, ZCor + gLeftNeedleOffs(2)) 'm_CamPos(1) 'yy
+                    'SetCellValue(m_Row, colmZ, ZCor - gLeftNeedleOffs(2)) 'm_CamPos(1)
+                    SetCellValue(m_Row, colmZ, ZCor)
                 Else
                     SetCellValue(m_Row, colmZ, 0) 'm_CamPos(1) 
                 End If
@@ -782,7 +785,7 @@ ResetMachineState:
             m_Tri.SetMachineRun()
             SetLampsToRunningMode()
             LockMovementButtons()
-            SetState("Homing")
+            'SetState("Homing")
             m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
         End If
 
@@ -970,7 +973,7 @@ ResetMachineState:
             Production.pbRedLight.Image = Production.TowerLightImageList.Images.Item(3)
             Production.pbAmberLight.Image = Production.TowerLightImageList.Images.Item(1)
             Production.pbGreenLight.Image = Production.TowerLightImageList.Images.Item(3)
-            
+
         End If
     End Sub
 
@@ -1061,22 +1064,37 @@ ResetMachineState:
         End If
 
         Dim pos(1) As Double
-        If state = "Move Calibrate" Then
+        If state = "Calibrate Needle" Then
             LockButtonsForCalibrate()
-            LabelMessage("Moving needle to calibration position.")
+            If ProgrammingMode() Then
+                m_Tri.SteppingButtons.Enabled = False
+            End If
+            LabelMessage("Moving Needle to reference position.")
             With IDS.Data.Hardware.Needle.Left
                 pos(0) = .CalibratorPos.X - .NeedleCalibrationPosition.X
                 pos(1) = .CalibratorPos.Y - .NeedleCalibrationPosition.Y
                 If Not m_Tri.Move_Z(0) Then Exit Sub
                 If Not m_Tri.Move_XY(pos) Then Exit Sub
-                If Not m_Tri.Move_Z(.CalibratorPos.Z + .NeedleCalibrationPosition.Z) Then Exit Sub 'yy
+                'If Not m_Tri.Move_Z(.CalibratorPos.Z + .NeedleCalibrationPosition.Z) Then Exit Sub 'yy
                 'If Not m_Tri.Move_Z(.CalibratorPos.Z - .NeedleCalibrationPosition.Z) Then Exit Sub
             End With
-            LabelMessage("Position needle above fixture.")
-            Programming.ButtonCalibrate.Enabled = True
-            Production.ButtonCalibrate.Enabled = True
-            Programming.ButtonCalibrate.Text = "Set Calibrate"
-            Production.ButtonCalibrate.Text = "Set Calibrate"
+            LabelMessage("Needle now at reference position.")
+            Production.calibrationInfoForm = New InfoForm
+            Production.calibrationInfoForm.okClickedDelegate = AddressOf NeedleTipAligned
+            Production.calibrationInfoForm.cancelClickedDelegate = AddressOf CancelNeedleCalibration
+            Production.calibrationInfoForm.SetMessage("#1 Please align the needle tip with the reference point and tighten the syringe.")
+            Production.calibrationInfoForm.AddNewLine("#2 Continue with fine adjustment to make sure needle tip is aligned to reference point.")
+            Production.calibrationInfoForm.AddNewLine("Click OK when alignment done!  Click cancel button to cancel needle calibration.")
+            Production.calibrationInfoForm.Show()
+            If ProgrammingMode() Then
+                m_Tri.SteppingButtons.Enabled = True
+            End If
+            m_Tri.SteppingButtons.Show()
+            'LabelMessage("Align the needle tip with the reference point first and click set calibration button to save calibration data!")
+            'Programming.ButtonCalibrate.Enabled = True
+            'Production.ButtonCalibrate.Enabled = True
+            'Programming.ButtonCalibrate.Text = "Set Calibrate"
+            'Production.ButtonCalibrate.Text = "Set Calibrate"
             Exit Sub
         Else
             With IDS.Data.Hardware.Needle.Left
@@ -1087,20 +1105,75 @@ ResetMachineState:
             End With
             IDS.Data.SaveLocalData()
             IDS.Data.SaveGlobalData()
-            Programming.ButtonCalibrate.Text = "Move Calibrate"
-            Production.ButtonCalibrate.Text = "Move Calibrate"
+            Programming.ButtonCalibrate.Text = "Calibrate Needle"
+            Production.ButtonCalibrate.Text = "Calibrate Needle"
             gLeftNeedleOffs(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X
             gLeftNeedleOffs(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y
             gLeftNeedleOffs(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
             pos(0) = IDS.Data.Hardware.Gantry.ParkPosition.X
             pos(1) = IDS.Data.Hardware.Gantry.ParkPosition.Y
-            LabelMessage("Needle calibration complete.")
+            LabelMessage("Syringe calibration complete.")
             UnlockMovementButtons()
+            m_Tri.SteppingButtons.Hide()
             If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
             If Not m_Tri.Move_XY(pos) Then GoTo Reset
         End If
 
 Reset:
+        ResetToIdle()
+    End Sub
+
+    Public Sub NeedleTipAligned()
+        Production.calibrationInfoForm.okClickedDelegate = AddressOf SaveNeedleTipAlignment
+        Production.calibrationInfoForm.SetMessage("Great! Final step: Click Ok to save the calibration data! Click cancel button to quit the Needle calibration and data will not be saved!")
+        'Production.calibrationInfoForm.Show()
+    End Sub
+
+    Public Sub SaveNeedleTipAlignment()
+        With IDS.Data.Hardware.Needle.Left
+            .NeedleCalibrationPosition.X = .CalibratorPos.X - m_Tri.XPosition()
+            .NeedleCalibrationPosition.Y = .CalibratorPos.Y - m_Tri.YPosition()
+            .NeedleCalibrationPosition.Z = -(.CalibratorPos.Z - m_Tri.ZPosition())
+        End With
+        IDS.Data.SaveLocalData()
+        IDS.Data.SaveGlobalData()
+        Production.ButtonCalibrate.Enabled = True
+        Programming.ButtonCalibrate.Enabled = True
+        Programming.ButtonCalibrate.Text = "Calibrate Needle"
+        Production.ButtonCalibrate.Text = "Calibrate Needle"
+        gLeftNeedleOffs(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X
+        gLeftNeedleOffs(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y
+        gLeftNeedleOffs(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
+        Dim pos(2) As Double
+        pos(0) = IDS.Data.Hardware.Gantry.ParkPosition.X
+        pos(1) = IDS.Data.Hardware.Gantry.ParkPosition.Y
+        LabelMessage("Syringe calibration complete.")
+        UnlockMovementButtons()
+        If ProductionMode() Then
+            m_Tri.SteppingButtons.Hide()
+        End If
+        If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+        If Not m_Tri.Move_XY(pos) Then GoTo Reset
+        Production.calibrationInfoForm.okClickedDelegate = Nothing
+        Production.calibrationInfoForm.cancelClickedDelegate = Nothing
+        Production.calibrationInfoForm.SetMessage("Calibration Done!!")
+        Production.calibrationInfoForm.Show()
+Reset:
+        ResetToIdle()
+    End Sub
+
+    Public Sub CancelNeedleCalibration()
+        LabelMessage("Needle calibration canceled.")
+        UnlockMovementButtons()
+        If ProductionMode() Then
+            m_Tri.SteppingButtons.Hide()
+        End If
+        If ProgrammingMode() Then
+            m_Tri.SteppingButtons.Enabled = True
+        End If
+        m_Tri.Move_Z(SafePosition)
+        Production.ButtonCalibrate.Enabled = True
+        Programming.ButtonCalibrate.Enabled = True
         ResetToIdle()
     End Sub
 
@@ -1152,7 +1225,6 @@ Reset:
             m_Tri.TurnOff("Left Needle IO")
             If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
         End If
-
 Reset:
         ResetToIdle()
 

@@ -36,53 +36,52 @@ Public Class CIDSTrioController
     Friend WithEvents BTStepYminus As System.Windows.Forms.Button
     Friend WithEvents BTStepYplus As System.Windows.Forms.Button
     Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents LabelStep As System.Windows.Forms.Label
     Friend WithEvents ComboBoxFineStep As System.Windows.Forms.NumericUpDown
     Public WithEvents SteppingButtons As System.Windows.Forms.Panel
+    Friend WithEvents rbFineStep As System.Windows.Forms.RadioButton
+    Friend WithEvents rb100micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rb10micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rb5micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rb1micron As System.Windows.Forms.RadioButton
+    Friend WithEvents gbSteps As System.Windows.Forms.GroupBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(CIDSTrioController))
         Me.SteppingButtons = New System.Windows.Forms.Panel
-        Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
         Me.BTStepZdown = New System.Windows.Forms.Button
         Me.BTStepZup = New System.Windows.Forms.Button
         Me.BTStepXminus = New System.Windows.Forms.Button
         Me.BTStepXplus = New System.Windows.Forms.Button
         Me.BTStepYminus = New System.Windows.Forms.Button
         Me.BTStepYplus = New System.Windows.Forms.Button
+        Me.gbSteps = New System.Windows.Forms.GroupBox
         Me.Label6 = New System.Windows.Forms.Label
-        Me.LabelStep = New System.Windows.Forms.Label
+        Me.rb1micron = New System.Windows.Forms.RadioButton
+        Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
+        Me.rb10micron = New System.Windows.Forms.RadioButton
+        Me.rbFineStep = New System.Windows.Forms.RadioButton
+        Me.rb5micron = New System.Windows.Forms.RadioButton
+        Me.rb100micron = New System.Windows.Forms.RadioButton
         Me.SteppingButtons.SuspendLayout()
+        Me.gbSteps.SuspendLayout()
         CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SteppingButtons
         '
-        Me.SteppingButtons.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.SteppingButtons.BackColor = System.Drawing.SystemColors.Control
         Me.SteppingButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SteppingButtons.Controls.Add(Me.ComboBoxFineStep)
         Me.SteppingButtons.Controls.Add(Me.BTStepZdown)
         Me.SteppingButtons.Controls.Add(Me.BTStepZup)
         Me.SteppingButtons.Controls.Add(Me.BTStepXminus)
         Me.SteppingButtons.Controls.Add(Me.BTStepXplus)
         Me.SteppingButtons.Controls.Add(Me.BTStepYminus)
         Me.SteppingButtons.Controls.Add(Me.BTStepYplus)
-        Me.SteppingButtons.Controls.Add(Me.Label6)
-        Me.SteppingButtons.Controls.Add(Me.LabelStep)
+        Me.SteppingButtons.Controls.Add(Me.gbSteps)
         Me.SteppingButtons.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.SteppingButtons.Location = New System.Drawing.Point(8, 8)
         Me.SteppingButtons.Name = "SteppingButtons"
-        Me.SteppingButtons.Size = New System.Drawing.Size(336, 280)
+        Me.SteppingButtons.Size = New System.Drawing.Size(336, 336)
         Me.SteppingButtons.TabIndex = 23
-        '
-        'ComboBoxFineStep
-        '
-        Me.ComboBoxFineStep.DecimalPlaces = 3
-        Me.ComboBoxFineStep.Location = New System.Drawing.Point(152, 240)
-        Me.ComboBoxFineStep.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
-        Me.ComboBoxFineStep.Name = "ComboBoxFineStep"
-        Me.ComboBoxFineStep.Size = New System.Drawing.Size(88, 27)
-        Me.ComboBoxFineStep.TabIndex = 9
-        Me.ComboBoxFineStep.Value = New Decimal(New Integer() {5, 0, 0, 131072})
         '
         'BTStepZdown
         '
@@ -162,36 +161,89 @@ Public Class CIDSTrioController
         Me.BTStepYplus.Text = "Y+"
         Me.BTStepYplus.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
+        'gbSteps
+        '
+        Me.gbSteps.Controls.Add(Me.Label6)
+        Me.gbSteps.Controls.Add(Me.rb1micron)
+        Me.gbSteps.Controls.Add(Me.ComboBoxFineStep)
+        Me.gbSteps.Controls.Add(Me.rb10micron)
+        Me.gbSteps.Controls.Add(Me.rbFineStep)
+        Me.gbSteps.Controls.Add(Me.rb5micron)
+        Me.gbSteps.Controls.Add(Me.rb100micron)
+        Me.gbSteps.Location = New System.Drawing.Point(8, 224)
+        Me.gbSteps.Name = "gbSteps"
+        Me.gbSteps.Size = New System.Drawing.Size(320, 104)
+        Me.gbSteps.TabIndex = 15
+        Me.gbSteps.TabStop = False
+        '
         'Label6
         '
-        Me.Label6.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.Label6.BackColor = System.Drawing.SystemColors.Control
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label6.Location = New System.Drawing.Point(248, 240)
+        Me.Label6.Location = New System.Drawing.Point(208, 16)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(40, 24)
         Me.Label6.TabIndex = 2
         Me.Label6.Text = "mm"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'LabelStep
+        'rb1micron
         '
-        Me.LabelStep.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.LabelStep.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LabelStep.Location = New System.Drawing.Point(56, 240)
-        Me.LabelStep.Name = "LabelStep"
-        Me.LabelStep.Size = New System.Drawing.Size(88, 24)
-        Me.LabelStep.TabIndex = 0
-        Me.LabelStep.Text = "Fine Step:"
-        Me.LabelStep.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.rb1micron.Location = New System.Drawing.Point(16, 72)
+        Me.rb1micron.Name = "rb1micron"
+        Me.rb1micron.TabIndex = 14
+        Me.rb1micron.Text = "0.001 mm"
+        '
+        'ComboBoxFineStep
+        '
+        Me.ComboBoxFineStep.DecimalPlaces = 3
+        Me.ComboBoxFineStep.Location = New System.Drawing.Point(120, 16)
+        Me.ComboBoxFineStep.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.ComboBoxFineStep.Name = "ComboBoxFineStep"
+        Me.ComboBoxFineStep.Size = New System.Drawing.Size(88, 27)
+        Me.ComboBoxFineStep.TabIndex = 9
+        Me.ComboBoxFineStep.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'rb10micron
+        '
+        Me.rb10micron.Location = New System.Drawing.Point(120, 72)
+        Me.rb10micron.Name = "rb10micron"
+        Me.rb10micron.TabIndex = 12
+        Me.rb10micron.Text = "0.01 mm"
+        '
+        'rbFineStep
+        '
+        Me.rbFineStep.Checked = True
+        Me.rbFineStep.Location = New System.Drawing.Point(16, 16)
+        Me.rbFineStep.Name = "rbFineStep"
+        Me.rbFineStep.TabIndex = 10
+        Me.rbFineStep.TabStop = True
+        Me.rbFineStep.Text = "Fine Step:"
+        '
+        'rb5micron
+        '
+        Me.rb5micron.Location = New System.Drawing.Point(16, 48)
+        Me.rb5micron.Name = "rb5micron"
+        Me.rb5micron.TabIndex = 13
+        Me.rb5micron.Text = "0.005 mm"
+        '
+        'rb100micron
+        '
+        Me.rb100micron.Location = New System.Drawing.Point(120, 48)
+        Me.rb100micron.Name = "rb100micron"
+        Me.rb100micron.Size = New System.Drawing.Size(96, 24)
+        Me.rb100micron.TabIndex = 11
+        Me.rb100micron.Text = "0.1 mm"
         '
         'CIDSTrioController
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(352, 294)
+        Me.ClientSize = New System.Drawing.Size(352, 350)
         Me.Controls.Add(Me.SteppingButtons)
         Me.Name = "CIDSTrioController"
         Me.Text = "CIDSTrioController"
         Me.SteppingButtons.ResumeLayout(False)
+        Me.gbSteps.ResumeLayout(False)
         CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -900,6 +952,7 @@ Public Class CIDSTrioController
 #Region "GUI for stepper"
     Dim dStepVal(5) As Single
     Dim gStepCtrlSpeed As Double = 100.0
+    Dim dStepSize = 0.0
 
     Private Sub BTStepXminus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BTStepXminus.Click
 
@@ -909,7 +962,12 @@ Public Class CIDSTrioController
 
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
-        dStepVal(2) = -ComboBoxFineStep.Value
+        'dStepVal(2) = -ComboBoxFineStep.Value
+        If (rbFineStep.Checked) Then
+            dStepVal(2) = -ComboBoxFineStep.Value
+        Else
+            dStepVal(2) = -dStepSize
+        End If
         dStepVal(3) = 0
         dStepVal(4) = 0
         DoStep(dStepVal)
@@ -924,7 +982,12 @@ Public Class CIDSTrioController
 
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
-        dStepVal(2) = ComboBoxFineStep.Value
+        'dStepVal(2) = ComboBoxFineStep.Value
+        If (rbFineStep.Checked) Then
+            dStepVal(2) = ComboBoxFineStep.Value
+        Else
+            dStepVal(2) = dStepSize
+        End If
         dStepVal(3) = 0
         dStepVal(4) = 0
         DoStep(dStepVal)
@@ -940,7 +1003,11 @@ Public Class CIDSTrioController
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
-        dStepVal(3) = -ComboBoxFineStep.Value
+        If (rbFineStep.Checked) Then
+            dStepVal(3) = -ComboBoxFineStep.Value
+        Else
+            dStepVal(3) = -dStepSize
+        End If
         dStepVal(4) = 0
         DoStep(dStepVal)
 
@@ -955,7 +1022,11 @@ Public Class CIDSTrioController
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
-        dStepVal(3) = ComboBoxFineStep.Value
+        If (rbFineStep.Checked) Then
+            dStepVal(3) = ComboBoxFineStep.Value
+        Else
+            dStepVal(3) = dStepSize
+        End If
         dStepVal(4) = 0
         DoStep(dStepVal)
 
@@ -972,7 +1043,11 @@ Public Class CIDSTrioController
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
         dStepVal(3) = 0
-        dStepVal(4) = ComboBoxFineStep.Value
+        If (rbFineStep.Checked) Then
+            dStepVal(4) = ComboBoxFineStep.Value
+        Else
+            dStepVal(4) = dStepSize
+        End If
         DoStep(dStepVal)
 
     End Sub
@@ -987,7 +1062,11 @@ Public Class CIDSTrioController
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
         dStepVal(3) = 0
-        dStepVal(4) = -ComboBoxFineStep.Value
+        If (rbFineStep.Checked) Then
+            dStepVal(4) = -ComboBoxFineStep.Value
+        Else
+            dStepVal(4) = -dStepSize
+        End If
         DoStep(dStepVal)
 
     End Sub
@@ -1027,4 +1106,27 @@ Public Class CIDSTrioController
 
 #End Region
 
+    Private Sub rbFineStep_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbFineStep.CheckedChanged
+        ComboBoxFineStep.Enabled = True
+    End Sub
+
+    Private Sub rb5micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rb5micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        dStepSize = 0.005
+    End Sub
+
+    Private Sub rb1micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rb1micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        dStepSize = 0.001
+    End Sub
+
+    Private Sub rb100micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rb100micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        dStepSize = 0.1
+    End Sub
+
+    Private Sub rb10micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rb10micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        dStepSize = 0.01
+    End Sub
 End Class

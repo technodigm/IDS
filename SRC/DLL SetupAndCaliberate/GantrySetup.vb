@@ -74,12 +74,7 @@ Public Class GantrySetup
     Friend WithEvents MaxSpeedLimit As System.Windows.Forms.NumericUpDown
     Friend WithEvents MaxSpeedLimitTrackbar As System.Windows.Forms.TrackBar
     Friend WithEvents PanelToBeAdded As System.Windows.Forms.Panel
-    Friend WithEvents ButtonTeachPos As System.Windows.Forms.Button
-    Friend WithEvents ButtonGotoPositionDefined As System.Windows.Forms.Button
-    Friend WithEvents ButtonGotoUserInput As System.Windows.Forms.Button
-    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
     Public WithEvents Vision As System.Windows.Forms.RadioButton
-    Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
     Friend WithEvents MoveButton As System.Windows.Forms.Button
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
     Friend WithEvents YPosition As System.Windows.Forms.Label
@@ -104,11 +99,6 @@ Public Class GantrySetup
         Me.XPosition = New System.Windows.Forms.Label
         Me.StationPosition = New System.Windows.Forms.ComboBox
         Me.MoveButton = New System.Windows.Forms.Button
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox
-        Me.GroupBox5 = New System.Windows.Forms.GroupBox
-        Me.ButtonTeachPos = New System.Windows.Forms.Button
-        Me.ButtonGotoUserInput = New System.Windows.Forms.Button
-        Me.ButtonGotoPositionDefined = New System.Windows.Forms.Button
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
         Me.RightHead = New System.Windows.Forms.RadioButton
         Me.LeftHead = New System.Windows.Forms.RadioButton
@@ -155,8 +145,6 @@ Public Class GantrySetup
         Me.SystemOriginPosY = New System.Windows.Forms.NumericUpDown
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
-        Me.GroupBox5.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -187,11 +175,10 @@ Public Class GantrySetup
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSPCancel)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSPOK)
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox1)
-        Me.PanelToBeAdded.Controls.Add(Me.GroupBox4)
         Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(8, 8)
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(8, 40)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 840)
         Me.PanelToBeAdded.TabIndex = 0
         '
         'GroupBox6
@@ -202,7 +189,7 @@ Public Class GantrySetup
         Me.GroupBox6.Controls.Add(Me.StationPosition)
         Me.GroupBox6.Controls.Add(Me.MoveButton)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
-        Me.GroupBox6.Location = New System.Drawing.Point(8, 152)
+        Me.GroupBox6.Location = New System.Drawing.Point(8, 56)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
         Me.GroupBox6.TabIndex = 68
@@ -252,54 +239,6 @@ Public Class GantrySetup
         Me.MoveButton.Size = New System.Drawing.Size(168, 48)
         Me.MoveButton.TabIndex = 65
         Me.MoveButton.Text = "Move to Saved Station Position"
-        '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.GroupBox5)
-        Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.GroupBox4.Location = New System.Drawing.Point(184, 8)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(128, 24)
-        Me.GroupBox4.TabIndex = 61
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Mode"
-        Me.GroupBox4.Visible = False
-        '
-        'GroupBox5
-        '
-        Me.GroupBox5.Controls.Add(Me.ButtonTeachPos)
-        Me.GroupBox5.Controls.Add(Me.ButtonGotoUserInput)
-        Me.GroupBox5.Controls.Add(Me.ButtonGotoPositionDefined)
-        Me.GroupBox5.Location = New System.Drawing.Point(-16, 64)
-        Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(480, 248)
-        Me.GroupBox5.TabIndex = 76
-        Me.GroupBox5.TabStop = False
-        Me.GroupBox5.Text = "GroupBox5"
-        '
-        'ButtonTeachPos
-        '
-        Me.ButtonTeachPos.Location = New System.Drawing.Point(16, 160)
-        Me.ButtonTeachPos.Name = "ButtonTeachPos"
-        Me.ButtonTeachPos.Size = New System.Drawing.Size(80, 64)
-        Me.ButtonTeachPos.TabIndex = 75
-        Me.ButtonTeachPos.Text = "Save Current StationPosition"
-        '
-        'ButtonGotoUserInput
-        '
-        Me.ButtonGotoUserInput.Location = New System.Drawing.Point(112, 160)
-        Me.ButtonGotoUserInput.Name = "ButtonGotoUserInput"
-        Me.ButtonGotoUserInput.Size = New System.Drawing.Size(108, 64)
-        Me.ButtonGotoUserInput.TabIndex = 57
-        Me.ButtonGotoUserInput.Text = "Move to Saved StationPosition"
-        '
-        'ButtonGotoPositionDefined
-        '
-        Me.ButtonGotoPositionDefined.Location = New System.Drawing.Point(240, 160)
-        Me.ButtonGotoPositionDefined.Name = "ButtonGotoPositionDefined"
-        Me.ButtonGotoPositionDefined.Size = New System.Drawing.Size(80, 64)
-        Me.ButtonGotoPositionDefined.TabIndex = 72
-        Me.ButtonGotoPositionDefined.Text = "Revert"
         '
         'GroupBox7
         '
@@ -383,7 +322,7 @@ Public Class GantrySetup
         Me.GroupBox3.Controls.Add(Me.Label13)
         Me.GroupBox3.Controls.Add(Me.Label12)
         Me.GroupBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(8, 664)
+        Me.GroupBox3.Location = New System.Drawing.Point(8, 568)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(496, 200)
         Me.GroupBox3.TabIndex = 29
@@ -542,6 +481,7 @@ Public Class GantrySetup
         Me.ButtonExit.TabStop = False
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonExit.Visible = False
         '
         'GroupBox2
         '
@@ -558,7 +498,7 @@ Public Class GantrySetup
         Me.GroupBox2.Controls.Add(Me.Label23)
         Me.GroupBox2.Controls.Add(Me.WorkAreaZMax)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 488)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 392)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(240, 168)
         Me.GroupBox2.TabIndex = 28
@@ -684,7 +624,7 @@ Public Class GantrySetup
         'ButtonSPCancel
         '
         Me.ButtonSPCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCancel.Location = New System.Drawing.Point(392, 880)
+        Me.ButtonSPCancel.Location = New System.Drawing.Point(392, 776)
         Me.ButtonSPCancel.Name = "ButtonSPCancel"
         Me.ButtonSPCancel.Size = New System.Drawing.Size(90, 48)
         Me.ButtonSPCancel.TabIndex = 19
@@ -693,7 +633,7 @@ Public Class GantrySetup
         'ButtonSPOK
         '
         Me.ButtonSPOK.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPOK.Location = New System.Drawing.Point(280, 880)
+        Me.ButtonSPOK.Location = New System.Drawing.Point(280, 776)
         Me.ButtonSPOK.Name = "ButtonSPOK"
         Me.ButtonSPOK.Size = New System.Drawing.Size(90, 48)
         Me.ButtonSPOK.TabIndex = 18
@@ -708,7 +648,7 @@ Public Class GantrySetup
         Me.GroupBox1.Controls.Add(Me.SystemOriginPosZ)
         Me.GroupBox1.Controls.Add(Me.SystemOriginPosY)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(264, 488)
+        Me.GroupBox1.Location = New System.Drawing.Point(264, 392)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(240, 168)
         Me.GroupBox1.TabIndex = 28
@@ -784,8 +724,6 @@ Public Class GantrySetup
         Me.Text = "SystemParameters"
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.GroupBox6.ResumeLayout(False)
-        Me.GroupBox4.ResumeLayout(False)
-        Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox7.ResumeLayout(False)
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)

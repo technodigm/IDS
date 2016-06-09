@@ -130,9 +130,9 @@ Public Class GantrySettings
         Me.PanelToBeAdded.Controls.Add(Me.ButtonRevert)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSave)
         Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(40, 24)
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(40, 16)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 911)
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 712)
         Me.PanelToBeAdded.TabIndex = 17
         '
         'GroupBox6
@@ -142,7 +142,7 @@ Public Class GantrySettings
         Me.GroupBox6.Controls.Add(Me.StationPosition)
         Me.GroupBox6.Controls.Add(Me.MoveButton)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
-        Me.GroupBox6.Location = New System.Drawing.Point(8, 80)
+        Me.GroupBox6.Location = New System.Drawing.Point(8, 56)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
         Me.GroupBox6.TabIndex = 69
@@ -256,13 +256,14 @@ Public Class GantrySettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(432, 0)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 47
         Me.ButtonExit.TabStop = False
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonExit.Visible = False
         '
         'Label17
         '
@@ -288,7 +289,7 @@ Public Class GantrySettings
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 416)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 392)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(496, 208)
         Me.GroupBox1.TabIndex = 69
@@ -410,7 +411,7 @@ Public Class GantrySettings
         'ButtonRevert
         '
         Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonRevert.Location = New System.Drawing.Point(360, 824)
+        Me.ButtonRevert.Location = New System.Drawing.Point(360, 616)
         Me.ButtonRevert.Name = "ButtonRevert"
         Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
         Me.ButtonRevert.TabIndex = 77
@@ -419,7 +420,7 @@ Public Class GantrySettings
         'ButtonSave
         '
         Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSave.Location = New System.Drawing.Point(248, 824)
+        Me.ButtonSave.Location = New System.Drawing.Point(248, 616)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(88, 48)
         Me.ButtonSave.TabIndex = 76

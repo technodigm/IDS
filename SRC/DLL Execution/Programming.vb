@@ -83,7 +83,6 @@ Public Class FormProgramming
     Friend WithEvents ButtonPurge As System.Windows.Forms.Button
     Friend WithEvents ButtonClean As System.Windows.Forms.Button
     Friend WithEvents ImageListMultiField As System.Windows.Forms.ImageList
-    Friend WithEvents PanelVision As System.Windows.Forms.Panel
     Friend WithEvents PanelVisionCtrl As System.Windows.Forms.Panel
     Friend WithEvents NeedleContextMenu As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItem81 As System.Windows.Forms.MenuItem
@@ -173,6 +172,7 @@ Public Class FormProgramming
     Friend WithEvents btStart As System.Windows.Forms.Button
     Friend WithEvents btPause As System.Windows.Forms.Button
     Friend WithEvents btStop As System.Windows.Forms.Button
+    Friend WithEvents HomingTimer As System.Timers.Timer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProgramming))
@@ -215,7 +215,6 @@ Public Class FormProgramming
         Me.MenuItem3 = New System.Windows.Forms.MenuItem
         Me.MenuItem64 = New System.Windows.Forms.MenuItem
         Me.MenuItem65 = New System.Windows.Forms.MenuItem
-        Me.PanelVision = New System.Windows.Forms.Panel
         Me.ImageListGeneralTools = New System.Windows.Forms.ImageList(Me.components)
         Me.ButtonPurge = New System.Windows.Forms.Button
         Me.PanelVisionCtrl = New System.Windows.Forms.Panel
@@ -304,6 +303,7 @@ Public Class FormProgramming
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.gbProcess = New System.Windows.Forms.GroupBox
         Me.btExit = New System.Windows.Forms.Button
+        Me.HomingTimer = New System.Timers.Timer
         Me.PanelVisionCtrl.SuspendLayout()
         CType(Me.AxSpreadsheetProgramming, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -311,6 +311,7 @@ Public Class FormProgramming
         Me.gbProcessControl.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.gbProcess.SuspendLayout()
+        CType(Me.HomingTimer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MainMenuProgramming
@@ -512,15 +513,6 @@ Public Class FormProgramming
         Me.MenuItem65.Index = 0
         Me.MenuItem65.Text = "About IDS"
         '
-        'PanelVision
-        '
-        Me.PanelVision.BackColor = System.Drawing.Color.SlateGray
-        Me.PanelVision.Location = New System.Drawing.Point(400, 384)
-        Me.PanelVision.Name = "PanelVision"
-        Me.PanelVision.Size = New System.Drawing.Size(872, 544)
-        Me.PanelVision.TabIndex = 0
-        Me.PanelVision.Visible = False
-        '
         'ImageListGeneralTools
         '
         Me.ImageListGeneralTools.ImageSize = New System.Drawing.Size(36, 28)
@@ -529,17 +521,15 @@ Public Class FormProgramming
         '
         'ButtonPurge
         '
-        Me.ButtonPurge.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonPurge.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonPurge.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonPurge.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonPurge.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonPurge.ImageIndex = 4
         Me.ButtonPurge.ImageList = Me.ImageListGeneralTools
-        Me.ButtonPurge.Location = New System.Drawing.Point(26, 16)
+        Me.ButtonPurge.Location = New System.Drawing.Point(21, 16)
         Me.ButtonPurge.Name = "ButtonPurge"
-        Me.ButtonPurge.Size = New System.Drawing.Size(84, 80)
+        Me.ButtonPurge.Size = New System.Drawing.Size(94, 80)
         Me.ButtonPurge.TabIndex = 57
         Me.ButtonPurge.Text = "Purge On"
-        Me.ButtonPurge.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'PanelVisionCtrl
         '
@@ -917,31 +907,27 @@ Public Class FormProgramming
         '
         'ButtonClean
         '
-        Me.ButtonClean.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonClean.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonClean.ImageIndex = 5
         Me.ButtonClean.ImageList = Me.ImageListGeneralTools
-        Me.ButtonClean.Location = New System.Drawing.Point(130, 16)
+        Me.ButtonClean.Location = New System.Drawing.Point(125, 16)
         Me.ButtonClean.Name = "ButtonClean"
-        Me.ButtonClean.Size = New System.Drawing.Size(84, 80)
+        Me.ButtonClean.Size = New System.Drawing.Size(94, 80)
         Me.ButtonClean.TabIndex = 58
         Me.ButtonClean.Text = "Clean On"
-        Me.ButtonClean.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'ButtonHome
         '
-        Me.ButtonHome.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonHome.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonHome.ImageIndex = 0
         Me.ButtonHome.ImageList = Me.ImageListGeneralTools
-        Me.ButtonHome.Location = New System.Drawing.Point(338, 16)
+        Me.ButtonHome.Location = New System.Drawing.Point(333, 16)
         Me.ButtonHome.Name = "ButtonHome"
-        Me.ButtonHome.Size = New System.Drawing.Size(84, 80)
+        Me.ButtonHome.Size = New System.Drawing.Size(94, 80)
         Me.ButtonHome.TabIndex = 53
         Me.ButtonHome.Text = "Do Homing"
-        Me.ButtonHome.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'ImageListMultiField
         '
@@ -1089,17 +1075,15 @@ Public Class FormProgramming
         '
         'ButtonCalibrate
         '
-        Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonCalibrate.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonCalibrate.ImageIndex = 3
         Me.ButtonCalibrate.ImageList = Me.ImageListGeneralTools
-        Me.ButtonCalibrate.Location = New System.Drawing.Point(234, 16)
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(229, 16)
         Me.ButtonCalibrate.Name = "ButtonCalibrate"
-        Me.ButtonCalibrate.Size = New System.Drawing.Size(84, 80)
+        Me.ButtonCalibrate.Size = New System.Drawing.Size(94, 80)
         Me.ButtonCalibrate.TabIndex = 57
-        Me.ButtonCalibrate.Text = "Move Calibrate"
-        Me.ButtonCalibrate.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonCalibrate.Text = "Calibrate Needle"
         '
         'TowerLightImageList
         '
@@ -1214,6 +1198,11 @@ Public Class FormProgramming
         Me.btExit.TabIndex = 134
         Me.btExit.Text = "Exit"
         '
+        'HomingTimer
+        '
+        Me.HomingTimer.Enabled = True
+        Me.HomingTimer.SynchronizingObject = Me
+        '
         'FormProgramming
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
@@ -1221,7 +1210,6 @@ Public Class FormProgramming
         Me.Controls.Add(Me.gbProcess)
         Me.Controls.Add(Me.gbTool)
         Me.Controls.Add(Me.ButtonToggleMode)
-        Me.Controls.Add(Me.PanelVision)
         Me.Controls.Add(Me.TeachingToolbar)
         Me.Controls.Add(Me.EditingToolbar)
         Me.Controls.Add(Me.PanelVisionCtrl)
@@ -1243,6 +1231,7 @@ Public Class FormProgramming
         Me.gbProcessControl.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.gbProcess.ResumeLayout(False)
+        CType(Me.HomingTimer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1296,7 +1285,7 @@ Public Class FormProgramming
         While isInited = False
             Application.DoEvents()
         End While
-
+        m_Tri2 = m_Tri 'Assign this variable so that the NeedleCalibrationSettings can used it
         'yy
         DispensingMode.SelectedIndex = 0
         'debugging
@@ -1354,8 +1343,7 @@ Public Class FormProgramming
         'motion controller
         'm_Tri.Connect_Controller()
         'SetState("Homing")
-
-
+        HomingTimer.Start()
 
         'Disable part of the menu in File (GUI)
         MenuFileExport.Enabled = False
@@ -1410,6 +1398,7 @@ Public Class FormProgramming
         ThreadMonitor.Abort()
         ThreadExecutor.Abort()
 
+        isInited = False
         InitThread.Abort()
 
         'hardware shutdown
@@ -1426,6 +1415,7 @@ Public Class FormProgramming
 
 #End Region
 
+#Region "Declaration"
     'kr make public and exposed.
     Public CurrentMode As String 'flag for programming mode - program editor or basic setup
     Public tempPosX, tempPosY, tempPosZ As Double              'Save X and Y cells for "Cancel Process".  
@@ -1437,8 +1427,7 @@ Public Class FormProgramming
     Public m_BoardnRefBlkDist As Double = 0.0
     Public m_TeachMode As Integer = 0 '0:vision; 1:Left; 2: Right
     Public m_RunMode As Integer = 0 'yy change to 1 from 0 'runmode:  0-vision 1-dry 2-dry left 3-dry right 4-wet 5-dry left 6-dry right 
-
-#Region "Shen Jian"
+    Dim debounce_counter As Integer = 5
 
     Protected m_CamPos(3) As Double
     Private m_Xlocked As Boolean = False
@@ -1455,137 +1444,6 @@ Public Class FormProgramming
     Private GDRefX As Integer = 7 'lim 'to offset the negative value of the robot's position
     Private GDRefY As Integer = 305 'lim 'to offset the negative value of the robot's position
 
-    Private Sub ButtonHome_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHome.Click
-        SetState("Homing")
-    End Sub
-
-    Private Sub ButtonPurge_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonPurge.Click
-        If SetState("Purge") Then DoPurge()
-    End Sub
-
-    Private Sub ButtonClean_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClean.Click
-        If SetState("Clean") Then DoClean()
-    End Sub
-
-    'Private Sub VisionMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.Click
-
-    '    If IsBusy() Then
-    '        LabelMessage("Can't change mode when machine is running!")
-    '        Exit Sub
-    '    End If
-
-    '    VisionMode.Checked = Not VisionMode.Checked
-    '    NeedleMode.Checked = Not NeedleMode.Checked
-
-    '    EnableReferenceCommandBlock()
-    '    EnableElementsCommandBlock()
-
-    '    MoveZToSafePosition()
-
-    'End Sub yy
-
-    Private Sub NeedleMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NeedleMode.Click
-
-        If IsBusy() Then
-            LabelMessage("Can't change mode when machine is running!")
-            Exit Sub
-        End If
-
-        MoveZToSafePosition()
-
-        'VisionMode.Checked = Not VisionMode.Checked 'yy
-        'NeedleMode.Checked = Not NeedleMode.Checked
-
-        DisableElementsCommandBlockButton(gQCCmdIndex) 'QC
-        DisableElementsCommandBlockButton(gChipEdgeCmdIndex) 'ChipEdge
-        DisableReferenceCommandBlock()
-        EnableReferenceCommandBlockButton(gHeightCmdIndex) 'Height
-
-    End Sub
-
-    Private Sub CheckBoxLockX_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLockX.CheckedChanged
-
-        If IsBusy() Then
-            LabelMessage("Can't lock axis when machine running!")
-            Exit Sub
-        End If
-        If CheckBoxLockX.Checked = True Then
-            m_Tri.SetTrioMotionValues("Lock X")
-            m_Xlocked = True
-        Else
-            m_Tri.SetTrioMotionValues("Unlock X")
-            m_Xlocked = False
-        End If
-
-    End Sub
-
-
-    Private Sub CheckBoxLockY_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLockY.CheckedChanged
-
-        If IsBusy() Then
-            LabelMessage("Can't lock axis when machine running!")
-            Exit Sub
-        End If
-        If CheckBoxLockY.Checked = True Then
-            m_Tri.SetTrioMotionValues("Lock Y")
-            m_Ylocked = True
-        Else
-            m_Tri.SetTrioMotionValues("Unlock Y")
-            m_Ylocked = False
-        End If
-
-    End Sub
-
-    Private Sub CheckBoxLockZ_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLockZ.CheckedChanged
-
-        If IsBusy() Then
-            LabelMessage("Can't lock axis when machine running!")
-            Exit Sub
-        End If
-        If CheckBoxLockZ.Checked = True Then
-            m_Tri.SetTrioMotionValues("Lock Z")
-            m_Zlocked = True
-        Else
-            m_Tri.SetTrioMotionValues("Unlock Z")
-            m_Zlocked = False
-        End If
-    End Sub
-
-    Private Sub MoveToSpreadsheetPoint(ByVal Pos() As Double, ByVal type As String)
-        Console.WriteLine("MoveTo SP Point")
-        If IsBusy() Then
-            LabelMessage("Axes are busy. Can't move at the moment. Try later")
-            Exit Sub
-        End If
-
-        m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
-        m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ElementZSpeed)
-
-        Dim ref(3), inmmPos(3) As Double
-        ref(0) = m_ReferPt(0)
-        ref(1) = m_ReferPt(1)
-        ref(2) = m_ReferPt(2)
-
-        ReferToSys(Pos, Pos, ref)
-        SysToHard(Pos, Pos)
-
-        If type = "Needle" And NeedleMode.Checked Then
-            Pos(0) = Pos(0) - gLeftNeedleOffs(0) 'calibration
-            Pos(1) = Pos(1) - gLeftNeedleOffs(1)
-            'Pos(2) = Pos(2) + gLeftNeedleOffs(2) 'yy
-            Pos(2) = Pos(2) + gLeftNeedleOffs(2)
-        End If
-
-        If Not m_Tri.Move_Z(SafePosition) Then Exit Sub
-        If type = "Needle" And NeedleMode.Checked Then
-            m_Tri.Move_XY(Pos)
-            m_Tri.Move_Z(Pos(2))
-        Else
-            m_Tri.Move_XY(Pos)
-        End If
-
-    End Sub
-
     Private isJogON As Boolean = False
     Shared mouse_pos As New Point
     Shared cursor_hide As Boolean = False
@@ -1599,370 +1457,11 @@ Public Class FormProgramming
     Const ratioUB = 1.05
     Dim ratio As Double
     Dim countMouseTimer As Integer = 0
-
-    Public Sub MouseJogging(ByVal state As Object)
-
-        If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
-        Else
-            If IsBusy() And Not IsJogging() Then Exit Sub
-            If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
-        End If
-
-        'm_keyBoard.Poll()
-        m_TrackBall.Poll()
-        'isPress = m_keyBoard.State.Item(Key.LeftControl)
-        isPress = KeyboardControl.ControlKeyPressed
-        Dim x As Integer
-        Dim y As Integer
-        Dim VrData(3) As Single
-
-        If isPress Then
-
-            SetState("Jogging")
-
-            VrData(0) = 0
-            VrData(1) = 0.0
-            VrData(2) = 0.0
-
-            'Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
-            'If isPressAlt Then
-            '    Exit Sub
-            'End If
-            x = m_TrackBall.MouseX()
-            y = m_TrackBall.MouseY()
-
-            Dim ratio As Double
-
-            If Math.Abs(x) >= Math.Abs(y) Then
-                If x > deadzone Then
-                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-                    ratio = CDbl(y) / x
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'X+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        VrData(2) = 0
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-                ElseIf x < -deadzone Then
-                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-                    ratio = CDbl(y) / x
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'X-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        VrData(2) = 0
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-                Else
-                    VrData(0) = 2
-                    VrData(1) = 0.0
-                    VrData(2) = 0.0
-
-                    m_Tri.SetTrioMotionValues("Jogging", VrData)
-                    isJogON = True 'False
-                End If
-            Else
-                If y < -deadzone Then
-                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-
-                    ratio = CDbl(x) / y
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        SetState("Jogging")
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'Y+
-                        VrData(0) = 1
-                        VrData(1) = 0
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-
-                ElseIf y > deadzone Then
-                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
-                    If (jogspeed > maxSpeed) Then
-                        jogspeed = maxSpeed
-                    End If
-                    ratio = CDbl(x) / y
-                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
-                        VrData(0) = 1
-                        If m_Xlocked = True Then
-                            VrData(1) = 0.0
-                        Else
-                            VrData(1) = -jogspeed
-                        End If
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    Else   'Y-
-                        VrData(0) = 1
-                        VrData(1) = 0
-                        If m_Ylocked = True Then
-                            VrData(2) = 0.0
-                        Else
-                            VrData(2) = -jogspeed
-                        End If
-
-                        m_Tri.SetTrioMotionValues("Jogging", VrData)
-                        isJogON = True
-                    End If
-                Else
-                    VrData(0) = 2
-                    VrData(1) = 0.0
-                    VrData(2) = 0.0
-
-                    m_Tri.SetTrioMotionValues("Jogging", VrData)
-                    isJogON = True 'False
-                End If
-            End If
-        Else
-            If isJogON Then
-                VrData(0) = 2
-                VrData(1) = 0.0
-                VrData(2) = 0.0
-
-                m_Tri.SetTrioMotionValues("Jogging", VrData)
-                isJogON = False
-                If m_EditStateFlag Then
-                    'reset to idle without the camera thing
-                    SetState("Idle")
-                    m_Tri.SetMachineStop()
-                    SetLampsToReadyMode()
-                    UnlockMovementButtons()
-                    ChangeButtonState("Idle")
-                    Programming.DispensingMode.Enabled = True
-                    'Programming.VisionMode.Enabled = True yy
-                    Programming.NeedleMode.Enabled = True
-                Else
-                    If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
-                        Programming.ButtonCalibrate.Enabled = True
-                        m_Tri.SteppingButtons.Enabled = True
-                    Else
-                        ResetToIdle()
-                    End If
-                End If
-            End If
-
-            countMouseTimer += 1
-            If (countMouseTimer >= 5) Then
-                TraceGCCollect()
-                countMouseTimer = 0
-            End If
-        End If
-
-    End Sub
-
-    Private Function CheckSoftLimitXYZ(ByVal pt() As Double, ByVal off() As Double) 'check whether to apply offset for ref/needle point when teaching
-        Dim x, y, z As Double
-        'If VisionMode.Checked Then 'no offset, for refer
-        '    x = pt(0)
-        '    y = pt(1)
-        '    z = pt(2)
-        'Else
-        x = pt(0) - off(0)
-        y = pt(1) - off(1)
-        z = pt(2)
-        'End If
-        'yy
-
-        '''''''''''''''''''''''''''''''''''''
-        'Check(SoftLimit)                '
-        '   Note: enumation for "status"    '
-        '         1 = under Xmin            '
-        '         2 = over Xmax             '
-        '         3 = under Ymin            '
-        '         4 = over Ymax             '
-        '         5 = under Zmin            '
-        '         6 = over Zmax             '
-        '''''''''''''''''''''''''''''''''''''
-        If (x < gWorkLimitXmin) Then
-            MyMsgBox("Outside X limits")
-        ElseIf (x > gWorkLimitXmax) Then
-            MyMsgBox("Outside X limits")
-        ElseIf (y < gWorkLimitYmin) Then
-            MyMsgBox("Outside Y limits")
-        ElseIf (y > gWorkLimitYmax) Then
-            MyMsgBox("Outside Y limits")
-        ElseIf (z < gWorkLimitZmin) Then
-            MyMsgBox("Outside Z limits")
-        ElseIf (z > gWorkLimitZmax) Then
-            MyMsgBox("Outside Z limits")
-        Else
-            Return False
-        End If
-        Return True
-
-    End Function
-
-    Private Sub ErrorMessageBox(ByVal errVal As Integer)
-        If (errVal = 1) Then
-            LabelMessage("X-axis is over minimum of SoftLimit!")
-        ElseIf (errVal = 2) Then
-            LabelMessage("X-axis is over maximum of SoftLimit!")
-        ElseIf (errVal = 3) Then
-            LabelMessage("Y-axis is over minimum of SoftLimit!")
-        ElseIf (errVal = 4) Then
-            LabelMessage("Y-axis is over maximum of SoftLimit!")
-        ElseIf (errVal = 5) Then
-            LabelMessage("Z-axis is over minimum of SoftLimit!")
-        ElseIf (errVal = 6) Then
-            LabelMessage("Z-axis is over maximum of SoftLimit!")
-        End If
-    End Sub
-
-    Public Sub SetRunMode(ByVal mode As Integer)
-        m_RunMode = mode
-    End Sub
-
     Dim itemIndex As Integer
-
-    Private Sub ComboBox1_SelectedValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DispensingMode.SelectedValueChanged
-        '0-vision 1-dry 2-dry left 3-dry right 4-wet 5-dry left 6-dry right  
-        itemIndex = DispensingMode.SelectedIndex
-        If itemIndex = 0 Then
-            m_RunMode = 0
-        ElseIf itemIndex = 1 Then
-            m_RunMode = 1
-        ElseIf itemIndex = 2 Then
-            m_RunMode = 4
-        End If
-    End Sub
 
 #End Region
 
-#Region "Jiang"
+#Region "Menu"
     Private Sub MenuItem88_Click(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles MenuItem88.Click
         Dim FrmEventViewer As New EventViewer
@@ -1975,37 +1474,7 @@ Public Class FormProgramming
         openEventViewer = False
     End Sub
 
-    'FlushSpreadsheet activeX spreadsheet pattern data           
-    '   Axspreadsheet:  instance of activeX spreadsheet  
-
-    Private Sub FlushSpreadsheet()
-
-        Dim TotalSheets As Integer = GetSheetCount()
-        Dim i As Integer
-        Dim SheetName As String
-
-        For i = 1 To TotalSheets
-            SheetName = AxSpreadsheetProgramming.Worksheets(1).name()
-
-            If "Main" <> SheetName Then
-                AxSpreadsheetProgramming.Worksheets(1).Delete()
-            Else
-                AxSpreadsheetProgramming.Worksheets(SheetName).Activate()
-                AxSpreadsheetProgramming.ActiveSheet.UsedRange.Clear()
-            End If
-        Next i
-
-        m_Execution.m_Pattern.SubCallSheetInitialization(200) '200 subsheet maximum
-        m_Row = 1
-        TraceGCCollect()
-    End Sub
-
-
-
-
-    'menu: File --> New: Create a new project        
-    '                                                                               
-
+    'menu: File --> New: Create a new project                                                                                      
     Private Sub MenuFileNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuFileNew.Click
 
         Try
@@ -2115,10 +1584,8 @@ Public Class FormProgramming
 
     End Sub
 
-
     'Private function to export Excel data file,  to be called by MenuFileExport_Click
     '   file:  filename name for the export                                                                                
-
     Private Sub ExportExcelPatternFile(ByVal file As String)
 
         Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
@@ -2180,10 +1647,8 @@ Public Class FormProgramming
 
     End Sub
 
-
     'Private function to export Pattern data file, to be called by MenuFileExport_Click
     '   file:  filename name for the export                                                                                
-
     Private Sub ExportTxtPatternFile(ByVal file As String)
 
         Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
@@ -2199,11 +1664,8 @@ Public Class FormProgramming
 
     End Sub
 
-
-
     'menu: File-->Export, Private function to export data file
     '   file:  filename name for the export                                                                                
-
     Private Sub MenuFileExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuFileExport.Click
         Dim strTmp(4) As String
 
@@ -2238,11 +1700,8 @@ Public Class FormProgramming
 
     End Sub
 
-
-
     'Import Excel pattern file          
     '   file:  input filename                                                                             
-
     Private Sub ImportExcelPatternFile(ByVal file As String)    'Internal function
         Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
         gPatternFileName = ""
@@ -2272,11 +1731,8 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'Import text pattern file          
     '   file:  input filename                                                                             
-
     Private Sub ImportTxtPatternFile(ByVal file As String)
         Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
         gPatternFileName = ""
@@ -2307,11 +1763,8 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'menu: File-->Import (from an excel/text file)
     '   file:                                                                                  
-
     Private Sub MenuFileImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuFileImport.Click
 
         'should get from data mamager 
@@ -2352,11 +1805,9 @@ Public Class FormProgramming
         Return m_Execution.m_Pattern.m_ErrorChk.CheckAllError(AxSpreadsheetProgramming, ErrorSubSheet) <> 0
     End Function
 
-
     'Load an encrypt text pattern file for production //SJ add
     '   
     '   Return: 0=success
-
     Public Function ProductionFileOpen() As Integer
         Dim ErrorMsg As String
         Dim Rtn As MsgBoxResult
@@ -2428,11 +1879,8 @@ Public Class FormProgramming
         Return 0
     End Function
 
-
-
     'menu: File-->Load an encrypt text pattern file
     '   
-
     Private Sub MenuFileOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuFileOpen.Click
         Dim ErrorMsg As String
         Dim Rtn As MsgBoxResult
@@ -2555,10 +2003,7 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'menu: File-->Save encrypt text pattern file
-
     Private Sub MenuFileSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuFileSave.Click
 
         Try
@@ -2691,7 +2136,6 @@ Public Class FormProgramming
 
     'menu: File-->Save as encrypt text pattern file
     '   file:  filename                                                                                
-
     Private Sub MenuFileSaveAs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuFileSaveAs.Click
 
         Try
@@ -2765,111 +2209,7 @@ Public Class FormProgramming
         Close()
     End Sub
 
-
-    'Logging data for Undo operation
-    '   UndoLevel: 0 or 1; 
-    '               0 is slow, used for multiRow, sub or array
-    '               1 is fast, used for single row without sub and array            
-
-    Private Sub UndoData_Logging(ByVal UndoLevel As Integer)
-        'Return 'Disable undo operation. this function is terribely wrong...
-
-        m_Execution.m_Undo.UndoLevel = UndoLevel
-
-        If 0 = UndoLevel Then
-            Dim FolderName As String = "C:\IDS\Pattern_Dir\SysSwapData"
-            If Not System.IO.Directory.Exists(FolderName) Then
-                System.IO.Directory.CreateDirectory(FolderName)
-            End If
-
-            'Backup the previous undo data
-            If m_Execution.m_Undo.hasBackupData Then
-                'The Excel filename extension can also be used as a text file format
-                System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", _
-                    "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", True)
-                m_Execution.m_Undo.CurrentPageName_B = m_Execution.m_Undo.CurrentPageName_A
-            End If
-            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
-            m_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
-            m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
-        Else
-            Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
-
-            Dim m_rowCount As Integer = sel.Rows.Count()
-            Dim m_columnCount As Integer = sel.Columns.Count()
-            Dim m_StartRow As Integer = sel.Row
-            Dim m_columnStart As Integer = sel.Column
-
-            m_Execution.m_Undo.UndoRow = m_StartRow
-
-            Dim SheetName As String = GetActiveSheetName()
-            If 1 = m_rowCount Then
-                If m_Execution.m_Undo.hasBackupData Then
-                    m_Execution.m_Undo.UndoPatternRec_B = m_Execution.m_Undo.UndoPatternRec_A
-                End If
-
-                m_Execution.m_Pattern.m_ErrorChk.ConvertToDataStruct(m_Execution.m_Undo.UndoPatternRec_A, _
-                    AxSpreadsheetProgramming, SheetName, m_StartRow)
-            End If
-        End If
-
-
-        MenuEditUndo.Enabled = True
-        MenuEditRedo.Enabled = False
-        TraceGCCollect()
-    End Sub
-    'yy
-    'To change the way that undo operation before it got peformace issue like function above
-    Dim undo As Object(,)
-    Private Sub TUndoData_Logging(ByVal UndoLevel As Integer)
-        m_Execution.m_Undo.UndoLevel = UndoLevel
-
-        If 0 = UndoLevel Then
-            Dim FolderName As String = "C:\IDS\Pattern_Dir\SysSwapData"
-            If Not System.IO.Directory.Exists(FolderName) Then
-                System.IO.Directory.CreateDirectory(FolderName)
-            End If
-
-            'Backup the previous undo data
-            If m_Execution.m_Undo.hasBackupData Then
-                'The Excel filename extension can also be used as a text file format
-                System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", _
-                    "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", True)
-                m_Execution.m_Undo.CurrentPageName_B = m_Execution.m_Undo.CurrentPageName_A
-            End If
-            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
-            m_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
-            m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
-        Else
-            Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
-
-            Dim m_rowCount As Integer = sel.Rows.Count()
-            Dim m_columnCount As Integer = sel.Columns.Count()
-            Dim m_StartRow As Integer = sel.Row
-            Dim m_columnStart As Integer = sel.Column
-
-            m_Execution.m_Undo.UndoRow = m_StartRow
-
-            Dim SheetName As String = GetActiveSheetName()
-            If 1 = m_rowCount Then
-                If m_Execution.m_Undo.hasBackupData Then
-                    m_Execution.m_Undo.UndoPatternRec_B = m_Execution.m_Undo.UndoPatternRec_A
-                End If
-
-                m_Execution.m_Pattern.m_ErrorChk.ConvertToDataStruct(m_Execution.m_Undo.UndoPatternRec_A, _
-                    AxSpreadsheetProgramming, SheetName, m_StartRow)
-            End If
-        End If
-
-
-        MenuEditUndo.Enabled = True
-        MenuEditRedo.Enabled = False
-        TraceGCCollect()
-    End Sub
-
-
     'menu: Edit-->Redo                                                                           
-
     Private Sub MenuEditRedo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditRedo.Click
 
         If 0 = m_Execution.m_Undo.UndoLevel Then
@@ -2992,9 +2332,7 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
     'menu: Edit-->Copy: Copy the selected range with Array/Sub attached                                                                            
-
     Private Sub MenuEditCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditCopy.Click
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
 
@@ -3013,9 +2351,7 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
     'menu: Edit-->Paste: Paste the Copied range with Array/Sub attached                                                                            
-
     Private Sub MenuEditPaste_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditPaste.Click
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
 
@@ -3047,7 +2383,6 @@ Public Class FormProgramming
     End Sub
 
     'menu: Edit-->Delete: Delecte all select                                                                        
-
     Private Sub MenuEditDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditDelete.Click
         UndoData_Logging(0)
         Cancel()
@@ -3055,150 +2390,69 @@ Public Class FormProgramming
     End Sub
 
     'menu: Edit-->SelectAll: Select all in the current spreadsheet  
-
     Private Sub MenuEditSelectAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuEditSelectAll.Click
         AxSpreadsheetProgramming.ActiveSheet.UsedRange.Select()
     End Sub
 
+    Private Sub MenuItem33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem33.Click
+        '''''''''''''''''
+        '   Offset      '
+        '''''''''''''''''
+        TeachElementCommand("Offset")
+    End Sub
+
+    Private Sub MenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem32.Click
+        '''''''''''''''''''''
+        '   SubPattern      '
+        '''''''''''''''''''''
+        TeachElementCommand("SubPattern")
+    End Sub
+
+    Private Sub MenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem29.Click
+        '''''''''''''''''
+        '   SetIO       '
+        '''''''''''''''''
+        TeachElementCommand("SetIO")
+    End Sub
+
+    Private Sub MenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem30.Click
+        '''''''''''''''''
+        '   ResetIO     '
+        '''''''''''''''''
+        Dim Respond As DialogResult = MessageBox.Show("Do You want to initialize the IO bits?", "", MessageBoxButtons.YesNo)
+
+        If Respond = DialogResult.Yes Then
+            'Initialize trio controller IO 
+            Dim I As Integer = 0
+            m_Tri.SetAllDIOsOff()
+
+            'Initialize PCIO card
+            For I = 0 To 7   'iterate thru the io bits
+                IDS.Devices.DIO.SetOutputBit(0, I, False)
+                IDS.Devices.DIO.SetOutputBit(1, I, False)
+            Next
+
+            'Initialize CAN IO 
+            For I = 32 To 47    'iterate thru the io bits
+                MySleep(10)
+                m_Tri.SetDIOs(1, I, False)
+            Next
+        End If
+    End Sub
+
+    Private Sub MenuItem62_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem62.Click
+        TeachElementCommand("Measurement")
+    End Sub
+#End Region
+
+#Region "Program File Edit Related"
     Public Sub Disp_Dispenser_Unit_info()
 
         Dim DispensingType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
 
     End Sub
 
-    Private Sub ButtonToggleMode_click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonToggleMode.Click
-3:
-        TimerForUpdate.Start() 'kr nov28
-        If CurrentMode = "Program Editor" Then
-            'stepper panel
-            MySettings.PanelLeft.Controls.Add(m_Tri.SteppingButtons)
-            Controls.Remove(m_Tri.SteppingButtons)
-            'm_Tri.SteppingButtons.Location = New Point(384, 12)
-            m_Tri.SteppingButtons.Location = New Point(380 / 2, 928 / 2)
-            m_Tri.SteppingButtons.BringToFront()
-            m_Tri.SteppingButtons.Show()
-
-            CurrentMode = "Basic Setup"
-
-            ButtonToggleMode.Text = "Go to Program Editor"
-            CBExpandSpreadsheet.Visible = False
-            CBExpandSpreadsheet.Visible = False
-            MySettings.PanelRight.Location = New Point(768, 33)
-            MySettings.PanelLeft.Location = New Point(0, 33)
-            Me.PanelVision.Location = New Point(0, 341)
-            Me.PanelVisionCtrl.Location = New Point(0, 916)
-            Me.PanelVisionCtrl.BringToFront()
-            Me.PanelVision.BringToFront()
-            Me.Controls.Add(MySettings.PanelRight)
-            Me.Controls.Add(MySettings.PanelLeft)
-            MySettings.PanelRight.BringToFront()
-            MySettings.PanelLeft.BringToFront()
-            MySettings.RichTextBox1.BringToFront()
-            MySettings.RevertData()
-            EnableDisableMenuBar()
-            Me.PanelVision.Visible = True
-        ElseIf CurrentMode = "Basic Setup" Then
-
-            MySettings.RemoveCurrentPanel()
-            m_Tri.Move_Z(0)
-
-            'stepper panel
-            'Controls.Add(m_Tri.SteppingButtons)
-            gbProcess.Controls.Add(m_Tri.SteppingButtons)
-            MySettings.PanelLeft.Controls.Remove(m_Tri.SteppingButtons)
-            m_Tri.SteppingButtons.Location = PanelToBeAdded.Location()
-            m_Tri.SteppingButtons.BringToFront()
-            m_Tri.SteppingButtons.Show()
-
-            CurrentMode = "Program Editor"
-            ButtonToggleMode.Text = "Go to Basic Setup"
-            Disp_Dispenser_Unit_info()
-            CBExpandSpreadsheet.Visible = True
-            Me.Controls.Remove(MySettings.PanelRight)
-            Me.Controls.Remove(MySettings.PanelLeft)
-            Me.PanelVision.Location = New Point(84, 360)
-            Me.PanelVisionCtrl.Location = New Point(84, 940)
-            Me.PanelVision.Visible = False
-            IDS.Data.OpenData()
-            'SJ
-            SystemSetupDataRetrieve(ModuleGConst.SettingsMode.LocalSettings)
-            EnableDisableMenuBar()
-        End If
-    End Sub
-
-    Private Sub EnableDisableMenuBar()
-        If CurrentMode = "Basic Setup" Then
-            MenuFileNew.Enabled = False
-            MenuFileOpen.Enabled = False
-            MenuFileImport.Enabled = False
-            MenuFileExport.Enabled = False
-            MenuFileSave.Enabled = False
-            MenuFileSaveAs.Enabled = False
-
-            MenuEditUndo.Enabled = False
-            MenuEditRedo.Enabled = False
-            MenuEditCut.Enabled = False
-            MenuEditCopy.Enabled = False
-            MenuEditPaste.Enabled = False
-            MenuEditDelete.Enabled = False
-            MenuEditSelectAll.Enabled = False
-
-            MenuItem67.Enabled = True
-            MenuItem88.Enabled = False
-
-            MenuItem33.Enabled = False
-            MenuItem32.Enabled = False
-            MenuItem29.Enabled = False
-            MenuItem30.Enabled = True
-            MenuItem62.Enabled = False
-            OptimizePath.Enabled = False
-
-        ElseIf CurrentMode = "Program Editor" Then
-            MenuFileNew.Enabled = True
-            MenuFileOpen.Enabled = True
-            MenuFileImport.Enabled = True
-            MenuFileExport.Enabled = True
-            MenuFileSave.Enabled = True
-            MenuFileSaveAs.Enabled = True
-
-            MenuEditUndo.Enabled = True
-            MenuEditRedo.Enabled = True
-            MenuEditCut.Enabled = True
-            MenuEditCopy.Enabled = True
-            MenuEditPaste.Enabled = True
-            MenuEditDelete.Enabled = True
-            MenuEditSelectAll.Enabled = True
-
-            MenuItem67.Enabled = False
-            MenuItem88.Enabled = True
-
-            MenuItem33.Enabled = True
-            MenuItem32.Enabled = True
-            MenuItem29.Enabled = True
-            MenuItem30.Enabled = False
-            MenuItem62.Enabled = True
-            OptimizePath.Enabled = True
-        End If
-    End Sub
-
-    Private Sub CheckBox3_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CBExpandSpreadsheet.CheckedChanged
-        If CBExpandSpreadsheet.Checked = True Then
-            AxSpreadsheetProgramming.Height = 906
-            AxSpreadsheetProgramming.BringToFront()
-        Else
-            AxSpreadsheetProgramming.Height = 260
-            'AxSpreadsheetProgramming.SendToBack()
-        End If
-    End Sub
-
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-
-
     'Update link for next/previous row
-
     Private Sub UpdateLinkForNextRow()
         Spreadsheet_CheckForWithinLinkRange(True)
         If m_InLinkRange Then
@@ -3225,12 +2479,8 @@ Public Class FormProgramming
         End If
     End Sub
 
-
-
-
     'EditingToolbar_ButtonClick: edit xyz coordinates using toolbar
     '                                                                                  
-
     Private Sub EditingToolbar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles EditingToolbar.ButtonClick
 
         Dim idFlag As Integer = 0
@@ -3242,12 +2492,9 @@ Public Class FormProgramming
         EditingToolbar_Implementation(idFlag)
     End Sub
 
-
-
     'EditingToolbar_ButtonClick: edit xyz coordinates using toolbar
     '    idFlag: 1=goto next point, 0=edit current point
     '
-
     Private Sub EditingToolbar_Implementation(ByVal idFlag As Integer)
         MenuEditCopy.Enabled = False
         MenuEditPaste.Enabled = False
@@ -3559,10 +2806,7 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-    'SetDefaultPositionToLastAbovePt: Not in use
-    '                                                                                  
-
+    'SetDefaultPositionToLastAbovePt: Not in use                                                                                
     Private Sub SetDefaultPositionToLastAbovePt(ByVal CmdStr As String)
         'Find the last valid point above current row.  We will set this as the last point used for programming.
         'This function is not in use currently.
@@ -3932,9 +3176,55 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-    'spreadsheet operation ini
-    '                                                                                  
+    Sub TeachCommand(ByVal type As String, ByVal cell1 As Object, ByVal cell2 As Object)
+        m_Row = GetActiveCellRow()
+        AddCommandToSpreadsheet(type)
+        cell1 = GetCell(m_Row, gPos1XColumn)
+        cell2 = GetCell(m_Row, gPos1ZColumn)
+        AxSpreadsheetProgramming.ActiveSheet.Range(cell1, cell2).Select()
+        ToolBarSwitch("YesNo")
+    End Sub
 
+    Private Sub MoveToSpreadsheetPoint(ByVal Pos() As Double, ByVal type As String)
+        Console.WriteLine("MoveTo SP Point")
+        If IsBusy() Then
+            LabelMessage("Axes are busy. Can't move at the moment. Try later")
+            Exit Sub
+        End If
+
+        m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
+        m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ElementZSpeed)
+
+        Dim ref(3), inmmPos(3) As Double
+        ref(0) = m_ReferPt(0)
+        ref(1) = m_ReferPt(1)
+        ref(2) = m_ReferPt(2)
+
+        ReferToSys(Pos, Pos, ref)
+        SysToHard(Pos, Pos)
+
+        If type = "Needle" And NeedleMode.Checked Then
+            Pos(0) = Pos(0) - gLeftNeedleOffs(0) 'calibration
+            Pos(1) = Pos(1) - gLeftNeedleOffs(1)
+            'Pos(2) = Pos(2) + gLeftNeedleOffs(2) 'yy
+            Pos(2) = Pos(2) + gLeftNeedleOffs(2)
+        End If
+
+        If Not m_Tri.Move_Z(SafePosition) Then Exit Sub
+        If type = "Needle" And NeedleMode.Checked Then
+            m_Tri.Move_XY(Pos)
+            m_Tri.Move_Z(Pos(2))
+        Else
+            m_Tri.Move_XY(Pos)
+        End If
+
+    End Sub
+
+#End Region
+
+#Region "SpreadsheetRelated"
+
+    'spreadsheet operation ini                                                                                 
     Public Sub init_spreadsheet()
 
         Dim Title(gMaxColumns) As String
@@ -3996,23 +3286,41 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'Initialize a sheet
     '   e: ActiveX component event handler
     '
-
     Private Sub Spreadsheet_Initialize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.Initialize
         init_spreadsheet()
         m_Row = 1
         TraceGCCollect()
     End Sub
 
+    'FlushSpreadsheet activeX spreadsheet pattern data           
+    '   Axspreadsheet:  instance of activeX spreadsheet  
+    Private Sub FlushSpreadsheet()
+
+        Dim TotalSheets As Integer = GetSheetCount()
+        Dim i As Integer
+        Dim SheetName As String
+
+        For i = 1 To TotalSheets
+            SheetName = AxSpreadsheetProgramming.Worksheets(1).name()
+
+            If "Main" <> SheetName Then
+                AxSpreadsheetProgramming.Worksheets(1).Delete()
+            Else
+                AxSpreadsheetProgramming.Worksheets(SheetName).Activate()
+                AxSpreadsheetProgramming.ActiveSheet.UsedRange.Clear()
+            End If
+        Next i
+
+        m_Execution.m_Pattern.SubCallSheetInitialization(200) '200 subsheet maximum
+        m_Row = 1
+        TraceGCCollect()
+    End Sub
 
     'Activiate a sheet
     '   e: ActiveX component event handler
-    '
-
     Private Sub Spreadsheet_SheetActivate(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_SheetActivateEvent) Handles AxSpreadsheetProgramming.SheetActivate
 
         Dim sheetname As String = e.sh.Name
@@ -4024,13 +3332,10 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'Check it can be copied or not
     '   AxSpreadsheet: ActiveX component
     '
     'Return: True=Can be copied, False=Cannot
-
     Private Function Spreadsheet_CanBeCopyCut(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet) As Boolean
         Dim Rtn As Boolean = False
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
@@ -4080,8 +3385,6 @@ Public Class FormProgramming
 
     End Function
 
-
-
     'Handle Del Key
     '   e: ActiveX component event handler
     '
@@ -4095,8 +3398,6 @@ Public Class FormProgramming
         Dim row As Integer = GetActiveCellRow()
         Dim colum As Integer = GetActiveCellColumn()
         Dim keyValue As Integer
-
-
 
         If e.keyCode = 46 Then  'the delete key 
             If m_columnCount = gMaxColumns And m_rowCount = 1 Then
@@ -4153,11 +3454,9 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
     'Start cell edit, tentative result may be rejected
     '   e: ActiveX component event handler
     '
-
     Private Sub Spreadsheet_StartEdit(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_StartEditEvent) Handles AxSpreadsheetProgramming.StartEdit
         Console.WriteLine("Sp start edit")
 
@@ -4293,11 +3592,8 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
     'End cell edit, result will be finalized
     '   e: ActiveX component event handler
-    '
-
     Private Sub Spreadsheet_EndEdit(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_EndEditEvent) Handles AxSpreadsheetProgramming.EndEdit
         'Return
         Console.WriteLine("Sp end edit")
@@ -4423,7 +3719,6 @@ Public Class FormProgramming
 
         TraceGCCollect()
     End Sub
-
 
     'set motion reference point
     '   RefPos: input ref point
@@ -4744,8 +4039,6 @@ Public Class FormProgramming
     'Check the select row is valid for Copy/cut or not                
     '   Axspreadsheet:  instance of activeX spreadsheet               
     '   m_LocalRow:     The row which will be checked                 
-    '                                                                 
-
     Private Function Spreadsheet_WithinLinkRangeForCopyCut(ByVal m_LocalRow As Integer) As Boolean
         'If selected row is within Link range, part of Element tool icon should be disabled.
         'For fast speed, only +- 250 line will be checked, agreed by EET on 21/11/2007
@@ -4820,7 +4113,6 @@ Public Class FormProgramming
     '   m_LocalEndRow:    The end row of the range                    
     '                                                                 
     '   Return Rtn=True if it is a identity                           
-
     Private Function Spreadsheet_WithinLinkRangeForCopyCut( _
             ByVal m_LocalStartRow As Integer, ByVal m_LocalEndRow As Integer) As Boolean
         Dim Rtn As Boolean = True
@@ -4863,12 +4155,9 @@ Public Class FormProgramming
         TraceGCCollect()
     End Function
 
-
-
     'Check the current row is in the link range or not                                               
     '   UpdateToolBar:      To indicate the toolbar enabled/disabled will be updated or not
     '                       True=will be updated, False=not be updated
-
     Private Sub Spreadsheet_CheckForWithinLinkRange(ByVal UpdateToolBar As Boolean)
         'If selected row is within Link range, part of Element tool icon should be disabled.
         'For fast speed, only +- 250 line will be checked, agreed by EET on 21/11/2007
@@ -4958,7 +4247,6 @@ Public Class FormProgramming
     '   startRow:           Starting rows
     '   m_rowCount:         Rows to be updated  
     '   SelectedColumn:     Selected column 
-
     Private Sub Spreadsheet_UpdateColumn(ByVal startRow As Integer, ByVal SelectedColumn As Integer, _
     ByVal m_rowCount As Integer, ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet)
         Dim emptyLinCount As Integer = 0
@@ -4988,7 +4276,6 @@ Public Class FormProgramming
 
     'Delete multi-row                                                
     '   AxSpreadsheet:      ActiveX spreadsheet                                                                                                              
-
     Public Sub Spreadsheet_DeleteMultiRow(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet)
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
 
@@ -5014,7 +4301,6 @@ Public Class FormProgramming
         'Dim dir As Object = Microsoft.Office.Interop.OWC.XlDeleteShiftDirection.xlShiftUp
         'sel.Delete()
     End Sub
-
 
     Public Sub Spreadsheet_DeleteMultiRow2(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet)
         '''''''''''''''''''''''''''''''''''''''''''''''''
@@ -5195,7 +4481,6 @@ Public Class FormProgramming
         End If
         TraceGCCollect()
     End Sub
-
 
     'Shen Jian's part
     Private Sub Spreadsheet_BeforeContextMenu(ByVal sender As System.Object, ByVal e As AxOWC10.ISpreadsheetEventSink_BeforeContextMenuEvent) Handles AxSpreadsheetProgramming.BeforeContextMenu
@@ -5393,10 +4678,6 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
-
-
     'Automatically Generate Array or SubSheet Name
     '   SheetName: Sheet name to be generated 
     '   ActSheetName: Current actSheet name       
@@ -5432,13 +4713,10 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'Check the sub or array existance changes, not be used currently
     '   SheetName: Sheet to be checked
     '   
     '   Return: The changes of existance
-
     Private Function Spreadsheet_QuickCountExistedSubsheet(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, _
         ByRef SheetName As String) As Integer
 
@@ -5483,11 +4761,9 @@ Public Class FormProgramming
         Return Rtn
     End Function
 
-
     'Total usage of all sub/Array Spreadsheet                                                
     '   AxSpreadsheet:     ActiveX spreadsheet                                                    
     '   RootDelectSheetName: Root sheet name, not in use                                                             
-
     Private Sub Spreadsheet_FindSubTotalUsage(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, _
         ByRef RootDelectSheetName As String)
         Dim Rtn As Integer = 0
@@ -5549,12 +4825,9 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'Root connection of a sheet, itself is level 1                                              
     '   AxSpreadsheet:     ActiveX spreadsheet                                                    
     '   RootSheetName: Root sheet name                                                              
-
     Private Sub Spreadsheet_BuildRootConnectedSub(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, _
         ByRef RootSheetName As String)
         Dim Rtn As Integer = 0
@@ -5638,12 +4911,9 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'Self usage of a sub/Array Spreadsheet                                              
     '   AxSpreadsheet:     ActiveX spreadsheet                                                    
     '   RootDelectSheetName: Root sheet name                                                              
-
     Private Sub Spreadsheet_FindSubSelfUsage(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, _
         ByRef RootDelectSheetName As String)
         Dim Rtn As Integer = 0
@@ -5700,12 +4970,9 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
     'Self usage of a sub/Array Spreadsheet to include external as as an add on                                               
     '   AxSpreadsheet:     ActiveX spreadsheet                                                    
     '   RootDelectSheetName: Root sheet name                                                              
-
     Private Sub Spreadsheet_FlatternTotalUsage(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, _
         ByRef RootDelectSheetName As String)
         Dim Rtn As Integer = 0
@@ -5740,11 +5007,9 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
     'Delete one page of Spreadsheet                                                
     '   AxSpreadsheet:     ActiveX spreadsheet                                                    
     '                                                                 
-
     Private Sub Spreadsheet_DeleteSubSheet(ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet)
         Dim i As Integer
         Dim NumberOfSheet As Integer
@@ -5765,16 +5030,12 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
-
     'Build Array data based on the 3 rows input                                                
     '   AxSpreadsheet:      ActiveX spreadsheet                                                    
     '   Record1:            The first row for the array   
     '   Record2:            The second row for the array  
     '   Record3:            The third row for the array  
     '   arraydata:          Array parameters 
-
     Private Sub Spreadsheet_AddSheetRecord( _
         ByRef Record1 As CIDSPattern.PatternRecord, _
         ByRef Record2 As CIDSPattern.PatternRecord, _
@@ -5924,14 +5185,9 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
-
-
     'Build SubSub and/or SubArray data based on the sub input                                                                                                   
     '   iSubSheetName:            The full sub sheet name   
-
     Private Sub Spreadsheet_AddSubandArrayInSub(ByRef iSubSheetName As String)
-
 
         'Get current sheet name and row number
         Dim TmpSheetName As String = GetActiveSheetName()
@@ -5949,15 +5205,11 @@ Public Class FormProgramming
 
     End Sub
 
-
-
-
     'Get array data from the DialogBox                                                
     '   AxSpreadsheet:      ActiveX spreadsheet                                                    
     '   Record:             One row for the array   
     '   CurrentPt:          The number of position, such x1y1z1=1, x2y2z2=2....  
     '   ArrayDlg:           Array generation DialogBox 
-
     Private Sub Spreadsheet_GetArrayRecord( _
             ByRef Record As CIDSPattern.PatternRecord, _
             ByVal CurrentPt As Integer, ByVal ArrayDlg As ArrayGenerate)
@@ -6150,12 +5402,10 @@ Public Class FormProgramming
         TraceGCCollect()
     End Sub
 
-
     'Is the row empty?
     '   row:  The target row                                                                                
     '
     'Return: True=empty, False=Not empty
-
     Public Function isEmptyRow(ByVal row As Integer) As Boolean
         Dim i As Integer
         Dim str As String
@@ -6171,7 +5421,6 @@ Public Class FormProgramming
         Next
         Return True
     End Function
-
 
     Private Sub ToolBarYesNo_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles TeachingToolbar.ButtonClick
 
@@ -6243,6 +5492,888 @@ Public Class FormProgramming
             TraceDoEvents()
             MySleep(20)
         Loop
+    End Sub
+
+    Sub SelectRange(ByVal cell1 As Object, ByVal cell2 As Object)
+        Try
+            AxSpreadsheetProgramming.ActiveSheet.Range(cell1, cell2).Select()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Sub SelectCell(ByVal row As Integer, ByVal column As Integer)
+        Try
+            AxSpreadsheetProgramming.ActiveSheet.Cells(row, column).Select()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+#End Region
+
+#Region "teaching"
+    Public Sub ConfirmPurge()
+        DisableCoordinateUpdateInSpreadsheet()
+        DisplaySpreadsheetTabs()
+        SelectCell(m_Row + 1, 1)
+        m_Row = GetActiveCellRow()
+        DisableTeachingToolbar()
+        m_ProgrammingStateFlag = False
+    End Sub
+    Public Sub ConfirmHeight()
+        DisableCoordinateUpdateInSpreadsheet()
+        DisplaySpreadsheetTabs()
+        cell1 = GetCell(m_Row, gPos1XColumn)
+        cell2 = GetCell(m_Row, gPos1ZColumn)
+        Dim x1 As Double = GetCellValue(m_Row, gPos1XColumn)
+        Dim y1 As Double = GetCellValue(m_Row, gPos1YColumn)
+
+        ToggleButtonsForTeachingStop()
+        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
+
+        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
+        Dim posFrom(3), posTo(3), posOffset As Double
+        posFrom(0) = GetCellValue(m_Row, gPos1XColumn)
+        posFrom(1) = GetCellValue(m_Row, gPos1YColumn)
+        posFrom(2) = 0
+        posTo(0) = posFrom(0) - gLaserOffX
+        posTo(1) = posFrom(1) - gLaserOffY
+        posTo(2) = posFrom(2)
+
+        LockMovementButtons()
+        MoveToSpreadsheetPoint(posTo, "Vision")
+
+        OnLaser()
+        Dim rtn As Integer = Laser.WaitForReadingToStabilize()
+        OffLaser()
+        If rtn Then                     'No laser readout error
+            posOffset = Laser.MM_Reading - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
+            SetCellValue(m_Row, gPos1ZColumn, CInt(posOffset))
+        Else
+            MessageBox.Show("laser sensor out of range")
+            m_TeachStepNumber = 0
+            ToggleButtonsForTeachingStop()
+            DisableElementsCommandBlockButton(gSeperatorCmdIndex)
+            DisableElementsCommandBlockButton(gOffsetCmdIndex)
+            DeleteRow(m_Row)
+        End If
+        posFrom(0) = posFrom(0)
+        posFrom(1) = posFrom(1)
+        posFrom(2) = posFrom(2)
+
+        MoveToSpreadsheetPoint(posFrom, "Vision")
+        ChangeButtonState("Idle")
+        UnlockMovementButtons()
+
+        SelectCell(m_Row + 1, gCommandNameColumn)
+        m_ProgrammingStateFlag = False
+    End Sub
+    Public Sub ConfirmSubPattern()
+        DisableCoordinateUpdateInSpreadsheet()
+        DisplaySpreadsheetTabs()
+        cell1 = GetCell(m_Row, gPos1XColumn)
+        cell2 = GetCell(m_Row, gPos1ZColumn)
+        Dim x1 As Double = GetCellValue(m_Row, gPos1XColumn)
+        Dim y1 As Double = GetCellValue(m_Row, gPos1YColumn)
+        DisableTeachingButtons()
+        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
+        SelectCell(m_Row + 1, gCommandNameColumn)
+        m_ProgrammingStateFlag = False
+    End Sub
+    Public Sub ConfirmSinglePointElement()
+        DisableCoordinateUpdateInSpreadsheet()
+        DisplaySpreadsheetTabs()
+        cell1 = GetCell(m_Row, gPos1XColumn)
+        cell2 = GetCell(m_Row, gPos1ZColumn)
+        Dim x1 As Double = GetCellValue(m_Row, gPos1XColumn)
+        Dim y1 As Double = GetCellValue(m_Row, gPos1YColumn)
+        ToggleButtonsForTeachingStop()
+        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
+        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
+        SelectCell(m_Row + 1, gCommandNameColumn)
+        m_ProgrammingStateFlag = False
+    End Sub
+#End Region
+
+#Region "Others"
+    Private Sub OptimizePath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptimizePath.Click
+
+        m_Execution.m_Command.SetOptimizFlag(1)
+        Dim m_PatternList As New ArrayList 'kr
+        Dim m_DispenseList As New ArrayList 'kr
+        Dim comP As New IDSPattnCompiler(m_PatternList) 'kr
+        Dim loadSheet As New CIDSPatternLoader(AxSpreadsheetProgramming) 'kr
+        UpdateSpreadsheet()
+        Dim rtn As Integer = m_Execution.m_Command.ReadPattern(AxSpreadsheetProgramming)
+        'comP.Compile(m_DispenseList) 'kr
+
+        Dim optm As ArrayList
+        Dim row As Integer
+
+        If rtn = 0 Then
+            optm = m_Execution.m_Command.PattenList
+            row = optm.Count
+        Else
+            LabelMessage("Empty sheet or data error!")
+            Exit Sub
+        End If
+
+        Dim folder As String = gPatternFileName
+        folder = folder.TrimEnd("\") + "_optm"
+        If System.IO.File.Exists(folder) Then
+            'Project name is the same with an existing filename
+            'The file will be deleted
+            System.IO.File.Delete(folder)
+            'Create folder for the project
+        End If
+
+        System.IO.Directory.CreateDirectory(folder)
+
+        'gPatternFileName = folder + "\" + File
+
+
+        Dim FileName As String '= gPatternFileName
+        FileName = folder + "\" + m_Execution.m_File.NameOnlyFromFullPath(folder)
+
+        'lsgoh
+        ' get default value from the default pat file
+
+        IDS.Data.ParameterID.RecordID = "FactoryDefault"
+        IDSData.Admin.Folder.FileExtension = "Pat"
+        IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
+        IDS.Data.OpenData()
+        IDS.Data.SavePathFileData(FileName + ".pat")
+
+        Try
+            If FileName <> Nothing Then
+                m_Execution.m_Pattern.SavePatternParaOpt(optm, FileName + ".txt", False)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+        LabelMessage("Dot optimisation file saved!")
+        TraceGCCollect()
+
+    End Sub
+
+    Private Sub ButtonPro_LEdit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        IDS.Data.SaveLocalData()
+    End Sub
+
+    Private Sub ButtonPro_REdit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        IDS.Data.SaveLocalData()
+    End Sub
+
+    Public Sub MouseJogging(ByVal state As Object)
+
+        If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
+        Else
+            If IsBusy() And Not IsJogging() Then Exit Sub
+            If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
+        End If
+
+        'm_keyBoard.Poll()
+        m_TrackBall.Poll()
+        'isPress = m_keyBoard.State.Item(Key.LeftControl)
+        isPress = KeyboardControl.ControlKeyPressed
+        Dim x As Integer
+        Dim y As Integer
+        Dim VrData(3) As Single
+
+        If isPress Then
+
+            SetState("Jogging")
+
+            VrData(0) = 0
+            VrData(1) = 0.0
+            VrData(2) = 0.0
+
+            'Dim isPressAlt As Boolean = m_keyBoard.State.Item(Key.LeftAlt)
+            'If isPressAlt Then
+            '    Exit Sub
+            'End If
+            x = m_TrackBall.MouseX()
+            y = m_TrackBall.MouseY()
+
+            Dim ratio As Double
+
+            If Math.Abs(x) >= Math.Abs(y) Then
+                If x > deadzone Then
+                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(y) / x
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'X+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        VrData(2) = 0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                ElseIf x < -deadzone Then
+                    jogspeed = CInt(Math.Abs(x) / maxMouseRangeX * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(y) / x
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'X-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        VrData(2) = 0
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                Else
+                    VrData(0) = 2
+                    VrData(1) = 0.0
+                    VrData(2) = 0.0
+
+                    m_Tri.SetTrioMotionValues("Jogging", VrData)
+                    isJogON = True 'False
+                End If
+            Else
+                If y < -deadzone Then
+                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+
+                    ratio = CDbl(x) / y
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        SetState("Jogging")
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'Y+
+                        VrData(0) = 1
+                        VrData(1) = 0
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+
+                ElseIf y > deadzone Then
+                    jogspeed = CInt(Math.Abs(y) / maxMouseRangeY * maxSpeed)
+                    If (jogspeed > maxSpeed) Then
+                        jogspeed = maxSpeed
+                    End If
+                    ratio = CDbl(x) / y
+                    If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
+                        VrData(0) = 1
+                        If m_Xlocked = True Then
+                            VrData(1) = 0.0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    Else   'Y-
+                        VrData(0) = 1
+                        VrData(1) = 0
+                        If m_Ylocked = True Then
+                            VrData(2) = 0.0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+
+                        m_Tri.SetTrioMotionValues("Jogging", VrData)
+                        isJogON = True
+                    End If
+                Else
+                    VrData(0) = 2
+                    VrData(1) = 0.0
+                    VrData(2) = 0.0
+
+                    m_Tri.SetTrioMotionValues("Jogging", VrData)
+                    isJogON = True 'False
+                End If
+            End If
+        Else
+            If isJogON Then
+                VrData(0) = 2
+                VrData(1) = 0.0
+                VrData(2) = 0.0
+
+                m_Tri.SetTrioMotionValues("Jogging", VrData)
+                isJogON = False
+                If m_EditStateFlag Then
+                    'reset to idle without the camera thing
+                    SetState("Idle")
+                    m_Tri.SetMachineStop()
+                    SetLampsToReadyMode()
+                    UnlockMovementButtons()
+                    ChangeButtonState("Idle")
+                    Programming.DispensingMode.Enabled = True
+                    'Programming.VisionMode.Enabled = True yy
+                    Programming.NeedleMode.Enabled = True
+                Else
+                    If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
+                        Programming.ButtonCalibrate.Enabled = True
+                        m_Tri.SteppingButtons.Enabled = True
+                    Else
+                        ResetToIdle()
+                    End If
+                End If
+            End If
+
+            countMouseTimer += 1
+            If (countMouseTimer >= 5) Then
+                TraceGCCollect()
+                countMouseTimer = 0
+            End If
+        End If
+
+    End Sub
+
+    Private Function CheckSoftLimitXYZ(ByVal pt() As Double, ByVal off() As Double) 'check whether to apply offset for ref/needle point when teaching
+        Dim x, y, z As Double
+        x = pt(0) - off(0)
+        y = pt(1) - off(1)
+        z = pt(2)
+
+        '''''''''''''''''''''''''''''''''''''
+        'Check(SoftLimit)                '
+        '   Note: enumation for "status"    '
+        '         1 = under Xmin            '
+        '         2 = over Xmax             '
+        '         3 = under Ymin            '
+        '         4 = over Ymax             '
+        '         5 = under Zmin            '
+        '         6 = over Zmax             '
+        '''''''''''''''''''''''''''''''''''''
+        If (x < gWorkLimitXmin) Then
+            MyMsgBox("Outside X limits")
+        ElseIf (x > gWorkLimitXmax) Then
+            MyMsgBox("Outside X limits")
+        ElseIf (y < gWorkLimitYmin) Then
+            MyMsgBox("Outside Y limits")
+        ElseIf (y > gWorkLimitYmax) Then
+            MyMsgBox("Outside Y limits")
+        ElseIf (z < gWorkLimitZmin) Then
+            MyMsgBox("Outside Z limits")
+        ElseIf (z > gWorkLimitZmax) Then
+            MyMsgBox("Outside Z limits")
+        Else
+            Return False
+        End If
+        Return True
+
+    End Function
+
+    Private Sub ErrorMessageBox(ByVal errVal As Integer)
+        If (errVal = 1) Then
+            LabelMessage("X-axis is over minimum of SoftLimit!")
+        ElseIf (errVal = 2) Then
+            LabelMessage("X-axis is over maximum of SoftLimit!")
+        ElseIf (errVal = 3) Then
+            LabelMessage("Y-axis is over minimum of SoftLimit!")
+        ElseIf (errVal = 4) Then
+            LabelMessage("Y-axis is over maximum of SoftLimit!")
+        ElseIf (errVal = 5) Then
+            LabelMessage("Z-axis is over minimum of SoftLimit!")
+        ElseIf (errVal = 6) Then
+            LabelMessage("Z-axis is over maximum of SoftLimit!")
+        End If
+    End Sub
+
+    Public Sub SetRunMode(ByVal mode As Integer)
+        m_RunMode = mode
+    End Sub
+
+#End Region
+
+#Region "thermal"
+
+    ' reads temperature from heater
+
+    Dim temp_num As Integer = 0
+    Dim alarm_num As Integer = 0
+    Dim switching As Boolean = True
+
+    Public Sub TimerForUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerForUpdate.Tick
+
+        'If switching = True Then
+        '    If IDS.Devices.Thermal.FrmThermal.command = "received" Then
+        '        temp_num += 1
+        '        If temp_num = 6 Then
+        '            temp_num = 1
+        '        End If
+        '        If MyHeaterSettings.Heater_Enabled(temp_num - 1) = True Then
+        '            IDS.Devices.Thermal.FrmThermal.command = "receiving"
+        '            IDS.Devices.Thermal.FrmThermal.Get_Temperature(temp_num)
+        '        End If
+        '        switching = False
+        '    End If
+        'Else
+        '    If IDS.Devices.Thermal.FrmThermal.command = "received" Then
+        '        alarm_num += 1
+        '        If alarm_num = 6 Then
+        '            alarm_num = 1
+        '        End If
+        '        If MyHeaterSettings.Heater_Enabled(alarm_num - 1) = True Then
+        '            IDS.Devices.Thermal.FrmThermal.command = "receiving"
+        '            IDS.Devices.Thermal.FrmThermal.Get_Alarm_Status(alarm_num)
+        '        End If
+        '        switching = True
+        '    End If
+        'End If
+
+        'IDS.Devices.Thermal.FrmThermal.check_individual_reading()
+
+        'LB_NeedleHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(0)
+        'Production.Needle.Text = IDS.Devices.Thermal.FrmThermal.Temperature(0)
+
+        'LB_SyrHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(1)
+        'Production.Syringe.Text = IDS.Devices.Thermal.FrmThermal.Temperature(1)
+
+        'LB_PreHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(2)
+        'Production.Station1.Text = IDS.Devices.Thermal.FrmThermal.Temperature(2)
+
+        'LB_DispHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(3)
+        'Production.Station2.Text = IDS.Devices.Thermal.FrmThermal.Temperature(3)
+
+        'LB_PostHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(4)
+        'Production.Station3.Text = IDS.Devices.Thermal.FrmThermal.Temperature(4)
+
+        'If IDS.Devices.Thermal.FrmThermal.switched_off <> 0 Then
+        '    Select Case (IDS.Devices.Thermal.FrmThermal.switched_off)
+        '        Case 1
+        '            HeaterControl0.Text = "Heater Off"
+        '        Case 2
+        '            HeaterControl1.Text = "Heater Off"
+        '        Case 3
+        '            HeaterControl2.Text = "Heater Off"
+        '        Case 4
+        '            HeaterControl3.Text = "Heater Off"
+        '        Case 5
+        '            HeaterControl4.Text = "Heater Off"
+        '    End Select
+        '    IDS.Devices.Thermal.FrmThermal.switched_off = 0
+        'End If
+
+    End Sub
+
+    Public Function SetControl(ByVal command_type As String, ByVal node_num As Integer, ByVal toggle As Boolean)
+
+        'If command_type = "heater control" Then
+        '    IDS.Devices.Thermal.FrmThermal.On_Off_thermal(node_num, toggle)
+        'ElseIf command_type = "temperature control" Then
+        '    If toggle = True Then ' true for operation, false for standby
+        '        Select Case node_num
+        '            Case 1
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Needle.OperationTemp)
+        '            Case 2
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Syringe.OperationTemp)
+        '            Case 3
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station1.OperationTemp)
+        '            Case 4
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station2.OperationTemp)
+        '            Case 5
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station3.OperationTemp)
+        '        End Select
+        '    Else
+        '        Select Case node_num
+        '            Case 1
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Needle.StandbyTemp)
+        '            Case 2
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Syringe.StandbyTemp)
+        '            Case 3
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station1.StandbyTemp)
+        '            Case 4
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station2.StandbyTemp)
+        '            Case 5
+        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station3.StandbyTemp)
+        '        End Select
+        '    End If
+        'End If
+
+    End Function
+
+    '''''''''''''''
+    '                                       kr                                       '
+    ' set the heater_enabled
+    '''''''''''''''
+
+    Private Sub check_and_set_thermal()
+
+        'If IDS.Data.Hardware.Thermal.Needle.OnOffControl = True Then
+        '    LB_NeedleHeater.Visible = True
+        '    HeaterControl0.Enabled = True
+        '    HeaterTempControl0.Enabled = True
+        '    MyHeaterSettings.Heater_Enabled(0) = True
+        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(1, IDS.Data.Hardware.Thermal.Needle.AlarmThreshold)
+        'Else
+        '    LB_NeedleHeater.Visible = False
+        '    HeaterControl0.Enabled = False
+        '    HeaterTempControl0.Enabled = False
+        'End If
+
+        'If IDS.Data.Hardware.Thermal.Syringe.OnOffControl = True Then
+        '    LB_SyrHeater.Visible = True
+        '    HeaterControl1.Enabled = True
+        '    HeaterTempControl1.Enabled = True
+        '    MyHeaterSettings.Heater_Enabled(1) = True
+        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(2, IDS.Data.Hardware.Thermal.Syringe.AlarmThreshold)
+        'Else
+        '    LB_SyrHeater.Visible = False
+        '    HeaterControl1.Enabled = False
+        '    HeaterTempControl1.Enabled = False
+        'End If
+
+        'If IDS.Data.Hardware.Thermal.Station1.OnOffControl = True Then
+        '    LB_PreHeater.Visible = True
+        '    HeaterControl2.Enabled = True
+        '    HeaterTempControl2.Enabled = True
+        '    MyHeaterSettings.Heater_Enabled(2) = True
+        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(3, IDS.Data.Hardware.Thermal.Station1.AlarmThreshold)
+        'Else
+        '    LB_PreHeater.Visible = False
+        '    HeaterControl2.Enabled = False
+        '    HeaterTempControl2.Enabled = False
+        'End If
+
+        'If IDS.Data.Hardware.Thermal.Station2.OnOffControl = True Then
+        '    LB_DispHeater.Visible = True
+        '    HeaterControl3.Enabled = True
+        '    HeaterTempControl3.Enabled = True
+        '    MyHeaterSettings.Heater_Enabled(3) = True
+        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(4, IDS.Data.Hardware.Thermal.Station3.AlarmThreshold)
+        'Else
+        '    LB_DispHeater.Visible = False
+        '    HeaterControl3.Enabled = False
+        '    HeaterTempControl3.Enabled = False
+        'End If
+
+        'If IDS.Data.Hardware.Thermal.Station3.OnOffControl = True Then
+        '    LB_PostHeater.Visible = True
+        '    HeaterControl4.Enabled = True
+        '    HeaterTempControl4.Enabled = True
+        '    MyHeaterSettings.Heater_Enabled(4) = True
+        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(5, IDS.Data.Hardware.Thermal.Station3.AlarmThreshold)
+        'Else
+        '    LB_PostHeater.Visible = False
+        '    HeaterControl4.Enabled = False
+        '    HeaterTempControl4.Enabled = False
+        'End If
+
+    End Sub
+
+#End Region
+
+#Region "Undo"
+    'Logging data for Undo operation
+    '   UndoLevel: 0 or 1; 
+    '               0 is slow, used for multiRow, sub or array
+    '               1 is fast, used for single row without sub and array            
+    Private Sub UndoData_Logging(ByVal UndoLevel As Integer)
+        'Return 'Disable undo operation. this function is terribely wrong...
+
+        m_Execution.m_Undo.UndoLevel = UndoLevel
+
+        If 0 = UndoLevel Then
+            Dim FolderName As String = "C:\IDS\Pattern_Dir\SysSwapData"
+            If Not System.IO.Directory.Exists(FolderName) Then
+                System.IO.Directory.CreateDirectory(FolderName)
+            End If
+
+            'Backup the previous undo data
+            If m_Execution.m_Undo.hasBackupData Then
+                'The Excel filename extension can also be used as a text file format
+                System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", _
+                    "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", True)
+                m_Execution.m_Undo.CurrentPageName_B = m_Execution.m_Undo.CurrentPageName_A
+            End If
+            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
+            m_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
+            m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
+        Else
+            Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
+
+            Dim m_rowCount As Integer = sel.Rows.Count()
+            Dim m_columnCount As Integer = sel.Columns.Count()
+            Dim m_StartRow As Integer = sel.Row
+            Dim m_columnStart As Integer = sel.Column
+
+            m_Execution.m_Undo.UndoRow = m_StartRow
+
+            Dim SheetName As String = GetActiveSheetName()
+            If 1 = m_rowCount Then
+                If m_Execution.m_Undo.hasBackupData Then
+                    m_Execution.m_Undo.UndoPatternRec_B = m_Execution.m_Undo.UndoPatternRec_A
+                End If
+
+                m_Execution.m_Pattern.m_ErrorChk.ConvertToDataStruct(m_Execution.m_Undo.UndoPatternRec_A, _
+                    AxSpreadsheetProgramming, SheetName, m_StartRow)
+            End If
+        End If
+
+
+        MenuEditUndo.Enabled = True
+        MenuEditRedo.Enabled = False
+        TraceGCCollect()
+    End Sub
+    'yy
+    'To change the way that undo operation before it got peformace issue like function above
+    Dim undo As Object(,)
+    Private Sub TUndoData_Logging(ByVal UndoLevel As Integer)
+        m_Execution.m_Undo.UndoLevel = UndoLevel
+
+        If 0 = UndoLevel Then
+            Dim FolderName As String = "C:\IDS\Pattern_Dir\SysSwapData"
+            If Not System.IO.Directory.Exists(FolderName) Then
+                System.IO.Directory.CreateDirectory(FolderName)
+            End If
+
+            'Backup the previous undo data
+            If m_Execution.m_Undo.hasBackupData Then
+                'The Excel filename extension can also be used as a text file format
+                System.IO.File.Copy("C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls", _
+                    "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_B.Xls", True)
+                m_Execution.m_Undo.CurrentPageName_B = m_Execution.m_Undo.CurrentPageName_A
+            End If
+            m_Execution.m_Undo.UndoFilename = "C:\IDS\Pattern_Dir\SysSwapData\UndoStep_A.Xls"
+            m_Execution.m_Undo.CurrentPageName_A = GetActiveSheetName()
+            m_Execution.m_Undo.DataSaveFor_Undo(AxSpreadsheetProgramming)
+        Else
+            Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
+
+            Dim m_rowCount As Integer = sel.Rows.Count()
+            Dim m_columnCount As Integer = sel.Columns.Count()
+            Dim m_StartRow As Integer = sel.Row
+            Dim m_columnStart As Integer = sel.Column
+
+            m_Execution.m_Undo.UndoRow = m_StartRow
+
+            Dim SheetName As String = GetActiveSheetName()
+            If 1 = m_rowCount Then
+                If m_Execution.m_Undo.hasBackupData Then
+                    m_Execution.m_Undo.UndoPatternRec_B = m_Execution.m_Undo.UndoPatternRec_A
+                End If
+
+                m_Execution.m_Pattern.m_ErrorChk.ConvertToDataStruct(m_Execution.m_Undo.UndoPatternRec_A, _
+                    AxSpreadsheetProgramming, SheetName, m_StartRow)
+            End If
+        End If
+
+
+        MenuEditUndo.Enabled = True
+        MenuEditRedo.Enabled = False
+        TraceGCCollect()
+    End Sub
+#End Region
+
+
+#Region "GUI Controls Related"
+    Public Sub IOCheck_tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IOCheck.Tick
+        Try
+            If ProgrammingMode() And CurrentMode = "Basic Setup" Then Exit Sub
+            If debounce_counter < 4 Then
+                debounce_counter += 1
+                Exit Sub
+            End If
+            Dim button_num_pressed As Integer = IDS.Devices.DIO.DIO.CheckOperationSwitch()
+            If button_num_pressed <> 0 Then
+                IOCheck.Stop()
+                Select Case button_num_pressed
+                    Case 1  'Park/ChangeSyr
+                        SetState("Park")
+                    Case 2  'Purge
+                        If SetState("Purge") Then DoPurge()
+                    Case 3  'Clean
+                        If SetState("Clean") Then DoClean()
+                    Case 6  'Run
+                        SetState("Start")
+                    Case 7  'Stop
+                        StopDispensing()
+                    Case 8  'Pause
+                        PauseDispensing()
+                    Case 9  'Reset
+                        'SetState("Reset")
+                    Case 10
+                End Select
+                IOCheck.Start()
+                debounce_counter = 0
+            End If
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+        End Try
+    End Sub
+    'yy
+    Public Function IsVisionTeachMode()
+        Return False
+        'Return VisionMode.Checked
+    End Function
+
+    Public Function IsNeedleTeachMode()
+        Return NeedleMode.Checked
+    End Function
+
+    Public Sub DisableTeachModeSwitching()
+        NeedleMode.Enabled = False
+        'VisionMode.Enabled = False 'yy
+    End Sub
+
+    Public Sub EnableTeachModeSwitching()
+        NeedleMode.Enabled = True
+        'VisionMode.Enabled = True 'yy
+    End Sub
+
+    Public Sub SwitchToNeedleTeachMode()
+        NeedleMode.Checked = True
+        'VisionMode.Checked = False
+    End Sub
+
+    Private Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
+        ButtonCalibrate.Enabled = False
+        Dim fm As InfoForm = New InfoForm
+        fm.SetMessage("Please put on the syringe and make sure it is not tighten!")
+        If fm.ShowDialog() = DialogResult.OK Then
+            m_Tri.SteppingButtons.Enabled = False
+            If SetState("Needle Calibration") Then DoCalibrate()
+            Console.WriteLine("Ok to calibrate")
+        Else
+            Console.WriteLine("Cancel calibration")
+            ButtonCalibrate.Enabled = True
+        End If
+    End Sub
+
+    Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
+        Me.Close()
+    End Sub
+
+    Private Sub btStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStart.Click
+        SetState("Start")
+    End Sub
+
+    Private Sub btPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPause.Click
+        PauseDispensing()
+    End Sub
+
+    Private Sub btStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStop.Click
+        StopDispensing()
     End Sub
 
     Dim x1, x2, x3 As Double
@@ -6384,90 +6515,6 @@ Public Class FormProgramming
         TraceGCCollect()
 
     End Sub
-
-#Region "teaching"
-    Public Sub ConfirmPurge()
-        DisableCoordinateUpdateInSpreadsheet()
-        DisplaySpreadsheetTabs()
-        SelectCell(m_Row + 1, 1)
-        m_Row = GetActiveCellRow()
-        DisableTeachingToolbar()
-        m_ProgrammingStateFlag = False
-    End Sub
-    Public Sub ConfirmHeight()
-        DisableCoordinateUpdateInSpreadsheet()
-        DisplaySpreadsheetTabs()
-        cell1 = GetCell(m_Row, gPos1XColumn)
-        cell2 = GetCell(m_Row, gPos1ZColumn)
-        Dim x1 As Double = GetCellValue(m_Row, gPos1XColumn)
-        Dim y1 As Double = GetCellValue(m_Row, gPos1YColumn)
-
-        ToggleButtonsForTeachingStop()
-        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-
-        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-        Dim posFrom(3), posTo(3), posOffset As Double
-        posFrom(0) = GetCellValue(m_Row, gPos1XColumn)
-        posFrom(1) = GetCellValue(m_Row, gPos1YColumn)
-        posFrom(2) = 0
-        posTo(0) = posFrom(0) - gLaserOffX
-        posTo(1) = posFrom(1) - gLaserOffY
-        posTo(2) = posFrom(2)
-
-        LockMovementButtons()
-        MoveToSpreadsheetPoint(posTo, "Vision")
-
-        OnLaser()
-        Dim rtn As Integer = Laser.WaitForReadingToStabilize()
-        OffLaser()
-        If rtn Then                     'No laser readout error
-            posOffset = Laser.MM_Reading - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
-            SetCellValue(m_Row, gPos1ZColumn, CInt(posOffset))
-        Else
-            MessageBox.Show("laser sensor out of range")
-            m_TeachStepNumber = 0
-            ToggleButtonsForTeachingStop()
-            DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-            DisableElementsCommandBlockButton(gOffsetCmdIndex)
-            DeleteRow(m_Row)
-        End If
-        posFrom(0) = posFrom(0)
-        posFrom(1) = posFrom(1)
-        posFrom(2) = posFrom(2)
-
-        MoveToSpreadsheetPoint(posFrom, "Vision")
-        ChangeButtonState("Idle")
-        UnlockMovementButtons()
-
-        SelectCell(m_Row + 1, gCommandNameColumn)
-        m_ProgrammingStateFlag = False
-    End Sub
-    Public Sub ConfirmSubPattern()
-        DisableCoordinateUpdateInSpreadsheet()
-        DisplaySpreadsheetTabs()
-        cell1 = GetCell(m_Row, gPos1XColumn)
-        cell2 = GetCell(m_Row, gPos1ZColumn)
-        Dim x1 As Double = GetCellValue(m_Row, gPos1XColumn)
-        Dim y1 As Double = GetCellValue(m_Row, gPos1YColumn)
-        DisableTeachingButtons()
-        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-        SelectCell(m_Row + 1, gCommandNameColumn)
-        m_ProgrammingStateFlag = False
-    End Sub
-    Public Sub ConfirmSinglePointElement()
-        DisableCoordinateUpdateInSpreadsheet()
-        DisplaySpreadsheetTabs()
-        cell1 = GetCell(m_Row, gPos1XColumn)
-        cell2 = GetCell(m_Row, gPos1ZColumn)
-        Dim x1 As Double = GetCellValue(m_Row, gPos1XColumn)
-        Dim y1 As Double = GetCellValue(m_Row, gPos1YColumn)
-        ToggleButtonsForTeachingStop()
-        DisableElementsCommandBlockButton(gSeperatorCmdIndex)
-        m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
-        SelectCell(m_Row + 1, gCommandNameColumn)
-        m_ProgrammingStateFlag = False
-    End Sub
-#End Region
 
     Private Sub Confirm()
         Dim i As Integer
@@ -6680,423 +6727,219 @@ Public Class FormProgramming
         EnableCoordinateUpdateInSpreadsheet()
     End Sub
 
-#End Region
+    Private Sub ButtonToggleMode_click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonToggleMode.Click
+        TimerForUpdate.Start() 'kr nov28
+        If CurrentMode = "Program Editor" Then
+            'stepper panel
+            MySettings.PanelLeft.Controls.Add(m_Tri.SteppingButtons)
+            Controls.Remove(m_Tri.SteppingButtons)
+            'm_Tri.SteppingButtons.Location = New Point(384, 12)
+            m_Tri.SteppingButtons.Location = New Point(380 / 2, 928 / 2)
+            m_Tri.SteppingButtons.BringToFront()
+            m_Tri.SteppingButtons.Show()
 
-#Region "Others"
-    Private Sub OptimizePath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptimizePath.Click
+            CurrentMode = "Basic Setup"
 
-        m_Execution.m_Command.SetOptimizFlag(1)
-        Dim m_PatternList As New ArrayList 'kr
-        Dim m_DispenseList As New ArrayList 'kr
-        Dim comP As New IDSPattnCompiler(m_PatternList) 'kr
-        Dim loadSheet As New CIDSPatternLoader(AxSpreadsheetProgramming) 'kr
-        UpdateSpreadsheet()
-        Dim rtn As Integer = m_Execution.m_Command.ReadPattern(AxSpreadsheetProgramming)
-        'comP.Compile(m_DispenseList) 'kr
+            ButtonToggleMode.Text = "Go to Program Editor"
+            CBExpandSpreadsheet.Visible = False
+            CBExpandSpreadsheet.Visible = False
+            MySettings.panelRight.Location = New Point(768, 33)
+            MySettings.PanelLeft.Location = New Point(0, 33)
+            'Me.PanelVision.Location = New Point(0, 341)
+            'Me.PanelVisionCtrl.Location = New Point(0, 916)
+            'Me.PanelVisionCtrl.BringToFront()
+            'Me.PanelVision.BringToFront()
+            Me.Controls.Add(MySettings.panelRight)
+            Me.Controls.Add(MySettings.PanelLeft)
+            MySettings.panelRight.BringToFront()
+            MySettings.PanelLeft.BringToFront()
+            MySettings.RichTextBox1.BringToFront()
+            MySettings.RevertData()
+            EnableDisableMenuBar()
+            'Me.PanelVision.Visible = True
+        ElseIf CurrentMode = "Basic Setup" Then
 
-        Dim optm As ArrayList
-        Dim row As Integer
+            MySettings.RemoveCurrentPanel()
+            m_Tri.Move_Z(0)
 
-        If rtn = 0 Then
-            optm = m_Execution.m_Command.PattenList
-            row = optm.Count
+            'stepper panel
+            'Controls.Add(m_Tri.SteppingButtons)
+            gbProcess.Controls.Add(m_Tri.SteppingButtons)
+            MySettings.PanelLeft.Controls.Remove(m_Tri.SteppingButtons)
+            m_Tri.SteppingButtons.Location = PanelToBeAdded.Location()
+            m_Tri.SteppingButtons.BringToFront()
+            m_Tri.SteppingButtons.Show()
+
+            CurrentMode = "Program Editor"
+            ButtonToggleMode.Text = "Go to Basic Setup"
+            Disp_Dispenser_Unit_info()
+            CBExpandSpreadsheet.Visible = True
+            Me.Controls.Remove(MySettings.panelRight)
+            Me.Controls.Remove(MySettings.PanelLeft)
+            'Me.PanelVision.Location = New Point(84, 360)
+            'Me.PanelVisionCtrl.Location = New Point(84, 940)
+            'Me.PanelVision.Visible = False
+            IDS.Data.OpenData()
+            'SJ
+            SystemSetupDataRetrieve(ModuleGConst.SettingsMode.LocalSettings)
+            EnableDisableMenuBar()
+        End If
+    End Sub
+
+    Private Sub EnableDisableMenuBar()
+        If CurrentMode = "Basic Setup" Then
+            MenuFileNew.Enabled = False
+            MenuFileOpen.Enabled = False
+            MenuFileImport.Enabled = False
+            MenuFileExport.Enabled = False
+            MenuFileSave.Enabled = False
+            MenuFileSaveAs.Enabled = False
+
+            MenuEditUndo.Enabled = False
+            MenuEditRedo.Enabled = False
+            MenuEditCut.Enabled = False
+            MenuEditCopy.Enabled = False
+            MenuEditPaste.Enabled = False
+            MenuEditDelete.Enabled = False
+            MenuEditSelectAll.Enabled = False
+
+            MenuItem67.Enabled = True
+            MenuItem88.Enabled = False
+
+            MenuItem33.Enabled = False
+            MenuItem32.Enabled = False
+            MenuItem29.Enabled = False
+            MenuItem30.Enabled = True
+            MenuItem62.Enabled = False
+            OptimizePath.Enabled = False
+
+        ElseIf CurrentMode = "Program Editor" Then
+            MenuFileNew.Enabled = True
+            MenuFileOpen.Enabled = True
+            MenuFileImport.Enabled = True
+            MenuFileExport.Enabled = True
+            MenuFileSave.Enabled = True
+            MenuFileSaveAs.Enabled = True
+
+            MenuEditUndo.Enabled = True
+            MenuEditRedo.Enabled = True
+            MenuEditCut.Enabled = True
+            MenuEditCopy.Enabled = True
+            MenuEditPaste.Enabled = True
+            MenuEditDelete.Enabled = True
+            MenuEditSelectAll.Enabled = True
+
+            MenuItem67.Enabled = False
+            MenuItem88.Enabled = True
+
+            MenuItem33.Enabled = True
+            MenuItem32.Enabled = True
+            MenuItem29.Enabled = True
+            MenuItem30.Enabled = False
+            MenuItem62.Enabled = True
+            OptimizePath.Enabled = True
+        End If
+    End Sub
+
+    Private Sub CheckBox3_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CBExpandSpreadsheet.CheckedChanged
+        If CBExpandSpreadsheet.Checked = True Then
+            AxSpreadsheetProgramming.Height = 906
+            AxSpreadsheetProgramming.BringToFront()
         Else
-            LabelMessage("Empty sheet or data error!")
+            AxSpreadsheetProgramming.Height = 260
+            'AxSpreadsheetProgramming.SendToBack()
+        End If
+    End Sub
+
+    Private Sub ButtonHome_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHome.Click
+        SetState("Homing")
+    End Sub
+
+    Private Sub ButtonPurge_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonPurge.Click
+        If SetState("Purge") Then DoPurge()
+    End Sub
+
+    Private Sub ButtonClean_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClean.Click
+        If SetState("Clean") Then DoClean()
+    End Sub
+
+    Private Sub NeedleMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NeedleMode.Click
+        If IsBusy() Then
+            LabelMessage("Can't change mode when machine is running!")
             Exit Sub
         End If
+        MoveZToSafePosition()
+        DisableElementsCommandBlockButton(gQCCmdIndex) 'QC
+        DisableElementsCommandBlockButton(gChipEdgeCmdIndex) 'ChipEdge
+        DisableReferenceCommandBlock()
+        EnableReferenceCommandBlockButton(gHeightCmdIndex) 'Height
+    End Sub
 
-        Dim folder As String = gPatternFileName
-        folder = folder.TrimEnd("\") + "_optm"
-        If System.IO.File.Exists(folder) Then
-            'Project name is the same with an existing filename
-            'The file will be deleted
-            System.IO.File.Delete(folder)
-            'Create folder for the project
+    Private Sub CheckBoxLockX_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLockX.CheckedChanged
+
+        If IsBusy() Then
+            LabelMessage("Can't lock axis when machine running!")
+            Exit Sub
+        End If
+        If CheckBoxLockX.Checked = True Then
+            m_Tri.SetTrioMotionValues("Lock X")
+            m_Xlocked = True
+        Else
+            m_Tri.SetTrioMotionValues("Unlock X")
+            m_Xlocked = False
         End If
 
-        System.IO.Directory.CreateDirectory(folder)
+    End Sub
 
-        'gPatternFileName = folder + "\" + File
+    Private Sub CheckBoxLockY_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLockY.CheckedChanged
 
-
-        Dim FileName As String '= gPatternFileName
-        FileName = folder + "\" + m_Execution.m_File.NameOnlyFromFullPath(folder)
-
-        'lsgoh
-        ' get default value from the default pat file
-
-        IDS.Data.ParameterID.RecordID = "FactoryDefault"
-        IDSData.Admin.Folder.FileExtension = "Pat"
-        IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
-        IDS.Data.OpenData()
-        IDS.Data.SavePathFileData(FileName + ".pat")
-
-        Try
-            If FileName <> Nothing Then
-                m_Execution.m_Pattern.SavePatternParaOpt(optm, FileName + ".txt", False)
-            End If
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-        LabelMessage("Dot optimisation file saved!")
-        TraceGCCollect()
+        If IsBusy() Then
+            LabelMessage("Can't lock axis when machine running!")
+            Exit Sub
+        End If
+        If CheckBoxLockY.Checked = True Then
+            m_Tri.SetTrioMotionValues("Lock Y")
+            m_Ylocked = True
+        Else
+            m_Tri.SetTrioMotionValues("Unlock Y")
+            m_Ylocked = False
+        End If
 
     End Sub
 
-    Private Sub ButtonPro_LEdit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        IDS.Data.SaveLocalData()
+    Private Sub CheckBoxLockZ_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLockZ.CheckedChanged
+
+        If IsBusy() Then
+            LabelMessage("Can't lock axis when machine running!")
+            Exit Sub
+        End If
+        If CheckBoxLockZ.Checked = True Then
+            m_Tri.SetTrioMotionValues("Lock Z")
+            m_Zlocked = True
+        Else
+            m_Tri.SetTrioMotionValues("Unlock Z")
+            m_Zlocked = False
+        End If
     End Sub
 
-    Private Sub ButtonPro_REdit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        IDS.Data.SaveLocalData()
+    Private Sub ComboBox1_SelectedValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DispensingMode.SelectedValueChanged
+        '0-vision 1-dry 2-dry left 3-dry right 4-wet 5-dry left 6-dry right  
+        itemIndex = DispensingMode.SelectedIndex
+        If itemIndex = 0 Then
+            m_RunMode = 0
+        ElseIf itemIndex = 1 Then
+            m_RunMode = 1
+        ElseIf itemIndex = 2 Then
+            m_RunMode = 4
+        End If
     End Sub
 
 #End Region
 
-    Private Sub MenuItem33_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem33.Click
-        '''''''''''''''''
-        '   Offset      '
-        '''''''''''''''''
-        TeachElementCommand("Offset")
-    End Sub
-
-    Private Sub MenuItem32_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem32.Click
-        '''''''''''''''''''''
-        '   SubPattern      '
-        '''''''''''''''''''''
-        TeachElementCommand("SubPattern")
-    End Sub
-
-    Private Sub MenuItem29_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem29.Click
-        '''''''''''''''''
-        '   SetIO       '
-        '''''''''''''''''
-        TeachElementCommand("SetIO")
-    End Sub
-
-    Private Sub MenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem30.Click
-        '''''''''''''''''
-        '   ResetIO     '
-        '''''''''''''''''
-        Dim Respond As DialogResult = MessageBox.Show("Do You want to initialize the IO bits?", "", MessageBoxButtons.YesNo)
-
-        If Respond = DialogResult.Yes Then
-            'Initialize trio controller IO 
-            Dim I As Integer = 0
-            m_tri.SetAllDIOsOff()
-
-            'Initialize PCIO card
-            For I = 0 To 7   'iterate thru the io bits
-                IDS.Devices.DIO.SetOutputBit(0, I, False)
-                IDS.Devices.DIO.SetOutputBit(1, I, False)
-            Next
-
-            'Initialize CAN IO 
-            For I = 32 To 47    'iterate thru the io bits
-                MySleep(10)
-                m_tri.SetDIOs(1, I, False)
-            Next
-        End If
-    End Sub
-
-    Private Sub MenuItem62_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem62.Click
-        TeachElementCommand("Measurement")
-    End Sub
-
-#Region "thermal"
-
-    ' reads temperature from heater
-
-    Dim temp_num As Integer = 0
-    Dim alarm_num As Integer = 0
-    Dim switching As Boolean = True
-
-    Public Sub TimerForUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerForUpdate.Tick
-
-        'If switching = True Then
-        '    If IDS.Devices.Thermal.FrmThermal.command = "received" Then
-        '        temp_num += 1
-        '        If temp_num = 6 Then
-        '            temp_num = 1
-        '        End If
-        '        If MyHeaterSettings.Heater_Enabled(temp_num - 1) = True Then
-        '            IDS.Devices.Thermal.FrmThermal.command = "receiving"
-        '            IDS.Devices.Thermal.FrmThermal.Get_Temperature(temp_num)
-        '        End If
-        '        switching = False
-        '    End If
-        'Else
-        '    If IDS.Devices.Thermal.FrmThermal.command = "received" Then
-        '        alarm_num += 1
-        '        If alarm_num = 6 Then
-        '            alarm_num = 1
-        '        End If
-        '        If MyHeaterSettings.Heater_Enabled(alarm_num - 1) = True Then
-        '            IDS.Devices.Thermal.FrmThermal.command = "receiving"
-        '            IDS.Devices.Thermal.FrmThermal.Get_Alarm_Status(alarm_num)
-        '        End If
-        '        switching = True
-        '    End If
-        'End If
-
-        'IDS.Devices.Thermal.FrmThermal.check_individual_reading()
-
-        'LB_NeedleHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(0)
-        'Production.Needle.Text = IDS.Devices.Thermal.FrmThermal.Temperature(0)
-
-        'LB_SyrHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(1)
-        'Production.Syringe.Text = IDS.Devices.Thermal.FrmThermal.Temperature(1)
-
-        'LB_PreHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(2)
-        'Production.Station1.Text = IDS.Devices.Thermal.FrmThermal.Temperature(2)
-
-        'LB_DispHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(3)
-        'Production.Station2.Text = IDS.Devices.Thermal.FrmThermal.Temperature(3)
-
-        'LB_PostHeater.Text = IDS.Devices.Thermal.FrmThermal.Temperature(4)
-        'Production.Station3.Text = IDS.Devices.Thermal.FrmThermal.Temperature(4)
-
-        'If IDS.Devices.Thermal.FrmThermal.switched_off <> 0 Then
-        '    Select Case (IDS.Devices.Thermal.FrmThermal.switched_off)
-        '        Case 1
-        '            HeaterControl0.Text = "Heater Off"
-        '        Case 2
-        '            HeaterControl1.Text = "Heater Off"
-        '        Case 3
-        '            HeaterControl2.Text = "Heater Off"
-        '        Case 4
-        '            HeaterControl3.Text = "Heater Off"
-        '        Case 5
-        '            HeaterControl4.Text = "Heater Off"
-        '    End Select
-        '    IDS.Devices.Thermal.FrmThermal.switched_off = 0
-        'End If
-
-    End Sub
-
-    Public Function SetControl(ByVal command_type As String, ByVal node_num As Integer, ByVal toggle As Boolean)
-
-        'If command_type = "heater control" Then
-        '    IDS.Devices.Thermal.FrmThermal.On_Off_thermal(node_num, toggle)
-        'ElseIf command_type = "temperature control" Then
-        '    If toggle = True Then ' true for operation, false for standby
-        '        Select Case node_num
-        '            Case 1
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Needle.OperationTemp)
-        '            Case 2
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Syringe.OperationTemp)
-        '            Case 3
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station1.OperationTemp)
-        '            Case 4
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station2.OperationTemp)
-        '            Case 5
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station3.OperationTemp)
-        '        End Select
-        '    Else
-        '        Select Case node_num
-        '            Case 1
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Needle.StandbyTemp)
-        '            Case 2
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Syringe.StandbyTemp)
-        '            Case 3
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station1.StandbyTemp)
-        '            Case 4
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station2.StandbyTemp)
-        '            Case 5
-        '                IDS.Devices.Thermal.FrmThermal.Set_Temperature(node_num, IDS.Data.Hardware.Thermal.Station3.StandbyTemp)
-        '        End Select
-        '    End If
-        'End If
-
-    End Function
-
-    '''''''''''''''
-    '                                       kr                                       '
-    ' set the heater_enabled
-    '''''''''''''''
-
-    Private Sub check_and_set_thermal()
-
-        'If IDS.Data.Hardware.Thermal.Needle.OnOffControl = True Then
-        '    LB_NeedleHeater.Visible = True
-        '    HeaterControl0.Enabled = True
-        '    HeaterTempControl0.Enabled = True
-        '    MyHeaterSettings.Heater_Enabled(0) = True
-        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(1, IDS.Data.Hardware.Thermal.Needle.AlarmThreshold)
-        'Else
-        '    LB_NeedleHeater.Visible = False
-        '    HeaterControl0.Enabled = False
-        '    HeaterTempControl0.Enabled = False
-        'End If
-
-        'If IDS.Data.Hardware.Thermal.Syringe.OnOffControl = True Then
-        '    LB_SyrHeater.Visible = True
-        '    HeaterControl1.Enabled = True
-        '    HeaterTempControl1.Enabled = True
-        '    MyHeaterSettings.Heater_Enabled(1) = True
-        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(2, IDS.Data.Hardware.Thermal.Syringe.AlarmThreshold)
-        'Else
-        '    LB_SyrHeater.Visible = False
-        '    HeaterControl1.Enabled = False
-        '    HeaterTempControl1.Enabled = False
-        'End If
-
-        'If IDS.Data.Hardware.Thermal.Station1.OnOffControl = True Then
-        '    LB_PreHeater.Visible = True
-        '    HeaterControl2.Enabled = True
-        '    HeaterTempControl2.Enabled = True
-        '    MyHeaterSettings.Heater_Enabled(2) = True
-        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(3, IDS.Data.Hardware.Thermal.Station1.AlarmThreshold)
-        'Else
-        '    LB_PreHeater.Visible = False
-        '    HeaterControl2.Enabled = False
-        '    HeaterTempControl2.Enabled = False
-        'End If
-
-        'If IDS.Data.Hardware.Thermal.Station2.OnOffControl = True Then
-        '    LB_DispHeater.Visible = True
-        '    HeaterControl3.Enabled = True
-        '    HeaterTempControl3.Enabled = True
-        '    MyHeaterSettings.Heater_Enabled(3) = True
-        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(4, IDS.Data.Hardware.Thermal.Station3.AlarmThreshold)
-        'Else
-        '    LB_DispHeater.Visible = False
-        '    HeaterControl3.Enabled = False
-        '    HeaterTempControl3.Enabled = False
-        'End If
-
-        'If IDS.Data.Hardware.Thermal.Station3.OnOffControl = True Then
-        '    LB_PostHeater.Visible = True
-        '    HeaterControl4.Enabled = True
-        '    HeaterTempControl4.Enabled = True
-        '    MyHeaterSettings.Heater_Enabled(4) = True
-        '    IDS.Devices.Thermal.FrmThermal.Set_Alarm(5, IDS.Data.Hardware.Thermal.Station3.AlarmThreshold)
-        'Else
-        '    LB_PostHeater.Visible = False
-        '    HeaterControl4.Enabled = False
-        '    HeaterTempControl4.Enabled = False
-        'End If
-
-    End Sub
-
-#End Region
-
-
-    Sub SelectRange(ByVal cell1 As Object, ByVal cell2 As Object)
-        Try
-            AxSpreadsheetProgramming.ActiveSheet.Range(cell1, cell2).Select()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-
-    Sub SelectCell(ByVal row As Integer, ByVal column As Integer)
-        Try
-            AxSpreadsheetProgramming.ActiveSheet.Cells(row, column).Select()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-
-    Sub TeachCommand(ByVal type As String, ByVal cell1 As Object, ByVal cell2 As Object)
-        m_Row = GetActiveCellRow()
-        AddCommandToSpreadsheet(type)
-        cell1 = GetCell(m_Row, gPos1XColumn)
-        cell2 = GetCell(m_Row, gPos1ZColumn)
-        AxSpreadsheetProgramming.ActiveSheet.Range(cell1, cell2).Select()
-        ToolBarSwitch("YesNo")
-    End Sub
-
-    Dim debounce_counter As Integer = 5
-    Public Sub IOCheck_tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IOCheck.Tick
-        Try
-            If ProgrammingMode() And CurrentMode = "Basic Setup" Then Exit Sub
-            If debounce_counter < 4 Then
-                debounce_counter += 1
-                Exit Sub
-            End If
-            Dim button_num_pressed As Integer = IDS.Devices.DIO.DIO.CheckOperationSwitch()
-            If button_num_pressed <> 0 Then
-                IOCheck.Stop()
-                Select Case button_num_pressed
-                    Case 1  'Park/ChangeSyr
-                        SetState("Park")
-                    Case 2  'Purge
-                        If SetState("Purge") Then DoPurge()
-                    Case 3  'Clean
-                        If SetState("Clean") Then DoClean()
-                    Case 6  'Run
-                        SetState("Start")
-                    Case 7  'Stop
-                        StopDispensing()
-                    Case 8  'Pause
-                        PauseDispensing()
-                    Case 9  'Reset
-                        'SetState("Reset")
-                    Case 10
-                End Select
-                IOCheck.Start()
-                debounce_counter = 0
-            End If
-        Catch ex As Exception
-            ExceptionDisplay(ex)
-        End Try
-    End Sub
-    'yy
-    Public Function IsVisionTeachMode()
-        Return False
-        'Return VisionMode.Checked
-    End Function
-
-    Public Function IsNeedleTeachMode()
-        Return NeedleMode.Checked
-    End Function
-
-    Public Sub DisableTeachModeSwitching()
-        NeedleMode.Enabled = False
-        'VisionMode.Enabled = False 'yy
-    End Sub
-
-    Public Sub EnableTeachModeSwitching()
-        NeedleMode.Enabled = True
-        'VisionMode.Enabled = True 'yy
-    End Sub
-
-    'Public Sub SwitchToVisionTeachMode()
-    '    NeedleMode.Checked = False
-    '    VisionMode.Checked = True
-    'End Sub
-
-    Public Sub SwitchToNeedleTeachMode()
-        NeedleMode.Checked = True
-        'VisionMode.Checked = False
-    End Sub
-
-    Private Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
-        If SetState("Needle Calibration") Then DoCalibrate()
-    End Sub
-    'yy
-    'Private Sub VisionMode_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.CheckedChanged
-
-    'End Sub
-
-    Private Sub AxSpreadsheetProgramming_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.LostFocus
-
-    End Sub
-
-    Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
-        Me.Close()
-    End Sub
-
-    Private Sub btStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStart.Click
-        SetState("Start")
-    End Sub
-
-    Private Sub btPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPause.Click
-        PauseDispensing()
-    End Sub
-
-    Private Sub btStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStop.Click
-        StopDispensing()
+    Private Sub HomingTimer_Elapsed(ByVal sender As System.Object, ByVal e As System.Timers.ElapsedEventArgs) Handles HomingTimer.Elapsed
+        HomingTimer.Stop()
+        HomingTimer.Enabled = False
+        SetState("Homing")
+        Console.WriteLine("Homing Timer Called")
     End Sub
 End Class

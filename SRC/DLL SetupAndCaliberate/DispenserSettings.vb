@@ -328,7 +328,7 @@ Public Class DispenserSettings
         Me.GroupBox1.Controls.Add(Me.HeadType)
         Me.GroupBox1.Controls.Add(Me.Auger)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 224)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 96)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(496, 256)
         Me.GroupBox1.TabIndex = 64
@@ -521,7 +521,7 @@ Public Class DispenserSettings
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox1)
         Me.PanelToBeAdded.Location = New System.Drawing.Point(24, 16)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 911)
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 760)
         Me.PanelToBeAdded.TabIndex = 65
         '
         'Label17
@@ -546,11 +546,12 @@ Public Class DispenserSettings
         Me.ButtonExit.TabStop = False
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonExit.Visible = False
         '
         'ButtonSave
         '
         Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSave.Location = New System.Drawing.Point(288, 824)
+        Me.ButtonSave.Location = New System.Drawing.Point(288, 696)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(75, 40)
         Me.ButtonSave.TabIndex = 50
@@ -559,7 +560,7 @@ Public Class DispenserSettings
         'ButtonRevert
         '
         Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonRevert.Location = New System.Drawing.Point(400, 824)
+        Me.ButtonRevert.Location = New System.Drawing.Point(400, 696)
         Me.ButtonRevert.Name = "ButtonRevert"
         Me.ButtonRevert.Size = New System.Drawing.Size(75, 40)
         Me.ButtonRevert.TabIndex = 49
@@ -574,7 +575,7 @@ Public Class DispenserSettings
         Me.GroupBox2.Controls.Add(Me.NeedleColor)
         Me.GroupBox2.Controls.Add(Me.NeedleTipLength)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 496)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 368)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(240, 296)
         Me.GroupBox2.TabIndex = 0
@@ -659,7 +660,7 @@ Public Class DispenserSettings
         Me.GroupBox3.Controls.Add(Me.PotLifeDurationLabel2)
         Me.GroupBox3.Controls.Add(Me.PotLifeDurationMinutes)
         Me.GroupBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(256, 496)
+        Me.GroupBox3.Location = New System.Drawing.Point(256, 368)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(248, 296)
         Me.GroupBox3.TabIndex = 0
@@ -845,7 +846,7 @@ Public Class DispenserSettings
         Me.CurrentHeads.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.CurrentHeads.ItemHeight = 20
         Me.CurrentHeads.Items.AddRange(New Object() {"Left Head", "Right Head"})
-        Me.CurrentHeads.Location = New System.Drawing.Point(24, 176)
+        Me.CurrentHeads.Location = New System.Drawing.Point(24, 48)
         Me.CurrentHeads.Name = "CurrentHeads"
         Me.CurrentHeads.Size = New System.Drawing.Size(200, 28)
         Me.CurrentHeads.TabIndex = 46

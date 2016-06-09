@@ -27,8 +27,6 @@ Public Class CIDSCommand
 
     End Sub
 
-
-
     'Get current pattern file ompilling status
     '   return:  1-finished and sucess;     0-not yet complied                                                                           
     Public ReadOnly Property CompileStatus() As Integer
@@ -37,20 +35,16 @@ Public Class CIDSCommand
         End Get
     End Property
 
-
     'Get gattern file commands hold list
     '                                                                                
-
     Public ReadOnly Property PattenList() As ArrayList
         Get
             Return m_PatternList
         End Get
     End Property
 
-
     'Get dispensing command list after compiling
     '                                                                                
-
     Public ReadOnly Property DispenseList() As ArrayList
         Get
             Return m_DispenseList
@@ -62,10 +56,8 @@ Public Class CIDSCommand
         Return 0
     End Function
 
-
     'Read pattern commands from spread sheet into pattern list
     '   file:  filename name for the export                                                                                
-
     Public Function ReadPattern(ByVal sheet As AxOWC10.AxSpreadsheet) As Integer
         Dim loadSheet As New CIDSPatternLoader(sheet)
 
@@ -192,11 +184,8 @@ Public Class CIDSCommand
         Return 0
     End Function
 
-
-
     'Compiling pattern command list into dispensing command list
     '   runmode:  0-vision 1-dry 2-dry left 3-dry right 4-wet 5-dry left 6-dry right                                                                               
-
     Public Function Compile(ByVal runmode As Integer) As Integer
         m_CompilerStatus = 0
         If m_PatternList.Count < 1 Then
@@ -215,7 +204,6 @@ Public Class CIDSCommand
         Return 0
     End Function
 End Class
-
 
 '
 '                                                                                              
@@ -237,7 +225,6 @@ Public Class CIDSPatternLoader
 
     'Set spreadsheet to be handled
     '   spreadsheet: an instance of spreadsheet                                                                              
-
     Public Sub New(ByVal spreadsheet As AxOWC10.AxSpreadsheet)
         m_Sheet = spreadsheet
     End Sub
@@ -247,10 +234,8 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Get worksheet used rows and columns
     '                                                                               
-
     Public Function GetSheetUsedRowsColums(ByVal actSheet As OWC10.Worksheet, ByRef Rows As Integer, ByRef Colums As Integer) As Integer
         If actSheet Is Nothing Then
             Return -1
@@ -265,13 +250,11 @@ Public Class CIDSPatternLoader
         Return (0)
     End Function
 
-
     'Fiducial and sub transform operation
     '   pt():       point to be transformed to hard home coornidates
     '   referPt():  reference point
     '   fidComp:    fiducial ompensation data
     '   newPt():    transformed point
-
     Public Function FidandSubTransform(ByVal pt() As Double, ByVal referPt() As Double, ByVal fidComp As FidCompData, ByRef newPt() As Double)
         Dim tmp(3), comp(3) As Double
         Dim z As Double
@@ -327,10 +310,8 @@ Public Class CIDSPatternLoader
         End If
     End Function
 
-
     'Get current reference point's coordinates
     '  
-
     Public Function GetReferencePtData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef referPt() As Double) As Integer
         Dim Ratio As Double = 1.0
 
@@ -344,7 +325,6 @@ Public Class CIDSPatternLoader
     End Function
 
     'Move robot to position x,y to detect height 
-
     Public Function MoveToCheckHeight(ByVal x As Double, ByVal y As Double, ByRef height As Double) As Integer
 
         Dim pos() As Double = {x, y}
@@ -370,12 +350,9 @@ Public Class CIDSPatternLoader
 
     End Function
 
-
-
     'Set height record
     '      sheet: pattern sheet
     '      row:   pattern command row number
-
     Public Function SetHeightRecData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSHeight) As Integer
 
   Dim array As Object(,) ' array start at (1,1)
@@ -390,16 +367,12 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
-
-
     'Move robot to position x,y to detect height 
     '      sheet: pattern sheet
     '      row:   pattern command row number
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      heightComps:  height compensation value  
-
     Public Function GetHeightCompensation(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, _
                                           ByVal referPt() As Double, ByVal fidComp As FidCompData, ByRef heightComps As Double) As Integer
         Dim pt(3), comp(3), tmp(3) As Double
@@ -985,7 +958,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetWaitRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSWait, ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
         Dim pt(3), comp(3), tmp(3) As Double
@@ -1020,7 +992,6 @@ Public Class CIDSPatternLoader
     '      sheet: pattern sheet
     '      row:   pattern command row number
     '      data:  setio record data
-
     Public Function SetSetIORecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSSetIO) As Integer
         Dim OnOff As String
         data.CmdLineNo = row
@@ -1043,13 +1014,11 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set getio command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
     '      data:  getio record data
     '
-
     Public Function SetGetIORecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSGetIO) As Integer
         data.CmdLineNo = row
         data.CmdType = "GETIO"
@@ -1063,13 +1032,11 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set clean command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
     '      data:  clean record data
     '
-
     Public Function SetVolCalRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSVolumeCalibration) As Integer
         Dim para As DispensePara
         data.CmdLineNo = row
@@ -1090,7 +1057,6 @@ Public Class CIDSPatternLoader
     '      row:   pattern command row number
     '      data:  clean record data
     '
-
     Public Function SetCleanRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSClean) As Integer
         Dim para As DispensePara
         data.CmdLineNo = row
@@ -1108,13 +1074,11 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set purge command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
     '      data:  purge record data
     ' 
-
     Public Function SetPurgeRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSPurge) As Integer
         Dim para As DispensePara
         data.CmdLineNo = row
@@ -1130,7 +1094,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set move command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1138,7 +1101,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetMoveRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSMove, _
                                       ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
@@ -1173,7 +1135,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set dot command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1181,7 +1142,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetDotRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSDot, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
 		Dim enterTime As Long = DateTime.Now.Ticks
@@ -1315,13 +1275,11 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 	
-	
     'Set link start command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
     '      data:  link start record data
     '
-
     Public Function SetLinkSRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSLinkS) As Integer
         data.CmdLineNo = row
         data.CmdType = "LINKSTART"
@@ -1329,20 +1287,17 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set link end command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
     '      data:  link end record data
     '
-
     Public Function SetLinkERecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSLinkE) As Integer
         data.CmdLineNo = row
         data.CmdType = "LINKEND"
         data.SheetName = sheet.Name
         Return 0
     End Function
-
 
     'Set line command record data
     '      sheet: pattern sheet
@@ -1351,7 +1306,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetLineRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSLine, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
@@ -1499,7 +1453,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set arc command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1507,7 +1460,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetArcRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSArc, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
@@ -1587,7 +1539,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set circle command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1595,7 +1546,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetCircleRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSCircle, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
@@ -1676,8 +1626,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
-
     'Set rectangle command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1685,7 +1633,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetRectRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSRectangle, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
@@ -1769,7 +1716,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set fill circle command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1777,7 +1723,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetFillCircleRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSFillCircle, _
                                       ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
@@ -1862,7 +1807,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set fill rectangle command record data
     '      sheet: pattern sheet
     '      row:   pattern command row number
@@ -1870,7 +1814,6 @@ Public Class CIDSPatternLoader
     '      referPt: reference point
     '      fidComp: sub/fiducial compensation data
     '      height:  height compensation value
-
     Public Function SetFillRectRecordData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef data As CIDSFillRectangle, _
                                      ByVal referPt() As Double, ByVal fidComp As FidCompData, ByVal height As Double) As Integer
         Dim para As DispensePara
@@ -1958,7 +1901,6 @@ Public Class CIDSPatternLoader
     '      arraysheetname:   array sheet name
     '      referencePt: reference point
     '      firstPos:  first element position
-
     Public Function GetArrayFirstPos(ByVal sheetlist As ArrayList, ByVal arraysheetname As String, ByVal referencePt() As Double, ByRef firstPos() As Double) As Integer
         Dim arraysheet As OWC10.Worksheet
         Dim numofsheet As Integer = sheetlist.Count
@@ -2038,8 +1980,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
-
     'Get pattern sheet first element's position
     '      subname: sub pattern name
     '      sheetlist:  whole pattern sheet name list
@@ -2048,7 +1988,6 @@ Public Class CIDSPatternLoader
     '      referencePt: reference point
     '      firstPos: first element's position in sub pattern
     '    
-
     Public Function GetFirstElementPos(ByVal subname As String, ByVal sheetlist As ArrayList, ByVal sheet As OWC10.Worksheet, ByVal rows As Integer, ByVal referencePt() As Double, ByRef firstPos() As Double) As Integer
         Dim type As String
         Dim i As Integer
@@ -2112,10 +2051,8 @@ Public Class CIDSPatternLoader
         Return -1
     End Function
 
-
     'Remove element objects from pattern command list
     '
-
     Public Function RemoveElements(ByRef list As ArrayList, ByVal startingElem As Object) As Integer
         Dim count As Integer = list.Count
         If count < 1 Then Return -1
@@ -2124,8 +2061,6 @@ Public Class CIDSPatternLoader
         list.RemoveRange(index, count - index)
         Return 0
     End Function
-
-
 
     'Set second level sub pattern command record data
     '      sheetlist: whole pattern sheet name list
@@ -2136,7 +2071,6 @@ Public Class CIDSPatternLoader
     '      heightcomps: height compensation
     '      compData: sub/fiducial compensation data
     '      
-
     Public Function SetSubSubPatternRecordData(ByVal sheetlist As ArrayList, ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef list As ArrayList, ByVal referencePt() As Double, ByVal heightcomps As Double, _
                                                ByRef compData As FidCompData) As Integer
         Dim i, Rows, Colums As Integer
@@ -2539,7 +2473,6 @@ Public Class CIDSPatternLoader
         Return 0
     End Function
 
-
     'Set first level sub pattern command record data
     '      sheetlist: whole pattern sheet name list
     '      sheet:     sub sheet
@@ -2548,7 +2481,6 @@ Public Class CIDSPatternLoader
     '      referencePt: reference point
     '      heightcomps: height compensation
     '      compData: sub/fiducial compensation data
-
     Public Function SetSubPatternRecordData(ByVal sheetlist As ArrayList, ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef list As ArrayList, ByVal referencePt() As Double, ByVal heightcomps As Double, ByRef compData As FidCompData) As Integer
         Dim i, Rows, Colums As Integer
         Dim fiducialpt(3) As Double
@@ -2607,7 +2539,7 @@ Public Class CIDSPatternLoader
         End If
 
 
- Dim array As Object(,) ' array start at (1,1)
+        Dim array As Object(,) ' array start at (1,1)
 
 
 
@@ -2634,11 +2566,11 @@ Public Class CIDSPatternLoader
         Dim type As String
         Dim rtn As Integer = 0
 
-		array = subsheet.Range("A1", "AD" & Rows).Value
+        array = subsheet.Range("A1", "AD" & Rows).Value
         For i = 1 To Rows
             'type = subsheet.Cells(i, gCommandNameColumn).Value
 
-			type = array(i, gCommandNameColumn)
+            type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
@@ -2971,7 +2903,6 @@ Public Class CIDSPatternLoader
     '      compData: sub/fiducial compensation data
     '      heightcomp: height compensation
     '      
-
     Public Function SetArrayRecordData(ByVal level As Integer, ByVal parentName As String, ByRef skipFlag As Integer, ByVal sheetlist As ArrayList, ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef list As ArrayList, _
                                        ByVal referencePt() As Double, ByRef compData As FidCompData, ByVal heightComp As Double) As Integer
         Dim i, j, Rows, Colums As Integer
@@ -3024,10 +2955,10 @@ Public Class CIDSPatternLoader
         'array should be of one type only
 
 
-		Dim array As Object(,) ' array start at (1,1)
+        Dim array As Object(,) ' array start at (1,1)
         array = arraysheet.Range("A1", "AD" & Rows).Value
         For i = 1 To Rows
-			type = array(i, gCommandNameColumn)
+            type = array(i, gCommandNameColumn)
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
@@ -3059,8 +2990,8 @@ Public Class CIDSPatternLoader
                     Case "DOT" 'set dot record
                         Dim dotData As New CIDSDot
                         'If SetDotRecordData(arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
-                            'Return -1
-						If TSetDotRecordData(array, arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
+                        'Return -1
+                        If TSetDotRecordData(array, arraysheet, i, dotData, referencePt, compData, heightComp) < 0 Then
                             Return -1
                         End If
                         DebugAddList(list, dotData)
@@ -3215,7 +3146,7 @@ Public Class CIDSPatternLoader
         Dim countUp As Integer = 1
         Dim startCount As Boolean = False
 
-		Dim array As Object(,) ' array start at (1,1)
+        Dim array As Object(,) ' array start at (1,1)
         array = sheet.Range("A1", "AD" & Rows).Value
         I = 1
         Do Until (countUp > Rows)
@@ -3500,9 +3431,7 @@ Public Class CIDSPatternLoader
 
     End Function
 
-
     'Insert a sheet after active sheet
-
     Public Sub InsertSheetAfter(ByVal sheet As OWC10.Worksheet, ByVal sheet_name As String)
         Try
             Dim sub_sheet As OWC10.Worksheet = m_Sheet.Worksheets.Add(, sheet)
@@ -3518,14 +3447,11 @@ Public Class CIDSPatternLoader
 
 End Class
 
-
-
-'  Pattern command compiling class
+'Pattern command compiling class
 '  Description:                                                                                  
 '           Compiling pattern element data to dispensing command list                                         
 '  Created by:                                                                                  
 '           Shen Jian                
-
 Public Class IDSPattnCompiler
     Private pos(3) As Double
     Private m_PatternList As ArrayList  'pattern command elements list
@@ -5734,230 +5660,6 @@ Public Class IDSPattnCompiler
         Return 0
     End Function
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     Public Function GenerateDotArrayCommandSet(ByVal elemData As Object, ByRef disCmdList As ArrayList) As Integer
         Dim dotarray As CIDSDotArray = elemData
         Dim sheetname As String = dotarray.SheetName
@@ -7061,7 +6763,6 @@ Public Class IDSPattnCompiler
         Return 0
     End Function
 
-
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     'Generate 3d arc motion command 
     '  disCmdList:    dispensing command list
@@ -7613,7 +7314,6 @@ Public Class IDSPattnCompiler
         Return 0
     End Function
 
-
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     'Generate 3d link arc motion command 
     '  disCmdList:    dispensing command list
@@ -7902,7 +7602,6 @@ Public Class IDSPattnCompiler
 
         Return 0
     End Function
-
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     'Generate 2d circle motion command 
@@ -9804,6 +9503,7 @@ Public Class IDSPattnCompiler
     Function NotVisionMode(ByVal status As Integer)
         Return status <> 0
     End Function
+
     Function IsVisionMode(ByVal status As Integer)
         Return status = 0
     End Function
@@ -9993,7 +9693,6 @@ Public Class CIDSPattnBurn
     'Public Sub New(ByVal tri As CIDSTrioController)
     '    m_Tri = tri
     'End Sub
-
     Public Function OnlineRun(ByVal CmdList As ArrayList) As Integer
         Return 0
     End Function
@@ -10066,7 +9765,6 @@ Public Class CIDSPattnBurn
 
     'Download motion data to trio controller 
     '   CmdList: dispensing element list
-
     Public Function BurnTable(ByVal dispenselist As ArrayList) As Boolean
         Dim download_number As Integer = OnePageElements - 2
         Dim downloads As Integer = Math.Ceiling(dispenselist.Count / download_number)
@@ -10131,7 +9829,6 @@ Public Class CIDSPattnBurn
     '   pageno: current page no.
     '   tablepos: current Vr index
     '   bufferpos: current index of one page buffer
-
     Public Function DownloadOnePageTable(ByRef download_page_number As Integer, ByRef tablepos As Integer, ByRef buffer() As Single) As Boolean
         Dim enterTime As Long = DateTime.Now.Ticks
 

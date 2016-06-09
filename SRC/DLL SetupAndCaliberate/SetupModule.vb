@@ -227,9 +227,10 @@ Public Module Module1
     Public CurrentControl As System.Windows.Forms.Control
 
     Public Sub AddPanel(ByVal ParentControl As System.windows.forms.Control, ByVal ChildPanel As Panel)
-
+        If Not (CurrentControl Is Nothing) Then
+            ParentControl.Controls.Remove(CurrentControl)
+        End If
         CurrentControl = ChildPanel
-
         ParentControl.Controls.Add(ChildPanel)
         ChildPanel.BringToFront()
         ChildPanel.Location = New Point(0, 0)

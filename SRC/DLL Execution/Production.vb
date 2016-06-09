@@ -44,6 +44,7 @@ Public Class FormProduction
     Dim ratio As Double
     Dim countMouseTimer As Integer = 0
     Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
+    Public calibrationInfoForm As InfoForm
     'Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
 
 #Region " Windows Form Designer generated code "
@@ -179,12 +180,12 @@ Public Class FormProduction
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.ComboBox1 = New System.Windows.Forms.ComboBox
         Me.Button1 = New System.Windows.Forms.Button
-        Me.Button2 = New System.Windows.Forms.Button
         Me.Button3 = New System.Windows.Forms.Button
         Me.ComboBox2 = New System.Windows.Forms.ComboBox
         Me.ComboBox3 = New System.Windows.Forms.ComboBox
         Me.Button4 = New System.Windows.Forms.Button
         Me.TextBox1 = New System.Windows.Forms.TextBox
+        Me.Button2 = New System.Windows.Forms.Button
         Me.btExit = New System.Windows.Forms.Button
         Me.PanelVision = New System.Windows.Forms.Panel
         Me.PanelProDownTimeInfor = New System.Windows.Forms.Panel
@@ -459,6 +460,7 @@ Public Class FormProduction
         'btStart
         '
         Me.btStart.BackColor = System.Drawing.SystemColors.Control
+        Me.btStart.Enabled = False
         Me.btStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btStart.ImageIndex = 0
         Me.btStart.ImageList = Me.imageListProcessBt
@@ -478,6 +480,7 @@ Public Class FormProduction
         'btStop
         '
         Me.btStop.BackColor = System.Drawing.SystemColors.Control
+        Me.btStop.Enabled = False
         Me.btStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btStop.ImageIndex = 2
         Me.btStop.ImageList = Me.imageListProcessBt
@@ -490,6 +493,7 @@ Public Class FormProduction
         'btPause
         '
         Me.btPause.BackColor = System.Drawing.SystemColors.Control
+        Me.btPause.Enabled = False
         Me.btPause.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btPause.ImageIndex = 1
         Me.btPause.ImageList = Me.imageListProcessBt
@@ -548,7 +552,7 @@ Public Class FormProduction
         '
         'PanelToBeAdded
         '
-        Me.PanelToBeAdded.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.PanelToBeAdded.BackColor = System.Drawing.SystemColors.Control
         Me.PanelToBeAdded.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.PanelToBeAdded.Location = New System.Drawing.Point(84, 528)
@@ -574,12 +578,12 @@ Public Class FormProduction
         Me.GroupBox1.BackColor = System.Drawing.SystemColors.Control
         Me.GroupBox1.Controls.Add(Me.ComboBox1)
         Me.GroupBox1.Controls.Add(Me.Button1)
-        Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.ComboBox2)
         Me.GroupBox1.Controls.Add(Me.ComboBox3)
         Me.GroupBox1.Controls.Add(Me.Button4)
         Me.GroupBox1.Controls.Add(Me.TextBox1)
+        Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.GroupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.GroupBox1.Location = New System.Drawing.Point(16, 680)
@@ -609,18 +613,6 @@ Public Class FormProduction
         Me.Button1.TabIndex = 139
         Me.Button1.Text = "enter 1 SPC event"
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'Button2
-        '
-        Me.Button2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Button2.Image = CType(resources.GetObject("Button2.Image"), System.Drawing.Image)
-        Me.Button2.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.Button2.Location = New System.Drawing.Point(16, 192)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(208, 56)
-        Me.Button2.TabIndex = 139
-        Me.Button2.Text = "enter all SPC events"
-        Me.Button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'Button3
         '
@@ -672,6 +664,18 @@ Public Class FormProduction
         Me.TextBox1.TabIndex = 132
         Me.TextBox1.Text = "prev state"
         Me.TextBox1.Visible = False
+        '
+        'Button2
+        '
+        Me.Button2.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Button2.Image = CType(resources.GetObject("Button2.Image"), System.Drawing.Image)
+        Me.Button2.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.Button2.Location = New System.Drawing.Point(16, 192)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(208, 56)
+        Me.Button2.TabIndex = 139
+        Me.Button2.Text = "enter all SPC events"
+        Me.Button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'btExit
         '
@@ -730,12 +734,12 @@ Public Class FormProduction
         '
         Me.CheckBoxPotOn.Appearance = System.Windows.Forms.Appearance.Button
         Me.CheckBoxPotOn.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBoxPotOn.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.CheckBoxPotOn.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBoxPotOn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.CheckBoxPotOn.ImageIndex = 6
-        Me.CheckBoxPotOn.Location = New System.Drawing.Point(526, 8)
+        Me.CheckBoxPotOn.Location = New System.Drawing.Point(568, 8)
         Me.CheckBoxPotOn.Name = "CheckBoxPotOn"
-        Me.CheckBoxPotOn.Size = New System.Drawing.Size(80, 80)
+        Me.CheckBoxPotOn.Size = New System.Drawing.Size(92, 80)
         Me.CheckBoxPotOn.TabIndex = 119
         Me.CheckBoxPotOn.Text = "Pot Life On"
         Me.CheckBoxPotOn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -746,10 +750,10 @@ Public Class FormProduction
         Me.DoorLock.BackColor = System.Drawing.SystemColors.Control
         Me.DoorLock.Checked = True
         Me.DoorLock.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.DoorLock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.DoorLock.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DoorLock.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.DoorLock.ImageIndex = 3
-        Me.DoorLock.Location = New System.Drawing.Point(656, 8)
+        Me.DoorLock.Location = New System.Drawing.Point(680, 8)
         Me.DoorLock.Name = "DoorLock"
         Me.DoorLock.Size = New System.Drawing.Size(80, 80)
         Me.DoorLock.TabIndex = 116
@@ -759,12 +763,12 @@ Public Class FormProduction
         'ButtonPotReset
         '
         Me.ButtonPotReset.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonPotReset.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonPotReset.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonPotReset.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPotReset.ImageIndex = 1
-        Me.ButtonPotReset.Location = New System.Drawing.Point(441, 8)
+        Me.ButtonPotReset.Location = New System.Drawing.Point(476, 8)
         Me.ButtonPotReset.Name = "ButtonPotReset"
-        Me.ButtonPotReset.Size = New System.Drawing.Size(80, 80)
+        Me.ButtonPotReset.Size = New System.Drawing.Size(92, 80)
         Me.ButtonPotReset.TabIndex = 105
         Me.ButtonPotReset.Text = "Reset Pot"
         '
@@ -812,62 +816,62 @@ Public Class FormProduction
         'ButtonClean
         '
         Me.ButtonClean.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonClean.ImageIndex = 5
-        Me.ButtonClean.Location = New System.Drawing.Point(186, 8)
+        Me.ButtonClean.Location = New System.Drawing.Point(200, 8)
         Me.ButtonClean.Name = "ButtonClean"
-        Me.ButtonClean.Size = New System.Drawing.Size(80, 80)
+        Me.ButtonClean.Size = New System.Drawing.Size(92, 80)
         Me.ButtonClean.TabIndex = 89
         Me.ButtonClean.Text = "Clean On"
         '
         'ButtonPurge
         '
         Me.ButtonPurge.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonPurge.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonPurge.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonPurge.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPurge.ImageIndex = 4
-        Me.ButtonPurge.Location = New System.Drawing.Point(101, 8)
+        Me.ButtonPurge.Location = New System.Drawing.Point(108, 8)
         Me.ButtonPurge.Name = "ButtonPurge"
-        Me.ButtonPurge.Size = New System.Drawing.Size(80, 80)
+        Me.ButtonPurge.Size = New System.Drawing.Size(92, 80)
         Me.ButtonPurge.TabIndex = 88
         Me.ButtonPurge.Text = "Purge On"
         '
         'ButtonChgSyringe
         '
         Me.ButtonChgSyringe.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonChgSyringe.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonChgSyringe.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonChgSyringe.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonChgSyringe.ImageIndex = 1
-        Me.ButtonChgSyringe.Location = New System.Drawing.Point(271, 8)
+        Me.ButtonChgSyringe.Location = New System.Drawing.Point(292, 8)
         Me.ButtonChgSyringe.Name = "ButtonChgSyringe"
-        Me.ButtonChgSyringe.Size = New System.Drawing.Size(80, 80)
+        Me.ButtonChgSyringe.Size = New System.Drawing.Size(92, 80)
         Me.ButtonChgSyringe.TabIndex = 87
         Me.ButtonChgSyringe.Text = "Change Syringe"
         '
         'ButtonHome
         '
         Me.ButtonHome.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonHome.ImageIndex = 0
         Me.ButtonHome.Location = New System.Drawing.Point(16, 8)
         Me.ButtonHome.Name = "ButtonHome"
-        Me.ButtonHome.Size = New System.Drawing.Size(80, 80)
+        Me.ButtonHome.Size = New System.Drawing.Size(92, 80)
         Me.ButtonHome.TabIndex = 86
         Me.ButtonHome.Text = "Home"
         '
         'ButtonCalibrate
         '
         Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonCalibrate.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonCalibrate.ImageIndex = 5
-        Me.ButtonCalibrate.Location = New System.Drawing.Point(356, 8)
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(384, 8)
         Me.ButtonCalibrate.Name = "ButtonCalibrate"
-        Me.ButtonCalibrate.Size = New System.Drawing.Size(80, 80)
+        Me.ButtonCalibrate.Size = New System.Drawing.Size(92, 80)
         Me.ButtonCalibrate.TabIndex = 88
-        Me.ButtonCalibrate.Text = "Move Calibrate"
+        Me.ButtonCalibrate.Text = "Calibrate Needle"
         '
         'LabelMessege
         '
@@ -875,9 +879,9 @@ Public Class FormProduction
         Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessege.ForeColor = System.Drawing.Color.Black
-        Me.LabelMessege.Location = New System.Drawing.Point(8, 920)
+        Me.LabelMessege.Location = New System.Drawing.Point(8, 912)
         Me.LabelMessege.Name = "LabelMessege"
-        Me.LabelMessege.Size = New System.Drawing.Size(750, 32)
+        Me.LabelMessege.Size = New System.Drawing.Size(750, 46)
         Me.LabelMessege.TabIndex = 85
         Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -919,7 +923,6 @@ Public Class FormProduction
         Me.Name = "FormProduction"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Production"
-        Me.TopMost = True
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.Panel2.ResumeLayout(False)
         Me.Panel5.ResumeLayout(False)
@@ -936,6 +939,7 @@ Public Class FormProduction
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'reset!
         KeyboardControl.GainControls()
+        LabelMessage("Initializing Hardware")
         Init()
         While isInited = False
             Application.DoEvents()
@@ -946,7 +950,8 @@ Public Class FormProduction
         Panel5.Controls.Add(m_Tri.SteppingButtons)
         m_Tri.SteppingButtons.Location = PanelToBeAdded.Location() 'New Point(84, 192)
         m_Tri.SteppingButtons.BringToFront()
-        m_Tri.SteppingButtons.Show()
+        m_Tri.SteppingButtons.Hide()
+        'm_Tri.SteppingButtons.Show()
         'initialize private flags
         HasBeenRunning = False
         m_PotLifeOn = False
@@ -974,7 +979,7 @@ Public Class FormProduction
         'vision
         'motion controller
         'm_Tri.Connect_Controller()
-        SetState("Homing")
+        'SetState("Homing")
         HardwareInitTimer.Start()
         'timers start
         IDS.StartErrorCheck()
@@ -1219,6 +1224,7 @@ Public Class FormProduction
         'UnlockDoor()
         ''Close()
         'IDS.FrmExecution.Hide()
+        isInited = False
         InitThread.Abort()
     End Sub
 
@@ -1264,17 +1270,13 @@ Public Class FormProduction
             ButtonOpenFile.Enabled = True
             Return
         End If
-
         LabelMessage("Please wait, system is uploading..")
         Dim filename As String = m_Execution.m_File.FolderWithNameFromFileName(TextBoxFilename.Text)
         m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
         Programming.Disp_Dispenser_Unit_info()
-
         TextBoxFilename.Refresh()
         RichTextBoxNote.Refresh()
-
         ProductionInfoDisp()
-
         LabelMessage("Finish..")
         ButtonOpenFile.Enabled = True
     End Sub
@@ -1287,7 +1289,6 @@ Public Class FormProduction
 
         Dim cmdStr As String
         Dim needleIO, mode, purgeduration, cleanduration As Integer
-
         LockMovementButtons()
         LabelMessage("Purge and clean.")
         If ShouldLog() Then Form_Service.LogEventInSPCReport("Purge And Clean")
@@ -1324,7 +1325,6 @@ Public Class FormProduction
         m_Tri.m_TriCtrl.Execute(cmdStr) 'wait after turning on valve
         m_Tri.TurnOff("Clean")
         If Not m_Tri.Move_Z(SafePosition) Then GoTo StopCalibration 'z axis move to 0
-
         'commented out since kr changed to FSM to handle state
         'If IsRunning() Then 'if in the middle of a continuous run
         '    m_Tri.SetMachineStop()
@@ -1770,7 +1770,16 @@ StopCalibration:
     End Sub
 
     Private Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
-        If SetState("Needle Calibration") Then DoCalibrate()
+        ButtonCalibrate.Enabled = False
+        Dim fm As InfoForm = New InfoForm
+        fm.SetMessage("Please put on the syringe and make sure it is not tighten!")
+        If fm.ShowDialog() = DialogResult.OK Then
+            If SetState("Needle Calibration") Then DoCalibrate()
+            Console.WriteLine("Ok to calibrate")
+        Else
+            Console.WriteLine("Cancel calibration")
+            ButtonCalibrate.Enabled = True
+        End If
     End Sub
 
     Private Sub RichTextBoxNote_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RichTextBoxNote.TextChanged
@@ -1810,7 +1819,7 @@ StopCalibration:
     Private Sub HardwareInitTimer_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles HardwareInitTimer.Tick
         HardwareInitTimer.Stop()
         HardwareInitTimer.Enabled = False
-        m_Tri.Connect_Controller()
+        'm_Tri.Connect_Controller()
         SetState("Homing")
         Console.WriteLine("Hardware Init Timer Called")
     End Sub

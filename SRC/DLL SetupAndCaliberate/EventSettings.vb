@@ -81,16 +81,16 @@ Public Class EventSettings
         Me.RB_ChipPrompt = New System.Windows.Forms.RadioButton
         Me.RB_ChipSkip = New System.Windows.Forms.RadioButton
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
-        Me.ButtonExit = New System.Windows.Forms.Button
-        Me.ButtonRevert = New System.Windows.Forms.Button
-        Me.ButtonSave = New System.Windows.Forms.Button
-        Me.Label17 = New System.Windows.Forms.Label
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
         Me.Panel9 = New System.Windows.Forms.Panel
         Me.LBL_SkipQC = New System.Windows.Forms.Label
         Me.Lbl_PromptQC = New System.Windows.Forms.Label
         Me.RB_QCPrompt = New System.Windows.Forms.RadioButton
         Me.RB_QCSkip = New System.Windows.Forms.RadioButton
+        Me.ButtonExit = New System.Windows.Forms.Button
+        Me.ButtonRevert = New System.Windows.Forms.Button
+        Me.ButtonSave = New System.Windows.Forms.Button
+        Me.Label17 = New System.Windows.Forms.Label
         Me.GroupBox2.SuspendLayout()
         Me.Panel7.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -283,51 +283,10 @@ Public Class EventSettings
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox1)
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox3)
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox2)
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(144, -48)
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(144, 8)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
         Me.PanelToBeAdded.TabIndex = 13
-        '
-        'ButtonExit
-        '
-        Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
-        Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
-        Me.ButtonExit.Name = "ButtonExit"
-        Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
-        Me.ButtonExit.TabIndex = 50
-        Me.ButtonExit.TabStop = False
-        Me.ButtonExit.Text = "Exit"
-        Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'ButtonRevert
-        '
-        Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonRevert.Location = New System.Drawing.Point(392, 880)
-        Me.ButtonRevert.Name = "ButtonRevert"
-        Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
-        Me.ButtonRevert.TabIndex = 36
-        Me.ButtonRevert.Text = "Revert"
-        '
-        'ButtonSave
-        '
-        Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSave.Location = New System.Drawing.Point(280, 880)
-        Me.ButtonSave.Name = "ButtonSave"
-        Me.ButtonSave.Size = New System.Drawing.Size(88, 48)
-        Me.ButtonSave.TabIndex = 35
-        Me.ButtonSave.Text = "Save"
-        '
-        'Label17
-        '
-        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label17.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label17.Location = New System.Drawing.Point(0, 0)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(232, 32)
-        Me.Label17.TabIndex = 34
-        Me.Label17.Text = "Event Failed Actions"
         '
         'GroupBox6
         '
@@ -384,6 +343,48 @@ Public Class EventSettings
         Me.RB_QCSkip.TabIndex = 0
         Me.RB_QCSkip.TabStop = True
         Me.RB_QCSkip.Text = "Skip"
+        '
+        'ButtonExit
+        '
+        Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
+        Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Name = "ButtonExit"
+        Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
+        Me.ButtonExit.TabIndex = 50
+        Me.ButtonExit.TabStop = False
+        Me.ButtonExit.Text = "Exit"
+        Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonExit.Visible = False
+        '
+        'ButtonRevert
+        '
+        Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonRevert.Location = New System.Drawing.Point(392, 816)
+        Me.ButtonRevert.Name = "ButtonRevert"
+        Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
+        Me.ButtonRevert.TabIndex = 36
+        Me.ButtonRevert.Text = "Revert"
+        '
+        'ButtonSave
+        '
+        Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonSave.Location = New System.Drawing.Point(280, 816)
+        Me.ButtonSave.Name = "ButtonSave"
+        Me.ButtonSave.Size = New System.Drawing.Size(88, 48)
+        Me.ButtonSave.TabIndex = 35
+        Me.ButtonSave.Text = "Save"
+        '
+        'Label17
+        '
+        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label17.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label17.Location = New System.Drawing.Point(0, 0)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(232, 32)
+        Me.Label17.TabIndex = 34
+        Me.Label17.Text = "Event Failed Actions"
         '
         'EventSettings
         '

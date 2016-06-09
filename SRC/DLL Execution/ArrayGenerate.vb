@@ -1743,14 +1743,12 @@ Public Class ArrayGenerate
 
     Private Function CheckValidate(ByVal ElementType As String) As Boolean
         Dim Rtn As Boolean = True
-
         Select Case ElementType
             Case "Dot"
                 TextBox_RetractSpeed.Text = CStr(m_CurrentPara.RetractSpeed)
                 TextBox_RetractHeight.Text = CStr(m_CurrentPara.RetractHeight)
                 TextBox_ClearanceHt.Text = CStr(m_CurrentPara.ClearanceHeight)
                 TextBox_ArcRadius.Text = CStr(m_CurrentPara.ArcRadius)
-
 
                 If "Left" <> TextBox_Needle.Text And "Right" <> TextBox_Needle.Text Then
                     MyMsgBox("Please input valid Needle information", MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Input number invalid")
@@ -1761,11 +1759,11 @@ Public Class ArrayGenerate
                     Rtn = False
                 End If
 
-
                 If Not IsNumeric(TextBox_NeedleGap.Text) Then
                     MyMsgBox("Please input valid number for NeedleGap", MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Input number invalid")
                     Rtn = False
                 End If
+
                 If Not IsNumeric(TextBox_Duration.Text) Then
                     MyMsgBox("Please input valid number for Duration", MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Input number invalid")
                     Rtn = False
@@ -1794,7 +1792,6 @@ Public Class ArrayGenerate
                     MyMsgBox("Please input valid number for ArcRadius", MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Input number invalid")
                     Rtn = False
                 End If
-
 
                 If IsNumeric(TextBox_P1X.Text) And IsNumeric(TextBox_P1Y.Text) And IsNumeric(TextBox_P1Z.Text) Then
 
@@ -1879,7 +1876,6 @@ Public Class ArrayGenerate
                     MyMsgBox("Please input valid number for P7X,Y", MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Input number invalid")
                     Rtn = False
                 End If
-
 
             Case "Arc"
                 If "Left" <> TextBox_Needle.Text And "Right" <> TextBox_Needle.Text Then
@@ -2166,7 +2162,35 @@ Public Class ArrayGenerate
                 End If
 
         End Select
-
+        'Check if the approach z, needle gap, clearance height, retract z is within the z range.
+        Dim ApproachZ As Double = 0
+        Dim NeedleGapZ As Double = 0
+        Dim ClearanceZ As Double = 0
+        Dim RetractZ As Double = 0
+        ApproachZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_ApproachHeight.Text)
+        ApproachZ = ApproachZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(ApproachZ) = False) Then
+            MessageBox.Show("Approach Z Height Error: " + ErrorMessage())
+            Return False
+        End If
+        NeedleGapZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_NeedleGap.Text)
+        NeedleGapZ = NeedleGapZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(NeedleGapZ) = False) Then
+            MessageBox.Show("Needle Gap Z Height Error: " + ErrorMessage())
+            Return False
+        End If
+        ClearanceZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_ClearanceHt.Text)
+        ClearanceZ = ClearanceZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(ClearanceZ) = False) Then
+            MessageBox.Show("Clearance Z Height Error: " + ErrorMessage())
+            Return False
+        End If
+        RetractZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_RetractHeight.Text)
+        RetractZ = RetractZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(RetractZ) = False) Then
+            MessageBox.Show("Retract Z Height Error: " + ErrorMessage())
+            Return False
+        End If
         Return Rtn
         TraceGCCollect()
     End Function

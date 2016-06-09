@@ -42,9 +42,11 @@ Public Class NeedleCalibrationSetup1
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSetup1))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.ZPosition = New System.Windows.Forms.Label
         Me.YPosition = New System.Windows.Forms.Label
@@ -60,6 +62,7 @@ Public Class NeedleCalibrationSetup1
         '
         'PanelToBeAdded
         '
+        Me.PanelToBeAdded.Controls.Add(Me.TextBox1)
         Me.PanelToBeAdded.Controls.Add(Me.Label4)
         Me.PanelToBeAdded.Controls.Add(Me.ZPosition)
         Me.PanelToBeAdded.Controls.Add(Me.YPosition)
@@ -70,25 +73,44 @@ Public Class NeedleCalibrationSetup1
         Me.PanelToBeAdded.Controls.Add(Me.Label9)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonExit)
         Me.PanelToBeAdded.Controls.Add(Me.Button1)
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(8, 24)
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(32, 24)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
         Me.PanelToBeAdded.TabIndex = 39
+        '
+        'TextBox1
+        '
+        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(36, 88)
+        Me.TextBox1.Multiline = True
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(440, 360)
+        Me.TextBox1.TabIndex = 103
+        Me.TextBox1.Text = "Info:                                                                 First, make" & _
+        " sure the syringe is not tighten up. Press and hold Control Key on Keyboard and " & _
+        "use the mouse's scrolball to move the XY stage to the hardware reference point. " & _
+        "Alternatively, click the Move To Current Reference Point button to move the need" & _
+        "le to the previously saved reference point position. After that, move down the z" & _
+        " stage before touching the reference point. Tighten the syringe and continue wit" & _
+        "h the fine adjustment to make sure the needle tip is aligned to reference point." & _
+        " Do not forget to save the reference point position. "
         '
         'Label4
         '
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label4.Location = New System.Drawing.Point(184, 379)
+        Me.Label4.Location = New System.Drawing.Point(140, 512)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(40, 24)
+        Me.Label4.Size = New System.Drawing.Size(120, 24)
         Me.Label4.TabIndex = 97
-        Me.Label4.Text = "X"
+        Me.Label4.Text = "Reference X : "
         '
         'ZPosition
         '
         Me.ZPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ZPosition.Location = New System.Drawing.Point(248, 443)
+        Me.ZPosition.Location = New System.Drawing.Point(284, 576)
         Me.ZPosition.Name = "ZPosition"
         Me.ZPosition.Size = New System.Drawing.Size(88, 24)
         Me.ZPosition.TabIndex = 102
@@ -97,7 +119,7 @@ Public Class NeedleCalibrationSetup1
         'YPosition
         '
         Me.YPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.YPosition.Location = New System.Drawing.Point(248, 411)
+        Me.YPosition.Location = New System.Drawing.Point(284, 544)
         Me.YPosition.Name = "YPosition"
         Me.YPosition.Size = New System.Drawing.Size(88, 24)
         Me.YPosition.TabIndex = 101
@@ -106,7 +128,7 @@ Public Class NeedleCalibrationSetup1
         'XPosition
         '
         Me.XPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XPosition.Location = New System.Drawing.Point(248, 377)
+        Me.XPosition.Location = New System.Drawing.Point(284, 512)
         Me.XPosition.Name = "XPosition"
         Me.XPosition.Size = New System.Drawing.Size(88, 24)
         Me.XPosition.TabIndex = 100
@@ -116,40 +138,40 @@ Public Class NeedleCalibrationSetup1
         '
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label7.Location = New System.Drawing.Point(184, 443)
+        Me.Label7.Location = New System.Drawing.Point(140, 576)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(40, 24)
+        Me.Label7.Size = New System.Drawing.Size(120, 24)
         Me.Label7.TabIndex = 99
-        Me.Label7.Text = "Z"
+        Me.Label7.Text = "Reference Z :"
         '
         'Label6
         '
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label6.Location = New System.Drawing.Point(184, 411)
+        Me.Label6.Location = New System.Drawing.Point(140, 544)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(40, 24)
+        Me.Label6.Size = New System.Drawing.Size(120, 24)
         Me.Label6.TabIndex = 98
-        Me.Label6.Text = "Y"
+        Me.Label6.Text = "Reference Y :"
         '
         'ButtonSetCalibratorPosition
         '
         Me.ButtonSetCalibratorPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSetCalibratorPosition.Location = New System.Drawing.Point(160, 527)
+        Me.ButtonSetCalibratorPosition.Location = New System.Drawing.Point(284, 624)
         Me.ButtonSetCalibratorPosition.Name = "ButtonSetCalibratorPosition"
-        Me.ButtonSetCalibratorPosition.Size = New System.Drawing.Size(192, 40)
+        Me.ButtonSetCalibratorPosition.Size = New System.Drawing.Size(192, 56)
         Me.ButtonSetCalibratorPosition.TabIndex = 62
-        Me.ButtonSetCalibratorPosition.Text = "Set Calibrator Position"
+        Me.ButtonSetCalibratorPosition.Text = "Save Reference Position"
         '
         'Label9
         '
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label9.Location = New System.Drawing.Point(0, 0)
+        Me.Label9.ForeColor = System.Drawing.Color.Black
+        Me.Label9.Location = New System.Drawing.Point(8, 8)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(272, 32)
+        Me.Label9.Size = New System.Drawing.Size(336, 32)
         Me.Label9.TabIndex = 46
-        Me.Label9.Text = "Needle Calibration Setup"
+        Me.Label9.Text = "Needle Reference Point Setup"
         '
         'ButtonExit
         '
@@ -163,15 +185,16 @@ Public Class NeedleCalibrationSetup1
         Me.ButtonExit.TabStop = False
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonExit.Visible = False
         '
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(160, 479)
+        Me.Button1.Location = New System.Drawing.Point(36, 624)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(192, 40)
+        Me.Button1.Size = New System.Drawing.Size(192, 57)
         Me.Button1.TabIndex = 62
-        Me.Button1.Text = "Move to Position"
+        Me.Button1.Text = "Move To Current Reference Point"
         '
         'NeedleCalibrationSetup1
         '
@@ -216,7 +239,7 @@ Public Class NeedleCalibrationSetup1
         pos(1) = IDS.Data.Hardware.Needle.Left.CalibratorPos.Y
         If Not m_Tri.Move_Z(0) Then Exit Sub
         If Not m_Tri.Move_XY(pos) Then Exit Sub
-        If Not m_Tri.Move_Z(IDS.Data.Hardware.Needle.Left.CalibratorPos.Z) Then Exit Sub
+        'If Not m_Tri.Move_Z(IDS.Data.Hardware.Needle.Left.CalibratorPos.Z) Then Exit Sub
     End Sub
 
     Private Sub NeedleCalibrationSetup1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

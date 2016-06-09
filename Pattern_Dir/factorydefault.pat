@@ -198,7 +198,7 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 2IDSData.Hardware.Gantry.CleanPosition.Y =-384.52
 ,IDSData.Hardware.Gantry.CleanPosition.Z =0
 +IDSData.Hardware.Gantry.ElementZSpeed =50
--IDSData.Hardware.Gantry.ElementXYSpeed =100
+,IDSData.Hardware.Gantry.ElementXYSpeed =50
 6IDSData.Hardware.Gantry.GraphicDisplayRatio =139.222
 6IDSData.Hardware.Gantry.GraphicDisplayXYLT.X =79.953
 7IDSData.Hardware.Gantry.GraphicDisplayXYLT.Y =347.183
@@ -220,8 +220,8 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 )IDSData.Hardware.Gantry.WorkArea.Y =370
 ,IDSData.Hardware.Gantry.WorkArea.Z.Max =10
 -IDSData.Hardware.Gantry.WorkArea.Z.Min =-95
--IDSData.Hardware.Gantry.ServiceXYSpeed =100
-+IDSData.Hardware.Gantry.ServiceZSpeed =50
+,IDSData.Hardware.Gantry.ServiceXYSpeed =50
++IDSData.Hardware.Gantry.ServiceZSpeed =10
 
 ~[HEIGHTSENOR]
 .IDSData.Hardware.HeightSensor.BoardHeight =0
@@ -1061,7 +1061,7 @@ R(100)IDSData.Hardware.SystemIO.Template.IOName =Probe Slide Retract Limit Switc
 
 
 ~[THERMAL]
-5IDSData.Hardware.Thermal.HeaterFeatureEnabled =True
+6IDSData.Hardware.Thermal.HeaterFeatureEnabled =False
 2IDSData.Hardware.Thermal.Needle.OperationTemp =0
 1IDSData.Hardware.Thermal.Needle.StandbyTemp =20
 3IDSData.Hardware.Thermal.Needle.AlarmThreshold =0
