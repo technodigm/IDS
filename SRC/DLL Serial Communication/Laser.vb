@@ -40,6 +40,8 @@ Public Class Laser
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Status As System.Windows.Forms.TextBox
+    Friend WithEvents PanelToBeAdded As System.Windows.Forms.Panel
+    Friend WithEvents btStartReading As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Laser))
         Me.AxMSComm1 = New AxMSCommLib.AxMSComm
@@ -50,6 +52,8 @@ Public Class Laser
         Me.Label2 = New System.Windows.Forms.Label
         Me.Status = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
+        Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.btStartReading = New System.Windows.Forms.Button
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -70,62 +74,88 @@ Public Class Laser
         Me.Display.Multiline = True
         Me.Display.Name = "Display"
         Me.Display.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Display.Size = New System.Drawing.Size(336, 560)
+        Me.Display.Size = New System.Drawing.Size(312, 560)
         Me.Display.TabIndex = 3
         Me.Display.Text = ""
         '
         'Highest
         '
-        Me.Highest.Location = New System.Drawing.Point(424, 48)
+        Me.Highest.Location = New System.Drawing.Point(456, 48)
         Me.Highest.Name = "Highest"
-        Me.Highest.Size = New System.Drawing.Size(168, 27)
+        Me.Highest.ReadOnly = True
+        Me.Highest.Size = New System.Drawing.Size(136, 27)
         Me.Highest.TabIndex = 6
         Me.Highest.Text = "0"
+        Me.Highest.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Lowest
         '
-        Me.Lowest.Location = New System.Drawing.Point(424, 8)
+        Me.Lowest.Location = New System.Drawing.Point(456, 8)
         Me.Lowest.Name = "Lowest"
-        Me.Lowest.Size = New System.Drawing.Size(168, 27)
+        Me.Lowest.ReadOnly = True
+        Me.Lowest.Size = New System.Drawing.Size(136, 27)
         Me.Lowest.TabIndex = 7
-        Me.Lowest.Text = "99999999999999"
+        Me.Lowest.Text = "0"
+        Me.Lowest.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(352, 16)
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(320, 16)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(72, 24)
+        Me.Label1.Size = New System.Drawing.Size(128, 24)
         Me.Label1.TabIndex = 8
-        Me.Label1.Text = "Lowest"
+        Me.Label1.Text = "Lowest Reading:"
         '
         'Label2
         '
-        Me.Label2.Location = New System.Drawing.Point(352, 56)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(320, 56)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(72, 24)
+        Me.Label2.Size = New System.Drawing.Size(168, 24)
         Me.Label2.TabIndex = 8
-        Me.Label2.Text = "Highest"
+        Me.Label2.Text = "Highest Reading :"
         '
         'Status
         '
-        Me.Status.Location = New System.Drawing.Point(424, 88)
+        Me.Status.Location = New System.Drawing.Point(456, 88)
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(168, 27)
+        Me.Status.ReadOnly = True
+        Me.Status.Size = New System.Drawing.Size(136, 27)
         Me.Status.TabIndex = 6
         Me.Status.Text = ""
+        Me.Status.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label3
         '
-        Me.Label3.Location = New System.Drawing.Point(352, 88)
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(328, 88)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(72, 24)
+        Me.Label3.Size = New System.Drawing.Size(112, 24)
         Me.Label3.TabIndex = 8
-        Me.Label3.Text = "Status"
+        Me.Label3.Text = "Status :"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'PanelToBeAdded
+        '
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(8, 8)
+        Me.PanelToBeAdded.Name = "PanelToBeAdded"
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(600, 560)
+        Me.PanelToBeAdded.TabIndex = 9
+        '
+        'btStartReading
+        '
+        Me.btStartReading.Location = New System.Drawing.Point(384, 144)
+        Me.btStartReading.Name = "btStartReading"
+        Me.btStartReading.Size = New System.Drawing.Size(160, 56)
+        Me.btStartReading.TabIndex = 9
+        Me.btStartReading.Text = "Start Reading"
         '
         'Laser
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
         Me.ClientSize = New System.Drawing.Size(600, 574)
+        Me.Controls.Add(Me.btStartReading)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Highest)
         Me.Controls.Add(Me.Lowest)
@@ -135,8 +165,11 @@ Public Class Laser
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label3)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Laser"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Laser"
+        Me.TopMost = True
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -158,7 +191,7 @@ Public Class Laser
 
 
     Private Sub Laser_Closed(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Closed
-        ClosePort()
+
     End Sub
 
     Private Sub Laser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -166,26 +199,26 @@ Public Class Laser
     End Sub
 
     Public Sub OpenPort()
-        'If AxMSComm1.PortOpen = True Then
-        '    Exit Sub
-        'End If
-        'With AxMSComm1
-        '    .CommPort = LaserPort
-        '    .Settings = "115200,N,8,1"
-        '    .InBufferCount = 0
-        '    .InputLen = 12
-        '    .RThreshold = 12
-        '    .SThreshold = 1
-        '    .InputMode = MSCommLib.InputModeConstants.comInputModeText
-        'End With
-        'Try
-        '    If Not AxMSComm1.PortOpen Then
-        '        AxMSComm1.PortOpen = True
-        '    End If
-        'Catch ex As System.Runtime.InteropServices.COMException
-        '    ExceptionDisplay(ex)
-        'End Try
-        'ValueUpdated = False
+        If AxMSComm1.PortOpen = True Then
+            Exit Sub
+        End If
+        With AxMSComm1
+            .CommPort = LaserPort
+            .Settings = "115200,N,8,1"
+            .InBufferCount = 0
+            .InputLen = 12
+            .RThreshold = 12
+            .SThreshold = 1
+            .InputMode = MSCommLib.InputModeConstants.comInputModeText
+        End With
+        Try
+            If Not AxMSComm1.PortOpen Then
+                AxMSComm1.PortOpen = True
+            End If
+        Catch ex As System.Runtime.InteropServices.COMException
+            ExceptionDisplay(ex)
+        End Try
+        ValueUpdated = False
     End Sub
 
     Public Sub ClosePort()
@@ -322,4 +355,26 @@ Public Class Laser
         End If
     End Function
 
+    Private Sub Label1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label1.Click
+
+    End Sub
+    Private Sub Label3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub btStartReading_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStartReading.Click
+        If btStartReading.Text = "Start Reading" Then
+            ValueUpdated = True
+            btStartReading.Text = "Stop Reading"
+            Return
+        End If
+        btStartReading.Text = "Start Reading"
+        ValueUpdated = False
+    End Sub
+
+    Private Sub Laser_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        ClosePort()
+        Hide()
+        e.Cancel = True
+    End Sub
 End Class

@@ -47,20 +47,20 @@ Public Class Settings
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.panelRight = New System.Windows.Forms.Panel
         Me.Panel3 = New System.Windows.Forms.Panel
-        Me.ButtonStationPositions = New System.Windows.Forms.Button
+        Me.gbProgramSettings = New System.Windows.Forms.GroupBox
         Me.ButtonVolumeCalibSettings = New System.Windows.Forms.Button
         Me.ButtonNeedleCalibSettings = New System.Windows.Forms.Button
         Me.ButtonEventHandling = New System.Windows.Forms.Button
         Me.ButtonThermalSettings = New System.Windows.Forms.Button
         Me.ButtonSPCLogging = New System.Windows.Forms.Button
         Me.ButtonDispenserSettings = New System.Windows.Forms.Button
+        Me.ButtonStationPositions = New System.Windows.Forms.Button
         Me.PanelLeft = New System.Windows.Forms.Panel
         Me.gbXYZ = New System.Windows.Forms.GroupBox
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
-        Me.gbProgramSettings = New System.Windows.Forms.GroupBox
         Me.Panel3.SuspendLayout()
-        Me.PanelLeft.SuspendLayout()
         Me.gbProgramSettings.SuspendLayout()
+        Me.PanelLeft.SuspendLayout()
         Me.SuspendLayout()
         '
         'panelRight
@@ -80,14 +80,22 @@ Public Class Settings
         Me.Panel3.Size = New System.Drawing.Size(744, 328)
         Me.Panel3.TabIndex = 65
         '
-        'ButtonStationPositions
+        'gbProgramSettings
         '
-        Me.ButtonStationPositions.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonStationPositions.Location = New System.Drawing.Point(376, 40)
-        Me.ButtonStationPositions.Name = "ButtonStationPositions"
-        Me.ButtonStationPositions.Size = New System.Drawing.Size(232, 56)
-        Me.ButtonStationPositions.TabIndex = 43
-        Me.ButtonStationPositions.Text = "Gantry Settings"
+        Me.gbProgramSettings.Controls.Add(Me.ButtonVolumeCalibSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonNeedleCalibSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonEventHandling)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonThermalSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonSPCLogging)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonDispenserSettings)
+        Me.gbProgramSettings.Controls.Add(Me.ButtonStationPositions)
+        Me.gbProgramSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbProgramSettings.Location = New System.Drawing.Point(16, 8)
+        Me.gbProgramSettings.Name = "gbProgramSettings"
+        Me.gbProgramSettings.Size = New System.Drawing.Size(720, 312)
+        Me.gbProgramSettings.TabIndex = 52
+        Me.gbProgramSettings.TabStop = False
+        Me.gbProgramSettings.Text = "Program Settings:"
         '
         'ButtonVolumeCalibSettings
         '
@@ -145,6 +153,15 @@ Public Class Settings
         Me.ButtonDispenserSettings.TabIndex = 42
         Me.ButtonDispenserSettings.Text = "Dispenser"
         '
+        'ButtonStationPositions
+        '
+        Me.ButtonStationPositions.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonStationPositions.Location = New System.Drawing.Point(376, 40)
+        Me.ButtonStationPositions.Name = "ButtonStationPositions"
+        Me.ButtonStationPositions.Size = New System.Drawing.Size(232, 56)
+        Me.ButtonStationPositions.TabIndex = 43
+        Me.ButtonStationPositions.Text = "Gantry Settings"
+        '
         'PanelLeft
         '
         Me.PanelLeft.BackColor = System.Drawing.SystemColors.Control
@@ -162,7 +179,7 @@ Public Class Settings
         Me.gbXYZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbXYZ.Location = New System.Drawing.Point(127, 408)
         Me.gbXYZ.Name = "gbXYZ"
-        Me.gbXYZ.Size = New System.Drawing.Size(512, 376)
+        Me.gbXYZ.Size = New System.Drawing.Size(512, 472)
         Me.gbXYZ.TabIndex = 66
         Me.gbXYZ.TabStop = False
         Me.gbXYZ.Text = "XYZ Stages:"
@@ -181,23 +198,6 @@ Public Class Settings
         "." & Microsoft.VisualBasic.ChrW(10) & Microsoft.VisualBasic.ChrW(10) & "For an existing pattern, the process setup can also be modified."
         Me.RichTextBox1.Visible = False
         '
-        'gbProgramSettings
-        '
-        Me.gbProgramSettings.Controls.Add(Me.ButtonVolumeCalibSettings)
-        Me.gbProgramSettings.Controls.Add(Me.ButtonNeedleCalibSettings)
-        Me.gbProgramSettings.Controls.Add(Me.ButtonEventHandling)
-        Me.gbProgramSettings.Controls.Add(Me.ButtonThermalSettings)
-        Me.gbProgramSettings.Controls.Add(Me.ButtonSPCLogging)
-        Me.gbProgramSettings.Controls.Add(Me.ButtonDispenserSettings)
-        Me.gbProgramSettings.Controls.Add(Me.ButtonStationPositions)
-        Me.gbProgramSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbProgramSettings.Location = New System.Drawing.Point(16, 8)
-        Me.gbProgramSettings.Name = "gbProgramSettings"
-        Me.gbProgramSettings.Size = New System.Drawing.Size(720, 312)
-        Me.gbProgramSettings.TabIndex = 52
-        Me.gbProgramSettings.TabStop = False
-        Me.gbProgramSettings.Text = "Program Settings:"
-        '
         'Settings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -207,8 +207,8 @@ Public Class Settings
         Me.Name = "Settings"
         Me.Text = "Basic Setup"
         Me.Panel3.ResumeLayout(False)
-        Me.PanelLeft.ResumeLayout(False)
         Me.gbProgramSettings.ResumeLayout(False)
+        Me.PanelLeft.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -216,6 +216,7 @@ Public Class Settings
 #End Region
 
     Private CurrentPanel As System.Windows.Forms.Panel
+    Private selectedButton As Button
 
     Public Sub RevertData()
 
@@ -233,15 +234,16 @@ Public Class Settings
     End Sub
 
     Private Sub ButtonNeedleCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSettings.Click
+        SetSelectButton(sender)
         OnLaser()
         MyNeedleCalibrationSettings.Revert()
-        CurrentPanel = MyNeedleCalibrationSettings.PanelToBeAdded
-        AddPanel(PanelRight, MyNeedleCalibrationSettings.PanelToBeAdded)
+        'CurrentPanel = MyNeedleCalibrationSettings.PanelToBeAdded
+        AddPanel(panelRight, MyNeedleCalibrationSettings.PanelToBeAdded)
     End Sub
 
     Private Sub ButtonStationPositions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStationPositions.Click
-        CurrentPanel = MyGantrySettings.PanelToBeAdded
-        AddPanel(PanelRight, MyGantrySettings.PanelToBeAdded)
+        SetSelectButton(sender)
+        AddPanel(panelRight, MyGantrySettings.PanelToBeAdded)
         'initialize
         MyGantrySettings.StationPosition.SelectedIndex = 0
         MyGantrySettings.LeftHead.Checked = True
@@ -249,34 +251,53 @@ Public Class Settings
     End Sub
 
     Private Sub ButtonDispenserSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDispenserSettings.Click
-        CurrentPanel = MyDispenserSettings.PanelToBeAdded
-        AddPanel(PanelRight, MyDispenserSettings.PanelToBeAdded)
+        SetSelectButton(sender)
+        AddPanel(panelRight, MyDispenserSettings.PanelToBeAdded)
         MyDispenserSettings.HeadType.SelectedIndex = 0
         MyDispenserSettings.RevertData()
     End Sub
 
     Private Sub ButtonSPCLogging_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSPCLogging.Click
-        CurrentPanel = MySPCLogging.PanelToBeAdded
-        AddPanel(PanelRight, MySPCLogging.PanelToBeAdded)
+        SetSelectButton(sender)
+        AddPanel(panelRight, MySPCLogging.PanelToBeAdded)
         MySPCLogging.RevertData()
     End Sub
 
     Private Sub ButtonEventHandling_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEventHandling.Click
-        CurrentPanel = MyEventSettings.PanelToBeAdded
-        AddPanel(PanelRight, MyEventSettings.PanelToBeAdded)
+        SetSelectButton(sender)
+        AddPanel(panelRight, MyEventSettings.PanelToBeAdded)
         MyEventSettings.RevertData()
     End Sub
 
     Private Sub ButtonThermalSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonThermalSettings.Click
-        CurrentPanel = MyHeaterSettings.PanelToBeAdded
-        AddPanel(PanelRight, MyHeaterSettings.PanelToBeAdded)
+        SetSelectButton(sender)
+        AddPanel(panelRight, MyHeaterSettings.PanelToBeAdded)
         MyHeaterSettings.RevertData()
     End Sub
 
     Private Sub ButtonVolumeCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolumeCalibSettings.Click
-        CurrentPanel = MyVolumeCalibrationSettings.PanelToBeAdded
-        AddPanel(PanelRight, MyVolumeCalibrationSettings.PanelToBeAdded)
+        SetSelectButton(sender)
+        AddPanel(panelRight, MyVolumeCalibrationSettings.PanelToBeAdded)
         MyVolumeCalibrationSettings.RevertData()
     End Sub
+
+    Private Sub SetSelectButton(ByVal sender As System.Object)
+        If Not (selectedButton Is Nothing) Then
+            selectedButton.FlatStyle = FlatStyle.Standard
+        End If
+        selectedButton = DirectCast(sender, Button)
+        selectedButton.FlatStyle = FlatStyle.Flat
+    End Sub
+
+    Public Function AddDefaultView()
+        If panelRight.Controls.Count = 0 Then
+            ButtonDispenserSettings.FlatStyle = FlatStyle.Flat
+            selectedButton = ButtonDispenserSettings
+            selectedButton.Select()
+            AddPanel(panelRight, MyDispenserSettings.PanelToBeAdded)
+            MyDispenserSettings.HeadType.SelectedIndex = 0
+            MyDispenserSettings.RevertData()
+        End If
+    End Function
 
 End Class

@@ -655,7 +655,7 @@ Public Class FormProgramming
         Me.ReferenceCommandBlock.DropDownArrows = True
         Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 24)
+        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 32)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
         Me.ReferenceCommandBlock.ShowToolTips = True
         Me.ReferenceCommandBlock.Size = New System.Drawing.Size(128, 48)
@@ -688,7 +688,7 @@ Public Class FormProgramming
         Me.ElementsCommandBlock.DropDownArrows = True
         Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 24)
+        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 32)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
         Me.ElementsCommandBlock.ShowToolTips = True
         Me.ElementsCommandBlock.Size = New System.Drawing.Size(888, 48)
@@ -6745,18 +6745,14 @@ Public Class FormProgramming
             CBExpandSpreadsheet.Visible = False
             MySettings.panelRight.Location = New Point(768, 33)
             MySettings.PanelLeft.Location = New Point(0, 33)
-            'Me.PanelVision.Location = New Point(0, 341)
-            'Me.PanelVisionCtrl.Location = New Point(0, 916)
-            'Me.PanelVisionCtrl.BringToFront()
-            'Me.PanelVision.BringToFront()
             Me.Controls.Add(MySettings.panelRight)
             Me.Controls.Add(MySettings.PanelLeft)
             MySettings.panelRight.BringToFront()
             MySettings.PanelLeft.BringToFront()
+            MySettings.AddDefaultView()
             MySettings.RichTextBox1.BringToFront()
             MySettings.RevertData()
             EnableDisableMenuBar()
-            'Me.PanelVision.Visible = True
         ElseIf CurrentMode = "Basic Setup" Then
 
             MySettings.RemoveCurrentPanel()

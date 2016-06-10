@@ -66,14 +66,18 @@ Public Class Setup
     Friend WithEvents TwoHead As System.Windows.Forms.CheckBox
     Friend WithEvents ButtonHardwareCommunicationSetup As System.Windows.Forms.Button
     Public WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents Timer1 As System.Timers.Timer
     Friend WithEvents LabelMessage As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
+    Friend WithEvents btLaserInterface As System.Windows.Forms.Button
+    Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
+    Friend WithEvents HardwareTimer As System.Timers.Timer
+    Friend WithEvents HomingCheckTimer As System.Windows.Forms.Timer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
         Me.MainMenu1 = New System.Windows.Forms.MainMenu
         Me.Panel1 = New System.Windows.Forms.Panel
@@ -83,11 +87,11 @@ Public Class Setup
         Me.CheckBoxVolume = New System.Windows.Forms.CheckBox
         Me.OneHead = New System.Windows.Forms.CheckBox
         Me.TwoHead = New System.Windows.Forms.CheckBox
+        Me.ButtonHardwareCommunicationSetup = New System.Windows.Forms.Button
         Me.PanelRight = New System.Windows.Forms.Panel
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
         Me.ButtonGantrySetup = New System.Windows.Forms.Button
         Me.ButtonNeedleCalibSetup = New System.Windows.Forms.Button
-        Me.ButtonHardwareCommunicationSetup = New System.Windows.Forms.Button
         Me.ButtonSystemIO = New System.Windows.Forms.Button
         Me.ButtonLaserSetup = New System.Windows.Forms.Button
         Me.ButtonStationPositions = New System.Windows.Forms.Button
@@ -107,27 +111,32 @@ Public Class Setup
         Me.TextBoxRobotX = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.OleDbConnection1 = New System.Data.OleDb.OleDbConnection
-        Me.Timer1 = New System.Timers.Timer
+        Me.HardwareTimer = New System.Timers.Timer
         Me.LabelMessage = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.btLaserInterface = New System.Windows.Forms.Button
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox
+        Me.HomingCheckTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1.SuspendLayout()
         Me.GpB_Configurations.SuspendLayout()
         Me.Panel2.SuspendLayout()
-        CType(Me.Timer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.GroupBox6.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.SystemColors.Control
         Me.Panel1.Controls.Add(Me.GpB_Configurations)
-        Me.Panel1.Location = New System.Drawing.Point(0, 568)
+        Me.Panel1.Controls.Add(Me.ButtonHardwareCommunicationSetup)
+        Me.Panel1.Location = New System.Drawing.Point(0, 576)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(744, 368)
+        Me.Panel1.Size = New System.Drawing.Size(744, 352)
         Me.Panel1.TabIndex = 5
         '
         'GpB_Configurations
@@ -139,7 +148,7 @@ Public Class Setup
         Me.GpB_Configurations.Controls.Add(Me.TwoHead)
         Me.GpB_Configurations.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.GpB_Configurations.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GpB_Configurations.Location = New System.Drawing.Point(28, 30)
+        Me.GpB_Configurations.Location = New System.Drawing.Point(28, 8)
         Me.GpB_Configurations.Name = "GpB_Configurations"
         Me.GpB_Configurations.Size = New System.Drawing.Size(308, 186)
         Me.GpB_Configurations.TabIndex = 62
@@ -164,6 +173,7 @@ Public Class Setup
         Me.CheckBoxHeater.Size = New System.Drawing.Size(184, 24)
         Me.CheckBoxHeater.TabIndex = 63
         Me.CheckBoxHeater.Text = "Heater Integration"
+        Me.CheckBoxHeater.Visible = False
         '
         'CheckBoxVolume
         '
@@ -193,6 +203,17 @@ Public Class Setup
         Me.TwoHead.TabIndex = 65
         Me.TwoHead.Text = "Two Heads"
         '
+        'ButtonHardwareCommunicationSetup
+        '
+        Me.ButtonHardwareCommunicationSetup.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonHardwareCommunicationSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonHardwareCommunicationSetup.Location = New System.Drawing.Point(504, 280)
+        Me.ButtonHardwareCommunicationSetup.Name = "ButtonHardwareCommunicationSetup"
+        Me.ButtonHardwareCommunicationSetup.Size = New System.Drawing.Size(232, 32)
+        Me.ButtonHardwareCommunicationSetup.TabIndex = 46
+        Me.ButtonHardwareCommunicationSetup.Text = "Hardware Communication"
+        Me.ButtonHardwareCommunicationSetup.Visible = False
+        '
         'PanelRight
         '
         Me.PanelRight.Location = New System.Drawing.Point(768, 8)
@@ -210,8 +231,9 @@ Public Class Setup
         '
         'ButtonGantrySetup
         '
+        Me.ButtonGantrySetup.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonGantrySetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonGantrySetup.Location = New System.Drawing.Point(96, 40)
+        Me.ButtonGantrySetup.Location = New System.Drawing.Point(96, 32)
         Me.ButtonGantrySetup.Name = "ButtonGantrySetup"
         Me.ButtonGantrySetup.Size = New System.Drawing.Size(224, 56)
         Me.ButtonGantrySetup.TabIndex = 43
@@ -220,26 +242,16 @@ Public Class Setup
         'ButtonNeedleCalibSetup
         '
         Me.ButtonNeedleCalibSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNeedleCalibSetup.Location = New System.Drawing.Point(96, 112)
+        Me.ButtonNeedleCalibSetup.Location = New System.Drawing.Point(96, 104)
         Me.ButtonNeedleCalibSetup.Name = "ButtonNeedleCalibSetup"
         Me.ButtonNeedleCalibSetup.Size = New System.Drawing.Size(224, 56)
         Me.ButtonNeedleCalibSetup.TabIndex = 44
         Me.ButtonNeedleCalibSetup.Text = "Needle Setup"
         '
-        'ButtonHardwareCommunicationSetup
-        '
-        Me.ButtonHardwareCommunicationSetup.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonHardwareCommunicationSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonHardwareCommunicationSetup.Location = New System.Drawing.Point(360, 40)
-        Me.ButtonHardwareCommunicationSetup.Name = "ButtonHardwareCommunicationSetup"
-        Me.ButtonHardwareCommunicationSetup.Size = New System.Drawing.Size(224, 56)
-        Me.ButtonHardwareCommunicationSetup.TabIndex = 46
-        Me.ButtonHardwareCommunicationSetup.Text = "Hardware Communication"
-        '
         'ButtonSystemIO
         '
         Me.ButtonSystemIO.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSystemIO.Location = New System.Drawing.Point(360, 112)
+        Me.ButtonSystemIO.Location = New System.Drawing.Point(360, 32)
         Me.ButtonSystemIO.Name = "ButtonSystemIO"
         Me.ButtonSystemIO.Size = New System.Drawing.Size(224, 56)
         Me.ButtonSystemIO.TabIndex = 37
@@ -248,7 +260,7 @@ Public Class Setup
         'ButtonLaserSetup
         '
         Me.ButtonLaserSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonLaserSetup.Location = New System.Drawing.Point(96, 184)
+        Me.ButtonLaserSetup.Location = New System.Drawing.Point(360, 104)
         Me.ButtonLaserSetup.Name = "ButtonLaserSetup"
         Me.ButtonLaserSetup.Size = New System.Drawing.Size(224, 56)
         Me.ButtonLaserSetup.TabIndex = 45
@@ -258,7 +270,7 @@ Public Class Setup
         'ButtonStationPositions
         '
         Me.ButtonStationPositions.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonStationPositions.Location = New System.Drawing.Point(364, 32)
+        Me.ButtonStationPositions.Location = New System.Drawing.Point(360, 32)
         Me.ButtonStationPositions.Name = "ButtonStationPositions"
         Me.ButtonStationPositions.Size = New System.Drawing.Size(224, 56)
         Me.ButtonStationPositions.TabIndex = 43
@@ -268,69 +280,69 @@ Public Class Setup
         '
         Me.ButtonVolumeCalibSettings.Enabled = False
         Me.ButtonVolumeCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(364, 224)
+        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(360, 224)
         Me.ButtonVolumeCalibSettings.Name = "ButtonVolumeCalibSettings"
         Me.ButtonVolumeCalibSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonVolumeCalibSettings.TabIndex = 46
-        Me.ButtonVolumeCalibSettings.Text = "Volume Calibration"
+        Me.ButtonVolumeCalibSettings.Text = "Volume Calibration Settings"
         Me.ButtonVolumeCalibSettings.Visible = False
         '
         'ButtonNeedleCalibSettings
         '
         Me.ButtonNeedleCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNeedleCalibSettings.Location = New System.Drawing.Point(124, 96)
+        Me.ButtonNeedleCalibSettings.Location = New System.Drawing.Point(96, 96)
         Me.ButtonNeedleCalibSettings.Name = "ButtonNeedleCalibSettings"
         Me.ButtonNeedleCalibSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonNeedleCalibSettings.TabIndex = 44
-        Me.ButtonNeedleCalibSettings.Text = "Needle Calibration"
+        Me.ButtonNeedleCalibSettings.Text = "Needle Calibration Settings"
         '
         'ButtonEventHandling
         '
         Me.ButtonEventHandling.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonEventHandling.Location = New System.Drawing.Point(364, 160)
+        Me.ButtonEventHandling.Location = New System.Drawing.Point(96, 160)
         Me.ButtonEventHandling.Name = "ButtonEventHandling"
         Me.ButtonEventHandling.Size = New System.Drawing.Size(224, 56)
         Me.ButtonEventHandling.TabIndex = 47
-        Me.ButtonEventHandling.Text = "Event Handling"
+        Me.ButtonEventHandling.Text = "Event Handling Settings"
         '
         'ButtonConveyorSettings
         '
         Me.ButtonConveyorSettings.Enabled = False
         Me.ButtonConveyorSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonConveyorSettings.Location = New System.Drawing.Point(124, 224)
+        Me.ButtonConveyorSettings.Location = New System.Drawing.Point(360, 160)
         Me.ButtonConveyorSettings.Name = "ButtonConveyorSettings"
         Me.ButtonConveyorSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonConveyorSettings.TabIndex = 45
-        Me.ButtonConveyorSettings.Text = "Conveyor"
+        Me.ButtonConveyorSettings.Text = "Conveyor Settings"
         Me.ButtonConveyorSettings.Visible = False
         '
         'ButtonThermalSettings
         '
         Me.ButtonThermalSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonThermalSettings.Location = New System.Drawing.Point(124, 160)
+        Me.ButtonThermalSettings.Location = New System.Drawing.Point(96, 224)
         Me.ButtonThermalSettings.Name = "ButtonThermalSettings"
         Me.ButtonThermalSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonThermalSettings.TabIndex = 46
-        Me.ButtonThermalSettings.Text = "Heater"
+        Me.ButtonThermalSettings.Text = "Heater Settings"
         Me.ButtonThermalSettings.Visible = False
         '
         'ButtonSPCLogging
         '
         Me.ButtonSPCLogging.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCLogging.Location = New System.Drawing.Point(364, 96)
+        Me.ButtonSPCLogging.Location = New System.Drawing.Point(360, 96)
         Me.ButtonSPCLogging.Name = "ButtonSPCLogging"
         Me.ButtonSPCLogging.Size = New System.Drawing.Size(224, 56)
         Me.ButtonSPCLogging.TabIndex = 51
-        Me.ButtonSPCLogging.Text = "SPC Logging"
+        Me.ButtonSPCLogging.Text = "SPC Logging Settings"
         '
         'ButtonDispenserSettings
         '
         Me.ButtonDispenserSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonDispenserSettings.Location = New System.Drawing.Point(124, 32)
+        Me.ButtonDispenserSettings.Location = New System.Drawing.Point(96, 32)
         Me.ButtonDispenserSettings.Name = "ButtonDispenserSettings"
         Me.ButtonDispenserSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonDispenserSettings.TabIndex = 42
-        Me.ButtonDispenserSettings.Text = "Dispenser"
+        Me.ButtonDispenserSettings.Text = "Dispenser Settings"
         '
         'Panel2
         '
@@ -426,9 +438,9 @@ Public Class Setup
         "ate System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;User ID=A" & _
         "dmin;Jet OLEDB:Global Bulk Transactions=1"
         '
-        'Timer1
+        'HardwareTimer
         '
-        Me.Timer1.SynchronizingObject = Me
+        Me.HardwareTimer.SynchronizingObject = Me
         '
         'LabelMessage
         '
@@ -453,24 +465,23 @@ Public Class Setup
         Me.GroupBox1.Controls.Add(Me.ButtonEventHandling)
         Me.GroupBox1.Controls.Add(Me.ButtonConveyorSettings)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(16, 272)
+        Me.GroupBox1.Location = New System.Drawing.Point(16, 192)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(712, 296)
         Me.GroupBox1.TabIndex = 87
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Global Settings"
+        Me.GroupBox1.Text = "Global Settings :"
         '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.ButtonGantrySetup)
         Me.GroupBox2.Controls.Add(Me.ButtonNeedleCalibSetup)
-        Me.GroupBox2.Controls.Add(Me.ButtonHardwareCommunicationSetup)
         Me.GroupBox2.Controls.Add(Me.ButtonSystemIO)
         Me.GroupBox2.Controls.Add(Me.ButtonLaserSetup)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox2.Location = New System.Drawing.Point(16, 8)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(712, 256)
+        Me.GroupBox2.Size = New System.Drawing.Size(712, 184)
         Me.GroupBox2.TabIndex = 88
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "System Setup :"
@@ -491,6 +502,30 @@ Public Class Setup
         Me.GroupBox5.TabIndex = 90
         Me.GroupBox5.TabStop = False
         '
+        'btLaserInterface
+        '
+        Me.btLaserInterface.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btLaserInterface.Location = New System.Drawing.Point(96, 24)
+        Me.btLaserInterface.Name = "btLaserInterface"
+        Me.btLaserInterface.Size = New System.Drawing.Size(224, 56)
+        Me.btLaserInterface.TabIndex = 63
+        Me.btLaserInterface.Text = "Laser"
+        '
+        'GroupBox6
+        '
+        Me.GroupBox6.Controls.Add(Me.btLaserInterface)
+        Me.GroupBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox6.Location = New System.Drawing.Point(16, 488)
+        Me.GroupBox6.Name = "GroupBox6"
+        Me.GroupBox6.Size = New System.Drawing.Size(712, 88)
+        Me.GroupBox6.TabIndex = 64
+        Me.GroupBox6.TabStop = False
+        Me.GroupBox6.Text = "Hardware :"
+        '
+        'HomingCheckTimer
+        '
+        Me.HomingCheckTimer.Interval = 30000
+        '
         'Setup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -504,6 +539,7 @@ Public Class Setup
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.GroupBox4)
+        Me.Controls.Add(Me.GroupBox6)
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
@@ -513,9 +549,10 @@ Public Class Setup
         Me.Panel1.ResumeLayout(False)
         Me.GpB_Configurations.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
-        CType(Me.Timer1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox6.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -541,6 +578,8 @@ Public Class Setup
     Const ratioLB = 0.4
     Const ratioUB = 1.05
     Dim ratio As Double
+    Dim selectedButton As System.Windows.Forms.Button
+    Dim homingDone As Boolean = False
 
     Private Sub MouseJogging(ByVal state As Object)
 
@@ -715,6 +754,9 @@ Public Class Setup
                 For Each ctrl As Control In Me.Controls
                     ctrl.Enabled = True
                 Next
+                homingDone = True
+                HomingCheckTimer.Stop()
+                HomingCheckTimer.Enabled = False
                 ShowLabelMessage("Homing done. System is ready!")
             End If
         Loop
@@ -726,10 +768,8 @@ Public Class Setup
         m_Tri2 = m_Tri
         Panel1.Controls.Add(m_Tri.SteppingButtons)
         m_Tri.SteppingButtons.BringToFront()
-        m_Tri.SteppingButtons.Enabled = False
-        m_Tri.SteppingButtons.Show()
         'change GUI settings unique for system setup here
-        m_Tri.SteppingButtons.Location = New System.Drawing.Point(350, 30)
+        m_Tri.SteppingButtons.Location = New System.Drawing.Point(350, GpB_Configurations.Location.Y)
 
         'gui
         Location = New Point(0, 0)
@@ -747,17 +787,15 @@ Public Class Setup
         End If
 
         'motion controller start and do homing
+        m_Tri.SteppingButtons.Enabled = False
+        m_Tri.SteppingButtons.Show()
         ShowLabelMessage("Initializing hardware......")
-        m_Tri.Connect_Controller()
-        m_Tri.SetMachineRun()
-        ShowLabelMessage("Homing......")
-        m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
         For Each ctrl As Control In Me.Controls
             ctrl.Enabled = False
         Next
         'timers
         IDS.StartErrorCheck()
-        Timer1.Start()
+        HardwareTimer.Start()
         ThreadMonitor = New Threading.Thread(AddressOf TheThreadMonitor)
         ThreadMonitor.Priority = Threading.ThreadPriority.BelowNormal
         ThreadMonitor.Start()
@@ -768,6 +806,8 @@ Public Class Setup
         OnLaser()
 
         AddPanel(PanelRight, MyGantrySetup.PanelToBeAdded)
+        selectedButton = ButtonGantrySetup
+        ButtonGantrySetup.Select()
 
     End Sub
 
@@ -791,7 +831,7 @@ Public Class Setup
         IDS.StopErrorCheck()
         ThreadMonitor.Abort()
         MouseTimer.Dispose()
-        Timer1.Stop()
+        HardwareTimer.Stop()
 
         'hardware
         OffLaser()
@@ -836,6 +876,7 @@ Public Class Setup
     Private Sub Setup_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         Dim mode As Integer = 0
         KeyboardControl.ReleaseControls()
+        Laser.Instance.Hide()
         m_Tri.m_TriCtrl.GetTable(21, 1, mode)
         If mode <> 0 Then
             m_Tri.m_TriCtrl.SetTable(21, 1, 0)
@@ -975,6 +1016,7 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonGantry_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonGantrySetup.Click
+        SetSelectButton(sender)
         AddPanel(PanelRight, MyGantrySetup.PanelToBeAdded)
         If OneHead.Checked Then
             MyGantrySetup.RightHead.Visible = False
@@ -985,8 +1027,8 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonLaser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLaserSetup.Click
+        SetSelectButton(sender)
         AddPanel(PanelRight, MyLaser.PanelToBeAdded)
-
         MyLaser.LaserOffsetZ.Text = IDS.Data.Hardware.HeightSensor.Laser.HeightReference
         MyLaser.LaserOffsetX.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X
         MyLaser.LaserOffsetY.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y
@@ -994,6 +1036,7 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonNeedle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSetup.Click
+        SetSelectButton(sender)
         MyNeedleCalibrationSetup1.Revert()
         AddPanel(PanelRight, MyNeedleCalibrationSetup1.PanelToBeAdded)
     End Sub
@@ -1013,11 +1056,13 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonNeedleCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSettings.Click
+        SetSelectButton(sender)
         MyNeedleCalibrationSettings.Revert()
         AddPanel(PanelRight, MyNeedleCalibrationSettings.PanelToBeAdded)
     End Sub
 
     Private Sub ButtonStationPositions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStationPositions.Click
+        SetSelectButton(sender)
         AddPanel(PanelRight, MyGantrySettings.PanelToBeAdded)
         'initialize
         MyGantrySettings.RevertData()
@@ -1026,17 +1071,20 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonDispenserSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDispenserSettings.Click
+        SetSelectButton(sender)
         AddPanel(PanelRight, MyDispenserSettings.PanelToBeAdded)
         MyDispenserSettings.HeadType.SelectedIndex = 0
         MyDispenserSettings.RevertData()
     End Sub
 
     Private Sub ButtonSPCLogging_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSPCLogging.Click
+        SetSelectButton(sender)
         AddPanel(PanelRight, MySPCLogging.PanelToBeAdded)
         MySPCLogging.RevertData()
     End Sub
 
     Private Sub ButtonEventHandling_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEventHandling.Click
+        SetSelectButton(sender)
         AddPanel(PanelRight, MyEventSettings.PanelToBeAdded)
         MyEventSettings.RevertData()
     End Sub
@@ -1051,6 +1099,7 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonThermalSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonThermalSettings.Click
+        SetSelectButton(sender)
         AddPanel(PanelRight, MyHeaterSettings.PanelToBeAdded)
         MyHeaterSettings.RevertData()
     End Sub
@@ -1092,8 +1141,13 @@ Public Class Setup
         MyHardwareCommunicationSetup.RefreshDisplay()
     End Sub
 
-    Private Sub Timer1_Elapsed(ByVal sender As System.Object, ByVal e As System.Timers.ElapsedEventArgs) Handles Timer1.Elapsed
-        'MyConveyorSettings.e_stop_T1_Tick() 'yy remove timer for converyor
+    Private Sub Timer1_Elapsed(ByVal sender As System.Object, ByVal e As System.Timers.ElapsedEventArgs) Handles HardwareTimer.Elapsed
+        HardwareTimer.Stop()
+        HardwareTimer.Enabled = False
+        m_Tri.Connect_Controller()
+        m_Tri.SetMachineRun()
+        ShowLabelMessage("Homing......")
+        m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
     End Sub
 
     Private Sub PanelVision_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs)
@@ -1102,5 +1156,30 @@ Public Class Setup
 
     Private Sub ShowLabelMessage(ByVal msg As String)
         LabelMessage.Text = msg
+    End Sub
+
+    Private Sub btLaserInterface_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btLaserInterface.Click
+        OnLaser()
+        Dim temp As CIDSService.CIDSServiceDevices.CIDSServiceLaser = Laser.Instance
+        temp.Show()
+    End Sub
+
+    Private Sub SetSelectButton(ByVal sender As System.Object)
+        If Not (selectedButton Is Nothing) Then
+            selectedButton.FlatStyle = FlatStyle.Standard
+        End If
+        selectedButton = DirectCast(sender, System.Windows.Forms.Button)
+        selectedButton.FlatStyle = FlatStyle.Flat
+    End Sub
+
+    Private Sub HomingCheckTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HomingCheckTimer.Tick
+        HomingCheckTimer.Stop()
+        HomingCheckTimer.Enabled = False
+        If Not (homingDone) Then
+            ShowLabelMessage("Homing failed......")
+            For Each ctrl As Control In Me.Controls
+                ctrl.Enabled = True
+            Next
+        End If
     End Sub
 End Class

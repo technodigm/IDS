@@ -44,6 +44,7 @@ Public Class CIDSTrioController
     Friend WithEvents rb5micron As System.Windows.Forms.RadioButton
     Friend WithEvents rb1micron As System.Windows.Forms.RadioButton
     Friend WithEvents gbSteps As System.Windows.Forms.GroupBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(CIDSTrioController))
         Me.SteppingButtons = New System.Windows.Forms.Panel
@@ -61,6 +62,7 @@ Public Class CIDSTrioController
         Me.rbFineStep = New System.Windows.Forms.RadioButton
         Me.rb5micron = New System.Windows.Forms.RadioButton
         Me.rb100micron = New System.Windows.Forms.RadioButton
+        Me.Label1 = New System.Windows.Forms.Label
         Me.SteppingButtons.SuspendLayout()
         Me.gbSteps.SuspendLayout()
         CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,6 +79,7 @@ Public Class CIDSTrioController
         Me.SteppingButtons.Controls.Add(Me.BTStepYminus)
         Me.SteppingButtons.Controls.Add(Me.BTStepYplus)
         Me.SteppingButtons.Controls.Add(Me.gbSteps)
+        Me.SteppingButtons.Controls.Add(Me.Label1)
         Me.SteppingButtons.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.SteppingButtons.Location = New System.Drawing.Point(8, 8)
         Me.SteppingButtons.Name = "SteppingButtons"
@@ -89,7 +92,7 @@ Public Class CIDSTrioController
         Me.BTStepZdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepZdown.Image = CType(resources.GetObject("BTStepZdown.Image"), System.Drawing.Image)
         Me.BTStepZdown.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.BTStepZdown.Location = New System.Drawing.Point(264, 128)
+        Me.BTStepZdown.Location = New System.Drawing.Point(272, 136)
         Me.BTStepZdown.Name = "BTStepZdown"
         Me.BTStepZdown.Size = New System.Drawing.Size(48, 72)
         Me.BTStepZdown.TabIndex = 8
@@ -102,7 +105,7 @@ Public Class CIDSTrioController
         Me.BTStepZup.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepZup.Image = CType(resources.GetObject("BTStepZup.Image"), System.Drawing.Image)
         Me.BTStepZup.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.BTStepZup.Location = New System.Drawing.Point(264, 40)
+        Me.BTStepZup.Location = New System.Drawing.Point(272, 48)
         Me.BTStepZup.Name = "BTStepZup"
         Me.BTStepZup.Size = New System.Drawing.Size(48, 72)
         Me.BTStepZup.TabIndex = 7
@@ -115,7 +118,7 @@ Public Class CIDSTrioController
         Me.BTStepXminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepXminus.Image = CType(resources.GetObject("BTStepXminus.Image"), System.Drawing.Image)
         Me.BTStepXminus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BTStepXminus.Location = New System.Drawing.Point(24, 96)
+        Me.BTStepXminus.Location = New System.Drawing.Point(40, 96)
         Me.BTStepXminus.Name = "BTStepXminus"
         Me.BTStepXminus.Size = New System.Drawing.Size(80, 48)
         Me.BTStepXminus.TabIndex = 6
@@ -128,7 +131,7 @@ Public Class CIDSTrioController
         Me.BTStepXplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepXplus.Image = CType(resources.GetObject("BTStepXplus.Image"), System.Drawing.Image)
         Me.BTStepXplus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BTStepXplus.Location = New System.Drawing.Point(152, 96)
+        Me.BTStepXplus.Location = New System.Drawing.Point(168, 96)
         Me.BTStepXplus.Name = "BTStepXplus"
         Me.BTStepXplus.Size = New System.Drawing.Size(80, 48)
         Me.BTStepXplus.TabIndex = 5
@@ -141,7 +144,7 @@ Public Class CIDSTrioController
         Me.BTStepYminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepYminus.Image = CType(resources.GetObject("BTStepYminus.Image"), System.Drawing.Image)
         Me.BTStepYminus.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.BTStepYminus.Location = New System.Drawing.Point(104, 144)
+        Me.BTStepYminus.Location = New System.Drawing.Point(120, 144)
         Me.BTStepYminus.Name = "BTStepYminus"
         Me.BTStepYminus.Size = New System.Drawing.Size(48, 80)
         Me.BTStepYminus.TabIndex = 4
@@ -154,7 +157,7 @@ Public Class CIDSTrioController
         Me.BTStepYplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepYplus.Image = CType(resources.GetObject("BTStepYplus.Image"), System.Drawing.Image)
         Me.BTStepYplus.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.BTStepYplus.Location = New System.Drawing.Point(104, 16)
+        Me.BTStepYplus.Location = New System.Drawing.Point(120, 16)
         Me.BTStepYplus.Name = "BTStepYplus"
         Me.BTStepYplus.Size = New System.Drawing.Size(48, 80)
         Me.BTStepYplus.TabIndex = 3
@@ -202,7 +205,7 @@ Public Class CIDSTrioController
         Me.ComboBoxFineStep.Name = "ComboBoxFineStep"
         Me.ComboBoxFineStep.Size = New System.Drawing.Size(88, 27)
         Me.ComboBoxFineStep.TabIndex = 9
-        Me.ComboBoxFineStep.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        Me.ComboBoxFineStep.Value = New Decimal(New Integer() {1000, 0, 0, 196608})
         '
         'rb10micron
         '
@@ -234,6 +237,14 @@ Public Class CIDSTrioController
         Me.rb100micron.Size = New System.Drawing.Size(96, 24)
         Me.rb100micron.TabIndex = 11
         Me.rb100micron.Text = "0.1 mm"
+        '
+        'Label1
+        '
+        Me.Label1.Location = New System.Drawing.Point(0, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(144, 23)
+        Me.Label1.TabIndex = 16
+        Me.Label1.Text = "Relative Move:"
         '
         'CIDSTrioController
         '

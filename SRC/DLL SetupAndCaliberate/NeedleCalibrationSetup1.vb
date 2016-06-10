@@ -90,7 +90,7 @@ Public Class NeedleCalibrationSetup1
         Me.TextBox1.TabIndex = 103
         Me.TextBox1.Text = "Info:                                                                 First, make" & _
         " sure the syringe is not tighten up. Press and hold Control Key on Keyboard and " & _
-        "use the mouse's scrolball to move the XY stage to the hardware reference point. " & _
+        "use the mouse's scrollball to move the XY axes to the hardware reference point. " & _
         "Alternatively, click the Move To Current Reference Point button to move the need" & _
         "le to the previously saved reference point position. After that, move down the z" & _
         " stage before touching the reference point. Tighten the syringe and continue wit" & _

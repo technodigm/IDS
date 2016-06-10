@@ -239,10 +239,11 @@ Public Class HardwareCommunicationSetup
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.GroupBox2.Location = New System.Drawing.Point(16, 64)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(232, 270)
+        Me.GroupBox2.Size = New System.Drawing.Size(232, 216)
         Me.GroupBox2.TabIndex = 3
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Communication Interfaces"
+        Me.GroupBox2.Visible = False
         '
         'HeaterStatus
         '

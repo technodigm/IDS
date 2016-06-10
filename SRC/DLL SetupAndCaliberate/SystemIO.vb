@@ -58,7 +58,6 @@ Public Class SystemIO
     Friend WithEvents ButtonSave As System.Windows.Forms.Button
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents ButtonExit As System.Windows.Forms.Button
     Friend WithEvents TBr_SysIO As System.Windows.Forms.ToolBar
     Friend WithEvents ToolBarButtonNew As System.Windows.Forms.ToolBarButton
@@ -109,13 +108,12 @@ Public Class SystemIO
         Me.Label10 = New System.Windows.Forms.Label
         Me.Label7 = New System.Windows.Forms.Label
         Me.CBViewModule = New System.Windows.Forms.ComboBox
-        Me.Label9 = New System.Windows.Forms.Label
+        Me.ButtonExit = New System.Windows.Forms.Button
         Me.Label8 = New System.Windows.Forms.Label
         Me.ButtonRevert = New System.Windows.Forms.Button
         Me.ButtonSave = New System.Windows.Forms.Button
         Me.ComboBox1 = New System.Windows.Forms.ComboBox
         Me.Label = New System.Windows.Forms.Label
-        Me.ButtonExit = New System.Windows.Forms.Button
         Me.TimerIO = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDlg = New System.Windows.Forms.SaveFileDialog
         Me.OpenFileDlg = New System.Windows.Forms.OpenFileDialog
@@ -136,25 +134,24 @@ Public Class SystemIO
         '
         Me.PanelToBeAdded.BackColor = System.Drawing.SystemColors.Control
         Me.PanelToBeAdded.Controls.Add(Me.Panel2)
-        Me.PanelToBeAdded.Controls.Add(Me.Label9)
         Me.PanelToBeAdded.Controls.Add(Me.Label8)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonRevert)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonSave)
         Me.PanelToBeAdded.Controls.Add(Me.ComboBox1)
         Me.PanelToBeAdded.Controls.Add(Me.Label)
-        Me.PanelToBeAdded.Controls.Add(Me.ButtonExit)
         Me.PanelToBeAdded.Location = New System.Drawing.Point(0, 0)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(1280, 944)
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(1200, 1000)
         Me.PanelToBeAdded.TabIndex = 0
         '
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.DataGrid1)
         Me.Panel2.Controls.Add(Me.GroupBox1)
-        Me.Panel2.Location = New System.Drawing.Point(8, 48)
+        Me.Panel2.Controls.Add(Me.ButtonExit)
+        Me.Panel2.Controls.Add(Me.ButtonSave)
+        Me.Panel2.Controls.Add(Me.ButtonRevert)
+        Me.Panel2.Location = New System.Drawing.Point(8, 32)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1144, 816)
+        Me.Panel2.Size = New System.Drawing.Size(1168, 816)
         Me.Panel2.TabIndex = 69
         '
         'DataGrid1
@@ -165,7 +162,7 @@ Public Class SystemIO
         Me.DataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText
         Me.DataGrid1.Location = New System.Drawing.Point(8, 248)
         Me.DataGrid1.Name = "DataGrid1"
-        Me.DataGrid1.Size = New System.Drawing.Size(1112, 552)
+        Me.DataGrid1.Size = New System.Drawing.Size(1048, 552)
         Me.DataGrid1.TabIndex = 56
         '
         'GroupBox1
@@ -188,7 +185,7 @@ Public Class SystemIO
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(8, 24)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(1080, 208)
+        Me.GroupBox1.Size = New System.Drawing.Size(1048, 208)
         Me.GroupBox1.TabIndex = 55
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "System Information Entry Tools"
@@ -201,7 +198,7 @@ Public Class SystemIO
         Me.TBr_SysIO.DropDownArrows = True
         Me.TBr_SysIO.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TBr_SysIO.ImageList = Me.ImageList1
-        Me.TBr_SysIO.Location = New System.Drawing.Point(744, 48)
+        Me.TBr_SysIO.Location = New System.Drawing.Point(720, 48)
         Me.TBr_SysIO.Name = "TBr_SysIO"
         Me.TBr_SysIO.ShowToolTips = True
         Me.TBr_SysIO.Size = New System.Drawing.Size(312, 51)
@@ -246,7 +243,7 @@ Public Class SystemIO
         'TB_CableLabel
         '
         Me.TB_CableLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TB_CableLabel.Location = New System.Drawing.Point(848, 160)
+        Me.TB_CableLabel.Location = New System.Drawing.Point(824, 160)
         Me.TB_CableLabel.Name = "TB_CableLabel"
         Me.TB_CableLabel.ReadOnly = True
         Me.TB_CableLabel.Size = New System.Drawing.Size(184, 27)
@@ -258,7 +255,7 @@ Public Class SystemIO
         Me.Label5.Enabled = False
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label5.Location = New System.Drawing.Point(744, 160)
+        Me.Label5.Location = New System.Drawing.Point(720, 160)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(104, 23)
         Me.Label5.TabIndex = 66
@@ -267,7 +264,7 @@ Public Class SystemIO
         'TB_IONum
         '
         Me.TB_IONum.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TB_IONum.Location = New System.Drawing.Point(848, 120)
+        Me.TB_IONum.Location = New System.Drawing.Point(824, 120)
         Me.TB_IONum.Name = "TB_IONum"
         Me.TB_IONum.ReadOnly = True
         Me.TB_IONum.Size = New System.Drawing.Size(184, 27)
@@ -279,7 +276,7 @@ Public Class SystemIO
         Me.Label6.Enabled = False
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label6.Location = New System.Drawing.Point(744, 120)
+        Me.Label6.Location = New System.Drawing.Point(720, 120)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(96, 23)
         Me.Label6.TabIndex = 64
@@ -430,17 +427,18 @@ Public Class SystemIO
         Me.CBViewModule.TabIndex = 36
         Me.CBViewModule.Text = "ALL"
         '
-        'Label9
+        'ButtonExit
         '
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label9.ForeColor = System.Drawing.Color.Red
-        Me.Label9.Location = New System.Drawing.Point(152, 0)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(832, 40)
-        Me.Label9.TabIndex = 61
-        Me.Label9.Text = "Note to developer: please prevent track ball from moving the robot when this page" & _
-        " is showing, because the vision window is un-visible here."
-        Me.Label9.Visible = False
+        Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
+        Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonExit.Location = New System.Drawing.Point(1064, 8)
+        Me.ButtonExit.Name = "ButtonExit"
+        Me.ButtonExit.Size = New System.Drawing.Size(96, 50)
+        Me.ButtonExit.TabIndex = 68
+        Me.ButtonExit.TabStop = False
+        Me.ButtonExit.Text = "Exit"
+        Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'Label8
         '
@@ -455,7 +453,7 @@ Public Class SystemIO
         'ButtonRevert
         '
         Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonRevert.Location = New System.Drawing.Point(1040, 864)
+        Me.ButtonRevert.Location = New System.Drawing.Point(1064, 744)
         Me.ButtonRevert.Name = "ButtonRevert"
         Me.ButtonRevert.Size = New System.Drawing.Size(96, 50)
         Me.ButtonRevert.TabIndex = 57
@@ -464,9 +462,9 @@ Public Class SystemIO
         'ButtonSave
         '
         Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonSave.Location = New System.Drawing.Point(936, 864)
+        Me.ButtonSave.Location = New System.Drawing.Point(1064, 680)
         Me.ButtonSave.Name = "ButtonSave"
-        Me.ButtonSave.Size = New System.Drawing.Size(100, 50)
+        Me.ButtonSave.Size = New System.Drawing.Size(96, 50)
         Me.ButtonSave.TabIndex = 56
         Me.ButtonSave.Text = "Apply"
         '
@@ -488,26 +486,13 @@ Public Class SystemIO
         Me.Label.TabIndex = 28
         Me.Label.Text = "IO"
         '
-        'ButtonExit
-        '
-        Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
-        Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(1184, 16)
-        Me.ButtonExit.Name = "ButtonExit"
-        Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
-        Me.ButtonExit.TabIndex = 68
-        Me.ButtonExit.TabStop = False
-        Me.ButtonExit.Text = "Exit"
-        Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
         'TimerIO
         '
         '
         'SystemIO
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1280, 912)
+        Me.ClientSize = New System.Drawing.Size(1200, 912)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "SystemIO"

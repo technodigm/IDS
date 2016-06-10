@@ -51,6 +51,7 @@ Public Class NeedleCalibrationSettings
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSettings))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.BtMoveToCalibratorPost = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.ZOffset = New System.Windows.Forms.Label
@@ -64,7 +65,6 @@ Public Class NeedleCalibrationSettings
         Me.Button1 = New System.Windows.Forms.Button
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.PanelToBeAdded.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -89,9 +89,26 @@ Public Class NeedleCalibrationSettings
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 911)
         Me.PanelToBeAdded.TabIndex = 68
         '
+        'TextBox1
+        '
+        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(36, 80)
+        Me.TextBox1.Multiline = True
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(440, 264)
+        Me.TextBox1.TabIndex = 104
+        Me.TextBox1.Text = "Info:                                                                 First, make" & _
+        " sure the syringe is not tighten. Press and hold Control Key on Keyboard and use" & _
+        " the mouse's scrolball to move the XY stage to the hardware reference point. Aft" & _
+        "er that, move down the z stage before touching the reference point. Tighten the " & _
+        "syringe and continue with the fine adjustment to make sure the needle tip is ali" & _
+        "gned to reference point. Do not forget to save the calibration data. "
+        '
         'BtMoveToCalibratorPost
         '
-        Me.BtMoveToCalibratorPost.Location = New System.Drawing.Point(136, 712)
+        Me.BtMoveToCalibratorPost.Location = New System.Drawing.Point(136, 616)
         Me.BtMoveToCalibratorPost.Name = "BtMoveToCalibratorPost"
         Me.BtMoveToCalibratorPost.Size = New System.Drawing.Size(232, 80)
         Me.BtMoveToCalibratorPost.TabIndex = 97
@@ -174,15 +191,15 @@ Public Class NeedleCalibrationSettings
         '
         'ButtonCalibrate
         '
-        Me.ButtonCalibrate.Location = New System.Drawing.Point(136, 512)
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(136, 720)
         Me.ButtonCalibrate.Name = "ButtonCalibrate"
         Me.ButtonCalibrate.Size = New System.Drawing.Size(232, 80)
         Me.ButtonCalibrate.TabIndex = 61
-        Me.ButtonCalibrate.Text = "Calibrate Needle"
+        Me.ButtonCalibrate.Text = "Save Calibration Data"
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(136, 612)
+        Me.Button1.Location = New System.Drawing.Point(136, 512)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(232, 80)
         Me.Button1.TabIndex = 61
@@ -197,23 +214,6 @@ Public Class NeedleCalibrationSettings
         '
         Me.SaveFileDialog1.DefaultExt = "txt"
         Me.SaveFileDialog1.Filter = "(*.txt)|*"
-        '
-        'TextBox1
-        '
-        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(36, 80)
-        Me.TextBox1.Multiline = True
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(440, 264)
-        Me.TextBox1.TabIndex = 104
-        Me.TextBox1.Text = "Info:                                                                 First, make" & _
-        " sure the syringe is not tighten. Press and hold Control Key on Keyboard and use" & _
-        " the mouse's scrolball to move the XY stage to the hardware reference point. Aft" & _
-        "er that, move down the z stage before touching the reference point. Tighten the " & _
-        "syringe and continue with the fine adjustment to make sure the needle tip is ali" & _
-        "gned to reference point. Do not forget to save the reference point position. "
         '
         'NeedleCalibrationSettings
         '

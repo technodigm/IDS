@@ -146,7 +146,7 @@
 ,IDSData.Hardware.Conveyor.WidthMoveStep =5
 
 ~[DISPENSER]
-,IDSData.Hardware.Dispenser.CurrentHeads =1
+,IDSData.Hardware.Dispenser.CurrentHeads =2
 
 ~[DISPENSER@LEFT]
 8IDSData.Hardware.Dispenser.Left.MaterialAirPressure =2
