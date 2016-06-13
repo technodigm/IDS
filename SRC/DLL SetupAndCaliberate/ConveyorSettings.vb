@@ -99,7 +99,7 @@ Public Class ConveyorSettings
         'ButtonRevert
         '
         Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.ButtonRevert.Location = New System.Drawing.Point(400, 824)
+        Me.ButtonRevert.Location = New System.Drawing.Point(408, 400)
         Me.ButtonRevert.Name = "ButtonRevert"
         Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
         Me.ButtonRevert.TabIndex = 20
@@ -108,7 +108,7 @@ Public Class ConveyorSettings
         'ButtonSave
         '
         Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.ButtonSave.Location = New System.Drawing.Point(288, 824)
+        Me.ButtonSave.Location = New System.Drawing.Point(296, 400)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(88, 48)
         Me.ButtonSave.TabIndex = 19

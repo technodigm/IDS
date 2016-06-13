@@ -57,7 +57,7 @@ Public Class CIDSTrioController
         '
         'SteppingButtons
         '
-        Me.SteppingButtons.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.SteppingButtons.BackColor = System.Drawing.SystemColors.Control
         Me.SteppingButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.SteppingButtons.Controls.Add(Me.ComboBoxFineStep)
         Me.SteppingButtons.Controls.Add(Me.BTStepZdown)
@@ -69,7 +69,7 @@ Public Class CIDSTrioController
         Me.SteppingButtons.Controls.Add(Me.Label6)
         Me.SteppingButtons.Controls.Add(Me.LabelStep)
         Me.SteppingButtons.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.SteppingButtons.Location = New System.Drawing.Point(32, 32)
+        Me.SteppingButtons.Location = New System.Drawing.Point(20, 23)
         Me.SteppingButtons.Name = "SteppingButtons"
         Me.SteppingButtons.Size = New System.Drawing.Size(336, 280)
         Me.SteppingButtons.TabIndex = 23
@@ -164,7 +164,7 @@ Public Class CIDSTrioController
         '
         'Label6
         '
-        Me.Label6.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.Label6.BackColor = System.Drawing.SystemColors.Control
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.Label6.Location = New System.Drawing.Point(248, 240)
         Me.Label6.Name = "Label6"
@@ -175,7 +175,7 @@ Public Class CIDSTrioController
         '
         'LabelStep
         '
-        Me.LabelStep.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.LabelStep.BackColor = System.Drawing.SystemColors.Control
         Me.LabelStep.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LabelStep.Location = New System.Drawing.Point(56, 240)
         Me.LabelStep.Name = "LabelStep"
@@ -187,10 +187,10 @@ Public Class CIDSTrioController
         'CIDSTrioController
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(568, 494)
+        Me.ClientSize = New System.Drawing.Size(376, 326)
         Me.Controls.Add(Me.SteppingButtons)
         Me.Name = "CIDSTrioController"
-        Me.Text = "CIDSTrioController"
+        Me.Text = "Axes Relative Move"
         Me.SteppingButtons.ResumeLayout(False)
         CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

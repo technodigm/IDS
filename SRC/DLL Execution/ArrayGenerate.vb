@@ -2167,6 +2167,36 @@ Public Class ArrayGenerate
 
         End Select
 
+        'Check if the approach z, needle gap, clearance height, retract z is within the z range.
+        Dim ApproachZ As Double = 0
+        Dim NeedleGapZ As Double = 0
+        Dim ClearanceZ As Double = 0
+        Dim RetractZ As Double = 0
+        ApproachZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_ApproachHeight.Text)
+        ApproachZ = ApproachZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(ApproachZ) = False) Then
+            MessageBox.Show("Approach Z Height Error: " + ErrorMessage())
+            Return False
+        End If
+        NeedleGapZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_NeedleGap.Text)
+        NeedleGapZ = NeedleGapZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(NeedleGapZ) = False) Then
+            MessageBox.Show("Needle Gap Z Height Error: " + ErrorMessage())
+            Return False
+        End If
+        ClearanceZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_ClearanceHt.Text)
+        ClearanceZ = ClearanceZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(ClearanceZ) = False) Then
+            MessageBox.Show("Clearance Z Height Error: " + ErrorMessage())
+            Return False
+        End If
+        RetractZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_RetractHeight.Text)
+        RetractZ = RetractZ + gSystemOrigin(2) 'Get the hardware coordinate
+        If (WorkAreaErrorCheckZ(RetractZ) = False) Then
+            MessageBox.Show("Retract Z Height Error: " + ErrorMessage())
+            Return False
+        End If
+
         Return Rtn
         TraceGCCollect()
     End Function

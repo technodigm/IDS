@@ -88,7 +88,10 @@ Public Class Setup
     Public WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents DisplayBrightness As System.Windows.Forms.NumericUpDown
     Friend WithEvents Timer1 As System.Timers.Timer
+    Friend WithEvents HardwareInitTimer As System.Windows.Forms.Timer
+    Friend WithEvents LabelMessage As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
         Me.PanelVision = New System.Windows.Forms.Panel
         Me.PanelVisionCtrl = New System.Windows.Forms.Panel
@@ -110,6 +113,7 @@ Public Class Setup
         Me.CheckBoxVolume = New System.Windows.Forms.CheckBox
         Me.OneHead = New System.Windows.Forms.CheckBox
         Me.TwoHead = New System.Windows.Forms.CheckBox
+        Me.LabelMessage = New System.Windows.Forms.Label
         Me.PanelRight = New System.Windows.Forms.Panel
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.Label8 = New System.Windows.Forms.Label
@@ -144,6 +148,7 @@ Public Class Setup
         Me.DisplayBrightness = New System.Windows.Forms.NumericUpDown
         Me.OleDbConnection1 = New System.Data.OleDb.OleDbConnection
         Me.Timer1 = New System.Timers.Timer
+        Me.HardwareInitTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVision.SuspendLayout()
         Me.PanelVisionCtrl.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -247,8 +252,9 @@ Public Class Setup
         '
         'Panel1
         '
-        Me.Panel1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.Panel1.BackColor = System.Drawing.SystemColors.Control
         Me.Panel1.Controls.Add(Me.GpB_Configurations)
+        Me.Panel1.Controls.Add(Me.LabelMessage)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(768, 340)
@@ -266,7 +272,7 @@ Public Class Setup
         Me.GpB_Configurations.Controls.Add(Me.TwoHead)
         Me.GpB_Configurations.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.GpB_Configurations.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GpB_Configurations.Location = New System.Drawing.Point(28, 30)
+        Me.GpB_Configurations.Location = New System.Drawing.Point(28, 8)
         Me.GpB_Configurations.Name = "GpB_Configurations"
         Me.GpB_Configurations.Size = New System.Drawing.Size(336, 280)
         Me.GpB_Configurations.TabIndex = 62
@@ -346,6 +352,18 @@ Public Class Setup
         Me.TwoHead.TabIndex = 65
         Me.TwoHead.Text = "Two Heads"
         '
+        'LabelMessage
+        '
+        Me.LabelMessage.BackColor = System.Drawing.Color.White
+        Me.LabelMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LabelMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMessage.ForeColor = System.Drawing.Color.Black
+        Me.LabelMessage.Location = New System.Drawing.Point(0, 304)
+        Me.LabelMessage.Name = "LabelMessage"
+        Me.LabelMessage.Size = New System.Drawing.Size(768, 32)
+        Me.LabelMessage.TabIndex = 85
+        Me.LabelMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'PanelRight
         '
         Me.PanelRight.Controls.Add(Me.PanelToBeAdded)
@@ -366,16 +384,16 @@ Public Class Setup
         Me.PanelToBeAdded.Controls.Add(Me.ButtonLaserSetup)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonLVDTSetup)
         Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(0, 0)
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(0, 8)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 384)
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 200)
         Me.PanelToBeAdded.TabIndex = 64
         '
         'Label8
         '
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label8.Location = New System.Drawing.Point(0, 0)
+        Me.Label8.ForeColor = System.Drawing.Color.Black
+        Me.Label8.Location = New System.Drawing.Point(16, 0)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(160, 32)
         Me.Label8.TabIndex = 17
@@ -458,16 +476,16 @@ Public Class Setup
         Me.Panel3.Controls.Add(Me.ButtonSPCLogging)
         Me.Panel3.Controls.Add(Me.ButtonDispenserSettings)
         Me.Panel3.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Panel3.Location = New System.Drawing.Point(0, 440)
+        Me.Panel3.Location = New System.Drawing.Point(0, 224)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(512, 328)
+        Me.Panel3.Size = New System.Drawing.Size(512, 272)
         Me.Panel3.TabIndex = 64
         '
         'Label7
         '
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label7.Location = New System.Drawing.Point(0, 8)
+        Me.Label7.ForeColor = System.Drawing.Color.Black
+        Me.Label7.Location = New System.Drawing.Point(16, 8)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(176, 32)
         Me.Label7.TabIndex = 17
@@ -686,6 +704,9 @@ Public Class Setup
         '
         Me.Timer1.SynchronizingObject = Me
         '
+        'HardwareInitTimer
+        '
+        '
         'Setup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -734,6 +755,9 @@ Public Class Setup
     Const ratioLB = 0.4
     Const ratioUB = 1.05
     Dim ratio As Double
+    Dim homingStart As Boolean
+    Dim homingDone As Boolean
+    Dim homingWaitCnt As Integer
 
     Private Sub MouseJogging(ByVal state As Object)
 
@@ -906,6 +930,7 @@ Public Class Setup
             TextBoxRobotZ.Text = "Z: " & m_Tri.ZPosition.ToString
 
             If m_Tri.HomingFinished() Then
+                homingDone = True
                 GC.Collect()
                 m_Tri.SteppingButtons.Enabled = True
             End If
@@ -914,14 +939,16 @@ Public Class Setup
 
     Private Sub Setup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
+        homingStart = False
+        homingDone = False
+        homingWaitCnt = 0
         'display the stepping panel
         Panel1.Controls.Add(m_Tri.SteppingButtons)
         m_Tri.SteppingButtons.BringToFront()
         m_Tri.SteppingButtons.Enabled = False
         m_Tri.SteppingButtons.Show()
         'change GUI settings unique for system setup here
-        m_Tri.SteppingButtons.Location = New System.Drawing.Point(404, 30)
-
+        m_Tri.SteppingButtons.Location = New System.Drawing.Point(404, GpB_Configurations.Location.Y)
         'gui
         PanelVision.Controls.Add(IDS.Devices.Vision.FrmVision.PanelVision) 'lsgoh
         Location = New Point(0, 0)
@@ -938,11 +965,7 @@ Public Class Setup
             OneHead.Checked = False
         End If
 
-        'motion controller start and do homing
-        m_Tri.Connect_Controller()
-        m_Tri.SetMachineRun()
-        m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
-
+        EnableControls(False)
         'timers
         IDS.StartErrorCheck()
         Conveyor.PositionTimer.Start()
@@ -951,11 +974,12 @@ Public Class Setup
         ThreadMonitor.Priority = Threading.ThreadPriority.BelowNormal
         ThreadMonitor.Start()
         MouseTimer = New System.Threading.Timer(AddressOf MouseJogging, Nothing, 0, 180)
-
         'hardware
         Laser.OpenPort()
         OnLaser()
-
+        LabelMessage.Text = "Initialize Hardware......"
+        HardwareInitTimer.Enabled = True
+        HardwareInitTimer.Start()
     End Sub
 
     Private Sub Setup_Closed(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Closed
@@ -1051,6 +1075,8 @@ Public Class Setup
 
             m_Tri.RunTrioMotionProgram("EXITIDS")
         End If
+        HardwareInitTimer.Stop()
+        HardwareInitTimer.Enabled = False
     End Sub
 
     Private Sub SetPressure(ByVal PressureInput As Decimal, ByVal SuckBack As Decimal, ByVal Mode As String)
@@ -1381,4 +1407,42 @@ Public Class Setup
     '        isPress = False
     '    End If
     'End Sub
+
+    Private Sub HardwareInitTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HardwareInitTimer.Tick
+        HardwareInitTimer.Stop()
+        HardwareInitTimer.Enabled = False
+        'motion controller start and do homing
+        If Not (homingStart) Then
+            m_Tri.Connect_Controller()
+            m_Tri.SetMachineRun()
+            m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
+            LabelMessage.Text = "Homing......"
+            homingStart = True
+            homingDone = False
+            HardwareInitTimer.Start()
+            HardwareInitTimer.Enabled = True
+            homingWaitCnt = 0
+        Else
+            If Not (homingDone) Then
+                homingWaitCnt += 1
+                If homingWaitCnt > 350 Then
+                    LabelMessage.Text = "Homing timeout(> 35 Seconds) error! Please Check Axes Status!"
+                    EnableControls(True)
+                Else 'keep waiting for homing done
+                    HardwareInitTimer.Start()
+                    HardwareInitTimer.Enabled = True
+                End If
+            Else
+                LabelMessage.Text = "System Ready"
+                EnableControls(True)
+            End If
+            End If
+    End Sub
+
+    Private Sub EnableControls(ByVal enable As Boolean)
+        For Each ctrl As System.Windows.Forms.Control In Me.Controls
+            ctrl.Enabled = enable
+            m_Tri.SteppingButtons.Enabled = enable
+        Next
+    End Sub
 End Class

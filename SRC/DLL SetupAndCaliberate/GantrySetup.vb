@@ -204,7 +204,7 @@ Public Class GantrySetup
         Me.GroupBox6.Controls.Add(Me.MoveButton)
         Me.GroupBox6.Controls.Add(Me.GroupBox4)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
-        Me.GroupBox6.Location = New System.Drawing.Point(8, 152)
+        Me.GroupBox6.Location = New System.Drawing.Point(8, 72)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
         Me.GroupBox6.TabIndex = 68
@@ -404,7 +404,7 @@ Public Class GantrySetup
         Me.GroupBox3.Controls.Add(Me.Label13)
         Me.GroupBox3.Controls.Add(Me.Label12)
         Me.GroupBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(8, 664)
+        Me.GroupBox3.Location = New System.Drawing.Point(8, 584)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(496, 200)
         Me.GroupBox3.TabIndex = 29
@@ -579,7 +579,7 @@ Public Class GantrySetup
         Me.GroupBox2.Controls.Add(Me.Label23)
         Me.GroupBox2.Controls.Add(Me.WorkAreaZMax)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 488)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 408)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(240, 168)
         Me.GroupBox2.TabIndex = 28
@@ -705,7 +705,7 @@ Public Class GantrySetup
         'ButtonSPCancel
         '
         Me.ButtonSPCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCancel.Location = New System.Drawing.Point(392, 880)
+        Me.ButtonSPCancel.Location = New System.Drawing.Point(392, 800)
         Me.ButtonSPCancel.Name = "ButtonSPCancel"
         Me.ButtonSPCancel.Size = New System.Drawing.Size(90, 48)
         Me.ButtonSPCancel.TabIndex = 19
@@ -714,7 +714,7 @@ Public Class GantrySetup
         'ButtonSPOK
         '
         Me.ButtonSPOK.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPOK.Location = New System.Drawing.Point(280, 880)
+        Me.ButtonSPOK.Location = New System.Drawing.Point(280, 800)
         Me.ButtonSPOK.Name = "ButtonSPOK"
         Me.ButtonSPOK.Size = New System.Drawing.Size(90, 48)
         Me.ButtonSPOK.TabIndex = 18
@@ -729,7 +729,7 @@ Public Class GantrySetup
         Me.GroupBox1.Controls.Add(Me.SystemOriginPosZ)
         Me.GroupBox1.Controls.Add(Me.SystemOriginPosY)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(264, 488)
+        Me.GroupBox1.Location = New System.Drawing.Point(264, 408)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(240, 168)
         Me.GroupBox1.TabIndex = 28
