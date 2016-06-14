@@ -58,12 +58,8 @@ Public Class Setup
     Friend WithEvents ButtonStationPositions As System.Windows.Forms.Button
     Friend WithEvents ButtonNeedleCalibSettings As System.Windows.Forms.Button
     Friend WithEvents ButtonSPCLogging As System.Windows.Forms.Button
-    Friend WithEvents ButtonConveyorSettings As System.Windows.Forms.Button
     Friend WithEvents ButtonThermalSettings As System.Windows.Forms.Button
     Friend WithEvents ButtonEventHandling As System.Windows.Forms.Button
-    Friend WithEvents ButtonVolumeCalibSettings As System.Windows.Forms.Button
-    Friend WithEvents OneHead As System.Windows.Forms.CheckBox
-    Friend WithEvents TwoHead As System.Windows.Forms.CheckBox
     Friend WithEvents ButtonHardwareCommunicationSetup As System.Windows.Forms.Button
     Public WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents LabelMessage As System.Windows.Forms.Label
@@ -76,17 +72,21 @@ Public Class Setup
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
     Friend WithEvents HardwareTimer As System.Timers.Timer
     Friend WithEvents HomingCheckTimer As System.Windows.Forms.Timer
+    Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
+    Friend WithEvents rbOneHead As System.Windows.Forms.RadioButton
+    Friend WithEvents rbTwoHead As System.Windows.Forms.RadioButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
         Me.MainMenu1 = New System.Windows.Forms.MainMenu
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.GpB_Configurations = New System.Windows.Forms.GroupBox
+        Me.GroupBox7 = New System.Windows.Forms.GroupBox
+        Me.rbTwoHead = New System.Windows.Forms.RadioButton
+        Me.rbOneHead = New System.Windows.Forms.RadioButton
         Me.CheckBoxLifter = New System.Windows.Forms.CheckBox
         Me.CheckBoxHeater = New System.Windows.Forms.CheckBox
         Me.CheckBoxVolume = New System.Windows.Forms.CheckBox
-        Me.OneHead = New System.Windows.Forms.CheckBox
-        Me.TwoHead = New System.Windows.Forms.CheckBox
         Me.ButtonHardwareCommunicationSetup = New System.Windows.Forms.Button
         Me.PanelRight = New System.Windows.Forms.Panel
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
@@ -95,10 +95,8 @@ Public Class Setup
         Me.ButtonSystemIO = New System.Windows.Forms.Button
         Me.ButtonLaserSetup = New System.Windows.Forms.Button
         Me.ButtonStationPositions = New System.Windows.Forms.Button
-        Me.ButtonVolumeCalibSettings = New System.Windows.Forms.Button
         Me.ButtonNeedleCalibSettings = New System.Windows.Forms.Button
         Me.ButtonEventHandling = New System.Windows.Forms.Button
-        Me.ButtonConveyorSettings = New System.Windows.Forms.Button
         Me.ButtonThermalSettings = New System.Windows.Forms.Button
         Me.ButtonSPCLogging = New System.Windows.Forms.Button
         Me.ButtonDispenserSettings = New System.Windows.Forms.Button
@@ -122,6 +120,7 @@ Public Class Setup
         Me.HomingCheckTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1.SuspendLayout()
         Me.GpB_Configurations.SuspendLayout()
+        Me.GroupBox7.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -134,18 +133,17 @@ Public Class Setup
         Me.Panel1.BackColor = System.Drawing.SystemColors.Control
         Me.Panel1.Controls.Add(Me.GpB_Configurations)
         Me.Panel1.Controls.Add(Me.ButtonHardwareCommunicationSetup)
-        Me.Panel1.Location = New System.Drawing.Point(0, 576)
+        Me.Panel1.Location = New System.Drawing.Point(0, 528)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(744, 352)
         Me.Panel1.TabIndex = 5
         '
         'GpB_Configurations
         '
+        Me.GpB_Configurations.Controls.Add(Me.GroupBox7)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxLifter)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxHeater)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxVolume)
-        Me.GpB_Configurations.Controls.Add(Me.OneHead)
-        Me.GpB_Configurations.Controls.Add(Me.TwoHead)
         Me.GpB_Configurations.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.GpB_Configurations.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GpB_Configurations.Location = New System.Drawing.Point(28, 8)
@@ -154,6 +152,33 @@ Public Class Setup
         Me.GpB_Configurations.TabIndex = 62
         Me.GpB_Configurations.TabStop = False
         Me.GpB_Configurations.Text = "Configurations"
+        '
+        'GroupBox7
+        '
+        Me.GroupBox7.Controls.Add(Me.rbTwoHead)
+        Me.GroupBox7.Controls.Add(Me.rbOneHead)
+        Me.GroupBox7.Location = New System.Drawing.Point(16, 24)
+        Me.GroupBox7.Name = "GroupBox7"
+        Me.GroupBox7.Size = New System.Drawing.Size(280, 64)
+        Me.GroupBox7.TabIndex = 63
+        Me.GroupBox7.TabStop = False
+        '
+        'rbTwoHead
+        '
+        Me.rbTwoHead.Location = New System.Drawing.Point(144, 24)
+        Me.rbTwoHead.Name = "rbTwoHead"
+        Me.rbTwoHead.Size = New System.Drawing.Size(128, 24)
+        Me.rbTwoHead.TabIndex = 67
+        Me.rbTwoHead.Text = "Two Heads"
+        Me.rbTwoHead.Visible = False
+        '
+        'rbOneHead
+        '
+        Me.rbOneHead.Location = New System.Drawing.Point(8, 24)
+        Me.rbOneHead.Name = "rbOneHead"
+        Me.rbOneHead.Size = New System.Drawing.Size(128, 24)
+        Me.rbOneHead.TabIndex = 66
+        Me.rbOneHead.Text = "Single Head"
         '
         'CheckBoxLifter
         '
@@ -184,24 +209,6 @@ Public Class Setup
         Me.CheckBoxVolume.TabIndex = 66
         Me.CheckBoxVolume.Text = "Volume Calibration"
         Me.CheckBoxVolume.Visible = False
-        '
-        'OneHead
-        '
-        Me.OneHead.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OneHead.Location = New System.Drawing.Point(16, 40)
-        Me.OneHead.Name = "OneHead"
-        Me.OneHead.Size = New System.Drawing.Size(144, 23)
-        Me.OneHead.TabIndex = 65
-        Me.OneHead.Text = "One Head"
-        '
-        'TwoHead
-        '
-        Me.TwoHead.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TwoHead.Location = New System.Drawing.Point(176, 40)
-        Me.TwoHead.Name = "TwoHead"
-        Me.TwoHead.Size = New System.Drawing.Size(128, 23)
-        Me.TwoHead.TabIndex = 65
-        Me.TwoHead.Text = "Two Heads"
         '
         'ButtonHardwareCommunicationSetup
         '
@@ -270,27 +277,16 @@ Public Class Setup
         'ButtonStationPositions
         '
         Me.ButtonStationPositions.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonStationPositions.Location = New System.Drawing.Point(360, 32)
+        Me.ButtonStationPositions.Location = New System.Drawing.Point(360, 56)
         Me.ButtonStationPositions.Name = "ButtonStationPositions"
         Me.ButtonStationPositions.Size = New System.Drawing.Size(224, 56)
         Me.ButtonStationPositions.TabIndex = 43
         Me.ButtonStationPositions.Text = "Gantry Settings"
         '
-        'ButtonVolumeCalibSettings
-        '
-        Me.ButtonVolumeCalibSettings.Enabled = False
-        Me.ButtonVolumeCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(360, 224)
-        Me.ButtonVolumeCalibSettings.Name = "ButtonVolumeCalibSettings"
-        Me.ButtonVolumeCalibSettings.Size = New System.Drawing.Size(224, 56)
-        Me.ButtonVolumeCalibSettings.TabIndex = 46
-        Me.ButtonVolumeCalibSettings.Text = "Volume Calibration Settings"
-        Me.ButtonVolumeCalibSettings.Visible = False
-        '
         'ButtonNeedleCalibSettings
         '
         Me.ButtonNeedleCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNeedleCalibSettings.Location = New System.Drawing.Point(96, 96)
+        Me.ButtonNeedleCalibSettings.Location = New System.Drawing.Point(96, 120)
         Me.ButtonNeedleCalibSettings.Name = "ButtonNeedleCalibSettings"
         Me.ButtonNeedleCalibSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonNeedleCalibSettings.TabIndex = 44
@@ -299,27 +295,16 @@ Public Class Setup
         'ButtonEventHandling
         '
         Me.ButtonEventHandling.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonEventHandling.Location = New System.Drawing.Point(96, 160)
+        Me.ButtonEventHandling.Location = New System.Drawing.Point(96, 184)
         Me.ButtonEventHandling.Name = "ButtonEventHandling"
         Me.ButtonEventHandling.Size = New System.Drawing.Size(224, 56)
         Me.ButtonEventHandling.TabIndex = 47
         Me.ButtonEventHandling.Text = "Event Handling Settings"
         '
-        'ButtonConveyorSettings
-        '
-        Me.ButtonConveyorSettings.Enabled = False
-        Me.ButtonConveyorSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonConveyorSettings.Location = New System.Drawing.Point(360, 160)
-        Me.ButtonConveyorSettings.Name = "ButtonConveyorSettings"
-        Me.ButtonConveyorSettings.Size = New System.Drawing.Size(224, 56)
-        Me.ButtonConveyorSettings.TabIndex = 45
-        Me.ButtonConveyorSettings.Text = "Conveyor Settings"
-        Me.ButtonConveyorSettings.Visible = False
-        '
         'ButtonThermalSettings
         '
         Me.ButtonThermalSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonThermalSettings.Location = New System.Drawing.Point(96, 224)
+        Me.ButtonThermalSettings.Location = New System.Drawing.Point(360, 184)
         Me.ButtonThermalSettings.Name = "ButtonThermalSettings"
         Me.ButtonThermalSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonThermalSettings.TabIndex = 46
@@ -329,7 +314,7 @@ Public Class Setup
         'ButtonSPCLogging
         '
         Me.ButtonSPCLogging.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCLogging.Location = New System.Drawing.Point(360, 96)
+        Me.ButtonSPCLogging.Location = New System.Drawing.Point(360, 120)
         Me.ButtonSPCLogging.Name = "ButtonSPCLogging"
         Me.ButtonSPCLogging.Size = New System.Drawing.Size(224, 56)
         Me.ButtonSPCLogging.TabIndex = 51
@@ -338,7 +323,7 @@ Public Class Setup
         'ButtonDispenserSettings
         '
         Me.ButtonDispenserSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonDispenserSettings.Location = New System.Drawing.Point(96, 32)
+        Me.ButtonDispenserSettings.Location = New System.Drawing.Point(96, 56)
         Me.ButtonDispenserSettings.Name = "ButtonDispenserSettings"
         Me.ButtonDispenserSettings.Size = New System.Drawing.Size(224, 56)
         Me.ButtonDispenserSettings.TabIndex = 42
@@ -460,10 +445,8 @@ Public Class Setup
         Me.GroupBox1.Controls.Add(Me.ButtonSPCLogging)
         Me.GroupBox1.Controls.Add(Me.ButtonDispenserSettings)
         Me.GroupBox1.Controls.Add(Me.ButtonStationPositions)
-        Me.GroupBox1.Controls.Add(Me.ButtonVolumeCalibSettings)
         Me.GroupBox1.Controls.Add(Me.ButtonNeedleCalibSettings)
         Me.GroupBox1.Controls.Add(Me.ButtonEventHandling)
-        Me.GroupBox1.Controls.Add(Me.ButtonConveyorSettings)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(16, 192)
         Me.GroupBox1.Name = "GroupBox1"
@@ -521,6 +504,7 @@ Public Class Setup
         Me.GroupBox6.TabIndex = 64
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Hardware :"
+        Me.GroupBox6.Visible = False
         '
         'HomingCheckTimer
         '
@@ -548,6 +532,7 @@ Public Class Setup
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.Panel1.ResumeLayout(False)
         Me.GpB_Configurations.ResumeLayout(False)
+        Me.GroupBox7.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
@@ -781,9 +766,9 @@ Public Class Setup
 
         'kr
         If IDS.Data.Hardware.Dispenser.CurrentHeads = 1 Then
-            OneHead.Checked = True
+            rbOneHead.Checked = True
         Else
-            OneHead.Checked = False
+            rbTwoHead.Checked = True
         End If
 
         'motion controller start and do homing
@@ -806,7 +791,10 @@ Public Class Setup
         OnLaser()
 
         AddPanel(PanelRight, MyGantrySetup.PanelToBeAdded)
+        MyGantrySetup.RevertData()
         selectedButton = ButtonGantrySetup
+        selectedButton.FlatStyle = FlatStyle.Flat
+        MyGantrySetup.StationPosition.SelectedIndex = 0
         ButtonGantrySetup.Select()
 
     End Sub
@@ -877,6 +865,7 @@ Public Class Setup
         Dim mode As Integer = 0
         KeyboardControl.ReleaseControls()
         Laser.Instance.Hide()
+        m_Tri.Move_Z(0)
         m_Tri.m_TriCtrl.GetTable(21, 1, mode)
         If mode <> 0 Then
             m_Tri.m_TriCtrl.SetTable(21, 1, 0)
@@ -1011,19 +1000,21 @@ Public Class Setup
         MySysIO.IOReadStop = False
         MySysIO.TimerIO.Enabled = True
         MySysIO.TimerIO.Start()
-
         MySysIO.EditIO()
+        MoveZToZero()
     End Sub
 
     Private Sub ButtonGantry_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonGantrySetup.Click
         SetSelectButton(sender)
         AddPanel(PanelRight, MyGantrySetup.PanelToBeAdded)
-        If OneHead.Checked Then
+        If rbOneHead.Checked Then
             MyGantrySetup.RightHead.Visible = False
         Else
             MyGantrySetup.RightHead.Visible = True
         End If
+        MyGantrySetup.StationPosition.SelectedIndex = 0
         MyGantrySetup.RevertData()
+        MoveZToZero()
     End Sub
 
     Private Sub ButtonLaser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLaserSetup.Click
@@ -1033,12 +1024,20 @@ Public Class Setup
         MyLaser.LaserOffsetX.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X
         MyLaser.LaserOffsetY.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y
         MyLaser.RevertData()
+        MoveZToZero()
     End Sub
 
     Private Sub ButtonNeedle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSetup.Click
         SetSelectButton(sender)
+        If rbOneHead.Checked Then
+            MyNeedleCalibrationSetup1.rbRightHead.Visible = False
+            MyNeedleCalibrationSetup1.rbLeftHead.Checked = True
+        Else
+            MyNeedleCalibrationSetup1.rbRightHead.Visible = True
+        End If
         MyNeedleCalibrationSetup1.Revert()
         AddPanel(PanelRight, MyNeedleCalibrationSetup1.PanelToBeAdded)
+        MoveZToZero()
     End Sub
 
 #Region " Data Reference "
@@ -1057,8 +1056,13 @@ Public Class Setup
 
     Private Sub ButtonNeedleCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSettings.Click
         SetSelectButton(sender)
+        If rbOneHead.Checked Then
+            MyNeedleCalibrationSettings.rbRightHead.Visible = False
+            MyNeedleCalibrationSettings.rbLeftHead.Checked = True
+        End If
         MyNeedleCalibrationSettings.Revert()
         AddPanel(PanelRight, MyNeedleCalibrationSettings.PanelToBeAdded)
+        MoveZToZero()
     End Sub
 
     Private Sub ButtonStationPositions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStationPositions.Click
@@ -1068,6 +1072,7 @@ Public Class Setup
         MyGantrySettings.RevertData()
         MyGantrySettings.StationPosition.SelectedIndex = 0
         MyGantrySettings.LeftHead.Checked = True
+        MoveZToZero()
     End Sub
 
     Private Sub ButtonDispenserSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDispenserSettings.Click
@@ -1075,21 +1080,24 @@ Public Class Setup
         AddPanel(PanelRight, MyDispenserSettings.PanelToBeAdded)
         MyDispenserSettings.HeadType.SelectedIndex = 0
         MyDispenserSettings.RevertData()
+        MoveZToZero()
     End Sub
 
     Private Sub ButtonSPCLogging_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSPCLogging.Click
         SetSelectButton(sender)
         AddPanel(PanelRight, MySPCLogging.PanelToBeAdded)
         MySPCLogging.RevertData()
+        MoveZToZero()
     End Sub
 
     Private Sub ButtonEventHandling_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEventHandling.Click
         SetSelectButton(sender)
         AddPanel(PanelRight, MyEventSettings.PanelToBeAdded)
         MyEventSettings.RevertData()
+        MoveZToZero()
     End Sub
 
-    Private Sub ButtonConveyorSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonConveyorSettings.Click
+    Private Sub ButtonConveyorSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'AddPanel(PanelRight, MyConveyorSettings.PanelToBeAdded)
         'Conveyor.OpenPort()
         'Conveyor.PositionTimer.Start()
@@ -1102,40 +1110,14 @@ Public Class Setup
         SetSelectButton(sender)
         AddPanel(PanelRight, MyHeaterSettings.PanelToBeAdded)
         MyHeaterSettings.RevertData()
+        MoveZToZero()
     End Sub
 
-    Private Sub ButtonVolumeCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolumeCalibSettings.Click
+    Private Sub ButtonVolumeCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'AddPanel(PanelRight, MyVolumeCalibrationSettings.PanelToBeAdded)
         'MyVolumeCalibrationSettings.RevertData()
     End Sub
 
-    Private Sub OneHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OneHead.CheckStateChanged
-        If OneHead.Checked Then
-            TwoHead.Checked = False
-            IDS.Data.Hardware.Dispenser.CurrentHeads = 1
-            MyGantrySetup.RightHead.Visible = False
-            MyGantrySettings.RightHead.Visible = False
-        Else
-            TwoHead.Checked = True
-            IDS.Data.Hardware.Dispenser.CurrentHeads = 2
-            MyGantrySetup.RightHead.Visible = True
-            MyGantrySettings.RightHead.Visible = True
-        End If
-        IDS.Data.SaveLocalData()
-    End Sub
-
-    Private Sub TwoHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TwoHead.CheckStateChanged
-        If TwoHead.Checked Then
-            OneHead.Checked = False
-            IDS.Data.Hardware.Dispenser.CurrentHeads = 2
-            MyDispenserSettings.RevertData()
-        Else
-            OneHead.Checked = True
-            IDS.Data.Hardware.Dispenser.CurrentHeads = 1
-            MyDispenserSettings.RevertData()
-        End If
-        IDS.Data.SaveLocalData()
-    End Sub
 
     Private Sub CheckBoxLifter_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLifter.CheckedChanged
         MyHardwareCommunicationSetup.RefreshDisplay()
@@ -1182,4 +1164,36 @@ Public Class Setup
             Next
         End If
     End Sub
+
+    Private Sub rbOneHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbOneHead.CheckedChanged
+        If rbOneHead.Checked Then
+            IDS.Data.Hardware.Dispenser.CurrentHeads = 1
+            MyGantrySetup.RightHead.Visible = False
+            MyGantrySetup.LeftHead.Checked = True
+            MyGantrySettings.RightHead.Visible = False
+            MyGantrySettings.LeftHead.Checked = True
+            MyNeedleCalibrationSettings.rbRightHead.Visible = False
+            MyNeedleCalibrationSettings.rbLeftHead.Checked = True
+            MyNeedleCalibrationSetup1.rbRightHead.Visible = False
+            MyNeedleCalibrationSetup1.rbLeftHead.Checked = True
+        Else
+            IDS.Data.Hardware.Dispenser.CurrentHeads = 2
+            MyGantrySetup.RightHead.Visible = True
+            MyGantrySettings.RightHead.Visible = True
+            MyNeedleCalibrationSettings.rbRightHead.Visible = True
+            MyNeedleCalibrationSetup1.rbRightHead.Visible = True
+        End If
+        IDS.Data.SaveLocalData()
+        MyDispenserSettings.RevertData()
+    End Sub
+
+    Private Sub MoveZToZero()
+        If homingDone Then
+            If m_Tri.ZPosition < -0.5 Then
+                m_Tri.Set_Z_Speed(50)
+                m_Tri.Move_Z(0)
+            End If
+        End If
+    End Sub
+
 End Class

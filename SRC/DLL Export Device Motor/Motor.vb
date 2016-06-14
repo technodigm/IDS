@@ -118,7 +118,7 @@ Public Class CIDSTrioController
         Me.BTStepXminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepXminus.Image = CType(resources.GetObject("BTStepXminus.Image"), System.Drawing.Image)
         Me.BTStepXminus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BTStepXminus.Location = New System.Drawing.Point(40, 96)
+        Me.BTStepXminus.Location = New System.Drawing.Point(40, 104)
         Me.BTStepXminus.Name = "BTStepXminus"
         Me.BTStepXminus.Size = New System.Drawing.Size(80, 48)
         Me.BTStepXminus.TabIndex = 6
@@ -131,7 +131,7 @@ Public Class CIDSTrioController
         Me.BTStepXplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepXplus.Image = CType(resources.GetObject("BTStepXplus.Image"), System.Drawing.Image)
         Me.BTStepXplus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BTStepXplus.Location = New System.Drawing.Point(168, 96)
+        Me.BTStepXplus.Location = New System.Drawing.Point(168, 104)
         Me.BTStepXplus.Name = "BTStepXplus"
         Me.BTStepXplus.Size = New System.Drawing.Size(80, 48)
         Me.BTStepXplus.TabIndex = 5
@@ -144,7 +144,7 @@ Public Class CIDSTrioController
         Me.BTStepYminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepYminus.Image = CType(resources.GetObject("BTStepYminus.Image"), System.Drawing.Image)
         Me.BTStepYminus.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.BTStepYminus.Location = New System.Drawing.Point(120, 144)
+        Me.BTStepYminus.Location = New System.Drawing.Point(120, 152)
         Me.BTStepYminus.Name = "BTStepYminus"
         Me.BTStepYminus.Size = New System.Drawing.Size(48, 80)
         Me.BTStepYminus.TabIndex = 4
@@ -157,7 +157,7 @@ Public Class CIDSTrioController
         Me.BTStepYplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepYplus.Image = CType(resources.GetObject("BTStepYplus.Image"), System.Drawing.Image)
         Me.BTStepYplus.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.BTStepYplus.Location = New System.Drawing.Point(120, 16)
+        Me.BTStepYplus.Location = New System.Drawing.Point(120, 24)
         Me.BTStepYplus.Name = "BTStepYplus"
         Me.BTStepYplus.Size = New System.Drawing.Size(48, 80)
         Me.BTStepYplus.TabIndex = 3
@@ -242,9 +242,9 @@ Public Class CIDSTrioController
         '
         Me.Label1.Location = New System.Drawing.Point(0, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(144, 23)
+        Me.Label1.Size = New System.Drawing.Size(192, 23)
         Me.Label1.TabIndex = 16
-        Me.Label1.Text = "Relative Move:"
+        Me.Label1.Text = "XYZ Relative Move:"
         '
         'CIDSTrioController
         '

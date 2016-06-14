@@ -288,6 +288,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "InfoForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InfoForm.resx"
+                    DependentUpon = "InfoForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "KeyboardControl.vb"
                     SubType = "Code"
                     BuildAction = "Compile"

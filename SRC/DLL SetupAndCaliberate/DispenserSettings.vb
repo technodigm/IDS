@@ -527,7 +527,7 @@ Public Class DispenserSettings
         'Label17
         '
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label17.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label17.ForeColor = System.Drawing.Color.Black
         Me.Label17.Location = New System.Drawing.Point(0, 0)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(208, 32)
@@ -854,7 +854,7 @@ Public Class DispenserSettings
         'DispenserSettings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(912, 912)
+        Me.ClientSize = New System.Drawing.Size(552, 912)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -889,38 +889,59 @@ Public Class DispenserSettings
 #End Region
 
     Public Sub SaveData()
-
-        If MySetup.TwoHead.Checked Then
-            IDS.Data.Hardware.Dispenser.CurrentHeads = 2
-        ElseIf MySetup.OneHead.Checked Then
-            IDS.Data.Hardware.Dispenser.CurrentHeads = 1
+        If CurrentHeads.Text = "Left Head" Then
+            With IDS.Data.Hardware.Dispenser.Left
+                .MaterialAirPressure = MaterialAirPressure.Value
+                .SuckbackPressure = SuckbackPressure.Value
+                .RPM = RPM.Text
+                .RetractTime = RetractTime.Text
+                .RetractDelay = RetractDelay.Text
+                .Pulse = Pulse.Text
+                .Pause = pause.Text
+                .Count = Count.Text
+                If HeadType.SelectedItem = "Auger Valve" Then
+                    .ValveTemperature = AugerTemperature.Value
+                ElseIf HeadType.SelectedItem = "Slider Valve" Or HeadType.SelectedItem = "Jetting Valve" Then
+                    .ValveTemperature = SliderOrJettingTemperature.Value
+                End If
+                .NeedleTipLength = NeedleTipLength.SelectedItem
+                .NeedleColor = NeedleColor.SelectedItem
+                .MaterialInfo = MaterialInfo.Text
+                .AutoPurgingDuration = AutoPurgingDuration.Value
+                .AutoCleaningDuration = AutoCleaningDuration.Value
+                .AutoPurgingInterval = (60 * AutoPurgingIntervalHours.Value) + AutoPurgingIntervalMinutes.Value
+                .PotLifeDuration = (60 * PotLifeDurationHours.Value) + PotLifeDurationMinutes.Value
+                .PotLifeOption = PotLifeOption.Checked
+                .AutoPurgingOption = AutoPurgingOption.Checked
+                .HeadType = HeadType.SelectedItem
+            End With
+        Else
+            With IDS.Data.Hardware.Dispenser.Right
+                .MaterialAirPressure = MaterialAirPressure.Value
+                .SuckbackPressure = SuckbackPressure.Value
+                .RPM = RPM.Text
+                .RetractTime = RetractTime.Text
+                .RetractDelay = RetractDelay.Text
+                .Pulse = Pulse.Text
+                .Pause = pause.Text
+                .Count = Count.Text
+                If HeadType.SelectedItem = "Auger Valve" Then
+                    .ValveTemperature = AugerTemperature.Value
+                ElseIf HeadType.SelectedItem = "Slider Valve" Or HeadType.SelectedItem = "Jetting Valve" Then
+                    .ValveTemperature = SliderOrJettingTemperature.Value
+                End If
+                .NeedleTipLength = NeedleTipLength.SelectedItem
+                .NeedleColor = NeedleColor.SelectedItem
+                .MaterialInfo = MaterialInfo.Text
+                .AutoPurgingDuration = AutoPurgingDuration.Value
+                .AutoCleaningDuration = AutoCleaningDuration.Value
+                .AutoPurgingInterval = (60 * AutoPurgingIntervalHours.Value) + AutoPurgingIntervalMinutes.Value
+                .PotLifeDuration = (60 * PotLifeDurationHours.Value) + PotLifeDurationMinutes.Value
+                .PotLifeOption = PotLifeOption.Checked
+                .AutoPurgingOption = AutoPurgingOption.Checked
+                .HeadType = HeadType.SelectedItem
+            End With
         End If
-
-        With IDS.Data.Hardware.Dispenser.Left
-            .MaterialAirPressure = MaterialAirPressure.Value
-            .SuckbackPressure = SuckbackPressure.Value
-            .RPM = RPM.Text
-            .RetractTime = RetractTime.Text
-            .RetractDelay = RetractDelay.Text
-            .Pulse = Pulse.Text
-            .Pause = pause.Text
-            .Count = Count.Text
-            If HeadType.SelectedItem = "Auger Valve" Then
-                .ValveTemperature = AugerTemperature.Value
-            ElseIf HeadType.SelectedItem = "Slider Valve" Or HeadType.SelectedItem = "Jetting Valve" Then
-                .ValveTemperature = SliderOrJettingTemperature.Value
-            End If
-            .NeedleTipLength = NeedleTipLength.SelectedItem
-            .NeedleColor = NeedleColor.SelectedItem
-            .MaterialInfo = MaterialInfo.Text
-            .AutoPurgingDuration = AutoPurgingDuration.Value
-            .AutoCleaningDuration = AutoCleaningDuration.Value
-            .AutoPurgingInterval = (60 * AutoPurgingIntervalHours.Value) + AutoPurgingIntervalMinutes.Value
-            .PotLifeDuration = (60 * PotLifeDurationHours.Value) + PotLifeDurationMinutes.Value
-            .PotLifeOption = PotLifeOption.Checked
-            .AutoPurgingOption = AutoPurgingOption.Checked
-            .HeadType = HeadType.SelectedItem
-        End With
         IDS.Data.SaveLocalData()
 
     End Sub
@@ -1165,4 +1186,68 @@ Public Class DispenserSettings
         RemovePanel(CurrentControl)
     End Sub
 
+    Private Sub CurrentHeads_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CurrentHeads.SelectedIndexChanged
+        PushDataToGUI(CurrentHeads.Text)
+    End Sub
+
+    Private Sub PushDataToGUI(ByVal head As String)
+        Dim selectedHead As String = head
+        If selectedHead = "Left Head" Then
+            With IDS.Data.Hardware.Dispenser.Left
+                MaterialAirPressure.Value = .MaterialAirPressure
+                SuckbackPressure.Value = .SuckbackPressure
+                RPM.Text = .RPM
+                RetractTime.Text = .RetractTime
+                RetractDelay.Text = .RetractDelay
+                Pulse.Text = .Pulse
+                pause.Text = .Pause
+                Count.Text = .Count
+                If HeadType.SelectedItem = "Auger Valve" Then
+                    AugerTemperature.Value = .ValveTemperature
+                ElseIf HeadType.SelectedItem = "Slider Valve" Or HeadType.SelectedItem = "Jetting Valve" Then
+                    SliderOrJettingTemperature.Value = .ValveTemperature
+                End If
+                NeedleTipLength.SelectedItem = .NeedleTipLength
+                NeedleColor.SelectedItem = .NeedleColor
+                MaterialInfo.Text = .MaterialInfo
+                AutoPurgingDuration.Value = .AutoPurgingDuration
+                AutoCleaningDuration.Value = .AutoCleaningDuration
+                AutoPurgingIntervalHours.Value = Int(.AutoPurgingInterval / 60)
+                AutoPurgingIntervalMinutes.Value = .AutoPurgingInterval - (Int(.AutoPurgingInterval / 60) * 60)
+                PotLifeDurationHours.Value = Int(.PotLifeDuration / 60)
+                PotLifeDurationMinutes.Value = .PotLifeDuration - (Int(.PotLifeDuration / 60) * 60)
+                PotLifeOption.Checked = .PotLifeOption
+                AutoPurgingOption.Checked = .AutoPurgingOption
+                HeadType.SelectedItem = .HeadType
+            End With
+        Else
+            With IDS.Data.Hardware.Dispenser.Right
+                MaterialAirPressure.Value = .MaterialAirPressure
+                SuckbackPressure.Value = .SuckbackPressure
+                RPM.Text = .RPM
+                RetractTime.Text = .RetractTime
+                RetractDelay.Text = .RetractDelay
+                Pulse.Text = .Pulse
+                pause.Text = .Pause
+                Count.Text = .Count
+                If HeadType.SelectedItem = "Auger Valve" Then
+                    AugerTemperature.Value = .ValveTemperature
+                ElseIf HeadType.SelectedItem = "Slider Valve" Or HeadType.SelectedItem = "Jetting Valve" Then
+                    SliderOrJettingTemperature.Value = .ValveTemperature
+                End If
+                NeedleTipLength.SelectedItem = .NeedleTipLength
+                NeedleColor.SelectedItem = .NeedleColor
+                MaterialInfo.Text = .MaterialInfo
+                AutoPurgingDuration.Value = .AutoPurgingDuration
+                AutoCleaningDuration.Value = .AutoCleaningDuration
+                AutoPurgingIntervalHours.Value = Int(.AutoPurgingInterval / 60)
+                AutoPurgingIntervalMinutes.Value = .AutoPurgingInterval - (Int(.AutoPurgingInterval / 60) * 60)
+                PotLifeDurationHours.Value = Int(.PotLifeDuration / 60)
+                PotLifeDurationMinutes.Value = .PotLifeDuration - (Int(.PotLifeDuration / 60) * 60)
+                PotLifeOption.Checked = .PotLifeOption
+                AutoPurgingOption.Checked = .AutoPurgingOption
+                HeadType.SelectedItem = .HeadType
+            End With
+        End If
+    End Sub
 End Class

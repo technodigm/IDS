@@ -43,6 +43,9 @@ Public Class NeedleCalibrationSetup1
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents rbLeftHead As System.Windows.Forms.RadioButton
+    Public WithEvents rbRightHead As System.Windows.Forms.RadioButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSetup1))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
@@ -57,11 +60,16 @@ Public Class NeedleCalibrationSetup1
         Me.Label9 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.rbLeftHead = New System.Windows.Forms.RadioButton
+        Me.rbRightHead = New System.Windows.Forms.RadioButton
         Me.PanelToBeAdded.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'PanelToBeAdded
         '
+        Me.PanelToBeAdded.Controls.Add(Me.GroupBox1)
         Me.PanelToBeAdded.Controls.Add(Me.TextBox1)
         Me.PanelToBeAdded.Controls.Add(Me.Label4)
         Me.PanelToBeAdded.Controls.Add(Me.ZPosition)
@@ -101,7 +109,7 @@ Public Class NeedleCalibrationSetup1
         '
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label4.Location = New System.Drawing.Point(140, 512)
+        Me.Label4.Location = New System.Drawing.Point(140, 544)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(120, 24)
         Me.Label4.TabIndex = 97
@@ -110,7 +118,7 @@ Public Class NeedleCalibrationSetup1
         'ZPosition
         '
         Me.ZPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ZPosition.Location = New System.Drawing.Point(284, 576)
+        Me.ZPosition.Location = New System.Drawing.Point(284, 608)
         Me.ZPosition.Name = "ZPosition"
         Me.ZPosition.Size = New System.Drawing.Size(88, 24)
         Me.ZPosition.TabIndex = 102
@@ -119,7 +127,7 @@ Public Class NeedleCalibrationSetup1
         'YPosition
         '
         Me.YPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.YPosition.Location = New System.Drawing.Point(284, 544)
+        Me.YPosition.Location = New System.Drawing.Point(284, 576)
         Me.YPosition.Name = "YPosition"
         Me.YPosition.Size = New System.Drawing.Size(88, 24)
         Me.YPosition.TabIndex = 101
@@ -128,7 +136,7 @@ Public Class NeedleCalibrationSetup1
         'XPosition
         '
         Me.XPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.XPosition.Location = New System.Drawing.Point(284, 512)
+        Me.XPosition.Location = New System.Drawing.Point(284, 544)
         Me.XPosition.Name = "XPosition"
         Me.XPosition.Size = New System.Drawing.Size(88, 24)
         Me.XPosition.TabIndex = 100
@@ -138,7 +146,7 @@ Public Class NeedleCalibrationSetup1
         '
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label7.Location = New System.Drawing.Point(140, 576)
+        Me.Label7.Location = New System.Drawing.Point(140, 608)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(120, 24)
         Me.Label7.TabIndex = 99
@@ -148,7 +156,7 @@ Public Class NeedleCalibrationSetup1
         '
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label6.Location = New System.Drawing.Point(140, 544)
+        Me.Label6.Location = New System.Drawing.Point(140, 576)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(120, 24)
         Me.Label6.TabIndex = 98
@@ -157,7 +165,7 @@ Public Class NeedleCalibrationSetup1
         'ButtonSetCalibratorPosition
         '
         Me.ButtonSetCalibratorPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSetCalibratorPosition.Location = New System.Drawing.Point(284, 624)
+        Me.ButtonSetCalibratorPosition.Location = New System.Drawing.Point(284, 680)
         Me.ButtonSetCalibratorPosition.Name = "ButtonSetCalibratorPosition"
         Me.ButtonSetCalibratorPosition.Size = New System.Drawing.Size(192, 56)
         Me.ButtonSetCalibratorPosition.TabIndex = 62
@@ -190,11 +198,41 @@ Public Class NeedleCalibrationSetup1
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(36, 624)
+        Me.Button1.Location = New System.Drawing.Point(36, 680)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(192, 57)
         Me.Button1.TabIndex = 62
         Me.Button1.Text = "Move To Current Reference Point"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbRightHead)
+        Me.GroupBox1.Controls.Add(Me.rbLeftHead)
+        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Location = New System.Drawing.Point(108, 464)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(296, 64)
+        Me.GroupBox1.TabIndex = 104
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Current Head :"
+        '
+        'rbLeftHead
+        '
+        Me.rbLeftHead.Checked = True
+        Me.rbLeftHead.Location = New System.Drawing.Point(40, 24)
+        Me.rbLeftHead.Name = "rbLeftHead"
+        Me.rbLeftHead.Size = New System.Drawing.Size(64, 24)
+        Me.rbLeftHead.TabIndex = 0
+        Me.rbLeftHead.TabStop = True
+        Me.rbLeftHead.Text = "Left"
+        '
+        'rbRightHead
+        '
+        Me.rbRightHead.Location = New System.Drawing.Point(184, 24)
+        Me.rbRightHead.Name = "rbRightHead"
+        Me.rbRightHead.Size = New System.Drawing.Size(72, 24)
+        Me.rbRightHead.TabIndex = 1
+        Me.rbRightHead.Text = "Right"
         '
         'NeedleCalibrationSetup1
         '
@@ -205,6 +243,7 @@ Public Class NeedleCalibrationSetup1
         Me.Name = "NeedleCalibrationSetup1"
         Me.Text = "NeedleCalibrationSetup1"
         Me.PanelToBeAdded.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -215,10 +254,17 @@ Public Class NeedleCalibrationSetup1
         XPosition.Text = m_Tri.XPosition()
         YPosition.Text = m_Tri.YPosition()
         ZPosition.Text = m_Tri.ZPosition()
-        IDS.Data.Hardware.Needle.Left.CalibratorPos.X = m_Tri.XPosition()
-        IDS.Data.Hardware.Needle.Left.CalibratorPos.Y = m_Tri.YPosition()
-        IDS.Data.Hardware.Needle.Left.CalibratorPos.Z = m_Tri.ZPosition()
+        If rbLeftHead.Checked Then
+            IDS.Data.Hardware.Needle.Left.CalibratorPos.X = m_Tri.XPosition()
+            IDS.Data.Hardware.Needle.Left.CalibratorPos.Y = m_Tri.YPosition()
+            IDS.Data.Hardware.Needle.Left.CalibratorPos.Z = m_Tri.ZPosition()
+        Else
+            IDS.Data.Hardware.Needle.Right.CalibratorPos.X = m_Tri.XPosition()
+            IDS.Data.Hardware.Needle.Right.CalibratorPos.Y = m_Tri.YPosition()
+            IDS.Data.Hardware.Needle.Right.CalibratorPos.Z = m_Tri.ZPosition()
+        End If
         IDS.Data.SaveGlobalData()
+        m_Tri.Move_Z(0)
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
@@ -235,14 +281,33 @@ Public Class NeedleCalibrationSetup1
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         Dim pos(1) As Double
-        pos(0) = IDS.Data.Hardware.Needle.Left.CalibratorPos.X
-        pos(1) = IDS.Data.Hardware.Needle.Left.CalibratorPos.Y
+        SetServiceSpeed()
+        If rbLeftHead.Checked Then
+            pos(0) = IDS.Data.Hardware.Needle.Left.CalibratorPos.X
+            pos(1) = IDS.Data.Hardware.Needle.Left.CalibratorPos.Y
+        Else
+            pos(0) = IDS.Data.Hardware.Needle.Right.CalibratorPos.X
+            pos(1) = IDS.Data.Hardware.Needle.Right.CalibratorPos.Y
+        End If
+
         If Not m_Tri.Move_Z(0) Then Exit Sub
         If Not m_Tri.Move_XY(pos) Then Exit Sub
-        'If Not m_Tri.Move_Z(IDS.Data.Hardware.Needle.Left.CalibratorPos.Z) Then Exit Sub
+        If Not m_Tri.Move_Z(IDS.Data.Hardware.Needle.Left.CalibratorPos.Z) Then Exit Sub
     End Sub
 
     Private Sub NeedleCalibrationSetup1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+    End Sub
+
+    Private Sub rbLeftHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbLeftHead.CheckedChanged
+        If rbLeftHead.Checked Then
+            XPosition.Text = IDS.Data.Hardware.Needle.Left.CalibratorPos.X
+            YPosition.Text = IDS.Data.Hardware.Needle.Left.CalibratorPos.Y
+            ZPosition.Text = IDS.Data.Hardware.Needle.Left.CalibratorPos.Z
+        Else
+            XPosition.Text = IDS.Data.Hardware.Needle.Right.CalibratorPos.X
+            YPosition.Text = IDS.Data.Hardware.Needle.Right.CalibratorPos.Y
+            ZPosition.Text = IDS.Data.Hardware.Needle.Right.CalibratorPos.Z
+        End If
     End Sub
 End Class

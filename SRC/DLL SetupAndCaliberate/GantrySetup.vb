@@ -89,6 +89,7 @@ Public Class GantrySetup
     Public WithEvents Needle As System.Windows.Forms.RadioButton
     Public WithEvents RightHead As System.Windows.Forms.RadioButton
     Public WithEvents LeftHead As System.Windows.Forms.RadioButton
+    Friend WithEvents ZPost As System.Windows.Forms.Label
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(GantrySetup))
@@ -143,6 +144,7 @@ Public Class GantrySetup
         Me.Label3 = New System.Windows.Forms.Label
         Me.SystemOriginPosZ = New System.Windows.Forms.NumericUpDown
         Me.SystemOriginPosY = New System.Windows.Forms.NumericUpDown
+        Me.ZPost = New System.Windows.Forms.Label
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -183,6 +185,7 @@ Public Class GantrySetup
         '
         'GroupBox6
         '
+        Me.GroupBox6.Controls.Add(Me.ZPost)
         Me.GroupBox6.Controls.Add(Me.SavePositionButton)
         Me.GroupBox6.Controls.Add(Me.YPosition)
         Me.GroupBox6.Controls.Add(Me.XPosition)
@@ -191,10 +194,10 @@ Public Class GantrySetup
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
         Me.GroupBox6.Location = New System.Drawing.Point(8, 56)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
+        Me.GroupBox6.Size = New System.Drawing.Size(496, 288)
         Me.GroupBox6.TabIndex = 68
         Me.GroupBox6.TabStop = False
-        Me.GroupBox6.Text = "Station Positions"
+        Me.GroupBox6.Text = "XYZ Station Positions :"
         '
         'SavePositionButton
         '
@@ -206,7 +209,7 @@ Public Class GantrySetup
         '
         'YPosition
         '
-        Me.YPosition.Location = New System.Drawing.Point(260, 176)
+        Me.YPosition.Location = New System.Drawing.Point(186, 176)
         Me.YPosition.Name = "YPosition"
         Me.YPosition.Size = New System.Drawing.Size(128, 23)
         Me.YPosition.TabIndex = 67
@@ -215,7 +218,7 @@ Public Class GantrySetup
         '
         'XPosition
         '
-        Me.XPosition.Location = New System.Drawing.Point(108, 176)
+        Me.XPosition.Location = New System.Drawing.Point(58, 176)
         Me.XPosition.Name = "XPosition"
         Me.XPosition.Size = New System.Drawing.Size(128, 23)
         Me.XPosition.TabIndex = 66
@@ -255,7 +258,7 @@ Public Class GantrySetup
         '
         'RightHead
         '
-        Me.RightHead.Location = New System.Drawing.Point(112, 32)
+        Me.RightHead.Location = New System.Drawing.Point(152, 32)
         Me.RightHead.Name = "RightHead"
         Me.RightHead.Size = New System.Drawing.Size(72, 24)
         Me.RightHead.TabIndex = 3
@@ -264,7 +267,7 @@ Public Class GantrySetup
         'LeftHead
         '
         Me.LeftHead.Checked = True
-        Me.LeftHead.Location = New System.Drawing.Point(24, 32)
+        Me.LeftHead.Location = New System.Drawing.Point(48, 32)
         Me.LeftHead.Name = "LeftHead"
         Me.LeftHead.Size = New System.Drawing.Size(64, 24)
         Me.LeftHead.TabIndex = 2
@@ -322,9 +325,9 @@ Public Class GantrySetup
         Me.GroupBox3.Controls.Add(Me.Label13)
         Me.GroupBox3.Controls.Add(Me.Label12)
         Me.GroupBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(8, 568)
+        Me.GroupBox3.Location = New System.Drawing.Point(8, 536)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(496, 200)
+        Me.GroupBox3.Size = New System.Drawing.Size(496, 208)
         Me.GroupBox3.TabIndex = 29
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Motion Parameters"
@@ -332,7 +335,7 @@ Public Class GantrySetup
         'MaxSpeedLimit
         '
         Me.MaxSpeedLimit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MaxSpeedLimit.Location = New System.Drawing.Point(344, 152)
+        Me.MaxSpeedLimit.Location = New System.Drawing.Point(344, 96)
         Me.MaxSpeedLimit.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.MaxSpeedLimit.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.MaxSpeedLimit.Name = "MaxSpeedLimit"
@@ -343,13 +346,14 @@ Public Class GantrySetup
         'HomeSpeed
         '
         Me.HomeSpeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.HomeSpeed.Location = New System.Drawing.Point(344, 96)
+        Me.HomeSpeed.Location = New System.Drawing.Point(336, 160)
         Me.HomeSpeed.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.HomeSpeed.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.HomeSpeed.Name = "HomeSpeed"
         Me.HomeSpeed.Size = New System.Drawing.Size(72, 27)
         Me.HomeSpeed.TabIndex = 22
-        Me.HomeSpeed.Value = New Decimal(New Integer() {500, 0, 0, 0})
+        Me.HomeSpeed.Value = New Decimal(New Integer() {100, 0, 0, 0})
+        Me.HomeSpeed.Visible = False
         '
         'MaxAccLimit
         '
@@ -367,7 +371,7 @@ Public Class GantrySetup
         'Label17
         '
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(424, 152)
+        Me.Label17.Location = New System.Drawing.Point(424, 96)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(70, 22)
         Me.Label17.TabIndex = 0
@@ -377,21 +381,21 @@ Public Class GantrySetup
         '
         Me.MaxSpeedLimitTrackbar.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MaxSpeedLimitTrackbar.LargeChange = 500
-        Me.MaxSpeedLimitTrackbar.Location = New System.Drawing.Point(144, 152)
+        Me.MaxSpeedLimitTrackbar.Location = New System.Drawing.Point(144, 96)
         Me.MaxSpeedLimitTrackbar.Maximum = 99900
-        Me.MaxSpeedLimitTrackbar.Minimum = 100
+        Me.MaxSpeedLimitTrackbar.Minimum = 1
         Me.MaxSpeedLimitTrackbar.Name = "MaxSpeedLimitTrackbar"
         Me.MaxSpeedLimitTrackbar.Size = New System.Drawing.Size(200, 45)
         Me.MaxSpeedLimitTrackbar.SmallChange = 100
         Me.MaxSpeedLimitTrackbar.TabIndex = 0
         Me.MaxSpeedLimitTrackbar.TabStop = False
         Me.MaxSpeedLimitTrackbar.TickFrequency = 5000
-        Me.MaxSpeedLimitTrackbar.Value = 50000
+        Me.MaxSpeedLimitTrackbar.Value = 1000
         '
         'Label18
         '
         Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(8, 152)
+        Me.Label18.Location = New System.Drawing.Point(8, 96)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(96, 24)
         Me.Label18.TabIndex = 0
@@ -400,33 +404,36 @@ Public Class GantrySetup
         'Label15
         '
         Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(424, 96)
+        Me.Label15.Location = New System.Drawing.Point(416, 160)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(70, 22)
         Me.Label15.TabIndex = 0
         Me.Label15.Text = "mm/sec"
+        Me.Label15.Visible = False
         '
         'HomeSpeedTrackbar
         '
         Me.HomeSpeedTrackbar.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.HomeSpeedTrackbar.Location = New System.Drawing.Point(144, 96)
-        Me.HomeSpeedTrackbar.Maximum = 500
+        Me.HomeSpeedTrackbar.Location = New System.Drawing.Point(136, 160)
+        Me.HomeSpeedTrackbar.Maximum = 100
         Me.HomeSpeedTrackbar.Minimum = 1
         Me.HomeSpeedTrackbar.Name = "HomeSpeedTrackbar"
         Me.HomeSpeedTrackbar.Size = New System.Drawing.Size(200, 45)
         Me.HomeSpeedTrackbar.TabIndex = 0
         Me.HomeSpeedTrackbar.TabStop = False
         Me.HomeSpeedTrackbar.TickFrequency = 10
-        Me.HomeSpeedTrackbar.Value = 500
+        Me.HomeSpeedTrackbar.Value = 100
+        Me.HomeSpeedTrackbar.Visible = False
         '
         'Label11
         '
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(8, 96)
+        Me.Label11.Location = New System.Drawing.Point(0, 160)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(128, 24)
         Me.Label11.TabIndex = 0
         Me.Label11.Text = "Homing Speed"
+        Me.Label11.Visible = False
         '
         'MaxAccLimitTrackbar
         '
@@ -462,12 +469,12 @@ Public Class GantrySetup
         'Label24
         '
         Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label24.ForeColor = System.Drawing.Color.Black
         Me.Label24.Location = New System.Drawing.Point(0, 0)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(152, 32)
+        Me.Label24.Size = New System.Drawing.Size(232, 32)
         Me.Label24.TabIndex = 54
-        Me.Label24.Text = "Gantry Setup"
+        Me.Label24.Text = "Gantry Parameters"
         '
         'ButtonExit
         '
@@ -498,7 +505,7 @@ Public Class GantrySetup
         Me.GroupBox2.Controls.Add(Me.Label23)
         Me.GroupBox2.Controls.Add(Me.WorkAreaZMax)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 392)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 360)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(240, 168)
         Me.GroupBox2.TabIndex = 28
@@ -624,7 +631,7 @@ Public Class GantrySetup
         'ButtonSPCancel
         '
         Me.ButtonSPCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCancel.Location = New System.Drawing.Point(392, 776)
+        Me.ButtonSPCancel.Location = New System.Drawing.Point(392, 752)
         Me.ButtonSPCancel.Name = "ButtonSPCancel"
         Me.ButtonSPCancel.Size = New System.Drawing.Size(90, 48)
         Me.ButtonSPCancel.TabIndex = 19
@@ -633,7 +640,7 @@ Public Class GantrySetup
         'ButtonSPOK
         '
         Me.ButtonSPOK.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPOK.Location = New System.Drawing.Point(280, 776)
+        Me.ButtonSPOK.Location = New System.Drawing.Point(280, 752)
         Me.ButtonSPOK.Name = "ButtonSPOK"
         Me.ButtonSPOK.Size = New System.Drawing.Size(90, 48)
         Me.ButtonSPOK.TabIndex = 18
@@ -648,7 +655,7 @@ Public Class GantrySetup
         Me.GroupBox1.Controls.Add(Me.SystemOriginPosZ)
         Me.GroupBox1.Controls.Add(Me.SystemOriginPosY)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(264, 392)
+        Me.GroupBox1.Location = New System.Drawing.Point(264, 360)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(240, 168)
         Me.GroupBox1.TabIndex = 28
@@ -714,10 +721,19 @@ Public Class GantrySetup
         Me.SystemOriginPosY.TabIndex = 11
         Me.SystemOriginPosY.Value = New Decimal(New Integer() {380, 0, 0, -2147483648})
         '
+        'ZPost
+        '
+        Me.ZPost.Location = New System.Drawing.Point(314, 176)
+        Me.ZPost.Name = "ZPost"
+        Me.ZPost.Size = New System.Drawing.Size(128, 23)
+        Me.ZPost.TabIndex = 70
+        Me.ZPost.Text = "0"
+        Me.ZPost.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'GantrySetup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(584, 912)
+        Me.ClientSize = New System.Drawing.Size(536, 912)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "GantrySetup"
@@ -779,71 +795,56 @@ Public Class GantrySetup
         MaxSpeedLimitTrackbar.Value = MaxSpeedLimit.Value * 100
     End Sub
 
-    Private Sub SaveGantrySettings()
-
-        'If Vision.Checked Then
-        '    offset_x = 0
-        '    offset_y = 0
-        'Else
-            With IDS.Data.Hardware.Needle
-                If LeftHead.Checked Then
-                    offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
-                    offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
-                ElseIf RightHead.Checked Then
-                    offset_x = .Right.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
-                    offset_y = .Right.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
-                End If
-            End With
-        'End If 'yy
-
+    Private Sub SaveGantryXYZSettings()
+        Dim fm As InfoForm = New InfoForm
+        Dim msg As String = "Are you sure the "
+        With IDS.Data.Hardware.Needle
+            If LeftHead.Checked Then
+                offset_x = .Left.NeedleCalibrationPosition.X '.Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
+                offset_y = .Left.NeedleCalibrationPosition.Y '.Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
+                offset_z = .Left.NeedleCalibrationPosition.Z
+                msg = msg + " left needle is now stop at "
+            ElseIf RightHead.Checked Then
+                offset_x = .Right.NeedleCalibrationPosition.X '.Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
+                offset_y = .Right.NeedleCalibrationPosition.Y '.Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
+                offset_z = .Right.NeedleCalibrationPosition.Z
+                msg = msg + " right needle is now stop at "
+            End If
+        End With
+        msg = msg + StationPosition.SelectedItem + " ? Click OK to continue to save the data, otherwise click Cancel to abort"
+        fm.SetMessage(msg)
+        If fm.ShowDialog() = DialogResult.Cancel Then
+            Return
+        End If
         m_Tri.GetIDSState()
         x = m_Tri.XPosition + offset_x
         y = m_Tri.YPosition + offset_y
-
+        z = m_Tri.ZPosition - offset_z
         If StationPosition.SelectedItem = "Park Position" Then
             IDS.Data.Hardware.Gantry.ParkPosition.X = x
             IDS.Data.Hardware.Gantry.ParkPosition.Y = y
+            IDS.Data.Hardware.Gantry.ParkPosition.Z = z
 
         ElseIf StationPosition.SelectedItem = "Purge Position" Then
             IDS.Data.Hardware.Gantry.PurgePosition.X = x
             IDS.Data.Hardware.Gantry.PurgePosition.Y = y
-
+            IDS.Data.Hardware.Gantry.PurgePosition.Z = z
         ElseIf StationPosition.SelectedItem = "Clean Position" Then
             IDS.Data.Hardware.Gantry.CleanPosition.X = x
             IDS.Data.Hardware.Gantry.CleanPosition.Y = y
-
+            IDS.Data.Hardware.Gantry.CleanPosition.Z = z
         ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.X = x
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.Y = y
-
-            'ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-            '    IDS.Data.Hardware.Gantry.WeighingScalePosition.X = x
-            '    IDS.Data.Hardware.Gantry.WeighingScalePosition.Y = y
-            'Else
-
-            '    If LeftHead.Checked Then
-            '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X = x
-            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y = y
-            '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X = x
-            '            IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y = y
-            '        End If
-            '    ElseIf RightHead.Checked Then
-            '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X = x
-            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y = y
-            '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X = x
-            '            IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y = y
-            '        End If
-            '    End If 'yy
-
+            IDS.Data.Hardware.Gantry.ChangeSyringePosition.Z = z
         End If
 
         XPosition.Text = "X: " + CStr(x)
         YPosition.Text = "Y: " + CStr(y)
-
+        ZPost.Text = "Z: " + z.ToString()
+        'SaveData()
+        'IDS.Data.SaveLocalData()
+        IDS.Data.SaveGlobalData()
     End Sub
 
     Private Sub ButtonSPOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSPOK.Click
@@ -869,7 +870,11 @@ Public Class GantrySetup
         IDS.Data.Hardware.Gantry.WorkArea.X = WorkAreaX.Text
         IDS.Data.Hardware.Gantry.WorkArea.Y = WorkAreaY.Text
 
-        IDS.Data.SaveLocalData()
+        IDS.Data.Hardware.Gantry.MaxAccelerationLimit = MaxAccLimitTrackbar.Value * 10
+        IDS.Data.Hardware.Gantry.MaxSpeedLimit = MaxSpeedLimit.Value
+
+        'IDS.Data.SaveLocalData()
+        IDS.Data.SaveGlobalData()
     End Sub
 
     Public Sub RevertData()
@@ -884,7 +889,10 @@ Public Class GantrySetup
         WorkAreaZMin.Text = IDS.Data.Hardware.Gantry.WorkArea.Z.Min
         WorkAreaX.Text = IDS.Data.Hardware.Gantry.WorkArea.X
         WorkAreaY.Text = IDS.Data.Hardware.Gantry.WorkArea.Y
-        MaxAccLimitTrackbar.Value = MaxAccLimit.Value * 100
+        MaxAccLimitTrackbar.Value = IDS.Data.Hardware.Gantry.MaxAccelerationLimit / 10
+        MaxAccLimit.Text = (IDS.Data.Hardware.Gantry.MaxAccelerationLimit / 1000).ToString()
+        MaxSpeedLimit.Text = (IDS.Data.Hardware.Gantry.MaxSpeedLimit).ToString()
+        MaxSpeedLimitTrackbar.Value = IDS.Data.Hardware.Gantry.MaxSpeedLimit * 100
 
     End Sub
 
@@ -897,109 +905,67 @@ Public Class GantrySetup
             If StationPosition.SelectedItem = "Park Position" Then
                 x = .ParkPosition.X
                 y = .ParkPosition.Y
+                z = .ParkPosition.Z
             ElseIf StationPosition.SelectedItem = "Purge Position" Then
                 x = .PurgePosition.X
                 y = .PurgePosition.Y
+                z = .PurgePosition.Z
             ElseIf StationPosition.SelectedItem = "Clean Position" Then
                 x = .CleanPosition.X
                 y = .CleanPosition.Y
+                z = .CleanPosition.Z
             ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
                 x = .ChangeSyringePosition.X
                 y = .ChangeSyringePosition.Y
-                'ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-                '    x = .WeighingScalePosition.X
-                '    y = .WeighingScalePosition.Y 'yy
+                z = .ChangeSyringePosition.Z
             End If
         End With
 
-        'With IDS.Data.Hardware.Needle
-        '    If LeftHead.Checked Then
-        '        offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
-        '        offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
-        '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-        '            x = .Left.ArrayDotPos1.X
-        '            y = .Left.ArrayDotPos1.Y
-        '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-        '            x = .Left.ArrayDotPos3.X
-        '            y = .Left.ArrayDotPos3.Y
-        '        End If
-        '    ElseIf RightHead.Checked Then
-        '        offset_x = .Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
-        '        offset_y = .Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
-        '        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-        '            x = .Right.ArrayDotPos1.X
-        '            y = .Right.ArrayDotPos1.Y
-        '        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-        '            x = .Right.ArrayDotPos3.X
-        '            y = .Right.ArrayDotPos3.Y
-        '        End If
-        '    End If
-        'End With 'yy
+        With IDS.Data.Hardware.Needle
+            If LeftHead.Checked Then
+                offset_x = .Left.NeedleCalibrationPosition.X '.Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
+                offset_y = .Left.NeedleCalibrationPosition.Y '.Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
+                offset_z = .Left.NeedleCalibrationPosition.Z
+            ElseIf RightHead.Checked Then
+                offset_x = .Right.NeedleCalibrationPosition.X '.Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
+                offset_y = .Right.NeedleCalibrationPosition.Y '.Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
+                offset_z = .Right.NeedleCalibrationPosition.Z
+            End If
+        End With 'yy
 
-        'If Vision.Checked Then
-        '    position(0) = x
-        '    position(1) = y
-        'ElseIf Needle.Checked Then
-            position(0) = x - offset_x
-            position(1) = y - offset_y
-        'End If
+        position(0) = x - offset_x
+        position(1) = y - offset_y
+        position(2) = z + offset_z
 
         If Not m_Tri.Move_XY(position) Then Exit Sub
+        m_Tri.Move_Z(position(2))
 
     End Sub
 
     Private Sub SavePositionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SavePositionButton.Click
-
         'station settings
-        SaveGantrySettings()
-        IDS.Data.SaveLocalData()
-
+        SaveGantryXYZSettings()
     End Sub
 
     Private Sub StationPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StationPosition.SelectedIndexChanged
-
-        If StationPosition.SelectedItem = "Needle Calibration Position" Then
-            'Vision.Enabled = False
-            'If Vision.Checked Then
-            'Vision.Checked = False
-            LeftHead.Checked = True
-            'End If
-            'Else
-            '    Vision.Enabled = True 'yy
-        End If
 
         With IDS.Data.Hardware.Gantry
             If StationPosition.SelectedItem = "Park Position" Then
                 XPosition.Text = "X: " + CStr(.ParkPosition.X)
                 YPosition.Text = "Y: " + CStr(.ParkPosition.Y)
+                ZPost.Text = "Z: " + .ParkPosition.Z.ToString()
             ElseIf StationPosition.SelectedItem = "Purge Position" Then
                 XPosition.Text = "X: " + CStr(.PurgePosition.X)
                 YPosition.Text = "Y: " + CStr(.PurgePosition.Y)
+                ZPost.Text = "Z: " + .PurgePosition.Z.ToString()
             ElseIf StationPosition.SelectedItem = "Clean Position" Then
                 XPosition.Text = "X: " + CStr(.CleanPosition.X)
                 YPosition.Text = "Y: " + CStr(.CleanPosition.Y)
+                ZPost.Text = "Z: " + .CleanPosition.Z.ToString()
             ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
                 XPosition.Text = "X: " + CStr(.ChangeSyringePosition.X)
                 YPosition.Text = "Y: " + CStr(.ChangeSyringePosition.Y)
-                'ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-                '    XPosition.Text = "X: " + CStr(.WeighingScalePosition.X)
-                '    YPosition.Text = "Y: " + CStr(.WeighingScalePosition.Y)
-                'ElseIf StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                '    If LeftHead.Checked Then
-                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X)
-                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y)
-                '    ElseIf RightHead.Checked Then
-                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X)
-                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y)
-                '    End If
-                'ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                '    If LeftHead.Checked Then
-                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X)
-                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y)
-                '    ElseIf RightHead.Checked Then
-                '        XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X)
-                '        YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y)
-                '    End If 'yy
+                ZPost.Text = "Z: " + .ChangeSyringePosition.Z.ToString()
             End If
         End With
 

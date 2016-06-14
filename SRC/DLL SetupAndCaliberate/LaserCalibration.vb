@@ -246,7 +246,7 @@ Public Class LaserCalibration
         '
         Me.Label1.Location = New System.Drawing.Point(-102, -8)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 21)
+        Me.Label1.Size = New System.Drawing.Size(77, 21)
         Me.Label1.TabIndex = 30
         Me.Label1.Text = "Sensor"
         '
@@ -271,12 +271,12 @@ Public Class LaserCalibration
         'Label11
         '
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label11.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label11.ForeColor = System.Drawing.Color.Black
         Me.Label11.Location = New System.Drawing.Point(0, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(280, 32)
         Me.Label11.TabIndex = 39
-        Me.Label11.Text = "Laser Sensor Setup"
+        Me.Label11.Text = "Laser Setup"
         '
         'ButtonExit
         '
@@ -290,6 +290,7 @@ Public Class LaserCalibration
         Me.ButtonExit.TabStop = False
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonExit.Visible = False
         '
         'Panel2
         '

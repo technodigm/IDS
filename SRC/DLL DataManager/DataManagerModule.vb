@@ -295,7 +295,7 @@ Imports System.Runtime.Serialization
             Public ServiceXYSpeed As Double                   'DB   'Pat
             Public ServiceZSpeed As Double
             Public MaxAccelerationLimit As Double           'DB    
-            Public MaxSpeedLimit As Double                  'DB    
+            Public MaxSpeedLimit As Double                  'DB   
 
             Public GraphicDisplayXYLT As New CIDSPosXY      'Pat
             Public GraphicDisplayXYRB As New CIDSPosXY      'Pat
@@ -427,9 +427,6 @@ Imports System.Runtime.Serialization
                 Public Y As New CIDSMinMax
                 Public Z As New CIDSMinMax
             End Class
-
-
-
             <Serializable()> Public Class CIDSWorkArea
                 Inherits CIDSPosXY
                 Public Z As New CIDSMinMax

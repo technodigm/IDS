@@ -451,6 +451,7 @@ Public Class FormProgramming
         Me.MenuItem25.Index = 3
         Me.MenuItem25.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem33, Me.MenuItem32, Me.MenuItem35, Me.MenuItem29, Me.MenuItem30, Me.MenuItem36, Me.MenuItem62, Me.MenuItem76, Me.OptimizePath, Me.MenuItem3})
         Me.MenuItem25.Text = "Tools"
+        Me.MenuItem25.Visible = False
         '
         'MenuItem33
         '
@@ -530,6 +531,7 @@ Public Class FormProgramming
         Me.ButtonPurge.Size = New System.Drawing.Size(94, 80)
         Me.ButtonPurge.TabIndex = 57
         Me.ButtonPurge.Text = "Purge On"
+        Me.ToolTip1.SetToolTip(Me.ButtonPurge, "Move to purge position and purge ")
         '
         'PanelVisionCtrl
         '
@@ -655,7 +657,7 @@ Public Class FormProgramming
         Me.ReferenceCommandBlock.DropDownArrows = True
         Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 32)
+        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 24)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
         Me.ReferenceCommandBlock.ShowToolTips = True
         Me.ReferenceCommandBlock.Size = New System.Drawing.Size(128, 48)
@@ -688,7 +690,7 @@ Public Class FormProgramming
         Me.ElementsCommandBlock.DropDownArrows = True
         Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 32)
+        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 24)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
         Me.ElementsCommandBlock.ShowToolTips = True
         Me.ElementsCommandBlock.Size = New System.Drawing.Size(888, 48)
@@ -916,6 +918,7 @@ Public Class FormProgramming
         Me.ButtonClean.Size = New System.Drawing.Size(94, 80)
         Me.ButtonClean.TabIndex = 58
         Me.ButtonClean.Text = "Clean On"
+        Me.ToolTip1.SetToolTip(Me.ButtonClean, "Move to clean position and clean the needle")
         '
         'ButtonHome
         '
@@ -928,6 +931,7 @@ Public Class FormProgramming
         Me.ButtonHome.Size = New System.Drawing.Size(94, 80)
         Me.ButtonHome.TabIndex = 53
         Me.ButtonHome.Text = "Do Homing"
+        Me.ToolTip1.SetToolTip(Me.ButtonHome, "XYZ homing")
         '
         'ImageListMultiField
         '
@@ -1084,6 +1088,7 @@ Public Class FormProgramming
         Me.ButtonCalibrate.Size = New System.Drawing.Size(94, 80)
         Me.ButtonCalibrate.TabIndex = 57
         Me.ButtonCalibrate.Text = "Calibrate Needle"
+        Me.ToolTip1.SetToolTip(Me.ButtonCalibrate, "Calibrate needle after changed syringe")
         '
         'TowerLightImageList
         '
@@ -1135,6 +1140,7 @@ Public Class FormProgramming
         Me.btStop.Size = New System.Drawing.Size(84, 80)
         Me.btStop.TabIndex = 66
         Me.btStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.btStop, "Stop the process")
         '
         'imageListProcessBtn
         '
@@ -1153,6 +1159,7 @@ Public Class FormProgramming
         Me.btPause.Size = New System.Drawing.Size(84, 80)
         Me.btPause.TabIndex = 65
         Me.btPause.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.btPause, "Pause the process")
         '
         'btStart
         '
@@ -1165,6 +1172,7 @@ Public Class FormProgramming
         Me.btStart.Size = New System.Drawing.Size(84, 80)
         Me.btStart.TabIndex = 59
         Me.btStart.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.btStart, "Start the process")
         '
         'GroupBox1
         '

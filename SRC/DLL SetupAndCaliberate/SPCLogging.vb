@@ -402,12 +402,12 @@ Public Class SPCLogging
         'Label17
         '
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label17.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label17.ForeColor = System.Drawing.Color.Black
         Me.Label17.Location = New System.Drawing.Point(0, 0)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(144, 32)
+        Me.Label17.Size = New System.Drawing.Size(272, 32)
         Me.Label17.TabIndex = 34
-        Me.Label17.Text = "SPC Logging"
+        Me.Label17.Text = "SPC Logging Settings"
         '
         'ButtonExit
         '

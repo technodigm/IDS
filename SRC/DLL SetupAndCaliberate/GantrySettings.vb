@@ -147,7 +147,8 @@ Public Class GantrySettings
         Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
         Me.GroupBox6.TabIndex = 69
         Me.GroupBox6.TabStop = False
-        Me.GroupBox6.Text = "Station Positions"
+        Me.GroupBox6.Text = "Station Positions "
+        Me.GroupBox6.Visible = False
         '
         'SavePositionButton
         '
@@ -268,7 +269,7 @@ Public Class GantrySettings
         'Label17
         '
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label17.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label17.ForeColor = System.Drawing.Color.Black
         Me.Label17.Location = New System.Drawing.Point(0, 0)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(176, 32)
@@ -365,11 +366,11 @@ Public Class GantrySettings
         '
         Me.ServiceZSpeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ServiceZSpeed.Location = New System.Drawing.Point(273, 120)
-        Me.ServiceZSpeed.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.ServiceZSpeed.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
         Me.ServiceZSpeed.Name = "ServiceZSpeed"
         Me.ServiceZSpeed.Size = New System.Drawing.Size(72, 27)
         Me.ServiceZSpeed.TabIndex = 75
-        Me.ServiceZSpeed.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.ServiceZSpeed.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
         'ServiceXYSpeed
         '
@@ -472,22 +473,15 @@ Public Class GantrySettings
 
     Private Sub SaveGantrySettings()
 
-        'If Vision.Checked Then
-        '    offset_x = 0
-        '    offset_y = 0
-        'Else
-            With IDS.Data.Hardware.Needle
-                If LeftHead.Checked Then
-                    offset_z = .Left.NeedleCalibrationPosition.Z
-                ElseIf RightHead.Checked Then
-                    offset_z = .Right.NeedleCalibrationPosition.Z
-                End If
-            End With
-        'End If 'yy
-
+        With IDS.Data.Hardware.Needle
+            If LeftHead.Checked Then
+                offset_z = .Left.NeedleCalibrationPosition.Z
+            ElseIf RightHead.Checked Then
+                offset_z = .Right.NeedleCalibrationPosition.Z
+            End If
+        End With
         m_Tri.GetIDSState()
         z = m_Tri.ZPosition - offset_z
-
         If StationPosition.SelectedItem.ToString = "Park Z Position" Then
             IDS.Data.Hardware.Gantry.ParkPosition.Z = z
         ElseIf StationPosition.SelectedItem.ToString = "Purge Z Position" Then
@@ -496,12 +490,8 @@ Public Class GantrySettings
             IDS.Data.Hardware.Gantry.CleanPosition.Z = z
         ElseIf StationPosition.SelectedItem.ToString = "Change Syringe Z Position" Then
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.Z = z
-            'ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
-            'IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = z 'yy
         End If
-
         ZPosition.Text = "Z: " + CStr(z)
-
     End Sub
 
     Private Sub MoveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveButton.Click
@@ -526,35 +516,23 @@ Public Class GantrySettings
                 x = .ChangeSyringePosition.X
                 y = .ChangeSyringePosition.Y
                 z = .ChangeSyringePosition.Z
-                'ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
-                '    x = .WeighingScalePosition.X
-                '    y = .WeighingScalePosition.Y
-                '    z = .WeighingScalePosition.Z 'yy
             End If
         End With
 
         With IDS.Data.Hardware.Needle
             If LeftHead.Checked Then
-                offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
-                offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
+                offset_x = .Left.NeedleCalibrationPosition.X '.Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
+                offset_y = .Left.NeedleCalibrationPosition.Y '.Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
                 offset_z = .Left.NeedleCalibrationPosition.Z
             ElseIf RightHead.Checked Then
-                offset_x = .Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
-                offset_y = .Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
+                offset_x = .Right.NeedleCalibrationPosition.X '.Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
+                offset_y = .Right.NeedleCalibrationPosition.Y '.Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
                 offset_z = .Right.NeedleCalibrationPosition.Z
             End If
         End With
-
-        'If Vision.Checked Then
-        '    position(0) = x
-        '    position(1) = y
-        '    position(2) = z
-        'Else 'yy
-        'If Needle.Checked Then
         position(0) = x - offset_x
         position(1) = y - offset_y
         position(2) = z + offset_z
-        'End If 'yy Only in needle mode
 
         If Not m_Tri.Move_Z(0) Then Exit Sub
         If Not m_Tri.Move_XY(position) Then Exit Sub
@@ -563,11 +541,16 @@ Public Class GantrySettings
     End Sub
 
     Private Sub SavePositionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SavePositionButton.Click
-
+        Dim fm As InfoForm = New InfoForm
+        fm.SetMessage("Are you sure this is the position for " + StationPosition.SelectedItem.ToString + " ? Click Ok to save the position, otherwise click Cancel to abort")
+        If fm.ShowDialog() = DialogResult.Cancel Then
+            Return
+        End If
         'station settings
         SaveGantrySettings()
         IDS.Data.SaveLocalData()
-
+        IDS.Data.SaveGlobalData()
+        m_Tri.Move_Z(0)
     End Sub
 
     Private Sub StationPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StationPosition.SelectedIndexChanged
