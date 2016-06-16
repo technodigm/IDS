@@ -20,6 +20,7 @@ Imports System.Runtime.Serialization
     Public Hardware As New CIDSHardWare                 'create instance for Hardware devices objects
     Public Execution As New CIDSPatternExecution        'create instance for execution related objects
     Public Shared ParameterID As New CIDSParameterID    'create instance for record/group 
+    Public Shared Machine As New CIDSMachine            'create instance for machine
     Public Shared MsgErr As String                      'declare Error Message
 
     Friend IsSaveAsFile As Boolean                      'flag
@@ -2134,6 +2135,9 @@ Imports System.Runtime.Serialization
         Public Min As Double = 0
         Public Max As Double = 0
     End Class
+    <Serializable()> Public Class CIDSMachine
+        Public EquipmentID As String = ""
+    End Class
 #End Region
 
 End Class
@@ -2323,6 +2327,13 @@ Public Module Module1
                     PatArray.Add(IDSData.Admin.ALLPrivileges.TypeArray.Item(I))
                 Next
             End If
+            'Machine
+            PatDisplayArray.Add("")
+            PatArray.Add("")
+            PatDisplayArray.Add("~")
+            PatArray.Add("[Machine]")
+            PatDisplayArray.Add("IDSData.Machine.EquipmentID")
+            PatArray.Add(IDSData.Machine.EquipmentID)
 
             'camera
             PatDisplayArray.Add("")
@@ -3462,6 +3473,13 @@ Public Module Module1
             End If
             ' End If
 
+            'Machine
+            Index = PatArray.IndexOf("[Machine]")
+            If Not (Index = -1) Then
+                IDSData.Machine.EquipmentID = GetStringArrayValue(Index)
+            End If
+
+
             '''''''''''''''''''''''''''''''''''
             ''''''''''' Camer '''''''''''''''''
             '''''''''''''''''''''''''''''''''''
@@ -3622,9 +3640,13 @@ Public Module Module1
             IDSData.Hardware.Gantry.WeighingScalePosition.X = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.WeighingScalePosition.Y = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.WeighingScalePosition.Z = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.CleanPosition.X = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.CleanPosition.Y = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.CleanPosition.Z = GetDoubleArrayValue(Index)
+            If MyFileName.ToLower().IndexOf("factorydefault.pat") <> -1 Then
+                IDSData.Hardware.Gantry.CleanPosition.X = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Gantry.CleanPosition.Y = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Gantry.CleanPosition.Z = GetDoubleArrayValue(Index)
+            Else
+                Index = Index + 3
+            End If
             IDSData.Hardware.Gantry.ElementZSpeed = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.ElementXYSpeed = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.GraphicDisplayRatio = GetDoubleArrayValue(Index)
@@ -3634,12 +3656,16 @@ Public Module Module1
             IDSData.Hardware.Gantry.GraphicDisplayXYRB.Y = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.MaxAccelerationLimit = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.MaxSpeedLimit = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.ParkPosition.X = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.ParkPosition.Y = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.ParkPosition.Z = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.PurgePosition.X = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.PurgePosition.Y = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Gantry.PurgePosition.Z = GetDoubleArrayValue(Index)
+            If MyFileName.ToLower().IndexOf("factorydefault.pat") <> -1 Then
+                IDSData.Hardware.Gantry.ParkPosition.X = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Gantry.ParkPosition.Y = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Gantry.ParkPosition.Z = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Gantry.PurgePosition.X = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Gantry.PurgePosition.Y = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Gantry.PurgePosition.Z = GetDoubleArrayValue(Index)
+            Else
+                Index = Index + 6
+            End If
             IDSData.Hardware.Gantry.SystemOriginPos.X = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.SystemOriginPos.Y = GetDoubleArrayValue(Index)
             IDSData.Hardware.Gantry.SystemOriginPos.Z = GetDoubleArrayValue(Index)
@@ -3699,9 +3725,15 @@ Public Module Module1
             IDSData.Hardware.Needle.Left.HeightApproach = GetIntegerArrayValue(Index)
             IDSData.Hardware.Needle.Left.HeightClearance = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Left.HeightRetract = GetIntegerArrayValue(Index)
-            IDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z = GetDoubleArrayValue(Index)
+
+            If MyFileName.ToLower().IndexOf("factorydefault.pat") <> -1 Then
+                IDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z = GetDoubleArrayValue(Index)
+            Else
+                Index = Index + 3 'skip to load need calibration value if is not global file
+            End If
+
             IDSData.Hardware.Needle.Left.TouchSensorZPosition = GetDoubleArrayValue(Index)
 
             IDSData.Hardware.Needle.Left.ArrayDotPos1.X = GetDoubleArrayValue(Index)
@@ -3741,6 +3773,7 @@ Public Module Module1
 
             Index = PatArray.IndexOf("[NEEDLE@RIGHT]")
             IDSData.Hardware.Needle.Right.ArcRadius = GetDoubleArrayValue(Index)
+
             IDSData.Hardware.Needle.Right.CalibratorPos.X = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Right.CalibratorPos.Y = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Right.CalibratorPos.Z = GetDoubleArrayValue(Index)
@@ -3748,9 +3781,14 @@ Public Module Module1
             IDSData.Hardware.Needle.Right.HeightApproach = GetIntegerArrayValue(Index)
             IDSData.Hardware.Needle.Right.HeightClearance = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Right.HeightRetract = GetIntegerArrayValue(Index)
-            IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.X = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Y = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Z = GetDoubleArrayValue(Index)
+
+            If MyFileName.ToLower.IndexOf("factorydefault.pat") <> -1 Then
+                IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.X = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Y = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Needle.Right.NeedleCalibrationPosition.Z = GetDoubleArrayValue(Index)
+            Else
+                Index = Index + 3
+            End If
             IDSData.Hardware.Needle.Right.TouchSensorZPosition = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Right.ArrayDotPos1.X = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Right.ArrayDotPos1.Y = GetDoubleArrayValue(Index)

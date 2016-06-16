@@ -40,6 +40,9 @@ Public Class InfoForm
         '
         'tbInfo
         '
+        Me.tbInfo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tbInfo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.tbInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbInfo.Location = New System.Drawing.Point(9, 8)
@@ -54,6 +57,7 @@ Public Class InfoForm
         '
         'btOK
         '
+        Me.btOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btOK.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.btOK.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btOK.Location = New System.Drawing.Point(161, 168)
@@ -64,6 +68,7 @@ Public Class InfoForm
         '
         'btCancel
         '
+        Me.btCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btCancel.Location = New System.Drawing.Point(321, 168)

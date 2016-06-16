@@ -183,6 +183,47 @@ Public Module ExecutionModule
         ar.AsyncState.EndInvoke(ar)
     End Sub
 
+    Public Function ProcessProgramFile() As Integer
+        Dim rtn As Integer
+        TraceGCCollect()
+        LabelMessage("Processing program file")
+        m_Execution.m_Command.SetOptimizFlag(0)
+
+        rtn = m_Execution.m_Command.ReadPattern(Programming.AxSpreadsheetProgramming)
+        If rtn <> 0 Then
+            LabelMessage(ErrorMessage())
+            Production.tbTotalDispense.Text = "0"
+            Return -1
+        End If
+
+        LabelMessage("Compiling program file")
+
+        If m_Execution.m_Command.Compile(Programming.m_RunMode) < 0 Then
+            LabelMessage(ErrorMessage())
+            Production.tbTotalDispense.Text = "0"
+            Return -1
+        End If
+        ChangeButtonState("Idle")
+        'If ProductionMode() Then
+        '    Production.tbTotalDispense.Text = m_Execution.m_Command.PattenList.Count.ToString()
+        'End If
+        LabelMessage("System ready for process")
+        Return 0
+    End Function
+
+    Public Sub RunProcessedProgramFile()
+        Try
+            m_Tri.SetMachineRun()
+            ChangeButtonState("Running")
+            SetState("Run")
+            ThreadExecution = New Threading.Thread(AddressOf DownloadProgram)
+            ThreadExecution.Priority = Threading.ThreadPriority.Normal
+            ThreadExecution.Start()
+        Catch ex As ThreadAbortException
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+        End Try
+    End Sub
 
     Public Sub GeneratePatternAndRunProgram()
 
@@ -247,11 +288,10 @@ ResetMachineState:
                 m_Tri.SetMachineRunMode(Programming.m_RunMode)
                 LabelMessage("Uploading Process Started.")
                 If cmdBurn.BurnTable(Dispensinglist) = False Then
-                    LabelMessage("Downloading failed or cancelled.")
+                    LabelMessage("Uploading failed or cancelled.")
                     Return -1
                 Else
                     SetLampsToRunningMode()
-                    LabelMessage("Dispensing......")
                 End If
             End If
         Catch ex As Exception
@@ -318,9 +358,9 @@ ResetMachineState:
                 SysToRefer(Spos, Spos, ref)
 
                 If Programming.IsNeedleTeachMode Then
-                    off(0) = gLeftNeedleOffs(0)
-                    off(1) = gLeftNeedleOffs(1)
-                    off(2) = -gLeftNeedleOffs(2)
+                    off(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X 'gLeftNeedleOffs(0)
+                    off(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y 'gLeftNeedleOffs(1)
+                    off(2) = -IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z '-gLeftNeedleOffs(2)
                     'off(2) = gLeftNeedleOffs(2) 'yy
                 Else 'vision
                     off(0) = 0.0
@@ -479,12 +519,13 @@ ResetMachineState:
                             LockMovementButtons()
                             MoveZToSafePosition()
                             GeneratePatternAndRunProgram()
+
                         Else
-                            If Programming.IsFilePresent Then
-                                ResetToIdle()
-                                LabelMessage("No file loaded.")
-                                Exit Select
-                            End If
+                            'If Programming.IsFilePresent Then
+                            '    ResetToIdle()
+                            '    LabelMessage("No file loaded.")
+                            '    Exit Select
+                            'End If
                             LockMovementButtons()
                             If IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Or IDS.Data.Hardware.Dispenser.Left.HeadType = "Auger Valve" Then
                                 m_Tri.TurnOn("Material Air")
@@ -516,13 +557,17 @@ ResetMachineState:
                                 'Programming.VisionMode.Enabled = True 'yy
                                 TraceGCCollect()
                             Else
-                                If Production.ContinuousMode.Checked = True Then
-                                    Production.DispensingFinishCallback.Invoke() 'synchronous
-                                Else
-                                    LockMovementButtons()
-                                    TravelToParkPosition()
-                                    ResetToIdle()
-                                End If
+                                LabelMessage("Dispensing finished")
+                                'If Production.ContinuousMode.Checked = True Then
+                                '    Production.DispensingFinishCallback.Invoke() 'synchronous
+                                'Else
+                                LockMovementButtons()
+                                TravelToParkPosition()
+                                ResetToIdle()
+                                Production.m_UnitDispensed = Production.m_UnitDispensed + 1
+                                Production.tbQuantity.Text = Production.m_UnitDispensed
+                                LabelMessage("System Idle")
+                                'End If
                             End If
                         End If
 
@@ -545,18 +590,30 @@ ResetMachineState:
                         Loop Until Not m_Tri.MachineJogging Or m_Tri.EStopActivated
 
                     Case "Homing"
-                        DoHoming()
-                        MySleep(500) 'to wait for ids.getstate in statemonitor, otherwise it will exit
-                        'the loop immediately.
-                        Do
-                            MySleep(25)
-                            TraceDoEvents()
-                        Loop Until m_Tri.HomingFinished Or m_Tri.EStopActivated
+                        m_Tri.GetIDSState()
+                        If m_Tri.HomingFinished Then
 
-                        If EStop = True Then EStop = False
+                        Else
+                            DoHoming()
+                            MySleep(500) 'to wait for ids.getstate in statemonitor, otherwise it will exit
+                            'the loop immediately.
+                            Do
+                                MySleep(25)
+                                TraceDoEvents()
+                            Loop Until m_Tri.HomingFinished Or m_Tri.EStopActivated
+                            If EStop = True Then EStop = False
+                        End If
+                        'DoHoming()
+                        'MySleep(500) 'to wait for ids.getstate in statemonitor, otherwise it will exit
+                        ''the loop immediately.
+                        'Do
+                        '    MySleep(25)
+                        '    TraceDoEvents()
+                        'Loop Until m_Tri.HomingFinished Or m_Tri.EStopActivated
 
+                        'If EStop = True Then EStop = False
                         ResetToIdle()
-                        LabelMessage("Homing finished.")
+                        LabelMessage("System Ready")
 
                     Case "AutoPurge"
                         Production.ProdPurgeClean()
@@ -628,6 +685,10 @@ ResetMachineState:
         'check to see whether it is a valid command
         Select Case str
             Case "Start"
+                If Production.TextBoxFilename.Text = "" Or Production.TextBoxFilename.Text Is Nothing Then
+                    LabelMessage("Please select program file first")
+                    Return False
+                End If
                 If IsIdle() Then
                     str = "Start"
                 ElseIf IsRunning() Then
@@ -771,7 +832,6 @@ ResetMachineState:
             'Programming.VisionMode.Enabled = True 'yy
             Programming.NeedleMode.Enabled = True
         End If
-
     End Sub
 
 #End Region
@@ -781,7 +841,7 @@ ResetMachineState:
     Public Sub DoHoming()
 
         If m_Tri.m_TriCtrl.IsOpen(0) Then
-            LabelMessage("Homing..")
+            LabelMessage("Homing")
             m_Tri.SetMachineRun()
             SetLampsToRunningMode()
             LockMovementButtons()
@@ -870,6 +930,7 @@ ResetMachineState:
                 .ButtonClean.Enabled = False
                 .ButtonCalibrate.Enabled = False
                 .DispensingMode.Enabled = False
+                .ButtonToggleMode.Enabled = False
             End With
         ElseIf ProductionMode() Then
             With Production
@@ -878,6 +939,7 @@ ResetMachineState:
                 .ButtonClean.Enabled = False
                 .ButtonPurge.Enabled = False
                 .ButtonCalibrate.Enabled = False
+                .ButtonOpenFile.Enabled = False
                 '.ButtonStepYplus.Enabled = False 'yy
                 '.ButtonStepXplus.Enabled = False
                 '.ButtonStepZup.Enabled = False
@@ -898,6 +960,7 @@ ResetMachineState:
                 .ButtonClean.Enabled = True
                 .DispensingMode.Enabled = True
                 .ButtonCalibrate.Enabled = True
+                .ButtonToggleMode.Enabled = True
             End With
         ElseIf ProductionMode() Then
             With Production
@@ -906,6 +969,7 @@ ResetMachineState:
                 .ButtonClean.Enabled = True
                 .ButtonPurge.Enabled = True
                 .ButtonCalibrate.Enabled = True
+                .ButtonOpenFile.Enabled = True
             End With
         End If
     End Sub
@@ -916,6 +980,7 @@ ResetMachineState:
                 Programming.LabelMessege.Text = message
                 Programming.LabelMessege.Refresh()
             Else
+                Production.LogScreen(message)
                 Production.LabelMessege.Text = message
                 Production.LabelMessege.Refresh()
             End If
@@ -1075,7 +1140,7 @@ ResetMachineState:
                 pos(1) = .CalibratorPos.Y - .NeedleCalibrationPosition.Y
                 If Not m_Tri.Move_Z(0) Then Exit Sub
                 If Not m_Tri.Move_XY(pos) Then Exit Sub
-                'If Not m_Tri.Move_Z(.CalibratorPos.Z + .NeedleCalibrationPosition.Z) Then Exit Sub 'yy
+                If Not m_Tri.Move_Z(.CalibratorPos.Z + .NeedleCalibrationPosition.Z) Then Exit Sub 'yy
                 'If Not m_Tri.Move_Z(.CalibratorPos.Z - .NeedleCalibrationPosition.Z) Then Exit Sub
             End With
             LabelMessage("Needle now at reference position.")
@@ -1201,11 +1266,12 @@ Reset:
             Programming.ButtonPurge.Enabled = False
             Programming.ButtonPurge.Text = "Purge Off"
             Production.ButtonPurge.Text = "Purge Off"
+            LabelMessage("Moving to purge station")
             m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ServiceXYSpeed)
             m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
-            offset(0) = gLeftNeedleOffs(0)
-            offset(1) = gLeftNeedleOffs(1)
-            offset(2) = gLeftNeedleOffs(2) + IDS.Data.Hardware.Gantry.PurgePosition.Z
+            offset(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X 'gLeftNeedleOffs(0)
+            offset(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y 'gLeftNeedleOffs(1)
+            offset(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.Gantry.PurgePosition.Z
             position(0) = IDS.Data.Hardware.Gantry.PurgePosition.X - offset(0)
             position(1) = IDS.Data.Hardware.Gantry.PurgePosition.Y - offset(1)
             '1) move to safe z
@@ -1217,13 +1283,21 @@ Reset:
             If Not m_Tri.Move_Z(offset(2)) Then GoTo Reset
             LockButtonsForPurge()
             m_Tri.TurnOn("Left Needle IO")
+            LabelMessage("Purging")
             Exit Sub
         Else
+            Production.ButtonPurge.Enabled = False
+            Programming.ButtonPurge.Enabled = False
             m_Tri.SetMachineStop()
+            LabelMessage("Stopping purging process")
+            m_Tri.TurnOff("Left Needle IO")
             Programming.ButtonPurge.Text = "Purge On"
             Production.ButtonPurge.Text = "Purge On"
-            m_Tri.TurnOff("Left Needle IO")
+            LabelMessage("Moving Z to safe position")
             If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            LabelMessage("System Idle")
+            Production.ButtonPurge.Enabled = True
+            Programming.ButtonPurge.Enabled = True
         End If
 Reset:
         ResetToIdle()
@@ -1254,25 +1328,34 @@ Reset:
             Programming.ButtonClean.Enabled = False
             Programming.ButtonClean.Text = "Clean Off"
             Production.ButtonClean.Text = "Clean Off"
-            offset(0) = gLeftNeedleOffs(0)
-            offset(1) = gLeftNeedleOffs(1)
-            offset(2) = gLeftNeedleOffs(2) + IDS.Data.Hardware.Gantry.CleanPosition.Z
+            offset(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X 'gLeftNeedleOffs(0)
+            offset(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y 'gLeftNeedleOffs(1)
+            offset(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.Gantry.CleanPosition.Z
             position(0) = IDS.Data.Hardware.Gantry.CleanPosition.X - offset(0)
             position(1) = IDS.Data.Hardware.Gantry.CleanPosition.Y - offset(1)
+            LabelMessage("Moving to clean syringe station")
             m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ServiceXYSpeed)
             m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
             If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
             If Not m_Tri.Move_XY(position) Then GoTo Reset
             If Not m_Tri.Move_Z(offset(2)) Then GoTo Reset
+            LabelMessage("Cleaning syringe")
             LockButtonsForClean()
             m_Tri.TurnOn("Clean")
             Exit Sub
         Else
+            Production.ButtonClean.Enabled = False
+            Programming.ButtonClean.Enabled = False
+            LabelMessage("Stopping cleaning process")
             m_Tri.SetMachineStop()
+            m_Tri.TurnOff("Clean")
+            LabelMessage("Moving Z to safe position")
+            If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            LabelMessage("System Idle")
+            Production.ButtonClean.Enabled = True
+            Programming.ButtonClean.Enabled = True
             Production.ButtonClean.Text = "Clean On"
             Programming.ButtonClean.Text = "Clean On"
-            m_Tri.TurnOff("Clean")
-            If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
         End If
 
 Reset:
@@ -1295,21 +1378,23 @@ Reset:
             End If
         End If
 
-        offset(0) = gLeftNeedleOffs(0)
-        offset(1) = gLeftNeedleOffs(1)
-        offset(2) = gLeftNeedleOffs(2) + IDS.Data.Hardware.Gantry.ChangeSyringePosition.Z
+        offset(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X 'gLeftNeedleOffs(0)
+        offset(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y 'gLeftNeedleOffs(1)
+        offset(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.Gantry.ChangeSyringePosition.Z
         position(0) = IDS.Data.Hardware.Gantry.ChangeSyringePosition.X - offset(0)
         position(1) = IDS.Data.Hardware.Gantry.ChangeSyringePosition.Y - offset(1)
 
         'execute
+        LabelMessage("Moving to change syringe position")
         LockMovementButtons()
         m_Tri.SetMachineRun()
+
         m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ServiceXYSpeed)
         m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
-        LabelMessage("Moving to change syringe position...")
         If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
         If Not m_Tri.Move_XY(position) Then GoTo Reset
         If Not m_Tri.Move_Z(offset(2)) Then GoTo Reset
+        LabelMessage("Ready at change syringe position")
 
 Reset:
         ResetToIdle()
@@ -1349,23 +1434,25 @@ Reset:
     End Sub
 
     Public Sub PauseDispensing()
-        SetState("Pause")
-        m_Tri.SetMachinePause()
-        ChangeButtonState("Paused")
-        LabelMessage("Dispensing Pause!")
-        If VolumeCalibrationRunning = True Then MyVolumeCalibrationSettings.VolumeCalibrationState = "Paused"
-        If ShouldLog() Then Form_Service.LogEventInSPCReport("Pause")
+        If WasStart() Or IsRunning() Or WasRunning() Then
+            SetState("Pause")
+            m_Tri.SetMachinePause()
+            ChangeButtonState("Paused")
+            LabelMessage("Dispensing Pause!")
+            If VolumeCalibrationRunning = True Then MyVolumeCalibrationSettings.VolumeCalibrationState = "Paused"
+            If ShouldLog() Then Form_Service.LogEventInSPCReport("Pause")
+        End If
     End Sub
 
     Public Sub StopDispensing()
         'only apply STOP DISPENSING if we started a dispensing run. otherwise, if previous machine state was not start i.e. homing then ignore.
-        If WasStart() Or WasRunning() Then
+        If WasStart() Or WasRunning() Or IsRunning() Then
             SetState("Stop")
             m_Tri.TrioStop()
             If Not ThreadExecution Is Nothing Then ThreadExecution.Abort()
             If VolumeCalibrationRunning = True Then MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped"
             VolumeCalibrationRunning = False
-            LabelMessage("Dispensing Stop! Moving to Parking Position...")
+            LabelMessage("Dispensing Stop! Moving to Parking Position")
             If Not WasStart() Then
                 LockMovementButtons()
                 TravelToParkPosition()
@@ -1383,7 +1470,7 @@ Reset:
         ChangeButtonState("Running")
         m_Tri.SetMachineRun()
         If ShouldLog() Then Form_Service.LogEventInSPCReport("Resume")
-        LabelMessage("Dispensing Resume..")
+        LabelMessage("Dispensing Resume")
         SetState("Run")
     End Sub
 

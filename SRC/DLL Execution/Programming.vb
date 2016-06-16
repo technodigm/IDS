@@ -256,6 +256,13 @@ Public Class FormProgramming
         Me.TBBMeasure = New System.Windows.Forms.ToolBarButton
         Me.TBBDotArray = New System.Windows.Forms.ToolBarButton
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ButtonClean = New System.Windows.Forms.Button
+        Me.ButtonHome = New System.Windows.Forms.Button
+        Me.ButtonCalibrate = New System.Windows.Forms.Button
+        Me.btStop = New System.Windows.Forms.Button
+        Me.imageListProcessBtn = New System.Windows.Forms.ImageList(Me.components)
+        Me.btPause = New System.Windows.Forms.Button
+        Me.btStart = New System.Windows.Forms.Button
         Me.ImageListYesNo = New System.Windows.Forms.ImageList(Me.components)
         Me.CBExpandSpreadsheet = New System.Windows.Forms.CheckBox
         Me.NeedleMode = New System.Windows.Forms.RadioButton
@@ -266,8 +273,6 @@ Public Class FormProgramming
         Me.TBBSwitch = New System.Windows.Forms.ToolBarButton
         Me.TBBEdit = New System.Windows.Forms.ToolBarButton
         Me.ImageListOper = New System.Windows.Forms.ImageList(Me.components)
-        Me.ButtonClean = New System.Windows.Forms.Button
-        Me.ButtonHome = New System.Windows.Forms.Button
         Me.ImageListMultiField = New System.Windows.Forms.ImageList(Me.components)
         Me.NeedleContextMenu = New System.Windows.Forms.ContextMenu
         Me.MenuItem81 = New System.Windows.Forms.MenuItem
@@ -291,15 +296,10 @@ Public Class FormProgramming
         Me.pbRedLight = New System.Windows.Forms.PictureBox
         Me.ButtonToggleMode = New System.Windows.Forms.Button
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
-        Me.ButtonCalibrate = New System.Windows.Forms.Button
         Me.TowerLightImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.OkCancelImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.gbTool = New System.Windows.Forms.GroupBox
         Me.gbProcessControl = New System.Windows.Forms.GroupBox
-        Me.btStop = New System.Windows.Forms.Button
-        Me.imageListProcessBtn = New System.Windows.Forms.ImageList(Me.components)
-        Me.btPause = New System.Windows.Forms.Button
-        Me.btStart = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.gbProcess = New System.Windows.Forms.GroupBox
         Me.btExit = New System.Windows.Forms.Button
@@ -657,7 +657,7 @@ Public Class FormProgramming
         Me.ReferenceCommandBlock.DropDownArrows = True
         Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 24)
+        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 32)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
         Me.ReferenceCommandBlock.ShowToolTips = True
         Me.ReferenceCommandBlock.Size = New System.Drawing.Size(128, 48)
@@ -690,7 +690,7 @@ Public Class FormProgramming
         Me.ElementsCommandBlock.DropDownArrows = True
         Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 24)
+        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 32)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
         Me.ElementsCommandBlock.ShowToolTips = True
         Me.ElementsCommandBlock.Size = New System.Drawing.Size(888, 48)
@@ -822,6 +822,90 @@ Public Class FormProgramming
         Me.TBBDotArray.Text = "    DotArray"
         Me.TBBDotArray.ToolTipText = "Dot Array"
         '
+        'ButtonClean
+        '
+        Me.ButtonClean.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonClean.ImageList = Me.ImageListGeneralTools
+        Me.ButtonClean.Location = New System.Drawing.Point(125, 16)
+        Me.ButtonClean.Name = "ButtonClean"
+        Me.ButtonClean.Size = New System.Drawing.Size(94, 80)
+        Me.ButtonClean.TabIndex = 58
+        Me.ButtonClean.Text = "Clean On"
+        Me.ToolTip1.SetToolTip(Me.ButtonClean, "Move to clean position and clean the needle")
+        '
+        'ButtonHome
+        '
+        Me.ButtonHome.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonHome.ImageList = Me.ImageListGeneralTools
+        Me.ButtonHome.Location = New System.Drawing.Point(333, 16)
+        Me.ButtonHome.Name = "ButtonHome"
+        Me.ButtonHome.Size = New System.Drawing.Size(94, 80)
+        Me.ButtonHome.TabIndex = 53
+        Me.ButtonHome.Text = "Do Homing"
+        Me.ToolTip1.SetToolTip(Me.ButtonHome, "XYZ homing")
+        '
+        'ButtonCalibrate
+        '
+        Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonCalibrate.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonCalibrate.ImageList = Me.ImageListGeneralTools
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(229, 16)
+        Me.ButtonCalibrate.Name = "ButtonCalibrate"
+        Me.ButtonCalibrate.Size = New System.Drawing.Size(94, 80)
+        Me.ButtonCalibrate.TabIndex = 57
+        Me.ButtonCalibrate.Text = "Calibrate Needle"
+        Me.ToolTip1.SetToolTip(Me.ButtonCalibrate, "Calibrate needle after changed syringe")
+        '
+        'btStop
+        '
+        Me.btStop.BackColor = System.Drawing.SystemColors.Control
+        Me.btStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btStop.ImageIndex = 2
+        Me.btStop.ImageList = Me.imageListProcessBtn
+        Me.btStop.Location = New System.Drawing.Point(336, 88)
+        Me.btStop.Name = "btStop"
+        Me.btStop.Size = New System.Drawing.Size(84, 80)
+        Me.btStop.TabIndex = 66
+        Me.btStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.btStop, "Stop the process")
+        '
+        'imageListProcessBtn
+        '
+        Me.imageListProcessBtn.ImageSize = New System.Drawing.Size(64, 64)
+        Me.imageListProcessBtn.ImageStream = CType(resources.GetObject("imageListProcessBtn.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imageListProcessBtn.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'btPause
+        '
+        Me.btPause.BackColor = System.Drawing.SystemColors.Control
+        Me.btPause.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btPause.ImageIndex = 1
+        Me.btPause.ImageList = Me.imageListProcessBtn
+        Me.btPause.Location = New System.Drawing.Point(232, 88)
+        Me.btPause.Name = "btPause"
+        Me.btPause.Size = New System.Drawing.Size(84, 80)
+        Me.btPause.TabIndex = 65
+        Me.btPause.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.btPause, "Pause the process")
+        '
+        'btStart
+        '
+        Me.btStart.BackColor = System.Drawing.SystemColors.Control
+        Me.btStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btStart.ImageIndex = 0
+        Me.btStart.ImageList = Me.imageListProcessBtn
+        Me.btStart.Location = New System.Drawing.Point(128, 88)
+        Me.btStart.Name = "btStart"
+        Me.btStart.Size = New System.Drawing.Size(84, 80)
+        Me.btStart.TabIndex = 59
+        Me.btStart.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ToolTip1.SetToolTip(Me.btStart, "Start the process")
+        '
         'ImageListYesNo
         '
         Me.ImageListYesNo.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
@@ -906,32 +990,6 @@ Public Class FormProgramming
         Me.ImageListOper.ImageSize = New System.Drawing.Size(64, 64)
         Me.ImageListOper.ImageStream = CType(resources.GetObject("ImageListOper.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageListOper.TransparentColor = System.Drawing.Color.Transparent
-        '
-        'ButtonClean
-        '
-        Me.ButtonClean.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonClean.ImageList = Me.ImageListGeneralTools
-        Me.ButtonClean.Location = New System.Drawing.Point(125, 16)
-        Me.ButtonClean.Name = "ButtonClean"
-        Me.ButtonClean.Size = New System.Drawing.Size(94, 80)
-        Me.ButtonClean.TabIndex = 58
-        Me.ButtonClean.Text = "Clean On"
-        Me.ToolTip1.SetToolTip(Me.ButtonClean, "Move to clean position and clean the needle")
-        '
-        'ButtonHome
-        '
-        Me.ButtonHome.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonHome.ImageList = Me.ImageListGeneralTools
-        Me.ButtonHome.Location = New System.Drawing.Point(333, 16)
-        Me.ButtonHome.Name = "ButtonHome"
-        Me.ButtonHome.Size = New System.Drawing.Size(94, 80)
-        Me.ButtonHome.TabIndex = 53
-        Me.ButtonHome.Text = "Do Homing"
-        Me.ToolTip1.SetToolTip(Me.ButtonHome, "XYZ homing")
         '
         'ImageListMultiField
         '
@@ -1077,19 +1135,6 @@ Public Class FormProgramming
         Me.PanelToBeAdded.TabIndex = 130
         Me.PanelToBeAdded.Visible = False
         '
-        'ButtonCalibrate
-        '
-        Me.ButtonCalibrate.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonCalibrate.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonCalibrate.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonCalibrate.ImageList = Me.ImageListGeneralTools
-        Me.ButtonCalibrate.Location = New System.Drawing.Point(229, 16)
-        Me.ButtonCalibrate.Name = "ButtonCalibrate"
-        Me.ButtonCalibrate.Size = New System.Drawing.Size(94, 80)
-        Me.ButtonCalibrate.TabIndex = 57
-        Me.ButtonCalibrate.Text = "Calibrate Needle"
-        Me.ToolTip1.SetToolTip(Me.ButtonCalibrate, "Calibrate needle after changed syringe")
-        '
         'TowerLightImageList
         '
         Me.TowerLightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
@@ -1128,51 +1173,6 @@ Public Class FormProgramming
         Me.gbProcessControl.TabIndex = 132
         Me.gbProcessControl.TabStop = False
         Me.gbProcessControl.Text = "Process:"
-        '
-        'btStop
-        '
-        Me.btStop.BackColor = System.Drawing.SystemColors.Control
-        Me.btStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btStop.ImageIndex = 2
-        Me.btStop.ImageList = Me.imageListProcessBtn
-        Me.btStop.Location = New System.Drawing.Point(336, 88)
-        Me.btStop.Name = "btStop"
-        Me.btStop.Size = New System.Drawing.Size(84, 80)
-        Me.btStop.TabIndex = 66
-        Me.btStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.ToolTip1.SetToolTip(Me.btStop, "Stop the process")
-        '
-        'imageListProcessBtn
-        '
-        Me.imageListProcessBtn.ImageSize = New System.Drawing.Size(64, 64)
-        Me.imageListProcessBtn.ImageStream = CType(resources.GetObject("imageListProcessBtn.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imageListProcessBtn.TransparentColor = System.Drawing.Color.Transparent
-        '
-        'btPause
-        '
-        Me.btPause.BackColor = System.Drawing.SystemColors.Control
-        Me.btPause.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btPause.ImageIndex = 1
-        Me.btPause.ImageList = Me.imageListProcessBtn
-        Me.btPause.Location = New System.Drawing.Point(232, 88)
-        Me.btPause.Name = "btPause"
-        Me.btPause.Size = New System.Drawing.Size(84, 80)
-        Me.btPause.TabIndex = 65
-        Me.btPause.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.ToolTip1.SetToolTip(Me.btPause, "Pause the process")
-        '
-        'btStart
-        '
-        Me.btStart.BackColor = System.Drawing.SystemColors.Control
-        Me.btStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btStart.ImageIndex = 0
-        Me.btStart.ImageList = Me.imageListProcessBtn
-        Me.btStart.Location = New System.Drawing.Point(128, 88)
-        Me.btStart.Name = "btStart"
-        Me.btStart.Size = New System.Drawing.Size(84, 80)
-        Me.btStart.TabIndex = 59
-        Me.btStart.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.ToolTip1.SetToolTip(Me.btStart, "Start the process")
         '
         'GroupBox1
         '
@@ -1288,7 +1288,7 @@ Public Class FormProgramming
     End Sub
 
     Private Sub FormProgramming_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'KeyboardControl.GainControls()
+        KeyboardControl.GainControls()
         Init()
         While isInited = False
             Application.DoEvents()
@@ -1379,45 +1379,6 @@ Public Class FormProgramming
     End Sub
 
     Private Sub FormProgramming_Closed(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-        Dim response As MsgBoxResult
-        If (m_NewProjectCreated) And (SaveProgram.UnSave = True) Then
-            response = MyMsgBox("Do you want to save the file before exit?", MsgBoxStyle.YesNo)
-            If response = MsgBoxResult.Yes Then
-                Local_SaveFile()
-            End If
-            SaveProgram.UnSave = False
-        End If
-        isPress = False
-        'error handling
-        Form_Service.ResetEventCode()
-
-        MoveZToSafePosition() 'yy to prevent the Syringe stop at unsafe position
-        'motion controller
-        m_Tri.TrioStop()
-        m_Tri.m_TriCtrl.Op(0)
-        m_Tri.RunTrioMotionProgram("EXITIDS")
-        m_Tri.TurnOff("Material Air")
-
-        'timers stop
-        IDS.StopErrorCheck()
-        IOCheck.Stop()
-        TimerForUpdate.Stop()
-        MouseTimer.Dispose()
-        ThreadMonitor.Abort()
-        ThreadExecutor.Abort()
-
-        isInited = False
-        InitThread.Abort()
-
-        'hardware shutdown
-        OffTowerLamp()
-        UnlockDoor()
-
-        'gui
-        m_Tri.Disconnect_Controller()
-        KeyboardControl.ReleaseControls()
-        IDS.Data.SaveLocalData()
-        IDS.FrmExecution.Hide()
 
     End Sub
 
@@ -1830,9 +1791,8 @@ Public Class FormProgramming
             If (Production.TextBoxFilename.Text <> "") Then
                 Return -1
             End If
-
             Production.TextBoxFilename.Text = ""
-            Production.RichTextBoxNote.Text = ""
+            'Production.RichTextBoxNote.Text = ""
             Return -1
         End If
 
@@ -1846,11 +1806,13 @@ Public Class FormProgramming
 
         Try
             'IDS.StopErrorCheck() 'kr?
+            Production.LogScreen("Program file: " & file & " selected")
             AxSpreadsheetProgramming.Caption = file
             m_Execution.m_Pattern.LoadTxtPatternPara(AxSpreadsheetProgramming, file, 0, 0, False) ' True)
             gPatternFileName = m_Execution.m_File.FolderWithNameFromFileName(file)
             gFidFileName = gPatternFileName
             m_Row = 2
+            Production.LogScreen("Reading program file")
             IDS.Data.OpenPathFileData(gPatternFileName + ".pat")
             SystemSetupDataRetrieve(SettingsMode.LocalSettings) 'SJ add 
             'IDS.StartErrorCheck() 'kr?
@@ -1860,8 +1822,9 @@ Public Class FormProgramming
             AxSpreadsheetProgramming.Worksheets("Main").Activate()
             m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
             'Error checking for all the Spreadsheet
+            Production.LogScreen("Checking program file content")
             If m_Execution.m_Pattern.m_ErrorChk.CheckAllError(AxSpreadsheetProgramming, ErrorSubSheet) <> 0 Then
-
+                Production.LogScreen("Program file consists of invalid data")
                 Rtn = MyMsgBox("Click Ok to flush all the data", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Error found, flush all the data or not?")
                 If MsgBoxResult.Yes = Rtn Then
                     FlushSpreadsheet()
@@ -1905,7 +1868,7 @@ Public Class FormProgramming
         End If
         DialogPreview.ShowDialog()
         Dim file = DialogPreview.Path
-        LabelMessage("Opening file.....")
+        LabelMessage("Opening file")
         If Nothing = file Then
             LabelMessage("")
             Return
@@ -1949,7 +1912,7 @@ Public Class FormProgramming
 
             'Error checking for all the Spreadsheet
             If 0 <> m_Execution.m_Pattern.m_ErrorChk.CheckAllError(AxSpreadsheetProgramming, ErrorSubSheet) Then
-                LabelMessage("Failed to open file.....")
+                LabelMessage("Failed to open file")
                 Rtn = MyMsgBox("Click Ok to flush all the data", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Error found, flush all the data or not?")
                 If MsgBoxResult.Yes = Rtn Then
                     FlushSpreadsheet()
@@ -2024,7 +1987,7 @@ Public Class FormProgramming
                 Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
                 SelectCell(m_Row + 1, 1)
                 IDS.Data.SaveLocalData()
-                LabelMessage("Saving File......")
+                LabelMessage("Saving File")
                 m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
                 LabelMessage("File Saved!")
                 Me.Cursor = System.Windows.Forms.Cursors.Default
@@ -2063,7 +2026,7 @@ Public Class FormProgramming
                         '   Note:   May have better method.                                                             '
                         '           Need to test more.                                                                  '
                         SelectCell(m_Row + 1, 1)
-                        LabelMessage("Saving New File......")
+                        LabelMessage("Saving New File")
                         Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
                         m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
                         'lim
@@ -2194,7 +2157,7 @@ Public Class FormProgramming
                 End If
 
                 gFidFileName = gPatternFileName
-                LabelMessage("Saving File......")
+                LabelMessage("Saving File")
                 Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
                 m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
 
@@ -2214,6 +2177,7 @@ Public Class FormProgramming
     End Sub
 
     Private Sub MenuFileExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuFileExit.Click
+        ClearBeforeClose()
         Close()
     End Sub
 
@@ -3212,10 +3176,10 @@ Public Class FormProgramming
         SysToHard(Pos, Pos)
 
         If type = "Needle" And NeedleMode.Checked Then
-            Pos(0) = Pos(0) - gLeftNeedleOffs(0) 'calibration
-            Pos(1) = Pos(1) - gLeftNeedleOffs(1)
+            Pos(0) = Pos(0) - IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X 'gLeftNeedleOffs(0) 'calibration
+            Pos(1) = Pos(1) - IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y 'gLeftNeedleOffs(1)
             'Pos(2) = Pos(2) + gLeftNeedleOffs(2) 'yy
-            Pos(2) = Pos(2) + gLeftNeedleOffs(2)
+            Pos(2) = Pos(2) + IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z 'gLeftNeedleOffs(2)
         End If
 
         If Not m_Tri.Move_Z(SafePosition) Then Exit Sub
@@ -3478,7 +3442,7 @@ Public Class FormProgramming
             SetCellValue(row, colum, Nothing)
             Return
         End If
-        LabelMessage("Editing......")
+        LabelMessage("Editing")
         Dim m_ItemLUT As New CIDSItemsLUT
         m_ItemLUT.Cmd2Index(command.ToUpper)
         'This is to check if data insert is allowed for this cell of the particular command.
@@ -4006,7 +3970,7 @@ Public Class FormProgramming
             DisableEditingToolbar()
             DisableTeachingButtons()
 
-            If m_Column < gTravelSpeedColumn Or m_Column > gSprialColumn Or m_rowCount < 1 Then
+            If (m_Column < gTravelSpeedColumn And (m_Column <> gPos1ZColumn And m_Column <> gPos2ZColumn And m_Column <> gPos3ZColumn)) Or m_Column > gSprialColumn Or m_rowCount < 1 Then
                 Exit Sub
             End If
             If GetCellValue(m_Row, gCommandNameColumn) = "" Or CStr(GetCellValue(m_Row, m_Column)) = "" Then
@@ -4014,31 +3978,43 @@ Public Class FormProgramming
             End If
 
             Dim response As MsgBoxResult
-            response = MyMsgBox("Update the column based on the first valid value?", MsgBoxStyle.YesNo)
-
-            If response = MsgBoxResult.Yes Then
-                If m_rowCount > 1 Then
-                    Spreadsheet_UpdateColumn(m_Row, m_Column, m_rowCount, AxSpreadsheetProgramming)
-                Else
-                    MyMsgBox("Update column is not allowed", MsgBoxStyle.OKOnly)
+            If m_Column = gPos1ZColumn Or m_Column = gPos2ZColumn Or m_Column = gPos3ZColumn Then 'Use current z position to update all z column
+                response = MyMsgBox("Update the Z column with current z position?", MsgBoxStyle.YesNo)
+                If response = MsgBoxResult.Yes Then
+                    If m_rowCount > 1 Then
+                        m_Tri.GetIDSState() 'make sure z position is updated
+                        Dim Spos As Double = m_Tri.ZPosition() + -IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + Programming.m_BoardnRefBlkDist 'yy
+                        Spreadsheet_UpdateZColumn(m_Row, m_Column, m_rowCount, AxSpreadsheetProgramming, Spos)
+                    Else
+                        MyMsgBox("Update column is not allowed", MsgBoxStyle.OKOnly)
+                    End If
+                End If
+            Else
+                response = MyMsgBox("Update the column based on the first valid value?", MsgBoxStyle.YesNo)
+                If response = MsgBoxResult.Yes Then
+                    If m_rowCount > 1 Then
+                        Spreadsheet_UpdateColumn(m_Row, m_Column, m_rowCount, AxSpreadsheetProgramming)
+                    Else
+                        MyMsgBox("Update column is not allowed", MsgBoxStyle.OKOnly)
+                    End If
                 End If
             End If
             'when the header of row clicked
         ElseIf 1 = m_rowCount Then
-            m_Execution.m_Pattern.Spreadsheet_GetRowLocalReference(AxSpreadsheetProgramming, m_Row, RefPos)
-            Spreadsheet_SetMotionRef(RefPos)
+        m_Execution.m_Pattern.Spreadsheet_GetRowLocalReference(AxSpreadsheetProgramming, m_Row, RefPos)
+        Spreadsheet_SetMotionRef(RefPos)
 
-            If 3 = m_columnCount Then
-                If m_Execution.m_Pattern.m_ErrorChk.CheckValidPtXY(CmdStr) Then
+        If 3 = m_columnCount Then
+            If m_Execution.m_Pattern.m_ErrorChk.CheckValidPtXY(CmdStr) Then
 
-                End If
             End If
+        End If
         Else
-            m_Execution.m_Pattern.Spreadsheet_GetRowLocalReference(AxSpreadsheetProgramming, m_Row, RefPos)
-            Spreadsheet_SetMotionRef(RefPos)
+        m_Execution.m_Pattern.Spreadsheet_GetRowLocalReference(AxSpreadsheetProgramming, m_Row, RefPos)
+        Spreadsheet_SetMotionRef(RefPos)
 
-            DisableEditingToolbar()
-            DisableTeachingButtons()
+        DisableEditingToolbar()
+        DisableTeachingButtons()
         End If
         TraceGCCollect()
     End Sub
@@ -4272,6 +4248,37 @@ Public Class FormProgramming
                 m_Execution.m_ItemLUT.Cmd2Index(StrTmp.ToUpper)
                 If m_Execution.m_ItemLUT.GetFlag(SelectedColumn) Then
                     SetCellValue(i, SelectedColumn, GetCellValue(startRow, SelectedColumn))
+                End If
+
+                emptyLinCount = 0
+            End If
+            i = i + 1
+        Loop Until emptyLinCount > 20 Or i > m_rowCount + startRow - 1
+        TraceGCCollect()
+    End Sub
+
+    'Update one selected column in spreadsheet                                               
+    '   AxSpreadsheet:      ActiveX spreadsheet                                                    
+    '   startRow:           Starting rows
+    '   m_rowCount:         Rows to be updated  
+    '   SelectedColumn:     Selected column 
+    Private Sub Spreadsheet_UpdateZColumn(ByVal startRow As Integer, ByVal SelectedColumn As Integer, _
+    ByVal m_rowCount As Integer, ByRef AxSpreadsheet As AxOWC10.AxSpreadsheet, ByVal zPost As Double)
+        Dim emptyLinCount As Integer = 0
+        Dim i, j As Integer
+        Dim StrTmp As String
+        UndoData_Logging(0)
+
+        i = startRow
+        Do
+            StrTmp = GetCellValue(i, gCommandNameColumn)
+            If "" = StrTmp Then
+                emptyLinCount = emptyLinCount + 1
+            Else
+
+                m_Execution.m_ItemLUT.Cmd2Index(StrTmp.ToUpper)
+                If m_Execution.m_ItemLUT.GetFlag(SelectedColumn) Then
+                    SetCellValue(i, SelectedColumn, zPost)
                 End If
 
                 emptyLinCount = 0
@@ -5432,9 +5439,9 @@ Public Class FormProgramming
 
     Private Sub ToolBarYesNo_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles TeachingToolbar.ButtonClick
 
-        offset(0) = gLeftNeedleOffs(0)
-        offset(1) = gLeftNeedleOffs(1)
-        offset(2) = gLeftNeedleOffs(2)
+        offset(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X ' gLeftNeedleOffs(0)
+        offset(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y ' gLeftNeedleOffs(1)
+        offset(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z 'gLeftNeedleOffs(2)
 
         If e.Button Is TeachingToolbar.Buttons(0) Then
             If type = "Move" Or type = "Reference" Then
@@ -5676,8 +5683,12 @@ Public Class FormProgramming
 
         If Programming.ButtonCalibrate.Text = "Set Calibrate" Then
         Else
-            If IsBusy() And Not IsJogging() Then Exit Sub
-            If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then Exit Sub
+            If IsBusy() And Not IsJogging() Then
+                Exit Sub
+            End If
+            If m_Tri.MachineHoming Or m_Tri.MachineRunning Or m_Tri.Stepping Then
+                Exit Sub
+            End If
         End If
 
         'm_keyBoard.Poll()
@@ -5926,6 +5937,7 @@ Public Class FormProgramming
                 VrData(2) = 0.0
 
                 m_Tri.SetTrioMotionValues("Jogging", VrData)
+                m_Tri.StopJogging()
                 isJogON = False
                 If m_EditStateFlag Then
                     'reset to idle without the camera thing
@@ -6369,7 +6381,50 @@ Public Class FormProgramming
     End Sub
 
     Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
+        ClearBeforeClose()
         Me.Close()
+    End Sub
+
+    Private Sub ClearBeforeClose()
+        Dim response As MsgBoxResult
+        If (m_NewProjectCreated) And (SaveProgram.UnSave = True) Then
+            response = MyMsgBox("Do you want to save the file before exit?", MsgBoxStyle.YesNo)
+            If response = MsgBoxResult.Yes Then
+                Local_SaveFile()
+            End If
+            SaveProgram.UnSave = False
+        End If
+        isPress = False
+        'error handling
+        Form_Service.ResetEventCode()
+        m_Tri.StopXYZAxis()
+        'yy to prevent the Syringe stop at unsafe position
+        If (m_Tri.IsHomingDone()) Then
+            LockMovementButtons()
+            TravelToParkPosition()
+        End If
+        'motion controller
+        m_Tri.TrioStop()
+        m_Tri.m_TriCtrl.Op(0)
+        m_Tri.RunTrioMotionProgram("EXITIDS")
+        m_Tri.TurnOff("Material Air")
+        'timers stop
+        IDS.StopErrorCheck()
+        IOCheck.Stop()
+        TimerForUpdate.Stop()
+        MouseTimer.Dispose()
+        ThreadMonitor.Abort()
+        ThreadExecutor.Abort()
+        isInited = False
+        InitThread.Abort()
+        'hardware shutdown
+        OffTowerLamp()
+        UnlockDoor()
+        'gui
+        m_Tri.Disconnect_Controller()
+        KeyboardControl.ReleaseControls()
+        IDS.Data.SaveLocalData()
+        IDS.FrmExecution.Hide()
     End Sub
 
     Private Sub btStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStart.Click

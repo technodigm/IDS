@@ -49,6 +49,9 @@ Public Class NeedleCalibrationSetup1
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSetup1))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.rbRightHead = New System.Windows.Forms.RadioButton
+        Me.rbLeftHead = New System.Windows.Forms.RadioButton
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.ZPosition = New System.Windows.Forms.Label
@@ -60,9 +63,6 @@ Public Class NeedleCalibrationSetup1
         Me.Label9 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.rbLeftHead = New System.Windows.Forms.RadioButton
-        Me.rbRightHead = New System.Windows.Forms.RadioButton
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -86,6 +86,36 @@ Public Class NeedleCalibrationSetup1
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
         Me.PanelToBeAdded.TabIndex = 39
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbRightHead)
+        Me.GroupBox1.Controls.Add(Me.rbLeftHead)
+        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Location = New System.Drawing.Point(108, 464)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(296, 64)
+        Me.GroupBox1.TabIndex = 104
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Current Head :"
+        '
+        'rbRightHead
+        '
+        Me.rbRightHead.Location = New System.Drawing.Point(184, 24)
+        Me.rbRightHead.Name = "rbRightHead"
+        Me.rbRightHead.Size = New System.Drawing.Size(72, 24)
+        Me.rbRightHead.TabIndex = 1
+        Me.rbRightHead.Text = "Right"
+        '
+        'rbLeftHead
+        '
+        Me.rbLeftHead.Checked = True
+        Me.rbLeftHead.Location = New System.Drawing.Point(40, 24)
+        Me.rbLeftHead.Name = "rbLeftHead"
+        Me.rbLeftHead.Size = New System.Drawing.Size(64, 24)
+        Me.rbLeftHead.TabIndex = 0
+        Me.rbLeftHead.TabStop = True
+        Me.rbLeftHead.Text = "Left"
+        '
         'TextBox1
         '
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -98,12 +128,12 @@ Public Class NeedleCalibrationSetup1
         Me.TextBox1.TabIndex = 103
         Me.TextBox1.Text = "Info:                                                                 First, make" & _
         " sure the syringe is not tighten up. Press and hold Control Key on Keyboard and " & _
-        "use the mouse's scrollball to move the XY axes to the hardware reference point. " & _
-        "Alternatively, click the Move To Current Reference Point button to move the need" & _
-        "le to the previously saved reference point position. After that, move down the z" & _
-        " stage before touching the reference point. Tighten the syringe and continue wit" & _
-        "h the fine adjustment to make sure the needle tip is aligned to reference point." & _
-        " Do not forget to save the reference point position. "
+        "use the mouse's scroll ball to move the syringe's needle to the hardware referen" & _
+        "ce point. Alternatively, click the Move To Current Reference Point button to mov" & _
+        "e the needle to the previously saved reference point position. After that, move " & _
+        "down the z stage before touching the reference point. Tighten the syringe and co" & _
+        "ntinue with the fine adjustment to make sure the needle tip is aligned to refere" & _
+        "nce point. Do not forget to save the reference point position. "
         '
         'Label4
         '
@@ -204,36 +234,6 @@ Public Class NeedleCalibrationSetup1
         Me.Button1.TabIndex = 62
         Me.Button1.Text = "Move To Current Reference Point"
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.rbRightHead)
-        Me.GroupBox1.Controls.Add(Me.rbLeftHead)
-        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(108, 464)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(296, 64)
-        Me.GroupBox1.TabIndex = 104
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Current Head :"
-        '
-        'rbLeftHead
-        '
-        Me.rbLeftHead.Checked = True
-        Me.rbLeftHead.Location = New System.Drawing.Point(40, 24)
-        Me.rbLeftHead.Name = "rbLeftHead"
-        Me.rbLeftHead.Size = New System.Drawing.Size(64, 24)
-        Me.rbLeftHead.TabIndex = 0
-        Me.rbLeftHead.TabStop = True
-        Me.rbLeftHead.Text = "Left"
-        '
-        'rbRightHead
-        '
-        Me.rbRightHead.Location = New System.Drawing.Point(184, 24)
-        Me.rbRightHead.Name = "rbRightHead"
-        Me.rbRightHead.Size = New System.Drawing.Size(72, 24)
-        Me.rbRightHead.TabIndex = 1
-        Me.rbRightHead.Text = "Right"
-        '
         'NeedleCalibrationSetup1
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -280,6 +280,20 @@ Public Class NeedleCalibrationSetup1
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Dim fm As InfoForm = New InfoForm
+        fm.Size = New System.Drawing.Size(584, 450)
+        fm.SetMessage("Warning:")
+        fm.SetMessage("Please make sure syringe is not tighthen!!")
+        fm.AddNewLine(" ")
+        fm.AddNewLine("There is a chance that the syringe holder can crash with the calibration stage if of the following:")
+        fm.AddNewLine(" ")
+        fm.AddNewLine("#1: If existing syringe holder was replaced with other syringe holder with different size or type.")
+        fm.AddNewLine("#2: If existing syringe holder was reinstalled at different position.")
+        fm.AddNewLine(" ")
+        fm.AddNewLine("Click OK to contine, otherwise click Cancel to abort the process.")
+        If fm.ShowDialog() = DialogResult.Cancel Then
+            Return
+        End If
         Dim pos(1) As Double
         SetServiceSpeed()
         If rbLeftHead.Checked Then

@@ -238,10 +238,10 @@ Public Class NeedleCalibrationSettings
         Me.TextBox1.TabIndex = 104
         Me.TextBox1.Text = "Info:                                                                 First, make" & _
         " sure the syringe is not tighten. Press and hold Control Key on Keyboard and use" & _
-        " the mouse's scrolball to move the syringe's needle to the hardware reference po" & _
-        "int. After that, move down the z stage before touching the reference point. Tigh" & _
-        "ten the syringe and continue with the fine adjustment to make sure the needle ti" & _
-        "p is aligned to reference point. Do not forget to save the calibration data. "
+        " the mouse's scroll ball to move the syringe's needle to the hardware reference " & _
+        "point. After that, move down the z stage before touching the reference point. Ti" & _
+        "ghten the syringe and continue with the fine adjustment to make sure the needle " & _
+        "tip is aligned to reference point. Do not forget to save the calibration data. "
         '
         'Label21
         '
@@ -357,6 +357,20 @@ Public Class NeedleCalibrationSettings
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Dim fm As InfoForm = New InfoForm
+        fm.Size = New System.Drawing.Size(584, 450)
+        fm.SetMessage("Warning:")
+        fm.SetMessage("Please make sure syringe is not tighthen!!")
+        fm.AddNewLine(" ")
+        fm.AddNewLine("There is a chance that the syringe holder can crash with the calibration stage if of the following:")
+        fm.AddNewLine(" ")
+        fm.AddNewLine("#1: If existing syringe holder was replaced with other syringe holder with different size or type.")
+        fm.AddNewLine("#2: If existing syringe holder was reinstalled at different position.")
+        fm.AddNewLine(" ")
+        fm.AddNewLine("Click OK to contine, otherwise click Cancel to abort the process.")
+        If fm.ShowDialog() = DialogResult.Cancel Then
+            Return
+        End If
         Dim pos(1) As Double
         SetServiceSpeed()
         If rbLeftHead.Checked Then
@@ -423,5 +437,13 @@ Public Class NeedleCalibrationSettings
                 ZOffset.Text = .NeedleCalibrationPosition.Z
             End With
         End If
+    End Sub
+
+    Private Sub BtMoveToCalibratorPost_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtMoveToCalibratorPost.DoubleClick
+
+    End Sub
+
+    Private Sub NeedleCalibrationSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
     End Sub
 End Class

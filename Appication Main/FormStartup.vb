@@ -201,7 +201,7 @@ Public Class FormStartup
     End Sub
 
     Private Sub FormStartup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'KeyboardControl.GainControls()
+        KeyboardControl.GainControls()
         'Taskbar.ShowTaskBar(False)
         'formlg.StartPosition = FormStartPosition.CenterScreen
         'formlg.Show()

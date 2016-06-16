@@ -142,7 +142,7 @@ Public Class GantrySettings
         Me.GroupBox6.Controls.Add(Me.StationPosition)
         Me.GroupBox6.Controls.Add(Me.MoveButton)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
-        Me.GroupBox6.Location = New System.Drawing.Point(8, 56)
+        Me.GroupBox6.Location = New System.Drawing.Point(8, 272)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
         Me.GroupBox6.TabIndex = 69
@@ -290,7 +290,7 @@ Public Class GantrySettings
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 392)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 48)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(496, 208)
         Me.GroupBox1.TabIndex = 69

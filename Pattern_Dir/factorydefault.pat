@@ -6,16 +6,29 @@
 +IDSData.Admin.Folder.DataPath =C:\IDS\BIN
 6IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir
 )IDSData.Admin.Folder.FileExtension =pat
-IDSData.ParameterID.GroupID =
+6IDSData.ParameterID.GroupID =Application_Maintenance
 .IDSData.ParameterID.RecordID =FactoryDefault
- IDSData.Admin.User.ContactNo =
-!IDSData.Admin.User.Department =
+,IDSData.Admin.User.ContactNo =6493 3826‎
+$IDSData.Admin.User.Department =R&D
 IDSData.Admin.User.ID =a
-IDSData.Admin.User.Name =
+&IDSData.Admin.User.Name =Techno-Digm
 IDSData.Admin.User.PassWord =
 +IDSData.Admin.User.RunApplication =System
 6IDSData.Admin.User.Group.ID =Application_Maintenance
-#IDSData.Admin.User.Group.Remark =
+$IDSData.Admin.User.Group.Remark =1
+8IDSData.Admin.User.Group.PrivilegeArray (0) =Dispenser
+7IDSData.Admin.User.Group.PrivilegeArray (1) =Conveyor
+@IDSData.Admin.User.Group.PrivilegeArray (2) =EventFailedAction
+;IDSData.Admin.User.Group.PrivilegeArray (3) =HeightSensor
+@IDSData.Admin.User.Group.PrivilegeArray (4) =NeedleCalibration
+@IDSData.Admin.User.Group.PrivilegeArray (5) =VolumeCalibration
+9IDSData.Admin.User.Group.PrivilegeArray (6) =Programmer
+9IDSData.Admin.User.Group.PrivilegeArray (7) =SPCLogging
+=IDSData.Admin.User.Group.PrivilegeArray (8) =StationSetting
+<IDSData.Admin.User.Group.SystemHardwareArray (0) =Conveyor
+@IDSData.Admin.User.Group.SystemHardwareArray (1) =HeightSensor
+EIDSData.Admin.User.Group.SystemHardwareArray (2) =NeedleCalibration
+EIDSData.Admin.User.Group.SystemHardwareArray (3) =VolumeCalibration
 <IDSData.Admin.ALLPrivileges.IDArray (0) =VolumeCalibration
 <IDSData.Admin.ALLPrivileges.IDArray (1) =ThermalController
 9IDSData.Admin.ALLPrivileges.IDArray (2) =StationSetting
@@ -42,6 +55,9 @@
 ;IDSData.Admin.ALLPrivileges.TypeArray (10) =Setup Process
 ;IDSData.Admin.ALLPrivileges.TypeArray (11) =Setup Process
 :IDSData.Admin.ALLPrivileges.TypeArray (12) =Setup System
+
+~[Machine]
+-IDSData.Machine.EquipmentID =QuickEpoxy1122
 
 ~[CAMERA]
 0IDSData.Hardware.Camera.CalibrationFlag =False
@@ -206,9 +222,9 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 3IDSData.Hardware.Gantry.GraphicDisplayXYRB.Y =100
 3IDSData.Hardware.Gantry.MaxAccelerationLimit =160
 /IDSData.Hardware.Gantry.MaxSpeedLimit =179.02
-2IDSData.Hardware.Gantry.ParkPosition.X =-187.396
-2IDSData.Hardware.Gantry.ParkPosition.Y =-382.395
-+IDSData.Hardware.Gantry.ParkPosition.Z =0
+/IDSData.Hardware.Gantry.ParkPosition.X =36.88
+:IDSData.Hardware.Gantry.ParkPosition.Y =7.60799999999998
+/IDSData.Hardware.Gantry.ParkPosition.Z =0.002
 3IDSData.Hardware.Gantry.PurgePosition.X =-181.122
 3IDSData.Hardware.Gantry.PurgePosition.Y =-400.518
 2IDSData.Hardware.Gantry.PurgePosition.Z =-64.999
@@ -267,9 +283,9 @@ GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.78233137829912
 2IDSData.Hardware.Needle.Left.HeightApproach =-80
 1IDSData.Hardware.Needle.Left.HeightClearance =0
 /IDSData.Hardware.Needle.Left.HeightRetract =0
-MIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =0.248999999999995
-NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-0.104000000000042
-AIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =0.116
+BIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.X =-3.669
+NIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Y =-0.523000000000025
+AIDSData.Hardware.Needle.Left.NeedleCalibrationPosition.Z =0.128
 <IDSData.Hardware.Needle.Left.TouchSensorZPosition =-80.093
 5IDSData.Hardware.Needle.Left.ArrayDotPos1.X =66.189
 7IDSData.Hardware.Needle.Left.ArrayDotPos1.Y =-365.319

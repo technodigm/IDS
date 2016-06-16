@@ -400,14 +400,14 @@ Public Class HardwareCommunicationSetup
 
     Public Sub RefreshDisplay()
         'WeighingScaleButton.Visible = MySetup.CheckBoxVolume.Checked 'yy
-        HeaterButton.Visible = MySetup.CheckBoxHeater.Checked
-        LifterBox.Visible = MySetup.CheckBoxLifter.Checked
+        'HeaterButton.Visible = MySetup.CheckBoxHeater.Checked
+        'LifterBox.Visible = MySetup.CheckBoxLifter.Checked
     End Sub
 
     Public Sub UpdateStatus()
-        WeighingScaleStatus.Visible = MySetup.CheckBoxVolume.Checked
-        HeaterStatus.Visible = MySetup.CheckBoxHeater.Checked
-        LifterStatus.Visible = MySetup.CheckBoxLifter.Checked
+        'WeighingScaleStatus.Visible = MySetup.CheckBoxVolume.Checked
+        'HeaterStatus.Visible = MySetup.CheckBoxHeater.Checked
+        'LifterStatus.Visible = MySetup.CheckBoxLifter.Checked
     End Sub
 
     Public Sub ChangeStatus()

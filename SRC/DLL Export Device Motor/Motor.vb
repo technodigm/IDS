@@ -422,7 +422,7 @@ Public Class CIDSTrioController
     End Function
 
     'Waiting for reaching demand positions on 3 axes                  '
-    Public Sub WaitForEndOfMove()
+    Public Function WaitForEndOfMove()
         Dim dRemain(3) As Double
         Dim nAxis As Integer
         Dim bWaiting As Boolean
@@ -433,6 +433,8 @@ Public Class CIDSTrioController
             For nAxis = 0 To 2
                 If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
                     m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
+                Else
+                    Return False
                 End If
             Next nAxis
 
@@ -442,7 +444,8 @@ Public Class CIDSTrioController
             bWaiting = (Math.Abs(dRemain(0)) > esp) Or (Math.Abs(dRemain(1)) > esp) Or (Math.Abs(dRemain(2)) > esp)
             ' as long any axis more than 0.05 continue waiting
         End While
-    End Sub
+        Return True
+    End Function
 
     Public Sub WaitForNoError()
         Dim dError(3) As Double
@@ -512,18 +515,24 @@ Public Class CIDSTrioController
         order(0) = 0
         order(1) = 1
         order(2) = 2
-        m_TriCtrl.Base(3, Order)
+        m_TriCtrl.Base(3, order)
     End Sub
     Public Function Move_Z(ByVal Height As Double)
+        WaitForEndOfMove()
+        DoStepXZero()
         WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
-        m_TriCtrl.MoveAbs(1, Height, 2)
+        If Not (m_TriCtrl.MoveAbs(1, Height, 2)) Then
+            Return False
+        End If
         WaitForEndOfMove()
         Return True
     End Function
     Public Function MoveRelative_Z(ByVal Height As Double)
+        WaitForEndOfMove()
+        DoStepXZero()
         WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
@@ -534,10 +543,14 @@ Public Class CIDSTrioController
     End Function
     Public Function Move_XY(ByVal Position() As Double)
         WaitForEndOfMove()
+        DoStepXZero()
+        WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
-        m_TriCtrl.MoveAbs(2, Position, 0)
+        If Not (m_TriCtrl.MoveAbs(2, Position, 0)) Then
+            Return False
+        End If
         WaitForEndOfMove()
         Return True
     End Function
@@ -545,6 +558,8 @@ Public Class CIDSTrioController
         Dim Position(2) As Double
         Position(0) = x
         Position(1) = y
+        WaitForEndOfMove()
+        DoStepXZero()
         WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
@@ -555,6 +570,8 @@ Public Class CIDSTrioController
     End Function
     Public Function MoveRelative_XY(ByVal Position() As Double)
         WaitForEndOfMove()
+        DoStepXZero()
+        WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
@@ -563,6 +580,8 @@ Public Class CIDSTrioController
         Return True
     End Function
     Public Function MoveRelative_XYZ(ByVal Position() As Double)
+        WaitForEndOfMove()
+        DoStepXZero()
         WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
@@ -623,6 +642,15 @@ Public Class CIDSTrioController
         cmdStr = "SPEED AXIS(2)=" & Speed
         m_TriCtrl.Execute(cmdStr)
     End Sub
+
+    Public Sub StopXYZAxis()
+        m_TriCtrl.Cancel(1, 0)
+        m_TriCtrl.Cancel(1, 1)
+        m_TriCtrl.Cancel(1, 2)
+        m_TriCtrl.Cancel(0, 0)
+        m_TriCtrl.Cancel(0, 1)
+        m_TriCtrl.Cancel(0, 2)
+    End Sub
 #End Region
 
 #Region "Get Values"
@@ -676,6 +704,12 @@ Public Class CIDSTrioController
             Loop Until StateContainer(25) = 2
             Return True
         End If
+    End Function
+    Public Function IsHomingDone() As Boolean
+        If StateContainer(25) = 2 Then
+            Return True
+        End If
+        Return False
     End Function
     Public Function VolCalRequested()
         If StateContainer(199) = 1 Then Return True
@@ -876,6 +910,19 @@ Public Class CIDSTrioController
     Public Sub DoStep(ByVal values() As Single)
         m_TriCtrl.SetTable(50, 5, values)
         ResetSteppingFlag()
+    End Sub
+    'This function exist bacause of the bug in trio active x
+    'Everytime after mouse jogging and jogging program runned, the moverel and moveabs
+    'was not working properly, command can be called and return true but the actual axis not moving
+    'and if check the remain in motion perfect, there is always value, so the waitmotiondone is always
+    'waiting for this value to reduce to 0 but this is nv happen
+    Private Sub DoStepXZero()
+        dStepVal(0) = 0
+        dStepVal(1) = gStepCtrlSpeed
+        dStepVal(2) = 0
+        dStepVal(3) = 0
+        dStepVal(4) = 0
+        DoStep(dStepVal)
     End Sub
     Public Function TurnOn(ByVal Sensor As String)
         Select Case Sensor

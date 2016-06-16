@@ -3598,8 +3598,8 @@ Public Class CIDSErrorCheck
         WorkArea.XMax = gWorkLimitXmax  'IDSData.Hardware.Gantry.WorkArea.X + SystemOrigin.X
         WorkArea.YMin = gWorkLimitYmin  'SystemOrigin.Y
         WorkArea.YMax = gWorkLimitYmax  'IDSData.Hardware.Gantry.WorkArea.Y + SystemOrigin.Y
-        WorkArea.ZMin = (gWorkLimitZmin - gLeftNeedleOffs(2))  'SystemOrigin.Z + gRightNeedleOffs(2)
-        WorkArea.ZMax = (gWorkLimitZmax - gLeftNeedleOffs(2))  'IDSData.Hardware.Gantry.WorkArea.Z.Max + SystemOrigin.Z + gRightNeedleOffs(2)
+        WorkArea.ZMin = (gWorkLimitZmin - IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z) 'gLeftNeedleOffs(2))  'SystemOrigin.Z + gRightNeedleOffs(2)
+        WorkArea.ZMax = (gWorkLimitZmax - IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z) 'gLeftNeedleOffs(2))  'IDSData.Hardware.Gantry.WorkArea.Z.Max + SystemOrigin.Z + gRightNeedleOffs(2)
 
         MinSpeedLimit = 0
         MaxSpeedLimit = IDS.Data.Hardware.Gantry.MaxSpeedLimit  ' IDSData.Hardware.Gantry.MaxSpeedLimit
@@ -5149,12 +5149,14 @@ Public Class CIDSErrorCheck
         Dim ErrorMsg As String
         Dim i As Integer
         Dim enterTime As Long
+        enterTime = DateTime.Now.Ticks
+        Console.WriteLine("No of Sheet: " & NumberOfSheet)
         For i = 1 To NumberOfSheet
             SpreadSheetName = sheet.Worksheets(i).name()
             Dim array As Object(,) ' array start at (1,1)
             Dim arraysheet As OWC10.Worksheet = sheet.Worksheets(SpreadSheetName)
             array = arraysheet.Range("A1", "AD" & arraysheet.UsedRange.Rows.Count).Value
-
+            Console.WriteLine("Used Range: " & arraysheet.UsedRange.Rows.Count)
             enterTime = DateTime.Now.Ticks
             If 0 = CheckSpeedError(array, arraysheet.UsedRange.Rows.Count, sheet, ErrorSheetData) And 0 = CheckHeightError(sheet, ErrorSheetData) Then
                 'No error checked for Speed.  Then we check Points
@@ -5172,6 +5174,7 @@ Public Class CIDSErrorCheck
                 Rtn = 1
             End If
         Next
+        Console.WriteLine("#1 used: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
         'No error checked for Speed.  Then we check Points
         enterTime = DateTime.Now.Ticks
         If 0 = BuildIntReference(sheet, ErrorSheetData) Then

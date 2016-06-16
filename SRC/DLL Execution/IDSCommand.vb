@@ -15,7 +15,7 @@ Imports Microsoft.Office.Interop
 '           Shen Jian   
 
 Public Class CIDSCommand
-
+    Protected m_DispenseCount As Integer
     Protected m_PatternList As New ArrayList  'pattern command list
     Protected m_MainSubList As New ArrayList  'main/sub sheet name list
     Protected m_DispenseList As New ArrayList 'dispensing command list
@@ -43,6 +43,12 @@ Public Class CIDSCommand
         End Get
     End Property
 
+    Public ReadOnly Property DispensingCount()
+        Get
+            Return m_DispenseCount
+        End Get
+    End Property
+
     'Get dispensing command list after compiling
     '                                                                                
     Public ReadOnly Property DispenseList() As ArrayList
@@ -60,7 +66,7 @@ Public Class CIDSCommand
     '   file:  filename name for the export                                                                                
     Public Function ReadPattern(ByVal sheet As AxOWC10.AxSpreadsheet) As Integer
         Dim loadSheet As New CIDSPatternLoader(sheet)
-
+        m_DispenseCount = 0
         If m_MainSubList.Count > 0 Then
             m_MainSubList.Clear() 'RemoveRange(0, m_MainSubList.Count)
         End If
@@ -1174,8 +1180,8 @@ Public Class CIDSPatternLoader
         para.RetractSpeed = array(j, gRetractSpeedColumn) * Ratio '(sheet.Cells(row, gRetractSpeedColumn).value) * Ratio
         para.RetractHeight = array(j, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
         para.ClearanceHeight = array(j, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
-        para.ArcRadius = array(j, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
-        para.Needle = array(j, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        para.ArcRadius = array(j, gArcRadiusColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
+        para.Needle = array(j, gNeedleColumn) 'sheet.Cells(row, gNeedleColumn).value
         'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
         testTime = DateTime.Now.Ticks
         FidandSubTransform(pt, referPt, fidComp, comp)
@@ -1239,7 +1245,7 @@ Public Class CIDSPatternLoader
         para.RetractHeight = array(row, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
         para.ClearanceHeight = array(row, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
         para.ArcRadius = array(row, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
-        para.Needle = array(row, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        para.Needle = array(row, gNeedleColumn) 'sheet.Cells(row, gNeedleColumn).value
         'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
         testTime = DateTime.Now.Ticks
         FidandSubTransform(pt, referPt, fidComp, comp)
@@ -3154,12 +3160,12 @@ Public Class CIDSPatternLoader
                 If (countUp = 1) Then
                     Return -1
                 End If
-            Else
-                If Not m_Optim = 1 Then
-                    If CheckButtonState() = -1 Then
-                        Return 100
-                    End If
-                End If
+                'Else
+                '    If Not m_Optim = 1 Then
+                '        If CheckButtonState() = -1 Then
+                '            Return 100
+                '        End If
+                '    End If
             End If
 
             gFidFileName = Programming.gPatternFileName 'for fiducial. added by kr
@@ -3169,22 +3175,6 @@ Public Class CIDSPatternLoader
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                     Case "HEIGHT"  'height detection
                         If m_Optim = 0 Then
@@ -3206,18 +3196,6 @@ Public Class CIDSPatternLoader
                             SetHeightRecData(sheet, I, htdata)
                             DebugAddList(list, htdata)
                         End If
-
-
-
-
-
-
-
-
-
-
-
-
                     Case "REFERENCE"
                         GetReferencePtData(sheet, I, referencePt)
                     Case "WAIT"
@@ -3283,52 +3261,6 @@ Public Class CIDSPatternLoader
                             Return rtn
                         End If
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     Case "MOVE"
                         If m_Optim = 0 Then
                             Dim moveData As New CIDSMove
@@ -3348,6 +3280,7 @@ Public Class CIDSPatternLoader
                         If SetDotRecordData(sheet, I, dotData, referencePt, compData, heightcomp) < 0 Then
                             Return -1
                         End If
+
                         DebugAddList(list, dotData)
                     Case "LINE"
                         If m_Optim = 0 Then
@@ -3875,9 +3808,9 @@ Public Class IDSPattnCompiler
         off(2) = 0.0
         ioNo = 0
         If (mode = 1 Or mode = 4) And needle.ToUpper = "LEFT" Or mode = 2 Or mode = 5 Then  'Dry/wet left
-            off(0) = gLeftNeedleOffs(0)
-            off(1) = gLeftNeedleOffs(1)
-            off(2) = gLeftNeedleOffs(2)
+            off(0) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X 'gLeftNeedleOffs(0)
+            off(1) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y 'gLeftNeedleOffs(1)
+            off(2) = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z 'gLeftNeedleOffs(2)
             ioNo = gIOLeftNeedle
         End If
     End Sub
@@ -9812,10 +9745,12 @@ Public Class CIDSPattnBurn
                     If rtn = False Or m_Tri.EStopActivated Then
                         Return False
                     End If
+                    SetLampsToRunningMode()
+                    LabelMessage("Dispensing")
                 End If
 
             Next
-
+            Production.LogScreen("Download complete")
             Return True
 
         Catch ex As ThreadAbortException

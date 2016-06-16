@@ -40,16 +40,12 @@ Public Class Setup
     Friend WithEvents CheckBox3 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox4 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox5 As System.Windows.Forms.CheckBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents TextBoxRobotZ As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxRobotY As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxRobotX As System.Windows.Forms.TextBox
     Friend WithEvents ButtonSystemIO As System.Windows.Forms.Button
     Friend WithEvents GpB_Configurations As System.Windows.Forms.GroupBox
-    Friend WithEvents CheckBoxLifter As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBoxHeater As System.Windows.Forms.CheckBox
     Friend WithEvents OleDbConnection1 As System.Data.OleDb.OleDbConnection
-    Friend WithEvents CheckBoxVolume As System.Windows.Forms.CheckBox
     Friend WithEvents ButtonGantrySetup As System.Windows.Forms.Button
     Friend WithEvents ButtonCameraSetup As System.Windows.Forms.Button
     Friend WithEvents ButtonNeedleCalibSetup As System.Windows.Forms.Button
@@ -75,18 +71,19 @@ Public Class Setup
     Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
     Friend WithEvents rbOneHead As System.Windows.Forms.RadioButton
     Friend WithEvents rbTwoHead As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox8 As System.Windows.Forms.GroupBox
+    Friend WithEvents tbEquipmentID As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
         Me.MainMenu1 = New System.Windows.Forms.MainMenu
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.GpB_Configurations = New System.Windows.Forms.GroupBox
+        Me.GroupBox8 = New System.Windows.Forms.GroupBox
+        Me.tbEquipmentID = New System.Windows.Forms.TextBox
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
         Me.rbTwoHead = New System.Windows.Forms.RadioButton
         Me.rbOneHead = New System.Windows.Forms.RadioButton
-        Me.CheckBoxLifter = New System.Windows.Forms.CheckBox
-        Me.CheckBoxHeater = New System.Windows.Forms.CheckBox
-        Me.CheckBoxVolume = New System.Windows.Forms.CheckBox
         Me.ButtonHardwareCommunicationSetup = New System.Windows.Forms.Button
         Me.PanelRight = New System.Windows.Forms.Panel
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
@@ -107,7 +104,6 @@ Public Class Setup
         Me.TextBoxRobotY = New System.Windows.Forms.TextBox
         Me.CheckBox5 = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotX = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
         Me.OleDbConnection1 = New System.Data.OleDb.OleDbConnection
         Me.HardwareTimer = New System.Timers.Timer
         Me.LabelMessage = New System.Windows.Forms.Label
@@ -120,6 +116,7 @@ Public Class Setup
         Me.HomingCheckTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1.SuspendLayout()
         Me.GpB_Configurations.SuspendLayout()
+        Me.GroupBox8.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -140,18 +137,34 @@ Public Class Setup
         '
         'GpB_Configurations
         '
+        Me.GpB_Configurations.Controls.Add(Me.GroupBox8)
         Me.GpB_Configurations.Controls.Add(Me.GroupBox7)
-        Me.GpB_Configurations.Controls.Add(Me.CheckBoxLifter)
-        Me.GpB_Configurations.Controls.Add(Me.CheckBoxHeater)
-        Me.GpB_Configurations.Controls.Add(Me.CheckBoxVolume)
         Me.GpB_Configurations.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.GpB_Configurations.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GpB_Configurations.Location = New System.Drawing.Point(28, 8)
         Me.GpB_Configurations.Name = "GpB_Configurations"
-        Me.GpB_Configurations.Size = New System.Drawing.Size(308, 186)
+        Me.GpB_Configurations.Size = New System.Drawing.Size(308, 296)
         Me.GpB_Configurations.TabIndex = 62
         Me.GpB_Configurations.TabStop = False
         Me.GpB_Configurations.Text = "Configurations"
+        '
+        'GroupBox8
+        '
+        Me.GroupBox8.Controls.Add(Me.tbEquipmentID)
+        Me.GroupBox8.Location = New System.Drawing.Point(16, 104)
+        Me.GroupBox8.Name = "GroupBox8"
+        Me.GroupBox8.Size = New System.Drawing.Size(280, 72)
+        Me.GroupBox8.TabIndex = 64
+        Me.GroupBox8.TabStop = False
+        Me.GroupBox8.Text = "Equipment ID"
+        '
+        'tbEquipmentID
+        '
+        Me.tbEquipmentID.Location = New System.Drawing.Point(16, 32)
+        Me.tbEquipmentID.Name = "tbEquipmentID"
+        Me.tbEquipmentID.Size = New System.Drawing.Size(248, 27)
+        Me.tbEquipmentID.TabIndex = 0
+        Me.tbEquipmentID.Text = ""
         '
         'GroupBox7
         '
@@ -179,36 +192,6 @@ Public Class Setup
         Me.rbOneHead.Size = New System.Drawing.Size(128, 24)
         Me.rbOneHead.TabIndex = 66
         Me.rbOneHead.Text = "Single Head"
-        '
-        'CheckBoxLifter
-        '
-        Me.CheckBoxLifter.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxLifter.Location = New System.Drawing.Point(16, 152)
-        Me.CheckBoxLifter.Name = "CheckBoxLifter"
-        Me.CheckBoxLifter.Size = New System.Drawing.Size(184, 23)
-        Me.CheckBoxLifter.TabIndex = 66
-        Me.CheckBoxLifter.Text = "Lifter Integration"
-        Me.CheckBoxLifter.Visible = False
-        '
-        'CheckBoxHeater
-        '
-        Me.CheckBoxHeater.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxHeater.Location = New System.Drawing.Point(16, 72)
-        Me.CheckBoxHeater.Name = "CheckBoxHeater"
-        Me.CheckBoxHeater.Size = New System.Drawing.Size(184, 24)
-        Me.CheckBoxHeater.TabIndex = 63
-        Me.CheckBoxHeater.Text = "Heater Integration"
-        Me.CheckBoxHeater.Visible = False
-        '
-        'CheckBoxVolume
-        '
-        Me.CheckBoxVolume.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxVolume.Location = New System.Drawing.Point(16, 112)
-        Me.CheckBoxVolume.Name = "CheckBoxVolume"
-        Me.CheckBoxVolume.Size = New System.Drawing.Size(184, 23)
-        Me.CheckBoxVolume.TabIndex = 66
-        Me.CheckBoxVolume.Text = "Volume Calibration"
-        Me.CheckBoxVolume.Visible = False
         '
         'ButtonHardwareCommunicationSetup
         '
@@ -238,6 +221,7 @@ Public Class Setup
         '
         'ButtonGantrySetup
         '
+        Me.ButtonGantrySetup.BackColor = System.Drawing.SystemColors.ControlDarkDark
         Me.ButtonGantrySetup.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonGantrySetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonGantrySetup.Location = New System.Drawing.Point(96, 32)
@@ -263,6 +247,7 @@ Public Class Setup
         Me.ButtonSystemIO.Size = New System.Drawing.Size(224, 56)
         Me.ButtonSystemIO.TabIndex = 37
         Me.ButtonSystemIO.Text = "System IO"
+        Me.ButtonSystemIO.Visible = False
         '
         'ButtonLaserSetup
         '
@@ -337,7 +322,6 @@ Public Class Setup
         Me.Panel2.Controls.Add(Me.TextBoxRobotY)
         Me.Panel2.Controls.Add(Me.CheckBox5)
         Me.Panel2.Controls.Add(Me.TextBoxRobotX)
-        Me.Panel2.Controls.Add(Me.Label1)
         Me.Panel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.Panel2.Location = New System.Drawing.Point(872, 952)
         Me.Panel2.Name = "Panel2"
@@ -349,7 +333,8 @@ Public Class Setup
         Me.CheckBox3.BackColor = System.Drawing.SystemColors.Control
         Me.CheckBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox3.Image = CType(resources.GetObject("CheckBox3.Image"), System.Drawing.Image)
-        Me.CheckBox3.Location = New System.Drawing.Point(352, 5)
+        Me.CheckBox3.ImageAlign = System.Drawing.ContentAlignment.BottomLeft
+        Me.CheckBox3.Location = New System.Drawing.Point(248, 8)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(40, 16)
         Me.CheckBox3.TabIndex = 75
@@ -357,7 +342,7 @@ Public Class Setup
         'TextBoxRobotZ
         '
         Me.TextBoxRobotZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotZ.Location = New System.Drawing.Point(272, 4)
+        Me.TextBoxRobotZ.Location = New System.Drawing.Point(288, 4)
         Me.TextBoxRobotZ.Name = "TextBoxRobotZ"
         Me.TextBoxRobotZ.ReadOnly = True
         Me.TextBoxRobotZ.Size = New System.Drawing.Size(74, 21)
@@ -369,7 +354,8 @@ Public Class Setup
         Me.CheckBox4.BackColor = System.Drawing.SystemColors.Control
         Me.CheckBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox4.Image = CType(resources.GetObject("CheckBox4.Image"), System.Drawing.Image)
-        Me.CheckBox4.Location = New System.Drawing.Point(232, 4)
+        Me.CheckBox4.ImageAlign = System.Drawing.ContentAlignment.BottomLeft
+        Me.CheckBox4.Location = New System.Drawing.Point(128, 8)
         Me.CheckBox4.Name = "CheckBox4"
         Me.CheckBox4.Size = New System.Drawing.Size(40, 16)
         Me.CheckBox4.TabIndex = 73
@@ -377,7 +363,7 @@ Public Class Setup
         'TextBoxRobotY
         '
         Me.TextBoxRobotY.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotY.Location = New System.Drawing.Point(160, 4)
+        Me.TextBoxRobotY.Location = New System.Drawing.Point(168, 4)
         Me.TextBoxRobotY.Name = "TextBoxRobotY"
         Me.TextBoxRobotY.ReadOnly = True
         Me.TextBoxRobotY.Size = New System.Drawing.Size(74, 21)
@@ -389,7 +375,8 @@ Public Class Setup
         Me.CheckBox5.BackColor = System.Drawing.SystemColors.Control
         Me.CheckBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox5.Image = CType(resources.GetObject("CheckBox5.Image"), System.Drawing.Image)
-        Me.CheckBox5.Location = New System.Drawing.Point(120, 4)
+        Me.CheckBox5.ImageAlign = System.Drawing.ContentAlignment.BottomLeft
+        Me.CheckBox5.Location = New System.Drawing.Point(8, 8)
         Me.CheckBox5.Name = "CheckBox5"
         Me.CheckBox5.Size = New System.Drawing.Size(40, 16)
         Me.CheckBox5.TabIndex = 71
@@ -404,15 +391,6 @@ Public Class Setup
         Me.TextBoxRobotX.TabIndex = 6
         Me.TextBoxRobotX.Text = "X: 100.000"
         '
-        'Label1
-        '
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(8, 6)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(40, 23)
-        Me.Label1.TabIndex = 7
-        Me.Label1.Text = "Robot"
-        '
         'OleDbConnection1
         '
         Me.OleDbConnection1.ConnectionString = "Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database L" & _
@@ -425,11 +403,12 @@ Public Class Setup
         '
         'HardwareTimer
         '
+        Me.HardwareTimer.Interval = 500
         Me.HardwareTimer.SynchronizingObject = Me
         '
         'LabelMessage
         '
-        Me.LabelMessage.BackColor = System.Drawing.SystemColors.Menu
+        Me.LabelMessage.BackColor = System.Drawing.Color.White
         Me.LabelMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LabelMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessage.ForeColor = System.Drawing.Color.Black
@@ -524,6 +503,7 @@ Public Class Setup
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.GroupBox4)
         Me.Controls.Add(Me.GroupBox6)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
@@ -532,6 +512,7 @@ Public Class Setup
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.Panel1.ResumeLayout(False)
         Me.GpB_Configurations.ResumeLayout(False)
+        Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox7.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).EndInit()
@@ -770,17 +751,19 @@ Public Class Setup
         Else
             rbTwoHead.Checked = True
         End If
-
+        tbEquipmentID.Text = IDSData.Machine.EquipmentID
         'motion controller start and do homing
         m_Tri.SteppingButtons.Enabled = False
         m_Tri.SteppingButtons.Show()
         ShowLabelMessage("Initializing hardware......")
         For Each ctrl As Control In Me.Controls
-            ctrl.Enabled = False
+            If ctrl.Name <> LabelMessage.Name Then
+                ctrl.Enabled = False
+            End If
         Next
         'timers
-        IDS.StartErrorCheck()
         HardwareTimer.Start()
+        IDS.StartErrorCheck()
         ThreadMonitor = New Threading.Thread(AddressOf TheThreadMonitor)
         ThreadMonitor.Priority = Threading.ThreadPriority.BelowNormal
         ThreadMonitor.Start()
@@ -865,7 +848,14 @@ Public Class Setup
         Dim mode As Integer = 0
         KeyboardControl.ReleaseControls()
         Laser.Instance.Hide()
-        m_Tri.Move_Z(0)
+        If m_Tri.IsHomingDone Then
+            m_Tri.Move_Z(0)
+            position(0) = IDS.Data.Hardware.Gantry.ParkPosition.X
+            position(1) = IDS.Data.Hardware.Gantry.ParkPosition.Y
+            m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
+            If Not m_Tri.Move_XY(position) Then Exit Sub
+        End If
+
         m_Tri.m_TriCtrl.GetTable(21, 1, mode)
         If mode <> 0 Then
             m_Tri.m_TriCtrl.SetTable(21, 1, 0)
@@ -917,18 +907,18 @@ Public Class Setup
             For I = 0 To DBView.Count - 1
                 Dim Row As DataRow = DBView(I).Row
 
-                If Row("Hardware") = "HeightSensor" Then
-                    'CheckBoxHeightSensor.Checked = CBoolean(Row("Selected"))
+                'If Row("Hardware") = "HeightSensor" Then
+                '    'CheckBoxHeightSensor.Checked = CBoolean(Row("Selected"))
 
-                ElseIf Row("Hardware") = "VolumeCalibration" Then
-                    CheckBoxVolume.Checked = CBoolean(Row("Selected"))
+                'ElseIf Row("Hardware") = "VolumeCalibration" Then
+                '    CheckBoxVolume.Checked = CBoolean(Row("Selected"))
 
-                ElseIf Row("Hardware") = "ThermalController" Then
-                    CheckBoxHeater.Checked = CBoolean(Row("Selected"))
+                'ElseIf Row("Hardware") = "ThermalController" Then
+                '    CheckBoxHeater.Checked = CBoolean(Row("Selected"))
 
-                ElseIf Row("Hardware") = "Lifter&Vacuum" Then
-                    CheckBoxLifter.Checked = CBoolean(Row("Selected"))
-                End If
+                'ElseIf Row("Hardware") = "Lifter&Vacuum" Then
+                '    CheckBoxLifter.Checked = CBoolean(Row("Selected"))
+                'End If
             Next
         End If
     End Sub
@@ -944,26 +934,26 @@ Public Class Setup
             For I = 0 To DBView.Count - 1
                 Dim Row As DataRow = DBView(I).Row
 
-                If Row("Hardware") = "HeightSensor" Then
-                    'Row("Selected") = CheckBoxHeightSensor.Checked
+                'If Row("Hardware") = "HeightSensor" Then
+                '    'Row("Selected") = CheckBoxHeightSensor.Checked
 
-                ElseIf Row("Hardware") = "VolumeCalibration" Then
-                    Row("Selected") = CheckBoxVolume.Checked
+                'ElseIf Row("Hardware") = "VolumeCalibration" Then
+                '    Row("Selected") = CheckBoxVolume.Checked
 
-                ElseIf Row("Hardware") = "ThermalController" Then
-                    Row("Selected") = CheckBoxHeater.Checked
+                'ElseIf Row("Hardware") = "ThermalController" Then
+                '    Row("Selected") = CheckBoxHeater.Checked
 
-                ElseIf Row("Hardware") = "Lifter&Vacuum" Then
-                    Row("Selected") = CheckBoxLifter.Checked
+                'ElseIf Row("Hardware") = "Lifter&Vacuum" Then
+                '    Row("Selected") = CheckBoxLifter.Checked
 
-                End If
+                'End If
             Next
         End If
         UpdateData("SELECT * FROM " + TableName, TableName)
 
     End Sub
 
-    Private Sub CheckBoxVolume_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxVolume.CheckedChanged
+    Private Sub CheckBoxVolume_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'Present flag
         'If CheckBoxVolume.Checked = True Then
         '    ButtonVolumeCalibSettings.Visible = True
@@ -974,17 +964,17 @@ Public Class Setup
         MyHardwareCommunicationSetup.UpdateStatus()
     End Sub
 
-    Private Sub CheckBoxHeater_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxHeater.CheckedChanged
+    Private Sub CheckBoxHeater_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'Present flag
-        If CheckBoxHeater.Checked = True Then
-            ButtonThermalSettings.Visible = True
-        Else
-            ButtonThermalSettings.Visible = False
-        End If
-        MyHardwareCommunicationSetup.RefreshDisplay()
-        MyHardwareCommunicationSetup.UpdateStatus()
-        IDS.Data.Hardware.Thermal.HeaterFeatureEnabled = ButtonThermalSettings.Visible
-        IDS.Data.SaveLocalData()
+        'If CheckBoxHeater.Checked = True Then
+        '    ButtonThermalSettings.Visible = True
+        'Else
+        '    ButtonThermalSettings.Visible = False
+        'End If
+        'MyHardwareCommunicationSetup.RefreshDisplay()
+        'MyHardwareCommunicationSetup.UpdateStatus()
+        'IDS.Data.Hardware.Thermal.HeaterFeatureEnabled = ButtonThermalSettings.Visible
+        'IDS.Data.SaveLocalData()
     End Sub
 
     Private Sub ButtonSystemIO_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSystemIO.Click
@@ -1119,7 +1109,7 @@ Public Class Setup
     End Sub
 
 
-    Private Sub CheckBoxLifter_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxLifter.CheckedChanged
+    Private Sub CheckBoxLifter_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         MyHardwareCommunicationSetup.RefreshDisplay()
     End Sub
 
@@ -1128,7 +1118,7 @@ Public Class Setup
         HardwareTimer.Enabled = False
         m_Tri.Connect_Controller()
         m_Tri.SetMachineRun()
-        ShowLabelMessage("Homing......")
+        ShowLabelMessage("Homing")
         m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
     End Sub
 
@@ -1149,9 +1139,11 @@ Public Class Setup
     Private Sub SetSelectButton(ByVal sender As System.Object)
         If Not (selectedButton Is Nothing) Then
             selectedButton.FlatStyle = FlatStyle.Standard
+            selectedButton.BackColor = System.Drawing.SystemColors.Control
         End If
         selectedButton = DirectCast(sender, System.Windows.Forms.Button)
         selectedButton.FlatStyle = FlatStyle.Flat
+        selectedButton.BackColor = System.Drawing.SystemColors.ControlDarkDark
     End Sub
 
     Private Sub HomingCheckTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HomingCheckTimer.Tick
@@ -1190,10 +1182,16 @@ Public Class Setup
     Private Sub MoveZToZero()
         If homingDone Then
             If m_Tri.ZPosition < -0.5 Then
+                Me.Cursor = Cursors.WaitCursor
                 m_Tri.Set_Z_Speed(50)
                 m_Tri.Move_Z(0)
+                Me.Cursor = Cursors.Default
             End If
         End If
     End Sub
 
+    Private Sub tbEquipmentID_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbEquipmentID.TextChanged
+        CIDSData.Machine.EquipmentID = tbEquipmentID.Text
+        IDS.Data.SaveGlobalData()
+    End Sub
 End Class
