@@ -6,29 +6,16 @@
 +IDSData.Admin.Folder.DataPath =C:\IDS\BIN
 6IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir
 )IDSData.Admin.Folder.FileExtension =pat
-6IDSData.ParameterID.GroupID =Application_Maintenance
+IDSData.ParameterID.GroupID =
 .IDSData.ParameterID.RecordID =FactoryDefault
-,IDSData.Admin.User.ContactNo =6493 3826‎
-$IDSData.Admin.User.Department =R&D
+ IDSData.Admin.User.ContactNo =
+!IDSData.Admin.User.Department =
 IDSData.Admin.User.ID =a
-&IDSData.Admin.User.Name =Techno-Digm
+IDSData.Admin.User.Name =
 IDSData.Admin.User.PassWord =
 +IDSData.Admin.User.RunApplication =System
 6IDSData.Admin.User.Group.ID =Application_Maintenance
-$IDSData.Admin.User.Group.Remark =1
-8IDSData.Admin.User.Group.PrivilegeArray (0) =Dispenser
-7IDSData.Admin.User.Group.PrivilegeArray (1) =Conveyor
-@IDSData.Admin.User.Group.PrivilegeArray (2) =EventFailedAction
-;IDSData.Admin.User.Group.PrivilegeArray (3) =HeightSensor
-@IDSData.Admin.User.Group.PrivilegeArray (4) =NeedleCalibration
-@IDSData.Admin.User.Group.PrivilegeArray (5) =VolumeCalibration
-9IDSData.Admin.User.Group.PrivilegeArray (6) =Programmer
-9IDSData.Admin.User.Group.PrivilegeArray (7) =SPCLogging
-=IDSData.Admin.User.Group.PrivilegeArray (8) =StationSetting
-<IDSData.Admin.User.Group.SystemHardwareArray (0) =Conveyor
-@IDSData.Admin.User.Group.SystemHardwareArray (1) =HeightSensor
-EIDSData.Admin.User.Group.SystemHardwareArray (2) =NeedleCalibration
-EIDSData.Admin.User.Group.SystemHardwareArray (3) =VolumeCalibration
+#IDSData.Admin.User.Group.Remark =
 <IDSData.Admin.ALLPrivileges.IDArray (0) =VolumeCalibration
 <IDSData.Admin.ALLPrivileges.IDArray (1) =ThermalController
 9IDSData.Admin.ALLPrivileges.IDArray (2) =StationSetting
@@ -412,7 +399,7 @@ P(5)IDSData.Hardware.SystemIO.Template.IOName =Z Axis Forward Limit Reed Switch
 4(6)IDSData.Hardware.SystemIO.Template.IO =MC-IN-06
 1(6)IDSData.Hardware.SystemIO.Template.IOName =-
 :(6)IDSData.Hardware.SystemIO.Template.ModuleName =System
-2(6)IDSData.Hardware.SystemIO.Template.Status =ON
+3(6)IDSData.Hardware.SystemIO.Template.Status =OFF
 3(6)IDSData.Hardware.SystemIO.Template.Type =Input
 
 :(7)IDSData.Hardware.SystemIO.Template.CableName =TRM1-10
@@ -874,7 +861,7 @@ A(71)IDSData.Hardware.SystemIO.Template.ModuleName =Conveyor I/O
 5(72)IDSData.Hardware.SystemIO.Template.IO =PC-IN-00
 H(72)IDSData.Hardware.SystemIO.Template.IOName =Door Close/ Open Sensor
 @(72)IDSData.Hardware.SystemIO.Template.ModuleName =Control I/O
-4(72)IDSData.Hardware.SystemIO.Template.Status =OFF
+3(72)IDSData.Hardware.SystemIO.Template.Status =ON
 4(72)IDSData.Hardware.SystemIO.Template.Type =Input
 
 :(73)IDSData.Hardware.SystemIO.Template.CableName =TRM5-2
@@ -972,7 +959,7 @@ F(84)IDSData.Hardware.SystemIO.Template.IOName =Right material Sensor
 5(86)IDSData.Hardware.SystemIO.Template.IO =PC-IN-13
 2(86)IDSData.Hardware.SystemIO.Template.IOName =-
 @(86)IDSData.Hardware.SystemIO.Template.ModuleName =Control I/O
-4(86)IDSData.Hardware.SystemIO.Template.Status =OFF
+3(86)IDSData.Hardware.SystemIO.Template.Status =ON
 4(86)IDSData.Hardware.SystemIO.Template.Type =Input
 
 ;(87)IDSData.Hardware.SystemIO.Template.CableName =TRM5-27
@@ -1065,13 +1052,6 @@ B(99)IDSData.Hardware.SystemIO.Template.IOName =Green Tower Light
 @(99)IDSData.Hardware.SystemIO.Template.ModuleName =Control I/O
 4(99)IDSData.Hardware.SystemIO.Template.Status =OFF
 5(99)IDSData.Hardware.SystemIO.Template.Type =Output
-
-<(100)IDSData.Hardware.SystemIO.Template.CableName =TRM1-10
-6(100)IDSData.Hardware.SystemIO.Template.IO =MC-IN-07
-R(100)IDSData.Hardware.SystemIO.Template.IOName =Probe Slide Retract Limit Switch
-<(100)IDSData.Hardware.SystemIO.Template.ModuleName =System
-4(100)IDSData.Hardware.SystemIO.Template.Status =ON
-5(100)IDSData.Hardware.SystemIO.Template.Type =Input
 
 ~[SYSTEMIO END]
 

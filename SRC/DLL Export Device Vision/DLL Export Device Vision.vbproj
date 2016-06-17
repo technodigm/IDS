@@ -313,6 +313,22 @@
                     Lcid = "0"
                     WrapperTool = "tlbimp"
                 />
+                <Reference
+                    Name = "DAQDILib"
+                    Guid = "{B69B88D6-A697-11D2-AA03-002018650913}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxDAQDILib"
+                    Guid = "{B69B88D6-A697-11D2-AA03-002018650913}"
+                    VersionMajor = "1"
+                    VersionMinor = "1"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />

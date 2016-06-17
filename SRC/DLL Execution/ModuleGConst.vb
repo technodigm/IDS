@@ -8,7 +8,6 @@ Imports DLL_Export_Service
 
 Public Module ModuleGConst
 
-
     'Set system setup parameters to execution global varibles         '
     '                                                                 '
     Enum SettingsMode 'yy added to make sure gLeftNeedleOffset() wont be override when loading local settings file
@@ -62,10 +61,8 @@ Public Module ModuleGConst
 
     End Function
 
-
     'Element dispaensing parameters structure                         '
     '                                                                 '
-
     Public Structure DispensePara
         Public DispenseOn As Boolean
         Public NeedleGap As Double
@@ -90,10 +87,8 @@ Public Module ModuleGConst
         Public Columns As Double
     End Structure
 
-
     'Array data structure                                             '
     '                                                                 '
-
     Public Structure ArrayData
         Public FirstX As Double
         Public FirstY As Double
@@ -107,10 +102,8 @@ Public Module ModuleGConst
         Public ByZigzag As Boolean
     End Structure
 
-
     'Fiducial compensation parameters structure                       '
     '                                                                 '
-
     Public Structure FidCompData
         'Main pattern fiducial 
         Public gparentFidFlag As Boolean  'true:compensation; false:no compensatation
@@ -366,6 +359,7 @@ Public Module ModuleGConst
     'z component wrt hard_home Z = Zneedle + Zdist
 
     'Element dispensing parameter columns arrangement 
+#Region "SpreadSheet Column"
     Public gCommandNameColumn As Integer = 1
     Public gNeedleColumn As Integer = 2
     Public gDispensColumn As Integer = 3
@@ -383,7 +377,6 @@ Public Module ModuleGConst
     Public gPos3XColumn As Integer = 10
     Public gPos3YColumn As Integer = 11
     Public gPos3ZColumn As Integer = 12
-
     Public gDotArrayRowsColumn As Integer = 13
     Public gTravelSpeedColumn As Integer = 13
     Public gNeedleGapColumn As Integer = 14
@@ -393,13 +386,11 @@ Public Module ModuleGConst
     Public gApproachHtColumn As Integer = 18
     Public gRetractSpeedColumn As Integer = 19
     Public gRetractHtColumn As Integer = 20
-
     Public gClearanceHtColumn As Integer = 21
     Public gDTaiDistColumn As Integer = 22
     Public gArcRadiusColumn As Integer = 23
     Public gPitchColumn As Integer = 24
     Public gFillHeightColumn As Integer = 25
-
     Public gNoOfRunColumn As Integer = 26
     Public gSprialColumn As Integer = 27
     Public gRtAngleColumn As Integer = 28
@@ -458,6 +449,8 @@ Public Module ModuleGConst
     Public gWoRMCoulumn As Integer = 77
     Public gWRMCoulumn As Integer = 78
 
+#End Region
+
     'DIO configure 
     Public gIOXminusLimit As Integer = 0
     Public gIOXplusLimit As Integer = 1
@@ -499,7 +492,7 @@ Public Module ModuleGConst
     'Public gReferenceCmdIndex As Integer = 2
     'Public gHeightCmdIndex As Integer = 3
     'Public gRejectCmdIndex As Integer = 4
-
+#Region "Programming Tools"
     Public gReferenceCmdIndex As Integer = 1
     Public gHeightCmdIndex As Integer = 2
     Public gRejectCmdIndex As Integer = 3
@@ -529,6 +522,7 @@ Public Module ModuleGConst
     Public gSeperatorCmdIndex As Integer = 19
     Public gOffsetCmdIndex As Integer = 20
     Public gMeasurementCmdIndex As Integer = 21
+#End Region
 
 End Module
 

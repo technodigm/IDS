@@ -46,6 +46,7 @@ Public Class FormProduction
     Dim countMouseTimer As Integer = 0
     Private m_TrackBall As New DLL_Export_Device_Motor.Mouse(Me)
     Public calibrationInfoForm As InfoForm
+    Public operatorID As String
     'Private m_keyBoard As New DLL_Export_Device_Motor.Keyboard(Me)
 
 #Region " Windows Form Designer generated code "
@@ -783,6 +784,7 @@ Public Class FormProduction
         Me.CheckBoxPotOn.TabIndex = 119
         Me.CheckBoxPotOn.Text = "Pot Life On"
         Me.CheckBoxPotOn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CheckBoxPotOn.Visible = False
         '
         'DoorLock
         '
@@ -799,6 +801,7 @@ Public Class FormProduction
         Me.DoorLock.TabIndex = 116
         Me.DoorLock.Text = "Lock Door"
         Me.DoorLock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.DoorLock.Visible = False
         '
         'ButtonPotReset
         '
@@ -811,6 +814,7 @@ Public Class FormProduction
         Me.ButtonPotReset.Size = New System.Drawing.Size(92, 80)
         Me.ButtonPotReset.TabIndex = 105
         Me.ButtonPotReset.Text = "Reset Pot"
+        Me.ButtonPotReset.Visible = False
         '
         'Label6
         '
@@ -922,7 +926,7 @@ Public Class FormProduction
         '
         Me.LabelMessege.BackColor = System.Drawing.SystemColors.Menu
         Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessege.ForeColor = System.Drawing.Color.Black
         Me.LabelMessege.Location = New System.Drawing.Point(8, 912)
         Me.LabelMessege.Name = "LabelMessege"
@@ -987,7 +991,14 @@ Public Class FormProduction
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'reset!
+        gExeMode = IDS.Data.Admin.User.RunApplication
         tbEquipmentID.Text = IDSData.Machine.EquipmentID
+        tbOperatorID.Text = operatorID
+        If operatorID = "" Or operatorID Is Nothing Then
+        Else
+            LabelMessage(operatorID & " started production program")
+        End If
+
         TimerMonitor.Start()
         KeyboardControl.GainControls()
         LabelMessage("Initializing Hardware")
@@ -1032,7 +1043,12 @@ Public Class FormProduction
         'motion controller
         'm_Tri.Connect_Controller()
         'SetState("Homing")
-        HardwareInitTimer.Start()
+        If m_Tri.bConnected Then
+            HardwareInitTimer.Start()
+        Else
+            LabelMessage("Cannot connect to motion controller! Please check network connectivity or reset controller", True)
+        End If
+
         'timers start
         IDS.StartErrorCheck()
         Programming.IOCheck.Start()
@@ -1856,8 +1872,10 @@ StopCalibration:
             If fm.ShowDialog() = DialogResult.Cancel Then
                 Return
             End If
+            Me.Cursor = Cursors.WaitCursor
             StopDispensing()
         End If
+        Me.Cursor = Cursors.WaitCursor
         If ContinuousMode.Checked = True Then
             ContinuousMode.Checked = False
         End If
@@ -1882,6 +1900,7 @@ StopCalibration:
             TravelToParkPosition()
         End If
         'motion controller
+        m_Tri.m_TriCtrl.Execute("STOP SETDATUM")
         m_Tri.TurnOff("Material Air")
         m_Tri.Disconnect_Controller()
         'hardware
@@ -1890,6 +1909,7 @@ StopCalibration:
         UnlockDoor()
         'Close()
         IDS.FrmExecution.Hide()
+        Me.Cursor = Cursors.Default
         Close()
     End Sub
 

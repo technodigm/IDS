@@ -441,7 +441,7 @@ Public Class FormLogin
         Me.CBUserID.Size = New System.Drawing.Size(176, 23)
         Me.CBUserID.Sorted = True
         Me.CBUserID.TabIndex = 1
-        Me.CBUserID.Text = "a"
+        Me.CBUserID.Text = ""
         '
         'PanelgroupID
         '
@@ -1056,10 +1056,14 @@ Public Class FormLogin
     End Sub
 
     Private Sub BtnLogin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnLogin.Click
+        Login()
+    End Sub
 
+    Private Sub Login()
+        Cursor = Cursors.WaitCursor
         Dim regKey As RegistryKey
         Dim ver As Decimal
-
+        Console.WriteLine("#1")
         If CBUserID.Items.Contains(CBUserID.Text) = True Then
         ElseIf CBUserID.Text = "" And CBGroupID.Text = "" Then
         Else
@@ -1069,32 +1073,33 @@ Public Class FormLogin
 
         IDS.Data.MsgErr = ""
         DBView = New DataView(DS.Tables("userTable"))
+        Console.WriteLine("#2")
         DBView.RowFilter = "UserID = '" + CBUserID.Text.ToString + "'"
-
+        Console.WriteLine("#3")
         If DBView.Count = 1 Then
             Dim Row As DataRow = DBView(0).Row
-
-
             ' user login in and info to display 
-
-
             If TextLoginPW.Text = CStr(Row("UserPassword")) Then
+                Console.WriteLine("#4")
                 PaneLReset()
                 Panelwelcome.Visible = True
                 Me.Text = "Welcome"
 
                 LGroupID.Text = "GroupID : " + CBGroupID.Text
                 LUserID.Text = "UserID : " + CStr(Row("UserID"))
+                Console.WriteLine("#5")
                 If IsDBNull(Row("UserName")) = False Then
                     LUserName.Text = "UserName : " + CStr(Row("UserName"))
                 Else
                     LUserName.Text = "UserName : "
                 End If
+                Console.WriteLine("#6")
                 If IsDBNull(Row("Department")) = False Then
                     LDepartment.Text = "Department : " + CStr(Row("Department"))
                 Else
                     LDepartment.Text = "Department : "
                 End If
+                Console.WriteLine("#7")
                 If IsDBNull(Row("ContactNo")) = False Then
                     LContact.Text = "Contact Number: " + CStr(Row("ContactNo"))
                 Else
@@ -1115,7 +1120,6 @@ Public Class FormLogin
             regKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\IDS\", True)
             Dim s As String = regKey.GetValue("")
             regKey.Close()
-
             Try
                 If CBGroupID.Text = "" And CBUserID.Text = "" And TextLoginPW.Text.ToUpper = s Then
                     ' load the default pat file to global variable
@@ -1139,9 +1143,11 @@ Public Class FormLogin
                 End If
             Catch ex As Exception
                 MsgBox(ex.ToString)
+                Cursor = Cursors.Default
             End Try
         End If
-
+        Cursor = Cursors.Default
+        Console.WriteLine("#8")
     End Sub
 
     Private Sub CBGroupID_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CBGroupID.SelectedIndexChanged
@@ -1281,7 +1287,8 @@ Public Class FormLogin
     '  user select applcation to run
 
     Public Sub BtnWelcomeOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnWelcomeOK.Click
-        formlg.Hide()
+        'formlg.Hide()
+        'Hide()
         'Application.DoEvents()
         ' load global variable with factorydefault value
         IDS.Data.ParameterID.RecordID = "FactoryDefault"
@@ -1556,6 +1563,7 @@ Public Class FormLogin
             Programming.CurrentMode = "Program Editor"
             Programming.ShowDialog()
         ElseIf IDS.Data.Admin.User.RunApplication = "Operator" Then
+            Production.operatorID = CBUserID.Text
             Production.ShowDialog()
         End If
 
@@ -1810,4 +1818,9 @@ Public Class FormLogin
 #End Region
 
 
+    Private Sub TextLoginPW_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextLoginPW.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Login()
+        End If
+    End Sub
 End Class

@@ -685,9 +685,11 @@ ResetMachineState:
         'check to see whether it is a valid command
         Select Case str
             Case "Start"
-                If Production.TextBoxFilename.Text = "" Or Production.TextBoxFilename.Text Is Nothing Then
-                    LabelMessage("Please select program file first")
-                    Return False
+                If ProductionMode() Then
+                    If Production.TextBoxFilename.Text = "" Or Production.TextBoxFilename.Text Is Nothing Then
+                        LabelMessage("Please select program file first")
+                        Return False
+                    End If
                 End If
                 If IsIdle() Then
                     str = "Start"
@@ -698,36 +700,36 @@ ResetMachineState:
                     str = "Run"
                 End If
             Case "Run"
-                'start -> run or resume -> run. otherwise invalid
-                If Not IsStart() Then Return False
+                    'start -> run or resume -> run. otherwise invalid
+                    If Not IsStart() Then Return False
             Case "Purge"
-                If MachineState = "Purge" Then
-                    Return True
-                ElseIf IsBusy() Then
-                    Return False
-                End If
+                    If MachineState = "Purge" Then
+                        Return True
+                    ElseIf IsBusy() Then
+                        Return False
+                    End If
             Case "Clean"
-                If MachineState = "Clean" Then
-                    Return True
-                ElseIf IsBusy() Then
-                    Return False
-                End If
+                    If MachineState = "Clean" Then
+                        Return True
+                    ElseIf IsBusy() Then
+                        Return False
+                    End If
             Case "Park"
-                If IsBusy() Then Return False
+                    If IsBusy() Then Return False
             Case "Change Syringe"
-                If IsBusy() Then Return False
+                    If IsBusy() Then Return False
             Case "Volume Calibration"
-                If IsBusy() Then Return False
+                    If IsBusy() Then Return False
             Case "Needle Calibration"
-                If MachineState = "Needle Calibration" Or MachineState = "Jogging" Then
-                    Return True
-                ElseIf IsBusy() Then
-                    Return False
-                End If
+                    If MachineState = "Needle Calibration" Or MachineState = "Jogging" Then
+                        Return True
+                    ElseIf IsBusy() Then
+                        Return False
+                    End If
             Case "Jogging"
             Case "AutoPurge"
             Case "Homing"
-                If IsBusy() Then Return False
+                    If IsBusy() Then Return False
             Case "Idle"
         End Select
 
@@ -756,6 +758,10 @@ ResetMachineState:
     End Function
     Public Function IsRunning()
         If MachineState = "Run" Then Return True
+        Return False
+    End Function
+    Public Function IsPause()
+        If MachineState = "Pause" Then Return True
         Return False
     End Function
     Public Function IsJogging()
@@ -974,13 +980,23 @@ ResetMachineState:
         End If
     End Sub
 
-    Public Sub LabelMessage(ByVal message As String)
+    Public Sub LabelMessage(ByVal message As String, Optional ByVal isError As Boolean = False)
         Try
             If gExeMode <> "Operator" Then
+                If isError Then
+                    Programming.LabelMessege.ForeColor = System.Drawing.Color.Red
+                Else
+                    Programming.LabelMessege.ForeColor = System.Drawing.Color.Black
+                End If
                 Programming.LabelMessege.Text = message
                 Programming.LabelMessege.Refresh()
             Else
                 Production.LogScreen(message)
+                If isError Then
+                    Production.LabelMessege.ForeColor = System.Drawing.Color.Red
+                Else
+                    Production.LabelMessege.ForeColor = System.Drawing.Color.Black
+                End If
                 Production.LabelMessege.Text = message
                 Production.LabelMessege.Refresh()
             End If
@@ -1434,7 +1450,7 @@ Reset:
     End Sub
 
     Public Sub PauseDispensing()
-        If WasStart() Or IsRunning() Or WasRunning() Then
+        If (WasStart() Or IsRunning() Or WasRunning()) And Not (IsPause()) Then
             SetState("Pause")
             m_Tri.SetMachinePause()
             ChangeButtonState("Paused")
@@ -1446,19 +1462,23 @@ Reset:
 
     Public Sub StopDispensing()
         'only apply STOP DISPENSING if we started a dispensing run. otherwise, if previous machine state was not start i.e. homing then ignore.
-        If WasStart() Or WasRunning() Or IsRunning() Then
-            SetState("Stop")
+        If WasStart() Or WasRunning() Or IsRunning() Or IsPause() Then
+            'SetState("Stop")
+            ChangeButtonState("Disabled")
+            LabelMessage("Stopping dispensing process")
+            'Application.DoEvents()
             m_Tri.TrioStop()
             If Not ThreadExecution Is Nothing Then ThreadExecution.Abort()
             If VolumeCalibrationRunning = True Then MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped"
             VolumeCalibrationRunning = False
             LabelMessage("Dispensing Stop! Moving to Parking Position")
-            If Not WasStart() Then
-                LockMovementButtons()
-                TravelToParkPosition()
-                LabelMessage("System Idle")
-                ResetToIdle()
-            End If
+            'If Not WasStart() Then
+            LockMovementButtons()
+            TravelToParkPosition()
+            SetState("Stop")
+            LabelMessage("System Idle")
+            ResetToIdle()
+            'End If
             If ProductionMode() Then
                 Production.WriteSPCReport()
             End If

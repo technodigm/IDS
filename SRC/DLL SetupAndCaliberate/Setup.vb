@@ -60,9 +60,7 @@ Public Class Setup
     Public WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents LabelMessage As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
-    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
     Friend WithEvents btLaserInterface As System.Windows.Forms.Button
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
@@ -73,6 +71,8 @@ Public Class Setup
     Friend WithEvents rbTwoHead As System.Windows.Forms.RadioButton
     Friend WithEvents GroupBox8 As System.Windows.Forms.GroupBox
     Friend WithEvents tbEquipmentID As System.Windows.Forms.TextBox
+    Friend WithEvents btExit As System.Windows.Forms.Button
+    Friend WithEvents gbSystemSetup As System.Windows.Forms.GroupBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
@@ -108,20 +108,21 @@ Public Class Setup
         Me.HardwareTimer = New System.Timers.Timer
         Me.LabelMessage = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.gbSystemSetup = New System.Windows.Forms.GroupBox
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
         Me.btLaserInterface = New System.Windows.Forms.Button
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
         Me.HomingCheckTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.btExit = New System.Windows.Forms.Button
         Me.Panel1.SuspendLayout()
         Me.GpB_Configurations.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
+        Me.gbSystemSetup.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -206,16 +207,17 @@ Public Class Setup
         '
         'PanelRight
         '
-        Me.PanelRight.Location = New System.Drawing.Point(768, 8)
+        Me.PanelRight.Location = New System.Drawing.Point(8, 16)
         Me.PanelRight.Name = "PanelRight"
-        Me.PanelRight.Size = New System.Drawing.Size(512, 880)
+        Me.PanelRight.Size = New System.Drawing.Size(504, 864)
         Me.PanelRight.TabIndex = 6
         '
         'GroupBox4
         '
-        Me.GroupBox4.Location = New System.Drawing.Point(744, -16)
+        Me.GroupBox4.Controls.Add(Me.PanelRight)
+        Me.GroupBox4.Location = New System.Drawing.Point(744, 0)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(8, 960)
+        Me.GroupBox4.Size = New System.Drawing.Size(520, 888)
         Me.GroupBox4.TabIndex = 1
         Me.GroupBox4.TabStop = False
         '
@@ -247,7 +249,6 @@ Public Class Setup
         Me.ButtonSystemIO.Size = New System.Drawing.Size(224, 56)
         Me.ButtonSystemIO.TabIndex = 37
         Me.ButtonSystemIO.Text = "System IO"
-        Me.ButtonSystemIO.Visible = False
         '
         'ButtonLaserSetup
         '
@@ -410,7 +411,7 @@ Public Class Setup
         '
         Me.LabelMessage.BackColor = System.Drawing.Color.White
         Me.LabelMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LabelMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessage.ForeColor = System.Drawing.Color.Black
         Me.LabelMessage.Location = New System.Drawing.Point(8, 952)
         Me.LabelMessage.Name = "LabelMessage"
@@ -434,33 +435,25 @@ Public Class Setup
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Global Settings :"
         '
-        'GroupBox2
+        'gbSystemSetup
         '
-        Me.GroupBox2.Controls.Add(Me.ButtonGantrySetup)
-        Me.GroupBox2.Controls.Add(Me.ButtonNeedleCalibSetup)
-        Me.GroupBox2.Controls.Add(Me.ButtonSystemIO)
-        Me.GroupBox2.Controls.Add(Me.ButtonLaserSetup)
-        Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(16, 8)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(712, 184)
-        Me.GroupBox2.TabIndex = 88
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "System Setup :"
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Location = New System.Drawing.Point(744, 0)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(528, 8)
-        Me.GroupBox3.TabIndex = 89
-        Me.GroupBox3.TabStop = False
+        Me.gbSystemSetup.Controls.Add(Me.ButtonGantrySetup)
+        Me.gbSystemSetup.Controls.Add(Me.ButtonNeedleCalibSetup)
+        Me.gbSystemSetup.Controls.Add(Me.ButtonSystemIO)
+        Me.gbSystemSetup.Controls.Add(Me.ButtonLaserSetup)
+        Me.gbSystemSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbSystemSetup.Location = New System.Drawing.Point(16, 8)
+        Me.gbSystemSetup.Name = "gbSystemSetup"
+        Me.gbSystemSetup.Size = New System.Drawing.Size(712, 184)
+        Me.gbSystemSetup.TabIndex = 88
+        Me.gbSystemSetup.TabStop = False
+        Me.gbSystemSetup.Text = "System Setup :"
         '
         'GroupBox5
         '
-        Me.GroupBox5.Location = New System.Drawing.Point(0, 936)
+        Me.GroupBox5.Location = New System.Drawing.Point(0, 944)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(1272, 16)
+        Me.GroupBox5.Size = New System.Drawing.Size(1272, 8)
         Me.GroupBox5.TabIndex = 90
         Me.GroupBox5.TabStop = False
         '
@@ -489,20 +482,28 @@ Public Class Setup
         '
         Me.HomingCheckTimer.Interval = 30000
         '
+        'btExit
+        '
+        Me.btExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btExit.Location = New System.Drawing.Point(1192, 896)
+        Me.btExit.Name = "btExit"
+        Me.btExit.Size = New System.Drawing.Size(72, 48)
+        Me.btExit.TabIndex = 52
+        Me.btExit.Text = "Exit"
+        '
         'Setup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1272, 990)
         Me.Controls.Add(Me.GroupBox5)
-        Me.Controls.Add(Me.GroupBox3)
-        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.gbSystemSetup)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.LabelMessage)
-        Me.Controls.Add(Me.PanelRight)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.GroupBox4)
         Me.Controls.Add(Me.GroupBox6)
+        Me.Controls.Add(Me.btExit)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
@@ -514,10 +515,11 @@ Public Class Setup
         Me.GpB_Configurations.ResumeLayout(False)
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox7.ResumeLayout(False)
+        Me.GroupBox4.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         CType(Me.HardwareTimer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
+        Me.gbSystemSetup.ResumeLayout(False)
         Me.GroupBox6.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -757,10 +759,19 @@ Public Class Setup
         m_Tri.SteppingButtons.Show()
         ShowLabelMessage("Initializing hardware......")
         For Each ctrl As Control In Me.Controls
-            If ctrl.Name <> LabelMessage.Name Then
+            If ctrl.Name <> btExit.Name Then
                 ctrl.Enabled = False
             End If
         Next
+        AddPanel(PanelRight, MyGantrySetup.PanelToBeAdded)
+        MyGantrySetup.RevertData()
+        If Not (selectedButton Is Nothing) Then
+            selectedButton.FlatStyle = FlatStyle.Standard
+        End If
+        ButtonGantrySetup.FlatStyle = FlatStyle.Flat
+        selectedButton = ButtonGantrySetup
+        MyGantrySetup.StationPosition.SelectedIndex = 0
+        ButtonGantrySetup.Select()
         'timers
         HardwareTimer.Start()
         IDS.StartErrorCheck()
@@ -772,14 +783,6 @@ Public Class Setup
         'hardware
         Laser.OpenPort()
         OnLaser()
-
-        AddPanel(PanelRight, MyGantrySetup.PanelToBeAdded)
-        MyGantrySetup.RevertData()
-        selectedButton = ButtonGantrySetup
-        selectedButton.FlatStyle = FlatStyle.Flat
-        MyGantrySetup.StationPosition.SelectedIndex = 0
-        ButtonGantrySetup.Select()
-
     End Sub
 
     Private Sub Setup_Closed(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Closed
@@ -873,7 +876,7 @@ Public Class Setup
             m_Tri.m_TriCtrl.Cancel(0, 2)
 
             m_Tri.m_TriCtrl.Op(0)
-
+            m_Tri.m_TriCtrl.Execute("STOP SETDATUM")
             m_Tri.RunTrioMotionProgram("EXITIDS")
         End If
     End Sub
@@ -978,13 +981,12 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonSystemIO_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSystemIO.Click
-        AddPanel(PanelRight, MySysIO.PanelToBeAdded)
+        'AddPanel(PanelRight, MySysIO.PanelToBeAdded)
         'PanelToBeAdded.Width = 1280
-        PanelRight.Width = 1280
-        PanelRight.Location = New Point(0, 0)
-        PanelRight.BringToFront()
+        'PanelRight.Width = 1280
+        'PanelRight.Location = New Point(0, 0)
+        'PanelRight.BringToFront()
         MySysIO.SetIOTable()
-
         IDS.Data.Admin.User.RunApplication = "System"
         MySysIO.IOReadClose = False
         MySysIO.IOReadStop = False
@@ -992,6 +994,7 @@ Public Class Setup
         MySysIO.TimerIO.Start()
         MySysIO.EditIO()
         MoveZToZero()
+        MySysIO.ShowDialog()
     End Sub
 
     Private Sub ButtonGantry_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonGantrySetup.Click
@@ -1116,17 +1119,29 @@ Public Class Setup
     Private Sub Timer1_Elapsed(ByVal sender As System.Object, ByVal e As System.Timers.ElapsedEventArgs) Handles HardwareTimer.Elapsed
         HardwareTimer.Stop()
         HardwareTimer.Enabled = False
-        m_Tri.Connect_Controller()
-        m_Tri.SetMachineRun()
-        ShowLabelMessage("Homing")
-        m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
+        If m_Tri.Connect_Controller() Then
+            m_Tri.SetMachineRun()
+            ShowLabelMessage("Homing")
+            m_Tri.m_TriCtrl.Execute("RUN SETDATUM")
+        Else
+            ShowLabelMessage("Cannot connect to motion controller. Please check network connectivity or reset controller.", True)
+            For Each ctrl As Control In Me.Controls
+                ctrl.Enabled = True
+            Next
+        End If
+        
     End Sub
 
     Private Sub PanelVision_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs)
 
     End Sub
 
-    Private Sub ShowLabelMessage(ByVal msg As String)
+    Private Sub ShowLabelMessage(ByVal msg As String, Optional ByVal isError As Boolean = False)
+        If isError Then
+            LabelMessage.ForeColor = System.Drawing.Color.Red
+        Else
+            LabelMessage.ForeColor = System.Drawing.Color.Black
+        End If
         LabelMessage.Text = msg
     End Sub
 
@@ -1193,5 +1208,17 @@ Public Class Setup
     Private Sub tbEquipmentID_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbEquipmentID.TextChanged
         CIDSData.Machine.EquipmentID = tbEquipmentID.Text
         IDS.Data.SaveGlobalData()
+    End Sub
+
+    Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
+        Dim fm As InfoForm = New InfoForm
+        fm.Height = 130
+        fm.SetMessage("Are you sure you want to exit the program? Click Ok to exit.")
+        If fm.ShowDialog() = DialogResult.Cancel Then
+            Return
+        End If
+        selectedButton.FlatStyle = FlatStyle.Standard
+        selectedButton.BackColor = System.Drawing.SystemColors.Control
+        Close()
     End Sub
 End Class

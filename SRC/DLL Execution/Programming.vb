@@ -173,6 +173,7 @@ Public Class FormProgramming
     Friend WithEvents btPause As System.Windows.Forms.Button
     Friend WithEvents btStop As System.Windows.Forms.Button
     Friend WithEvents HomingTimer As System.Timers.Timer
+    Friend WithEvents HomingCheckTimer As System.Windows.Forms.Timer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProgramming))
@@ -304,6 +305,7 @@ Public Class FormProgramming
         Me.gbProcess = New System.Windows.Forms.GroupBox
         Me.btExit = New System.Windows.Forms.Button
         Me.HomingTimer = New System.Timers.Timer
+        Me.HomingCheckTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVisionCtrl.SuspendLayout()
         CType(Me.AxSpreadsheetProgramming, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -657,7 +659,7 @@ Public Class FormProgramming
         Me.ReferenceCommandBlock.DropDownArrows = True
         Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 32)
+        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(16, 16)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
         Me.ReferenceCommandBlock.ShowToolTips = True
         Me.ReferenceCommandBlock.Size = New System.Drawing.Size(128, 48)
@@ -690,7 +692,7 @@ Public Class FormProgramming
         Me.ElementsCommandBlock.DropDownArrows = True
         Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 32)
+        Me.ElementsCommandBlock.Location = New System.Drawing.Point(144, 16)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
         Me.ElementsCommandBlock.ShowToolTips = True
         Me.ElementsCommandBlock.Size = New System.Drawing.Size(888, 48)
@@ -1058,9 +1060,9 @@ Public Class FormProgramming
         '
         'LabelMessege
         '
-        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Info
+        Me.LabelMessege.BackColor = System.Drawing.Color.White
         Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessege.ForeColor = System.Drawing.Color.Black
         Me.LabelMessege.Location = New System.Drawing.Point(176, 328)
         Me.LabelMessege.Name = "LabelMessege"
@@ -1211,6 +1213,10 @@ Public Class FormProgramming
         Me.HomingTimer.Enabled = True
         Me.HomingTimer.SynchronizingObject = Me
         '
+        'HomingCheckTimer
+        '
+        Me.HomingCheckTimer.Interval = 35000
+        '
         'FormProgramming
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
@@ -1351,7 +1357,12 @@ Public Class FormProgramming
         'motion controller
         'm_Tri.Connect_Controller()
         'SetState("Homing")
-        HomingTimer.Start()
+        If m_Tri.bConnected Then
+            HomingTimer.Start()
+        Else
+            LabelMessage("Motion Controller not connected. Please check network connectivity or reset controller.", True)
+        End If
+
 
         'Disable part of the menu in File (GUI)
         MenuFileExport.Enabled = False
@@ -6395,6 +6406,7 @@ Public Class FormProgramming
             SaveProgram.UnSave = False
         End If
         isPress = False
+        Me.Cursor = Cursors.WaitCursor
         'error handling
         Form_Service.ResetEventCode()
         m_Tri.StopXYZAxis()
@@ -6406,6 +6418,7 @@ Public Class FormProgramming
         'motion controller
         m_Tri.TrioStop()
         m_Tri.m_TriCtrl.Op(0)
+        m_Tri.m_TriCtrl.Execute("STOP SETDATUM")
         m_Tri.RunTrioMotionProgram("EXITIDS")
         m_Tri.TurnOff("Material Air")
         'timers stop
@@ -6425,6 +6438,7 @@ Public Class FormProgramming
         KeyboardControl.ReleaseControls()
         IDS.Data.SaveLocalData()
         IDS.FrmExecution.Hide()
+        Me.Cursor = Cursors.Default
     End Sub
 
     Private Sub btStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStart.Click
@@ -7000,5 +7014,9 @@ Public Class FormProgramming
         HomingTimer.Enabled = False
         SetState("Homing")
         Console.WriteLine("Homing Timer Called")
+    End Sub
+
+    Private Sub HomingCheckTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HomingCheckTimer.Tick
+
     End Sub
 End Class

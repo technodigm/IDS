@@ -294,6 +294,7 @@ Public Class CIDSTrioController
     Public Const gTrioUpperInput As Integer = 15   'Trio onboard digital IO input upper bound no.
     Public Const gCANLowerInput As Integer = 16    'Trio CAN digital IO input lower bound no.
     Public Const gCANUpperInput As Integer = 31    'Trio CAN digital IO input upper bound no.
+
     Public Const gTrioLowerOutput As Integer = 8   'Trio onboard digital IO output lower bound no.
     Public Const gTrioUpperOutput As Integer = 15  'Trio onboard digital IO output upper bound no.
     Public Const gCANLowerOutput As Integer = 16   'Trio CAN digital IO output lower bound no.
@@ -301,6 +302,7 @@ Public Class CIDSTrioController
 
     Public m_TriCtrl As New TrioPCLib.TrioPCClass
     Public StateContainer(250) As Double
+    Public bConnected As New Boolean
 
 #Region " Connection "
 
@@ -998,8 +1000,10 @@ Public Class CIDSTrioController
             RunTrioMotionProgram("JOGGING", 5)
             RunTrioMotionProgram("LOGPOS", 4)
             Sleep(500)
+            bConnected = True
         Else
-            MsgBox("Can't connect to controller")
+            'MsgBox("Can't connect to controller")
+            bConnected = False
             Return False
         End If
 

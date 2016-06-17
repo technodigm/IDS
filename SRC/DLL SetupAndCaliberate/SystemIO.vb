@@ -109,9 +109,9 @@ Public Class SystemIO
         Me.Label7 = New System.Windows.Forms.Label
         Me.CBViewModule = New System.Windows.Forms.ComboBox
         Me.ButtonExit = New System.Windows.Forms.Button
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.ButtonRevert = New System.Windows.Forms.Button
         Me.ButtonSave = New System.Windows.Forms.Button
+        Me.ButtonRevert = New System.Windows.Forms.Button
+        Me.Label8 = New System.Windows.Forms.Label
         Me.ComboBox1 = New System.Windows.Forms.ComboBox
         Me.Label = New System.Windows.Forms.Label
         Me.TimerIO = New System.Windows.Forms.Timer(Me.components)
@@ -439,16 +439,16 @@ Public Class SystemIO
         Me.ButtonExit.TabStop = False
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonExit.Visible = False
         '
-        'Label8
+        'ButtonSave
         '
-        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label8.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label8.Location = New System.Drawing.Point(0, 0)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(192, 32)
-        Me.Label8.TabIndex = 58
-        Me.Label8.Text = "System IO"
+        Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonSave.Location = New System.Drawing.Point(1064, 680)
+        Me.ButtonSave.Name = "ButtonSave"
+        Me.ButtonSave.Size = New System.Drawing.Size(96, 50)
+        Me.ButtonSave.TabIndex = 56
+        Me.ButtonSave.Text = "Apply"
         '
         'ButtonRevert
         '
@@ -459,14 +459,15 @@ Public Class SystemIO
         Me.ButtonRevert.TabIndex = 57
         Me.ButtonRevert.Text = "Cancel"
         '
-        'ButtonSave
+        'Label8
         '
-        Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonSave.Location = New System.Drawing.Point(1064, 680)
-        Me.ButtonSave.Name = "ButtonSave"
-        Me.ButtonSave.Size = New System.Drawing.Size(96, 50)
-        Me.ButtonSave.TabIndex = 56
-        Me.ButtonSave.Text = "Apply"
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label8.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label8.Location = New System.Drawing.Point(0, 0)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(192, 32)
+        Me.Label8.TabIndex = 58
+        Me.Label8.Text = "System IO"
         '
         'ComboBox1
         '
@@ -494,10 +495,11 @@ Public Class SystemIO
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1200, 912)
         Me.Controls.Add(Me.PanelToBeAdded)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "SystemIO"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-        Me.Text = "SystemIO"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Input/Output"
+        Me.TopMost = True
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         CType(Me.DataGrid1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1161,23 +1163,27 @@ Public Class SystemIO
 
     ' exit button is clicked
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
+        ClearBeforeClose()
+        Hide()
+    End Sub
 
+    Private Sub ClearBeforeClose()
         IOReadClose = True      'io read connection is closed
-        mysleep(100)              'delay 
+        MySleep(100)              'delay 
 
         ' remove panel from the form 
-        RemovePanel(CurrentControl)
-        If IDS.Data.Admin.User.RunApplication.ToUpper = "SYSTEM" Then
-            MySetup.PanelRight.Width = 528
-            MySetup.PanelRight.Location = New Point(752, 0)
-        Else
-            MySettings.PanelRight.Height = 911
-            MySettings.PanelRight.Width = 512
-            MySettings.PanelRight.Location = New Point(768, 33)
-        End If
+        'RemovePanel(CurrentControl)
+        'If IDS.Data.Admin.User.RunApplication.ToUpper = "SYSTEM" Then
+        '    MySetup.PanelRight.Width = 528
+        '    MySetup.PanelRight.Location = New Point(752, 0)
+        'Else
+        '    MySettings.panelRight.Height = 911
+        '    MySettings.panelRight.Width = 512
+        '    MySettings.panelRight.Location = New Point(768, 33)
+        'End If
 
         ' prompt user to initialize ALL IO bits
-        Dim Respond As DialogResult = MessageBox.Show("Do You want to initialize the IO bits?", "", MessageBoxButtons.YesNo)
+        Dim Respond As DialogResult = MessageBox.Show("Do You want to reset the output?", "", MessageBoxButtons.YesNo)
 
         If Respond = DialogResult.Yes Then
 
@@ -1203,13 +1209,11 @@ Public Class SystemIO
                 m_Tri.SetDIOs(1, I, False)
             Next
         End If
-
         '   Xue Wen                                                     '
         '   Uncheck "RadioIO".                                          '
         '   If not, user only can use it after pressing other button.  
         TimerIO.Enabled = False
         TimerIO.Stop()
-
     End Sub
     '''''''''
     ' button view by is clicked
@@ -1234,7 +1238,6 @@ Public Class SystemIO
             Message = "Can't Toggle invalid IO Number - " + Mystr.ToUpper
             Return False    'exit
         End Try
-
         '''''''''
         ' Trio controller IO number
         ''''''''' 
@@ -1269,14 +1272,11 @@ Public Class SystemIO
 
                     Return False
                 End If
-
             End If
-
             '''''''''
             ' PC IO number
             ''''''''' 
         ElseIf Card = "PC" Then
-
             'prompt error if the port is in correct 
             If IOPort <> "IN" And IOPort <> "OUT" Then
                 Message = "PORT number is not valid - " + IOPort.ToString
@@ -1454,8 +1454,6 @@ Public Class SystemIO
     Private Sub TimerIO_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerIO.Tick
 
         Dim IOBitMap As Integer = 255
-
-
         ''''''''' ''''''
         ' read the IO bit status from the PC IO card, CAN, trio controller
         ''''''''' ''''''
@@ -1468,8 +1466,6 @@ Public Class SystemIO
         Else                            'else
             TimerIO.Stop()              'read IO status from the hardwares
             ReadIOFlag = True           'timer functin is reading IO now flag
-
-
             ''''''''' 
             ' Declare working variables
             ''''''''' 
@@ -1480,8 +1476,6 @@ Public Class SystemIO
             Dim PortNumber As Integer
             Dim I As Integer = 0
             Dim a As Integer = 0
-
-
             ''''''''' 
             ' get can io bits
             ''''''''' 
@@ -1495,14 +1489,11 @@ Public Class SystemIO
                 End If
             End While
             If a <= 10 Then
-
                 ''''''''' 
                 ' convert the bit map to integer
                 ''''''''' 
                 Call ConvertBitMaptoInteger(IOBitMap, "CAN", "", 0)
             End If
-
-
             ''''''''' 
             ' get pc IO
             ''''''''' 
@@ -1520,10 +1511,7 @@ Public Class SystemIO
                     MessageBox.Show("PC-IO Read error")
                     failcount += 1
                 End If
-
             End If
-
-
             PortNumber = 1
             If IDS.Devices.DIO.CheckInputByte(PortNumber, ReadByte) Then
                 IOBitMap = CInt(ReadByte)
@@ -1539,7 +1527,6 @@ Public Class SystemIO
                 End If
 
             End If
-
             ''''''''' 
             ' Get trio controller IO bits
             ''''''''' 
@@ -1559,8 +1546,6 @@ Public Class SystemIO
                 ''''''''' 
                 Call ConvertBitMaptoInteger(IOBitMap, "MC", "", 0)
             End If
-
-
             ''''''''' 
             ''''''''' 
             '
@@ -1568,15 +1553,11 @@ Public Class SystemIO
             '
             ''''''''' 
             ''''''''' 
-
-
             If DBview.Count = 0 Then
             Else
                 I = 0
                 While True
-
                     Dim Row As DataRow = DBview(I).Row
-
                     ''''''''' 
                     ' terminate the display if invalid type
                     ''''''''' 
@@ -1594,8 +1575,6 @@ Public Class SystemIO
                         '''''''' 
                         Dim IONumber As String = Row("IO")
                         If ValidateIONumber(IONumber, Card, IOPort, IOBit, Message) = True Then
-
-
                             ''''''''' 
                             ' PC IO card
                             '''''''' 
@@ -1789,6 +1768,12 @@ IOList_End:  'end of update io status to datagrid
         End If
 
     End Sub
+
+    Private Sub SystemIO_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        ClearBeforeClose()
+        e.Cancel = True
+        Hide()
+    End Sub
     ''''''''''
     ' declare the flags for IO reading status
     ''''''''  '
@@ -1938,6 +1923,5 @@ IOList_End:  'end of update io status to datagrid
     End Class
 
 #End Region
-
 
 End Class
