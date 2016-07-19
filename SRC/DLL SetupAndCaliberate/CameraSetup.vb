@@ -57,7 +57,6 @@ Public Class VisionSetup
     Friend WithEvents Label52 As System.Windows.Forms.Label
     Friend WithEvents Label53 As System.Windows.Forms.Label
     Friend WithEvents TextBox_RSizeX As System.Windows.Forms.TextBox
-    Friend WithEvents RichTextBox2 As System.Windows.Forms.RichTextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents Label11 As System.Windows.Forms.Label
@@ -147,6 +146,8 @@ Public Class VisionSetup
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents PanelToBeAdded2 As System.Windows.Forms.Panel
+    Friend WithEvents btGetReferenceCenter As System.Windows.Forms.Button
+    Friend WithEvents rtbTips As System.Windows.Forms.RichTextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(VisionSetup))
@@ -173,7 +174,7 @@ Public Class VisionSetup
         Me.Label52 = New System.Windows.Forms.Label
         Me.Label53 = New System.Windows.Forms.Label
         Me.TextBox_RSizeX = New System.Windows.Forms.TextBox
-        Me.RichTextBox2 = New System.Windows.Forms.RichTextBox
+        Me.rtbTips = New System.Windows.Forms.RichTextBox
         Me.Label9 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.Panel2 = New System.Windows.Forms.Panel
@@ -215,6 +216,7 @@ Public Class VisionSetup
         Me.ButtonBack = New System.Windows.Forms.Button
         Me.GroupBox_RefBlkRect = New System.Windows.Forms.GroupBox
         Me.GroupBox9 = New System.Windows.Forms.GroupBox
+        Me.btGetReferenceCenter = New System.Windows.Forms.Button
         Me.Label29 = New System.Windows.Forms.Label
         Me.Label30 = New System.Windows.Forms.Label
         Me.NumericUpDown_Rot = New System.Windows.Forms.NumericUpDown
@@ -241,6 +243,7 @@ Public Class VisionSetup
         Me.Button_Test = New System.Windows.Forms.Button
         Me.Label40 = New System.Windows.Forms.Label
         Me.Label28 = New System.Windows.Forms.Label
+        Me.Button6 = New System.Windows.Forms.Button
         Me.GroupBox_Imaging = New System.Windows.Forms.GroupBox
         Me.Label58 = New System.Windows.Forms.Label
         Me.NumericUpDown_ROI = New System.Windows.Forms.NumericUpDown
@@ -257,7 +260,6 @@ Public Class VisionSetup
         Me.GroupBox_Vertical_Horizontal = New System.Windows.Forms.GroupBox
         Me.RadioButton_Horizontal = New System.Windows.Forms.RadioButton
         Me.RadioButton_Verical = New System.Windows.Forms.RadioButton
-        Me.Button6 = New System.Windows.Forms.Button
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.PanelToBeAdded2 = New System.Windows.Forms.Panel
@@ -312,7 +314,7 @@ Public Class VisionSetup
         Me.GroupBox12.Controls.Add(Me.Label52)
         Me.GroupBox12.Controls.Add(Me.Label53)
         Me.GroupBox12.Controls.Add(Me.TextBox_RSizeX)
-        Me.GroupBox12.Controls.Add(Me.RichTextBox2)
+        Me.GroupBox12.Controls.Add(Me.rtbTips)
         Me.GroupBox12.Location = New System.Drawing.Point(8, 496)
         Me.GroupBox12.Name = "GroupBox12"
         Me.GroupBox12.Size = New System.Drawing.Size(480, 232)
@@ -525,15 +527,15 @@ Public Class VisionSetup
         Me.TextBox_RSizeX.Text = "0"
         Me.TextBox_RSizeX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'RichTextBox2
+        'rtbTips
         '
-        Me.RichTextBox2.BackColor = System.Drawing.SystemColors.InactiveBorder
-        Me.RichTextBox2.Location = New System.Drawing.Point(264, 16)
-        Me.RichTextBox2.Name = "RichTextBox2"
-        Me.RichTextBox2.ReadOnly = True
-        Me.RichTextBox2.Size = New System.Drawing.Size(208, 208)
-        Me.RichTextBox2.TabIndex = 66
-        Me.RichTextBox2.Text = "Tips:"
+        Me.rtbTips.BackColor = System.Drawing.SystemColors.InactiveBorder
+        Me.rtbTips.Location = New System.Drawing.Point(264, 16)
+        Me.rtbTips.Name = "rtbTips"
+        Me.rtbTips.ReadOnly = True
+        Me.rtbTips.Size = New System.Drawing.Size(208, 208)
+        Me.rtbTips.TabIndex = 66
+        Me.rtbTips.Text = "Tips:"
         '
         'Label9
         '
@@ -929,6 +931,7 @@ Public Class VisionSetup
         '
         'GroupBox9
         '
+        Me.GroupBox9.Controls.Add(Me.btGetReferenceCenter)
         Me.GroupBox9.Controls.Add(Me.Label29)
         Me.GroupBox9.Controls.Add(Me.Label30)
         Me.GroupBox9.Controls.Add(Me.NumericUpDown_Rot)
@@ -962,6 +965,14 @@ Public Class VisionSetup
         Me.GroupBox9.TabIndex = 1
         Me.GroupBox9.TabStop = False
         Me.GroupBox9.Text = "Rectangle's Parameters"
+        '
+        'btGetReferenceCenter
+        '
+        Me.btGetReferenceCenter.Location = New System.Drawing.Point(272, 136)
+        Me.btGetReferenceCenter.Name = "btGetReferenceCenter"
+        Me.btGetReferenceCenter.Size = New System.Drawing.Size(64, 40)
+        Me.btGetReferenceCenter.TabIndex = 44
+        Me.btGetReferenceCenter.Text = "Get"
         '
         'Label29
         '
@@ -1182,7 +1193,7 @@ Public Class VisionSetup
         '
         'Button_Test
         '
-        Me.Button_Test.Location = New System.Drawing.Point(320, 128)
+        Me.Button_Test.Location = New System.Drawing.Point(344, 128)
         Me.Button_Test.Name = "Button_Test"
         Me.Button_Test.Size = New System.Drawing.Size(112, 48)
         Me.Button_Test.TabIndex = 2
@@ -1206,6 +1217,14 @@ Public Class VisionSetup
         Me.Label28.TabIndex = 33
         Me.Label28.Text = "?"
         Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(24, 144)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(232, 32)
+        Me.Button6.TabIndex = 43
+        Me.Button6.Text = "Reset Chip Edge Points"
         '
         'GroupBox_Imaging
         '
@@ -1368,14 +1387,6 @@ Public Class VisionSetup
         Me.RadioButton_Verical.TabIndex = 66
         Me.RadioButton_Verical.TabStop = True
         Me.RadioButton_Verical.Text = "Vertical"
-        '
-        'Button6
-        '
-        Me.Button6.Location = New System.Drawing.Point(24, 144)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(232, 32)
-        Me.Button6.TabIndex = 43
-        Me.Button6.Text = "Reset Chip Edge Points"
         '
         'PanelToBeAdded
         '
@@ -1683,8 +1694,8 @@ Public Class VisionSetup
         IDS.Data.Hardware.Camera.ReferencePos.Y = m_Tri.YPosition
 
         'Manual calculation
-        IDS.Data.Hardware.Camera.ReferencePos.X = 127.271
-        IDS.Data.Hardware.Camera.ReferencePos.Y = -360.832
+        'IDS.Data.Hardware.Camera.ReferencePos.X = 127.271
+        'IDS.Data.Hardware.Camera.ReferencePos.Y = -360.832
 
         IDS.Data.Hardware.Camera.BlockPosTolerance = NumericUpDown_Pos.Value
         IDS.Data.Hardware.Camera.BlockSizeTolerance = NumericUpDown_Size.Value
@@ -1730,7 +1741,7 @@ Public Class VisionSetup
         End If
     End Sub
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        IDS.Devices.Vision.FrmVision.ClearDisplay()
+        'IDS.Devices.Vision.FrmVision.ClearDisplay()
         IDS.Devices.Vision.FrmVision.SetupVariable(TextBox_SizeX, TextBox_SizeY, TextBox_PosX, TextBox_PosY, NumericUpDown_Size, NumericUpDown_Pos, NumericUpDown_Rot) 'link those textbox to vision's textbox
         IDS.Devices.Vision.FrmVision.SetupRVariable(TextBox_RSizeX, TextBox_RSizeY, TextBox_RPosX, TextBox_RPosY, TextBox_RRot, TextBox_Score)
 
@@ -1884,5 +1895,22 @@ Public Class VisionSetup
 
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         IDS.Devices.Vision.FrmVision.DisableChipEdgeDrawing()
+    End Sub
+
+    Private Sub btGetReferenceCenter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btGetReferenceCenter.Click
+        Dim post(1) As Double
+        Dim currentPos(1) As Double
+        currentPos(0) = m_Tri.XPosition
+        currentPos(1) = m_Tri.YPosition
+        IDS.Devices.Vision.FrmVision.GetChipCenter_World(currentPos, post(0), post(1))
+        rtbTips.Clear()
+        rtbTips.AppendText("Reference Point X:" & post(0) & " Y:" & post(1))
+        Dim relPost(1) As Double
+        relPost(0) = 0
+        relPost(1) = 0
+        IDS.Data.Hardware.Camera.ReferencePos.X = post(0)
+        IDS.Data.Hardware.Camera.ReferencePos.Y = post(1)
+        m_Tri.MoveRelative_XY(relPost)
+        m_Tri.Move_XY(post)
     End Sub
 End Class

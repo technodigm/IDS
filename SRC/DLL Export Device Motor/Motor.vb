@@ -382,6 +382,29 @@ Public Class CIDSTrioController
         End While
     End Sub
 
+    'Waiting for reaching demand positions on 3 axes                  '
+    Public Sub WaitMotionDone()
+        Dim dRemain(3) As Double
+        Dim nAxis As Integer
+        Dim bWaiting As Boolean
+        Dim esp As Double = 0.001
+
+        bWaiting = True
+        While bWaiting  ' waiting for 3 axes all reaching demand postions
+            For nAxis = 0 To 2
+                If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
+                    m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
+                End If
+            Next nAxis
+
+            Sleep(25)
+            Application.DoEvents()
+
+            bWaiting = (Math.Abs(dRemain(0)) > esp) Or (Math.Abs(dRemain(1)) > esp) Or (Math.Abs(dRemain(2)) > esp)
+            ' as long any axis more than 0.05 continue waiting
+        End While
+    End Sub
+
     Public Sub WaitForNoError()
         Dim dError(3) As Double
         Dim nAxis As Integer
@@ -497,7 +520,17 @@ Public Class CIDSTrioController
             Return False
         End If
         m_TriCtrl.MoveRel(2, Position, 0)
+        'WaitForEndOfMove()
+        WaitMotionDone()
+        Return True
+    End Function
+    'Only move but not wait for motion done
+    Public Function MoveRelOnly(ByVal Position() As Double)
         WaitForEndOfMove()
+        If MachineHoming() Or MachineJogging() Or EStopActivated() Then
+            Return False
+        End If
+        m_TriCtrl.MoveRel(2, Position, 0)
         Return True
     End Function
     Public Function MoveRelative_XYZ(ByVal Position() As Double)

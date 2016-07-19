@@ -10,7 +10,8 @@ Imports Matrox.ActiveMIL
 
 Public Class FormVision
     Inherits System.Windows.Forms.Form
-
+    Private imageWidth = 768
+    Private imageHeight = 576
     'Another method, not to fire "ValueChanged" event while constructing Form's components.
     Private Initializing As Boolean = True
 
@@ -1214,10 +1215,14 @@ Public Class FormVision
             AxGraphicContext2.Rectangle(False, 0)
 
             With AxGraphicContext2.DrawingRegion()
-                .StartX() = (DisplayCenterXPosition) - (3000 / 22)
-                .StartY() = (DisplayCenterYPosition) - (3000 / 22)
-                .EndX() = (DisplayCenterXPosition) + (3000 / 22)
-                .EndY() = (DisplayCenterYPosition) + (3000 / 22)
+                '.StartX() = (DisplayCenterXPosition) - (3000 / 22)
+                '.StartY() = (DisplayCenterYPosition) - (3000 / 22)
+                '.EndX() = (DisplayCenterXPosition) + (3000 / 22)
+                '.EndY() = (DisplayCenterYPosition) + (3000 / 22)
+                .StartX() = (DisplayCenterXPosition) - (imageWidth / 2)
+                .StartY() = (DisplayCenterYPosition) - (imageHeight / 2)
+                .EndX() = (DisplayCenterXPosition) + (imageWidth / 2)
+                .EndY() = (DisplayCenterYPosition) + (imageHeight / 2)
             End With
             AxGraphicContext2.Cross(0)
         Catch ex As Exception
@@ -5325,6 +5330,55 @@ Public Class FormVision
             ExceptionDisplay(ex)
         End Try
 
+    End Function
+    ''Get the world position based on current found chip four corner top left/right, bottom left/right
+    ''
+    Public Function GetChipCenter_World(ByVal Post() As Double, ByRef chipCenterX As Double, ByRef chipCenterY As Double)
+        Dim x1, x2, x3, x4 As Double
+        Dim y1, y2, y3, y4 As Double
+        Dim LeftX, RightX, TopY, BottomY As Double
+        Dim X(3), Y(3) As Double
+        X(0) = Px1
+        X(1) = Px2
+        X(2) = Px3
+        X(3) = Px4
+        Y(0) = Py1
+        Y(1) = Py2
+        Y(2) = Py3
+        Y(3) = Py4
+        For i As Integer = 0 To 3
+            If X(i) < DisplayCenterXPosition Then
+                LeftX = X(i)
+                Exit For
+            End If
+        Next
+        For i As Integer = 0 To 3
+            If X(i) > DisplayCenterXPosition Then
+                RightX = X(i)
+                Exit For
+            End If
+        Next
+        For i As Integer = 0 To 3
+            If Y(i) < DisplayCenterXPosition Then
+                TopY = Y(i)
+                Exit For
+            End If
+        Next
+        For i As Integer = 0 To 3
+            If Y(i) > DisplayCenterXPosition Then
+                BottomY = Y(i)
+                Exit For
+            End If
+        Next
+        LeftX = Math.Abs(Math.Abs(LeftX * PixelSizeX - DisplayCenterXPosition * PixelSizeX) - Post(0))
+        RightX = Math.Abs(DisplayCenterXPosition * PixelSizeX - RightX * PixelSizeX) + Post(0)
+
+
+        TopY = Math.Abs(TopY * PixelSizeY - DisplayCenterYPosition * PixelSizeY) + Post(1)
+        BottomY = Post(1) - Math.Abs(BottomY * PixelSizeY - DisplayCenterYPosition * PixelSizeY)
+
+        chipCenterX = (LeftX + RightX) / 2
+        chipCenterY = (TopY + BottomY) / 2
     End Function
     Function ChipPointDrawing(ByVal Chip_QC_SS As Integer)
         If AxMeasurement7.Results.Count > 0 And AxMeasurement8.Results.Count > 0 And AxMeasurement9.Results.Count > 0 And AxMeasurement10.Results.Count > 0 And AxMeasurement11.Results.Count > 0 Then

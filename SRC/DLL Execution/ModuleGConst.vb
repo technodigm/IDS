@@ -51,8 +51,8 @@ Public Module ModuleGConst
         'Laser center offset wrt vision center
         gLaserOffX = -IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X
         gLaserOffY = -IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y
-        gLaserOffX = 74.668
-        gLaserOffY = -0.553
+        'gLaserOffX = 74.668
+        'gLaserOffY = -0.553
         'Distance reading of height reference block
 
     End Function

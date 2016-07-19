@@ -1,4 +1,6 @@
 Imports DLL_Export_Service
+Imports DLL_Export_Device_Motor
+Imports System.Threading
 
 Public Class LaserCalibration
     Inherits System.Windows.Forms.Form
@@ -36,7 +38,6 @@ Public Class LaserCalibration
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents StatusBar1 As System.Windows.Forms.StatusBar
     Friend WithEvents Label7 As System.Windows.Forms.Label
@@ -63,6 +64,7 @@ Public Class LaserCalibration
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
     Friend WithEvents LaserReading As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents LasertoCameraOffset As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(LaserCalibration))
@@ -75,12 +77,14 @@ Public Class LaserCalibration
         Me.NewLaserXOffset = New System.Windows.Forms.Label
         Me.Label7 = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
+        Me.LasertoCameraOffset = New System.Windows.Forms.Label
         Me.ButtonLSStart = New System.Windows.Forms.Button
         Me.ButtonRevert = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.ButtonSave = New System.Windows.Forms.Button
+        Me.LaserReading = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.StatusBar1 = New System.Windows.Forms.StatusBar
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
@@ -97,8 +101,6 @@ Public Class LaserCalibration
         Me.Label21 = New System.Windows.Forms.Label
         Me.LaserOffsetZ = New System.Windows.Forms.Label
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.LaserReading = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
@@ -131,7 +133,7 @@ Public Class LaserCalibration
         Me.GroupBox2.Controls.Add(Me.NewLaserXOffset)
         Me.GroupBox2.Controls.Add(Me.Label7)
         Me.GroupBox2.Controls.Add(Me.Label6)
-        Me.GroupBox2.Controls.Add(Me.Label5)
+        Me.GroupBox2.Controls.Add(Me.LasertoCameraOffset)
         Me.GroupBox2.Controls.Add(Me.ButtonLSStart)
         Me.GroupBox2.Location = New System.Drawing.Point(40, 280)
         Me.GroupBox2.Name = "GroupBox2"
@@ -200,14 +202,15 @@ Public Class LaserCalibration
         Me.Label6.TabIndex = 14
         Me.Label6.Text = "Current Y"
         '
-        'Label5
+        'LasertoCameraOffset
         '
-        Me.Label5.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label5.Location = New System.Drawing.Point(32, 48)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(139, 32)
-        Me.Label5.TabIndex = 13
-        Me.Label5.Text = "Offset Result"
+        Me.LasertoCameraOffset.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.LasertoCameraOffset.Location = New System.Drawing.Point(8, 48)
+        Me.LasertoCameraOffset.Name = "LasertoCameraOffset"
+        Me.LasertoCameraOffset.Size = New System.Drawing.Size(376, 32)
+        Me.LasertoCameraOffset.TabIndex = 13
+        Me.LasertoCameraOffset.Text = "Laser to camera offset"
+        Me.LasertoCameraOffset.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'ButtonLSStart
         '
@@ -251,11 +254,27 @@ Public Class LaserCalibration
         Me.ButtonSave.TabIndex = 6
         Me.ButtonSave.Text = "Save"
         '
+        'LaserReading
+        '
+        Me.LaserReading.Location = New System.Drawing.Point(296, 208)
+        Me.LaserReading.Name = "LaserReading"
+        Me.LaserReading.Size = New System.Drawing.Size(88, 24)
+        Me.LaserReading.TabIndex = 16
+        '
+        'Label9
+        '
+        Me.Label9.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.Label9.Location = New System.Drawing.Point(64, 208)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(184, 25)
+        Me.Label9.TabIndex = 12
+        Me.Label9.Text = "Laser Reading (mm) :"
+        '
         'Label1
         '
         Me.Label1.Location = New System.Drawing.Point(-102, -8)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(77, 21)
+        Me.Label1.Size = New System.Drawing.Size(78, 21)
         Me.Label1.TabIndex = 30
         Me.Label1.Text = "Sensor"
         '
@@ -405,22 +424,6 @@ Public Class LaserCalibration
         '
         Me.Timer1.Interval = 10
         '
-        'LaserReading
-        '
-        Me.LaserReading.Location = New System.Drawing.Point(296, 208)
-        Me.LaserReading.Name = "LaserReading"
-        Me.LaserReading.Size = New System.Drawing.Size(88, 24)
-        Me.LaserReading.TabIndex = 16
-        '
-        'Label9
-        '
-        Me.Label9.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label9.Location = New System.Drawing.Point(64, 208)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(184, 25)
-        Me.Label9.TabIndex = 12
-        Me.Label9.Text = "Laser Reading (mm) :"
-        '
         'LaserCalibration
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 19)
@@ -451,8 +454,8 @@ Public Class LaserCalibration
             .OffsetPos.X = NewLaserXOffset.Text - IDS.Data.Hardware.Camera.ReferencePos.X
             .OffsetPos.Y = NewLaserYOffset.Text - IDS.Data.Hardware.Camera.ReferencePos.Y
             'Manual calculation override (why??? kr sept 2015)
-            .OffsetPos.X = 52.819 - IDS.Data.Hardware.Camera.ReferencePos.X
-            .OffsetPos.Y = 127.271 - IDS.Data.Hardware.Camera.ReferencePos.Y
+            '.OffsetPos.X = 52.819 - IDS.Data.Hardware.Camera.ReferencePos.X
+            '.OffsetPos.Y = 127.271 - IDS.Data.Hardware.Camera.ReferencePos.Y
         End With
 
         IDS.Data.SaveData()
@@ -461,6 +464,14 @@ Public Class LaserCalibration
 
     Private Sub ButtonLSStart_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLSStart.Click
 
+        If ButtonLSStart.Text = "Start" Then
+            ButtonLSStart.Text = "Stop"
+            StartLaserBlockCalibration()
+        Else
+            ExitLaserCalibration()
+            ButtonLSStart.Text = "Start"
+        End If
+        Return
         Timer1.Start()
         m_Tri.SetMachineRun()
         Laser.EnableContinuousRead()
@@ -503,6 +514,7 @@ Public Class LaserCalibration
             distance(0) = -0.01
             distance(1) = 0
             counter = counter + 1
+            LaserReading.Text = Laser.MM_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
@@ -528,6 +540,7 @@ Public Class LaserCalibration
             counter = counter + 1
             distance(0) = -0.01
             distance(1) = 0
+            LaserReading.Text = Laser.MM_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
@@ -553,6 +566,7 @@ Public Class LaserCalibration
             counter = counter + 1
             distance(0) = 0
             distance(1) = -0.01
+            LaserReading.Text = Laser.MM_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
@@ -579,6 +593,7 @@ Public Class LaserCalibration
             counter = counter + 1
             distance(0) = 0
             distance(1) = -0.01
+            LaserReading.Text = Laser.MM_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
@@ -601,7 +616,9 @@ Public Class LaserCalibration
         MessageBox.Show("finish")
         NewLaserXOffset.Text = distance(0)
         NewLaserYOffset.Text = distance(1)
-
+        IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X = distance(0)
+        IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y = distance(1)
+        IDS.Data.SaveData()
         'after successful setup disable the following
         Laser.DisableContinuousRead()
         LaserReading.Text = ""
@@ -650,5 +667,153 @@ CalibrationError:
                 ReadingReceived = True
             End If
         End While
+    End Sub
+
+    Private startInit As AutoResetEvent = New AutoResetEvent(False)
+    Private errorState As AutoResetEvent = New AutoResetEvent(False)
+    Private abortInit As AutoResetEvent = New AutoResetEvent(False)
+    Private waitHandles() As WaitHandle = {abortInit, errorState, startInit}
+    Public isInited As Boolean = False
+    Public isExited As Boolean = False
+    Public errorMessage As String = ""
+    Private InitThread As Threading.Thread
+    Public Sub StartLaserBlockCalibration()
+        InitThread = New System.Threading.Thread(AddressOf ControllerThread)
+        InitThread.Priority = ThreadPriority.Normal
+        InitThread.Start()
+        startInit.Set()
+    End Sub
+    Public Sub ExitLaserCalibration()
+        abortInit.Set()
+    End Sub
+    'Thread
+    Public Sub ControllerThread()
+        Dim stepCnt As Integer = 0
+        Dim counter As Integer = 0
+        Dim calibrator_plate_height, block_height, difference As Double
+        Dim position(3) As Double
+        Dim center(1) As Double
+        Dim bigStep(1) As Double
+        Dim smallStep(1) As Double
+        Dim stepSize As Double = 5.5
+        Dim index As Integer = 0
+        While (1)
+            Dim i As Integer = WaitHandle.WaitAny(waitHandles)
+            Select Case i
+                Case 0
+                    'Abort
+                    Console.WriteLine("Laser blob calibration Thread exit #1")
+                    abortInit.Reset()
+                    isExited = True
+                    InitThread.Abort() 'Kill the thread if sucess
+                    Return
+                Case 1 'Error occured
+                    stepCnt = 0
+                    counter = 0
+                    startInit.Reset()
+                    errorState.Reset()
+                    MessageBox.Show("Error when calibrate laser:" + errorMessage)
+                Case 2
+                    startInit.Set()
+                    If stepCnt = 0 Then
+                        index = 0
+                        counter = 0
+                        m_Tri.SetMachineRun()
+                        Laser.EnableContinuousRead()
+                        Laser.MM_Reading = 0
+                        WaitLoop()
+                        block_height = Laser.MM_Reading
+                        NewLaserZReference.Text = block_height
+                        IDS.Data.Hardware.HeightSensor.Laser.HeightReference = block_height
+                        IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z = block_height
+                        IDS.Data.SaveData()
+                        m_Tri.Set_XY_Speed(10)
+                        center(0) = m_Tri.XPosition
+                        center(1) = m_Tri.YPosition
+                        bigStep(0) = stepSize 'Move + X 
+                        bigStep(1) = 0
+                        m_Tri.MoveRelative_XY(bigStep)
+                        WaitLoop()
+                        calibrator_plate_height = Laser.MM_Reading
+                        smallStep(0) = -0.01
+                        smallStep(1) = 0
+                        stepCnt += 1
+                    ElseIf stepCnt = 1 Then
+                        If Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400 Then
+                            counter = counter + 1
+                            LaserReading.Text = Laser.MM_Reading
+                            m_Tri.MoveRelative_XY(smallStep)
+                        ElseIf Math.Abs(calibrator_plate_height - Laser.MM_Reading) > 0.95 Then 'sharp 
+                            'ElseIf Math.Abs(9.8) > 0.95 Then 'sharp drop
+                            m_Tri.GetIDSState()
+                            If (index < 2) Then  'Convert to system coordinate
+                                position(index) = m_Tri.XPosition
+                                bigStep(0) *= -1
+                                bigStep(1) = 0
+                                smallStep(0) *= -1
+                                smallStep(1) = 0
+                                If (index = 1) Then
+                                    bigStep(0) = 0
+                                    bigStep(1) = stepSize 'next step is Y offset from center
+                                    smallStep(0) = 0
+                                    smallStep(1) = -0.01
+                                End If
+                            Else                 'Convert to system coordinate
+                                position(index) = m_Tri.YPosition
+                                bigStep(0) = 0
+                                bigStep(1) *= -1
+                                smallStep(0) = 0
+                                smallStep(1) *= -1
+                            End If
+                            index += 1
+                            stepCnt += 1
+                        End If
+                        If counter >= 400 Then
+                            errorMessage = "Counter exceed limit but sharp drop is not detected!"
+                            errorState.Set()
+                            counter = 0
+                        End If
+                    ElseIf stepCnt = 2 Then
+                        If index < 4 Then
+                            counter = 0
+                            m_Tri.Move_XY(center)
+                            m_Tri.MoveRelative_XY(bigStep)
+                            WaitLoop()
+                        End If
+                        If index = 4 Then 'Success
+                            stepCnt += 1
+                        Else
+                            stepCnt -= 1
+                        End If
+                    ElseIf stepCnt = 3 Then
+                        distance(0) = (position(0) - position(1)) / 2 + position(1)
+                        distance(1) = (position(2) - position(3)) / 2 + position(3)
+                        distance(2) = 0
+                        m_Tri.Set_XY_Speed(10)
+                        m_Tri.Move_XY(distance)
+                        NewLaserXOffset.Text = distance(0)
+                        NewLaserYOffset.Text = distance(1)
+                        IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X = distance(0) - IDS.Data.Hardware.Camera.ReferencePos.X
+                        IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y = distance(1) - IDS.Data.Hardware.Camera.ReferencePos.Y
+                        LasertoCameraOffset.Text = "Laser to camera offset X:" & IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X & " Y:" & IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y
+                        IDS.Data.SaveData()
+                        'after successful setup disable the following
+                        Laser.DisableContinuousRead()
+                        LaserReading.Text = ""
+                        m_Tri.ResetCalibrationFlag()
+                        m_Tri.SetMachineStop()
+                        stepCnt = 0
+                        counter = 0
+                        index = 0
+                        ButtonLSStart.Text = "Start"
+                        startInit.Reset()
+                        InitThread.Abort() 'Kill the thread if sucess
+                    End If
+                    'Init
+            End Select
+        End While
+    End Sub
+    Private Sub HardToSystem_X(ByVal pt As Double, ByRef newPt As Double)
+        newPt = pt - IDS.Data.Hardware.Gantry.SystemOriginPos.X
     End Sub
 End Class

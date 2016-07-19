@@ -916,7 +916,7 @@ ResetMachineState:
         If ProgrammingMode() Then
             Programming.ButtonPurge.Enabled = True
         ElseIf ProductionMode() Then
-            Programming.ButtonPurge.Enabled = True
+            Production.ButtonPurge.Enabled = True
         End If
     End Sub
 
@@ -925,7 +925,7 @@ ResetMachineState:
         If ProgrammingMode() Then
             Programming.ButtonClean.Enabled = True
         ElseIf ProductionMode() Then
-            Programming.ButtonClean.Enabled = True
+            Production.ButtonClean.Enabled = True
         End If
     End Sub
 
@@ -1154,10 +1154,14 @@ ResetMachineState:
             Exit Sub
         Else
             m_Tri.SetMachineStop()
+            m_Tri.TurnOff("Left Needle IO")
+            'If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            LockMovementButtons()
+            TravelToParkPosition()
             Programming.ButtonPurge.Text = "Purge On"
             Production.ButtonPurge.Text = "Purge On"
-            m_Tri.TurnOff("Left Needle IO")
-            If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            ResetToIdle()
+
         End If
 
 Reset:
@@ -1204,10 +1208,13 @@ Reset:
             Exit Sub
         Else
             m_Tri.SetMachineStop()
+            m_Tri.TurnOff("Clean")
+            'If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            LockMovementButtons()
+            TravelToParkPosition()
             Production.ButtonClean.Text = "Clean On"
             Programming.ButtonClean.Text = "Clean On"
-            m_Tri.TurnOff("Clean")
-            If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            ResetToIdle()
         End If
 
 Reset:

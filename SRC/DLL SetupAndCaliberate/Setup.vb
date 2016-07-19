@@ -642,7 +642,7 @@ Public Class Setup
         Me.TextBoxRobotX.ReadOnly = True
         Me.TextBoxRobotX.Size = New System.Drawing.Size(74, 21)
         Me.TextBoxRobotX.TabIndex = 6
-        Me.TextBoxRobotX.Text = "Z: 100.000"
+        Me.TextBoxRobotX.Text = "X: 100.000"
         '
         'Label1
         '
@@ -939,6 +939,15 @@ Public Class Setup
 
     Private Sub Setup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
+
+        ' get default value from the default pat file
+        IDS.Data.ParameterID.RecordID = "FactoryDefault"
+        IDSData.Admin.Folder.FileExtension = "Pat"
+        IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
+        OpenPathFileName("C:\IDS\Pattern_Dir\FactoryDefault.Pat")
+        DisplayBrightness.Value = IDSData.Hardware.Camera.Brightness
+        IDS.Devices.Vision.FrmVision.SetBrightness(IDSData.Hardware.Camera.Brightness)
+
         homingStart = False
         homingDone = False
         homingWaitCnt = 0
@@ -1077,6 +1086,9 @@ Public Class Setup
         End If
         HardwareInitTimer.Stop()
         HardwareInitTimer.Enabled = False
+        If Not (MySysIO.IOReadClose) Then
+            MySysIO.ClearandClose()
+        End If
     End Sub
 
     Private Sub SetPressure(ByVal PressureInput As Decimal, ByVal SuckBack As Decimal, ByVal Mode As String)

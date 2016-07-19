@@ -1192,7 +1192,7 @@ Public Class SystemIO
         End If
 
         ' prompt user to initialize ALL IO bits
-        Dim Respond As DialogResult = MessageBox.Show("Do You want to initialize the IO bits?", "", MessageBoxButtons.YesNo)
+        Dim Respond As DialogResult = MessageBox.Show("Do You want to reset the IO bits?", "", MessageBoxButtons.YesNo)
 
         If Respond = DialogResult.Yes Then
 
@@ -1226,6 +1226,22 @@ Public Class SystemIO
         TimerIO.Stop()
 
     End Sub
+    Public Function ClearandClose()
+        ' remove panel from the form 
+        RemovePanel(CurrentControl)
+        If IDS.Data.Admin.User.RunApplication.ToUpper = "SYSTEM" Then
+            MySetup.PanelRight.Width = 528
+            MySetup.PanelRight.Location = New Point(752, 0)
+        Else
+            MySettings.PanelRight.Height = 911
+            MySettings.PanelRight.Width = 512
+            MySettings.PanelRight.Location = New Point(768, 33)
+        End If
+
+        TimerIO.Enabled = False
+        TimerIO.Stop()
+        IOReadClose = True      'io read connection is closed
+    End Function
     '''''''''
     ' button view by is clicked
     '''''''''   

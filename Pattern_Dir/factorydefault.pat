@@ -7,28 +7,15 @@
 6IDSData.Admin.Folder.PatternPath =C:\IDS\Pattern_Dir
 )IDSData.Admin.Folder.FileExtension =Pat
 IDSData.ParameterID.GroupID =
-.IDSData.ParameterID.RecordID =factorydefault
-,IDSData.Admin.User.ContactNo =6493 3826‎
-$IDSData.Admin.User.Department =R&D
+.IDSData.ParameterID.RecordID =FactoryDefault
+ IDSData.Admin.User.ContactNo =
+!IDSData.Admin.User.Department =
 'IDSData.Admin.User.ID =patIDSData.Pa
-&IDSData.Admin.User.Name =Techno-Digm
+IDSData.Admin.User.Name =
 IDSData.Admin.User.PassWord =
-/IDSData.Admin.User.RunApplication =Programmer
++IDSData.Admin.User.RunApplication =System
 IDSData.Admin.User.Group.ID =
-$IDSData.Admin.User.Group.Remark =1
-8IDSData.Admin.User.Group.PrivilegeArray (0) =Dispenser
-7IDSData.Admin.User.Group.PrivilegeArray (1) =Conveyor
-@IDSData.Admin.User.Group.PrivilegeArray (2) =EventFailedAction
-;IDSData.Admin.User.Group.PrivilegeArray (3) =HeightSensor
-@IDSData.Admin.User.Group.PrivilegeArray (4) =NeedleCalibration
-@IDSData.Admin.User.Group.PrivilegeArray (5) =VolumeCalibration
-9IDSData.Admin.User.Group.PrivilegeArray (6) =Programmer
-9IDSData.Admin.User.Group.PrivilegeArray (7) =SPCLogging
-=IDSData.Admin.User.Group.PrivilegeArray (8) =StationSetting
-<IDSData.Admin.User.Group.SystemHardwareArray (0) =Conveyor
-@IDSData.Admin.User.Group.SystemHardwareArray (1) =HeightSensor
-EIDSData.Admin.User.Group.SystemHardwareArray (2) =NeedleCalibration
-EIDSData.Admin.User.Group.SystemHardwareArray (3) =VolumeCalibration
+#IDSData.Admin.User.Group.Remark =
 <IDSData.Admin.ALLPrivileges.IDArray (0) =VolumeCalibration
 <IDSData.Admin.ALLPrivileges.IDArray (1) =ThermalController
 9IDSData.Admin.ALLPrivileges.IDArray (2) =StationSetting
@@ -122,8 +109,8 @@ EIDSData.Admin.User.Group.SystemHardwareArray (3) =VolumeCalibration
 :IDSData.Hardware.Camera.PixelsToMM.X =0.0210959332509594
 :IDSData.Hardware.Camera.PixelsToMM.Y =0.0211581633108921
 7IDSData.Hardware.Camera.PixelRatio =0.997058815596689
-1IDSData.Hardware.Camera.ReferencePos.X =127.271
-2IDSData.Hardware.Camera.ReferencePos.Y =-360.832
+1IDSData.Hardware.Camera.ReferencePos.X =127.365
+2IDSData.Hardware.Camera.ReferencePos.Y =-360.697
 +IDSData.Hardware.Camera.ReferencePos.Z =0
 *IDSData.Hardware.Camera.SoftHomePos.X =0
 *IDSData.Hardware.Camera.SoftHomePos.Y =0
@@ -134,21 +121,21 @@ EIDSData.Admin.User.Group.SystemHardwareArray (3) =VolumeCalibration
 2IDSData.Hardware.Camera.CalibrationBlockPos.X =0
 2IDSData.Hardware.Camera.CalibrationBlockPos.Y =0
 2IDSData.Hardware.Camera.CalibrationBlockPos.Z =0
-7IDSData.Hardware.Camera.BlockSize.X =9.96938559653936
-7IDSData.Hardware.Camera.BlockSize.Y =9.98468867084841
+7IDSData.Hardware.Camera.BlockSize.X =9.59000094381725
+7IDSData.Hardware.Camera.BlockSize.Y =9.64622464810801
 /IDSData.Hardware.Camera.BlockSizeTolerance =5
 .IDSData.Hardware.Camera.BlockPosTolerance =5
 3IDSData.Hardware.Camera.BlockRotationTolerance =5
 ,IDSData.Hardware.Camera.ImageFindDir =True
-.IDSData.Hardware.Camera.ImageVertical =False
-'IDSData.Hardware.Camera.Threshold =15
-'IDSData.Hardware.Camera.Brightness =5
+-IDSData.Hardware.Camera.ImageVertical =True
+&IDSData.Hardware.Camera.Threshold =6
+(IDSData.Hardware.Camera.Brightness =12
 &IDSData.Hardware.Camera.Contrast =55
-&IDSData.Hardware.Camera.ROISize =1.2
-8IDSData.Hardware.Camera.ResultSize.X =9.97436452978177
-8IDSData.Hardware.Camera.ResultSize.Y =9.98434015847067
+$IDSData.Hardware.Camera.ROISize =2
+8IDSData.Hardware.Camera.ResultSize.X =9.59814244398376
+7IDSData.Hardware.Camera.ResultSize.Y =9.6675176219528
 &IDSData.Hardware.Camera.ResultDia =0
-=IDSData.Hardware.Camera.ResultRotation =-0.0533886083664307
+;IDSData.Hardware.Camera.ResultRotation =0.219385584165792
 
 ~[CONVEYOR]
 &IDSData.Hardware.Conveyor.Width =290
@@ -245,10 +232,10 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-379.522841646503
 ~[HEIGHTSENOR@LASER]
 5IDSData.Hardware.HeightSensor.Laser.CurrentPos.X =0
 5IDSData.Hardware.HeightSensor.Laser.CurrentPos.Y =0
-DIDSData.Hardware.HeightSensor.Laser.CurrentPos.Z =8.83592375366569
-GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.83592375366569
-:IDSData.Hardware.HeightSensor.Laser.OffsetPos.X =-74.452
-:IDSData.Hardware.HeightSensor.Laser.OffsetPos.Y =488.103
+DIDSData.Hardware.HeightSensor.Laser.CurrentPos.Z =8.81099706744868
+GIDSData.Hardware.HeightSensor.Laser.HeightReference =8.81099706744868
+:IDSData.Hardware.HeightSensor.Laser.OffsetPos.X =-74.767
+EIDSData.Hardware.HeightSensor.Laser.OffsetPos.Y =-0.149499999999989
 
 ~[HEIGHTSENOR@TOUCHPROBE]
 2IDSData.Hardware.HeightSensor.TP.CurrentPos.X =0

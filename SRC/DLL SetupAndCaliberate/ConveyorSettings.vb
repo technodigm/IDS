@@ -407,7 +407,7 @@ Public Class ConveyorSettings
     Dim ButtonConveyorHome_Clicked As Boolean = False
     Dim CurrentWidthValue As Double
     Friend WithEvents T1 As Timer = IDS.T1
-    Private Testing As Boolean = True
+    Private Testing As Boolean = False
 
     Private Sub ButtonSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSave.Click
         With IDS.Data.Hardware.Conveyor
