@@ -350,7 +350,7 @@ Public Class Conveyor
         Me.Controls.Add(Me.ResetPLCLogic)
         Me.Controls.Add(Me.BoxToBeAdded)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Conveyor"
         Me.Text = "Conveyor"
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -366,6 +366,7 @@ Public Class Conveyor
 #End Region
 
     'exposed to other modules
+    Public MinWidth As Double = 25
     Public WidthPosition As Double = 0
     Public ConveyorError As String = ""
     Public MoveToWidth As Double = 0
@@ -623,9 +624,13 @@ Public Class Conveyor
     End Sub
 
 
-    Public Sub MoveTo(ByVal width As Double)
+    Public Function MoveTo(ByVal width As Double) As Boolean
         MoveToWidth = width
+        Dim DesiredAbsPost As Double = 0.0
         Dim distance As Decimal
+        If MoveToWidth < MinWidth Then 'Cannot move smaller than MinWidth otherwise the sensor will be block and cannot move the conveyor again, cos PLC assume products is on the conveyor.
+            Return False
+        End If
         If WidthPosition > width Then
             distance = CDec(WidthPosition - width)
             Command("Width Mode")
@@ -637,7 +642,8 @@ Public Class Conveyor
             SetCommand("Jog Out", distance * 2)
             Command("Normal Mode")
         End If
-    End Sub
+        Return True
+    End Function
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHome.Click
         Command("Width Mode")
@@ -682,5 +688,10 @@ Public Class Conveyor
 
     Private Sub BT_Release_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BT_Release.Click
         Command("Release")
+    End Sub
+
+    Private Sub Conveyor_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        e.Cancel = True
+        Hide()
     End Sub
 End Class

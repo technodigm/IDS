@@ -105,7 +105,7 @@ Public Class FormExecution
         'Button2
         '
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.Location = New System.Drawing.Point(256, 344)
+        Me.Button2.Location = New System.Drawing.Point(144, 344)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(112, 64)
         Me.Button2.TabIndex = 2
@@ -339,7 +339,7 @@ Public Class FormExecution
         'Button4
         '
         Me.Button4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button4.Location = New System.Drawing.Point(256, 344)
+        Me.Button4.Location = New System.Drawing.Point(144, 344)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(112, 64)
         Me.Button4.TabIndex = 4
@@ -399,7 +399,7 @@ Public Class FormExecution
         'Button10_ToBeAutoClicked
         '
         Me.Button10_ToBeAutoClicked.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button10_ToBeAutoClicked.Location = New System.Drawing.Point(256, 344)
+        Me.Button10_ToBeAutoClicked.Location = New System.Drawing.Point(144, 344)
         Me.Button10_ToBeAutoClicked.Name = "Button10_ToBeAutoClicked"
         Me.Button10_ToBeAutoClicked.Size = New System.Drawing.Size(112, 64)
         Me.Button10_ToBeAutoClicked.TabIndex = 10
@@ -428,7 +428,7 @@ Public Class FormExecution
         'Button13
         '
         Me.Button13.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button13.Location = New System.Drawing.Point(256, 344)
+        Me.Button13.Location = New System.Drawing.Point(144, 344)
         Me.Button13.Name = "Button13"
         Me.Button13.Size = New System.Drawing.Size(112, 64)
         Me.Button13.TabIndex = 13
@@ -448,7 +448,7 @@ Public Class FormExecution
         'Button15
         '
         Me.Button15.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button15.Location = New System.Drawing.Point(256, 344)
+        Me.Button15.Location = New System.Drawing.Point(144, 344)
         Me.Button15.Name = "Button15"
         Me.Button15.Size = New System.Drawing.Size(112, 64)
         Me.Button15.TabIndex = 2

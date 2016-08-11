@@ -45,6 +45,7 @@ Public Class NeedleCalibrationSetup2
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSetup2))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.Label9 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
@@ -54,7 +55,6 @@ Public Class NeedleCalibrationSetup2
         Me.NCalZPos = New System.Windows.Forms.Label
         Me.Label7 = New System.Windows.Forms.Label
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Label9 = New System.Windows.Forms.Label
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -68,6 +68,16 @@ Public Class NeedleCalibrationSetup2
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
         Me.PanelToBeAdded.TabIndex = 45
+        '
+        'Label9
+        '
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label9.Location = New System.Drawing.Point(0, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(272, 32)
+        Me.Label9.TabIndex = 54
+        Me.Label9.Text = "Needle Calibration Setup"
         '
         'GroupBox1
         '
@@ -95,9 +105,8 @@ Public Class NeedleCalibrationSetup2
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(460, 78)
         Me.Label2.TabIndex = 10
-        Me.Label2.Text = "2. Loosen the Z Calibrator and lower the Z Axis until the Z Calibrator touches th" & _
-        "e Height Reference Block. Lower the z axis 2-3mm more and tighten the Z Calibrat" & _
-        "or. Click Set Z Button."
+        Me.Label2.Text = "2. Loosen the needle and lower the Z Axis until the needle touches the plate . Lo" & _
+        "wer the z axis 2-3mm more and tighten the needle. Click Set Z Button."
         '
         'Label3
         '
@@ -107,7 +116,7 @@ Public Class NeedleCalibrationSetup2
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(460, 48)
         Me.Label3.TabIndex = 6
-        Me.Label3.Text = "1. Jog the Z Calibrator to approximate center of the Height Reference Block "
+        Me.Label3.Text = "1. Jog the needle to approximate center of the height reference block"
         '
         'ButtonSetZ
         '
@@ -142,7 +151,7 @@ Public Class NeedleCalibrationSetup2
         Me.NCalZPos.ImageAlign = System.Drawing.ContentAlignment.TopLeft
         Me.NCalZPos.Location = New System.Drawing.Point(296, 440)
         Me.NCalZPos.Name = "NCalZPos"
-        Me.NCalZPos.Size = New System.Drawing.Size(24, 24)
+        Me.NCalZPos.Size = New System.Drawing.Size(96, 24)
         Me.NCalZPos.TabIndex = 16
         Me.NCalZPos.Text = "0"
         '
@@ -166,16 +175,6 @@ Public Class NeedleCalibrationSetup2
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 8
         Me.PictureBox1.TabStop = False
-        '
-        'Label9
-        '
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label9.Location = New System.Drawing.Point(0, 0)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(272, 32)
-        Me.Label9.TabIndex = 54
-        Me.Label9.Text = "Needle Calibration Setup"
         '
         'NeedleCalibrationSetup2
         '
@@ -208,6 +207,7 @@ Public Class NeedleCalibrationSetup2
         m_Tri.GetIDSState()
         IDS.Data.Hardware.Needle.Right.CalibratorPos.Z = m_Tri.ZPosition
         IDS.Data.Hardware.Needle.Left.CalibratorPos.Z = m_Tri.ZPosition
+        NCalZPos.Text = m_Tri.ZPosition
         IDS.Data.SaveData()
     End Sub
 

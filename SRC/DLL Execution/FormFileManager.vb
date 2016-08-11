@@ -60,7 +60,8 @@ Public Class FormSelectPatternFile
         Me.textFilename.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.textFilename.Location = New System.Drawing.Point(8, 336)
         Me.textFilename.Name = "textFilename"
-        Me.textFilename.Size = New System.Drawing.Size(264, 20)
+        Me.textFilename.ReadOnly = True
+        Me.textFilename.Size = New System.Drawing.Size(472, 20)
         Me.textFilename.TabIndex = 4
         Me.textFilename.Text = ""
         '
@@ -75,9 +76,10 @@ Public Class FormSelectPatternFile
         '
         'BtnOK
         '
+        Me.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.BtnOK.Enabled = False
         Me.BtnOK.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnOK.Location = New System.Drawing.Point(288, 320)
+        Me.BtnOK.Location = New System.Drawing.Point(144, 368)
         Me.BtnOK.Name = "BtnOK"
         Me.BtnOK.Size = New System.Drawing.Size(80, 40)
         Me.BtnOK.TabIndex = 6
@@ -93,11 +95,13 @@ Public Class FormSelectPatternFile
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 7
         Me.PictureBox1.TabStop = False
+        Me.PictureBox1.Visible = False
         '
         'BtnCancel
         '
+        Me.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.BtnCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCancel.Location = New System.Drawing.Point(384, 320)
+        Me.BtnCancel.Location = New System.Drawing.Point(240, 368)
         Me.BtnCancel.Name = "BtnCancel"
         Me.BtnCancel.Size = New System.Drawing.Size(80, 40)
         Me.BtnCancel.TabIndex = 8
@@ -113,6 +117,7 @@ Public Class FormSelectPatternFile
         Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox2.TabIndex = 9
         Me.PictureBox2.TabStop = False
+        Me.PictureBox2.Visible = False
         '
         'DirListBox2
         '
@@ -140,7 +145,7 @@ Public Class FormSelectPatternFile
         'FormSelectPatternFile
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(800, 373)
+        Me.ClientSize = New System.Drawing.Size(488, 414)
         Me.Controls.Add(Me.FileListBox2)
         Me.Controls.Add(Me.DriveListBox2)
         Me.Controls.Add(Me.DirListBox2)
@@ -150,9 +155,11 @@ Public Class FormSelectPatternFile
         Me.Controls.Add(Me.BtnOK)
         Me.Controls.Add(Me.textFilename)
         Me.Controls.Add(Me.Label1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "FormSelectPatternFile"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PatternFile"
         Me.TopMost = True
         Me.ResumeLayout(False)
@@ -206,9 +213,6 @@ Public Class FormSelectPatternFile
 
     Private Sub FileListDisplay()
         Dim PathFileName As String
-
-        'Me.Text = DirListBox1.Path + " ____ " + DirListBox1.SelectedItem + " ____" _
-        '+ DirListBox1.DirList(DirListBox1.SelectedIndex) + " _____"
 
         FileListBox2.Path = DirListBox2.Path
         If FileListBox2.Items.Contains(DirListBox2.SelectedItem + ".txt") = True Then
@@ -360,13 +364,13 @@ Public Class FormSelectPatternFile
             BtnOK.Enabled = False
         End If
 
-        Dim TempFileName3 As String = DirName + "\" + TempFileName + ".bmp"
-        If System.IO.File.Exists(TempFileName3) = True Then
-            PictureBox2.SendToBack()
-            PictureBox1.Image = PictureBox1.Image.FromFile(TempFileName3)
-        Else
-            PictureBox2.BringToFront()
-        End If
+        'Dim TempFileName3 As String = DirName + "\" + TempFileName + ".bmp"
+        'If System.IO.File.Exists(TempFileName3) = True Then
+        '    PictureBox2.SendToBack()
+        '    PictureBox1.Image = PictureBox1.Image.FromFile(TempFileName3)
+        'Else
+        '    PictureBox2.BringToFront()
+        'End If
         FileListDisplay()
     End Sub
 
@@ -376,5 +380,19 @@ Public Class FormSelectPatternFile
         Catch ex As Exception
             ExceptionDisplay(ex)
         End Try
+    End Sub
+
+    Private Sub DirListBox2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DirListBox2.Click
+        'DirName = DirListBox2.Path
+        'TempFileName = DirName.Substring(DirName.LastIndexOf("\") + 1)
+        'TempFileName2 = DirName + "\" + TempFileName + ".txt"
+        'textFilename.Text = DirName
+        'If System.IO.File.Exists(TempFileName2) = True Then
+        '    BtnOK.Enabled = True
+        '    textFilename.Text = TempFileName2
+        'Else
+        '    BtnOK.Enabled = False
+        'End If
+        'FileListDisplay()
     End Sub
 End Class

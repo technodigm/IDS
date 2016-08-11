@@ -176,6 +176,11 @@ Public Class FormProgramming
     Friend WithEvents btRetrieve As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents tbOpenedFile As System.Windows.Forms.TextBox
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+    Friend WithEvents cbContinueTest As System.Windows.Forms.CheckBox
+    Friend WithEvents tbHeightCompensation As System.Windows.Forms.TextBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProgramming))
@@ -232,6 +237,7 @@ Public Class FormProgramming
         Me.Label4 = New System.Windows.Forms.Label
         Me.DomainUpDown1 = New System.Windows.Forms.DomainUpDown
         Me.Label1 = New System.Windows.Forms.Label
+        Me.ButtonVolCal = New System.Windows.Forms.Button
         Me.ImageListFiles = New System.Windows.Forms.ImageList(Me.components)
         Me.imageListElement = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageListReference = New System.Windows.Forms.ImageList(Me.components)
@@ -278,7 +284,6 @@ Public Class FormProgramming
         Me.ImageListOper = New System.Windows.Forms.ImageList(Me.components)
         Me.ButtonClean = New System.Windows.Forms.Button
         Me.ButtonNeedleCal = New System.Windows.Forms.Button
-        Me.ButtonVolCal = New System.Windows.Forms.Button
         Me.ButtonHome = New System.Windows.Forms.Button
         Me.ImageListMultiField = New System.Windows.Forms.ImageList(Me.components)
         Me.CBDoorLock = New System.Windows.Forms.CheckBox
@@ -312,13 +317,19 @@ Public Class FormProgramming
         Me.btRelease = New System.Windows.Forms.Button
         Me.btRetrieve = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.cbContinueTest = New System.Windows.Forms.CheckBox
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.tbOpenedFile = New System.Windows.Forms.TextBox
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.tbHeightCompensation = New System.Windows.Forms.TextBox
+        Me.Label2 = New System.Windows.Forms.Label
         Me.PanelVisionCtrl.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxSpreadsheetProgramming, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'MainMenuProgramming
@@ -524,7 +535,7 @@ Public Class FormProgramming
         'PanelVision
         '
         Me.PanelVision.BackColor = System.Drawing.Color.SlateGray
-        Me.PanelVision.Location = New System.Drawing.Point(84, 360)
+        Me.PanelVision.Location = New System.Drawing.Point(84, 368)
         Me.PanelVision.Name = "PanelVision"
         Me.PanelVision.Size = New System.Drawing.Size(768, 576)
         Me.PanelVision.TabIndex = 0
@@ -584,6 +595,7 @@ Public Class FormProgramming
         Me.CheckBoxLockZ.Name = "CheckBoxLockZ"
         Me.CheckBoxLockZ.Size = New System.Drawing.Size(40, 16)
         Me.CheckBoxLockZ.TabIndex = 75
+        Me.CheckBoxLockZ.Visible = False
         '
         'TextBoxRobotZ
         '
@@ -664,6 +676,19 @@ Public Class FormProgramming
         Me.Label1.Size = New System.Drawing.Size(68, 16)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Brightness"
+        '
+        'ButtonVolCal
+        '
+        Me.ButtonVolCal.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonVolCal.Enabled = False
+        Me.ButtonVolCal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonVolCal.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonVolCal.ImageList = Me.ImageListGeneralTools
+        Me.ButtonVolCal.Location = New System.Drawing.Point(1032, 610)
+        Me.ButtonVolCal.Name = "ButtonVolCal"
+        Me.ButtonVolCal.Size = New System.Drawing.Size(80, 80)
+        Me.ButtonVolCal.TabIndex = 55
+        Me.ButtonVolCal.Text = "Vol. Cal."
         '
         'ImageListFiles
         '
@@ -875,20 +900,20 @@ Public Class FormProgramming
         'Label5
         '
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label5.Location = New System.Drawing.Point(888, 328)
+        Me.Label5.Location = New System.Drawing.Point(40, 16)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(112, 23)
+        Me.Label5.Size = New System.Drawing.Size(56, 16)
         Me.Label5.TabIndex = 87
-        Me.Label5.Text = "Teach Mode:"
+        Me.Label5.Text = "Mode:"
         '
         'VisionMode
         '
         Me.VisionMode.AutoCheck = False
         Me.VisionMode.Checked = True
         Me.VisionMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.VisionMode.Location = New System.Drawing.Point(1016, 328)
+        Me.VisionMode.Location = New System.Drawing.Point(160, 16)
         Me.VisionMode.Name = "VisionMode"
-        Me.VisionMode.Size = New System.Drawing.Size(80, 24)
+        Me.VisionMode.Size = New System.Drawing.Size(80, 16)
         Me.VisionMode.TabIndex = 86
         Me.VisionMode.TabStop = True
         Me.VisionMode.Text = "Vision"
@@ -907,9 +932,9 @@ Public Class FormProgramming
         Me.NeedleMode.AutoCheck = False
         Me.NeedleMode.BackColor = System.Drawing.SystemColors.Control
         Me.NeedleMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.NeedleMode.Location = New System.Drawing.Point(1104, 328)
+        Me.NeedleMode.Location = New System.Drawing.Point(272, 16)
         Me.NeedleMode.Name = "NeedleMode"
-        Me.NeedleMode.Size = New System.Drawing.Size(96, 24)
+        Me.NeedleMode.Size = New System.Drawing.Size(96, 16)
         Me.NeedleMode.TabIndex = 89
         Me.NeedleMode.Text = "Needle"
         '
@@ -991,19 +1016,7 @@ Public Class FormProgramming
         Me.ButtonNeedleCal.Name = "ButtonNeedleCal"
         Me.ButtonNeedleCal.Size = New System.Drawing.Size(80, 80)
         Me.ButtonNeedleCal.TabIndex = 56
-        Me.ButtonNeedleCal.Text = "Needle Calibra-tion"
-        '
-        'ButtonVolCal
-        '
-        Me.ButtonVolCal.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonVolCal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolCal.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonVolCal.ImageList = Me.ImageListGeneralTools
-        Me.ButtonVolCal.Location = New System.Drawing.Point(1033, 610)
-        Me.ButtonVolCal.Name = "ButtonVolCal"
-        Me.ButtonVolCal.Size = New System.Drawing.Size(80, 80)
-        Me.ButtonVolCal.TabIndex = 55
-        Me.ButtonVolCal.Text = "Volume Calibra-tion"
+        Me.ButtonNeedleCal.Text = "Need. Cal."
         '
         'ButtonHome
         '
@@ -1098,13 +1111,13 @@ Public Class FormProgramming
         '
         'LabelMessege
         '
-        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Info
+        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Control
         Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessege.ForeColor = System.Drawing.Color.Black
-        Me.LabelMessege.Location = New System.Drawing.Point(0, 320)
+        Me.LabelMessege.Location = New System.Drawing.Point(8, 328)
         Me.LabelMessege.Name = "LabelMessege"
-        Me.LabelMessege.Size = New System.Drawing.Size(688, 42)
+        Me.LabelMessege.Size = New System.Drawing.Size(672, 32)
         Me.LabelMessege.TabIndex = 84
         Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -1148,7 +1161,7 @@ Public Class FormProgramming
         Me.Panel1.Controls.Add(Me.GreenLight)
         Me.Panel1.Controls.Add(Me.AmberLight)
         Me.Panel1.Controls.Add(Me.RedLight)
-        Me.Panel1.Location = New System.Drawing.Point(872, 360)
+        Me.Panel1.Location = New System.Drawing.Point(872, 368)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(64, 200)
         Me.Panel1.TabIndex = 53
@@ -1239,11 +1252,20 @@ Public Class FormProgramming
         Me.GroupBox1.Controls.Add(Me.btPause)
         Me.GroupBox1.Controls.Add(Me.btPlay)
         Me.GroupBox1.Controls.Add(Me.DispensingMode)
+        Me.GroupBox1.Controls.Add(Me.cbContinueTest)
         Me.GroupBox1.Location = New System.Drawing.Point(952, 352)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(312, 144)
         Me.GroupBox1.TabIndex = 148
         Me.GroupBox1.TabStop = False
+        '
+        'cbContinueTest
+        '
+        Me.cbContinueTest.Location = New System.Drawing.Point(248, 16)
+        Me.cbContinueTest.Name = "cbContinueTest"
+        Me.cbContinueTest.Size = New System.Drawing.Size(64, 24)
+        Me.cbContinueTest.TabIndex = 152
+        Me.cbContinueTest.Text = "Con."
         '
         'GroupBox2
         '
@@ -1257,35 +1279,76 @@ Public Class FormProgramming
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Conveyor"
         '
+        'tbOpenedFile
+        '
+        Me.tbOpenedFile.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbOpenedFile.Location = New System.Drawing.Point(232, 8)
+        Me.tbOpenedFile.Name = "tbOpenedFile"
+        Me.tbOpenedFile.ReadOnly = True
+        Me.tbOpenedFile.Size = New System.Drawing.Size(832, 22)
+        Me.tbOpenedFile.TabIndex = 150
+        Me.tbOpenedFile.Text = ""
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.VisionMode)
+        Me.GroupBox3.Controls.Add(Me.NeedleMode)
+        Me.GroupBox3.Controls.Add(Me.Label5)
+        Me.GroupBox3.Location = New System.Drawing.Point(872, 320)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(376, 40)
+        Me.GroupBox3.TabIndex = 151
+        Me.GroupBox3.TabStop = False
+        '
+        'tbHeightCompensation
+        '
+        Me.tbHeightCompensation.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbHeightCompensation.Location = New System.Drawing.Point(856, 888)
+        Me.tbHeightCompensation.Name = "tbHeightCompensation"
+        Me.tbHeightCompensation.ReadOnly = True
+        Me.tbHeightCompensation.Size = New System.Drawing.Size(80, 22)
+        Me.tbHeightCompensation.TabIndex = 152
+        Me.tbHeightCompensation.Text = ""
+        '
+        'Label2
+        '
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(856, 856)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(80, 32)
+        Me.Label2.TabIndex = 153
+        Me.Label2.Text = "Height Compesation"
+        '
         'FormProgramming
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(1276, 955)
+        Me.ClientSize = New System.Drawing.Size(1276, 923)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.tbHeightCompensation)
+        Me.Controls.Add(Me.tbOpenedFile)
+        Me.Controls.Add(Me.TeachingToolbar)
+        Me.Controls.Add(Me.EditingToolbar)
+        Me.Controls.Add(Me.ReferenceCommandBlock)
+        Me.Controls.Add(Me.ElementsCommandBlock)
+        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.Controls.Add(Me.ButtonToggleMode)
         Me.Controls.Add(Me.PanelVision)
-        Me.Controls.Add(Me.TeachingToolbar)
-        Me.Controls.Add(Me.EditingToolbar)
-        Me.Controls.Add(Me.ReferenceCommandBlock)
-        Me.Controls.Add(Me.ElementsCommandBlock)
         Me.Controls.Add(Me.PanelVisionCtrl)
         Me.Controls.Add(Me.CBExpandSpreadsheet)
         Me.Controls.Add(Me.LabelMessege)
         Me.Controls.Add(Me.AxSpreadsheetProgramming)
         Me.Controls.Add(Me.CBDoorLock)
         Me.Controls.Add(Me.ButtonHome)
-        Me.Controls.Add(Me.ButtonVolCal)
         Me.Controls.Add(Me.ButtonNeedleCal)
         Me.Controls.Add(Me.ButtonClean)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.ButtonPurge)
-        Me.Controls.Add(Me.NeedleMode)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.VisionMode)
+        Me.Controls.Add(Me.ButtonVolCal)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenuProgramming
         Me.MinimizeBox = False
@@ -1297,6 +1360,7 @@ Public Class FormProgramming
         Me.Panel1.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1314,6 +1378,7 @@ Public Class FormProgramming
 
     Private CopiedSheetName As String = ""
     Public ErrorSubSheet As SubSheetErrorStruct
+    Public teachingMode As String = "Vision"
     Private m_NewProjectCreated As Boolean = False
 
 
@@ -1346,11 +1411,13 @@ Public Class FormProgramming
 
     Private Sub FormProgramming_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
+        'AxSpreadsheetProgramming.Enabled = False
+        MenuItem1.Enabled = False
         Init()
         While isInited = False
             Application.DoEvents()
         End While
-
+        OffLaser()
         'reset!
         ResetToIdle()
 
@@ -1431,7 +1498,9 @@ Public Class FormProgramming
         Me.Location = New Point(0, 0)
         Me.StartPosition = FormStartPosition.Manual
         Me.WindowState = FormWindowState.Maximized
+        'EnableTeachingButtons()
         DisableElementsCommandBlockButton(10)
+        DisableTeachingButtons()
 
     End Sub
 
@@ -1455,6 +1524,7 @@ Public Class FormProgramming
         IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
         Vision.IDSV_SetBrightness(0)
         'motion controller
+        'm_Tri.Move_Z(0)
         m_Tri.TrioStop()
         m_Tri.m_TriCtrl.Op(0)
         m_Tri.RunTrioMotionProgram("EXITIDS")
@@ -1491,6 +1561,7 @@ Public Class FormProgramming
 
 #End Region
 
+    Public LaserHeightOffsetZ As Double = -1234
     'kr make public and exposed.
     Public CurrentMode As String 'flag for programming mode - program editor or basic setup
     Public tempPosX, tempPosY, tempPosZ As Double              'Save X and Y cells for "Cancel Process".  
@@ -1522,6 +1593,7 @@ Public Class FormProgramming
     Private GDRefY As Integer = 305 'lim 'to offset the negative value of the robot's position
 
     Private Sub ButtonHome_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHome.Click
+        forceHome = True
         SetState("Homing")
     End Sub
 
@@ -1534,13 +1606,32 @@ Public Class FormProgramming
     End Sub
 
     Private Sub ButtonNeedleCal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCal.Click
-        SetState("Needle Calibration")
+        If ButtonNeedleCal.Text = "Need. Cal." Then
+            SetState("Needle Calibration")
+            ButtonNeedleCal.Text = "Stop Need. Cal."
+        Else
+            ButtonNeedleCal.Enabled = False
+            StopDispensing()
+        End If
+
     End Sub
 
     Private Sub ButtonVolCal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolCal.Click
-        SetState("Volume Calibration")
-    End Sub
+        'If gPatternFileName = "" Or gPatternFileName = Nothing Then
+        '    MessageBox.Show("Cannot perform volume calibration. Please save the table to file or open/create a file")
+        '    Return
+        'End If
+        If ButtonVolCal.Text = "Vol. Cal." Then
+            SetState("Volume Calibration")
+            ButtonVolCal.Text = "Stop Vol. Cal."
+        Else
+            ButtonVolCal.Enabled = False
+            StopDispensing()
+        End If
 
+        'DoVolumeCalibration()
+    End Sub
+    Private zSafetyThreshold As Double = -3.0
     Private Sub VisionMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VisionMode.Click
 
         If IsBusy() Then
@@ -1548,33 +1639,44 @@ Public Class FormProgramming
             Exit Sub
         End If
 
-        VisionMode.Checked = Not VisionMode.Checked
-        NeedleMode.Checked = Not NeedleMode.Checked
+        VisionMode.Checked = True
+        NeedleMode.Checked = False
+        'SwitchToTeachCamera()
+        IDS.Devices.Vision.FrmVision.CameraResume()
+        'If Not (m_ProgrammingStateFlag Or m_SteppingPostFlag) Then
+        '    EnableReferenceCommandBlock()
+        '    EnableElementsCommandBlock()
+        'End If
 
-        EnableReferenceCommandBlock()
-        EnableElementsCommandBlock()
-
-        MoveZToSafePosition()
-
+        If m_Tri.ZPosition < zSafetyThreshold Then
+            MoveZToSafePosition()
+        End If
     End Sub
 
     Private Sub NeedleMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NeedleMode.Click
-
         If IsBusy() Then
             LabelMessage("Can't change mode when machine is running!")
             Exit Sub
         End If
-
-        MoveZToSafePosition()
-
-        VisionMode.Checked = Not VisionMode.Checked
-        NeedleMode.Checked = Not NeedleMode.Checked
-
+        VisionMode.Checked = False
+        NeedleMode.Checked = True
+        'DisableElementsCommandBlockButton(gQCCmdIndex) 'QC
+        'DisableElementsCommandBlockButton(gChipEdgeCmdIndex) 'ChipEdge
+        'DisableReferenceCommandBlock()
+        'EnableReferenceCommandBlockButton(gHeightCmdIndex) 'Height
+        'If Not (m_ProgrammingStateFlag Or m_SteppingPostFlag) Then
+        'DisableCommand_NeedleMode()
+        'End If
+        IDS.Devices.Vision.FrmVision.CameraIdle()
+        If m_Tri.ZPosition < zSafetyThreshold Then
+            MoveZToSafePosition()
+        End If
+    End Sub
+    Public Sub DisableCommand_NeedleMode()
         DisableElementsCommandBlockButton(gQCCmdIndex) 'QC
         DisableElementsCommandBlockButton(gChipEdgeCmdIndex) 'ChipEdge
         DisableReferenceCommandBlock()
         EnableReferenceCommandBlockButton(gHeightCmdIndex) 'Height
-
     End Sub
 
     'SJ add door lock/unlock
@@ -1646,7 +1748,7 @@ Public Class FormProgramming
         End If
     End Sub
 
-    Private Sub MoveToSpreadsheetPoint(ByVal Pos() As Double, ByVal type As String)
+    Private Sub MoveToSpreadsheetPoint(ByVal Pos() As Double, ByVal type As String, Optional ByVal needleGap As Double = 0.0, Optional ByVal selectedRow As Double = 1)
         Console.WriteLine("MoveTo SP Point")
         If IsBusy() Then
             LabelMessage("Axes are busy. Can't move at the moment. Try later")
@@ -1667,11 +1769,32 @@ Public Class FormProgramming
         If type = "Needle" And NeedleMode.Checked Then
             Pos(0) = Pos(0) - gLeftNeedleOffs(0)
             Pos(1) = Pos(1) - gLeftNeedleOffs(1)
+            LaserHeightOffsetZ = -1234
+            If LaserHeightOffsetZ = -1234 Then
+                If teachingMode = "Vision" Then
+                    If GetExistingLaserHeightDifferent(LaserHeightOffsetZ, selectedRow) Then
+                        Pos(2) = Pos(2) + IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z - LaserHeightOffsetZ + needleGap
+                    Else
+                        Dim fm As InfoForm = New InfoForm
+                        fm.SetTitle("Warning")
+                        fm.OkOnly()
+                        fm.AddNewLine("Please insert laser height command before run needle mode")
+                        fm.ShowDialog()
+                        Return
+                    End If
+                End If
+            Else
+                Pos(2) = Pos(2) + IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z - LaserHeightOffsetZ + needleGap
+            End If
         End If
 
         If Not m_Tri.Move_Z(SafePosition) Then Exit Sub
-        If Not m_Tri.Move_XY(Pos) Then Exit Sub
-
+        If VisionMode.Checked Then
+            If Not m_Tri.Move_XY(Pos) Then Exit Sub
+        ElseIf NeedleMode.Checked Then
+            If Not m_Tri.Move_XY(Pos) Then Exit Sub
+            If Not m_Tri.Move_Z(Pos(2)) Then Exit Sub
+        End If
     End Sub
 
     Shared mouse_pos As New Point
@@ -2125,14 +2248,18 @@ Public Class FormProgramming
 
             'Set defauly data for the DialogBox
             m_NewProjectCreated = True
-            SavePatternFileDialog.InitialDirectory = "C:\IDS\Pattern_Dir"
-            SavePatternFileDialog.AddExtension = True
-            SavePatternFileDialog.Filter = "Create a new project folder|"
-            SavePatternFileDialog.FileName() = ""
+            'SavePatternFileDialog.InitialDirectory = "C:\IDS\Pattern_Dir"
+            'SavePatternFileDialog.AddExtension = True
+            'SavePatternFileDialog.Filter = "Create a new project folder|"
+            'SavePatternFileDialog.FileName() = ""
 
-            SavePatternFileDialog.ShowDialog()
+            'SavePatternFileDialog.ShowDialog()
+            Dim fm As NewFileForm = New NewFileForm
+            If fm.ShowDialog() = DialogResult.Cancel Then Return
+            teachingMode = fm.teachingMode
+            m_Execution.m_Pattern.teachingMode = teachingMode
             Dim file As String
-            Dim folder As String = SavePatternFileDialog.FileName()
+            Dim folder As String = "C:\IDS\Pattern_Dir\" + fm.NewFileName 'SavePatternFileDialog.FileName()
 
             If folder <> Nothing Then
 
@@ -2141,22 +2268,29 @@ Public Class FormProgramming
                     MyMsgBox("Invalid project name!, Press Ok to return", _
                         MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Create new project error")
                     Return
-                ElseIf System.IO.File.Exists(folder) Then
+                ElseIf System.IO.Directory.Exists(folder) Then
                     'Project name is the same with an existing filename
                     'The file will be deleted
-                    System.IO.File.Delete(folder)
-                    'Create folder for the project
-                End If
+                    'If MessageBox.Show("Project folder exist! Do you want to delete all and overwrite it? Click no to abort.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes Then
+                    System.IO.Directory.Delete(folder, True)
+                    'Else : Return
+                    'End If
+
+                'Create folder for the project
+            End If
 
                 System.IO.Directory.CreateDirectory(folder)
                 file = m_Execution.m_File.NameOnlyFromFullPath(folder)
                 gPatternFileName = folder + "\" + file
-
                 gFidFileName = gPatternFileName
-
-
                 'Set ToolButton status
-                EnableTeachingButtons()
+                If teachingMode = "Vision" Then
+                    EnableTeachingButtons()
+                Else
+                    EnableTeachingButtons()
+                    DisableCommand_NeedleMode()
+                End If
+
                 DisableElementsCommandBlockButton(gSeperatorCmdIndex)
                 DisableElementsCommandBlockButton(gOffsetCmdIndex)
                 FlushSpreadsheet()
@@ -2187,7 +2321,7 @@ Public Class FormProgramming
                 IDS.Data.SavePathFileData(gPatternFileName + ".pat")
                 'lim
                 Vision.SetFiducialFilename(gPatternFileName)
-
+                tbOpenedFile.Text = gPatternFileName
                 m_EditStateFlag = False
                 MyConveyorSettings.InitializeConveyorSetup()
                 Disp_Dispenser_Unit_info()
@@ -2197,6 +2331,10 @@ Public Class FormProgramming
                 '   Set cursor position.                        '
                 SelectCell(m_Row, 1)
                 SaveProgram.UnSave = True
+                EnableControl()
+                LaserHeightOffsetZ = -1234
+                m_Execution.m_Pattern.SavePatternPara(AxSpreadsheetProgramming, gPatternFileName + ".txt", False)
+
             End If
 
         Catch ex As Exception
@@ -2204,7 +2342,11 @@ Public Class FormProgramming
         End Try
 
     End Sub
-
+    Private Sub EnableControl()
+        AxSpreadsheetProgramming.Enabled = True
+        ButtonNeedleCal.Enabled = True
+        ButtonVolCal.Enabled = True
+    End Sub
 
     'Private function to export Excel data file,  to be called by MenuFileExport_Click
     '   file:  filename name for the export                                                                                
@@ -2544,9 +2686,12 @@ Public Class FormProgramming
             End If
         End If
 
-        LabelMessage("Please wait, system is uploading.....")
+        LabelMessage("Opening program file......")
 
-        DialogPreview.ShowDialog()
+        If DialogPreview.ShowDialog() = DialogResult.Cancel Then
+            LabelMessage("")
+            Return
+        End If
         Dim file = DialogPreview.Path
 
         If Nothing = file Then
@@ -2563,7 +2708,7 @@ Public Class FormProgramming
         init_spreadsheet()
         FlushSpreadsheet()
         ErrorSubSheetStructIni(200, 500)
-
+        LaserHeightOffsetZ = -1234
         Try
             Me.Cursor = Cursors.WaitCursor
             'IDS.StopErrorCheck() 'kr?
@@ -2573,6 +2718,10 @@ Public Class FormProgramming
             gPatternFileName = m_Execution.m_File.FolderWithNameFromFileName(file)
             gFidFileName = gPatternFileName
             m_Row = 2
+            Dim mode As String = ""
+            If m_Execution.m_Pattern.GetTeachingMode(file, mode) Then
+                teachingMode = mode
+            End If
             EnableTeachingButtons()
 
             DisableElementsCommandBlockButton(gOffsetCmdIndex)
@@ -2609,6 +2758,7 @@ Public Class FormProgramming
                     UndoData_Logging(0)
                 End If
             Else
+                tbOpenedFile.Text = file
                 UndoData_Logging(0)
 
                 MenuFileExport.Enabled = True
@@ -2637,6 +2787,7 @@ Public Class FormProgramming
                 '   Note: Do we need to read out other parameters such as "Pixel size",etc.     '
                 ''''''''''''''
                 ValueBrightness.Value = IDS.Data.Hardware.Camera.Brightness
+                EnableControl()
             End If
 
             SaveProgram.UnSave = False
@@ -2651,9 +2802,7 @@ Public Class FormProgramming
             MenuFileSaveAs.Enabled = True
             Me.Cursor = Cursors.Default
         End Try
-
-        LabelMessage("Finish.....")
-
+        LabelMessage("")
         TraceGCCollect()
     End Sub
 
@@ -2669,8 +2818,7 @@ Public Class FormProgramming
                 '   When user edit a cell, but system doesn't update the data.                                  '
                 '   System only update cell value in "Click" or "Tap" method. So, just add extra one command.   '
                 '   Note:   May have better method.                                                             '
-                '           Need to test more.                                                                 
-
+                '           Need to test more.                                                
                 SelectCell(m_Row + 1, 1)
                 IDS.Data.Hardware.Camera.Brightness = ValueBrightness.Value
                 IDS.Data.SaveData()
@@ -2680,6 +2828,7 @@ Public Class FormProgramming
                 SaveProgram.UnSave = False
                 MenuEditUndo.Enabled = False
                 MenuEditRedo.Enabled = False
+                EnableControl()
             Else
                 '
                 SavePatternFileDialog.InitialDirectory = "C:\IDS\Pattern_Dir"
@@ -2727,6 +2876,7 @@ Public Class FormProgramming
                         SaveProgram.UnSave = False
                         MenuEditUndo.Enabled = False
                         MenuEditRedo.Enabled = False
+                        EnableControl()
                     End If
                 End If
             End If
@@ -2855,10 +3005,11 @@ Public Class FormProgramming
 
                 IDS.Data.SavePathFileData(gPatternFileName + ".pat")
                 Vision.SetFiducialFilename(gPatternFileName)
-
+                tbOpenedFile.Text = gPatternFileName
                 SaveProgram.UnSave = False
                 MenuEditUndo.Enabled = False
                 MenuEditRedo.Enabled = False
+                EnableControl()
             End If
 
         Catch ex As Exception
@@ -3176,9 +3327,7 @@ Public Class FormProgramming
     Private Sub ButtonToggleMode_click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonToggleMode.Click
         TimerForUpdate.Start() 'kr nov28
         If CurrentMode = "Program Editor" Then
-
             OffLaser()
-
             'stepper panel
             'MySettings.PanelLeft.Controls.Add(m_Tri.SteppingButtons)
             MySettings.gbRelMove.Controls.Add(m_Tri.SteppingButtons)
@@ -3187,7 +3336,6 @@ Public Class FormProgramming
             m_Tri.SteppingButtons.BringToFront()
             m_Tri.SteppingButtons.Show()
             MySettings.AddDefaultView()
-
             CurrentMode = "Basic Setup"
             ButtonToggleMode.Text = "Go to Program Editor"
             CBExpandSpreadsheet.Visible = False
@@ -3211,11 +3359,10 @@ Public Class FormProgramming
             MySettings.RemoveCurrentPanel()
 
             'in case you didn't exit conveyor settings but straightaway pressed program editor
-            Conveyor.PositionTimer.Stop()
+            'Conveyor.PositionTimer.Stop()
 
             'stepper panel
             Controls.Add(m_Tri.SteppingButtons)
-            'MySettings.PanelLeft.Controls.Remove(m_Tri.SteppingButtons)
             MySettings.gbRelMove.Controls.Remove(m_Tri.SteppingButtons)
             m_Tri.SteppingButtons.Location = PanelToBeAdded.Location()
             m_Tri.SteppingButtons.BringToFront()
@@ -3227,6 +3374,8 @@ Public Class FormProgramming
             CBExpandSpreadsheet.Visible = True
             Me.Controls.Remove(MySettings.PanelRight)
             Me.Controls.Remove(MySettings.PanelLeft)
+
+
             Me.PanelVision.Location = New Point(84, 360)
             Me.PanelVisionCtrl.Location = New Point(84, 940)
             IDS.Data.OpenData()
@@ -3342,7 +3491,9 @@ Public Class FormProgramming
     '                                                                                  
 
     Private Sub EditingToolbar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles EditingToolbar.ButtonClick
-
+        If Me.AxSpreadsheetProgramming.Enabled = False Then
+            Return
+        End If
         Dim idFlag As Integer = 0
         If e.Button Is EditingToolbar.Buttons(0) Then
             idFlag = 1
@@ -3464,12 +3615,13 @@ Public Class FormProgramming
                 pos(0) = pos(0)
                 pos(1) = pos(1)
                 pos(2) = pos(2)
-
+                Dim needleGap As Double = GetCellValue(m_StartRow, gNeedleGapColumn)
 
                 If CmdName = "ChipEdge" Or CmdName = "QC" Or CmdName = "Height" Or CmdName = "Fiducial" Or CmdName = "Reject" Then
                     MoveToSpreadsheetPoint(pos, "Vision")
                 Else
-                    MoveToSpreadsheetPoint(pos, "Needle")
+                    'MoveToSpreadsheetPoint(pos, "Needle")
+                    MoveToSpreadsheetPoint(pos, "Needle", needleGap, m_StartRow)
                 End If
 
             End If
@@ -3602,7 +3754,7 @@ Public Class FormProgramming
             End If
             If m_Execution.m_ItemLUT.GetFlag(gDispensColumn) Then
                 'gSubnameColumn use the same slot
-                If Cmd.DispenseFlag = "True" Then
+                If Cmd.DispenseFlag = "True" Or Cmd.DispenseFlag = "On" Then
                     Cmd.DispenseFlag = "On"
                 Else
                     Cmd.DispenseFlag = "Off"
@@ -3723,11 +3875,12 @@ Public Class FormProgramming
         UndoData_Logging(0)
         TBrefer_Implementation(buttonText)
         TraceGCCollect()
+        AxSpreadsheetProgramming.Enabled = False
     End Sub
 
     Private Sub TBrefer_Implementation(ByVal ButtonText As String)
         Dim cell1, cell2 As Object
-
+        NeedleMode.Enabled = True
         SheetRowSelected = False
         ToggleButtonsForTeachingStart()
         HideSpreadsheetTabs()
@@ -3762,6 +3915,7 @@ Public Class FormProgramming
                     TeachCommand(type, cell1, cell2)
                 Case "Height"
                     TeachCommand(type, cell1, cell2)
+                    NeedleMode.Enabled = False
                 Case "Reject"
                     TeachCommand(type, cell1, cell2)
             End Select
@@ -3779,11 +3933,12 @@ Public Class FormProgramming
         buttonText = buttonText.Trim(" ")
         m_EditStateFlag = False
         m_ProgrammingStateFlag = True
-
+        AxSpreadsheetProgramming.Enabled = False
         Dim SheetName As String = GetActiveSheetName()
         If m_Execution.m_Pattern.Spreadsheet_IsAnArraySheet(AxSpreadsheetProgramming, SheetName) Then
             MessageBox.Show("Command is not allowed in an Array sheet", "Warnning!")
         Else
+            NeedleMode.Enabled = True
             TeachElementCommand(buttonText)
             If "Measure" <> buttonText Then
                 UndoData_Logging(0)
@@ -3862,7 +4017,6 @@ Public Class FormProgramming
                                 Exit Select
                             End If
                         Next
-
                         'Move robot arm to the last offset position
                         pos(0) = GetCellValue(m_rowEnd, gPos1XColumn)
                         pos(1) = GetCellValue(m_rowEnd, gPos1YColumn)
@@ -3873,11 +4027,13 @@ Public Class FormProgramming
                         pos(1) = pos(1)
                         pos(2) = pos(2)
                         MoveToSpreadsheetPoint(pos, "Vision")
+                        AxSpreadsheetProgramming.Enabled = True
                     End If
+                    AxSpreadsheetProgramming.Enabled = True
                     m_ProgrammingStateFlag = False
 
                 Case "Measure"
-
+                    AxSpreadsheetProgramming.Enabled = True
                 Case "Dot", "Move", "Line", "Arc", "Circle", "Rectangle", _
                     "FillCircle", "FillRectangle", "ChipEdge", "QC", "SubPattern", "Wait", "EdgeDetection", "DotArray"
 
@@ -3892,6 +4048,9 @@ Public Class FormProgramming
                         cell1 = GetCell(m_Row, gPos1XColumn)
                         cell2 = GetCell(m_Row, gPos1ZColumn)
                         SelectRange(cell1, cell2) 'Select the related cell in spreadsheet
+                    End If
+                    If Not (ButtonText = "SubPattern") And Not (ButtonText = "QC") And Not (ButtonText = "ChipEdge") And Not (ButtonText = "DotArray") Then
+                        EnableCoordinateUpdateInSpreadsheet() 'yy
                     End If
 
                     ToolBarSwitch("YesNo")
@@ -3912,9 +4071,11 @@ Public Class FormProgramming
                             pos(0) = x
                             pos(1) = -y
                             pos(2) = 0
-
-                            m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
-                            m_Tri.MoveRelative_XY(pos)
+                            If Not (x = 0 And y = 0) Then
+                                m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
+                                m_Tri.MoveRelative_XY(pos)
+                            End If
+                            
                             If status = 3 Then
                                 status = 0 'reset status after 5 points being reset
                             End If
@@ -3924,7 +4085,7 @@ Public Class FormProgramming
                             End While
                         Loop While status = 3 'status 3= reset 5 points
 
-                        DelayForRowDelete()
+                        'DelayForRowDelete()
                         DisableCoordinateUpdateInSpreadsheet()
 
                         If status = 2 Then
@@ -3932,6 +4093,7 @@ Public Class FormProgramming
                             UpdateSpreadsheet()
                             DeletingRowFromExcel = False
                             DeletingRowFinished = False
+                            AxSpreadsheetProgramming.Enabled = True
                         ElseIf status = 1 Then 'chipedge finished settings
                             SetChipEdgeSettings()
                             ElementsCommandBlock.Enabled = True
@@ -3992,114 +4154,135 @@ Public Class FormProgramming
                         DisplaySpreadsheetTabs()
                         m_ProgrammingStateFlag = False
                         ClearAndDisplayIndicator()
+                        AxSpreadsheetProgramming.Enabled = True
                     End If
 
                 Case "Link"
 
-                    type = "LinkStart"
-                    m_TeachStepNumber = 1
-                    m_Row = GetActiveCellRow()
-                    AddCommandToSpreadsheet(type)
-                    SelectCell(m_Row + 1, 1)
-                    type = "LinkEnd"
-                    m_Row = GetActiveCellRow()
-                    AddCommandToSpreadsheet(type)
-                    ToolBarSwitch("YesNo")
-                    m_Row = GetActiveCellRow()
-                    DisableCoordinateUpdateInSpreadsheet()
+                        type = "LinkStart"
+                        m_TeachStepNumber = 1
+                        m_Row = GetActiveCellRow()
+                        AddCommandToSpreadsheet(type)
+                        SelectCell(m_Row + 1, 1)
+                        type = "LinkEnd"
+                        m_Row = GetActiveCellRow()
+                        AddCommandToSpreadsheet(type)
+                        ToolBarSwitch("YesNo")
+                        m_Row = GetActiveCellRow()
+                        DisableCoordinateUpdateInSpreadsheet()
 
-                    EnableElementsCommandBlockButton(gLineCmdIndex)
-                    EnableElementsCommandBlockButton(gArcCmdIndex)
-                    DisableTeachingToolbarOKButton()
-                    EnableTeachingToolbarCancelButton()
-                    type = "Link"
+                        EnableElementsCommandBlockButton(gLineCmdIndex)
+                        EnableElementsCommandBlockButton(gArcCmdIndex)
+                        DisableTeachingToolbarOKButton()
+                        EnableTeachingToolbarCancelButton()
+                        type = "Link"
 
                 Case "Clean", "Purge", "GetIO", "SetIO", "VolumeCalibration"
 
-                    type = ButtonText
-                    m_TeachStepNumber = 1
-                    m_Row = GetActiveCellRow()
-                    AddCommandToSpreadsheet(type)
-                    DisableCoordinateUpdateInSpreadsheet()
-                    ToggleButtonsForTeachingStop()
-                    m_Row = m_Row + 1
-                    SelectCell(m_Row, 1)
+                        type = ButtonText
+                        m_TeachStepNumber = 1
+                        m_Row = GetActiveCellRow()
+                        AddCommandToSpreadsheet(type)
+                        DisableCoordinateUpdateInSpreadsheet()
+                        ToggleButtonsForTeachingStop()
+                        m_Row = m_Row + 1
+                        SelectCell(m_Row, 1)
                     m_ProgrammingStateFlag = False
+                    AxSpreadsheetProgramming.Enabled = True
 
                 Case "Array"
-                    CBExpandSpreadsheet.Enabled = False
+                        CBExpandSpreadsheet.Enabled = False
 
-                    DisableTeachingToolbarOKButton()
-                    DisableTeachingToolbarCancelButton()
-                    type = ButtonText
-                    'sj modify 28/09/09
-                    m_Row = GetActiveCellRow()
+                        DisableTeachingToolbarOKButton()
+                        DisableTeachingToolbarCancelButton()
+                        type = ButtonText
+                        'sj modify 28/09/09
+                        m_Row = GetActiveCellRow()
 
-                    AddCommandToSpreadsheet(type)
+                        AddCommandToSpreadsheet(type)
 
-                    EnableCoordinateUpdateInSpreadsheet()
-                    Dim ArrayDlg As New ArrayGenerate
-                    ArrayDlg.SetDefaultPara(m_Execution.m_Pattern.m_CurrentDPara)
-                    ArrayDlg.BringToFront()
-                    ArrayDlg.Show()
-                    Dim DlgReturn = ArrayDlg.DialogResult()
-                    Dim PointX, PointY, PointZ As Double
+                        EnableCoordinateUpdateInSpreadsheet()
+                        Dim ArrayDlg As New ArrayGenerate
+                        ArrayDlg.isVisionMode = VisionMode.Checked
+                        ArrayDlg.SetDefaultPara(m_Execution.m_Pattern.m_CurrentDPara)
+                        If ArrayDlg.isVisionMode Then
+                            ArrayDlg.SetNeedleGap("0.5")
+                        Else
+                            ArrayDlg.SetNeedleGap("0.000")
+                        End If
 
-                    Do
-                        TraceDoEvents()
-                        PointX = CDbl(GetCellValue(m_Row, gPos1XColumn))
-                        PointY = CDbl(GetCellValue(m_Row, gPos1YColumn))
-                        PointZ = CDbl(GetCellValue(m_Row, gPos1ZColumn))
+                        ArrayDlg.SetDispenseDuration("500")
+                        ArrayDlg.BringToFront()
+                        ArrayDlg.Show()
+                        Dim DlgReturn = ArrayDlg.DialogResult()
+                        Dim PointX, PointY, PointZ As Double
 
-                        ArrayDlg.SetPoint(PointX, PointY, PointZ)
-                        DlgReturn = ArrayDlg.DialogResult()
-                    Loop While Nothing = DlgReturn
+                        Do
+                            TraceDoEvents()
+                            PointX = CDbl(GetCellValue(m_Row, gPos1XColumn))
+                            PointY = CDbl(GetCellValue(m_Row, gPos1YColumn))
+                            PointZ = CDbl(GetCellValue(m_Row, gPos1ZColumn))
 
-                    DisableCoordinateUpdateInSpreadsheet()
+                            ArrayDlg.SetPoint(PointX, PointY, PointZ)
+                            DlgReturn = ArrayDlg.DialogResult()
+                        Loop While Nothing = DlgReturn
 
-                    If DialogResult.OK = DlgReturn Then
-                        'Get "Array" data succesfully.  Data will be used to generate "Array"
-                        LabelMessage("Array generating starts")
-                        Dim PatternLineRecord(3) As CIDSPattern.PatternRecord
-                        Dim arraydata As ArrayData
-                        arraydata.FirstX = 10.0
-                        Dim dotarray As New FormArraySetting(arraydata)
+                        DisableCoordinateUpdateInSpreadsheet()
 
-                        If dotarray.ShowDialog() = DialogResult.OK Then
-                            dotarray.GetArrayData(arraydata)
+                        If DialogResult.OK = DlgReturn Then
+                            'Get "Array" data succesfully.  Data will be used to generate "Array"
+                            LabelMessage("Array generating starts")
+                            Dim PatternLineRecord(3) As CIDSPattern.PatternRecord
+                            Dim arraydata As ArrayData
+                            arraydata.FirstX = 10.0
+                            Dim dotarray As New FormArraySetting(arraydata)
 
-                            Dim cmdTmpString As String = ArrayDlg.ArrayPara1.Name
+                            If dotarray.ShowDialog() = DialogResult.OK Then
+                                dotarray.GetArrayData(arraydata)
 
-                            Spreadsheet_GetArrayRecord(PatternLineRecord(0), 1, ArrayDlg)
-                            Spreadsheet_GetArrayRecord(PatternLineRecord(1), 2, ArrayDlg)
-                            Spreadsheet_GetArrayRecord(PatternLineRecord(2), 3, ArrayDlg)
+                                Dim cmdTmpString As String = ArrayDlg.ArrayPara1.Name
 
-                            Dim ActSheetName As String = GetActiveSheetName()
-                            Spreadsheet_GenerateArraySubSheetName(iSubSheetName, ActSheetName, cmdTmpString)
+                                Spreadsheet_GetArrayRecord(PatternLineRecord(0), 1, ArrayDlg)
+                                Spreadsheet_GetArrayRecord(PatternLineRecord(1), 2, ArrayDlg)
+                                Spreadsheet_GetArrayRecord(PatternLineRecord(2), 3, ArrayDlg)
 
-                            Dim file As New CIDSFileHandler
-                            ClearRow(m_Row)
+                                Dim ActSheetName As String = GetActiveSheetName()
+                                Spreadsheet_GenerateArraySubSheetName(iSubSheetName, ActSheetName, cmdTmpString)
 
-                            SetCellValue(m_Row, gCommandNameColumn, "Array")
-                            SetCellValue(m_Row, gSubnameColumn, file.ExtOnlyFromFullPath(iSubSheetName))
-                            SelectCell(m_Row + 1, gCommandNameColumn)
+                                Dim file As New CIDSFileHandler
+                                ClearRow(m_Row)
 
-                            AxSpreadsheetProgramming.Sheets.Add.Name = iSubSheetName
-                            AxSpreadsheetProgramming.ActiveWindow.FreezePanes = False
-                            AxSpreadsheetProgramming.Worksheets(iSubSheetName).Range("B1:B1").Select()
-                            AxSpreadsheetProgramming.ActiveWindow.FreezePanes = True
+                                SetCellValue(m_Row, gCommandNameColumn, "Array")
+                                SetCellValue(m_Row, gSubnameColumn, file.ExtOnlyFromFullPath(iSubSheetName))
+                                SelectCell(m_Row + 1, gCommandNameColumn)
 
-                            'Build Sub array sheet
-                            Spreadsheet_AddSheetRecord(PatternLineRecord(0), _
-                                PatternLineRecord(1), PatternLineRecord(2), arraydata)
+                                AxSpreadsheetProgramming.Sheets.Add.Name = iSubSheetName
+                                AxSpreadsheetProgramming.ActiveWindow.FreezePanes = False
+                                AxSpreadsheetProgramming.Worksheets(iSubSheetName).Range("B1:B1").Select()
+                                AxSpreadsheetProgramming.ActiveWindow.FreezePanes = True
 
-                            'Load sub and array data within the sub
-                            'Spreadsheet_AddSubandArrayInSub(PatternLineRecord(0).pPara.DispenseFlag)
+                                'Build Sub array sheet
+                                Spreadsheet_AddSheetRecord(PatternLineRecord(0), _
+                                    PatternLineRecord(1), PatternLineRecord(2), arraydata)
 
-                            EnableTeachingButtons()
-                            DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                            DisableTeachingToolbarOKButton()
-                            EnableTeachingToolbarCancelButton()
+                                'Load sub and array data within the sub
+                                'Spreadsheet_AddSubandArrayInSub(PatternLineRecord(0).pPara.DispenseFlag)
+
+                                EnableTeachingButtons()
+                                DisableElementsCommandBlockButton(gOffsetCmdIndex)
+                                DisableTeachingToolbarOKButton()
+                                EnableTeachingToolbarCancelButton()
+                            Else
+                                DelayForRowDelete()
+                                EnableTeachingButtons()
+                                DisableElementsCommandBlockButton(gOffsetCmdIndex)
+                                DisableTeachingToolbarOKButton()
+                                EnableTeachingToolbarCancelButton()
+                                TraceDoEvents()
+                                DeleteRow(m_Row)
+                                DeletingRowFromExcel = False
+                                DeletingRowFinished = False
+                            End If
                         Else
                             DelayForRowDelete()
                             EnableTeachingButtons()
@@ -4110,19 +4293,9 @@ Public Class FormProgramming
                             DeleteRow(m_Row)
                             DeletingRowFromExcel = False
                             DeletingRowFinished = False
-                        End If
-                    Else
-                        DelayForRowDelete()
-                        EnableTeachingButtons()
-                        DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                        DisableTeachingToolbarOKButton()
-                        EnableTeachingToolbarCancelButton()
-                        TraceDoEvents()
-                        DeleteRow(m_Row)
-                        DeletingRowFromExcel = False
-                        DeletingRowFinished = False
 
                     End If
+                    AxSpreadsheetProgramming.Enabled = True
                     m_ProgrammingStateFlag = False
 
                     CBExpandSpreadsheet.Enabled = True
@@ -4390,10 +4563,12 @@ Public Class FormProgramming
         Dim m_ItemLUT As New CIDSItemsLUT
         m_ItemLUT.Cmd2Index(command.ToUpper)
         'This is to check if data insert is allowed for this cell of the particular command.
-        If m_ItemLUT.GetFlag(colum) = 0 Then
-            LabelMessage("Add Value to This Cell Is Not Allowed!")
-            SetCellValue(row, colum, Nothing)
-            Return
+        If Not (command.ToUpper = "FIDUCIAL") Then
+            If m_ItemLUT.GetFlag(colum) = 0 Then
+                LabelMessage("Add Value to This Cell Is Not Allowed!")
+                SetCellValue(row, colum, Nothing)
+                Return
+            End If
         End If
 
         If (colum >= gPos1XColumn And colum <= gPos3ZColumn) Then
@@ -4651,7 +4826,14 @@ Public Class FormProgramming
     'Check the click event, detail Buttons and flags will be reset accordingly
     '   e: ActiveX component event handler
     Private Sub Spreadsheet_ClickEvent(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.ClickEvent
-        Console.WriteLine("Click")
+        If m_ProgrammingStateFlag Then
+            'Dim selected As Microsoft.Office.Interop.OWC.Range = Programming.AxSpreadsheetProgramming.ActiveSheet.Rows(m_Row)
+            'Dim c1 As Object = GetCell(m_Row, 3)
+            'Dim c2 As Object = GetCell(m_Row, 3 + 2)
+            'Programming.AxSpreadsheetProgramming.ActiveSheet.Cells(c1, c2).sel()
+            'Return
+        End If
+        'Console.WriteLine("Click")
         Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
         Dim m_rowCount As Integer = sel.Rows.Count()
         Dim m_columnCount As Integer = sel.Columns.Count()
@@ -4853,9 +5035,9 @@ Public Class FormProgramming
                     AxSpreadsheetProgramming.Enabled = False
 
                     If CmdStr = "ChipEdge" Or CmdStr = "QC" Or CmdStr = "Height" Or CmdStr = "Fiducial" Or CmdStr = "Reject" Then
-                        MoveToSpreadsheetPoint(pos, "Vision")
+                        'MoveToSpreadsheetPoint(pos, "Vision")
                     Else
-                        MoveToSpreadsheetPoint(pos, "Needle")
+                        'MoveToSpreadsheetPoint(pos, "Needle")
                     End If
 
                     AxSpreadsheetProgramming.Enabled = True
@@ -4883,7 +5065,7 @@ Public Class FormProgramming
                 DisableTeachingButtons()
 
                 If m_Execution.m_Pattern.Spreadsheet_FindLastValidPoint(AxSpreadsheetProgramming, m_StartRow, m_EndRow, pos) Then
-                    EnableElementsCommandBlockButton(gOffsetCmdIndex)   'Offset enabled
+                    EnableElementsCommandBlockButton(gOffsetCmdIndex) 'Offset enabled
 
                     'For the valid Offset selections, we get the motion ref for the last row
                     m_Execution.m_Pattern.Spreadsheet_GetRowLocalReference(AxSpreadsheetProgramming, m_EndRow, RefPos)
@@ -4895,7 +5077,7 @@ Public Class FormProgramming
                     pos(2) = pos(2)
 
                     AxSpreadsheetProgramming.Enabled = False
-                    MoveToSpreadsheetPoint(pos, "Vision")
+                    'MoveToSpreadsheetPoint(pos, "Vision")
                     AxSpreadsheetProgramming.Enabled = True
                 Else
                     'For the invalid Offset selections, we get the motion ref for the first row
@@ -5413,7 +5595,7 @@ Public Class FormProgramming
         Dim oMenu1, oMenu2, oMenu3, oMenu3_1, oMenu4, oMenu5, oMenu6, oMenu7 As Object()
         Dim oMenu As Object()
         If AxSpreadsheetProgramming.ActiveCell.Column = gNeedleColumn Then
-
+            oMenu = New Object() {}
             'If (chkDualHead.Checked = False) Then
             '    oMenu1 = New Object() {"&Left", "Left"}
             '    oMenu = New Object() {oMenu1}
@@ -5424,14 +5606,23 @@ Public Class FormProgramming
             'End If
 
         ElseIf AxSpreadsheetProgramming.ActiveCell.Column = gDispensColumn Then
-            oMenu1 = New Object() {"&On", "On"}
-            oMenu2 = New Object() {"&Off", "Off"}
+            Dim row As Integer = GetActiveCellRow()
+            Dim command As String = GetCellValue(row, gCommandNameColumn)
+            Dim CmdName() As String = {"FIDUCIAL", "HEIGHT", "REFERENCE", "REJECT", "LINKSTART", "LINKEND", "QC", "SUBPATTERN", "ARRAY", "SETIO", "GETIO"}
+            If command.ToUpper = "FIDUCIAL" Or command.ToUpper = "HEIGHT" Or command.ToUpper = "LINKSTART" Or command.ToUpper = "LINKEND" Or command.ToUpper = "REFERENCE" Or command.ToUpper = "GETIO" Or command.ToUpper = "PURGE" Or command.ToUpper = "CLEAN" Or command.ToUpper = "ARRAY" Or command.ToUpper = "SUBPATTERN" Or command.ToUpper = "QC" Then
+                oMenu = New Object() {}
+            Else
+                oMenu1 = New Object() {"&On", "On"}
+                oMenu2 = New Object() {"&Off", "Off"}
+                oMenu = New Object() {oMenu1, oMenu2}
+            End If
+
             'oMenu3 = New Object() {"____________", ""}
             'oMenu4 = New Object() {"&Undo", "Undo"}
             'oMenu5 = New Object() {"&Insert Row", "Insert"}
             'oMenu6 = New Object() {"&Delete Row", "Delete"}
             'oMenu = New Object() {oMenu1, oMenu2, oMenu3, oMenu4, oMenu5, oMenu6}
-            oMenu = New Object() {oMenu1, oMenu2}
+
         Else
             oMenu = New Object() {}
 
@@ -6384,7 +6575,9 @@ Public Class FormProgramming
 
 
     Private Sub ToolBarYesNo_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles TeachingToolbar.ButtonClick
-
+        If MachineRunning() Then
+            Return
+        End If
         offset(0) = gLeftNeedleOffs(0)
         offset(1) = gLeftNeedleOffs(1)
         offset(2) = gLeftNeedleOffs(2)
@@ -6398,32 +6591,38 @@ Public Class FormProgramming
             If m_EditStateFlag = False Then
                 'DelayForRowDelete()
                 If m_SteppingPostFlag Then
+                    DisableCoordinateUpdateInSpreadsheet()
                     Spreadsheet_CheckForWithinLinkRange(True)
                     DisableTeachingToolbarOKButton()
                     EnableTeachingToolbarCancelButton()
                     DisableEditingToolbar()
-                    DisableCoordinateUpdateInSpreadsheet()
+
                     SelectCell(m_Row, gCommandNameColumn)
                     m_SteppingPostFlag = False
                     LabelMessage("")
                 Else
                     If (MessageBox.Show("Are you sure you want to delete the row/rows?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes) Then
                         DisableCoordinateUpdateInSpreadsheet()
+                        'DelayForRowDelete()
                         Cancel()   'Cancel or delete rows
+                        AxSpreadsheetProgramming.Enabled = True
                     End If
                 End If
                 'DeletingRowFromExcel = False
                 'DeletingRowFinished = False
             Else
-                m_EditStateFlag = False
-                m_SteppingPostFlag = False
+                'm_EditStateFlag = False
+                'm_SteppingPostFlag = False
+                Console.WriteLine("Disable spredsheet update")
+                DisableCoordinateUpdateInSpreadsheet()
                 Spreadsheet_CheckForWithinLinkRange(True)
                 DisableTeachingToolbarOKButton()
                 EnableTeachingToolbarCancelButton()
                 DisableEditingToolbar()
-                DisableCoordinateUpdateInSpreadsheet()
+
                 SelectCell(m_Row, gCommandNameColumn)
                 LabelMessage("")
+                Cancel()
                 'If (MessageBox.Show("Are you sure you want to delete the row/rows?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.Yes) Then
                 'Cancel()   'Cancel or delete rows
                 'End If
@@ -6525,7 +6724,9 @@ Public Class FormProgramming
                         OffLaser()
                         If rtn Then                      'No laser readout error
                             posOffset(2) = Laser.MM_Reading - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
-                            SetCellValue(m_Row, gPos1ZColumn, CInt(posOffset(2)))
+                            posOffset(2) = CInt(posOffset(2) * 1000) / 1000
+                            Console.WriteLine("Laser Reading: " & Laser.MM_Reading)
+                            SetCellValue(m_Row, gPos1ZColumn, posOffset(2))
                         Else
                             MessageBox.Show("laser sensor out of range")
                             m_TeachStepNumber = 0
@@ -6659,6 +6860,7 @@ Public Class FormProgramming
                         vPara._SizeY = GetCellValue(m_Row, gSizeYColumn)
                         vPara._Threshold = GetCellValue(m_Row, gThresholdColumn)
                         vPara._Vertical = GetCellValue(m_Row, gVerticalColumn)
+                        vPara._DotDispensingDuration = GetCellValue(m_Row, gDurationColumn)
                         DisableProgrammingBrightnessToggle()
                         Vision.IDSV_Form_CE_Edit(vPara)
 
@@ -6731,6 +6933,7 @@ Public Class FormProgramming
                             SetCellValue(m_Row, gSizeYColumn, vPara._SizeY)
                             SetCellValue(m_Row, gThresholdColumn, vPara._Threshold)
                             SetCellValue(m_Row, gVerticalColumn, vPara._Vertical)
+                            SetCellValue(m_Row, gDurationColumn, vPara._DotDispensingDuration)
                             cell1 = GetCell(m_Row, gPos1XColumn)
                             cell2 = GetCell(m_Row, gPos1ZColumn)
                             m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
@@ -6825,11 +7028,13 @@ Public Class FormProgramming
             End If
             DisableCoordinateUpdateInSpreadsheet() 'for delete
             UpdateSpreadsheet()
+            DeletingRowFromExcel = False
             ClearAndDisplayIndicator()
 
         Catch ex As SystemException
             'kr should i put here
             ExceptionDisplay(ex)
+            DeletingRowFromExcel = False
         End Try
         TraceGCCollect()
 
@@ -6922,6 +7127,8 @@ Public Class FormProgramming
         OffLaser()
         If rtn Then                     'No laser readout error
             posOffset = Laser.MM_Reading - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
+            LaserHeightOffsetZ = posOffset
+            posOffset = CInt(posOffset * 1000) / 1000
             SetCellValue(m_Row, gPos1ZColumn, posOffset)
         Else
             MessageBox.Show("laser sensor out of range")
@@ -6981,19 +7188,19 @@ Public Class FormProgramming
             Select Case (type.ToUpper)
                 Case "PURGE", "CLEAN"
                     ConfirmPurge()
-
+                    AxSpreadsheetProgramming.Enabled = True
                 Case "REJECT"
                     ConfirmReject()
-
+                    AxSpreadsheetProgramming.Enabled = True
                 Case "HEIGHT"
                     ConfirmHeight()
-
+                    AxSpreadsheetProgramming.Enabled = True
                 Case "SUBPATTERN"
                     ConfirmSubPattern()
-
+                    AxSpreadsheetProgramming.Enabled = True
                 Case "DOT", "REFERENCE", "QC", "MOVE", "CHIPEDGE", "WAIT"
                     ConfirmSinglePointElement()
-
+                    AxSpreadsheetProgramming.Enabled = True
                 Case "LINE", "FIDUCIAL"
                     EnableCoordinateUpdateInSpreadsheet()
                     HideSpreadsheetTabs()
@@ -7062,6 +7269,7 @@ Public Class FormProgramming
                         End If
 
                     ElseIf m_TeachStepNumber = 2 Then
+                        AxSpreadsheetProgramming.Enabled = True
                         m_ProgrammingStateFlag = False
                         cell1 = GetCell(m_Row, gPos2XColumn)
                         cell2 = GetCell(m_Row, gPos2ZColumn)
@@ -7132,6 +7340,7 @@ Public Class FormProgramming
                         cell2 = GetCell(m_Row, gPos3ZColumn)
                         AxSpreadsheetProgramming.ActiveSheet.Range(cell1, cell2).Select()
                     ElseIf (m_TeachStepNumber = 3) Then
+                        AxSpreadsheetProgramming.Enabled = True
                         m_ProgrammingStateFlag = False
                         cell1 = GetCell(m_Row, gPos3XColumn)
                         cell2 = GetCell(m_Row, gPos3ZColumn)
@@ -7602,6 +7811,9 @@ Public Class FormProgramming
         SetCellValue(m_Row, gSizeYColumn, vpara._SizeY)
         SetCellValue(m_Row, gThresholdColumn, vpara._Threshold)
         SetCellValue(m_Row, gVerticalColumn, vpara._Vertical)
+
+        SetCellValue(m_Row, gDurationColumn, vpara._DotDispensingDuration)
+
         cell1 = GetCell(m_Row, gPos1XColumn)
         cell2 = GetCell(m_Row, gPos1ZColumn)
         m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
@@ -7779,8 +7991,67 @@ Public Class FormProgramming
     Private Sub AxSpreadsheetProgramming_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.LostFocus
 
     End Sub
-
+    Private Function GetExistingLaserHeightDifferent(ByRef height As Double, ByVal selectedRow As Integer) As Boolean
+        Dim Rows, Colums As Integer
+        Dim sheetname As String = "Main"
+        Dim sheet As OWC10.Worksheet = AxSpreadsheetProgramming.Workbooks.Item(1).Worksheets(sheetname)
+        If sheet Is Nothing Then
+            Return False
+        End If
+        Rows = sheet.UsedRange.Rows.Count
+        Colums = sheet.UsedRange.Columns.Count
+        If Rows < 1 Then
+            Return False
+        End If
+        Dim array As Object(,) ' array start at (1,1)
+        array = sheet.Range("A1", "AD" & Rows).Value
+        Dim i As Integer = 1
+        Dim foundHeight As Boolean = False
+        For i = 1 To selectedRow
+            Dim type As String = array((selectedRow + 1) - i, gCommandNameColumn)
+            If type.ToUpper() = "HEIGHT" Then
+                height = array((selectedRow + 1) - i, gPos1ZColumn)
+                Console.WriteLine("Laser Height offset: " & height)
+                Return True
+            End If
+        Next
+    End Function
     Private Sub btPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPlay.Click
+        If m_RunMode = 1 Or m_RunMode = 4 Then
+            Dim Rows, Colums As Integer
+            Dim sheetname As String = "Main"
+            Dim sheet As OWC10.Worksheet = AxSpreadsheetProgramming.Workbooks.Item(1).Worksheets(sheetname)
+            If sheet Is Nothing Then
+                Return
+            End If
+            Rows = sheet.UsedRange.Rows.Count
+            Colums = sheet.UsedRange.Columns.Count
+            If Rows < 1 Then
+                Return
+            End If
+            If teachingMode = "Vision" Then
+                Dim array As Object(,) ' array start at (1,1)
+                array = sheet.Range("A1", "AD" & Rows).Value
+                Dim i As Integer = 1
+                Dim foundHeight As Boolean = False
+                For i = 1 To Rows
+                    Dim type As String = array(i, gCommandNameColumn)
+                    If type.ToUpper() = "HEIGHT" Then
+                        foundHeight = True
+                        Exit For
+                    End If
+                Next
+                If Not (foundHeight) Then
+                    Dim fm As InfoForm = New InfoForm
+                    fm.SetTitle("Warning")
+                    fm.OkOnly()
+                    fm.AddNewLine("Please insert the laser height command before running Dry/Wet needle mode")
+                    fm.SetOKButtonText("Ok")
+                    fm.ShowDialog()
+                    Return
+                End If
+            End If
+        End If
         SetState("Start")
     End Sub
 
@@ -7798,5 +8069,48 @@ Public Class FormProgramming
 
     Private Sub btRelease_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btRelease.Click
         Conveyor.Command("Release")
+    End Sub
+
+    Private Sub AxSpreadsheetProgramming_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles AxSpreadsheetProgramming.DblClick
+        Dim pos(3) As Double
+        Dim needleGap As Double
+        Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
+        Dim m_rowCount As Integer = sel.Rows.Count()
+        Dim m_columnCount As Integer = sel.Columns.Count()
+        Dim m_StartRow As Integer = sel.Row
+        Dim m_columnStart As Integer = sel.Column
+        Dim m_EndRow As Integer = m_StartRow + m_rowCount - 1
+        Dim RefPos() As Double = {0, 0, 0}
+        Dim CmdStr As String = GetCellValue(m_StartRow, gCommandNameColumn)
+        'If m_rowCount = 1 And CmdStr = Nothing Then
+        '    LabelMessage("")
+        'End If
+        If Not (m_columnStart = 1) Then
+            Return
+        End If
+        If 1 = m_rowCount Then
+            SheetRowSelected = True
+            DisplaySpreadsheetTabs()
+
+            If m_Execution.m_Pattern.m_ErrorChk.CheckValidPtXY(CmdStr) Then
+                m_TeachStepNumber = 1
+                pos(0) = GetCellValue(m_StartRow, gPos1XColumn)
+                pos(1) = GetCellValue(m_StartRow, gPos1YColumn)
+                pos(2) = GetCellValue(m_StartRow, gPos1ZColumn)
+                pos(0) = pos(0)
+                pos(1) = pos(1)
+                pos(2) = pos(2)
+                needleGap = GetCellValue(m_StartRow, gNeedleGapColumn)
+
+                AxSpreadsheetProgramming.Enabled = False
+
+                If CmdStr = "ChipEdge" Or CmdStr = "QC" Or CmdStr = "Height" Or CmdStr = "Fiducial" Or CmdStr = "Reject" Then
+                    MoveToSpreadsheetPoint(pos, "Vision")
+                Else
+                    MoveToSpreadsheetPoint(pos, "Needle", needleGap, m_StartRow)
+                End If
+                AxSpreadsheetProgramming.Enabled = True
+            End If
+        End If
     End Sub
 End Class

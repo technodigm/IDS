@@ -405,7 +405,8 @@ Public Class HardwareCommunicationSetup
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
-        Weighting_Scale.Instance.Hide()
+        'Weighting_Scale.Instance.Hide()
+        WeightingScaleForm.Hide()
         Conveyor.Instance.Hide()
         Laser.Instance.Hide()
         OffLaser()
@@ -417,7 +418,12 @@ Public Class HardwareCommunicationSetup
     End Sub
 
     Private Sub WeighingScaleButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WeighingScaleButton.Click
-        Weighting_Scale.Instance.Show()
+        'Weighting_Scale.Instance.Show()
+        If WeightingScaleForm.Visible Then
+            WeightingScaleForm.Hide()
+            Return
+        End If
+        WeightingScaleForm.Show()
     End Sub
 
     Private Sub ConveyorButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConveyorButton.Click

@@ -42,6 +42,8 @@ Public Class FormStartup
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents loginPanel As System.Windows.Forms.Panel
+    Friend WithEvents btSetup As System.Windows.Forms.Button
+    Friend WithEvents Label1 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormStartup))
         Me.BtnExit = New System.Windows.Forms.Button
@@ -49,6 +51,8 @@ Public Class FormStartup
         Me.Button2 = New System.Windows.Forms.Button
         Me.PictureBox2 = New System.Windows.Forms.PictureBox
         Me.loginPanel = New System.Windows.Forms.Panel
+        Me.btSetup = New System.Windows.Forms.Button
+        Me.Label1 = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'BtnExit
@@ -63,7 +67,7 @@ Public Class FormStartup
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(544, 248)
+        Me.Button1.Location = New System.Drawing.Point(549, 160)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(194, 58)
         Me.Button1.TabIndex = 0
@@ -72,12 +76,11 @@ Public Class FormStartup
         'Button2
         '
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.Location = New System.Drawing.Point(16, 8)
+        Me.Button2.Location = New System.Drawing.Point(549, 240)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(194, 58)
         Me.Button2.TabIndex = 0
         Me.Button2.Text = "Teach Program"
-        Me.Button2.Visible = False
         '
         'PictureBox2
         '
@@ -91,15 +94,36 @@ Public Class FormStartup
         '
         'loginPanel
         '
-        Me.loginPanel.Location = New System.Drawing.Point(462, 328)
+        Me.loginPanel.Location = New System.Drawing.Point(462, 416)
         Me.loginPanel.Name = "loginPanel"
         Me.loginPanel.Size = New System.Drawing.Size(368, 488)
         Me.loginPanel.TabIndex = 4
+        '
+        'btSetup
+        '
+        Me.btSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btSetup.Location = New System.Drawing.Point(549, 344)
+        Me.btSetup.Name = "btSetup"
+        Me.btSetup.Size = New System.Drawing.Size(194, 58)
+        Me.btSetup.TabIndex = 5
+        Me.btSetup.Text = "Setup Program"
+        '
+        'Label1
+        '
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 72.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(246, 16)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(800, 128)
+        Me.Label1.TabIndex = 6
+        Me.Label1.Text = "IDS2000"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'FormStartup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1292, 1036)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.btSetup)
         Me.Controls.Add(Me.loginPanel)
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.BtnExit)
@@ -109,7 +133,7 @@ Public Class FormStartup
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "FormStartup"
-        Me.Text = "FormStartup"
+        Me.Text = "IDS2000"
         Me.ResumeLayout(False)
 
     End Sub
@@ -224,8 +248,23 @@ Public Class FormStartup
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        LoginName = "Application_Programmer"
-        formlg.StartPosition = FormStartPosition.CenterScreen
-        formlg.ShowDialog()
+        'LoginName = "Application_Programmer"
+        'formlg.StartPosition = FormStartPosition.CenterScreen
+        'formlg.ShowDialog()
+        IDS.Data.ParameterID.RecordID = "FactoryDefault"
+        IDSData.Admin.Folder.FileExtension = "Pat"
+        IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
+        IDS.Data.OpenData()
+        IDS.Data.Admin.User.RunApplication = "Programmer"
+        Call frmLogin.LoadProgrammerMaintenance()
+    End Sub
+
+    Private Sub btSetup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btSetup.Click
+        IDS.Data.ParameterID.RecordID = "FactoryDefault"
+        IDSData.Admin.Folder.FileExtension = "Pat"
+        IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
+        IDS.Data.OpenData()
+        IDS.Data.Admin.User.RunApplication = "System"
+        Call frmLogin.LoadProgrammerMaintenance()
     End Sub
 End Class

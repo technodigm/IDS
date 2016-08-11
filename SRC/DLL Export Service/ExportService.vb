@@ -55,7 +55,7 @@ Public Class CIDSService
 #End Region
 
 #Region "Weighting Machine"
-        Public Shadows Weighting As New CIDSServiceWeighting
+        'Public Shadows Weighting As New CIDSServiceWeighting
         Public Class CIDSServiceWeighting
             Inherits Weighting_Scale
 
@@ -77,6 +77,7 @@ Public Class CIDSService
             End Property
 
         End Class
+
 #End Region
 
 #Region "Thermal Part"
@@ -280,7 +281,7 @@ Public Module x
     'gui instantiation from other modules
     Public m_Tri As CIDSService.CIDSServiceDevices.CIDSMotor = m_Tri.Instance
     Public Conveyor As CIDSService.CIDSServiceDevices.CIDSServiceConveyor = Conveyor.Instance
-    Public Weighting_Scale As CIDSService.CIDSServiceDevices.CIDSServiceWeighting = Weighting_Scale.Instance
+    'Public Weighting_Scale As CIDSService.CIDSServiceDevices.CIDSServiceWeighting = Weighting_Scale.Instance
     Public Heater As CIDSService.CIDSServiceDevices.CIDSServiceThermal = Heater.Instance
     Public Laser As CIDSService.CIDSServiceDevices.CIDSServiceLaser = Laser.Instance
     Public Dispenser As CIDSService.CIDSServiceDevices.CIDSServiceDispenser = Dispenser.Instance

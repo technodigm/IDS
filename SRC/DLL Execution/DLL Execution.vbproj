@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <VisualBasic
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{00F7ACC6-5822-4B5A-8979-F390EF5C38EA}"
     >
@@ -404,6 +404,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "InfoForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InfoForm.resx"
+                    DependentUpon = "InfoForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "KeyboardControl.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -412,6 +422,16 @@
                     RelPath = "ModuleGConst.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NewFileForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NewFileForm.resx"
+                    DependentUpon = "NewFileForm.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Production.vb"

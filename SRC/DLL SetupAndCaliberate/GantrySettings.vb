@@ -157,12 +157,13 @@ Public Class GantrySettings
         Me.GroupBox6.Controls.Add(Me.MoveButton)
         Me.GroupBox6.Controls.Add(Me.GroupBox4)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
-        Me.GroupBox6.Location = New System.Drawing.Point(8, 80)
+        Me.GroupBox6.Location = New System.Drawing.Point(8, 456)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
         Me.GroupBox6.TabIndex = 69
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Station Positions"
+        Me.GroupBox6.Visible = False
         '
         'SavePositionButton
         '
@@ -174,9 +175,9 @@ Public Class GantrySettings
         '
         'ZPosition
         '
-        Me.ZPosition.Location = New System.Drawing.Point(184, 176)
+        Me.ZPosition.Location = New System.Drawing.Point(16, 176)
         Me.ZPosition.Name = "ZPosition"
-        Me.ZPosition.Size = New System.Drawing.Size(128, 23)
+        Me.ZPosition.Size = New System.Drawing.Size(464, 23)
         Me.ZPosition.TabIndex = 66
         Me.ZPosition.Text = "0"
         Me.ZPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -186,9 +187,9 @@ Public Class GantrySettings
         Me.StationPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.StationPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.StationPosition.Items.AddRange(New Object() {"Park Z Position", "Purge Z Position", "Clean Z Position", "Change Syringe Z Position", "Volume Calibration Z Position"})
-        Me.StationPosition.Location = New System.Drawing.Point(112, 120)
+        Me.StationPosition.Location = New System.Drawing.Point(72, 120)
         Me.StationPosition.Name = "StationPosition"
-        Me.StationPosition.Size = New System.Drawing.Size(272, 28)
+        Me.StationPosition.Size = New System.Drawing.Size(368, 28)
         Me.StationPosition.TabIndex = 64
         '
         'MoveButton
@@ -370,7 +371,7 @@ Public Class GantrySettings
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 416)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 80)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(496, 208)
         Me.GroupBox1.TabIndex = 69
@@ -492,7 +493,7 @@ Public Class GantrySettings
         'ButtonRevert
         '
         Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonRevert.Location = New System.Drawing.Point(360, 824)
+        Me.ButtonRevert.Location = New System.Drawing.Point(392, 320)
         Me.ButtonRevert.Name = "ButtonRevert"
         Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
         Me.ButtonRevert.TabIndex = 77
@@ -501,7 +502,7 @@ Public Class GantrySettings
         'ButtonSave
         '
         Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSave.Location = New System.Drawing.Point(248, 824)
+        Me.ButtonSave.Location = New System.Drawing.Point(280, 320)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(88, 48)
         Me.ButtonSave.TabIndex = 76
@@ -583,7 +584,7 @@ Public Class GantrySettings
             IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = z
         End If
 
-        ZPosition.Text = "Z: " + CStr(z)
+        ZPosition.Text = "Current Z:" & m_Tri.ZPosition & " - Needle Z Offset:" & offset_z & " = Calibrated Z: " + CStr(z)
 
     End Sub
 
@@ -727,4 +728,7 @@ Public Class GantrySettings
         ServiceZSpeed.Text = IDS.Data.Hardware.Gantry.ServiceZSpeed
     End Sub
 
+    Private Sub ElementXYSpeed_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ElementXYSpeed.ValueChanged
+
+    End Sub
 End Class

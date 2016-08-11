@@ -66,6 +66,8 @@ Public Module Module1
     Public Dispenser As CIDSService.CIDSServiceDevices.CIDSServiceDispenser = Dispenser.Instance
     Public Vision As CIDSService.CIDSServiceDevices.CIDSServiceVision = Vision.Minstance
 
+    Public WeightingScaleForm As WeightScaleForm = New WeightScaleForm
+
     'needs to be fixed. ids.data.hardware.heightsensor.laser.offsetoos.X/Y is WRONG.
     Public LaserOffX As Double = 74.668
     Public LaserOffY As Double = -0.553

@@ -120,6 +120,8 @@ Public Class ChipEdgePoints
     Friend WithEvents GroupBox_DispenseModel As System.Windows.Forms.GroupBox
     Friend WithEvents Button_Reset As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents label3 As System.Windows.Forms.Label
+    Friend WithEvents tbDotDuration As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
@@ -179,6 +181,8 @@ Public Class ChipEdgePoints
         Me.TextBox_EdgeClearance = New System.Windows.Forms.TextBox
         Me.CheckBox_ChipRec_Enable = New System.Windows.Forms.CheckBox
         Me.GroupBox_DispenseModel = New System.Windows.Forms.GroupBox
+        Me.label3 = New System.Windows.Forms.Label
+        Me.tbDotDuration = New System.Windows.Forms.TextBox
         Me.RadioButton_TwoEdges = New System.Windows.Forms.RadioButton
         Me.RadioButton_OneEdge = New System.Windows.Forms.RadioButton
         Me.RadioButton_Dot = New System.Windows.Forms.RadioButton
@@ -796,20 +800,38 @@ Public Class ChipEdgePoints
         '
         'GroupBox_DispenseModel
         '
+        Me.GroupBox_DispenseModel.Controls.Add(Me.label3)
+        Me.GroupBox_DispenseModel.Controls.Add(Me.tbDotDuration)
         Me.GroupBox_DispenseModel.Controls.Add(Me.RadioButton_TwoEdges)
         Me.GroupBox_DispenseModel.Controls.Add(Me.RadioButton_OneEdge)
         Me.GroupBox_DispenseModel.Controls.Add(Me.RadioButton_Dot)
         Me.GroupBox_DispenseModel.Location = New System.Drawing.Point(224, 128)
         Me.GroupBox_DispenseModel.Name = "GroupBox_DispenseModel"
-        Me.GroupBox_DispenseModel.Size = New System.Drawing.Size(248, 48)
+        Me.GroupBox_DispenseModel.Size = New System.Drawing.Size(248, 112)
         Me.GroupBox_DispenseModel.TabIndex = 62
         Me.GroupBox_DispenseModel.TabStop = False
         Me.GroupBox_DispenseModel.Text = "Dispense Model:"
         '
+        'label3
+        '
+        Me.label3.Location = New System.Drawing.Point(72, 56)
+        Me.label3.Name = "label3"
+        Me.label3.Size = New System.Drawing.Size(168, 23)
+        Me.label3.TabIndex = 9
+        Me.label3.Text = "Dot Dispensing Duration (ms)"
+        '
+        'tbDotDuration
+        '
+        Me.tbDotDuration.Location = New System.Drawing.Point(72, 80)
+        Me.tbDotDuration.Name = "tbDotDuration"
+        Me.tbDotDuration.Size = New System.Drawing.Size(152, 20)
+        Me.tbDotDuration.TabIndex = 8
+        Me.tbDotDuration.Text = ""
+        '
         'RadioButton_TwoEdges
         '
         Me.RadioButton_TwoEdges.Checked = True
-        Me.RadioButton_TwoEdges.Location = New System.Drawing.Point(164, 16)
+        Me.RadioButton_TwoEdges.Location = New System.Drawing.Point(88, 16)
         Me.RadioButton_TwoEdges.Name = "RadioButton_TwoEdges"
         Me.RadioButton_TwoEdges.Size = New System.Drawing.Size(80, 24)
         Me.RadioButton_TwoEdges.TabIndex = 7
@@ -818,7 +840,7 @@ Public Class ChipEdgePoints
         '
         'RadioButton_OneEdge
         '
-        Me.RadioButton_OneEdge.Location = New System.Drawing.Point(80, 16)
+        Me.RadioButton_OneEdge.Location = New System.Drawing.Point(8, 16)
         Me.RadioButton_OneEdge.Name = "RadioButton_OneEdge"
         Me.RadioButton_OneEdge.Size = New System.Drawing.Size(74, 24)
         Me.RadioButton_OneEdge.TabIndex = 6
@@ -826,7 +848,7 @@ Public Class ChipEdgePoints
         '
         'RadioButton_Dot
         '
-        Me.RadioButton_Dot.Location = New System.Drawing.Point(16, 16)
+        Me.RadioButton_Dot.Location = New System.Drawing.Point(8, 64)
         Me.RadioButton_Dot.Name = "RadioButton_Dot"
         Me.RadioButton_Dot.Size = New System.Drawing.Size(48, 24)
         Me.RadioButton_Dot.TabIndex = 5
@@ -1151,6 +1173,7 @@ Public Class ChipEdgePoints
         Public _DispenseModel As Integer
         Public _EdgeClearance As Double
         Public _CheckBox_ChipRec_Enable As Boolean
+        Public _DotDispensingDuration
     End Structure
 
     Dim Folder_CE As String = "C:\IDS\SRC\DLL Export Device Vision\ChipEdgePoint\"
@@ -1201,6 +1224,7 @@ Public Class ChipEdgePoints
         edgeParam._DispenseModel = DispenseModel
         edgeParam._EdgeClearance = TextBox_EdgeClearance.Text
         edgeParam._CheckBox_ChipRec_Enable = CheckBox_ChipRec_Enable.Checked
+        edgeParam._DotDispensingDuration = tbDotDuration.Text
     End Function
     Function GetChipEdgeParameters_bak(ByRef _SizeX As Double, ByRef _SizeY As Double, ByRef _PosX As Double, ByRef _PosY As Double, ByRef _Size As Double, ByRef _Pos As Double, ByRef _Rot As Double, ByRef _Inside_out As Boolean, ByVal _Cw_CCw As Boolean, ByRef _Threshold As Double, ByRef _ROI As Double, ByRef _Brightness As Integer, ByRef _Vertical As Boolean, ByRef _MainEdge As Integer, ByRef _PointX1 As Double, ByRef _PointY1 As Double, ByRef _PointX2 As Double, ByRef _PointY2 As Double, ByRef _PointX3 As Double, ByRef _PointY3 As Double, ByRef _PointX4 As Double, ByRef _PointY4 As Double, ByRef _PointX5 As Double, ByRef _PointY5 As Double, ByRef _DispenseModel As Integer, ByRef _EdgeClearance As Double, ByRef _CheckBox_ChipRec_Enable As Boolean)
         _SizeX = TextBox_SizeX.Text
@@ -1237,9 +1261,12 @@ Public Class ChipEdgePoints
         TextBox_SizeY.Text = 0
         TextBox_PosX.Text = 0
         TextBox_PosY.Text = 0
+        GroupBox_Vertical_Horizontal.Enabled = True
+        Return
         ValueSize.Text = 5
         ValuePos.Text = 5
         ValueRot.Text = 5
+
         RadioButton_Inside_out.Checked = True
         RadioButton_Outside_In.Checked = False
         RadioButton_CW.Checked = True
@@ -1284,7 +1311,7 @@ Public Class ChipEdgePoints
         Clickno = 1
         Test_Click = False
 
-        GroupBox_Vertical_Horizontal.Enabled = True
+
         Timer1.Stop()
         Button_Test.Text = "Test"
         Button_Ok.Enabled = False
@@ -1351,7 +1378,7 @@ Public Class ChipEdgePoints
     End Function
 #Region "Production"
     Function ChipEdgePointExe() As Boolean
-        FrmVision.ClearDisplay()
+        'FrmVision.ClearDisplay()
         Dim result As Boolean = FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1)
         If result = False Then
             ResetVariables()
@@ -1389,19 +1416,33 @@ Public Class ChipEdgePoints
     End Sub
     Private Sub Button_Test_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Test.Click
         If Test_Click = False Then
+            If TextBox_SizeY.Text = "0" And TextBox_SizeX.Text = "0" And TextBox_PosX.Text = "0" And TextBox_PosY.Text = "0" Then
+                MessageBox.Show("Please follow the tips and click on the chip edges")
+                Return
+            End If
+            Button_Reset.Enabled = False
             FrmVision.SetBrightness(ValueBrightness.Value)
+            Timer1.Enabled = True
             Timer1.Start()
             Button_Test.Text = "Stop"
             Test_Click = True
         ElseIf Test_Click = True Then
             Timer1.Stop()
+            Timer1.Enabled = False
+            Button_Reset.Enabled = True
             Test_Click = False
             Button_Test.Text = "Test"
             FrmVision.ClearDisplay()
         End If
     End Sub
     Private Sub Button_Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Cancel.Click
+        If Test_Click = True Then
+            MessageBox.Show("Please stop the testing before click cancel")
+            Return
+        End If
         Status = 2 'For SJ to check if CE is cancel
+        Timer1.Stop()
+        Timer1.Enabled = False
         FrmVision.ResetChipEdgePoint()
         ResetVariables()
         FrmVision.DisplayIndicator()
@@ -1442,12 +1483,18 @@ Public Class ChipEdgePoints
     End Sub
     Private Sub RadioButton_TwoEdges_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton_TwoEdges.CheckedChanged
         DispenseModel = 2
+        tbDotDuration.Enabled = False
     End Sub
     Private Sub RadioButton_OneEdge_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton_OneEdge.CheckedChanged
         DispenseModel = 1
+        tbDotDuration.Enabled = False
     End Sub
     Private Sub RadioButton_Dot_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton_Dot.CheckedChanged
         DispenseModel = 0
+        tbDotDuration.Enabled = True
+        If tbDotDuration.Text = "" Then
+            tbDotDuration.Text = "500"
+        End If
     End Sub
     Private Sub CheckBox_ChipRec_Enable_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox_ChipRec_Enable.CheckedChanged
         If CheckBox_ChipRec_Enable.Checked = False Then
@@ -1504,7 +1551,21 @@ Public Class ChipEdgePoints
         End If
     End Sub
     Private Sub Button_Ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Ok.Click
+        If DispenseModel = 0 Then
+            Try
+                Dim db As Double = Convert.ToDouble(tbDotDuration.Text)
+            Catch ex As Exception
+                MessageBox.Show("Please insert valid value for dot dispensing duration")
+                Return
+            End Try
+        End If
+        If Test_Click = True Then
+            MessageBox.Show("Please stop the testing before click OK")
+            Return
+        End If
         Timer1.Stop()
+        Timer1.Enabled = False
+        Button_Reset.Enabled = True
         Status = 1 'for SJ to check if CE done
         FrmVision.DisplayIndicator()
         FrmVision.ChipPointOutPut(1) 'rearrange points for output
@@ -1515,6 +1576,10 @@ Public Class ChipEdgePoints
     End Sub
 
     Private Sub Button_Reset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Reset.Click
+        If Test_Click = True Then
+            MessageBox.Show("Please stop the testing first before reset")
+            Return
+        End If
         Status = 3 'reset being pressed
         FrmVision.ResetChipEdgePoint()
         ResetVariables()

@@ -438,6 +438,8 @@ Public Class CIDSPatternLoader
             Return rtn
         End If
         heightComps = height - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
+        'LabelMessage("Height compensation:" & heightComps.ToString("0.000"))
+        Programming.tbHeightCompensation.Text = heightComps.ToString("0.000")
         Return 0
     End Function
 
@@ -637,8 +639,9 @@ Public Class CIDSPatternLoader
                 Return 100
             End If
             'MySleep(50)
+            DisplayCrossHair()
             result = Vision.IDSV_FI(FidNames, offX1, offY1)
-            ClearDisplay()
+            'ClearDisplay()
             If result = False Then
                 If CheckButtonState() = -1 Then
                     Return 100
@@ -676,8 +679,9 @@ Public Class CIDSPatternLoader
             Return 100
         End If
         'MySleep(50)
+        DisplayCrossHair()
         result = Vision.IDSV_FI(FidNames, offX1, offY1)
-        ClearDisplay()
+        'ClearDisplay()
         If result = False Then
             If CheckButtonState() = -1 Then
                 Return 100
@@ -708,8 +712,9 @@ Public Class CIDSPatternLoader
             Return 100
         End If
         'MySleep(50)
+        DisplayCrossHair()
         result = Vision.IDSV_FI(FidNames, offX2, offY2)
-        ClearDisplay()
+        'ClearDisplay()
         If result = False Then
             If CheckButtonState() = -1 Then
                 Return 100
@@ -898,6 +903,7 @@ Public Class CIDSPatternLoader
         vPara._Threshold = array(j, gThresholdColumn)
         vPara._Vertical = array(j, gVerticalColumn)
 
+        vPara._DotDispensingDuration = array(j, gDurationColumn)
         ''
         '   Xue Wen                                                                                 '
         '   Set the brightness before doing the movement. This will affect vision(ActiveX) less.    '
@@ -907,7 +913,9 @@ Public Class CIDSPatternLoader
         Dim rtn As Integer = 0
         rtn = MoveToCheckChipEdge(PosX, PosY, vPara) 'move to check chip edge
         If rtn < 0 Then
-            CompileErrorDisplay(sheetname, row, 8)
+            'If ProgrammingMode() Then
+            '    CompileErrorDisplay(sheetname, row, 8)
+            'End If
             Return -1
         ElseIf rtn > 0 Then
             Return rtn
@@ -946,7 +954,6 @@ Public Class CIDSPatternLoader
     '
 
     Public Function MoveToCheckChipEdge(ByVal x As Double, ByVal y As Double, ByRef para As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam) As Integer
-
         Dim pos() As Double = {x, y}
         m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
 
@@ -954,7 +961,7 @@ Public Class CIDSPatternLoader
         If CheckButtonState() = -1 Then
             Return 100
         End If
-
+        Vision.FrmVision.DisplayIndicator()
         Dim x1, y1, x2, y2, x3, y3, x4, y4 As Double
         If Not Vision.IDSV_CE(para) Then 'detecting chip edge
             If CheckButtonState() = -1 Then
@@ -963,7 +970,7 @@ Public Class CIDSPatternLoader
                 Return -1
             End If
         End If
-        ClearDisplay()
+        'ClearDisplay()
         Vision.IDSV_CEOutput(x1, y1, x2, y2, x3, y3, x4, y4) 'get four points wrt pos(x,y)
         'convert four points to hard home coord.
         para._PointX1 = x + x1
@@ -1211,7 +1218,7 @@ Public Class CIDSPatternLoader
         para.RetractHeight = array(j, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
         para.ClearanceHeight = array(j, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
         para.ArcRadius = array(j, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
-        para.Needle = array(j, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        para.Needle = array(j, gNeedleColumn) 'sheet.Cells(row, gNeedleColumn).value
         'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
         testTime = DateTime.Now.Ticks
         FidandSubTransform(pt, referPt, fidComp, comp)
@@ -1281,7 +1288,7 @@ Public Class CIDSPatternLoader
         para.RetractHeight = array(row, gRetractHtColumn) * Ratio ' (sheet.Cells(row, gRetractHtColumn).value) * Ratio
         para.ClearanceHeight = array(row, gClearanceHtColumn) * Ratio '(sheet.Cells(row, gClearanceHtColumn).value) * Ratio
         para.ArcRadius = array(row, gPos1ZColumn) * Ratio '(sheet.Cells(row, gArcRadiusColumn).value) * Ratio
-        para.Needle = array(row, gArcRadiusColumn) 'sheet.Cells(row, gNeedleColumn).value
+        para.Needle = array(row, gNeedleColumn) 'sheet.Cells(row, gNeedleColumn).value
         'Console.WriteLine("#2 :" & ((DateTime.Now.Ticks - testTime) / 10000).ToString())
         testTime = DateTime.Now.Ticks
         FidandSubTransform(pt, referPt, fidComp, comp)
@@ -3201,20 +3208,46 @@ Public Class CIDSPatternLoader
             gFidFileName = Programming.gPatternFileName 'for fiducial. added by kr
 
             Dim type As String = array(I, gCommandNameColumn)
+            Dim skipRetry As Boolean = True
             If type <> Nothing Then
                 type = type.Trim(" ")
                 type = type.ToUpper
                 Select Case type
                     Case "FIDUCIAL"  'Check fiducial point and get fiducial compensation 
                         If m_Optim = 0 Then
-                            rtn = CheckFiducialPt(sheet, I, referencePt, compData, fiducialpt, offset, compangle)
+                            LabelMessage("Checking fiducial")
+                            Do
+                                rtn = CheckFiducialPt(sheet, I, referencePt, compData, fiducialpt, offset, compangle)
+                                If rtn < 0 Then
+                                    Dim fm As InfoForm = New InfoForm
+                                    fm.SetTitle("Fiducial")
+                                    fm.SetCancelButtonText("Abort")
+                                    fm.SetOKButtonText("Retry")
+                                    fm.AddNewLine("Fiducial Failed!")
+                                    fm.AddNewLine("Would you like to retry?")
+                                    If fm.ShowDialog() = DialogResult.OK Then
+                                        skipRetry = False
+                                    Else
+                                        skipRetry = True
+                                    End If
+                                Else
+                                    skipRetry = True
+                                End If
+                            Loop Until skipRetry
+
                             If rtn < 0 Then   'check fail
-                                If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
+                                LabelMessage("Unable to find fiducial")
+                                If ProductionMode() Then
+                                    If ShouldLog() Then Form_Service.LogEventInSPCReport("Fiducial Failed")
+                                    If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
+                                End If
                                 Return 99
                             ElseIf rtn > 0 Then
+                                LabelMessage("Unable perform fiducial finding operation")
                                 Return rtn
                             Else
                                 compData.SetGparentFid(fiducialpt, offset, compangle)
+                                LabelMessage("Found fiducial")
                             End If
                         Else
                             Dim FidData As New CIDSFiducial
@@ -3225,16 +3258,22 @@ Public Class CIDSPatternLoader
                     Case "HEIGHT"  'height detection
                         If m_Optim = 0 Then
                             Dim heightc As Double
+                            LabelMessage("Height compensation in progress")
                             rtn = GetHeightCompensation(sheet, I, referencePt, compData, heightc)
                             If rtn < 0 Then   'check fail
+                                LabelMessage("Height compensation failed")
                                 If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
                                 Return 99
                             ElseIf rtn > 0 Then
+                                LabelMessage("Unable to perform height compensation")
                                 Return rtn
                             Else
                                 If heightcomp > 10 Then
-                                    MyMsgBox("ahhh!")
+                                    ''MyMsgBox("ahhh!")
+                                    LabelMessage("Height compensation failed, value > 10")
+                                    Return 101
                                 End If
+                                LabelMessage("Height compensation done")
                                 heightcomp = heightc
                             End If
                         Else
@@ -3321,40 +3360,57 @@ Public Class CIDSPatternLoader
                     Case "CHIPEDGE"
                         If m_Optim = 0 Then
                             Dim chipData As New CIDSChipEdge
-                            rtn = ChecknSetChipedgeRecData(sheet, I, chipData, referencePt, compData, heightcomp)
-                            If rtn < 0 Then   'check fail
-                                If IDS.Data.Hardware.SPC.ChipFailedAction = False Then    'auto skip
-                                    If ProductionMode() Then
-                                        Form_Service.LogEventInSPCReport("Chip Finding Failed")
-                                        Form_Service.LogEventInSPCReport("Board Partial Failure")
-                                        If ShouldLog() Then Form_Service.LogEventInSPCReport("Resume")
-                                    End If
-                                Else     'manu
+                            LabelMessage("Performing Chip Edges detection")
+                            Do
+                                rtn = ChecknSetChipedgeRecData(sheet, I, chipData, referencePt, compData, heightcomp)
+                                If rtn < 0 Then   'check fail
+                                    LabelMessage("Unable to detect Chip Edges")
+                                    If IDS.Data.Hardware.SPC.ChipFailedAction = False Then    'auto skip
+                                        If ProductionMode() Then
+                                            Form_Service.LogEventInSPCReport("Chip Finding Failed")
+                                            Form_Service.LogEventInSPCReport("Board Partial Failure")
+                                            If ShouldLog() Then Form_Service.LogEventInSPCReport("Resume")
+                                        End If
+                                    Else     'manu
 
-                                    If ProductionMode() Then
-                                        Form_Service.LogEventInSPCReport("Chip Finding Failed")
-                                        Form_Service.DisplayErrorMessage("Chip Finding Failed")
-                                    Else
-                                        Form_Service.DisplayErrorMessage("Chip Finding Failed")
-                                    End If
+                                        'If ProductionMode() Then
 
-                                    WaitUntilErrorMessagesCleared()
-
-                                    If Form_Service.ChipEdgeSkipped Then
-                                        'skip chip
-                                        If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Partial Failure")
-                                        If ShouldLog() Then Form_Service.LogEventInSPCReport("Resume")
-                                    Else
-                                        'skip pattern = stop
-                                        If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
-                                        Return 99
+                                        'Form_Service.LogEventInSPCReport("Chip Finding Failed")
+                                        'End If
+                                        'Form_Service.DisplayErrorMessage("Chip Finding Failed")
+                                        Dim fm As InfoForm = New InfoForm
+                                        fm.SetTitle("Chip Edge")
+                                        fm.ShowIgnoreButton()
+                                        fm.SetCancelButtonText("Abort")
+                                        fm.SetOKButtonText("Retry")
+                                        fm.AddNewLine("Chip Finding Failed")
+                                        fm.AddNewLine("Would you like to retry?")
+                                        Dim result As DialogResult = fm.ShowDialog()
+                                        If result = DialogResult.OK Then
+                                            skipRetry = False
+                                        ElseIf result = DialogResult.Cancel Then
+                                            skipRetry = True
+                                            If ProductionMode() Then
+                                                Form_Service.LogEventInSPCReport("Chip Finding Failed")
+                                            End If
+                                            Return rtn
+                                        ElseIf result = DialogResult.Ignore Then
+                                            skipRetry = True
+                                            If ProductionMode() Then
+                                                Form_Service.LogEventInSPCReport("Chip Finding Failed")
+                                            End If
+                                        End If
+                                        'Else
+                                        'Form_Service.DisplayErrorMessage("Chip Finding Failed")
+                                        'End If
                                     End If
+                                ElseIf rtn > 0 Then
+                                    Return rtn
+                                Else
+                                    skipRetry = True
+                                    DebugAddList(list, chipData)
                                 End If
-                            ElseIf rtn > 0 Then
-                                Return rtn
-                            Else
-                                DebugAddList(list, chipData)
-                            End If
+                            Loop Until skipRetry
                         End If
 
                     Case "QC"
@@ -4431,7 +4487,7 @@ Public Class IDSPattnCompiler
 
         End If
 
-        If chipEdge.Param.TravelDelay > 0 Then    'travel delay
+        If Not (DispenseModel = 0) And chipEdge.Param.TravelDelay > 0 Then    'travel delay
             AddWaitDuration(disCmdList, chipEdge.Param.TravelDelay)
         End If
 
@@ -4442,11 +4498,13 @@ Public Class IDSPattnCompiler
         AddSpeed(disCmdList, m_Speed)
 
         If DispenseModel = 0 Then    'dot
+            AddWaitDuration(disCmdList, chipEdge.vParam._DotDispensingDuration)
             If chipEdge.Param.DispenseOn And m_RunMode > 3 Then  'wet and dispensing on
                 AddOffIO(disCmdList, m_NeedleIO)     'dispensing io off
             End If
         Else     'line(s)
             If System.Math.Abs(chipEdge.Param.DeTailDist) <= 0.001 Then  'no detailing 
+                AddMergeOn(disCmdList)
                 If NotVisionMode(m_RunMode) Then    'except for vision
                     If DispenseModel = 2 Then 'two lines
                         'dispensing to arc's first endpoint
@@ -4454,8 +4512,10 @@ Public Class IDSPattnCompiler
                         pos(1) = comp2(1)
                         pos(2) = comp2(2)
                         AddMoveXYZ(disCmdList, pos)
-                        AddSpeed(disCmdList, m_Speed * 3)
-                        AddMoveArc(disCmdList, de(0), de(1), dc(2), dc(1), direction)
+                        'AddSpeed(disCmdList, m_Speed * 3)
+                        AddSpeed(disCmdList, m_Speed)
+                        'AddMoveArc(disCmdList, de(0), de(1), dc(2), dc(1), direction)
+                        AddMoveArc(disCmdList, de(0), de(1), dc(0), dc(1), direction)
                         AddSpeed(disCmdList, m_Speed)
                     End If
                     pos(0) = dEndPt(0)
@@ -4467,7 +4527,8 @@ Public Class IDSPattnCompiler
                         pos(0) = comp2(0)
                         pos(1) = comp2(1)
                         AddMoveXY(disCmdList, pos)
-                        AddSpeed(disCmdList, m_Speed * 3)
+                        'AddSpeed(disCmdList, m_Speed * 3)
+                        AddSpeed(disCmdList, m_Speed)
                         AddMoveArc(disCmdList, de(0), de(1), dc(0), dc(1), direction)
                         AddSpeed(disCmdList, m_Speed)
                     End If
@@ -4477,6 +4538,7 @@ Public Class IDSPattnCompiler
                 End If
 
                 AddWaitIdle(disCmdList)
+                AddMergeOff(disCmdList)
                 If chipEdge.Param.DispenseOn And m_RunMode > 3 Then
                     AddOffIO(disCmdList, m_NeedleIO)
                 End If
@@ -4487,7 +4549,8 @@ Public Class IDSPattnCompiler
                         pos(1) = comp2(1)
                         pos(2) = comp2(2)
                         AddMoveXYZ(disCmdList, pos)
-                        AddSpeed(disCmdList, m_Speed * 3)
+                        'AddSpeed(disCmdList, m_Speed * 3)
+                        AddSpeed(disCmdList, m_Speed)
                         AddMoveArc(disCmdList, de(0), de(1), dc(0), dc(1), direction)
                         AddSpeed(disCmdList, m_Speed)
                     End If
@@ -4504,7 +4567,8 @@ Public Class IDSPattnCompiler
                         pos(0) = comp2(0)
                         pos(1) = comp2(1)
                         AddMoveXY(disCmdList, pos)
-                        AddSpeed(disCmdList, m_Speed * 3)
+                        'AddSpeed(disCmdList, m_Speed * 3)
+                        AddSpeed(disCmdList, m_Speed)
                         AddMoveArc(disCmdList, de(0), de(1), dc(0), dc(1), direction)
                         AddSpeed(disCmdList, m_Speed)
                     End If
@@ -4606,7 +4670,8 @@ Public Class IDSPattnCompiler
         RoundTo3DecimalPoints(p2)
         RoundTo3DecimalPoints(p3)
         RoundTo3DecimalPoints(ApproachZ)
-
+        Dim posZ(0) As Double
+        posZ(0) = 0
 
         If (m_IsFirstElement Or m_RunMode = 0) Then 'vision mode and not first element
             If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
@@ -4627,45 +4692,65 @@ Public Class IDSPattnCompiler
 
         Else
             If (rtn <> 0) Then   'no arc inserted
-                If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
-                SetToXYPlane(m_Plane)
-                m_Speed = m_PrevRetractSpeed
+                'If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
+                'SetToXYPlane(m_Plane)
+                'm_Speed = m_PrevRetractSpeed
+                'AddSpeed(disCmdList, m_Speed)
+                'pos(0) = m_PrevRetractPt(0)
+                'pos(1) = m_PrevRetractPt(1)
+                'pos(2) = m_PrevRetractPt(2)
+                'AddMoveXYZ(disCmdList, pos)
+                'pos(0) = m_PrevClearPt(0)
+                'pos(1) = m_PrevClearPt(1)
+                'pos(2) = m_PrevClearPt(2)
+                'AddMoveXYZ(disCmdList, pos)
+                AddZXYBase(disCmdList)
+                'SetToZXPlane(m_Plane)
+                m_Speed = IDS.Data.Hardware.Gantry.ServiceZSpeed
                 AddSpeed(disCmdList, m_Speed)
-                pos(0) = m_PrevRetractPt(0)
-                pos(1) = m_PrevRetractPt(1)
-                pos(2) = m_PrevRetractPt(2)
-                AddMoveXYZ(disCmdList, pos)
-                pos(0) = m_PrevClearPt(0)
-                pos(1) = m_PrevClearPt(1)
-                pos(2) = m_PrevClearPt(2)
-                AddMoveXYZ(disCmdList, pos)
+                AddMoveZ(disCmdList, posZ)
+                AddWaitIdle(disCmdList)
             Else  'arc inserted
-                If IsYZPlane(plane) Then 'YZ
-                    If NotYZPlane(m_Plane) Then AddYZXBase(disCmdList)
-                    SetToYZPlane(m_Plane)
-                    m_Speed = m_PrevRetractSpeed
-                    AddSpeed(disCmdList, m_Speed)
-                    pos(0) = m_PrevRetractPt(1)
-                    pos(1) = m_PrevRetractPt(2)
-                    pos(2) = m_PrevRetractPt(0)
-                    AddMoveXYZ(disCmdList, pos)
-                    pos(0) = p2(1)
-                    pos(1) = p2(2)
-                    pos(2) = p2(0)
-                    AddMoveXYZ(disCmdList, pos)
-                ElseIf IsXZPlane(plane) Then 'XZ
-                    If NotXZPlane(m_Plane) Then AddXZYBase(disCmdList)
-                    SetToXZPlane(m_Plane)
-                    AddSpeed(disCmdList, m_Speed)
-                    pos(0) = m_PrevRetractPt(0)
-                    pos(1) = m_PrevRetractPt(2)
-                    pos(2) = m_PrevRetractPt(1)
-                    AddMoveXYZ(disCmdList, pos)
-                    pos(0) = p2(0)
-                    pos(1) = p2(2)
-                    pos(2) = p2(1)
-                    AddMoveXYZ(disCmdList, pos)
-                End If
+                AddZXYBase(disCmdList)
+                'SetToZXPlane(m_Plane)
+                m_Speed = IDS.Data.Hardware.Gantry.ServiceZSpeed
+                AddSpeed(disCmdList, m_Speed)
+                AddMoveZ(disCmdList, posZ)
+                AddWaitIdle(disCmdList)
+                'If IsYZPlane(plane) Then 'YZ
+                '    If NotYZPlane(m_Plane) Then AddYZXBase(disCmdList)
+                '    SetToYZPlane(m_Plane)
+                '    m_Speed = m_PrevRetractSpeed
+                '    AddSpeed(disCmdList, m_Speed)
+                '    pos(0) = m_PrevRetractPt(1)
+                '    pos(1) = m_PrevRetractPt(2)
+                '    pos(2) = m_PrevRetractPt(0)
+                '    AddMoveXYZ(disCmdList, pos)
+                '    pos(0) = p2(1)
+                '    pos(1) = p2(2)
+                '    pos(2) = p2(0)
+                '    AddMoveXYZ(disCmdList, pos)
+                'ElseIf IsXZPlane(plane) Then 'XZ
+                '    If NotXZPlane(m_Plane) Then AddXZYBase(disCmdList)
+                '    SetToXZPlane(m_Plane)
+                '    AddSpeed(disCmdList, m_Speed)
+                '    pos(0) = m_PrevRetractPt(0)
+                '    pos(1) = m_PrevRetractPt(2)
+                '    pos(2) = m_PrevRetractPt(1)
+                '    AddMoveXYZ(disCmdList, pos)
+                '    pos(0) = p2(0)
+                '    pos(1) = p2(2)
+                '    pos(2) = p2(1)
+                '    AddMoveXYZ(disCmdList, pos)
+                'End If
+            End If
+
+            If IsXZPlane(plane) Then 'XZ
+                AddXZYBase(disCmdList)
+            ElseIf IsYZPlane(plane) Then
+                AddYZXBase(disCmdList)
+            ElseIf IsXYPlane(plane) Then
+                AddXYZBase(disCmdList)
             End If
 
             AddWaitLoaded(disCmdList)
@@ -4712,8 +4797,9 @@ Public Class IDSPattnCompiler
             If IsXYPlane(m_Plane) Then
                 pos(0) = comp(0)
                 pos(1) = comp(1)
-                pos(2) = comp(2)
+                pos(2) = 0 'comp(2)
                 AddMoveXYZ(disCmdList, pos)
+                AddWaitIdle(disCmdList) 'yy
                 pos(0) = comp(0)
                 pos(1) = comp(1)
                 pos(2) = ApproachZ
@@ -4723,9 +4809,10 @@ Public Class IDSPattnCompiler
 
             ElseIf IsYZPlane(m_Plane) Then
                 pos(0) = comp(1)
-                pos(1) = comp(2)
+                pos(1) = 0 'comp(2)
                 pos(2) = comp(0)
                 AddMoveXYZ(disCmdList, pos)
+                AddWaitIdle(disCmdList) 'yy
                 pos(0) = comp(1)
                 pos(1) = ApproachZ
                 pos(2) = comp(0)
@@ -4734,9 +4821,10 @@ Public Class IDSPattnCompiler
                 AddMoveXYZ(disCmdList, pos)
             Else
                 pos(0) = comp(0)
-                pos(1) = comp(2)
+                pos(1) = 0 'comp(2)
                 pos(2) = comp(1)
                 AddMoveXYZ(disCmdList, pos)
+                AddWaitIdle(disCmdList) 'yy
                 pos(0) = comp(0)
                 pos(1) = ApproachZ
                 pos(2) = comp(1)
@@ -5090,7 +5178,8 @@ Public Class IDSPattnCompiler
         RoundTo3DecimalPoints(p2)
         RoundTo3DecimalPoints(p3)
         RoundTo3DecimalPoints(ApproachZ)
-
+        Dim posZ(0) As Double
+        posZ(0) = 0
 
         If (m_IsFirstElement Or m_RunMode = 0) Then 'vision mode
             If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
@@ -5110,51 +5199,71 @@ Public Class IDSPattnCompiler
 
         Else
             If (rtn <> 0) Then   'no arc inserted
-                If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
-                SetToXYPlane(m_Plane)
-                m_Speed = m_PrevRetractSpeed
+                'If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
+                'SetToXYPlane(m_Plane)
+                'm_Speed = m_PrevRetractSpeed
+                'AddSpeed(disCmdList, m_Speed)
+                'pos(0) = m_PrevRetractPt(0)
+                'pos(1) = m_PrevRetractPt(1)
+                'pos(2) = m_PrevRetractPt(2)
+                'AddMoveXY(disCmdList, pos)
+                'AddMoveXYZ(disCmdList, pos)
+                'pos(0) = m_PrevClearPt(0)
+                'pos(1) = m_PrevClearPt(1)
+                'pos(2) = m_PrevClearPt(2)
+                'AddMoveXYZ(disCmdList, pos)
+                AddZXYBase(disCmdList)
+                'SetToZXPlane(m_Plane)
+                m_Speed = IDS.Data.Hardware.Gantry.ServiceZSpeed
                 AddSpeed(disCmdList, m_Speed)
-                pos(0) = m_PrevRetractPt(0)
-                pos(1) = m_PrevRetractPt(1)
-                pos(2) = m_PrevRetractPt(2)
-                AddMoveXY(disCmdList, pos)
-                AddMoveXYZ(disCmdList, pos)
-                pos(0) = m_PrevClearPt(0)
-                pos(1) = m_PrevClearPt(1)
-                pos(2) = m_PrevClearPt(2)
-                AddMoveXYZ(disCmdList, pos)
+                AddMoveZ(disCmdList, posZ)
+                AddWaitIdle(disCmdList)
             Else
-                If IsYZPlane(plane) Then 'YZ
-                    If NotYZPlane(m_Plane) Then AddYZXBase(disCmdList)
-                    SetToYZPlane(m_Plane)
-                    m_Speed = m_PrevRetractSpeed
-                    AddSpeed(disCmdList, m_Speed)
-                    pos(0) = m_PrevRetractPt(1)
-                    pos(1) = m_PrevRetractPt(2)
-                    pos(2) = m_PrevRetractPt(0)
-                    AddMoveXY(disCmdList, pos)
-                    AddMoveXYZ(disCmdList, pos)
-                    pos(0) = p2(1)
-                    pos(1) = p2(2)
-                    pos(2) = p2(0)
-                    AddMoveXYZ(disCmdList, pos)
-                ElseIf IsXZPlane(plane) Then 'XZ
-                    If NotXZPlane(m_Plane) Then AddXZYBase(disCmdList)
-                    SetToXZPlane(m_Plane)
-                    m_Speed = m_PrevRetractSpeed
-                    AddSpeed(disCmdList, m_Speed)
-                    pos(0) = m_PrevRetractPt(0)
-                    pos(1) = m_PrevRetractPt(2)
-                    pos(2) = m_PrevRetractPt(1)
-                    AddMoveXY(disCmdList, pos)
-                    AddMoveXYZ(disCmdList, pos)
-                    pos(0) = p2(0)
-                    pos(1) = p2(2)
-                    pos(2) = p2(1)
-                    AddMoveXYZ(disCmdList, pos)
-                End If
+                AddZXYBase(disCmdList)
+                m_Speed = IDS.Data.Hardware.Gantry.ServiceZSpeed
+                AddSpeed(disCmdList, m_Speed)
+                'SetToZXPlane(m_Plane)
+                AddMoveZ(disCmdList, posZ)
+                AddWaitIdle(disCmdList)
+                'If IsYZPlane(plane) Then 'YZ
+                '    If NotYZPlane(m_Plane) Then AddYZXBase(disCmdList)
+                '    SetToYZPlane(m_Plane)
+                '    m_Speed = m_PrevRetractSpeed
+                '    AddSpeed(disCmdList, m_Speed)
+                '    pos(0) = m_PrevRetractPt(1)
+                '    pos(1) = m_PrevRetractPt(2)
+                '    pos(2) = m_PrevRetractPt(0)
+                '    AddMoveXY(disCmdList, pos)
+                '    'AddWaitIdle(disCmdList) 'yy
+                '    AddMoveXYZ(disCmdList, pos)
+                '    pos(0) = p2(1)
+                '    pos(1) = p2(2)
+                '    pos(2) = p2(0)
+                '    AddMoveXYZ(disCmdList, pos)
+                'ElseIf IsXZPlane(plane) Then 'XZ
+                '    If NotXZPlane(m_Plane) Then AddXZYBase(disCmdList)
+                '    SetToXZPlane(m_Plane)
+                '    m_Speed = m_PrevRetractSpeed
+                '    AddSpeed(disCmdList, m_Speed)
+                '    pos(0) = m_PrevRetractPt(0)
+                '    pos(1) = m_PrevRetractPt(2)
+                '    pos(2) = m_PrevRetractPt(1)
+                '    AddMoveXY(disCmdList, pos)
+                '    'AddWaitIdle(disCmdList) 'yy
+                '    AddMoveXYZ(disCmdList, pos)
+                '    pos(0) = p2(0)
+                '    pos(1) = p2(2)
+                '    pos(2) = p2(1)
+                '    AddMoveXYZ(disCmdList, pos)
+                'End If
             End If
-
+            If IsXZPlane(plane) Then 'XZ
+                AddXZYBase(disCmdList)
+            ElseIf IsYZPlane(plane) Then
+                AddYZXBase(disCmdList)
+            ElseIf IsXYPlane(plane) Then
+                AddXYZBase(disCmdList)
+            End If
             AddWaitLoaded(disCmdList)
             m_Speed = IDS.Data.Hardware.Gantry.ServiceXYSpeed
             AddSpeed(disCmdList, m_Speed)
@@ -5196,11 +5305,18 @@ Public Class IDSPattnCompiler
         If NotVisionMode(m_RunMode) Then
             m_Speed = IDS.Data.Hardware.Gantry.ServiceXYSpeed       'set motion speed
             AddSpeed(disCmdList, m_Speed)
+            'AddZXYBase(disCmdList)
+            'Dim zpos(0) As Double
+            'zpos(0) = 0
+            'AddMoveZ(disCmdList, zpos) 'yy
+            'AddWaitIdle(disCmdList)
             If IsXYPlane(m_Plane) Then
+                AddXYZBase(disCmdList)
                 pos(0) = comp(0)
                 pos(1) = comp(1)
-                pos(2) = comp(2)
+                pos(2) = 0 'comp(2) 'yy
                 AddMoveXYZ(disCmdList, pos)
+                AddWaitIdle(disCmdList) 'yy
                 pos(0) = comp(0)
                 pos(1) = comp(1)
                 pos(2) = ApproachZ
@@ -5208,10 +5324,12 @@ Public Class IDSPattnCompiler
                 AddSpeed(disCmdList, m_Speed)
                 AddMoveXYZ(disCmdList, pos)
             ElseIf IsYZPlane(m_Plane) Then
+                AddYZXBase(disCmdList)
                 pos(0) = comp(1)
-                pos(1) = comp(2)
+                pos(1) = 0 'comp(2)
                 pos(2) = comp(0)
                 AddMoveXYZ(disCmdList, pos)
+                AddWaitIdle(disCmdList) 'yy
                 pos(0) = comp(1)
                 pos(1) = ApproachZ
                 pos(2) = comp(0)
@@ -5219,10 +5337,12 @@ Public Class IDSPattnCompiler
                 AddSpeed(disCmdList, m_Speed)
                 AddMoveXYZ(disCmdList, pos)
             Else
+                AddXYZBase(disCmdList)
                 pos(0) = comp(0)
-                pos(1) = comp(2)
+                pos(1) = 0 'comp(2) 'yy
                 pos(2) = comp(1)
                 AddMoveXYZ(disCmdList, pos)
+                AddWaitIdle(disCmdList) 'yy
                 pos(0) = comp(0)
                 pos(1) = ApproachZ
                 pos(2) = comp(1)
@@ -5238,7 +5358,7 @@ Public Class IDSPattnCompiler
         AddWaitIdle(disCmdList)
 
         Dim wTime As Integer = CInt(purge.Param.Duration)
-        Dim CleanPositionZ As Double = IDS.Data.Hardware.Gantry.CleanPosition.Z
+        Dim CleanPositionZ As Double = IDS.Data.Hardware.Gantry.PurgePosition.Z
         RoundTo3DecimalPoints(CleanPositionZ)
         If NotVisionMode(m_RunMode) Then  'except forvision mode
             If m_RunMode > 3 Then AddOnIO(disCmdList, m_NeedleIO)
@@ -5501,7 +5621,8 @@ Public Class IDSPattnCompiler
             Return -1
         End If
         Dim CmdStr As String
-
+        Dim posZ(0) As Double
+        posZ(0) = 0
         Dim p(3), comp(3), off(3) As Double
         Dim ApproachZ, NeedleGapZ, RetractZ, ClearanceZ As Double
         p(0) = wait.PosX    ' Camera pos wrt hardhome
@@ -5574,18 +5695,18 @@ Public Class IDSPattnCompiler
 
         Else
             If (rtn <> 0) Then   'no arc inserted
-                'If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
-                'SetToXYPlane(m_Plane)
-                'm_Speed = m_PrevRetractSpeed
-                'AddSpeed(disCmdList, m_Speed)
+                If NotXYPlane(m_Plane) Then AddXYZBase(disCmdList)
+                SetToXYPlane(m_Plane)
+                m_Speed = m_PrevRetractSpeed
+                AddSpeed(disCmdList, m_Speed)
                 'pos(0) = m_PrevRetractPt(0)
                 'pos(1) = m_PrevRetractPt(1)
                 'pos(2) = m_PrevRetractPt(2)
                 'AddMoveXYZ(disCmdList, pos)
-                'pos(0) = m_PrevClearPt(0)
-                'pos(1) = m_PrevClearPt(1)
-                'pos(2) = m_PrevClearPt(2)
-                'AddMoveXYZ(disCmdList, pos)
+                pos(0) = m_PrevClearPt(0)
+                pos(1) = m_PrevClearPt(1)
+                pos(2) = m_PrevClearPt(2)
+                AddMoveXYZ(disCmdList, pos)
             Else
                 If IsYZPlane(plane) Then 'YZ
                     If NotYZPlane(m_Plane) Then AddYZXBase(disCmdList)
@@ -5664,16 +5785,28 @@ Public Class IDSPattnCompiler
                 pos(0) = comp(0)
                 pos(1) = comp(1)
                 pos(2) = comp(2)
+                AddZXYBase(disCmdList)
+                AddMoveZ(disCmdList, posZ)
+                AddWaitIdle(disCmdList)
+                AddXYZBase(disCmdList)
                 AddMoveXYZ(disCmdList, pos)
             ElseIf IsYZPlane(m_Plane) Then
                 pos(0) = comp(1)
                 pos(1) = comp(2)
                 pos(2) = comp(0)
+                AddZXYBase(disCmdList)
+                AddMoveZ(disCmdList, posZ)
+                AddWaitIdle(disCmdList)
+                AddYZXBase(disCmdList)
                 AddMoveXYZ(disCmdList, pos)
             Else
                 pos(0) = comp(0)
                 pos(1) = comp(2)
                 pos(2) = comp(1)
+                AddZXYBase(disCmdList)
+                AddMoveZ(disCmdList, posZ)
+                AddWaitIdle(disCmdList)
+                AddXYZBase(disCmdList)
                 AddMoveXYZ(disCmdList, pos)
             End If
         Else
@@ -6058,7 +6191,10 @@ Public Class IDSPattnCompiler
         End If
 
         'approach and dispensing height
+        'IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
+        'current laser height reading - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
         Dim fixHeight As Double = off(2) - dot.HeightCompS
+        Console.WriteLine("Laser Height: " + dot.HeightCompS.ToString())
         ApproachZ = dot.PosZ + fixHeight + dot.Param.ApproachHeight
         NeedleGapZ = dot.PosZ + fixHeight + dot.Param.NeedleGap
         CheckApproachHeight(NeedleGapZ, ApproachZ)
@@ -8511,12 +8647,14 @@ Public Class IDSPattnCompiler
 
                 If Math.Abs(dz) < 0.001 Then  'or m_RunMode = 0
                     RoundTo3DecimalPoints(dz)
-                    AddSpeed(disCmdList, m_Speed * 3)
+                    'AddSpeed(disCmdList, m_Speed * 3)
+                    AddSpeed(disCmdList, m_Speed)
                     AddMoveArc(disCmdList, de(0), de(1), dc(0), dc(1), direction)
                     AddSpeed(disCmdList, m_Speed)
                 Else
                     RoundTo3DecimalPoints(dz)
-                    AddSpeed(disCmdList, m_Speed * 3)
+                    'AddSpeed(disCmdList, m_Speed * 3)
+                    AddSpeed(disCmdList, m_Speed)
                     AddMoveHelical(disCmdList, de(0), de(1), dc(0), dc(1), direction, dz)
                     AddSpeed(disCmdList, m_Speed)
                 End If
@@ -9820,6 +9958,9 @@ Public Class IDSPattnCompiler
     Sub SetToXZPlane(ByRef status As Integer)
         status = 2
     End Sub
+    Sub SetToZXPlane(ByRef status As Integer)
+        status = 3
+    End Sub
 
     Sub AddMoveHelical(ByVal CommandList As ArrayList, ByVal end1 As Double, ByVal end2 As Double, ByVal centre1 As Double, ByVal centre2 As Double, ByVal direction As Integer, ByVal distance3 As Double)
         CommandList.Add(3)
@@ -9934,6 +10075,14 @@ Public Class IDSPattnCompiler
         CommandList.Add(9)
     End Sub
 
+    Sub AddZXYBase(ByVal CommandList As ArrayList)
+        CommandList.Add(25)
+    End Sub
+    'Add Move Z only command
+    Sub AddMoveZ(ByVal CommandList As ArrayList, ByVal pos As Double())
+        CommandList.Add(26)
+        CommandList.Add(pos(0))
+    End Sub
     Sub AddMoveXY(ByVal CommandList As ArrayList, ByVal pos As Double())
         CommandList.Add(0)
         CommandList.Add(pos(0))
@@ -9954,6 +10103,13 @@ Public Class IDSPattnCompiler
         CommandList.Add(centre1)
         CommandList.Add(centre2)
         CommandList.Add(direction)
+    End Sub
+
+    Sub AddMergeOn(ByVal CommandList As ArrayList)
+        CommandList.Add(23)
+    End Sub
+    Sub AddMergeOff(ByVal CommandList As ArrayList)
+        CommandList.Add(24)
     End Sub
 
     Function NoDetailing(ByVal DetailDistance As Double)
@@ -10087,6 +10243,8 @@ Public Class CIDSPattnBurn
                     If rtn = False Or m_Tri.EStopActivated Then
                         Return False
                     End If
+                    SetLampsToRunningMode()
+                    'Vision.FrmVision.DisplayIndicator()
                 End If
 
             Next

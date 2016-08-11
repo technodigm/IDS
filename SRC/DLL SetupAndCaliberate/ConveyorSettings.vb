@@ -407,7 +407,7 @@ Public Class ConveyorSettings
     Dim ButtonConveyorHome_Clicked As Boolean = False
     Dim CurrentWidthValue As Double
     Friend WithEvents T1 As Timer = IDS.T1
-    Private Testing As Boolean = False
+    Private Testing As Boolean = True
 
     Private Sub ButtonSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSave.Click
         With IDS.Data.Hardware.Conveyor
@@ -466,10 +466,10 @@ Public Class ConveyorSettings
         'Loop Until Conveyor.WidthPosition = width Or elapsed_time.TotalSeconds > 20 Or m_Tri.EStopActivated
     End Sub
 
-    Public Sub InitializeConveyorSetup()
+    Public Function InitializeConveyorSetup() As Boolean
 
         Dim speed As Integer
-
+        Dim success As Boolean = True
         'reset so you don't quit the loop too fast.
         Conveyor.ConveyorError = "No Error"
 
@@ -481,25 +481,27 @@ Public Class ConveyorSettings
             Sleep(50)
             TraceDoEvents()
         Next i
-
-        Conveyor.MoveTo(IDS.Data.Hardware.Conveyor.Width)
-        start_time = Now
-        Do
-            Sleep(50)
-            TraceDoEvents()
-            stop_time = Now
-            elapsed_time = stop_time.Subtract(start_time)
-        Loop Until Conveyor.WidthPosition = IDS.Data.Hardware.Conveyor.Width Or m_Tri.EStopActivated Or elapsed_time.TotalSeconds > 10 Or Conveyor.GetError() = "Width Adjustment Failed"
-
+        success = Conveyor.MoveTo(IDS.Data.Hardware.Conveyor.Width)
+        If success Then
+            start_time = Now
+            Do
+                Sleep(50)
+                TraceDoEvents()
+                stop_time = Now
+                elapsed_time = stop_time.Subtract(start_time)
+            Loop Until Conveyor.WidthPosition = IDS.Data.Hardware.Conveyor.Width Or m_Tri.EStopActivated Or elapsed_time.TotalSeconds > 10 Or Conveyor.GetError() = "Width Adjustment Failed"
+        End If
+        If Conveyor.GetError() = "Width Adjustment Failed" Then
+            success = False
+        End If
         Conveyor.Command("Normal Mode")
         speed = Fix((IDS.Data.Hardware.Conveyor.Speed / (21.5 * 3.1416)) * 100)
         Conveyor.SetCommand("Conveyor Speed", speed)
         Conveyor.SetCommand("Retrieve Timer", IDS.Data.Hardware.Conveyor.TimeOut)
         Conveyor.Command("Production Mode")
-
+        Return success
         'Conveyor.PositionTimer.Stop()
-
-    End Sub
+    End Function
 
     Friend Sub Conveyor_T1_Tick()
         If Form_Service.NoActionToExecute Then

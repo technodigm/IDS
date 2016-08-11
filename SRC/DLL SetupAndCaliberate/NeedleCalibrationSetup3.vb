@@ -43,16 +43,17 @@ Public Class NeedleCalibrationSetup3
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents PanelToBeAdded As System.Windows.Forms.Panel
     Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.Label9 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Label5 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.Label6 = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.ButtonStart = New System.Windows.Forms.Button
         Me.ButtonBack = New System.Windows.Forms.Button
@@ -61,7 +62,6 @@ Public Class NeedleCalibrationSetup3
         Me.NSensorZPos = New System.Windows.Forms.Label
         Me.Label7 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -76,8 +76,19 @@ Public Class NeedleCalibrationSetup3
         Me.PanelToBeAdded.Size = New System.Drawing.Size(632, 944)
         Me.PanelToBeAdded.TabIndex = 46
         '
+        'Label9
+        '
+        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label9.Location = New System.Drawing.Point(0, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(272, 32)
+        Me.Label9.TabIndex = 47
+        Me.Label9.Text = "Needle Calibration Setup"
+        '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.ButtonStart)
@@ -94,13 +105,22 @@ Public Class NeedleCalibrationSetup3
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Needle Calibrator Sensor - Z Reference Level"
         '
+        'Label5
+        '
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.Label5.Location = New System.Drawing.Point(24, 40)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(456, 48)
+        Me.Label5.TabIndex = 47
+        Me.Label5.Text = "1. Move needle to approximately touching the center of z sensor"
+        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.Label6)
         Me.GroupBox2.Controls.Add(Me.Label4)
-        Me.GroupBox2.Controls.Add(Me.Label2)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(32, 88)
+        Me.GroupBox2.Location = New System.Drawing.Point(32, 120)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(432, 200)
         Me.GroupBox2.TabIndex = 46
@@ -121,32 +141,21 @@ Public Class NeedleCalibrationSetup3
         '
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label4.Location = New System.Drawing.Point(16, 120)
+        Me.Label4.Location = New System.Drawing.Point(16, 72)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(408, 72)
         Me.Label4.TabIndex = 49
-        Me.Label4.Text = "At 5mm above the height of the Height Reference Block, the Z Calibrator will exte" & _
-        "nd very slowly while checking the touch sensor output."
-        '
-        'Label2
-        '
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label2.Location = New System.Drawing.Point(16, 80)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(396, 24)
-        Me.Label2.TabIndex = 48
-        Me.Label2.Text = "The Z Calibrator will move to the Touch Sensor."
+        Me.Label4.Text = "Needle will extend very slowly while checking the touch sensor output."
         '
         'Label3
         '
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label3.Location = New System.Drawing.Point(24, 48)
+        Me.Label3.Location = New System.Drawing.Point(24, 96)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(456, 32)
         Me.Label3.TabIndex = 6
-        Me.Label3.Text = "1. Click Start Button to find the Needle Calibrator Z Level"
+        Me.Label3.Text = "2. Click Start Button to find the touch sensor Z Level"
         '
         'ButtonStart
         '
@@ -191,20 +200,19 @@ Public Class NeedleCalibrationSetup3
         Me.NSensorZPos.ImageAlign = System.Drawing.ContentAlignment.TopLeft
         Me.NSensorZPos.Location = New System.Drawing.Point(288, 376)
         Me.NSensorZPos.Name = "NSensorZPos"
-        Me.NSensorZPos.Size = New System.Drawing.Size(96, 16)
+        Me.NSensorZPos.Size = New System.Drawing.Size(144, 16)
         Me.NSensorZPos.TabIndex = 17
-        Me.NSensorZPos.Text = "0"
         Me.NSensorZPos.Visible = False
         '
         'Label7
         '
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label7.Location = New System.Drawing.Point(192, 376)
+        Me.Label7.Location = New System.Drawing.Point(72, 376)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(88, 24)
+        Me.Label7.Size = New System.Drawing.Size(208, 24)
         Me.Label7.TabIndex = 15
-        Me.Label7.Text = "Z Position "
+        Me.Label7.Text = "Touch Sensor Z Position "
         Me.Label7.Visible = False
         '
         'Label1
@@ -214,16 +222,6 @@ Public Class NeedleCalibrationSetup3
         Me.Label1.Size = New System.Drawing.Size(296, 32)
         Me.Label1.TabIndex = 48
         Me.Label1.Text = "Needle Calibrator Sensor Position Offset: (100,100,0)"
-        '
-        'Label9
-        '
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label9.Location = New System.Drawing.Point(0, 0)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(272, 32)
-        Me.Label9.TabIndex = 47
-        Me.Label9.Text = "Needle Calibration Setup"
         '
         'NeedleCalibrationSetup3
         '
@@ -251,6 +249,7 @@ Public Class NeedleCalibrationSetup3
     Private Sub ButtonNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNext.Click
         RemovePanel(PanelToBeAdded)
         OnLaser()
+        MyNeedleCalibrationSettings.RevertData()
         AddPanel(MySetup.PanelRight, MyNeedleCalibrationSettings.PanelToBeAdded)
     End Sub
 
@@ -262,14 +261,14 @@ Public Class NeedleCalibrationSetup3
         m_Tri.MoveRelative_XYZ(distance)
 
         'this is a fixed xy value from the middle of the calibration block to the touch sensor
-        distance(0) = -76.005
-        distance(1) = -4.284
+        'distance(0) = -76.005
+        'distance(1) = -4.284
 
-        m_Tri.MoveRelative_XY(distance)
+        'm_Tri.MoveRelative_XY(distance)
 
         distance(0) = 0
         distance(1) = 0
-        distance(2) = -10 'kr jan 26 original -10.2
+        distance(2) = -9.6 'kr jan 26 original -10.2
         m_Tri.MoveRelative_XYZ(distance)
 
         m_Tri.m_TriCtrl.SetTable(109, 1, 2)
@@ -282,12 +281,13 @@ Public Class NeedleCalibrationSetup3
             m_Tri.m_TriCtrl.GetTable(101, 2, TableValues)
             IDS.Data.Hardware.Needle.Right.TouchSensorZPosition = TableValues(0)
             IDS.Data.Hardware.Needle.Left.TouchSensorZPosition = TableValues(0)
+            NSensorZPos.Text = IDS.Data.Hardware.Needle.Left.TouchSensorZPosition
             IDS.Data.SaveData()
         ElseIf NeedleZCalFlag = 2 Then
             m_Tri.ResetCalibrationFlag()
             MessageBox.Show("nothing sensed")
         End If
-
+        SetServiceSpeed()
         If Not m_Tri.Move_Z(0) Then Exit Sub
         MyNeedleCalibrationSetup3.NSensorZPos.Text = IDS.Data.Hardware.Needle.Right.TouchSensorZPosition - IDS.Data.Hardware.Needle.Left.CalibratorPos.Z
 

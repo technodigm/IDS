@@ -73,7 +73,6 @@ Public Class VolumeCalibrationSettings
     Friend WithEvents Status As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Result As System.Windows.Forms.TextBox
     Friend WithEvents ButtonTeachCalibrate As System.Windows.Forms.Button
     Friend WithEvents WeighingScaleButton As System.Windows.Forms.Button
     Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -93,13 +92,13 @@ Public Class VolumeCalibrationSettings
     Friend WithEvents MaterialAirPressureStepValue As System.Windows.Forms.NumericUpDown
     Friend WithEvents RPMStepValue As System.Windows.Forms.NumericUpDown
     Friend WithEvents DurationStepValue As System.Windows.Forms.NumericUpDown
+    Friend WithEvents rtbResult As System.Windows.Forms.RichTextBox
 
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(VolumeCalibrationSettings))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.BoxStatus = New System.Windows.Forms.GroupBox
-        Me.Result = New System.Windows.Forms.TextBox
         Me.Status = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
@@ -157,6 +156,7 @@ Public Class VolumeCalibrationSettings
         Me.DispenserType = New System.Windows.Forms.Label
         Me.gpbDualHead = New System.Windows.Forms.GroupBox
         Me.chkDualHead = New System.Windows.Forms.CheckBox
+        Me.rtbResult = New System.Windows.Forms.RichTextBox
         Me.PanelToBeAdded.SuspendLayout()
         Me.BoxStatus.SuspendLayout()
         Me.BoxSettings.SuspendLayout()
@@ -197,31 +197,22 @@ Public Class VolumeCalibrationSettings
         '
         'BoxStatus
         '
-        Me.BoxStatus.Controls.Add(Me.Result)
+        Me.BoxStatus.Controls.Add(Me.rtbResult)
         Me.BoxStatus.Controls.Add(Me.Status)
         Me.BoxStatus.Controls.Add(Me.Label1)
         Me.BoxStatus.Controls.Add(Me.Label2)
-        Me.BoxStatus.Location = New System.Drawing.Point(16, 672)
+        Me.BoxStatus.Location = New System.Drawing.Point(16, 664)
         Me.BoxStatus.Name = "BoxStatus"
-        Me.BoxStatus.Size = New System.Drawing.Size(480, 200)
+        Me.BoxStatus.Size = New System.Drawing.Size(480, 208)
         Me.BoxStatus.TabIndex = 36
         Me.BoxStatus.TabStop = False
         Me.BoxStatus.Text = "Status"
-        '
-        'Result
-        '
-        Me.Result.AutoSize = False
-        Me.Result.Location = New System.Drawing.Point(96, 80)
-        Me.Result.Multiline = True
-        Me.Result.Name = "Result"
-        Me.Result.Size = New System.Drawing.Size(360, 96)
-        Me.Result.TabIndex = 7
-        Me.Result.Text = ""
         '
         'Status
         '
         Me.Status.Location = New System.Drawing.Point(96, 40)
         Me.Status.Name = "Status"
+        Me.Status.ReadOnly = True
         Me.Status.Size = New System.Drawing.Size(360, 27)
         Me.Status.TabIndex = 7
         Me.Status.Text = ""
@@ -728,7 +719,7 @@ Public Class VolumeCalibrationSettings
         '
         'ButtonCalibrate
         '
-        Me.ButtonCalibrate.Location = New System.Drawing.Point(72, 624)
+        Me.ButtonCalibrate.Location = New System.Drawing.Point(72, 616)
         Me.ButtonCalibrate.Name = "ButtonCalibrate"
         Me.ButtonCalibrate.Size = New System.Drawing.Size(176, 40)
         Me.ButtonCalibrate.TabIndex = 6
@@ -736,7 +727,7 @@ Public Class VolumeCalibrationSettings
         '
         'ButtonTeachCalibrate
         '
-        Me.ButtonTeachCalibrate.Location = New System.Drawing.Point(264, 624)
+        Me.ButtonTeachCalibrate.Location = New System.Drawing.Point(264, 616)
         Me.ButtonTeachCalibrate.Name = "ButtonTeachCalibrate"
         Me.ButtonTeachCalibrate.Size = New System.Drawing.Size(176, 40)
         Me.ButtonTeachCalibrate.TabIndex = 6
@@ -775,6 +766,15 @@ Public Class VolumeCalibrationSettings
         Me.chkDualHead.TabIndex = 0
         Me.chkDualHead.Text = "Dual Head"
         '
+        'rtbResult
+        '
+        Me.rtbResult.Location = New System.Drawing.Point(96, 88)
+        Me.rtbResult.Name = "rtbResult"
+        Me.rtbResult.ReadOnly = True
+        Me.rtbResult.Size = New System.Drawing.Size(360, 112)
+        Me.rtbResult.TabIndex = 9
+        Me.rtbResult.Text = ""
+        '
         'VolumeCalibrationSettings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -783,7 +783,6 @@ Public Class VolumeCalibrationSettings
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "VolumeCalibrationSettings"
-        Me.Text = "VolumeCalibrationSettings"
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.BoxStatus.ResumeLayout(False)
         Me.BoxSettings.ResumeLayout(False)
@@ -823,7 +822,7 @@ Public Class VolumeCalibrationSettings
     Private DispenseDurationStep As Double = 200 '200ms
     Private RPMStep As Double = 5
     Private MaterialAirPressureStep As Double = 0.1
-    Private TimeOutDuration As Integer = 100 'in seconds
+    Private TimeOutDuration As Integer = 15 'in seconds
 
     Friend Sub Weighting_T1_Tick()
         'If Form_Service.NoActionToExecute Then
@@ -893,6 +892,7 @@ Public Class VolumeCalibrationSettings
     End Function
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
+        WeightingScaleForm.Hide()
         RemovePanel(CurrentControl)
     End Sub
 
@@ -1035,8 +1035,12 @@ Public Class VolumeCalibrationSettings
     Public Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
 
         If ButtonCalibrate.Text = "Calibrate" Then
+            Cursor = Cursors.WaitCursor
+            'Weighting_Scale.OpenPort()
+            Cursor = Cursors.Default
+            attemptCount = 0
             If Not VolumeCalibrationSetup() Then Exit Sub
-            Result.Text = ""
+            rtbResult.Clear()
             Status.Text = ""
 
             'override the global IDS.Data values
@@ -1061,7 +1065,7 @@ Public Class VolumeCalibrationSettings
         End If
 
     End Sub
-
+    Private attemptCount As Integer = 0
     Public Function VolumeCalibration(ByVal AttemptsLeft As Integer) As Boolean
 
         Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
@@ -1069,7 +1073,8 @@ Public Class VolumeCalibrationSettings
         Dim DispensingResult As String
 
         If AttemptsLeft > 0 Then
-
+            attemptCount += 1
+            rtbResult.Text = "Attempt #" & attemptCount
             If m_Tri.EStopActivated() Or m_Tri.MachineHoming Then Return False
 
             If CalibrateDuration() Then
@@ -1236,26 +1241,32 @@ StopCalibration:
     End Function
 
     Public Function DispenseAndWeight() As String
-
+        Dim errorcode As Integer = 0
         start_time = Now
-        Weighting_Scale.DoTare()
         Status.Text = "Taring.."
-        Do
-            Sleep(5)
-            DisplayProgressText(Status)
-            TraceDoEvents()
-            stop_time = Now
-            elapsed_time = stop_time.Subtract(start_time)
-        Loop Until Not Weighting_Scale.Taring Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
-        If elapsed_time.TotalSeconds > TimeOutDuration Then GoTo WeightTooLow
+        Weighting_Scale.DoTare()
+        Console.WriteLine("Taring")
+        'Do
+        '    Sleep(5)
+        '    'DisplayProgressText(Status)
+        '    TraceDoEvents()
+        '    stop_time = Now
+        '    elapsed_time = stop_time.Subtract(start_time)
+        'Loop Until Not Weighting_Scale.Taring Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
+        'If elapsed_time.TotalSeconds > TimeOutDuration Then
+        '    errorcode = 1
+        '    GoTo StopCalibration
+        'End If
+        Console.WriteLine("Tared")
         If Not CheckState() Then GoTo StopCalibration
-
+        Status.Text = "Taring Done"
         m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
         If CheckState() Then
             m_Tri.Move_Z(position(2))
         Else
             GoTo StopCalibration
         End If
+        Status.Text = "Dispensing"
         m_Tri.m_TriCtrl.Execute("OP(25,1)")
         m_Tri.m_TriCtrl.Execute("WA(" & DispenseDuration.ToString & ")")
         m_Tri.m_TriCtrl.Execute("OP(25,0)")
@@ -1268,33 +1279,39 @@ StopCalibration:
                 GoTo StopCalibration
             End If
         End If
+        Status.Text = "Dispensing Done"
         m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
         If CheckState() Then
             m_Tri.Move_Z(0)
         Else
             GoTo StopCalibration
         End If
-
+        Status.Text = "Waiting weighting scale.."
         '3)read the weighted value
         'need to add some kind of loop here to read until we obtain a valid value
         'wait for taring to be finished before we get weight
-        For i As Integer = 1 To 600
-            Sleep(5)
-            TraceDoEvents()
-        Next
+        'For i As Integer = 1 To 600
+        '    Sleep(5)
+        '    TraceDoEvents()
+        'Next
         start_time = Now
         Weighting_Scale.GetWeight()
-        Status.Text = "Reading.."
+        Status.Text = "Reading weight.."
+        Console.WriteLine("Read Weight")
         Do
-            Sleep(5)
+            'Sleep(5)
             TraceDoEvents()
-            DisplayProgressText(Status)
+            'DisplayProgressText(Status)
             stop_time = Now
             elapsed_time = stop_time.Subtract(start_time)
         Loop Until Weighting_Scale.ValueUpdated Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
         Dim reading As String = CStr(Weighting_Scale.WeightReading)
         Weighting_Scale.ResetValues()
-        If elapsed_time.TotalSeconds > TimeOutDuration Then GoTo WeightTooLow
+        If elapsed_time.TotalSeconds > TimeOutDuration Then
+            errorcode = 2
+            GoTo StopCalibration
+        End If
+        Console.WriteLine("Weight Read")
         If Not CheckState() Then GoTo StopCalibration
 
         Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
@@ -1306,19 +1323,25 @@ StopCalibration:
             VolumeCalibrationResult = "RPM of " + RPM.ToString + " gives a result of " + reading + " mg."
         End If
 
-        Result.Text = VolumeCalibrationResult
+        rtbResult.Text = VolumeCalibrationResult
         With IDS.Data.Hardware.Volume.Left
             Return WithinTolerance(.Tolerance, .DesiredWeight, CDbl(reading))
         End With
 
 StopCalibration:
-        VolumeCalibrationResult = "Volume calibration stopped."
-        Result.Text = VolumeCalibrationResult
+        If errorcode = 1 Then
+            VolumeCalibrationResult = "Weighting Scale Taring timeout."
+        ElseIf errorcode = 2 Then
+            VolumeCalibrationResult = "Weighting Scale reading timeout."
+        Else
+            VolumeCalibrationResult = "Volume calibration stopped."
+        End If
+        rtbResult.Text = VolumeCalibrationResult
         Return "Stopped"
 
 WeightTooLow:
         VolumeCalibrationResult = "Volume calibration failed because weight could not be detected."
-        Result.Text = VolumeCalibrationResult
+        rtbResult.Text = VolumeCalibrationResult
         Return "Failed"
 
     End Function
@@ -1359,6 +1382,9 @@ WeightTooLow:
             VolumeCalibrationState = "Stopped"
             ButtonTeachCalibrate.Text = "Dispense"
         ElseIf ButtonTeachCalibrate.Text = "Dispense" Then
+            Cursor = Cursors.WaitCursor
+            Weighting_Scale.OpenPort()
+            Cursor = Cursors.Default
             ButtonTeachCalibrate.Text = "Stop"
             If Not VolumeCalibrationSetup() Then GoTo StopCalibration
             m_Tri.SetMachineRun()
@@ -1375,6 +1401,7 @@ WeightTooLow:
                 elapsed_time = stop_time.Subtract(start_time)
             Loop Until Not Weighting_Scale.Taring Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
             If elapsed_time.TotalSeconds > TimeOutDuration Then GoTo timeout
+            Status.Text = "Tared"
             If Not CheckState() Then GoTo StopCalibration
 
             Dim SuckbackPressure As Double = IDS.Data.Hardware.Dispenser.Left.SuckbackPressure
@@ -1403,7 +1430,7 @@ WeightTooLow:
             RetractHeight = RetractHeightValue.Value
 
             '3)read the weighted value
-            For i As Integer = 1 To 600
+            For i As Integer = 1 To 10
                 Sleep(5)
                 TraceDoEvents()
             Next
@@ -1430,35 +1457,44 @@ WeightTooLow:
             ElseIf CalibrateRPM() Then
                 VolumeCalibrationResult = "RPM of " + RPM.ToString + " gives a result of " + reading + " mg."
             End If
+            Status.Text = "Dispensing done"
         End If
 
         BoxSettings.Enabled = True
         m_Tri.SetMachineStop()
-        Result.Text = VolumeCalibrationResult
+        rtbResult.Text = VolumeCalibrationResult
         ButtonTeachCalibrate.Text = "Dispense"
         Exit Sub
 
 StopCalibration:
         BoxSettings.Enabled = True
         m_Tri.SetMachineStop()
-        Result.Text = "Machine prematurely stopped."
+        rtbResult.Text = "Machine prematurely stopped."
         ButtonTeachCalibrate.Text = "Dispense"
+        Status.Text = ""
         Exit Sub
 
 Timeout:
         BoxSettings.Enabled = True
         m_Tri.SetMachineStop()
-        Result.Text = "Timeout."
+        rtbResult.Text = "Time out"
         ButtonTeachCalibrate.Text = "Dispense"
+        Status.Text = ""
     End Sub
 
     Private Sub WeighingScaleButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WeighingScaleButton.Click
-        Weighting_Scale.Location() = New System.Drawing.Point(0, 0)
-        If Weighting_Scale.Visible Then
-            Weighting_Scale.Hide()
+        'Weighting_Scale.Location() = New System.Drawing.Point(0, 0)
+        'If Weighting_Scale.Visible Then
+        '    Weighting_Scale.Hide()
+        'Else
+        '    Weighting_Scale.Show()
+        'End If
+        If WeightingScaleForm.Visible Then
+            WeightingScaleForm.Hide()
         Else
-            Weighting_Scale.Show()
+            WeightingScaleForm.Show()
         End If
+
     End Sub
 
 End Class

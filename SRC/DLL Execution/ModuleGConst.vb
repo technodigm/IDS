@@ -518,7 +518,7 @@ Public Module ModuleGConst
     Public gGetIOCmdIndex As Integer = 18
 
     Public gSeperatorCmdIndex As Integer = 19
-    Public gOffsetCmdIndex As Integer = 20
+    Public gOffsetCmdIndex As Integer = 19
     Public gMeasurementCmdIndex As Integer = 21
 
 End Module
@@ -2166,9 +2166,9 @@ Public Module MathFunction
                     prev_z = z
                 Next
                 If i = count Then Return -1
-                pointlist.Reverse(0, count)
+                'pointlist.Reverse(0, count)
             Else
-                pointlist.Reverse(0, count)
+                'pointlist.Reverse(0, count)
                 point3d = pointlist(count - 1)
                 point3d.DispenseOn = False
                 pointlist.RemoveAt(count - 1)

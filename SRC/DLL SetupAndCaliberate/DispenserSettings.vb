@@ -1106,6 +1106,9 @@ Public Class DispenserSettings
                 Dispenser.DownloadJettingParameters(Pulse.Value, pause.Value, Count.Value, SliderOrJettingTemperature.Value)
             End If
             DownloadMaterialAirPressure(MaterialAirPressure.Text, SuckbackPressure.Text)
+            IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure = MaterialAirPressure.Value
+            IDS.Data.Hardware.Dispenser.Left.SuckbackPressure = SuckbackPressure.Value
+            SaveData()
         Catch ex As Exception
             ExceptionDisplay(ex)
         End Try

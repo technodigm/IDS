@@ -61,6 +61,7 @@ Public Class Weighting_Scale
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents ButtonOpenPort As System.Windows.Forms.Button
     Friend WithEvents ButtonClosePort As System.Windows.Forms.Button
+    Friend WithEvents tbComData As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Weighting_Scale))
         Me.AxMSComm1 = New AxMSCommLib.AxMSComm
@@ -92,6 +93,7 @@ Public Class Weighting_Scale
         Me.Counter = New System.Timers.Timer
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.Panel2 = New System.Windows.Forms.Panel
+        Me.tbComData = New System.Windows.Forms.TextBox
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Counter, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -139,7 +141,7 @@ Public Class Weighting_Scale
         Me.DisplayRaw.Multiline = True
         Me.DisplayRaw.Name = "DisplayRaw"
         Me.DisplayRaw.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.DisplayRaw.Size = New System.Drawing.Size(336, 544)
+        Me.DisplayRaw.Size = New System.Drawing.Size(336, 248)
         Me.DisplayRaw.TabIndex = 2
         Me.DisplayRaw.Text = "All weight values displayed here"
         '
@@ -359,22 +361,36 @@ Public Class Weighting_Scale
         Me.Panel2.Size = New System.Drawing.Size(352, 72)
         Me.Panel2.TabIndex = 7
         '
+        'tbComData
+        '
+        Me.tbComData.AutoSize = False
+        Me.tbComData.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbComData.Location = New System.Drawing.Point(8, 376)
+        Me.tbComData.Multiline = True
+        Me.tbComData.Name = "tbComData"
+        Me.tbComData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.tbComData.Size = New System.Drawing.Size(336, 272)
+        Me.tbComData.TabIndex = 8
+        Me.tbComData.Text = ""
+        '
         'Weighting_Scale
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
         Me.ClientSize = New System.Drawing.Size(864, 662)
+        Me.Controls.Add(Me.tbComData)
+        Me.Controls.Add(Me.DisplayRaw)
+        Me.Controls.Add(Me.DisplayStable)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.DisplayRaw)
-        Me.Controls.Add(Me.DisplayStable)
         Me.Controls.Add(Me.AxMSComm1)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.ButtonOpenPort)
         Me.Controls.Add(Me.ButtonClosePort)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Weighting_Scale"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Weighting_Scale"
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Counter, System.ComponentModel.ISupportInitialize).EndInit()
@@ -385,7 +401,6 @@ Public Class Weighting_Scale
     End Sub
 
 #End Region
-
     'private
     Dim WeightCommError As Boolean = False
     Dim WeightOverLoad As Boolean = False
@@ -398,16 +413,26 @@ Public Class Weighting_Scale
     Dim TimeOfLastReading As DateTime
     Dim CurrentTime As DateTime
     Dim TimeSinceLastReading As TimeSpan
-
     'number of readings to test for. get the median value of these readings
     Const number_of_values As Integer = 5
     Public Values(number_of_values - 1) As Double
     Public ValuesIndex As Integer = 0
-
     'exposed variables
     Public WeightReading As Double = 0
     Public ValueUpdated As Boolean = False 'when you turn on, use this flag to check whether the axmscomm has updated the reading
     Public Taring As Boolean = False 'flag to read values until volume calibration cell is tared
+    Private errorMessage As String = ""
+    Private errorCode As Integer = 0
+    Private tempCnt As Integer = 0
+    Public portOpened As Boolean = False
+    Public ReadOnly Property returnString() As String
+        Get
+            Return WeightReading.ToString()
+        End Get
+    End Property
+
+    Public Delegate Sub WeightingScaleReturnedDel()
+    Public WeightingScaleReturned As WeightingScaleReturnedDel
 
     Public Function OpenPort() As Boolean
         If AxMSComm1.PortOpen = True Then
@@ -427,6 +452,7 @@ Public Class Weighting_Scale
             If Not AxMSComm1.PortOpen Then
                 AxMSComm1.PortOpen = True
             End If
+            portOpened = True
         Catch ex As System.Runtime.InteropServices.COMException
             ExceptionDisplay(ex)
             Return False
@@ -441,6 +467,7 @@ Public Class Weighting_Scale
     Public Sub ClosePort()
         If AxMSComm1.PortOpen = True Then
             AxMSComm1.PortOpen = False
+            portOpened = False
         End If
         DisableButtons()
         DisablePrintingWatcher()
@@ -466,39 +493,185 @@ Public Class Weighting_Scale
     Public Sub DoTare()
         Taring = True
         CommandFormat1("Tare1")
-        raw_result_store = "Taring Now" + vbCrLf + raw_result_store
-        DisplayRaw.Text = raw_result_store
+        Taring = False
+        'raw_result_store = "Taring Now" + vbCrLf + raw_result_store
+        'DisplayRaw.Text += "Taring Now" + vbCrLf
 
-        start_time = Now
-        successful_reading_count = 0
-        expected_reading_count = 1
-        Dim missed_results As Integer = expected_reading_count - successful_reading_count
-        number_of_result_display.Text = successful_reading_count.ToString
-        number_of_missed_result_display.Text = missed_results.ToString
+        'start_time = Now
+        'successful_reading_count = 0
+        'expected_reading_count = 1
+        'Dim missed_results As Integer = expected_reading_count - successful_reading_count
+        'number_of_result_display.Text = successful_reading_count.ToString
+        'number_of_missed_result_display.Text = missed_results.ToString
 
-        ValueUpdated = False
-        CommandFormat1("Print")
-
+        'ValueUpdated = False
+        'CommandFormat1("Print")
     End Sub
 
-    Private Sub AxMSComm1_OnComm(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxMSComm1.OnComm
+    'Private Sub AxMSComm1_OnComm(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxMSComm1.OnComm
 
+    '    Dim raw_result As Object
+    '    Dim result As Double
+    '    Dim string_result As String
+    '    Dim char_result As Char()
+
+    '    'If missed_readings <= 0 Then
+    '    '    ResetValues()
+    '    '    ClearBuffer()
+    '    '    DisablePrintingWatcher()
+    '    '    Exit Sub
+    '    'End If
+
+    '    If Not Taring And ValueUpdated Then
+    '        ClearBuffer()
+    '    End If
+    '    tbComData.Text += "####Trigger####" + vbLf
+    '    Try
+    '        With AxMSComm1
+
+    '            If AxMSComm1.InBufferCount > 0 Then
+    '                .RThreshold = 0 'prevent generation of events
+    '                Dim valid_reading As Boolean = False 'whether the reading is acceptable
+    '                raw_result = AxMSComm1.Input
+    '                char_result = CType(raw_result, Char())
+    '                string_result = CType(raw_result, String)
+    '                tempCnt += 1
+    '                tbComData.Text += "#" + tempCnt.ToString() + string_result + vbLf
+    '                tbComData.Select(0, tbComData.Text.Length)
+    '                tbComData.ScrollToCaret()
+    '                If char_result.Length <> 16 Then
+    '                    Exit Sub
+    '                End If
+
+    '                Dim start_index As Integer
+    '                Dim positive As Boolean
+    '                For i As Integer = 0 To 15
+    '                    If char_result(i) = "+" Then
+    '                        start_index = i
+    '                        positive = True
+    '                        valid_reading = True
+    '                    ElseIf char_result(i) = "-" Then
+    '                        start_index = i
+    '                        positive = False
+    '                        valid_reading = True
+    '                    End If
+    '                Next
+
+    '                'if start index = 0, index 4 = 1, index 5 = decimal point, index 6 = 0.1, index 7 = 
+    '                Dim hundreds_index As Integer = start_index + 2
+    '                Dim tens_index As Integer = start_index + 3
+    '                Dim ones_index As Integer = start_index + 4
+    '                Dim point_tens_index As Integer = start_index + 6
+    '                Dim point_hundreds_index As Integer = start_index + 7
+    '                Dim point_thousands_index As Integer = start_index + 8
+    '                Dim point_ten_thousands_index As Integer = start_index + 9
+
+    '                If char_result(5) = "H" Then
+    '                    result = 999.999            'means overloaded
+    '                ElseIf char_result(5) = "L" Then
+    '                    result = -999.999           'means underloaded
+    '                ElseIf char_result(3) = "E" Then
+    '                    result = 888.0              'means weighing machine internal error
+    '                ElseIf char_result(0) = Nothing Then
+    '                    result = 777.777 'it means time out error
+    '                End If
+
+    '                If valid_reading = True Then
+
+    '                    'this is for reading results
+    '                    If hundreds_index > 15 Then hundreds_index = hundreds_index - 16
+    '                    If tens_index > 15 Then tens_index = tens_index - 16
+    '                    If ones_index > 15 Then ones_index = ones_index - 16
+    '                    If point_tens_index > 15 Then point_tens_index = point_tens_index - 16
+    '                    If point_hundreds_index > 15 Then point_hundreds_index = point_hundreds_index - 16
+    '                    If point_thousands_index > 15 Then point_thousands_index = point_thousands_index - 16
+    '                    If point_ten_thousands_index > 15 Then point_ten_thousands_index = point_ten_thousands_index - 16
+    '                    'see the sartorius weighing scale communication protocol to understand.
+    '                    result = Val(char_result(hundreds_index)) * 100 + Val(char_result(tens_index)) * 10 + Val(char_result(ones_index)) + Val(char_result(point_tens_index)) / 10 + Val(char_result(point_hundreds_index)) / 100 + Val(char_result(point_thousands_index)) / 1000 + Val(char_result(point_ten_thousands_index)) / 10000
+    '                    If Not positive Then
+    '                        result = -result
+    '                    End If
+    '                    'display the result in mg
+    '                    result = result * 1000
+
+    '                    'this is for interface window (displaying of results)
+    '                    raw_result_display.Text = string_result
+    '                    trimmed_result_display.Text = result.ToString
+    '                    stop_time = Now
+    '                    elapsed_time = stop_time.Subtract(start_time)
+    '                    raw_result_store = "Time: " + elapsed_time.TotalSeconds.ToString + " seconds. Reading: " + result.ToString + " mg" + vbCrLf + raw_result_store
+    '                    DisplayRaw.Text = raw_result_store
+    '                    newline_count += 1
+    '                    If newline_count = 25 Then
+    '                        raw_result_store = ""
+    '                        DisplayRaw.Text = raw_result_store
+    '                        newline_count = 0
+    '                    End If
+    '                    successful_reading_count += 1
+    '                    number_of_result_display.Text = successful_reading_count.ToString
+    '                    Dim missed_readings As Integer = expected_reading_count - successful_reading_count
+    '                    number_of_missed_result_display.Text = CStr(missed_readings)
+    '                    TimeOfLastReading = Now
+
+    '                    'this is for outside modules (somewhat mixed with display)
+    '                    If Taring Then
+    '                        If WithinTolerance(result, 0) Then
+    '                            WeightReading = 0
+    '                            raw_result_store = "Taring Done" + vbCrLf + raw_result_store
+    '                            DisplayRaw.Text = raw_result_store
+    '                            Taring = False
+    '                            stable_result_store = "Taring done in " + elapsed_time.TotalSeconds.ToString + " seconds." + vbCrLf + stable_result_store
+    '                        Else
+    '                            DoTare()
+    '                        End If
+    '                    ElseIf ValueUpdated = False Then
+    '                        If ValuesIndex = number_of_values - 1 Then
+    '                            Values(ValuesIndex) = result
+    '                            Array.Sort(Values)
+    '                            WeightReading = Values(number_of_values - 1)
+    '                            raw_result_store = "Final reading of Weight Done" + vbCrLf + raw_result_store
+    '                            DisplayRaw.Text = raw_result_store
+    '                            ValueUpdated = True
+    '                            ValuesIndex = 0
+    '                            stable_result_store = "Final reading: " + CStr(WeightReading) + " mg obtained in " + elapsed_time.TotalSeconds.ToString + " seconds." + vbCrLf + stable_result_store
+    '                        Else
+    '                            stable_result_store = CStr(result) + " mg obtained in " + elapsed_time.TotalSeconds.ToString + " seconds." + vbCrLf + stable_result_store
+    '                            raw_result_store = "Reading of Weight Done" + vbCrLf + raw_result_store
+    '                            Values(ValuesIndex) = result
+    '                            ValuesIndex += 1
+    '                            Sleep(50)
+    '                            GetWeight()
+    '                        End If
+    '                    End If
+    '                Else
+    '                    CommandFormat1("Print")
+    '                End If
+
+
+    '                'DTE (data terminal equipment) -> computer
+    '                'DCE (data circuit-terminating equipment) -> calibration cell
+    '                'CTS: DCE is ready to accept data from the DTE
+    '                'DSR: DCE is ready to receive commands or data.
+    '            Else
+    '                'CommandFormat1("Print1")
+    '            End If
+    '        End With
+    '        AxMSComm1.RThreshold = 16      'resume generation of events
+
+    '    Catch ex As Exception
+    '        MsgBox(ex.Message)
+    '    End Try
+
+    'End Sub
+    Private Sub AxMSComm1_OnComm(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxMSComm1.OnComm
         Dim raw_result As Object
         Dim result As Double
         Dim string_result As String
-        Dim char_result As Char()
-
-        'If missed_readings <= 0 Then
-        '    ResetValues()
-        '    ClearBuffer()
-        '    DisablePrintingWatcher()
-        '    Exit Sub
-        'End If
-
+        Dim tempStr As String
         If Not Taring And ValueUpdated Then
             ClearBuffer()
         End If
-
+        'tbComData.Text += "####Trigger####" + vbLf
         Try
             With AxMSComm1
 
@@ -506,132 +679,67 @@ Public Class Weighting_Scale
                     .RThreshold = 0 'prevent generation of events
                     Dim valid_reading As Boolean = False 'whether the reading is acceptable
                     raw_result = AxMSComm1.Input
-                    char_result = CType(raw_result, Char())
                     string_result = CType(raw_result, String)
-
-                    If char_result.Length <> 16 Then
+                    tempCnt += 1
+                    'tbComData.Text += "#" + tempCnt.ToString() + string_result + vbLf
+                    'tbComData.Select(0, tbComData.Text.Length)
+                    'tbComData.ScrollToCaret()
+                    If string_result.Length <> 16 Then
                         Exit Sub
                     End If
-
                     Dim start_index As Integer
                     Dim positive As Boolean
-                    For i As Integer = 0 To 15
-                        If char_result(i) = "+" Then
-                            start_index = i
-                            positive = True
-                            valid_reading = True
-                        ElseIf char_result(i) = "-" Then
-                            start_index = i
-                            positive = False
-                            valid_reading = True
-                        End If
-                    Next
-
-                    'if start index = 0, index 4 = 1, index 5 = decimal point, index 6 = 0.1, index 7 = 
-                    Dim hundreds_index As Integer = start_index + 2
-                    Dim tens_index As Integer = start_index + 3
-                    Dim ones_index As Integer = start_index + 4
-                    Dim point_tens_index As Integer = start_index + 6
-                    Dim point_hundreds_index As Integer = start_index + 7
-                    Dim point_thousands_index As Integer = start_index + 8
-                    Dim point_ten_thousands_index As Integer = start_index + 9
-
-                    If char_result(5) = "H" Then
-                        result = 999.999            'means overloaded
-                    ElseIf char_result(5) = "L" Then
-                        result = -999.999           'means underloaded
-                    ElseIf char_result(3) = "E" Then
-                        result = 888.0              'means weighing machine internal error
-                    ElseIf char_result(0) = Nothing Then
-                        result = 777.777 'it means time out error
+                    tempStr = string_result.Substring(0, 1)
+                    If tempStr = "+" Then
+                        positive = True
+                        valid_reading = True
+                    ElseIf tempStr = "-" Then
+                        positive = False
+                        valid_reading = True
                     End If
 
-                    If valid_reading = True Then
-
-                        'this is for reading results
-                        If hundreds_index > 15 Then hundreds_index = hundreds_index - 16
-                        If tens_index > 15 Then tens_index = tens_index - 16
-                        If ones_index > 15 Then ones_index = ones_index - 16
-                        If point_tens_index > 15 Then point_tens_index = point_tens_index - 16
-                        If point_hundreds_index > 15 Then point_hundreds_index = point_hundreds_index - 16
-                        If point_thousands_index > 15 Then point_thousands_index = point_thousands_index - 16
-                        If point_ten_thousands_index > 15 Then point_ten_thousands_index = point_ten_thousands_index - 16
-                        'see the sartorius weighing scale communication protocol to understand.
-                        result = Val(char_result(hundreds_index)) * 100 + Val(char_result(tens_index)) * 10 + Val(char_result(ones_index)) + Val(char_result(point_tens_index)) / 10 + Val(char_result(point_hundreds_index)) / 100 + Val(char_result(point_thousands_index)) / 1000 + Val(char_result(point_ten_thousands_index)) / 10000
+                    If valid_reading Then
+                        tempStr = string_result.Substring(3, 7)
+                        tempStr = tempStr.Trim()
+                        result = Convert.ToDouble(tempStr) * 1000 'Convert to mg
                         If Not positive Then
                             result = -result
                         End If
-                        'display the result in mg
-                        result = result * 1000
-
-                        'this is for interface window (displaying of results)
-                        raw_result_display.Text = string_result
-                        trimmed_result_display.Text = result.ToString
-                        stop_time = Now
-                        elapsed_time = stop_time.Subtract(start_time)
-                        raw_result_store = "Time: " + elapsed_time.TotalSeconds.ToString + " seconds. Reading: " + result.ToString + " mg" + vbCrLf + raw_result_store
-                        DisplayRaw.Text = raw_result_store
-                        newline_count += 1
-                        If newline_count = 25 Then
-                            raw_result_store = ""
-                            DisplayRaw.Text = raw_result_store
-                            newline_count = 0
-                        End If
-                        successful_reading_count += 1
-                        number_of_result_display.Text = successful_reading_count.ToString
-                        Dim missed_readings As Integer = expected_reading_count - successful_reading_count
-                        number_of_missed_result_display.Text = CStr(missed_readings)
-                        TimeOfLastReading = Now
-
-                        'this is for outside modules (somewhat mixed with display)
-                        If Taring Then
-                            If WithinTolerance(result, 0) Then
-                                WeightReading = 0
-                                raw_result_store = "Taring Done" + vbCrLf + raw_result_store
-                                DisplayRaw.Text = raw_result_store
-                                Taring = False
-                                stable_result_store = "Taring done in " + elapsed_time.TotalSeconds.ToString + " seconds." + vbCrLf + stable_result_store
-                            Else
-                                DoTare()
-                            End If
-                        ElseIf ValueUpdated = False Then
-                            If ValuesIndex = number_of_values - 1 Then
-                                Values(ValuesIndex) = result
-                                Array.Sort(Values)
-                                WeightReading = Values(number_of_values - 1)
-                                raw_result_store = "Final reading of Weight Done" + vbCrLf + raw_result_store
-                                DisplayRaw.Text = raw_result_store
-                                ValueUpdated = True
-                                ValuesIndex = 0
-                                stable_result_store = "Final reading: " + CStr(WeightReading) + " mg obtained in " + elapsed_time.TotalSeconds.ToString + " seconds." + vbCrLf + stable_result_store
-                            Else
-                                stable_result_store = CStr(result) + " mg obtained in " + elapsed_time.TotalSeconds.ToString + " seconds." + vbCrLf + stable_result_store
-                                raw_result_store = "Reading of Weight Done" + vbCrLf + raw_result_store
-                                Values(ValuesIndex) = result
-                                ValuesIndex += 1
-                                Sleep(50)
-                                GetWeight()
-                            End If
-                        End If
+                        WeightReading = result
+                        errorCode = 0
+                        errorMessage = "Working fine"
+                        stable_result_store = "Weight reading: " + CStr(result) + " mg obtained" + vbCrLf
+                        Taring = False
+                        ValueUpdated = True
+                        'Console.WriteLine("Reading " + WeightReading.ToString())
                     Else
-                        CommandFormat1("Print")
+                        tempStr = string_result.Substring(5, 1)
+                        If tempStr = "H" Then
+                            errorCode = -1
+                            errorMessage = "Overloaded"
+                        ElseIf tempStr = "L" Then
+                            errorCode = -2
+                            errorMessage = "Underloaded"
+                        ElseIf tempStr = "E" Then
+                            errorCode = -3
+                            errorMessage = "Internal Error"
+                        Else
+                            errorCode = -100
+                            errorMessage = "Unknown Error"
+                        End If
+                        'stable_result_store = "Weight reading Failed: " + errorMessage + vbCrLf
                     End If
 
-
-                    'DTE (data terminal equipment) -> computer
-                    'DCE (data circuit-terminating equipment) -> calibration cell
-                    'CTS: DCE is ready to accept data from the DTE
-                    'DSR: DCE is ready to receive commands or data.
-                Else
-                    'CommandFormat1("Print1")
                 End If
+                'DTE (data terminal equipment) -> computer
+                'DCE (data circuit-terminating equipment) -> calibration cell
+                'CTS: DCE is ready to accept data from the DTE
+                'DSR: DCE is ready to receive commands or data.
             End With
             AxMSComm1.RThreshold = 16      'resume generation of events
-
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
-
     End Sub
 
     Public Sub ResetValues()
@@ -820,7 +928,8 @@ Public Class Weighting_Scale
     'End Sub
 
     Private Sub Weighting_Scale_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        If AxMSComm1.PortOpen Then
+        If portOpened Then
+            'If AxMSComm1.PortOpen Then
             EnableButtons()
         Else
             DisableButtons()
@@ -843,4 +952,8 @@ Public Class Weighting_Scale
         ButtonClosePort.Enabled = False
     End Sub
 
+    Private Sub Weighting_Scale_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        e.Cancel = True
+        Hide()
+    End Sub
 End Class

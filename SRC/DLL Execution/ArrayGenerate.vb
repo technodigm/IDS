@@ -1,4 +1,5 @@
 Imports DLL_DataManager
+Imports DLL_Export_Service
 
 Public Class ArrayGenerate
     Inherits System.Windows.Forms.Form
@@ -7,6 +8,7 @@ Public Class ArrayGenerate
     Public ArrayPara1 As New CIDSData.CIDSPatternExecution.CIDSTemplate
     Public ArrayPara2 As New CIDSData.CIDSPatternExecution.CIDSTemplate
     Public ArrayPara3 As New CIDSData.CIDSPatternExecution.CIDSTemplate
+    Public isVisionMode As Boolean = True
 
 #Region " Windows Form Designer generated code "
     Dim m_CurrentPara As New CIDSData.CIDSPatternExecution.CIDSTemplate
@@ -42,7 +44,6 @@ Public Class ArrayGenerate
     Friend WithEvents Button_OnCancel As System.Windows.Forms.Button
     Friend WithEvents CombElementType As System.Windows.Forms.ComboBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
@@ -110,13 +111,14 @@ Public Class ArrayGenerate
     Friend WithEvents TextBox_EdgeClear As System.Windows.Forms.TextBox
     Friend WithEvents TextBox_RtAngle As System.Windows.Forms.TextBox
     Friend WithEvents TextBox_Sprial As System.Windows.Forms.TextBox
+    Friend WithEvents lbDispenseMode As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Button_OnOK = New System.Windows.Forms.Button
         Me.Button_OnCancel = New System.Windows.Forms.Button
         Me.CombElementType = New System.Windows.Forms.ComboBox
         Me.TextBox_Needle = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.lbDispenseMode = New System.Windows.Forms.Label
         Me.TextBox_Dispense = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
         Me.TextBox_TravelSpeed = New System.Windows.Forms.TextBox
@@ -230,15 +232,15 @@ Public Class ArrayGenerate
         Me.Label1.Text = "Needle"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'Label2
+        'lbDispenseMode
         '
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(448, 16)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(248, 24)
-        Me.Label2.TabIndex = 5
-        Me.Label2.Text = "Dispens / SubPattern name"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lbDispenseMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbDispenseMode.Location = New System.Drawing.Point(448, 16)
+        Me.lbDispenseMode.Name = "lbDispenseMode"
+        Me.lbDispenseMode.Size = New System.Drawing.Size(248, 24)
+        Me.lbDispenseMode.TabIndex = 5
+        Me.lbDispenseMode.Text = "Dispense Mode / SubPattern name"
+        Me.lbDispenseMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TextBox_Dispense
         '
@@ -925,7 +927,7 @@ Public Class ArrayGenerate
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.lbDispenseMode)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.CombElementType)
         Me.Controls.Add(Me.Button_OnCancel)
@@ -1235,12 +1237,15 @@ Public Class ArrayGenerate
     End Sub
 
     Private Sub ArrayTextBoxFillIn(ByVal ElementType As String)
-        If (CStr(m_CurrentPara.DispenseFlag) = "True") Then
+        If (CStr(m_CurrentPara.DispenseFlag) = "True" Or CStr(m_CurrentPara.DispenseFlag).ToUpper = "ON") Then
             m_CurrentPara.DispenseFlag = "On"
         ElseIf (CStr(m_CurrentPara.DispenseFlag) = "False") Then
             m_CurrentPara.DispenseFlag = "Off"
         End If
-
+        If Not (ElementType = "SubPattern") Then
+            m_CurrentPara.DispenseFlag = "On"
+        End If
+        lbDispenseMode.Text = "Dispensing Status"
         Select Case ElementType
             Case "Dot"
                 TextBox_Needle.Text = CStr(m_CurrentPara.Needle)
@@ -1453,7 +1458,7 @@ Public Class ArrayGenerate
 
             Case "SubPattern"
                 TextBox_Needle.Text = ""
-
+                lbDispenseMode.Text = "Subpattern file path"
                 Dim DialogPreview As New FormSelectPatternFile
                 DialogPreview.Location.Offset(0, 200)
 
@@ -2172,26 +2177,30 @@ Public Class ArrayGenerate
         Dim NeedleGapZ As Double = 0
         Dim ClearanceZ As Double = 0
         Dim RetractZ As Double = 0
+        Dim needleTipReferenceZ As Double = 0
+        If Not (isVisionMode) Then
+            needleTipReferenceZ = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
+        End If
         ApproachZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_ApproachHeight.Text)
-        ApproachZ = ApproachZ + gSystemOrigin(2) 'Get the hardware coordinate
+        ApproachZ = ApproachZ + gSystemOrigin(2) + needleTipReferenceZ 'Get the hardware coordinate
         If (WorkAreaErrorCheckZ(ApproachZ) = False) Then
             MessageBox.Show("Approach Z Height Error: " + ErrorMessage())
             Return False
         End If
         NeedleGapZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_NeedleGap.Text)
-        NeedleGapZ = NeedleGapZ + gSystemOrigin(2) 'Get the hardware coordinate
+        NeedleGapZ = NeedleGapZ + gSystemOrigin(2) + needleTipReferenceZ 'Get the hardware coordinate
         If (WorkAreaErrorCheckZ(NeedleGapZ) = False) Then
             MessageBox.Show("Needle Gap Z Height Error: " + ErrorMessage())
             Return False
         End If
         ClearanceZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_ClearanceHt.Text)
-        ClearanceZ = ClearanceZ + gSystemOrigin(2) 'Get the hardware coordinate
+        ClearanceZ = ClearanceZ + gSystemOrigin(2) + needleTipReferenceZ 'Get the hardware coordinate
         If (WorkAreaErrorCheckZ(ClearanceZ) = False) Then
             MessageBox.Show("Clearance Z Height Error: " + ErrorMessage())
             Return False
         End If
         RetractZ = Convert.ToDouble(TextBox_P1Z.Text) + Convert.ToDouble(TextBox_RetractHeight.Text)
-        RetractZ = RetractZ + gSystemOrigin(2) 'Get the hardware coordinate
+        RetractZ = RetractZ + gSystemOrigin(2) + needleTipReferenceZ 'Get the hardware coordinate
         If (WorkAreaErrorCheckZ(RetractZ) = False) Then
             MessageBox.Show("Retract Z Height Error: " + ErrorMessage())
             Return False
@@ -2200,7 +2209,14 @@ Public Class ArrayGenerate
         Return Rtn
         TraceGCCollect()
     End Function
-
+    Public Sub SetDispenseDuration(ByVal dispenseTime As String)
+        TextBox_Duration.Text = dispenseTime
+        m_CurrentPara.DispenseDuration = Convert.ToDouble(dispenseTime)
+    End Sub
+    Public Sub SetNeedleGap(ByVal needleGap As String)
+        TextBox_NeedleGap.Text = needleGap
+        m_CurrentPara.NeedleGap = Convert.ToDouble(needleGap)
+    End Sub
     Private Sub Button_OnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_OnOK.Click
         Dim typeSelected As String = CombElementType.Text
 

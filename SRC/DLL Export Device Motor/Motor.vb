@@ -238,6 +238,7 @@ Public Class CIDSTrioController
 
     Public m_TriCtrl As New TrioPCLib.TrioPCClass
     Public StateContainer(250) As Double
+    Public HomeStateContainer(0) As Double
 
 
 #Region " Connection "
@@ -475,7 +476,16 @@ Public Class CIDSTrioController
         order(2) = 2
         m_TriCtrl.Base(3, order)
     End Sub
+    Public Sub SetZXYBase()
+        Dim order(2) As Integer
+        order(0) = 2
+        order(1) = 0
+        order(2) = 1
+        m_TriCtrl.Base(3, order)
+    End Sub
     Public Function Move_Z(ByVal Height As Double)
+        WaitForEndOfMove()
+        DoStepXZero()
         WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
@@ -486,6 +496,8 @@ Public Class CIDSTrioController
     End Function
     Public Function MoveRelative_Z(ByVal Height As Double)
         WaitForEndOfMove()
+        DoStepXZero()
+        WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
@@ -495,6 +507,8 @@ Public Class CIDSTrioController
     End Function
     Public Function Move_XY(ByVal Position() As Double)
         WaitForEndOfMove()
+        'DoStepXZero()
+        'WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
@@ -503,10 +517,12 @@ Public Class CIDSTrioController
         Return True
     End Function
     Public Function Move_XY(ByVal x As Double, ByVal y As Double)
+        WaitForEndOfMove()
+        DoStepXZero()
         Dim Position(2) As Double
         Position(0) = x
         Position(1) = y
-        WaitForEndOfMove()
+        'WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
@@ -515,6 +531,8 @@ Public Class CIDSTrioController
         Return True
     End Function
     Public Function MoveRelative_XY(ByVal Position() As Double)
+        WaitForEndOfMove()
+        DoStepXZero()
         WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
@@ -527,6 +545,8 @@ Public Class CIDSTrioController
     'Only move but not wait for motion done
     Public Function MoveRelOnly(ByVal Position() As Double)
         WaitForEndOfMove()
+        DoStepXZero()
+        WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
@@ -534,6 +554,8 @@ Public Class CIDSTrioController
         Return True
     End Function
     Public Function MoveRelative_XYZ(ByVal Position() As Double)
+        WaitForEndOfMove()
+        DoStepXZero()
         WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
@@ -582,21 +604,51 @@ Public Class CIDSTrioController
     End Sub
     Public Sub Set_XY_Speed(ByVal Speed As String)
         SetXYZBase()
-        Dim cmdStr As String
-        cmdStr = "SPEED AXIS(0)=" & Speed
-        m_TriCtrl.Execute(cmdStr)
-        cmdStr = "SPEED AXIS(1)=" & Speed
-        m_TriCtrl.Execute(cmdStr)
+        'Dim cmdStr As String
+        'cmdStr = "SPEED AXIS(0)=" & Speed
+        'If m_TriCtrl.Execute(cmdStr) Then
+        '    Sleep(500)
+        '    SetXYZBase()
+        '    cmdStr = "SPEED AXIS(0)=" & Speed
+        '    m_TriCtrl.Execute(cmdStr)
+        'End If
+        Dim sp As Double = Convert.ToDouble(Speed)
+        m_TriCtrl.SetAxisVariable("SPEED", 0, sp)
+        m_TriCtrl.SetAxisVariable("SPEED", 1, sp)
     End Sub
     Public Sub Set_Z_Speed(ByVal Speed As String)
         SetXYZBase()
-        Dim cmdStr As String
-        cmdStr = "SPEED AXIS(2)=" & Speed
-        m_TriCtrl.Execute(cmdStr)
+        Dim sp As Double = Convert.ToDouble(Speed)
+        m_TriCtrl.SetAxisVariable("SPEED", 2, sp)
+        'Dim cmdStr As String
+        'cmdStr = "SPEED AXIS(2)=" & Speed
+        'm_TriCtrl.Execute(cmdStr)
+    End Sub
+    'This function exist bacause of the bug in trio active x
+    'Everytime after mouse jogging and jogging program runned, the moverel and moveabs
+    'was not working properly, command can be called and return true but the actual axis not moving
+    'and if check the remain in motion perfect, there is always value, so the waitmotiondone is always
+    'waiting for this value to reduce to 0 but this is nv happen
+    Private Sub DoStepXZero()
+        dStepVal(0) = 0
+        dStepVal(1) = gStepCtrlSpeed
+        dStepVal(2) = 0
+        dStepVal(3) = 0
+        dStepVal(4) = 0
+        DoStep(dStepVal)
     End Sub
 #End Region
 
 #Region "Get Values"
+    Public Function GetIDSIsHomeState()
+        Return m_TriCtrl.GetTable(301, 1, HomeStateContainer)
+    End Function
+    Public Function IDSIsHomed() As Boolean
+        If HomeStateContainer(0) = 1 Then
+            Return True
+        End If
+        Return False
+    End Function
     Public Function GetIDSState()
         Return m_TriCtrl.GetTable(0, 251, StateContainer)
     End Function
@@ -645,6 +697,8 @@ Public Class CIDSTrioController
                 Sleep(25)
                 GetIDSState()
             Loop Until StateContainer(25) = 2
+            Return True
+        ElseIf StateContainer(25) = 2 Then
             Return True
         End If
     End Function
@@ -700,13 +754,20 @@ Public Class CIDSTrioController
             GetIDSState()
         Loop Until StateContainer(23) = 0
     End Sub
-    Public Sub ResetSteppingFlag()
+    Public Function ResetSteppingFlag(Optional ByVal timeOut As Double = 5000)
+        Dim dt As DateTime = DateTime.Now
+        Dim diff As Long = 0
         Do
             m_TriCtrl.SetTable(50, 1, 1)
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(50) = 0
-    End Sub
+            diff = (DateTime.Now.Ticks - dt.Now.Ticks) / 10000
+        Loop Until StateContainer(50) = 0 Or diff > timeOut
+        If diff > timeOut Then
+            Return False
+        End If
+        Return True
+    End Function
     Public Sub ResetCalibrationFlag()
         Do
             m_TriCtrl.SetTable(100, 1, 0)
@@ -882,7 +943,9 @@ Public Class CIDSTrioController
     End Function
     Public Sub TrioStop()
         m_TriCtrl.Stop("SETDATUM")
-        m_TriCtrl.Stop("CALIBRATIONS")
+        If m_TriCtrl.Stop("CALIBRATIONS") Then
+            ResetCalibrationFlag()
+        End If
         m_TriCtrl.Stop("DISPENSE")
         m_TriCtrl.RapidStop()
         m_TriCtrl.Cancel(1, 0)
@@ -892,6 +955,7 @@ Public Class CIDSTrioController
         m_TriCtrl.Cancel(0, 1)
         m_TriCtrl.Cancel(0, 2)
         m_TriCtrl.Op(27, 0)
+        m_TriCtrl.Op(25, 0)
     End Sub
 #End Region
 

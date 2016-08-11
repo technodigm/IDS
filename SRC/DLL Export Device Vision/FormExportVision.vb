@@ -14,6 +14,7 @@ Public Class FormVision
     Private imageHeight = 576
     'Another method, not to fire "ValueChanged" event while constructing Form's components.
     Private Initializing As Boolean = True
+    Public diameter As Double = 0.0
 
 #Region " Windows Form Designer generated code "
 
@@ -122,12 +123,14 @@ Public Class FormVision
     Friend WithEvents AxMGraphicContext1 As AxMatrox.ActiveMIL.AxMGraphicContext
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents AxEBW8Image1 As AxeVision.AxEBW8Image
+    Friend WithEvents AxGraphicContextResult As AxMatrox.ActiveMIL.AxMGraphicContext
 
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormVision))
         Me.PanelVision = New System.Windows.Forms.Panel
+        Me.AxGraphicContextResult = New AxMatrox.ActiveMIL.AxMGraphicContext
         Me.AxEBW8Image1 = New AxeVision.AxEBW8Image
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.chkToggle = New System.Windows.Forms.CheckBox
@@ -206,6 +209,7 @@ Public Class FormVision
         Me.Timer_Histo = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog_RM = New System.Windows.Forms.OpenFileDialog
         Me.PanelVision.SuspendLayout()
+        CType(Me.AxGraphicContextResult, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxEBW8Image1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxImage11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxImage10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -263,6 +267,7 @@ Public Class FormVision
         'PanelVision
         '
         Me.PanelVision.BackColor = System.Drawing.SystemColors.Control
+        Me.PanelVision.Controls.Add(Me.AxGraphicContextResult)
         Me.PanelVision.Controls.Add(Me.AxEBW8Image1)
         Me.PanelVision.Controls.Add(Me.TextBox1)
         Me.PanelVision.Controls.Add(Me.chkToggle)
@@ -328,6 +333,16 @@ Public Class FormVision
         Me.PanelVision.Name = "PanelVision"
         Me.PanelVision.Size = New System.Drawing.Size(1280, 672)
         Me.PanelVision.TabIndex = 71
+        '
+        'AxGraphicContextResult
+        '
+        Me.AxGraphicContextResult.ContainingControl = Me
+        Me.AxGraphicContextResult.Enabled = True
+        Me.AxGraphicContextResult.Location = New System.Drawing.Point(864, 32)
+        Me.AxGraphicContextResult.Name = "AxGraphicContextResult"
+        Me.AxGraphicContextResult.OcxState = CType(resources.GetObject("AxGraphicContextResult.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxGraphicContextResult.Size = New System.Drawing.Size(32, 32)
+        Me.AxGraphicContextResult.TabIndex = 269
         '
         'AxEBW8Image1
         '
@@ -1070,6 +1085,7 @@ Public Class FormVision
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "FormVision"
         Me.PanelVision.ResumeLayout(False)
+        CType(Me.AxGraphicContextResult, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AxEBW8Image1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AxImage11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AxImage10, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1201,24 +1217,18 @@ Public Class FormVision
     Sub DisplayIndicator() 'Cross and Square
         Try
             ClearDisplay()
-            Dim red As System.UInt32
-            red = Convert.ToUInt32((RGB(255, 0, 0)))
-            Dim green As System.UInt32
-            green = Convert.ToUInt32((RGB(0, 255, 0)))
-
+            'Dim red As System.UInt32
+            'red = Convert.ToUInt32((RGB(255, 0, 0)))
+            'Dim green As System.UInt32
+            'green = Convert.ToUInt32((RGB(0, 255, 0)))
+            'With AxGraphicContext2.DrawingRegion()
+            '    .StartX() = (DisplayCenterXPosition) - (2000 / 22)
+            '    .StartY() = (DisplayCenterYPosition) - (2000 / 22)
+            '    .EndX() = (DisplayCenterXPosition) + (2000 / 22)
+            '    .EndY() = (DisplayCenterYPosition) + (2000 / 22)
+            'End With
+            'AxGraphicContext2.Rectangle(False, 0)
             With AxGraphicContext2.DrawingRegion()
-                .StartX() = (DisplayCenterXPosition) - (2000 / 22)
-                .StartY() = (DisplayCenterYPosition) - (2000 / 22)
-                .EndX() = (DisplayCenterXPosition) + (2000 / 22)
-                .EndY() = (DisplayCenterYPosition) + (2000 / 22)
-            End With
-            AxGraphicContext2.Rectangle(False, 0)
-
-            With AxGraphicContext2.DrawingRegion()
-                '.StartX() = (DisplayCenterXPosition) - (3000 / 22)
-                '.StartY() = (DisplayCenterYPosition) - (3000 / 22)
-                '.EndX() = (DisplayCenterXPosition) + (3000 / 22)
-                '.EndY() = (DisplayCenterYPosition) + (3000 / 22)
                 .StartX() = (DisplayCenterXPosition) - (imageWidth / 2)
                 .StartY() = (DisplayCenterYPosition) - (imageHeight / 2)
                 .EndX() = (DisplayCenterXPosition) + (imageWidth / 2)
@@ -1278,7 +1288,8 @@ Public Class FormVision
                 SearchRegion_cursor()
                 'End If
                 If mousedownID <> 0 Then
-                    ClearDisplay()
+                    'ClearDisplay()
+                    DisplayIndicator()
                     'If FiducialMark_form.Button_Teach.Text = "Next" Then
 
                     If mousedownID = 10 Or mousedownID = 20 Or mousedownID = 30 Or mousedownID = 40 Then
@@ -1355,11 +1366,13 @@ Public Class FormVision
             x = PanelPositionX
             y = PanelPositionY
             ChipEdgePoints(x, y)
+            Return
         End If
         If Measurement_flag = True Then
             x = PanelPositionX
             y = PanelPositionY
             Distance(x, y)
+            Return
         End If
         '======================
     End Sub
@@ -1568,6 +1581,11 @@ Public Class FormVision
                     AxPatternMatching2.Models.Item(IndexNo).SearchRegion.StartY = RegionY - ROIy / 2 'Panels actual position== refer to display's origin
                     AxPatternMatching2.Models.Item(IndexNo).SearchRegion.SizeX = ROIx
                     AxPatternMatching2.Models.Item(IndexNo).SearchRegion.SizeY = ROIy
+
+                    SearchROIStartX = AxPatternMatching2.Models.Item(IndexNo).SearchRegion.StartX
+                    SearchROIStartY = AxPatternMatching2.Models.Item(IndexNo).SearchRegion.StartY
+                    SearchROIEndX = AxPatternMatching2.Models.Item(IndexNo).SearchRegion.EndX
+                    SearchROIEndY = AxPatternMatching2.Models.Item(IndexNo).SearchRegion.EndY
 
                     AxPatternMatching2.Models.Item(IndexNo).ReferenceX = MROIx / 2
                     AxPatternMatching2.Models.Item(IndexNo).ReferenceY = MROIy / 2
@@ -1956,52 +1974,64 @@ Public Class FormVision
             'Cursor.Current = System.Windows.Forms.Cursors.NoMove2D
         End If
     End Sub
-    Sub SearchRegionDrawing()
+    Sub SearchRegionDrawing(Optional ByVal isDragable As Boolean = True)
         'ClearDisplay
         'DisplayIndicator()
         'Display search region
-        With AxGraphicContext3.DrawingRegion
-            .EndX = RegionX - ROIx / 2 + ROIx
-            .EndY = RegionY - ROIy / 2 + ROIy
-            .StartX = RegionX - ROIx / 2
-            .StartY = RegionY - ROIy / 2
-        End With
+        If isDragable Then
+            With AxGraphicContext3.DrawingRegion
+                .EndX = RegionX - ROIx / 2 + ROIx
+                .EndY = RegionY - ROIy / 2 + ROIy
+                .StartX = RegionX - ROIx / 2
+                .StartY = RegionY - ROIy / 2
+            End With
+        Else
+            With AxGraphicContext3.DrawingRegion
+                .EndX = SearchROIEndX
+                .EndY = SearchROIEndY
+                .StartX = SearchROIStartX
+                .StartY = SearchROIStartY
+            End With
+        End If
+
         AxGraphicContext3.Rectangle()
-        With AxGraphicContext3.DrawingRegion
-            .EndX = RegionX - ROIx / 2 + ClickRegion
-            .EndY = RegionY - ROIy / 2 + ClickRegion
-            .StartX = RegionX - ROIx / 2 - ClickRegion
-            .StartY = RegionY - ROIy / 2 - ClickRegion
-        End With
-        AxGraphicContext3.Rectangle(True, 0)
-        With AxGraphicContext3.DrawingRegion
-            .EndX = RegionX + ROIx / 2 + ClickRegion
-            .EndY = RegionY + ROIy / 2 + ClickRegion
-            .StartX = RegionX + ROIx / 2 - ClickRegion
-            .StartY = RegionY + ROIy / 2 - ClickRegion
-        End With
-        AxGraphicContext3.Rectangle(True, 0)
-        With AxGraphicContext3.DrawingRegion
-            .EndX = RegionX - ROIx / 2 + ClickRegion
-            .EndY = RegionY + ROIy / 2 + ClickRegion
-            .StartX = RegionX - ROIx / 2 - ClickRegion
-            .StartY = RegionY + ROIy / 2 - ClickRegion
-        End With
-        AxGraphicContext3.Rectangle(True, 0)
-        With AxGraphicContext3.DrawingRegion
-            .EndX = RegionX + ROIx / 2 + ClickRegion
-            .EndY = RegionY - ROIy / 2 + ClickRegion
-            .StartX = RegionX + ROIx / 2 - ClickRegion
-            .StartY = RegionY - ROIy / 2 - ClickRegion
-        End With
-        AxGraphicContext3.Rectangle(True, 0)
-        With AxGraphicContext3.DrawingRegion
-            .EndX = (RegionX) + 10
-            .EndY = (RegionY) + 10
-            .StartX = (RegionX) - 10
-            .StartY = (RegionY) - 10
-        End With
-        AxGraphicContext3.Cross()
+        If isDragable Then
+            With AxGraphicContext3.DrawingRegion
+                .EndX = RegionX - ROIx / 2 + ClickRegion
+                .EndY = RegionY - ROIy / 2 + ClickRegion
+                .StartX = RegionX - ROIx / 2 - ClickRegion
+                .StartY = RegionY - ROIy / 2 - ClickRegion
+            End With
+            AxGraphicContext3.Rectangle(True, 0)
+            With AxGraphicContext3.DrawingRegion
+                .EndX = RegionX + ROIx / 2 + ClickRegion
+                .EndY = RegionY + ROIy / 2 + ClickRegion
+                .StartX = RegionX + ROIx / 2 - ClickRegion
+                .StartY = RegionY + ROIy / 2 - ClickRegion
+            End With
+            AxGraphicContext3.Rectangle(True, 0)
+            With AxGraphicContext3.DrawingRegion
+                .EndX = RegionX - ROIx / 2 + ClickRegion
+                .EndY = RegionY + ROIy / 2 + ClickRegion
+                .StartX = RegionX - ROIx / 2 - ClickRegion
+                .StartY = RegionY + ROIy / 2 - ClickRegion
+            End With
+            AxGraphicContext3.Rectangle(True, 0)
+            With AxGraphicContext3.DrawingRegion
+                .EndX = RegionX + ROIx / 2 + ClickRegion
+                .EndY = RegionY - ROIy / 2 + ClickRegion
+                .StartX = RegionX + ROIx / 2 - ClickRegion
+                .StartY = RegionY - ROIy / 2 - ClickRegion
+            End With
+            AxGraphicContext3.Rectangle(True, 0)
+            With AxGraphicContext3.DrawingRegion
+                .EndX = (RegionX) + 10
+                .EndY = (RegionY) + 10
+                .StartX = (RegionX) - 10
+                .StartY = (RegionY) - 10
+            End With
+        End If
+        'AxGraphicContext3.Cross()
     End Sub
     Sub SearchRegionSetting(ByVal SkipModelRegion As Boolean)
         Dim OffsetX As Decimal
@@ -2221,6 +2251,9 @@ Public Class FormVision
             OldYY = NewYY
         End If
         'SearchRegionDrawing()
+    End Sub
+    Public Sub LoadModelImage(ByVal imageFilePath As String)
+      
     End Sub
     Sub ModelSaveImage()
         If AxImage5.IsAllocated = True Then
@@ -3738,7 +3771,8 @@ Public Class FormVision
                         Dim del_y As Double = AxPatternMatching2.Results.Item(1).PositionY - DisplayCenterYPosition
                         FiducialMark_form.TextBox_RPosX.Text = CvrtDoubleToString(del_x * PixelSizeX)
                         FiducialMark_form.TextBox_RPosY.Text = CvrtDoubleToString(del_y * PixelSizeY)
-                        AxPatternMatching2.Results.Item(IndexNo).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        'AxPatternMatching2.Results.Item(IndexNo).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        AxPatternMatching2.Results.Item(IndexNo).Draw(AxGraphicContextResult, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
                     Else
                         FiducialMark_form.TextBox_RPosX.Text = 0
                         FiducialMark_form.TextBox_RPosY.Text = 0
@@ -3760,7 +3794,8 @@ Public Class FormVision
                         Dim del_y As Double = AxPatternMatching2.Results.Item(1).PositionY - DisplayCenterYPosition
                         FiducialMark_form.TextBox_RPosX.Text = CvrtDoubleToString(del_x * PixelSizeX)
                         FiducialMark_form.TextBox_RPosY.Text = CvrtDoubleToString(del_y * PixelSizeY)
-                        AxPatternMatching2.Results.Item(IndexNo).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        'AxPatternMatching2.Results.Item(IndexNo).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        AxPatternMatching2.Results.Item(IndexNo).Draw(AxGraphicContextResult, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
                     Else
                         FiducialMark_form.TextBox_RPosX.Text = 0
                         FiducialMark_form.TextBox_RPosY.Text = 0
@@ -3782,7 +3817,8 @@ Public Class FormVision
                         Dim del_y As Double = AxPatternMatching2.Results.Item(1).PositionY - DisplayCenterYPosition
                         FiducialMark_form.TextBox_RPosX.Text = CvrtDoubleToString(del_x * PixelSizeX)
                         FiducialMark_form.TextBox_RPosY.Text = CvrtDoubleToString(del_y * PixelSizeY)
-                        AxPatternMatching2.Results.Item(1).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        ' AxPatternMatching2.Results.Item(1).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        AxPatternMatching2.Results.Item(1).Draw(AxGraphicContextResult, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
                         FiducialMark_form.FiducialOutput(del_x * PixelSizeX, del_y * PixelSizeY)
                     Else
                         FiducialMark_form.TextBox_RPosX.Text = 0
@@ -3810,7 +3846,8 @@ Public Class FormVision
                         Dim del_y As Double = AxPatternMatching2.Results.Item(1).PositionY - DisplayCenterYPosition
                         FiducialMark_form.TextBox_RPosX.Text = del_x * PixelSizeX
                         FiducialMark_form.TextBox_RPosY.Text = del_y * PixelSizeY
-                        AxPatternMatching2.Results.Item(1).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        'AxPatternMatching2.Results.Item(1).Draw(AxDisplay1.OverlayImage, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
+                        AxPatternMatching2.Results.Item(1).Draw(AxGraphicContextResult, Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawPosition + Matrox.ActiveMIL.PatternMatching.PatDrawOperationConstants.patDrawBox)
                         FI_OffX = del_x * PixelSizeX
                         FI_OffY = del_y * PixelSizeY
                         Return True
@@ -3849,9 +3886,15 @@ Public Class FormVision
             If IndexNo = 1 Then 'Got model
                 If Fiducial_no = 1 Then
                     AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
+                    If File.Exists(Folder & Fiducial_no.ToString & ".bmp") Then
+                        File.Delete(Folder & Fiducial_no.ToString & ".bmp")
+                    End If
                     FiducialMark_form.PictureBox20.Image.Save(Folder & Fiducial_no.ToString & ".bmp")
                 Else
                     AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
+                    If File.Exists(Folder & Fiducial_no.ToString & ".bmp") Then
+                        File.Delete(Folder & Fiducial_no.ToString & ".bmp")
+                    End If
                     FiducialMark_form.PictureBox20.Image.Save(Folder & Fiducial_no.ToString & ".bmp")
                 End If
             End If
@@ -3878,9 +3921,17 @@ Public Class FormVision
                         AxPatternMatching2.Models.Remove(i)
                     Next
                 End If
-                AxPatternMatching2.Models.Load(FPath)
-                'SJ
-                'FiducialMark_form.PictureBox20.Image = Image.FromFile(PathRaw)
+                IndexNo = AxPatternMatching2.Models.Load(FPath)
+                If AxPatternMatching2.Models.Count > 0 Then
+                    SearchROIStartX = AxPatternMatching2.Models.Item(1).SearchRegion.StartX
+                    SearchROIStartY = AxPatternMatching2.Models.Item(1).SearchRegion.StartY
+                    SearchROIEndX = AxPatternMatching2.Models.Item(1).SearchRegion.EndX
+                    SearchROIEndY = AxPatternMatching2.Models.Item(1).SearchRegion.EndY
+                    FiducialMark_form.PictureBox20.Image() = Image.FromFile(Path & "bmp")
+                    Dim ModelName As String = FPath.Remove(0, PathRaw.LastIndexOf("\") + 1)
+                    FiducialMark_form.tbModelInfo.Text = ModelName
+                    FiducialMark_form.Button_Test.Enabled = True
+                End If
             Else
                 MsgBox("Selected file doesn't exist or lost of .mmo file. Please create a new Fiducial Point")
                 Return False
@@ -3888,6 +3939,11 @@ Public Class FormVision
             Return True
         End If
     End Function
+    Public SearchROIStartX As Integer = 0
+    Public SearchROIStartY As Integer = 0
+    Public SearchROIEndX As Integer = 0
+    Public SearchROIEndY As Integer = 0
+
     Function LoadFiducial() As Boolean
         Dim LoadFile As New OpenFileDialogPreview.Form1
         FiducialMark_form.TopMost = False
@@ -3908,7 +3964,17 @@ Public Class FormVision
                     Next
                 End If
                 AxPatternMatching2.Models.Load(FPath)
+                If AxPatternMatching2.Models.Count > 0 Then
+                    SearchROIStartX = AxPatternMatching2.Models.Item(1).SearchRegion.StartX
+                    SearchROIStartY = AxPatternMatching2.Models.Item(1).SearchRegion.StartY
+                    SearchROIEndX = AxPatternMatching2.Models.Item(1).SearchRegion.EndX
+                    SearchROIEndY = AxPatternMatching2.Models.Item(1).SearchRegion.EndY
+
+                End If
                 FiducialMark_form.PictureBox20.Image() = Image.FromFile(PathRaw)
+                'Dim ModelName As String = PathRaw.Remove(PathRaw.LastIndexOf("."), PathRaw.Length - PathRaw.LastIndexOf(".") - 1)
+                Dim ModelName As String = PathRaw.Remove(0, PathRaw.LastIndexOf("\") + 1)
+                FiducialMark_form.tbModelInfo.Text = ModelName
             Else
                 MsgBox("Selected file doesn't exist or lost of .mmo file. Please create a new Fiducial Point")
                 Return False
@@ -4160,7 +4226,7 @@ Public Class FormVision
         ChipEdgeDrawingFlag = False
     End Sub
     Function ResetChipEdgePoint()
-        ClearDisplay()
+        'ClearDisplay()
         PointX1 = PointY1 = 0
         PointX2 = PointY2 = 0
         PointX3 = PointY3 = 0
@@ -4361,7 +4427,7 @@ Public Class FormVision
                         MotionFlag = True
                         'RobotMotionOffset(MoveOffsetXmm, MoveOffsetYmm)
 
-                        ClearDisplay()
+                        'ClearDisplay()
                         SearchRegionPoints(1, ChipEdgePoints_form.ValueROI.Value)
                     Else
                         SizeXPoint = Abs(PointX1 - PointX4) * PixelSizeX
@@ -4387,7 +4453,7 @@ Public Class FormVision
                         PosYPoint = (DisplayCenterYPosition) * PixelSizeY
                         MotionFlag = True
                         'RobotMotionOffset(MoveOffsetXmm, MoveOffsetYmm)
-                        ClearDisplay()
+                        'ClearDisplay()
                         SearchRegionPoints(1, ChipEdgePoints_form.ValueROI.Value)
                     End If
                     If vertical = False Then
@@ -6026,7 +6092,7 @@ Public Class FormVision
 
     Function BlobAnalysisNC(ByVal BlackDot As Boolean, ByVal ValueMinArea As Integer, ByVal ValueMaxArea As Integer, ByVal ValueRoughness As Double, ByVal ValueCompactness As Double, ByRef NC_OffX As Double, ByRef NC_OffY As Double) As Boolean
         Try
-
+            diameter = 0.0
             Dim nTotalBlobs, BlobAreaFilter, BlobCompactFilter As Integer
             'FreeIfAllocated(AxBlobAnalysis2)
             'AxBlobAnalysis2.Allocate()
@@ -6065,6 +6131,7 @@ Public Class FormVision
                     QC_X = AxBlobAnalysis2.Results.Item(1).CenterOfGravityX + DisplayCenterXPosition - MROIx / 2
                     QC_Y = AxBlobAnalysis2.Results.Item(1).CenterOfGravityY + DisplayCenterYPosition - MROIy / 2
                     QC_Dia = AxBlobAnalysis2.Results.Item(1).MeanFeretDiameter
+                    diameter = AxBlobAnalysis2.Results.Item(1).MeanFeretDiameter * PixelSizeX
                     With AxMGraphicContext1.DrawingRegion
                         .CenterX = AxBlobAnalysis2.Results.Item(1).CenterOfGravityX + DisplayCenterXPosition - MROIx / 2
                         .CenterY = AxBlobAnalysis2.Results.Item(1).CenterOfGravityY + DisplayCenterYPosition - MROIy / 2 - MROIx / 4
@@ -6575,13 +6642,40 @@ Public Class FormVision
         ChipEdgePoints_form.TextBox_SizeY.Text = vParam._SizeY
         ChipEdgePoints_form.TextBox_PosX.Text = vParam._PosX
         ChipEdgePoints_form.TextBox_PosY.Text = vParam._PosY
-        ChipEdgePoints_form.ValueSize.Value() = vParam._Size
-        ChipEdgePoints_form.ValuePos.Value() = vParam._Pos
-        ChipEdgePoints_form.ValueRot.Value() = vParam._Rot
-        ChipEdgePoints_form.ValueThreshold.Value = vParam._Threshold
-        ChipEdgePoints_form.ValueROI.Value = vParam._ROI
-        ChipEdgePoints_form.ValueBrightness.Value = vParam._Brightness
-        ChipEdgePoints_form.ValueBrightness.Text = vParam._Brightness
+        If vParam._Size < ChipEdgePoints_form.ValueSize.Minimum Then
+            ChipEdgePoints_form.ValueSize.Value = ChipEdgePoints_form.ValueSize.Minimum
+        Else
+            ChipEdgePoints_form.ValueSize.Value() = vParam._Size
+        End If
+        If vParam._Pos < ChipEdgePoints_form.ValuePos.Minimum Then
+            ChipEdgePoints_form.ValuePos.Value = ChipEdgePoints_form.ValuePos.Minimum
+        Else
+            ChipEdgePoints_form.ValuePos.Value() = vParam._Pos
+        End If
+        If vParam._Rot < ChipEdgePoints_form.ValueRot.Minimum Then
+            ChipEdgePoints_form.ValueRot.Value = ChipEdgePoints_form.ValueRot.Minimum
+        Else
+            ChipEdgePoints_form.ValueRot.Value() = vParam._Rot
+        End If
+        If vParam._Threshold < ChipEdgePoints_form.ValueThreshold.Minimum Then
+            ChipEdgePoints_form.ValueThreshold.Value = ChipEdgePoints_form.ValueThreshold.Minimum
+        Else
+            ChipEdgePoints_form.ValueThreshold.Value = vParam._Threshold
+        End If
+
+        If vParam._ROI > 0.1 Then
+            ChipEdgePoints_form.ValueROI.Value = vParam._ROI
+        Else
+            ChipEdgePoints_form.ValueROI.Value = 2.0
+        End If
+        'ChipEdgePoints_form.ValueROI.Value = vParam._ROI
+        If vParam._Brightness < ChipEdgePoints_form.ValueBrightness.Minimum Then
+            ChipEdgePoints_form.ValueBrightness.Value = ChipEdgePoints_form.ValueBrightness.Minimum
+        Else
+            ChipEdgePoints_form.ValueBrightness.Value = vParam._Brightness
+        End If
+
+        ChipEdgePoints_form.ValueBrightness.Text = ChipEdgePoints_form.ValueBrightness.Value
 
         Dim Cw_CCw As Boolean = vParam._Cw_CCw
         Dim Vertical As Boolean = vParam._Vertical
@@ -6723,7 +6817,12 @@ Public Class FormVision
         ChipEdgePoints_form.ValuePos.Value() = vParam._Pos
         ChipEdgePoints_form.ValueRot.Value() = vParam._Rot
         ChipEdgePoints_form.ValueThreshold.Value = vParam._Threshold
-        ChipEdgePoints_form.ValueROI.Value = vParam._ROI
+        If vParam._ROI > 0.1 Then
+            ChipEdgePoints_form.ValueROI.Value = vParam._ROI
+        Else
+            ChipEdgePoints_form.ValueROI.Value = 2.0
+        End If
+        'ChipEdgePoints_form.ValueROI.Value = vParam._ROI
         MainEdge = vParam._MainEdge
         PointX1 = vParam._PointX1
         PointY1 = vParam._PointY1
@@ -6902,6 +7001,9 @@ Public Class FormVision
                     Array.Copy(intermidiate, intermidiate1, DisplayWidth * DisplayHeight)
                     Marshal.Copy(intermidiate1, 0, ImagePointer_MIL, DisplayWidth * DisplayHeight)
                     AxImageProcessing7.Flip(ImageProcessing.ImpFlipConstants.impHorizontal)  'slow and flicker
+                    'If CurrentMode = "View Camera" Then
+                    '    AxImageProcessing7.Rotate(90, ImageProcessing.ImpInterpolationModeConstants.impNearestNeighbor, ImageProcessing.ImpOverscanModeConstants.impOverscanEnable)
+                    'End If
                     WaitRefresh = True
                 Catch ex As Exception
                     ExceptionDisplay(ex)
@@ -6958,6 +7060,6 @@ Public Class FormVision
     End Sub
 
     Private Sub AxDisplay1_KeyDownEvent(ByVal sender As Object, ByVal e As AxMatrox.ActiveMIL.IDisplayEvents_KeyDownEvent) Handles AxDisplay1.KeyDownEvent
-        Console.WriteLine("KeyDown in vision")
+        'Console.WriteLine("KeyDown in vision")
     End Sub
 End Class

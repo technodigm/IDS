@@ -22,10 +22,12 @@ Public Module ExcelUtilityFunctions
 
     Public Sub EnableCoordinateUpdateInSpreadsheet()
         m_PosUpdate = True
+        Console.WriteLine("Enable spreadsheet update")
     End Sub
 
     Public Sub DisableCoordinateUpdateInSpreadsheet()
         m_PosUpdate = False
+        Console.WriteLine("Disable spreadsheet update")
     End Sub
 
 #Region "Excel GUI"
@@ -35,7 +37,10 @@ Public Module ExcelUtilityFunctions
         For i = 0 To gMaxReferButtons
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = True
         Next
-        TraceGCCollect
+        If Programming.teachingMode = "Needle" Then
+            Programming.DisableCommand_NeedleMode()
+        End If
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableReferenceCommandBlock()
@@ -66,8 +71,15 @@ Public Module ExcelUtilityFunctions
         For i = 0 To gMaxElementButtons
             Programming.ElementsCommandBlock.Buttons(i).Enabled = True
             If i = 9 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move command for now
+            If i = 19 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False
         Next
-        TraceGCCollect
+        If Programming.teachingMode = "Needle" Then
+            DisableElementsCommandBlockButton(gQCCmdIndex) 'QC
+            DisableElementsCommandBlockButton(gChipEdgeCmdIndex) 'ChipEdge
+            Programming.ElementsCommandBlock.Buttons(19).Enabled = False
+        End If
+  
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableElementsCommandBlock()

@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <VisualBasic
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{04C543DB-2845-44F8-B6E0-5FD1B3467ECD}"
     >
@@ -425,6 +425,16 @@
                 <File
                     RelPath = "VolumeCalibrationSettings.resx"
                     DependentUpon = "VolumeCalibrationSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "WeightScaleForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WeightScaleForm.resx"
+                    DependentUpon = "WeightScaleForm.vb"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>

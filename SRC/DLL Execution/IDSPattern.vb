@@ -87,6 +87,7 @@ Public Class CIDSPattern
     Public m_CurrentDPara As New CIDSData.CIDSPatternExecution.CIDSTemplate
     Public m_ErrorChk As New CIDSErrorCheck
     Public CopyPastePatternRec As PatternRecord
+    Public teachingMode As String = "Vision"
 
     Public SubCallSheetName As SubSheetNameManage
 
@@ -278,7 +279,7 @@ Public Class CIDSPattern
         m_CurrentDPara.pos3.X = 0.0
         m_CurrentDPara.pos3.Z = 0.0
 
-        m_CurrentDPara.DispenseFlag = "On"
+        m_CurrentDPara.DispenseFlag = "True"
         m_CurrentDPara.NeedleGap = 0.5
         m_CurrentDPara.DispenseDuration = 300
         m_CurrentDPara.ApproachDispHeight = 5.0
@@ -1295,7 +1296,39 @@ Public Class CIDSPattern
         Return Rtn  '0=no error
         TraceGCCollect()
     End Function
+    'Read the teaching mode from program file
+    Public Function GetTeachingMode(ByVal Filename As String, ByRef teachingMode As String) As Boolean
+        Dim file As New CIDSFileHandler
+        Dim ret As Integer = file.OpenR(Filename)
+        Try
+            If (ret <> 0) Then
+                file.Close()
+                Return False
+            End If
+            Dim eof As String = ""
 
+            Do Until eof.Equals("EOF") ' Go until end of file
+                eof = file.Read(False)
+
+                If "EOF" = eof Then
+                    file.Close()
+                End If
+                If eof = "#TeachingMode" Then
+                    eof = file.Read(False)
+                    If eof = "#Needle" Then
+                        teachingMode = "Needle"
+                    Else
+                        teachingMode = "Vision"
+                    End If
+                    file.Close()
+                    Return True
+                End If
+            Loop
+        Catch ex As Exception
+            Return False
+        End Try
+        Return True
+    End Function
 
 
     'Read pattern file into activeX spreadsheet                       '
@@ -1670,6 +1703,17 @@ Public Class CIDSPattern
                                         AxSpreadsheet.Worksheets(LineStr(1)).Range("B1:B1").Select()
                                         AxSpreadsheet.ActiveWindow.FreezePanes = True
                                         rowOfLoad = 0
+                                        If 1 = AttachFlag Then
+                                            Dim names() As String = LineStr(1).Split(".")
+                                            Dim iCnt As Integer = names.Length
+                                            pageItemCnt = GetPageItemCount(array, "Main")
+                                        Else
+                                            pageItemCnt = GetPageItemCount(array, LineStr(1))
+                                        End If
+
+                                        If pageItemCnt > 0 Then
+                                            ReDim dataArray(pageItemCnt - 1, gWRMCoulumn)
+                                        End If
                                     End If
 
                                 ElseIf 2 = AttachFlag And "Main" = LineStr(1) Then  'Attached as import
@@ -1928,13 +1972,12 @@ Public Class CIDSPattern
             countUp = 1
             startCount = False
             j = 1
-
+            Dim checkCount As Integer = 0
             With AxSpreadsheet.Worksheets(strPageName)
                 UsedRowNumber = .UsedRange.Rows.Count
 
-                Do Until (countUp > UsedRowNumber)
+                Do Until (countUp > UsedRowNumber Or checkCount > 10)
                     tmpStrCmd = CStr(.Cells(j, gCommandNameColumn).Value())
-
                     If (tmpStrCmd <> Nothing) Then
                         If "SubPattern" = tmpStrCmd Then
                             tmpStrCmd = CStr(.Cells(j, gSubnameColumn).Value())
@@ -1944,21 +1987,19 @@ Public Class CIDSPattern
                                 End If
                             Next
                         End If
-
+                        checkCount = 0
                         countUp = countUp + 1
                         startCount = True
                     Else
                         If (startCount = True) Then
                             countUp = countUp + 1
                         End If
+                        checkCount += 1
                     End If
-
                     j += 1
                 Loop
             End With
         Next
-
-
         'Save the Main with its Array
         Rtn = file.OpenW(Filename)
         If (Rtn <> 0) Then  'Error Message
@@ -2034,6 +2075,13 @@ Public Class CIDSPattern
         file.Write(strLine, Encrypt)
         strLine = "#Cmd, Needle, Dispense, x1, y1, z1, x2, y2, z2, x3, y3, z3, Speed,NeedleGap,Duration,TrvDelay,RetDelay,AppH,RetV, RetH, ClearH,DTailDist,ArcRad,Pitch,FillH,RunTime,Sprial,RtAngle,Edge,IO"
         file.Write(strLine, Encrypt)
+        strLine = "#"
+        file.Write(strLine, Encrypt)
+        strLine = "#TeachingMode"
+        file.Write(strLine, Encrypt)
+        strLine = "#" + teachingMode
+        file.Write(strLine, Encrypt)
+
         strLine = "#"
         file.Write(strLine, Encrypt)
         strLine = ""
@@ -2185,7 +2233,6 @@ Public Class CIDSPattern
         UsedRowNumber = AxSpreadsheet.Worksheets(SheetName).UsedRange.Rows.Count
 
         'UsedRowNumber = Spreadsheet_CountRowUsed(AxSpreadsheet, SheetName)
-
         strLine = ""
         file.Write(strLine, Encrypt)
         strLine = "[Page=Main]"
@@ -2223,6 +2270,7 @@ Public Class CIDSPattern
 
         kk = 0
         ii = 1
+        Dim checkCount As Integer = 0
         With AxSpreadsheet.Worksheets(SheetName)
             Do
                 kk += 1
@@ -2237,12 +2285,14 @@ Public Class CIDSPattern
                     file.Write(strLine, Encrypt)
                     ii = ii + 1
                     startCount = True
+                    checkCount = 0
                 Else
                     If (startCount = True) Then
                         ii = ii + 1
                     End If
+                    checkCount += 1
                 End If
-            Loop Until (ii > UsedRowNumber)   'excel lines will terminate the saving record.
+            Loop Until (ii > UsedRowNumber Or checkCount > 10)   'excel lines will terminate the saving record.
 
         End With
 
@@ -2283,7 +2333,7 @@ Public Class CIDSPattern
                 file.Write(strLine, Encrypt)
                 strLine = "[Page=" + strTmp + "]"
                 file.Write(strLine, Encrypt)
-
+                Dim checkCnt As Integer = 0
                 ii = 1
                 With AxSpreadsheet.Worksheets(SheetName)
                     UsedRowNumber = .UsedRange.Rows.Count
@@ -2298,15 +2348,16 @@ Public Class CIDSPattern
                                 strLine = strLine + "," + CStr(.Cells(kk, j).Value)
                             Next
                             file.Write(strLine, Encrypt)
-
+                            checkCnt = 0
                             ii = ii + 1
                             startCount = True
                         Else
                             If (startCount = True) Then
                                 ii = ii + 1
                             End If
+                            checkCnt += 1
                         End If
-                    Loop Until (ii > UsedRowNumber)   'excel lines will terminate the saving record.
+                    Loop Until (ii > UsedRowNumber Or checkCnt > 10)   'excel lines will terminate the saving record.
 
                 End With
             End If
@@ -2484,18 +2535,18 @@ Public Class CIDSPattern
             For i = TotalSheets To 1 Step -1
                 If AxSpreadsheet.ActiveWorkbook.Worksheets(i).name() = "Main" Then
 
-                    Array = AxSpreadsheet.ActiveWorkbook.Worksheets(i).Range("A1", "BZ" & AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count).Value
+                    array = AxSpreadsheet.ActiveWorkbook.Worksheets(i).Range("A1", "BZ" & AxSpreadsheet.ActiveSheet.UsedRange.Rows.Count).Value
                     'With AxSpreadsheet.ActiveSheet
                     Do
                         kk += 1
                         m_rowLocal = m_rowLocal + 1
                         strLine = ""
-                        strTmp = Array(m_rowLocal, gCommandNameColumn) '.Cells(m_rowLocal, gCommandNameColumn).Value
+                        strTmp = array(m_rowLocal, gCommandNameColumn) '.Cells(m_rowLocal, gCommandNameColumn).Value
 
                         If "" <> strTmp Then
                             strLine = strLine + strTmp
                             For j = gNeedleColumn To gWRMCoulumn
-                                strLine = strLine + "," + CStr(Array(m_rowLocal, j)) '.Cells(m_rowLocal, j).Value)
+                                strLine = strLine + "," + CStr(array(m_rowLocal, j)) '.Cells(m_rowLocal, j).Value)
                             Next
                             file.Write(strLine, Encrypt)
                         End If
@@ -3459,7 +3510,7 @@ Public Class CIDSItemsLUT
     {0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11}, _
     {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12}, _
     {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13}, _
-    {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 14}, _
+    {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 14}, _
     {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 15}, _
     {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16}, _
     {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17}, _

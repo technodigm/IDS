@@ -82,7 +82,6 @@ Public Class GantrySetup
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
     Friend WithEvents MoveButton As System.Windows.Forms.Button
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
-    Friend WithEvents YPosition As System.Windows.Forms.Label
     Friend WithEvents XPosition As System.Windows.Forms.Label
     Friend WithEvents StationPosition As System.Windows.Forms.ComboBox
     Friend WithEvents SavePositionButton As System.Windows.Forms.Button
@@ -100,7 +99,6 @@ Public Class GantrySetup
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
         Me.SavePositionButton = New System.Windows.Forms.Button
-        Me.YPosition = New System.Windows.Forms.Label
         Me.XPosition = New System.Windows.Forms.Label
         Me.StationPosition = New System.Windows.Forms.ComboBox
         Me.MoveButton = New System.Windows.Forms.Button
@@ -198,7 +196,6 @@ Public Class GantrySetup
         'GroupBox6
         '
         Me.GroupBox6.Controls.Add(Me.SavePositionButton)
-        Me.GroupBox6.Controls.Add(Me.YPosition)
         Me.GroupBox6.Controls.Add(Me.XPosition)
         Me.GroupBox6.Controls.Add(Me.StationPosition)
         Me.GroupBox6.Controls.Add(Me.MoveButton)
@@ -219,20 +216,11 @@ Public Class GantrySetup
         Me.SavePositionButton.TabIndex = 69
         Me.SavePositionButton.Text = "Save Current Position"
         '
-        'YPosition
-        '
-        Me.YPosition.Location = New System.Drawing.Point(260, 176)
-        Me.YPosition.Name = "YPosition"
-        Me.YPosition.Size = New System.Drawing.Size(128, 23)
-        Me.YPosition.TabIndex = 67
-        Me.YPosition.Text = "0"
-        Me.YPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'XPosition
         '
-        Me.XPosition.Location = New System.Drawing.Point(108, 176)
+        Me.XPosition.Location = New System.Drawing.Point(24, 176)
         Me.XPosition.Name = "XPosition"
-        Me.XPosition.Size = New System.Drawing.Size(128, 23)
+        Me.XPosition.Size = New System.Drawing.Size(456, 23)
         Me.XPosition.TabIndex = 66
         Me.XPosition.Text = "0"
         Me.XPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -242,9 +230,9 @@ Public Class GantrySetup
         Me.StationPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.StationPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.StationPosition.Items.AddRange(New Object() {"Park Position", "Purge Position", "Clean Position", "Change Syringe Position", "Volume Calibration Position", "Needle Calibration First Row First Dot Position", "Needle Calibration Last Row Last Dot Position"})
-        Me.StationPosition.Location = New System.Drawing.Point(112, 120)
+        Me.StationPosition.Location = New System.Drawing.Point(72, 120)
         Me.StationPosition.Name = "StationPosition"
-        Me.StationPosition.Size = New System.Drawing.Size(272, 28)
+        Me.StationPosition.Size = New System.Drawing.Size(352, 28)
         Me.StationPosition.TabIndex = 64
         '
         'MoveButton
@@ -270,20 +258,21 @@ Public Class GantrySetup
         '
         'Vision
         '
-        Me.Vision.Checked = True
         Me.Vision.Location = New System.Drawing.Point(112, 32)
         Me.Vision.Name = "Vision"
         Me.Vision.Size = New System.Drawing.Size(80, 24)
         Me.Vision.TabIndex = 3
-        Me.Vision.TabStop = True
         Me.Vision.Text = "Vision"
+        Me.Vision.Visible = False
         '
         'Needle
         '
+        Me.Needle.Checked = True
         Me.Needle.Location = New System.Drawing.Point(16, 32)
         Me.Needle.Name = "Needle"
         Me.Needle.Size = New System.Drawing.Size(88, 24)
         Me.Needle.TabIndex = 2
+        Me.Needle.TabStop = True
         Me.Needle.Text = "Needle"
         '
         'GroupBox5
@@ -342,6 +331,7 @@ Public Class GantrySetup
         Me.RightHead.Size = New System.Drawing.Size(72, 24)
         Me.RightHead.TabIndex = 3
         Me.RightHead.Text = "Right"
+        Me.RightHead.Visible = False
         '
         'LeftHead
         '
@@ -410,6 +400,7 @@ Public Class GantrySetup
         Me.GroupBox3.TabIndex = 29
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Motion Parameters"
+        Me.GroupBox3.Visible = False
         '
         'MaxSpeedLimit
         '
@@ -863,7 +854,7 @@ Public Class GantrySetup
     End Sub
 
     Private Sub SaveGantrySettings()
-
+        Dim post(2) As Double
         If Vision.Checked Then
             offset_x = 0
             offset_y = 0
@@ -880,52 +871,61 @@ Public Class GantrySetup
         End If
 
         m_Tri.GetIDSState()
-        x = m_Tri.XPosition + offset_x
-        y = m_Tri.YPosition + offset_y
-
+        post(0) = m_Tri.XPosition + offset_x
+        post(1) = m_Tri.YPosition + offset_y
+        post(2) = m_Tri.ZPosition - IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
         If StationPosition.SelectedItem = "Park Position" Then
-            IDS.Data.Hardware.Gantry.ParkPosition.X = x
-            IDS.Data.Hardware.Gantry.ParkPosition.Y = y
-
+            IDS.Data.Hardware.Gantry.ParkPosition.X = post(0)
+            IDS.Data.Hardware.Gantry.ParkPosition.Y = post(1)
+            IDS.Data.Hardware.Gantry.ParkPosition.Z = post(2)
         ElseIf StationPosition.SelectedItem = "Purge Position" Then
-            IDS.Data.Hardware.Gantry.PurgePosition.X = x
-            IDS.Data.Hardware.Gantry.PurgePosition.Y = y
-
+            IDS.Data.Hardware.Gantry.PurgePosition.X = post(0)
+            IDS.Data.Hardware.Gantry.PurgePosition.Y = post(1)
+            IDS.Data.Hardware.Gantry.PurgePosition.Z = post(2)
         ElseIf StationPosition.SelectedItem = "Clean Position" Then
-            IDS.Data.Hardware.Gantry.CleanPosition.X = x
-            IDS.Data.Hardware.Gantry.CleanPosition.Y = y
-
+            IDS.Data.Hardware.Gantry.CleanPosition.X = post(0)
+            IDS.Data.Hardware.Gantry.CleanPosition.Y = post(1)
+            IDS.Data.Hardware.Gantry.CleanPosition.Z = post(2)
         ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
-            IDS.Data.Hardware.Gantry.ChangeSyringePosition.X = x
-            IDS.Data.Hardware.Gantry.ChangeSyringePosition.Y = y
-
+            IDS.Data.Hardware.Gantry.ChangeSyringePosition.X = post(0)
+            IDS.Data.Hardware.Gantry.ChangeSyringePosition.Y = post(1)
+            IDS.Data.Hardware.Gantry.ChangeSyringePosition.Z = post(2)
         ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-            IDS.Data.Hardware.Gantry.WeighingScalePosition.X = x
-            IDS.Data.Hardware.Gantry.WeighingScalePosition.Y = y
+            IDS.Data.Hardware.Gantry.WeighingScalePosition.X = post(0)
+            IDS.Data.Hardware.Gantry.WeighingScalePosition.Y = post(1)
+            IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = post(2)
         Else
 
             If LeftHead.Checked Then
                 If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X = x
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y = y
+                    IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X = post(0)
+                    IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y = post(1)
                 ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X = x
-                    IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y = y
+                    IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X = post(0)
+                    IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y = post(1)
                 End If
             ElseIf RightHead.Checked Then
                 If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X = x
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y = y
+                    IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X = post(0)
+                    IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y = post(1)
                 ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X = x
-                    IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y = y
+                    IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X = post(0)
+                    IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y = post(1)
                 End If
             End If
 
         End If
+        post(0) = m_Tri.XPosition
+        post(1) = m_Tri.YPosition
+        post(2) = m_Tri.ZPosition
+        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+            XPosition.Text = "X: " + (post(0)).ToString("0.000") + " Y: " + (post(1)).ToString("0.000")
+        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+            XPosition.Text = "X: " + (post(0)).ToString("0.000") + " Y: " + (post(1)).ToString("0.000")
+        Else
+            XPosition.Text = "X: " + (post(0)).ToString("0.000") + " Y: " + (post(1)).ToString("0.000") + " Z: " + (post(2)).ToString("0.000")
+        End If
 
-        XPosition.Text = "X: " + CStr(x)
-        YPosition.Text = "Y: " + CStr(y)
 
     End Sub
 
@@ -972,26 +972,33 @@ Public Class GantrySetup
     End Sub
 
     Private Sub MoveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveButton.Click
-
+        If MessageBox.Show("Are you sure you want to move to the saved position?", "", MessageBoxButtons.YesNo) = DialogResult.No Then
+            Return
+        End If
         SetServiceSpeed()
         If Not m_Tri.Move_Z(0) Then Exit Sub
 
         With IDS.Data.Hardware.Gantry
             If StationPosition.SelectedItem = "Park Position" Then
-                x = .ParkPosition.X
-                y = .ParkPosition.Y
+                position(0) = .ParkPosition.X
+                position(1) = .ParkPosition.Y
+                z = .ParkPosition.Z
             ElseIf StationPosition.SelectedItem = "Purge Position" Then
-                x = .PurgePosition.X
-                y = .PurgePosition.Y
+                position(0) = .PurgePosition.X
+                position(1) = .PurgePosition.Y
+                z = .PurgePosition.Z
             ElseIf StationPosition.SelectedItem = "Clean Position" Then
-                x = .CleanPosition.X
-                y = .CleanPosition.Y
+                position(0) = .CleanPosition.X
+                position(1) = .CleanPosition.Y
+                z = .CleanPosition.Z
             ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
-                x = .ChangeSyringePosition.X
-                y = .ChangeSyringePosition.Y
+                position(0) = .ChangeSyringePosition.X
+                position(1) = .ChangeSyringePosition.Y
+                z = .ChangeSyringePosition.Z
             ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-                x = .WeighingScalePosition.X
-                y = .WeighingScalePosition.Y
+                position(0) = .WeighingScalePosition.X
+                position(1) = .WeighingScalePosition.Y
+                z = .WeighingScalePosition.Z
             End If
         End With
 
@@ -1000,47 +1007,59 @@ Public Class GantrySetup
                 offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
                 offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
                 If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    x = .Left.ArrayDotPos1.X
-                    y = .Left.ArrayDotPos1.Y
+                    position(0) = .Left.ArrayDotPos1.X
+                    position(1) = .Left.ArrayDotPos1.Y
                 ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    x = .Left.ArrayDotPos3.X
-                    y = .Left.ArrayDotPos3.Y
+                    position(0) = .Left.ArrayDotPos3.X
+                    position(1) = .Left.ArrayDotPos3.Y
                 End If
             ElseIf RightHead.Checked Then
                 offset_x = .Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
                 offset_y = .Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
                 If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-                    x = .Right.ArrayDotPos1.X
-                    y = .Right.ArrayDotPos1.Y
+                    position(0) = .Right.ArrayDotPos1.X
+                    position(1) = .Right.ArrayDotPos1.Y
                 ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-                    x = .Right.ArrayDotPos3.X
-                    y = .Right.ArrayDotPos3.Y
+                    position(0) = .Right.ArrayDotPos3.X
+                    position(1) = .Right.ArrayDotPos3.Y
                 End If
             End If
         End With
 
-        If Vision.Checked Then
-            position(0) = x
-            position(1) = y
-        ElseIf Needle.Checked Then
-            position(0) = x - offset_x
-            position(1) = y - offset_y
+        If Needle.Checked Then
+            position(0) = position(0) - offset_x
+            position(1) = position(1) - offset_y
+        End If
+        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+            If Not m_Tri.Move_XY(position) Then Exit Sub
+        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+            If Not m_Tri.Move_XY(position) Then Exit Sub
+        Else
+            If Not m_Tri.Move_XY(position) Then Exit Sub
+            z = z + IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
+            If Not m_Tri.Move_Z(z) Then Exit Sub
         End If
 
-        If Not m_Tri.Move_XY(position) Then Exit Sub
 
     End Sub
 
     Private Sub SavePositionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SavePositionButton.Click
-
+        If MessageBox.Show("Are you sure you want to save the current position? Click Ok to save otherwise cancel this operation") = DialogResult.Cancel Then
+            Return
+        End If
         'station settings
         SaveGantrySettings()
         IDS.Data.SaveData()
-
+        MessageBox.Show("Position Saved")
     End Sub
 
     Private Sub StationPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StationPosition.SelectedIndexChanged
-
+        Dim offsetX As Double = 0
+        Dim offsetY As Double = 0
+        With IDS.Data.Hardware.Needle
+            offsetX = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
+            offsetY = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
+        End With
         If StationPosition.SelectedItem = "Needle Calibration Position" Then
             Vision.Enabled = False
             If Vision.Checked Then
@@ -1050,38 +1069,29 @@ Public Class GantrySetup
         Else
             Vision.Enabled = True
         End If
-
+        Dim zOff As Double = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
         With IDS.Data.Hardware.Gantry
             If StationPosition.SelectedItem = "Park Position" Then
-                XPosition.Text = "X: " + CStr(.ParkPosition.X)
-                YPosition.Text = "Y: " + CStr(.ParkPosition.Y)
+                XPosition.Text = "X: " + (.ParkPosition.X - offsetX).ToString("0.000") + " Y: " + (.ParkPosition.Y - offsetY).ToString("0.000") + " Z: " + (.ParkPosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem = "Purge Position" Then
-                XPosition.Text = "X: " + CStr(.PurgePosition.X)
-                YPosition.Text = "Y: " + CStr(.PurgePosition.Y)
+                XPosition.Text = "X: " + (.PurgePosition.X - offsetX).ToString("0.000") + " Y: " + (.PurgePosition.Y - offsetY).ToString("0.000") + " Z: " + (.PurgePosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem = "Clean Position" Then
-                XPosition.Text = "X: " + CStr(.CleanPosition.X)
-                YPosition.Text = "Y: " + CStr(.CleanPosition.Y)
+                XPosition.Text = "X: " + (.CleanPosition.X - offsetX).ToString("0.000") + " Y: " + (.CleanPosition.Y - offsetY).ToString("0.000") + " Z: " + (.CleanPosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
-                XPosition.Text = "X: " + CStr(.ChangeSyringePosition.X)
-                YPosition.Text = "Y: " + CStr(.ChangeSyringePosition.Y)
+                XPosition.Text = "X: " + (.ChangeSyringePosition.X - offsetX).ToString("0.000") + " Y: " + (.ChangeSyringePosition.Y - offsetY).ToString("0.000") + " Z: " + (.ChangeSyringePosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
-                XPosition.Text = "X: " + CStr(.WeighingScalePosition.X)
-                YPosition.Text = "Y: " + CStr(.WeighingScalePosition.Y)
+                XPosition.Text = "X: " + (.WeighingScalePosition.X - offsetX).ToString("0.000") + " Y: " + (.WeighingScalePosition.Y - offsetY).ToString("0.000") + " Z: " + (.WeighingScalePosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
                 If LeftHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y)
+                    XPosition.Text = "X: " + (IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X).ToString("0.000") + " Y: " + (IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y).ToString("0.000")
                 ElseIf RightHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y)
+                    XPosition.Text = "X: " + (IDS.Data.Hardware.Needle.Right.ArrayDotPos1.X).ToString("0.000") + " Y: " + (IDS.Data.Hardware.Needle.Right.ArrayDotPos1.Y).ToString("0.000")
                 End If
             ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
                 If LeftHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y)
+                    XPosition.Text = "X: " + (IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X).ToString("0.000") + " Y: " + (IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y).ToString("0.000")
                 ElseIf RightHead.Checked Then
-                    XPosition.Text = "X: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X)
-                    YPosition.Text = "Y: " + CStr(IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y)
+                    XPosition.Text = "X: " + (IDS.Data.Hardware.Needle.Right.ArrayDotPos3.X).ToString("0.000") + " Y: " + (IDS.Data.Hardware.Needle.Right.ArrayDotPos3.Y).ToString("0.000")
                 End If
             End If
         End With

@@ -148,6 +148,8 @@ Public Class VisionSetup
     Friend WithEvents PanelToBeAdded2 As System.Windows.Forms.Panel
     Friend WithEvents btGetReferenceCenter As System.Windows.Forms.Button
     Friend WithEvents rtbTips As System.Windows.Forms.RichTextBox
+    Friend WithEvents Label21 As System.Windows.Forms.Label
+    Friend WithEvents Label22 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(VisionSetup))
@@ -265,6 +267,8 @@ Public Class VisionSetup
         Me.PanelToBeAdded2 = New System.Windows.Forms.Panel
         Me.Label20 = New System.Windows.Forms.Label
         Me.Panel3 = New System.Windows.Forms.Panel
+        Me.Label21 = New System.Windows.Forms.Label
+        Me.Label22 = New System.Windows.Forms.Label
         Me.GroupBox12.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -583,6 +587,7 @@ Public Class VisionSetup
         Me.Label11.Size = New System.Drawing.Size(16, 23)
         Me.Label11.TabIndex = 66
         Me.Label11.Text = ")"
+        Me.Label11.Visible = False
         '
         'NSensorYPos
         '
@@ -592,6 +597,7 @@ Public Class VisionSetup
         Me.NSensorYPos.Size = New System.Drawing.Size(56, 23)
         Me.NSensorYPos.TabIndex = 62
         Me.NSensorYPos.Text = "100"
+        Me.NSensorYPos.Visible = False
         '
         'Label4
         '
@@ -601,6 +607,7 @@ Public Class VisionSetup
         Me.Label4.Size = New System.Drawing.Size(16, 23)
         Me.Label4.TabIndex = 61
         Me.Label4.Text = ","
+        Me.Label4.Visible = False
         '
         'Label2
         '
@@ -610,6 +617,7 @@ Public Class VisionSetup
         Me.Label2.Size = New System.Drawing.Size(16, 23)
         Me.Label2.TabIndex = 60
         Me.Label2.Text = "("
+        Me.Label2.Visible = False
         '
         'NSensorXPos
         '
@@ -619,6 +627,7 @@ Public Class VisionSetup
         Me.NSensorXPos.Size = New System.Drawing.Size(56, 23)
         Me.NSensorXPos.TabIndex = 59
         Me.NSensorXPos.Text = "100"
+        Me.NSensorXPos.Visible = False
         '
         'Label1
         '
@@ -629,9 +638,12 @@ Public Class VisionSetup
         Me.Label1.TabIndex = 43
         Me.Label1.Text = "Camera Position:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Label1.Visible = False
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.Label22)
+        Me.GroupBox3.Controls.Add(Me.Label21)
         Me.GroupBox3.Controls.Add(Me.Button1)
         Me.GroupBox3.Controls.Add(Me.Label77)
         Me.GroupBox3.Controls.Add(Me.PictureBox2)
@@ -653,15 +665,16 @@ Public Class VisionSetup
         Me.GroupBox3.Size = New System.Drawing.Size(496, 800)
         Me.GroupBox3.TabIndex = 41
         Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Locate Reference Block Position"
+        Me.GroupBox3.Text = "Camera Pixel to MM Calibration"
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(248, 376)
+        Me.Button1.Location = New System.Drawing.Point(248, 400)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(100, 50)
         Me.Button1.TabIndex = 31
         Me.Button1.Text = "Save"
+        Me.Button1.Visible = False
         '
         'Label77
         '
@@ -685,14 +698,15 @@ Public Class VisionSetup
         Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.PictureBox2.TabIndex = 29
         Me.PictureBox2.TabStop = False
+        Me.PictureBox2.Visible = False
         '
         'Button_Calibrate
         '
-        Me.Button_Calibrate.Location = New System.Drawing.Point(368, 152)
+        Me.Button_Calibrate.Location = New System.Drawing.Point(344, 160)
         Me.Button_Calibrate.Name = "Button_Calibrate"
-        Me.Button_Calibrate.Size = New System.Drawing.Size(100, 50)
+        Me.Button_Calibrate.Size = New System.Drawing.Size(136, 72)
         Me.Button_Calibrate.TabIndex = 27
-        Me.Button_Calibrate.Text = "Calibrate"
+        Me.Button_Calibrate.Text = "Start Calibration"
         '
         'GroupBox4
         '
@@ -705,9 +719,9 @@ Public Class VisionSetup
         Me.GroupBox4.Controls.Add(Me.Label18)
         Me.GroupBox4.Controls.Add(Me.Label19)
         Me.GroupBox4.Controls.Add(Me.Label17)
-        Me.GroupBox4.Location = New System.Drawing.Point(80, 224)
+        Me.GroupBox4.Location = New System.Drawing.Point(32, 272)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(280, 128)
+        Me.GroupBox4.Size = New System.Drawing.Size(440, 128)
         Me.GroupBox4.TabIndex = 26
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Results:"
@@ -786,7 +800,7 @@ Public Class VisionSetup
         '
         'Label10
         '
-        Me.Label10.Location = New System.Drawing.Point(304, 176)
+        Me.Label10.Location = New System.Drawing.Point(304, 208)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(48, 23)
         Me.Label10.TabIndex = 21
@@ -796,7 +810,7 @@ Public Class VisionSetup
         '
         Me.NumericUpDown_Spacing.DecimalPlaces = 3
         Me.NumericUpDown_Spacing.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.NumericUpDown_Spacing.Location = New System.Drawing.Point(200, 176)
+        Me.NumericUpDown_Spacing.Location = New System.Drawing.Point(200, 208)
         Me.NumericUpDown_Spacing.Maximum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.NumericUpDown_Spacing.Name = "NumericUpDown_Spacing"
         Me.NumericUpDown_Spacing.Size = New System.Drawing.Size(104, 27)
@@ -805,7 +819,7 @@ Public Class VisionSetup
         '
         'Label8
         '
-        Me.Label8.Location = New System.Drawing.Point(32, 176)
+        Me.Label8.Location = New System.Drawing.Point(32, 208)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(160, 23)
         Me.Label8.TabIndex = 19
@@ -813,7 +827,7 @@ Public Class VisionSetup
         '
         'Label7
         '
-        Me.Label7.Location = New System.Drawing.Point(32, 136)
+        Me.Label7.Location = New System.Drawing.Point(32, 168)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(144, 23)
         Me.Label7.TabIndex = 18
@@ -821,7 +835,7 @@ Public Class VisionSetup
         '
         'Label6
         '
-        Me.Label6.Location = New System.Drawing.Point(32, 96)
+        Me.Label6.Location = New System.Drawing.Point(32, 128)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(128, 23)
         Me.Label6.TabIndex = 17
@@ -829,7 +843,7 @@ Public Class VisionSetup
         '
         'NumericUpDown_NoOfRows
         '
-        Me.NumericUpDown_NoOfRows.Location = New System.Drawing.Point(200, 136)
+        Me.NumericUpDown_NoOfRows.Location = New System.Drawing.Point(200, 168)
         Me.NumericUpDown_NoOfRows.Name = "NumericUpDown_NoOfRows"
         Me.NumericUpDown_NoOfRows.Size = New System.Drawing.Size(104, 27)
         Me.NumericUpDown_NoOfRows.TabIndex = 15
@@ -837,7 +851,7 @@ Public Class VisionSetup
         '
         'NumericUpDown_NoOfColumns
         '
-        Me.NumericUpDown_NoOfColumns.Location = New System.Drawing.Point(200, 96)
+        Me.NumericUpDown_NoOfColumns.Location = New System.Drawing.Point(200, 128)
         Me.NumericUpDown_NoOfColumns.Name = "NumericUpDown_NoOfColumns"
         Me.NumericUpDown_NoOfColumns.Size = New System.Drawing.Size(104, 27)
         Me.NumericUpDown_NoOfColumns.TabIndex = 14
@@ -846,11 +860,11 @@ Public Class VisionSetup
         'Label5
         '
         Me.Label5.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label5.Location = New System.Drawing.Point(20, 48)
+        Me.Label5.Location = New System.Drawing.Point(24, 48)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(388, 32)
+        Me.Label5.Size = New System.Drawing.Size(348, 24)
         Me.Label5.TabIndex = 13
-        Me.Label5.Text = "1. Jog camera to the vision calibration position. "
+        Me.Label5.Text = "2. Jog camera to locate the calibration jig."
         '
         'Button3
         '
@@ -862,11 +876,12 @@ Public Class VisionSetup
         '
         'Button5
         '
-        Me.Button5.Location = New System.Drawing.Point(368, 376)
+        Me.Button5.Location = New System.Drawing.Point(368, 400)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(100, 50)
         Me.Button5.TabIndex = 7
         Me.Button5.Text = "Cancel"
+        Me.Button5.Visible = False
         '
         'GroupBox1
         '
@@ -968,11 +983,11 @@ Public Class VisionSetup
         '
         'btGetReferenceCenter
         '
-        Me.btGetReferenceCenter.Location = New System.Drawing.Point(272, 136)
+        Me.btGetReferenceCenter.Location = New System.Drawing.Point(288, 120)
         Me.btGetReferenceCenter.Name = "btGetReferenceCenter"
-        Me.btGetReferenceCenter.Size = New System.Drawing.Size(64, 40)
+        Me.btGetReferenceCenter.Size = New System.Drawing.Size(72, 56)
         Me.btGetReferenceCenter.TabIndex = 44
-        Me.btGetReferenceCenter.Text = "Get"
+        Me.btGetReferenceCenter.Text = "Single Run"
         '
         'Label29
         '
@@ -1125,7 +1140,7 @@ Public Class VisionSetup
         Me.Label55.Name = "Label55"
         Me.Label55.Size = New System.Drawing.Size(44, 23)
         Me.Label55.TabIndex = 21
-        Me.Label55.Text = "deg,"
+        Me.Label55.Text = "deg."
         Me.Label55.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TextBox_PosY
@@ -1185,7 +1200,7 @@ Public Class VisionSetup
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(232, 112)
+        Me.Button4.Location = New System.Drawing.Point(216, 112)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(56, 23)
         Me.Button4.TabIndex = 42
@@ -1193,11 +1208,11 @@ Public Class VisionSetup
         '
         'Button_Test
         '
-        Me.Button_Test.Location = New System.Drawing.Point(344, 128)
+        Me.Button_Test.Location = New System.Drawing.Point(368, 120)
         Me.Button_Test.Name = "Button_Test"
-        Me.Button_Test.Size = New System.Drawing.Size(112, 48)
+        Me.Button_Test.Size = New System.Drawing.Size(96, 56)
         Me.Button_Test.TabIndex = 2
-        Me.Button_Test.Text = "Test"
+        Me.Button_Test.Text = "Continuos Run"
         '
         'Label40
         '
@@ -1429,6 +1444,24 @@ Public Class VisionSetup
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(528, 864)
         Me.Panel3.TabIndex = 44
+        '
+        'Label21
+        '
+        Me.Label21.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.Label21.Location = New System.Drawing.Point(24, 24)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(440, 32)
+        Me.Label21.TabIndex = 32
+        Me.Label21.Text = "1. Put the calibration jig at the calibration station."
+        '
+        'Label22
+        '
+        Me.Label22.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.Label22.Location = New System.Drawing.Point(24, 88)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(448, 40)
+        Me.Label22.TabIndex = 33
+        Me.Label22.Text = "3. Click start calibration button to start the calibration process"
         '
         'VisionSetup
         '
@@ -1669,6 +1702,13 @@ Public Class VisionSetup
             TextBox_PixelX.Text = IDS.Devices.Vision.FrmVision.PixelXSize
             TextBox_PixelY.Text = IDS.Devices.Vision.FrmVision.PixelYSize
             TextBox_Ratio.Text = IDS.Devices.Vision.FrmVision.Pixel_Ratio
+            If (MessageBox.Show("Camera pixel to mm calibration done!! Click OK to save the data.") = DialogResult.OK) Then
+                IDS.Data.Hardware.Camera.PixelsToMM.X = TextBox_PixelX.Text
+                IDS.Data.Hardware.Camera.PixelsToMM.Y = TextBox_PixelY.Text
+                IDS.Data.Hardware.Camera.PixelRatio = TextBox_Ratio.Text
+                IDS.Data.SaveData()
+                MessageBox.Show("Camera pixel to mm calibration data saved.")
+            End If
         End If
     End Sub
     Private Sub ButtonNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -1898,19 +1938,21 @@ Public Class VisionSetup
     End Sub
 
     Private Sub btGetReferenceCenter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btGetReferenceCenter.Click
-        Dim post(1) As Double
-        Dim currentPos(1) As Double
-        currentPos(0) = m_Tri.XPosition
-        currentPos(1) = m_Tri.YPosition
-        IDS.Devices.Vision.FrmVision.GetChipCenter_World(currentPos, post(0), post(1))
-        rtbTips.Clear()
-        rtbTips.AppendText("Reference Point X:" & post(0) & " Y:" & post(1))
-        Dim relPost(1) As Double
-        relPost(0) = 0
-        relPost(1) = 0
-        IDS.Data.Hardware.Camera.ReferencePos.X = post(0)
-        IDS.Data.Hardware.Camera.ReferencePos.Y = post(1)
-        m_Tri.MoveRelative_XY(relPost)
-        m_Tri.Move_XY(post)
+        IDS.Devices.Vision.FrmVision.ClearDisplay()
+        If IDS.Devices.Vision.FrmVision.MeasurementPoint(NumericUpDown_Contrast.Value, NumericUpDown_Threshold.Value, NumericUpDown_Rot.Value, Inside_out, Vertical, NumericUpDown_ROI.Value, 3) Then
+            If Clickno = 1 Then 'If seach region not hide
+                IDS.Devices.Vision.FrmVision.SearchRegionPoints(3, NumericUpDown_ROI.Value)
+            End If
+            Dim post(1) As Double
+            Dim currentPos(1) As Double
+            currentPos(0) = m_Tri.XPosition
+            currentPos(1) = m_Tri.YPosition
+            IDS.Devices.Vision.FrmVision.GetChipCenter_World(currentPos, post(0), post(1))
+            rtbTips.Clear()
+            rtbTips.AppendText("Reference Point X:" & post(0) & " Y:" & post(1))
+            IDS.Data.Hardware.Camera.ReferencePos.X = post(0)
+            IDS.Data.Hardware.Camera.ReferencePos.Y = post(1)
+            m_Tri.Move_XY(post)
+        End If
     End Sub
 End Class

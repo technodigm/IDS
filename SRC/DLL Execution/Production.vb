@@ -26,9 +26,10 @@ Public Class FormProduction
     'check whether the machine has been running in continuous mode 
     Public HasBeenRunning As Boolean = False
     Private Production_info(50) As String
-
+    Private productCnt As Integer = 0
     'constants
     Public Const tickToMinute As Double = 0.0000000016666666  '0.0000001/60.0
+    Public m_PotLifeExpire As Boolean = False
 
 #Region " Windows Form Designer generated code "
 
@@ -120,17 +121,16 @@ Public Class FormProduction
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents tbEquipmentID As System.Windows.Forms.TextBox
-    Friend WithEvents tbOperatorID As System.Windows.Forms.TextBox
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
-    Friend WithEvents tbTotalDispense As System.Windows.Forms.TextBox
     Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
     Friend WithEvents tbCurrentDispense As System.Windows.Forms.TextBox
     Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
     Friend WithEvents tbDispensedUnit As System.Windows.Forms.TextBox
     Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
     Friend WithEvents tbTime As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox9 As System.Windows.Forms.TextBox
     Friend WithEvents TimeDisplayTimer As System.Windows.Forms.Timer
+    Friend WithEvents tbDispensePressure As System.Windows.Forms.TextBox
+    Friend WithEvents tbPortLifeRemain As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -145,6 +145,18 @@ Public Class FormProduction
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.tbTime = New System.Windows.Forms.TextBox
+        Me.tbDispensedUnit = New System.Windows.Forms.TextBox
+        Me.TextBox7 = New System.Windows.Forms.TextBox
+        Me.tbCurrentDispense = New System.Windows.Forms.TextBox
+        Me.TextBox6 = New System.Windows.Forms.TextBox
+        Me.tbPortLifeRemain = New System.Windows.Forms.TextBox
+        Me.TextBox5 = New System.Windows.Forms.TextBox
+        Me.tbDispensePressure = New System.Windows.Forms.TextBox
+        Me.TextBox3 = New System.Windows.Forms.TextBox
+        Me.tbEquipmentID = New System.Windows.Forms.TextBox
+        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.GreenLight = New System.Windows.Forms.PictureBox
@@ -192,29 +204,16 @@ Public Class FormProduction
         Me.TimerMonitor = New System.Windows.Forms.Timer(Me.components)
         Me.panelVision = New System.Windows.Forms.Panel
         Me.TowerLightImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.tbEquipmentID = New System.Windows.Forms.TextBox
-        Me.tbOperatorID = New System.Windows.Forms.TextBox
-        Me.TextBox3 = New System.Windows.Forms.TextBox
-        Me.tbTotalDispense = New System.Windows.Forms.TextBox
-        Me.TextBox5 = New System.Windows.Forms.TextBox
-        Me.tbCurrentDispense = New System.Windows.Forms.TextBox
-        Me.TextBox6 = New System.Windows.Forms.TextBox
-        Me.tbDispensedUnit = New System.Windows.Forms.TextBox
-        Me.TextBox7 = New System.Windows.Forms.TextBox
-        Me.tbTime = New System.Windows.Forms.TextBox
-        Me.TextBox9 = New System.Windows.Forms.TextBox
         Me.TimeDisplayTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Panel2.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.ConveyorBox.SuspendLayout()
         Me.HeaterBox.SuspendLayout()
         Me.PanelProDownTimeInfor.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ImageListOper
@@ -260,7 +259,6 @@ Public Class FormProduction
         Me.ValueBrightness.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ValueBrightness.Location = New System.Drawing.Point(80, 5)
         Me.ValueBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
-        Me.ValueBrightness.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.ValueBrightness.Name = "ValueBrightness"
         Me.ValueBrightness.Size = New System.Drawing.Size(45, 21)
         Me.ValueBrightness.TabIndex = 77
@@ -308,6 +306,159 @@ Public Class FormProduction
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(504, 992)
         Me.Panel5.TabIndex = 0
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.tbTime)
+        Me.GroupBox2.Controls.Add(Me.tbDispensedUnit)
+        Me.GroupBox2.Controls.Add(Me.TextBox7)
+        Me.GroupBox2.Controls.Add(Me.tbCurrentDispense)
+        Me.GroupBox2.Controls.Add(Me.TextBox6)
+        Me.GroupBox2.Controls.Add(Me.tbPortLifeRemain)
+        Me.GroupBox2.Controls.Add(Me.TextBox5)
+        Me.GroupBox2.Controls.Add(Me.tbDispensePressure)
+        Me.GroupBox2.Controls.Add(Me.TextBox3)
+        Me.GroupBox2.Controls.Add(Me.tbEquipmentID)
+        Me.GroupBox2.Controls.Add(Me.TextBox1)
+        Me.GroupBox2.Location = New System.Drawing.Point(16, 216)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(480, 256)
+        Me.GroupBox2.TabIndex = 143
+        Me.GroupBox2.TabStop = False
+        '
+        'tbTime
+        '
+        Me.tbTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbTime.Location = New System.Drawing.Point(16, 32)
+        Me.tbTime.Name = "tbTime"
+        Me.tbTime.ReadOnly = True
+        Me.tbTime.Size = New System.Drawing.Size(448, 38)
+        Me.tbTime.TabIndex = 11
+        Me.tbTime.Text = ""
+        Me.tbTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'tbDispensedUnit
+        '
+        Me.tbDispensedUnit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbDispensedUnit.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDispensedUnit.Location = New System.Drawing.Point(196, 104)
+        Me.tbDispensedUnit.Name = "tbDispensedUnit"
+        Me.tbDispensedUnit.ReadOnly = True
+        Me.tbDispensedUnit.Size = New System.Drawing.Size(272, 31)
+        Me.tbDispensedUnit.TabIndex = 9
+        Me.tbDispensedUnit.Text = "0"
+        Me.tbDispensedUnit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox7
+        '
+        Me.TextBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox7.Location = New System.Drawing.Point(12, 104)
+        Me.TextBox7.Name = "TextBox7"
+        Me.TextBox7.ReadOnly = True
+        Me.TextBox7.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox7.TabIndex = 8
+        Me.TextBox7.Text = "Dispensed Unit :"
+        Me.TextBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'tbCurrentDispense
+        '
+        Me.tbCurrentDispense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbCurrentDispense.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbCurrentDispense.Location = New System.Drawing.Point(196, 216)
+        Me.tbCurrentDispense.Name = "tbCurrentDispense"
+        Me.tbCurrentDispense.ReadOnly = True
+        Me.tbCurrentDispense.Size = New System.Drawing.Size(272, 31)
+        Me.tbCurrentDispense.TabIndex = 7
+        Me.tbCurrentDispense.Text = "0"
+        Me.tbCurrentDispense.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.tbCurrentDispense.Visible = False
+        '
+        'TextBox6
+        '
+        Me.TextBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox6.Location = New System.Drawing.Point(12, 216)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.ReadOnly = True
+        Me.TextBox6.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox6.TabIndex = 6
+        Me.TextBox6.Text = "Current Dispense :"
+        Me.TextBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TextBox6.Visible = False
+        '
+        'tbPortLifeRemain
+        '
+        Me.tbPortLifeRemain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbPortLifeRemain.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbPortLifeRemain.Location = New System.Drawing.Point(196, 168)
+        Me.tbPortLifeRemain.Name = "tbPortLifeRemain"
+        Me.tbPortLifeRemain.ReadOnly = True
+        Me.tbPortLifeRemain.Size = New System.Drawing.Size(272, 31)
+        Me.tbPortLifeRemain.TabIndex = 5
+        Me.tbPortLifeRemain.Text = "NA"
+        Me.tbPortLifeRemain.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox5
+        '
+        Me.TextBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox5.Location = New System.Drawing.Point(12, 168)
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.ReadOnly = True
+        Me.TextBox5.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox5.TabIndex = 4
+        Me.TextBox5.Text = "Port Life :"
+        Me.TextBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'tbDispensePressure
+        '
+        Me.tbDispensePressure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbDispensePressure.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDispensePressure.Location = New System.Drawing.Point(196, 136)
+        Me.tbDispensePressure.Name = "tbDispensePressure"
+        Me.tbDispensePressure.ReadOnly = True
+        Me.tbDispensePressure.Size = New System.Drawing.Size(272, 31)
+        Me.tbDispensePressure.TabIndex = 3
+        Me.tbDispensePressure.Text = "NA"
+        Me.tbDispensePressure.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox3
+        '
+        Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox3.Location = New System.Drawing.Point(12, 136)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.ReadOnly = True
+        Me.TextBox3.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox3.TabIndex = 2
+        Me.TextBox3.Text = "Pressure :"
+        Me.TextBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'tbEquipmentID
+        '
+        Me.tbEquipmentID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbEquipmentID.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbEquipmentID.Location = New System.Drawing.Point(196, 72)
+        Me.tbEquipmentID.Name = "tbEquipmentID"
+        Me.tbEquipmentID.ReadOnly = True
+        Me.tbEquipmentID.Size = New System.Drawing.Size(272, 31)
+        Me.tbEquipmentID.TabIndex = 1
+        Me.tbEquipmentID.Text = "ID12345"
+        Me.tbEquipmentID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox1
+        '
+        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(12, 72)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox1.TabIndex = 0
+        Me.TextBox1.Text = "Equipment ID :"
+        Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'GroupBox1
         '
@@ -440,7 +591,7 @@ Public Class FormProduction
         Me.ButtonStartFirstStage.Name = "ButtonStartFirstStage"
         Me.ButtonStartFirstStage.Size = New System.Drawing.Size(104, 56)
         Me.ButtonStartFirstStage.TabIndex = 142
-        Me.ButtonStartFirstStage.Text = "Start"
+        Me.ButtonStartFirstStage.Text = "Receive"
         '
         'ButtonCV_Prod_Release
         '
@@ -622,6 +773,7 @@ Public Class FormProduction
         '
         Me.CheckBoxPotOn.Appearance = System.Windows.Forms.Appearance.Button
         Me.CheckBoxPotOn.BackColor = System.Drawing.SystemColors.Control
+        Me.CheckBoxPotOn.Enabled = False
         Me.CheckBoxPotOn.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBoxPotOn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.CheckBoxPotOn.ImageList = Me.ImageListPotEtc
@@ -651,6 +803,7 @@ Public Class FormProduction
         'ButtonPotReset
         '
         Me.ButtonPotReset.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonPotReset.Enabled = False
         Me.ButtonPotReset.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonPotReset.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPotReset.ImageList = Me.ImageListPotEtc
@@ -663,6 +816,7 @@ Public Class FormProduction
         'ButtonOpenFile
         '
         Me.ButtonOpenFile.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonOpenFile.Enabled = False
         Me.ButtonOpenFile.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ButtonOpenFile.Location = New System.Drawing.Point(680, 80)
         Me.ButtonOpenFile.Name = "ButtonOpenFile"
@@ -695,6 +849,7 @@ Public Class FormProduction
         'ButtonNdlCalib
         '
         Me.ButtonNdlCalib.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonNdlCalib.Enabled = False
         Me.ButtonNdlCalib.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonNdlCalib.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonNdlCalib.ImageList = Me.ImageListGeneralTools
@@ -702,11 +857,12 @@ Public Class FormProduction
         Me.ButtonNdlCalib.Name = "ButtonNdlCalib"
         Me.ButtonNdlCalib.Size = New System.Drawing.Size(75, 56)
         Me.ButtonNdlCalib.TabIndex = 91
-        Me.ButtonNdlCalib.Text = "Calibrate Needle"
+        Me.ButtonNdlCalib.Text = "Need. Cal."
         '
         'ButtonClean
         '
         Me.ButtonClean.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonClean.Enabled = False
         Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonClean.ImageList = Me.ImageListGeneralTools
@@ -719,6 +875,7 @@ Public Class FormProduction
         'ButtonPurge
         '
         Me.ButtonPurge.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonPurge.Enabled = False
         Me.ButtonPurge.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonPurge.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPurge.ImageList = Me.ImageListGeneralTools
@@ -731,6 +888,7 @@ Public Class FormProduction
         'ButtonChgSyringe
         '
         Me.ButtonChgSyringe.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonChgSyringe.Enabled = False
         Me.ButtonChgSyringe.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonChgSyringe.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonChgSyringe.ImageList = Me.ImageListGeneralTools
@@ -743,6 +901,7 @@ Public Class FormProduction
         'ButtonHome
         '
         Me.ButtonHome.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonHome.Enabled = False
         Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonHome.ImageList = Me.ImageListGeneralTools
@@ -754,7 +913,7 @@ Public Class FormProduction
         '
         'LabelMessege
         '
-        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Menu
+        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Control
         Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelMessege.ForeColor = System.Drawing.Color.Black
@@ -767,6 +926,7 @@ Public Class FormProduction
         'ButtonVolCalib
         '
         Me.ButtonVolCalib.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonVolCalib.Enabled = False
         Me.ButtonVolCalib.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonVolCalib.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonVolCalib.ImageList = Me.ImageListGeneralTools
@@ -774,7 +934,7 @@ Public Class FormProduction
         Me.ButtonVolCalib.Name = "ButtonVolCalib"
         Me.ButtonVolCalib.Size = New System.Drawing.Size(75, 56)
         Me.ButtonVolCalib.TabIndex = 90
-        Me.ButtonVolCalib.Text = "Volume Calibra - tion"
+        Me.ButtonVolCalib.Text = "Vol. Cal."
         '
         'ImageListOperation
         '
@@ -801,170 +961,6 @@ Public Class FormProduction
         Me.TowerLightImageList.ImageStream = CType(resources.GetObject("TowerLightImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.TowerLightImageList.TransparentColor = System.Drawing.Color.Transparent
         '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.tbTime)
-        Me.GroupBox2.Controls.Add(Me.TextBox9)
-        Me.GroupBox2.Controls.Add(Me.tbDispensedUnit)
-        Me.GroupBox2.Controls.Add(Me.TextBox7)
-        Me.GroupBox2.Controls.Add(Me.tbCurrentDispense)
-        Me.GroupBox2.Controls.Add(Me.TextBox6)
-        Me.GroupBox2.Controls.Add(Me.tbTotalDispense)
-        Me.GroupBox2.Controls.Add(Me.TextBox5)
-        Me.GroupBox2.Controls.Add(Me.tbOperatorID)
-        Me.GroupBox2.Controls.Add(Me.TextBox3)
-        Me.GroupBox2.Controls.Add(Me.tbEquipmentID)
-        Me.GroupBox2.Controls.Add(Me.TextBox1)
-        Me.GroupBox2.Location = New System.Drawing.Point(16, 216)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(480, 256)
-        Me.GroupBox2.TabIndex = 143
-        Me.GroupBox2.TabStop = False
-        '
-        'TextBox1
-        '
-        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(12, 72)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(184, 31)
-        Me.TextBox1.TabIndex = 0
-        Me.TextBox1.Text = "Equipment ID :"
-        Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'tbEquipmentID
-        '
-        Me.tbEquipmentID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbEquipmentID.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbEquipmentID.Location = New System.Drawing.Point(196, 72)
-        Me.tbEquipmentID.Name = "tbEquipmentID"
-        Me.tbEquipmentID.ReadOnly = True
-        Me.tbEquipmentID.Size = New System.Drawing.Size(272, 31)
-        Me.tbEquipmentID.TabIndex = 1
-        Me.tbEquipmentID.Text = "ID12345"
-        Me.tbEquipmentID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'tbOperatorID
-        '
-        Me.tbOperatorID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbOperatorID.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbOperatorID.Location = New System.Drawing.Point(196, 104)
-        Me.tbOperatorID.Name = "tbOperatorID"
-        Me.tbOperatorID.ReadOnly = True
-        Me.tbOperatorID.Size = New System.Drawing.Size(272, 31)
-        Me.tbOperatorID.TabIndex = 3
-        Me.tbOperatorID.Text = "OpID1212"
-        Me.tbOperatorID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox3
-        '
-        Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox3.Location = New System.Drawing.Point(12, 104)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(184, 31)
-        Me.TextBox3.TabIndex = 2
-        Me.TextBox3.Text = "Operator ID :"
-        Me.TextBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'tbTotalDispense
-        '
-        Me.tbTotalDispense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbTotalDispense.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbTotalDispense.Location = New System.Drawing.Point(196, 136)
-        Me.tbTotalDispense.Name = "tbTotalDispense"
-        Me.tbTotalDispense.ReadOnly = True
-        Me.tbTotalDispense.Size = New System.Drawing.Size(272, 31)
-        Me.tbTotalDispense.TabIndex = 5
-        Me.tbTotalDispense.Text = "0"
-        Me.tbTotalDispense.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox5
-        '
-        Me.TextBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox5.Location = New System.Drawing.Point(12, 136)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.ReadOnly = True
-        Me.TextBox5.Size = New System.Drawing.Size(184, 31)
-        Me.TextBox5.TabIndex = 4
-        Me.TextBox5.Text = "Total Dispense :"
-        Me.TextBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'tbCurrentDispense
-        '
-        Me.tbCurrentDispense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbCurrentDispense.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbCurrentDispense.Location = New System.Drawing.Point(196, 168)
-        Me.tbCurrentDispense.Name = "tbCurrentDispense"
-        Me.tbCurrentDispense.ReadOnly = True
-        Me.tbCurrentDispense.Size = New System.Drawing.Size(272, 31)
-        Me.tbCurrentDispense.TabIndex = 7
-        Me.tbCurrentDispense.Text = "0"
-        Me.tbCurrentDispense.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox6
-        '
-        Me.TextBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox6.Location = New System.Drawing.Point(12, 168)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.ReadOnly = True
-        Me.TextBox6.Size = New System.Drawing.Size(184, 31)
-        Me.TextBox6.TabIndex = 6
-        Me.TextBox6.Text = "Current Dispense :"
-        Me.TextBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'tbDispensedUnit
-        '
-        Me.tbDispensedUnit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbDispensedUnit.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbDispensedUnit.Location = New System.Drawing.Point(196, 200)
-        Me.tbDispensedUnit.Name = "tbDispensedUnit"
-        Me.tbDispensedUnit.ReadOnly = True
-        Me.tbDispensedUnit.Size = New System.Drawing.Size(272, 31)
-        Me.tbDispensedUnit.TabIndex = 9
-        Me.tbDispensedUnit.Text = "0"
-        Me.tbDispensedUnit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox7
-        '
-        Me.TextBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox7.Location = New System.Drawing.Point(12, 200)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.ReadOnly = True
-        Me.TextBox7.Size = New System.Drawing.Size(184, 31)
-        Me.TextBox7.TabIndex = 8
-        Me.TextBox7.Text = "Dispensed Unit :"
-        Me.TextBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'tbTime
-        '
-        Me.tbTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbTime.Location = New System.Drawing.Point(196, 32)
-        Me.tbTime.Name = "tbTime"
-        Me.tbTime.ReadOnly = True
-        Me.tbTime.Size = New System.Drawing.Size(272, 38)
-        Me.tbTime.TabIndex = 11
-        Me.tbTime.Text = ""
-        Me.tbTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox9
-        '
-        Me.TextBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox9.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox9.Location = New System.Drawing.Point(12, 32)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.ReadOnly = True
-        Me.TextBox9.Size = New System.Drawing.Size(184, 38)
-        Me.TextBox9.TabIndex = 10
-        Me.TextBox9.Text = "Time :"
-        Me.TextBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
         'TimeDisplayTimer
         '
         Me.TimeDisplayTimer.Interval = 500
@@ -985,12 +981,12 @@ Public Class FormProduction
         Me.Panel2.ResumeLayout(False)
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel5.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.ConveyorBox.ResumeLayout(False)
         Me.HeaterBox.ResumeLayout(False)
         Me.PanelProDownTimeInfor.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1044,7 +1040,12 @@ Public Class FormProduction
         'vision
         panelVision.Controls.Add(Vision.FrmVision.PanelVision) 'lsgoh
         SwitchToTeachCamera()
-        ValueBrightness.Value = IDS.Data.Hardware.Camera.Brightness
+        Try
+            ValueBrightness.Value = IDS.Data.Hardware.Camera.Brightness
+        Catch ex As Exception
+            ValueBrightness.Value = ValueBrightness.Minimum
+        End Try
+
 
         'motion controller
         'm_Tri.Connect_Controller()
@@ -1052,6 +1053,7 @@ Public Class FormProduction
 
         'timers start
         IDS.StartErrorCheck()
+        TimerMonitor.Enabled = True
         TimerMonitor.Start()
         Programming.IOCheck.Start()
         Conveyor.PositionTimer.Start()
@@ -1130,8 +1132,13 @@ Public Class FormProduction
 
         PressureSettings()
         OnPressure()
+        tbDispensePressure.Text = IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.00") + " Bar"
+        LabelMessage("File loaded")
 
-        LabelMessage("Finish..")
+        If IDS.Data.Hardware.Dispenser.Left.PotLifeOption Then
+            ButtonPotReset.Enabled = True
+            CheckBoxPotOn.Enabled = True
+        End If
         ButtonOpenFile.Enabled = True
     End Sub
 
@@ -1221,6 +1228,7 @@ StopCalibration:
     End Sub
 
     Private Sub ButtonHome_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHome.Click
+        forceHome = True
         SetState("Homing")
     End Sub
 
@@ -1237,11 +1245,26 @@ StopCalibration:
     End Sub
 
     Private Sub ButtonVolCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolCalib.Click
-        SetState("Volume Calibration")
+        If Me.ButtonVolCalib.Text = "Vol. Cal." Then
+            SetState("Volume Calibration")
+            Me.ButtonVolCalib.Text = "Stop Vol. Cal."
+        Else
+            Me.ButtonVolCalib.Enabled = False
+            Me.ButtonVolCalib.Text = "Vol. Cal."
+            StopDispensing()
+        End If
+
     End Sub
 
     Private Sub ButtonNdlCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNdlCalib.Click
-        SetState("Needle Calibration")
+        If Me.ButtonNdlCalib.Text = "Need. Cal." Then
+            SetState("Needle Calibration")
+            Me.ButtonNdlCalib.Text = "Stop Need. Cal."
+        Else
+            Me.ButtonNdlCalib.Enabled = False
+            Me.ButtonNdlCalib.Text = "Need. Cal."
+            StopDispensing()
+        End If
     End Sub
 
     Private Sub DoorLock_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DoorLock.CheckedChanged
@@ -1267,14 +1290,17 @@ StopCalibration:
     Private Sub CheckBoxPotOn_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxPotOn.CheckedChanged
 
         If CheckBoxPotOn.Checked = True Then
-            CheckBoxPotOn.Text = "Turn Pot Life Off"
-            CheckBoxPotOn.ImageIndex = 0
+            CheckBoxPotOn.Text = "Pot Life Off"
+            m_PotLifeExpire = False
             m_PotLifeOn = True
-            ResetTimer("Reset Potlife Start Timer")
+            If RemainingTimeOfPotLifeStart = Nothing Then
+                ResetTimer("Reset Potlife Start Timer")
+            End If
         Else
-            CheckBoxPotOn.Text = "Turn Pot Life On"
-            CheckBoxPotOn.ImageIndex = 6
+            CheckBoxPotOn.Text = "Pot Life On"
+            'CheckBoxPotOn.ImageIndex = 6
             m_PotLifeOn = False
+            m_PotLifeExpire = False
         End If
 
     End Sub
@@ -1321,29 +1347,28 @@ StopCalibration:
     End Sub
 
     Public Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContinuousMode.Click
-
         '                                       kr                                       '
         ' this option allows user to choose between continuous operation or to operate   '
         ' on a single board using the buttons start, retrieve and release to control the '
         ' conveyor manually. otherwise the conveyor will be controlled by signals        '
-
         Dim door_interlock As Boolean = IDS.Devices.DIO.DIO.interlockon_flag
         Dim door_close As Boolean = IDS.Devices.DIO.DIO.doorclose_flag
         If door_interlock And door_close = False Then
             LabelMessage("Door is open. Please close to turn on continuous mode.")
             Exit Sub
-        ElseIf ContinuousMode.Checked Then
+        End If
+        ContinuousMode.Checked = Not ContinuousMode.Checked
+        If ContinuousMode.Checked = False Then
             Conveyor.Command("Manual Mode")
             If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
                 LabelMessage("Auto purging and auto cleaning is turned off.")
             End If
-        ElseIf ContinuousMode.Checked = False Then
+        Else
             Conveyor.Command("Auto Mode")
             If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
                 LabelMessage("Auto purging and auto cleaning is turned on.")
             End If
         End If
-
         If ContinuousMode.Checked Then
             ButtonStartFirstStage.Enabled = True
             ButtonCV_Prod_Retrieve.Enabled = True
@@ -1355,9 +1380,6 @@ StopCalibration:
             ButtonCV_Prod_Release.Enabled = False
             ResetPLCLogic.Enabled = False
         End If
-
-        ContinuousMode.Checked = Not ContinuousMode.Checked
-
     End Sub
 
     Private Sub ValueBrightness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueBrightness.ValueChanged
@@ -1461,6 +1483,8 @@ StopCalibration:
     Public Sub Finish_Dispensing()
 
         ' for both single and continuous run
+        productCnt += 1
+        tbDispensedUnit.Text = productCnt
         m_Tri.m_TriCtrl.Op(gIODispensingDone, 1) 'release board
         TravelToParkPosition()
         m_Tri.m_TriCtrl.Op(gIODispensingDone, 0) 'release board
@@ -1630,20 +1654,28 @@ StopCalibration:
         '1) door is not closed when door interlocked is true
         '2) program is currently paused or running
         '3) conveyor mode is not ticked
-        If (door_close = False And door_interlock = True) Or ContinuousMode.Checked = False And IsIdle() Then
-            ResetTimer("Reset Autopurging Timers")
-            ResetTimer("Reset Potlife Start Timer")
-            Exit Sub
-        End If
+        'If (door_close = False And door_interlock = True) Or ContinuousMode.Checked = False And IsIdle() Then
+        '    ResetTimer("Reset Autopurging Timers")
+        '    ResetTimer("Reset Potlife Start Timer")
+        '    Exit Sub
+        'End If
 
         Dim auto_purging_enabled As Boolean = IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption And ContinuousMode.Checked And IsIdle() And Form_Service.Visible = False
         CurrentTime = Now
 
         If m_PotLifeOn Then
             ElapsedTimeSincePotLifeStart = (CurrentTime.Ticks - RemainingTimeOfPotLifeStart.Ticks) * tickToMinute
+
             If ElapsedTimeSincePotLifeStart >= IDS.Data.Hardware.Dispenser.Left.PotLifeDuration Then
                 'what do we want to do when potlife is up?
+                tbPortLifeRemain.Text = "Expired"
+                m_PotLifeExpire = True
+
+            Else
+                tbPortLifeRemain.Text = (IDS.Data.Hardware.Dispenser.Left.PotLifeDuration - ElapsedTimeSincePotLifeStart).ToString() + " Minutes"
             End If
+        Else
+            tbPortLifeRemain.Text = "NA"
         End If
 
         'auto purging and auto cleaning is only carried out if conveyor mode is ticked and auto purging option is enabled
@@ -1685,6 +1717,7 @@ StopCalibration:
         End If
         Conveyor.PositionTimer.Stop()
 
+        'm_Tri.Move_Z(0)
         'motion controller
         m_Tri.TurnOff("Material Air")
         m_Tri.Disconnect_Controller()
@@ -1720,6 +1753,6 @@ StopCalibration:
     End Sub
 
     Private Sub TimeDisplayTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimeDisplayTimer.Tick
-        tbTime.Text = TimeOfDay.ToString("h:mm:ss tt")
+        tbTime.Text = DateTime.Today.ToShortDateString() + TimeOfDay.ToString(" h:mm:ss tt")
     End Sub
 End Class

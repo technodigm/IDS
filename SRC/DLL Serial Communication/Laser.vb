@@ -166,7 +166,7 @@ Public Class Laser
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.ContinuousReadButton)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Laser"
         Me.Text = "Laser"
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -182,6 +182,7 @@ Public Class Laser
     Private newline_count As Integer
     Private DoRead As Boolean
     Private ContinuousRead As Boolean = False
+    Private readCount As Integer = 0
 
     'exposed to other modules
     Public MM_Reading As Double
@@ -266,7 +267,17 @@ Public Class Laser
                             Else
                                 'if there there are spaces in betwen then use as a valid reading.
                                 If digit_count = 4 Then
-                                    ValueUpdated = True
+                                    MM_Reading = ConvertReadingToMM(string_store)
+                                    string_result = FormatNumber(MM_Reading, 3)
+                                    If readCount >= 2 Then
+                                        ValueUpdated = True
+                                        readCount = 0
+                                        'Console.WriteLine("Laser Updated #" & readCount)
+                                    Else
+                                        readCount += 1
+                                        'Console.WriteLine("Laser #" & readCount)
+                                    End If
+                                    'Console.WriteLine("Laser OnCom reading: " & MM_Reading)
                                     Exit While
                                 Else
                                     ValueUpdated = False
@@ -276,39 +287,39 @@ Public Class Laser
                             End If
                         End While
 
-                        If ValueUpdated = True Then
-                            If string_store.Length <> 4 Then
-                                Status.Text = "OK"
-                            End If
-                            Status.Text = "OK"
-                            'apply formula and format to 3 decimal places
-                            MM_Reading = ConvertReadingToMM(string_store)
-                            lbReading.Text = FormatNumber(MM_Reading, 3)
-                            string_result = FormatNumber(MM_Reading, 3)
+                        'If ValueUpdated = True Then
+                        'If string_store.Length <> 4 Then
+                        '    Status.Text = "OK"
+                        'End If
+                        'Status.Text = "OK"
+                        'apply formula and format to 3 decimal places
+                        'MM_Reading = ConvertReadingToMM(string_store)
+                        'lbReading.Text = FormatNumber(MM_Reading, 3)
+                        'string_result = FormatNumber(MM_Reading, 3)
 
-                            'everything below is for interface window only.
-                            If MM_Reading > CDbl(Highest.Text) Then
-                                Highest.Text = MM_Reading.ToString
-                            End If
-                            If MM_Reading < CDbl(Lowest.Text) Then Lowest.Text = MM_Reading.ToString
-                            'If last_line = string_result Then
-                            'Else
-                            'display only up to 40 lines at any time
-
-
-                            'last_line = string_result
-                            'raw_result_store = raw_result_store + "Reading: " + string_store + " at: " + DateTime.Now.ToShortTimeString + vbCrLf
-                            'newline_count += 1
-                            'If newline_count > 30 Then
-                            '    raw_result_store = ""
-                            '    newline_count = 0
-                            'End If
+                        'everything below is for interface window only.
+                        'If MM_Reading > CDbl(Highest.Text) Then
+                        '    Highest.Text = MM_Reading.ToString
+                        'End If
+                        'If MM_Reading < CDbl(Lowest.Text) Then Lowest.Text = MM_Reading.ToString
+                        'If last_line = string_result Then
+                        'Else
+                        'display only up to 40 lines at any time
 
 
-                            'End If
-                            'Else
-                            'Status.Text = "Bad Reading: " + string_result
-                        End If
+                        'last_line = string_result
+                        'raw_result_store = raw_result_store + "Reading: " + string_store + " at: " + DateTime.Now.ToShortTimeString + vbCrLf
+                        'newline_count += 1
+                        'If newline_count > 30 Then
+                        '    raw_result_store = ""
+                        '    newline_count = 0
+                        'End If
+
+
+                        'End If
+                        'Else
+                        'Status.Text = "Bad Reading: " + string_result
+                        'End If
 
                         .RThreshold = 12
                         'Display.Text = raw_result_store
@@ -345,22 +356,28 @@ Public Class Laser
     End Sub
 
     Public Function WaitForReadingToStabilize() As Boolean
+        readCount = 0
         ValueUpdated = False
         DoRead = True
         'Sleep(250)
         start_time = Now
         Do
-            Sleep(25)
+            'Sleep(25)
             Application.DoEvents()
             stop_time = Now
             elapsed_time = stop_time.Subtract(start_time)
-        Loop Until ValueUpdated Or elapsed_time.TotalSeconds > 1
-        DoRead = False
-        If elapsed_time.TotalSeconds > 1 Then
+        Loop Until ValueUpdated Or elapsed_time.TotalSeconds > 5
+        If elapsed_time.TotalSeconds > 5 Then
             Return False
-        Else
-            Return True
         End If
+        start_time = Now
+        Do
+            Application.DoEvents()
+            stop_time = Now
+            elapsed_time = stop_time.Subtract(start_time)
+        Loop Until elapsed_time.TotalSeconds > 0.5
+        DoRead = False
+        Return True
     End Function
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
@@ -375,5 +392,10 @@ Public Class Laser
             DisableContinuousRead()
             ContinuousReadButton.Text = "Enable Continuous Read"
         End If
+    End Sub
+
+    Private Sub Laser_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        e.Cancel = True
+        Hide()
     End Sub
 End Class

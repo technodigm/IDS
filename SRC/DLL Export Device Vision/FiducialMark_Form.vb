@@ -124,6 +124,7 @@ Public Class FiducialForm
     Friend WithEvents Button_EndFi As System.Windows.Forms.Button
     Friend WithEvents Label15 As System.Windows.Forms.Label
     Friend WithEvents BrightnessValue As System.Windows.Forms.NumericUpDown
+    Friend WithEvents tbModelInfo As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FiducialForm))
@@ -210,6 +211,7 @@ Public Class FiducialForm
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
+        Me.tbModelInfo = New System.Windows.Forms.TextBox
         Me.Panel_BlackOnWhite.SuspendLayout()
         Me.Panel_WhiteOnBlack.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -470,7 +472,7 @@ Public Class FiducialForm
         '
         Me.PictureBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox10.Image = CType(resources.GetObject("PictureBox10.Image"), System.Drawing.Image)
-        Me.PictureBox10.Location = New System.Drawing.Point(24, 24)
+        Me.PictureBox10.Location = New System.Drawing.Point(64, 16)
         Me.PictureBox10.Name = "PictureBox10"
         Me.PictureBox10.Size = New System.Drawing.Size(144, 144)
         Me.PictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -649,16 +651,16 @@ Public Class FiducialForm
         Me.GroupBox3.Size = New System.Drawing.Size(240, 296)
         Me.GroupBox3.TabIndex = 17
         Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Test"
+        Me.GroupBox3.Text = "Find Fiducial"
         '
         'Button_Test
         '
         Me.Button_Test.Enabled = False
-        Me.Button_Test.Location = New System.Drawing.Point(8, 16)
+        Me.Button_Test.Location = New System.Drawing.Point(56, 88)
         Me.Button_Test.Name = "Button_Test"
-        Me.Button_Test.Size = New System.Drawing.Size(224, 144)
+        Me.Button_Test.Size = New System.Drawing.Size(144, 56)
         Me.Button_Test.TabIndex = 14
-        Me.Button_Test.Text = "Test"
+        Me.Button_Test.Text = "Find"
         '
         'GroupBox5
         '
@@ -943,9 +945,9 @@ Public Class FiducialForm
         'Button_Teach
         '
         Me.Button_Teach.Enabled = False
-        Me.Button_Teach.Location = New System.Drawing.Point(200, 7)
+        Me.Button_Teach.Location = New System.Drawing.Point(248, 24)
         Me.Button_Teach.Name = "Button_Teach"
-        Me.Button_Teach.Size = New System.Drawing.Size(136, 177)
+        Me.Button_Teach.Size = New System.Drawing.Size(136, 72)
         Me.Button_Teach.TabIndex = 20
         Me.Button_Teach.Text = "Teach"
         '
@@ -977,9 +979,11 @@ Public Class FiducialForm
         Me.Button_EndFi.Size = New System.Drawing.Size(96, 32)
         Me.Button_EndFi.TabIndex = 1
         Me.Button_EndFi.Text = "End Fiducial"
+        Me.Button_EndFi.Visible = False
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.tbModelInfo)
         Me.GroupBox4.Controls.Add(Me.Button_Load)
         Me.GroupBox4.Controls.Add(Me.TabControl1)
         Me.GroupBox4.Location = New System.Drawing.Point(8, 8)
@@ -987,25 +991,23 @@ Public Class FiducialForm
         Me.GroupBox4.Size = New System.Drawing.Size(472, 320)
         Me.GroupBox4.TabIndex = 17
         Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Models"
+        Me.GroupBox4.Text = "Teach Fiducial"
         '
         'Button_Load
         '
-        Me.Button_Load.Location = New System.Drawing.Point(368, 48)
+        Me.Button_Load.Location = New System.Drawing.Point(16, 232)
         Me.Button_Load.Name = "Button_Load"
-        Me.Button_Load.Size = New System.Drawing.Size(96, 184)
+        Me.Button_Load.Size = New System.Drawing.Size(96, 48)
         Me.Button_Load.TabIndex = 13
-        Me.Button_Load.Text = "Load Model"
+        Me.Button_Load.Text = "Load Fiducial"
         '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Location = New System.Drawing.Point(8, 16)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(352, 224)
+        Me.TabControl1.Size = New System.Drawing.Size(440, 208)
         Me.TabControl1.TabIndex = 16
         '
         'TabPage3
@@ -1014,9 +1016,9 @@ Public Class FiducialForm
         Me.TabPage3.Controls.Add(Me.Button_Teach)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(344, 198)
+        Me.TabPage3.Size = New System.Drawing.Size(432, 182)
         Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Customize"
+        Me.TabPage3.Text = "Fiducial"
         '
         'TabPage1
         '
@@ -1070,6 +1072,15 @@ Public Class FiducialForm
         Me.GroupBox7.Size = New System.Drawing.Size(1280, 336)
         Me.GroupBox7.TabIndex = 20
         Me.GroupBox7.TabStop = False
+        '
+        'tbModelInfo
+        '
+        Me.tbModelInfo.Location = New System.Drawing.Point(16, 288)
+        Me.tbModelInfo.Name = "tbModelInfo"
+        Me.tbModelInfo.ReadOnly = True
+        Me.tbModelInfo.Size = New System.Drawing.Size(440, 20)
+        Me.tbModelInfo.TabIndex = 17
+        Me.tbModelInfo.Text = ""
         '
         'FiducialForm
         '
@@ -1153,6 +1164,8 @@ Public Class FiducialForm
         Status = 0
     End Function
     Private Sub Button_Fid_Ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Fid_Ok.Click
+        tbModelInfo.Text = ""
+        Button_Load.Enabled = True
         If FID > 0 Then
             If Fiducial_no = 1 Then
                 Me.Text = "Fiducial Mark: Second Fiducial"
@@ -1290,6 +1303,8 @@ Public Class FiducialForm
 
     End Sub ' unwanted if the above click is ok.
     Private Sub Button_Fid_Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Fid_Cancel.Click
+        tbModelInfo.Text = ""
+        Button_Load.Enabled = True
         PictureBoxUp()
         FrmVision.ClearDisplay()
         FrmVision.DisplayIndicator()
@@ -1322,6 +1337,8 @@ Public Class FiducialForm
         ElseIf Fiducial_no = 1 Then
             Button_EndFi.Enabled = True
         End If
+        TabPage1.Visible = False
+        TabPage2.Visible = False
     End Sub
 #Region "PictureBox"
     Private Sub PictureBox1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PictureBox1.Click
@@ -1601,12 +1618,14 @@ Public Class FiducialForm
             'FrmVision.Timer_ModelRegion.Stop()
             FrmVision.DisplayIndicator()
             Button_Teach.Enabled = False
+            Button_Load.Enabled = True
         Else
             PictureBoxUp()
             PictureBox10.BorderStyle = BorderStyle.Fixed3D 'choosen
-            FrmVision.ClearDisplay()
+            FrmVision.DisplayIndicator()
             FrmVision.modelregionDrawing()
             FrmVision.SearchRegionDrawing()
+            Button_Load.Enabled = False
             'FrmVision.Timer_ModelRegion.Start()
             'FrmVision.Button_Teach.Enabled = True
             'FrmVision.Button_Teach.Text = "Select the model"
@@ -1676,17 +1695,17 @@ Public Class FiducialForm
     End Sub
     Private Sub Button_Test_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Test.Click
         Try
-            FrmVision.ClearDisplay()
-            If FID = 10 Then
+            FrmVision.DisplayIndicator()
+            'If FID = 10 Then
 
-            ElseIf FID = 20 Then
+            'ElseIf FID = 20 Then
 
-            Else
-                FrmVision.PatternMatching_settings()
-            End If
+            'Else
+            '    FrmVision.PatternMatching_settings()
+            'End If
 
             FrmVision.Test_Fiducial(FID, 0, 0)
-            FrmVision.SearchRegionDrawing()
+            FrmVision.SearchRegionDrawing(False)
             TextBox_Score.Text = FrmVision.Score(1)
         Catch ex As Exception
             ExceptionDisplay(ex)
@@ -1722,6 +1741,8 @@ Public Class FiducialForm
         Else
             Button_EndFi.Enabled = True
         End If
+        tbModelInfo.Text = ""
+        Button_Load.Enabled = True
     End Sub
     Private Sub Button_Load_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Load.Click
         'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
@@ -1737,6 +1758,7 @@ Public Class FiducialForm
         FileLoad = 1
         Dim Bool As Boolean = FrmVision.LoadFiducial()
         If Bool = True Then
+            FrmVision.SearchRegionDrawing(False)
             FID = 20
             Button_Test.Enabled = True
             Button_Fid_Ok.Enabled = True

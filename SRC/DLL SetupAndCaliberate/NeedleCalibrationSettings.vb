@@ -15,6 +15,7 @@ Public Class NeedleCalibrationSettings
     Private MeasuredOffsetX, MeasuredOffsetY As Double
 
     Friend LeftRoughNeedleCalibrationOffset(2) As Double
+    Public NeedleCalibrationState As String = "Stopped"
 
 #Region " Windows Form Designer generated code "
 
@@ -92,7 +93,6 @@ Public Class NeedleCalibrationSettings
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents BlackBackground As System.Windows.Forms.RadioButton
     Friend WithEvents WhiteBackground As System.Windows.Forms.RadioButton
-    Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents BoxStep4 As System.Windows.Forms.GroupBox
     Friend WithEvents Label20 As System.Windows.Forms.Label
@@ -110,6 +110,7 @@ Public Class NeedleCalibrationSettings
     Friend WithEvents BoxStep1Jetting As System.Windows.Forms.GroupBox
     Friend WithEvents ButtonCalibrateZPositionJetting As System.Windows.Forms.Button
     Friend WithEvents Label22 As System.Windows.Forms.Label
+    Friend WithEvents btCheckDotOnce As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSettings))
@@ -144,6 +145,7 @@ Public Class NeedleCalibrationSettings
         Me.Label11 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.BoxStep3 = New System.Windows.Forms.GroupBox
+        Me.btCheckDotOnce = New System.Windows.Forms.Button
         Me.Compactness = New System.Windows.Forms.NumericUpDown
         Me.Roughness = New System.Windows.Forms.NumericUpDown
         Me.MinRadius = New System.Windows.Forms.NumericUpDown
@@ -162,7 +164,6 @@ Public Class NeedleCalibrationSettings
         Me.Label9 = New System.Windows.Forms.Label
         Me.BlackBackground = New System.Windows.Forms.RadioButton
         Me.WhiteBackground = New System.Windows.Forms.RadioButton
-        Me.Label10 = New System.Windows.Forms.Label
         Me.Label19 = New System.Windows.Forms.Label
         Me.ButtonTest = New System.Windows.Forms.Button
         Me.BoxStep4 = New System.Windows.Forms.GroupBox
@@ -263,7 +264,7 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep2.Size = New System.Drawing.Size(496, 272)
         Me.BoxStep2.TabIndex = 89
         Me.BoxStep2.TabStop = False
-        Me.BoxStep2.Text = "Step 2"
+        Me.BoxStep2.Text = "Step 2: Single Dot Dispense"
         '
         'Label17
         '
@@ -498,6 +499,7 @@ Public Class NeedleCalibrationSettings
         '
         'BoxStep3
         '
+        Me.BoxStep3.Controls.Add(Me.btCheckDotOnce)
         Me.BoxStep3.Controls.Add(Me.Compactness)
         Me.BoxStep3.Controls.Add(Me.Roughness)
         Me.BoxStep3.Controls.Add(Me.MinRadius)
@@ -516,7 +518,6 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep3.Controls.Add(Me.Label9)
         Me.BoxStep3.Controls.Add(Me.BlackBackground)
         Me.BoxStep3.Controls.Add(Me.WhiteBackground)
-        Me.BoxStep3.Controls.Add(Me.Label10)
         Me.BoxStep3.Controls.Add(Me.Label19)
         Me.BoxStep3.Controls.Add(Me.ButtonTest)
         Me.BoxStep3.Location = New System.Drawing.Point(8, 456)
@@ -524,7 +525,15 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep3.Size = New System.Drawing.Size(496, 296)
         Me.BoxStep3.TabIndex = 4
         Me.BoxStep3.TabStop = False
-        Me.BoxStep3.Text = "Step 3"
+        Me.BoxStep3.Text = "Step 3: Check Dot"
+        '
+        'btCheckDotOnce
+        '
+        Me.btCheckDotOnce.Location = New System.Drawing.Point(56, 224)
+        Me.btCheckDotOnce.Name = "btCheckDotOnce"
+        Me.btCheckDotOnce.Size = New System.Drawing.Size(160, 48)
+        Me.btCheckDotOnce.TabIndex = 106
+        Me.btCheckDotOnce.Text = "Check Once"
         '
         'Compactness
         '
@@ -686,14 +695,6 @@ Public Class NeedleCalibrationSettings
         Me.WhiteBackground.TabIndex = 1
         Me.WhiteBackground.Text = "White"
         '
-        'Label10
-        '
-        Me.Label10.Location = New System.Drawing.Point(32, 224)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(216, 64)
-        Me.Label10.TabIndex = 91
-        Me.Label10.Text = "Test and set the parameters for checking dots."
-        '
         'Label19
         '
         Me.Label19.Location = New System.Drawing.Point(136, 32)
@@ -704,11 +705,11 @@ Public Class NeedleCalibrationSettings
         '
         'ButtonTest
         '
-        Me.ButtonTest.Location = New System.Drawing.Point(272, 232)
+        Me.ButtonTest.Location = New System.Drawing.Point(280, 224)
         Me.ButtonTest.Name = "ButtonTest"
-        Me.ButtonTest.Size = New System.Drawing.Size(176, 40)
+        Me.ButtonTest.Size = New System.Drawing.Size(160, 48)
         Me.ButtonTest.TabIndex = 61
-        Me.ButtonTest.Text = "Check Dots"
+        Me.ButtonTest.Text = "Continous Check Dot"
         '
         'BoxStep4
         '
@@ -719,7 +720,7 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep4.Size = New System.Drawing.Size(496, 88)
         Me.BoxStep4.TabIndex = 4
         Me.BoxStep4.TabStop = False
-        Me.BoxStep4.Text = "Step 4"
+        Me.BoxStep4.Text = "Step 4: Calibrate Needle to Camera Offset"
         '
         'Label20
         '
@@ -763,7 +764,7 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep1.Size = New System.Drawing.Size(496, 104)
         Me.BoxStep1.TabIndex = 0
         Me.BoxStep1.TabStop = False
-        Me.BoxStep1.Text = "Step 1"
+        Me.BoxStep1.Text = "Step 1: Calibration Needle Z"
         '
         'ButtonCalibrateZPosition
         '
@@ -907,8 +908,9 @@ Public Class NeedleCalibrationSettings
         'call the z calibration sub routine in the program CALIBRATIONS inside Motion Perfect 
         m_Tri.SetMachineRun()
         m_Tri.SetCalibrationType("Needle Z Calibration")
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not TrioMotionCalibrating() Then GoTo StopCalibration
-
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         'check for failure
         If m_Tri.GetCalibrationFlag = 2 Then
             m_Tri.ResetCalibrationFlag()
@@ -999,11 +1001,14 @@ StopCalibration:
         position(1) = CalibrationTable(12) + CalibrationTable(15) + LeftNeedleOffsetY - LaserOffY
         m_Tri.SetMachineRun()
         If Not m_Tri.Move_Z(0) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(position) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
 
         'laser checks the height of the disp. plane
         MySleep(50)
         If Not Laser.WaitForReadingToStabilize() Then GoTo stopcalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         Z_Offset = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z - Laser.MM_Reading
         OffLaser()
 
@@ -1013,13 +1018,15 @@ StopCalibration:
         ElseIf RightHead.Checked Then
             MyDispenserSettings.DownloadDispenserSettings("Right")
         End If
-
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         'xy dispensing
         SetNeedleXYCal(8, 25)
         m_Tri.m_TriCtrl.SetTable(110, 16, CalibrationTable)
         m_Tri.SetCalibrationType("Needle XY Calibration")
         If Not TrioMotionCalibrating() Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_Z(0) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
 
         MeasuredOffsetX = 0
         MeasuredOffsetY = 0
@@ -1028,7 +1035,9 @@ StopCalibration:
         IDS.Devices.Vision.IDSV_SetBrightness(IDS.Data.Hardware.Needle.Left.CalBrightness)
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1037,7 +1046,9 @@ StopCalibration:
 
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X + x_pitch_l
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1046,7 +1057,9 @@ StopCalibration:
 
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1055,7 +1068,9 @@ StopCalibration:
 
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y + y_pitch_l
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1064,7 +1079,9 @@ StopCalibration:
 
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos3.X
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1073,7 +1090,9 @@ StopCalibration:
 
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X + x_pitch_l
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1082,7 +1101,9 @@ StopCalibration:
 
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos3.Y
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1091,7 +1112,9 @@ StopCalibration:
 
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X
         distance(1) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y + y_pitch_l
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If Not m_Tri.Move_XY(distance) Then GoTo StopCalibration
+        If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         If CheckDot() Then
             success_num += 1
             MeasuredOffsetX += MyNeedleCalibrationSetup1.Offset_X
@@ -1106,7 +1129,7 @@ StopCalibration:
                 IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.X = -MeasuredOffsetX / success_num + LeftRoughNeedleCalibrationOffset(0) + IDS.Data.Hardware.Needle.Left.CalibratorPos.X
                 IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Y = MeasuredOffsetY / success_num + LeftRoughNeedleCalibrationOffset(1) + IDS.Data.Hardware.Needle.Left.CalibratorPos.Y
                 IDS.Data.SaveData()
-                MessageBox.Show(success_num & " Dots detected.")
+                MessageBox.Show(success_num & " Dots detected.Needle to camera calibration successful and data saved!")
                 success_num = 0
                 m_Tri.SetMachineStop()
                 Return True
@@ -1203,6 +1226,7 @@ StopCalibration:
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
         Timer1.Enabled = False
+        ButtonTest.Text = "Continous Check Dot"
         OffLaser()
         RemovePanel(CurrentControl)
     End Sub
@@ -1224,33 +1248,41 @@ StopCalibration:
     Private Sub ButtonCalibrateVision_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrateVision.Click
         PanelToBeAdded.Enabled = False
         SetServiceSpeed()
+        OnLaser()
         CalibrateDispenseDotForVision()
         PanelToBeAdded.Enabled = True
     End Sub
-
+    Private Function CheckState() As Boolean
+        If NeedleCalibrationState = "Stopped" Then
+            Return False
+        ElseIf NeedleCalibrationState = "Running" Then
+            Return True
+        End If
+    End Function
     Public Function NeedleCalibration() As Boolean
         SetServiceSpeed()
         OnLaser()
         If Not IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
             If Not MoveToZCalibratorPosition() Then Return False
+            If Me.NeedleCalibrationState = "Stopped" Then Return False
             If Not CalibrateNeedleZPosition() Then Return False
         End If
         Return CalibrateNeedleXYPosition()
     End Function
 
     Public Function MoveToZCalibratorPosition() As Boolean
-
         With IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition
             position(0) = .X
             position(1) = .Y
             position(2) = .Z
             m_Tri.SetMachineRun()
             If Not m_Tri.Move_XY(position) Then GoTo StopCalibration
+            If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
             If Not m_Tri.Move_Z(position(2)) Then GoTo StopCalibration
+            If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
             m_Tri.SetMachineStop()
             Return True
         End With
-
 StopCalibration:
         'MsgBox("Checking the Z position for needle calibration stopped prematurely.")
         m_Tri.SetMachineStop()
@@ -1258,6 +1290,8 @@ StopCalibration:
     End Function
 
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+        Timer1.Stop()
+        Timer1.Enabled = False
         Dim left_tip_x As Double
         Dim left_tip_y As Double
         Dim right_tip_x As Double
@@ -1268,9 +1302,13 @@ StopCalibration:
         Try
             IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value, MinRadius.Value, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y)
             Vision.FrmVision.DisplayIndicator()
+
         Catch ex As Exception
             ExceptionDisplay(ex)
+            Return
         End Try
+        Timer1.Enabled = True
+        Timer1.Start()
     End Sub
 
     Private Sub ButtonRevert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRevert.Click
@@ -1279,11 +1317,11 @@ StopCalibration:
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTest.Click
         Timer1.Enabled = Not Timer1.Enabled
-        If ButtonTest.Text = "Check Dots" Then
+        If ButtonTest.Text = "Continous Check Dot" Then
             ButtonTest.Text = "Stop Dot Checking"
         Else
             Vision.FrmVision.DisplayIndicator()
-            ButtonTest.Text = "Check Dots"
+            ButtonTest.Text = "Continous Check Dot"
         End If
     End Sub
 
@@ -1311,5 +1349,24 @@ StopCalibration:
         If CDbl(RetractHeight.Text) > CDbl(ClearanceHeight.Text) Then
             ClearanceHeight.Text = RetractHeight.Text
         End If
+    End Sub
+
+    Private Sub btCheckDotOnce_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btCheckDotOnce.Click
+        Timer1.Stop()
+        Timer1.Enabled = False
+        ButtonTest.Text = "Continous Check Dot"
+        IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
+        Try
+            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value, MinRadius.Value, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+                Vision.FrmVision.DisplayIndicator()
+                MessageBox.Show("Dot found! Dot diameter(mm) is " & Vision.FrmVision.diameter)
+            Else
+                MessageBox.Show("Dot not found!")
+            End If
+
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+            Return
+        End Try
     End Sub
 End Class

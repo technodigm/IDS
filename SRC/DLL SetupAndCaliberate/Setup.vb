@@ -46,9 +46,6 @@ Public Class Setup
     Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
     Friend WithEvents PanelRight As System.Windows.Forms.Panel
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
-    Friend WithEvents CheckBox3 As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBox4 As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBox5 As System.Windows.Forms.CheckBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -90,6 +87,11 @@ Public Class Setup
     Friend WithEvents Timer1 As System.Timers.Timer
     Friend WithEvents HardwareInitTimer As System.Windows.Forms.Timer
     Friend WithEvents LabelMessage As System.Windows.Forms.Label
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents cbLockZ As System.Windows.Forms.CheckBox
+    Friend WithEvents cbLockY As System.Windows.Forms.CheckBox
+    Friend WithEvents cbLockX As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
@@ -105,14 +107,16 @@ Public Class Setup
         Me.MainMenu1 = New System.Windows.Forms.MainMenu
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.GpB_Configurations = New System.Windows.Forms.GroupBox
-        Me.RBn_LVDT = New System.Windows.Forms.RadioButton
-        Me.RBn_Laser = New System.Windows.Forms.RadioButton
-        Me.CheckBoxLifter = New System.Windows.Forms.CheckBox
-        Me.CheckBoxHeightSensor = New System.Windows.Forms.CheckBox
-        Me.CheckBoxHeater = New System.Windows.Forms.CheckBox
-        Me.CheckBoxVolume = New System.Windows.Forms.CheckBox
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.OneHead = New System.Windows.Forms.CheckBox
         Me.TwoHead = New System.Windows.Forms.CheckBox
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.RBn_LVDT = New System.Windows.Forms.RadioButton
+        Me.RBn_Laser = New System.Windows.Forms.RadioButton
+        Me.CheckBoxHeightSensor = New System.Windows.Forms.CheckBox
+        Me.CheckBoxLifter = New System.Windows.Forms.CheckBox
+        Me.CheckBoxHeater = New System.Windows.Forms.CheckBox
+        Me.CheckBoxVolume = New System.Windows.Forms.CheckBox
         Me.LabelMessage = New System.Windows.Forms.Label
         Me.PanelRight = New System.Windows.Forms.Panel
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
@@ -135,11 +139,11 @@ Public Class Setup
         Me.ButtonSPCLogging = New System.Windows.Forms.Button
         Me.ButtonDispenserSettings = New System.Windows.Forms.Button
         Me.Panel2 = New System.Windows.Forms.Panel
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox
+        Me.cbLockZ = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotZ = New System.Windows.Forms.TextBox
-        Me.CheckBox4 = New System.Windows.Forms.CheckBox
+        Me.cbLockY = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotY = New System.Windows.Forms.TextBox
-        Me.CheckBox5 = New System.Windows.Forms.CheckBox
+        Me.cbLockX = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotX = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.TextBox7 = New System.Windows.Forms.TextBox
@@ -153,6 +157,8 @@ Public Class Setup
         Me.PanelVisionCtrl.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.GpB_Configurations.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.PanelRight.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
         Me.Panel3.SuspendLayout()
@@ -262,14 +268,11 @@ Public Class Setup
         '
         'GpB_Configurations
         '
-        Me.GpB_Configurations.Controls.Add(Me.RBn_LVDT)
-        Me.GpB_Configurations.Controls.Add(Me.RBn_Laser)
+        Me.GpB_Configurations.Controls.Add(Me.GroupBox2)
+        Me.GpB_Configurations.Controls.Add(Me.GroupBox1)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxLifter)
-        Me.GpB_Configurations.Controls.Add(Me.CheckBoxHeightSensor)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxHeater)
         Me.GpB_Configurations.Controls.Add(Me.CheckBoxVolume)
-        Me.GpB_Configurations.Controls.Add(Me.OneHead)
-        Me.GpB_Configurations.Controls.Add(Me.TwoHead)
         Me.GpB_Configurations.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.GpB_Configurations.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GpB_Configurations.Location = New System.Drawing.Point(28, 8)
@@ -279,65 +282,21 @@ Public Class Setup
         Me.GpB_Configurations.TabStop = False
         Me.GpB_Configurations.Text = "Configurations"
         '
-        'RBn_LVDT
+        'GroupBox2
         '
-        Me.RBn_LVDT.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RBn_LVDT.Location = New System.Drawing.Point(176, 112)
-        Me.RBn_LVDT.Name = "RBn_LVDT"
-        Me.RBn_LVDT.TabIndex = 68
-        Me.RBn_LVDT.Text = "LVDT"
-        '
-        'RBn_Laser
-        '
-        Me.RBn_Laser.Checked = True
-        Me.RBn_Laser.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RBn_Laser.Location = New System.Drawing.Point(176, 80)
-        Me.RBn_Laser.Name = "RBn_Laser"
-        Me.RBn_Laser.Size = New System.Drawing.Size(144, 24)
-        Me.RBn_Laser.TabIndex = 67
-        Me.RBn_Laser.TabStop = True
-        Me.RBn_Laser.Text = "Laser Sensor"
-        '
-        'CheckBoxLifter
-        '
-        Me.CheckBoxLifter.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxLifter.Location = New System.Drawing.Point(16, 224)
-        Me.CheckBoxLifter.Name = "CheckBoxLifter"
-        Me.CheckBoxLifter.Size = New System.Drawing.Size(184, 23)
-        Me.CheckBoxLifter.TabIndex = 66
-        Me.CheckBoxLifter.Text = "Lifter Integration"
-        '
-        'CheckBoxHeightSensor
-        '
-        Me.CheckBoxHeightSensor.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxHeightSensor.Location = New System.Drawing.Point(16, 80)
-        Me.CheckBoxHeightSensor.Name = "CheckBoxHeightSensor"
-        Me.CheckBoxHeightSensor.Size = New System.Drawing.Size(144, 23)
-        Me.CheckBoxHeightSensor.TabIndex = 65
-        Me.CheckBoxHeightSensor.Text = "Height Sensor"
-        '
-        'CheckBoxHeater
-        '
-        Me.CheckBoxHeater.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxHeater.Location = New System.Drawing.Point(16, 144)
-        Me.CheckBoxHeater.Name = "CheckBoxHeater"
-        Me.CheckBoxHeater.Size = New System.Drawing.Size(184, 24)
-        Me.CheckBoxHeater.TabIndex = 63
-        Me.CheckBoxHeater.Text = "Heater Integration"
-        '
-        'CheckBoxVolume
-        '
-        Me.CheckBoxVolume.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxVolume.Location = New System.Drawing.Point(16, 184)
-        Me.CheckBoxVolume.Name = "CheckBoxVolume"
-        Me.CheckBoxVolume.Size = New System.Drawing.Size(184, 23)
-        Me.CheckBoxVolume.TabIndex = 66
-        Me.CheckBoxVolume.Text = "Volume Calibration"
+        Me.GroupBox2.Controls.Add(Me.OneHead)
+        Me.GroupBox2.Controls.Add(Me.TwoHead)
+        Me.GroupBox2.Location = New System.Drawing.Point(8, 24)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(320, 64)
+        Me.GroupBox2.TabIndex = 70
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Dispenser"
         '
         'OneHead
         '
         Me.OneHead.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OneHead.Location = New System.Drawing.Point(16, 40)
+        Me.OneHead.Location = New System.Drawing.Point(8, 24)
         Me.OneHead.Name = "OneHead"
         Me.OneHead.Size = New System.Drawing.Size(144, 23)
         Me.OneHead.TabIndex = 65
@@ -346,11 +305,80 @@ Public Class Setup
         'TwoHead
         '
         Me.TwoHead.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TwoHead.Location = New System.Drawing.Point(176, 40)
+        Me.TwoHead.Location = New System.Drawing.Point(168, 24)
         Me.TwoHead.Name = "TwoHead"
         Me.TwoHead.Size = New System.Drawing.Size(144, 23)
         Me.TwoHead.TabIndex = 65
         Me.TwoHead.Text = "Two Heads"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.RBn_LVDT)
+        Me.GroupBox1.Controls.Add(Me.RBn_Laser)
+        Me.GroupBox1.Controls.Add(Me.CheckBoxHeightSensor)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 88)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(320, 96)
+        Me.GroupBox1.TabIndex = 69
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Height Sensor"
+        '
+        'RBn_LVDT
+        '
+        Me.RBn_LVDT.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RBn_LVDT.Location = New System.Drawing.Point(168, 64)
+        Me.RBn_LVDT.Name = "RBn_LVDT"
+        Me.RBn_LVDT.TabIndex = 68
+        Me.RBn_LVDT.Text = "LVDT"
+        '
+        'RBn_Laser
+        '
+        Me.RBn_Laser.Checked = True
+        Me.RBn_Laser.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RBn_Laser.Location = New System.Drawing.Point(168, 32)
+        Me.RBn_Laser.Name = "RBn_Laser"
+        Me.RBn_Laser.Size = New System.Drawing.Size(144, 24)
+        Me.RBn_Laser.TabIndex = 67
+        Me.RBn_Laser.TabStop = True
+        Me.RBn_Laser.Text = "Laser Sensor"
+        '
+        'CheckBoxHeightSensor
+        '
+        Me.CheckBoxHeightSensor.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxHeightSensor.Location = New System.Drawing.Point(8, 32)
+        Me.CheckBoxHeightSensor.Name = "CheckBoxHeightSensor"
+        Me.CheckBoxHeightSensor.Size = New System.Drawing.Size(144, 23)
+        Me.CheckBoxHeightSensor.TabIndex = 65
+        Me.CheckBoxHeightSensor.Text = "Height Sensor"
+        '
+        'CheckBoxLifter
+        '
+        Me.CheckBoxLifter.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxLifter.Location = New System.Drawing.Point(176, 248)
+        Me.CheckBoxLifter.Name = "CheckBoxLifter"
+        Me.CheckBoxLifter.Size = New System.Drawing.Size(184, 23)
+        Me.CheckBoxLifter.TabIndex = 66
+        Me.CheckBoxLifter.Text = "Lifter Integration"
+        Me.CheckBoxLifter.Visible = False
+        '
+        'CheckBoxHeater
+        '
+        Me.CheckBoxHeater.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxHeater.Location = New System.Drawing.Point(16, 248)
+        Me.CheckBoxHeater.Name = "CheckBoxHeater"
+        Me.CheckBoxHeater.Size = New System.Drawing.Size(184, 24)
+        Me.CheckBoxHeater.TabIndex = 63
+        Me.CheckBoxHeater.Text = "Heater Integration"
+        Me.CheckBoxHeater.Visible = False
+        '
+        'CheckBoxVolume
+        '
+        Me.CheckBoxVolume.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxVolume.Location = New System.Drawing.Point(16, 200)
+        Me.CheckBoxVolume.Name = "CheckBoxVolume"
+        Me.CheckBoxVolume.Size = New System.Drawing.Size(184, 23)
+        Me.CheckBoxVolume.TabIndex = 66
+        Me.CheckBoxVolume.Text = "Volume Calibration"
         '
         'LabelMessage
         '
@@ -411,7 +439,7 @@ Public Class Setup
         'ButtonCameraSetup
         '
         Me.ButtonCameraSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonCameraSetup.Location = New System.Drawing.Point(264, 96)
+        Me.ButtonCameraSetup.Location = New System.Drawing.Point(24, 40)
         Me.ButtonCameraSetup.Name = "ButtonCameraSetup"
         Me.ButtonCameraSetup.Size = New System.Drawing.Size(224, 30)
         Me.ButtonCameraSetup.TabIndex = 42
@@ -429,7 +457,7 @@ Public Class Setup
         'ButtonHardwareCommunicationSetup
         '
         Me.ButtonHardwareCommunicationSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonHardwareCommunicationSetup.Location = New System.Drawing.Point(24, 40)
+        Me.ButtonHardwareCommunicationSetup.Location = New System.Drawing.Point(264, 96)
         Me.ButtonHardwareCommunicationSetup.Name = "ButtonHardwareCommunicationSetup"
         Me.ButtonHardwareCommunicationSetup.Size = New System.Drawing.Size(224, 30)
         Me.ButtonHardwareCommunicationSetup.TabIndex = 46
@@ -567,11 +595,11 @@ Public Class Setup
         '
         'Panel2
         '
-        Me.Panel2.Controls.Add(Me.CheckBox3)
+        Me.Panel2.Controls.Add(Me.cbLockZ)
         Me.Panel2.Controls.Add(Me.TextBoxRobotZ)
-        Me.Panel2.Controls.Add(Me.CheckBox4)
+        Me.Panel2.Controls.Add(Me.cbLockY)
         Me.Panel2.Controls.Add(Me.TextBoxRobotY)
-        Me.Panel2.Controls.Add(Me.CheckBox5)
+        Me.Panel2.Controls.Add(Me.cbLockX)
         Me.Panel2.Controls.Add(Me.TextBoxRobotX)
         Me.Panel2.Controls.Add(Me.Label1)
         Me.Panel2.Controls.Add(Me.TextBox7)
@@ -584,15 +612,16 @@ Public Class Setup
         Me.Panel2.Size = New System.Drawing.Size(768, 28)
         Me.Panel2.TabIndex = 5
         '
-        'CheckBox3
+        'cbLockZ
         '
-        Me.CheckBox3.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox3.Image = CType(resources.GetObject("CheckBox3.Image"), System.Drawing.Image)
-        Me.CheckBox3.Location = New System.Drawing.Point(725, 5)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(40, 16)
-        Me.CheckBox3.TabIndex = 75
+        Me.cbLockZ.BackColor = System.Drawing.SystemColors.Control
+        Me.cbLockZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbLockZ.Image = CType(resources.GetObject("cbLockZ.Image"), System.Drawing.Image)
+        Me.cbLockZ.Location = New System.Drawing.Point(725, 5)
+        Me.cbLockZ.Name = "cbLockZ"
+        Me.cbLockZ.Size = New System.Drawing.Size(40, 16)
+        Me.cbLockZ.TabIndex = 75
+        Me.cbLockZ.Visible = False
         '
         'TextBoxRobotZ
         '
@@ -604,15 +633,15 @@ Public Class Setup
         Me.TextBoxRobotZ.TabIndex = 74
         Me.TextBoxRobotZ.Text = "Z 100.000"
         '
-        'CheckBox4
+        'cbLockY
         '
-        Me.CheckBox4.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox4.Image = CType(resources.GetObject("CheckBox4.Image"), System.Drawing.Image)
-        Me.CheckBox4.Location = New System.Drawing.Point(611, 4)
-        Me.CheckBox4.Name = "CheckBox4"
-        Me.CheckBox4.Size = New System.Drawing.Size(40, 16)
-        Me.CheckBox4.TabIndex = 73
+        Me.cbLockY.BackColor = System.Drawing.SystemColors.Control
+        Me.cbLockY.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbLockY.Image = CType(resources.GetObject("cbLockY.Image"), System.Drawing.Image)
+        Me.cbLockY.Location = New System.Drawing.Point(611, 4)
+        Me.cbLockY.Name = "cbLockY"
+        Me.cbLockY.Size = New System.Drawing.Size(40, 16)
+        Me.cbLockY.TabIndex = 73
         '
         'TextBoxRobotY
         '
@@ -624,15 +653,15 @@ Public Class Setup
         Me.TextBoxRobotY.TabIndex = 72
         Me.TextBoxRobotY.Text = "Y: 100.000"
         '
-        'CheckBox5
+        'cbLockX
         '
-        Me.CheckBox5.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox5.Image = CType(resources.GetObject("CheckBox5.Image"), System.Drawing.Image)
-        Me.CheckBox5.Location = New System.Drawing.Point(498, 4)
-        Me.CheckBox5.Name = "CheckBox5"
-        Me.CheckBox5.Size = New System.Drawing.Size(40, 16)
-        Me.CheckBox5.TabIndex = 71
+        Me.cbLockX.BackColor = System.Drawing.SystemColors.Control
+        Me.cbLockX.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbLockX.Image = CType(resources.GetObject("cbLockX.Image"), System.Drawing.Image)
+        Me.cbLockX.Location = New System.Drawing.Point(498, 4)
+        Me.cbLockX.Name = "cbLockX"
+        Me.cbLockX.Size = New System.Drawing.Size(40, 16)
+        Me.cbLockX.TabIndex = 71
         '
         'TextBoxRobotX
         '
@@ -724,6 +753,8 @@ Public Class Setup
         Me.PanelVisionCtrl.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.GpB_Configurations.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
         Me.PanelRight.ResumeLayout(False)
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
@@ -794,19 +825,42 @@ Public Class Setup
                     ratio = CDbl(y) / x
                     If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
                         VrData(0) = 1
-                        VrData(1) = jogspeed
-                        VrData(2) = -jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
                         VrData(0) = 1
-                        VrData(1) = jogspeed
-                        VrData(2) = jogspeed
+                        'VrData(1) = jogspeed
+                        'VrData(2) = jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     Else   'X+
                         VrData(0) = 1
-                        VrData(1) = jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        'VrData(1) = jogspeed
                         VrData(2) = 0
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
@@ -819,19 +873,44 @@ Public Class Setup
                     ratio = CDbl(y) / x
                     If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
                         VrData(0) = 1
-                        VrData(1) = -jogspeed
-                        VrData(2) = jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+                        'VrData(1) = -jogspeed
+                        'VrData(2) = jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
                         VrData(0) = 1
-                        VrData(1) = -jogspeed
-                        VrData(2) = -jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+                        'VrData(1) = -jogspeed
+                        'VrData(2) = -jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     Else   'X-
                         VrData(0) = 1
-                        VrData(1) = -jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        'VrData(1) = -jogspeed
                         VrData(2) = 0
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
@@ -853,20 +932,45 @@ Public Class Setup
                     ratio = CDbl(x) / y
                     If (ratio > ratioLB) And (ratio < ratioUB) Then   'X- Y+
                         VrData(0) = 1
-                        VrData(1) = -jogspeed
-                        VrData(2) = jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+                        'VrData(1) = -jogspeed
+                        'VrData(2) = jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X+ Y+
                         VrData(0) = 1
-                        VrData(1) = jogspeed
-                        VrData(2) = jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+                        'VrData(1) = jogspeed
+                        'VrData(2) = jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     Else   'Y+
                         VrData(0) = 1
                         VrData(1) = 0
-                        VrData(2) = jogspeed
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = jogspeed
+                        End If
+                        'VrData(2) = jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     End If
@@ -879,20 +983,45 @@ Public Class Setup
                     ratio = CDbl(x) / y
                     If (ratio > ratioLB) And (ratio < ratioUB) Then   'X+ Y-
                         VrData(0) = 1
-                        VrData(1) = jogspeed
-                        VrData(2) = -jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+                        'VrData(1) = jogspeed
+                        'VrData(2) = -jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     ElseIf (ratio < -ratioLB) And (ratio > -ratioUB) Then 'X- Y-
                         VrData(0) = 1
-                        VrData(1) = -jogspeed
-                        VrData(2) = -jogspeed
+                        If cbLockX.Checked Then
+                            VrData(1) = 0
+                        Else
+                            VrData(1) = -jogspeed
+                        End If
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+                        'VrData(1) = -jogspeed
+                        'VrData(2) = -jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     Else   'Y-
                         VrData(0) = 1
                         VrData(1) = 0
-                        VrData(2) = -jogspeed
+                        If cbLockY.Checked Then
+                            VrData(2) = 0
+                        Else
+                            VrData(2) = -jogspeed
+                        End If
+                        'VrData(2) = -jogspeed
                         m_Tri.SetTrioMotionValues("Jogging", VrData)
                         isJogON = True
                     End If
@@ -1001,6 +1130,7 @@ Public Class Setup
         MyGantrySettings.Controls.Clear()
 
         Weighting_Scale.Instance.Hide()
+        WeightingScaleForm.Hide()
         Laser.Instance.Hide()
         Conveyor.Instance.Hide()
 
@@ -1269,11 +1399,16 @@ Public Class Setup
     Private Sub ButtonLaser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLaserSetup.Click
         OnLaser()
         AddPanel(PanelRight, MyLaser.PanelToBeAdded)
-        MyLaser.LaserOffsetZ.Text = IDS.Data.Hardware.HeightSensor.Laser.HeightReference
-        MyLaser.LaserOffsetX.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X
-        MyLaser.LaserOffsetY.Text = IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y
+        MyLaser.LaserOffsetZ.Text = "Z:" & RoundTo3DecimalPoints(IDS.Data.Hardware.HeightSensor.Laser.HeightReference)
+        MyLaser.LaserOffsetX.Text = "X:" & RoundTo3DecimalPoints(IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.X)
+        MyLaser.LaserOffsetY.Text = "Y:" & RoundTo3DecimalPoints(IDS.Data.Hardware.HeightSensor.Laser.OffsetPos.Y)
         MyLaser.RevertData()
     End Sub
+
+    Public Function RoundTo3DecimalPoints(ByVal value As Double) As Double
+        value = CInt(value * 1000.0) / 1000.0
+        Return value
+    End Function
 
     Private Sub ButtonNeedle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNeedleCalibSetup.Click
         AddPanel(PanelRight, MyNeedleCalibrationSetup1.PanelToBeAdded)
@@ -1437,8 +1572,8 @@ Public Class Setup
         Else
             If Not (homingDone) Then
                 homingWaitCnt += 1
-                If homingWaitCnt > 350 Then
-                    LabelMessage.Text = "Homing timeout(> 35 Seconds) error! Please Check Axes Status!"
+                If homingWaitCnt > 450 Then
+                    LabelMessage.Text = "Homing timeout(> 45 Seconds) error! Please Check Axes Status!"
                     EnableControls(True)
                 Else 'keep waiting for homing done
                     HardwareInitTimer.Start()
@@ -1448,7 +1583,7 @@ Public Class Setup
                 LabelMessage.Text = "System Ready"
                 EnableControls(True)
             End If
-            End If
+        End If
     End Sub
 
     Private Sub EnableControls(ByVal enable As Boolean)
