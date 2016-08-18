@@ -67,7 +67,7 @@ Public Class FormStartup
         'Button1
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(549, 160)
+        Me.Button1.Location = New System.Drawing.Point(549, 264)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(194, 58)
         Me.Button1.TabIndex = 0
@@ -76,7 +76,7 @@ Public Class FormStartup
         'Button2
         '
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.Location = New System.Drawing.Point(549, 240)
+        Me.Button2.Location = New System.Drawing.Point(549, 352)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(194, 58)
         Me.Button2.TabIndex = 0
@@ -94,7 +94,7 @@ Public Class FormStartup
         '
         'loginPanel
         '
-        Me.loginPanel.Location = New System.Drawing.Point(462, 416)
+        Me.loginPanel.Location = New System.Drawing.Point(56, 408)
         Me.loginPanel.Name = "loginPanel"
         Me.loginPanel.Size = New System.Drawing.Size(368, 488)
         Me.loginPanel.TabIndex = 4
@@ -102,7 +102,7 @@ Public Class FormStartup
         'btSetup
         '
         Me.btSetup.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btSetup.Location = New System.Drawing.Point(549, 344)
+        Me.btSetup.Location = New System.Drawing.Point(549, 448)
         Me.btSetup.Name = "btSetup"
         Me.btSetup.Size = New System.Drawing.Size(194, 58)
         Me.btSetup.TabIndex = 5
@@ -188,6 +188,7 @@ Public Class FormStartup
 #End Region
 
     Shared formlg As New FormLogin
+    Dim loginForm As New Login
 
 
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
@@ -223,11 +224,13 @@ Public Class FormStartup
         'formlg.StartPosition = FormStartPosition.CenterScreen
         'formlg.Show()
         'formlg.Hide()
+
         formlg.StartPosition = FormStartPosition.Manual
         formlg.TopLevel = False
         formlg.Parent = Me
         loginPanel.Controls.Add(formlg)
         formlg.Show()
+        formlg.Hide()
     End Sub
 
     Public frmLogin As New FormLogin
@@ -251,20 +254,36 @@ Public Class FormStartup
         'LoginName = "Application_Programmer"
         'formlg.StartPosition = FormStartPosition.CenterScreen
         'formlg.ShowDialog()
-        IDS.Data.ParameterID.RecordID = "FactoryDefault"
-        IDSData.Admin.Folder.FileExtension = "Pat"
-        IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
-        IDS.Data.OpenData()
-        IDS.Data.Admin.User.RunApplication = "Programmer"
-        Call frmLogin.LoadProgrammerMaintenance()
+        If loginForm.logging Then Return
+        loginForm.ShowChangePassword(True)
+        loginForm.logging = True
+        loginForm.loginMode = 0
+        loginForm.ShowDialog()
+        If loginForm.passed Then
+            IDS.Data.ParameterID.RecordID = "FactoryDefault"
+            IDSData.Admin.Folder.FileExtension = "Pat"
+            IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
+            IDS.Data.OpenData()
+            IDS.Data.Admin.User.RunApplication = "Programmer"
+            Call frmLogin.LoadProgrammerMaintenance()
+        End If
+        loginForm.logging = False
     End Sub
 
     Private Sub btSetup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btSetup.Click
-        IDS.Data.ParameterID.RecordID = "FactoryDefault"
-        IDSData.Admin.Folder.FileExtension = "Pat"
-        IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
-        IDS.Data.OpenData()
-        IDS.Data.Admin.User.RunApplication = "System"
-        Call frmLogin.LoadProgrammerMaintenance()
+        If loginForm.logging Then Return
+        loginForm.logging = True
+        loginForm.ShowChangePassword(False)
+        loginForm.loginMode = 1
+        loginForm.ShowDialog()
+        If loginForm.passed Then
+            IDS.Data.ParameterID.RecordID = "FactoryDefault"
+            IDSData.Admin.Folder.FileExtension = "Pat"
+            IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
+            IDS.Data.OpenData()
+            IDS.Data.Admin.User.RunApplication = "System"
+            Call frmLogin.LoadProgrammerMaintenance()
+        End If
+        loginForm.logging = False
     End Sub
 End Class

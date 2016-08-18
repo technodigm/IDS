@@ -7,10 +7,10 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
-<Assembly: AssemblyTitle("")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
+<Assembly: log4net.Config.XmlConfigurator(ConfigFile:="Log4Net.config", Watch:=True)> 
+<Assembly: AssemblyTitle("IDS2000")> 
+<Assembly: AssemblyDescription("Inteligent Dispensing System")> 
+<Assembly: AssemblyCompany("Techno-digm")> 
 <Assembly: AssemblyProduct("")> 
 <Assembly: AssemblyCopyright("")> 
 <Assembly: AssemblyTrademark("")> 

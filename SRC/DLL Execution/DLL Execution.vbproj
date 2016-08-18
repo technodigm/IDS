@@ -291,6 +291,11 @@
                     AssemblyName = "Microsoft.DirectX"
                     HintPath = "bin\Microsoft.DirectX.dll"
                 />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\..\BIN\log4net.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -447,6 +452,11 @@
                     RelPath = "Programming.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Programming.af.resx"
+                    DependentUpon = "Programming.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Programming.resx"

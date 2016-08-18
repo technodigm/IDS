@@ -151,6 +151,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ChangePasswordForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ChangePasswordForm.resx"
+                    DependentUpon = "ChangePasswordForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "FormAdministrator.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -184,6 +194,16 @@
                     RelPath = "KeyboardControl.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Login.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Login.resx"
+                    DependentUpon = "Login.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Module1.vb"

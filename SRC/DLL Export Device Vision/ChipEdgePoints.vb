@@ -122,6 +122,9 @@ Public Class ChipEdgePoints
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents label3 As System.Windows.Forms.Label
     Friend WithEvents tbDotDuration As System.Windows.Forms.TextBox
+    Friend WithEvents nudEdgeStrength As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label22 As System.Windows.Forms.Label
+    Friend WithEvents cbbPolarity As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
@@ -210,6 +213,9 @@ Public Class ChipEdgePoints
         Me.TextBox_Score = New System.Windows.Forms.TextBox
         Me.TextBox_RSizeX = New System.Windows.Forms.TextBox
         Me.Button_Reset = New System.Windows.Forms.Button
+        Me.nudEdgeStrength = New System.Windows.Forms.NumericUpDown
+        Me.Label22 = New System.Windows.Forms.Label
+        Me.cbbPolarity = New System.Windows.Forms.ComboBox
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -227,6 +233,7 @@ Public Class ChipEdgePoints
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox_DispenseModel.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
+        CType(Me.nudEdgeStrength, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Timer1
@@ -551,6 +558,8 @@ Public Class ChipEdgePoints
         '
         'GroupBox_Settings
         '
+        Me.GroupBox_Settings.Controls.Add(Me.cbbPolarity)
+        Me.GroupBox_Settings.Controls.Add(Me.Label22)
         Me.GroupBox_Settings.Controls.Add(Me.ValueROI)
         Me.GroupBox_Settings.Controls.Add(Me.GroupBox7)
         Me.GroupBox_Settings.Controls.Add(Me.Label39)
@@ -565,6 +574,7 @@ Public Class ChipEdgePoints
         Me.GroupBox_Settings.Controls.Add(Me.GroupBox_Vertical_Horizontal)
         Me.GroupBox_Settings.Controls.Add(Me.GroupBox4)
         Me.GroupBox_Settings.Controls.Add(Me.GroupBox_DispenseModel)
+        Me.GroupBox_Settings.Controls.Add(Me.nudEdgeStrength)
         Me.GroupBox_Settings.Location = New System.Drawing.Point(296, 16)
         Me.GroupBox_Settings.Name = "GroupBox_Settings"
         Me.GroupBox_Settings.Size = New System.Drawing.Size(504, 256)
@@ -634,7 +644,7 @@ Public Class ChipEdgePoints
         'ValueContrast
         '
         Me.ValueContrast.Location = New System.Drawing.Point(144, 96)
-        Me.ValueContrast.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ValueContrast.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
         Me.ValueContrast.Name = "ValueContrast"
         Me.ValueContrast.ReadOnly = True
         Me.ValueContrast.Size = New System.Drawing.Size(48, 20)
@@ -754,7 +764,7 @@ Public Class ChipEdgePoints
         Me.GroupBox4.Controls.Add(Me.Label1)
         Me.GroupBox4.Controls.Add(Me.TextBox_EdgeClearance)
         Me.GroupBox4.Controls.Add(Me.CheckBox_ChipRec_Enable)
-        Me.GroupBox4.Location = New System.Drawing.Point(8, 128)
+        Me.GroupBox4.Location = New System.Drawing.Point(8, 176)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Size = New System.Drawing.Size(192, 72)
         Me.GroupBox4.TabIndex = 3
@@ -1097,6 +1107,36 @@ Public Class ChipEdgePoints
         Me.Button_Reset.TabIndex = 62
         Me.Button_Reset.Text = "Reset"
         '
+        'nudEdgeStrength
+        '
+        Me.nudEdgeStrength.Location = New System.Drawing.Point(16, 144)
+        Me.nudEdgeStrength.Name = "nudEdgeStrength"
+        Me.nudEdgeStrength.ReadOnly = True
+        Me.nudEdgeStrength.Size = New System.Drawing.Size(48, 20)
+        Me.nudEdgeStrength.TabIndex = 63
+        Me.nudEdgeStrength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.nudEdgeStrength.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.nudEdgeStrength.Visible = False
+        '
+        'Label22
+        '
+        Me.Label22.Location = New System.Drawing.Point(8, 120)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(88, 23)
+        Me.Label22.TabIndex = 64
+        Me.Label22.Text = "Edge Strength:"
+        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'cbbPolarity
+        '
+        Me.cbbPolarity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbbPolarity.Items.AddRange(New Object() {"Any", "Negative", "Positive"})
+        Me.cbbPolarity.Location = New System.Drawing.Point(96, 144)
+        Me.cbbPolarity.Name = "cbbPolarity"
+        Me.cbbPolarity.Size = New System.Drawing.Size(121, 21)
+        Me.cbbPolarity.TabIndex = 65
+        Me.cbbPolarity.Visible = False
+        '
         'ChipEdgePoints
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -1123,6 +1163,7 @@ Public Class ChipEdgePoints
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox_DispenseModel.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
+        CType(Me.nudEdgeStrength, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1174,6 +1215,8 @@ Public Class ChipEdgePoints
         Public _EdgeClearance As Double
         Public _CheckBox_ChipRec_Enable As Boolean
         Public _DotDispensingDuration
+        Public _Contrast As Integer
+
     End Structure
 
     Dim Folder_CE As String = "C:\IDS\SRC\DLL Export Device Vision\ChipEdgePoint\"
@@ -1225,6 +1268,7 @@ Public Class ChipEdgePoints
         edgeParam._EdgeClearance = TextBox_EdgeClearance.Text
         edgeParam._CheckBox_ChipRec_Enable = CheckBox_ChipRec_Enable.Checked
         edgeParam._DotDispensingDuration = tbDotDuration.Text
+        edgeParam._Contrast = ValueContrast.Value
     End Function
     Function GetChipEdgeParameters_bak(ByRef _SizeX As Double, ByRef _SizeY As Double, ByRef _PosX As Double, ByRef _PosY As Double, ByRef _Size As Double, ByRef _Pos As Double, ByRef _Rot As Double, ByRef _Inside_out As Boolean, ByVal _Cw_CCw As Boolean, ByRef _Threshold As Double, ByRef _ROI As Double, ByRef _Brightness As Integer, ByRef _Vertical As Boolean, ByRef _MainEdge As Integer, ByRef _PointX1 As Double, ByRef _PointY1 As Double, ByRef _PointX2 As Double, ByRef _PointY2 As Double, ByRef _PointX3 As Double, ByRef _PointY3 As Double, ByRef _PointX4 As Double, ByRef _PointY4 As Double, ByRef _PointX5 As Double, ByRef _PointY5 As Double, ByRef _DispenseModel As Integer, ByRef _EdgeClearance As Double, ByRef _CheckBox_ChipRec_Enable As Boolean)
         _SizeX = TextBox_SizeX.Text
@@ -1379,6 +1423,8 @@ Public Class ChipEdgePoints
 #Region "Production"
     Function ChipEdgePointExe() As Boolean
         'FrmVision.ClearDisplay()
+
+        'Dim result As Boolean = FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1)
         Dim result As Boolean = FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1)
         If result = False Then
             ResetVariables()
@@ -1400,12 +1446,19 @@ Public Class ChipEdgePoints
 #End Region
 
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
-        FrmVision.ClearDisplay()
-        FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1)
-        If Clickno = 1 Then
-            'FrmVision.SearchRegionResultsPoints(1)
-            FrmVision.SearchRegionPoints(1, ValueROI.Value)
-        End If
+        Try
+            Timer1.Stop()
+            FrmVision.ClearDisplay()
+            FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1, nudEdgeStrength.Value, Me.cbbPolarity.Text)
+            If Clickno = 1 Then
+                'FrmVision.SearchRegionResultsPoints(1)
+                FrmVision.SearchRegionPoints(1, ValueROI.Value)
+            End If
+            Timer1.Start()
+        Catch ex As Exception
+            Timer1.Stop()
+        End Try
+        
     End Sub
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         If Clickno = 1 Then
@@ -1456,7 +1509,7 @@ Public Class ChipEdgePoints
         "2) Click 5 points according to vertical or horizontal edge " & Chr(13) & Chr(10) & _
         "3) Adjust size of ROI" & Chr(13) & Chr(10) & _
         "4) Adjust edge threshold"
-
+        Me.cbbPolarity.SelectedIndex = 0
         'Reset All value
     End Sub
     Private Sub RadioButton_Inside_out_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton_Inside_out.CheckedChanged

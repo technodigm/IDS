@@ -1669,7 +1669,13 @@ Public Class CIDSPattern
                                         If 1 = AttachFlag Or 2 = AttachFlag Then
                                             Dim names() As String = LineStr(1).Split(".")
                                             Dim iCnt As Integer = names.Length
-                                            pageItemCnt = GetPageItemCount(array, names(iCnt - 1))
+                                            'pageItemCnt = GetPageItemCount(array, names(iCnt - 1))
+                                            Dim pName As String = names(iCnt - 1)
+                                            If pName = "txt" Then
+                                                pageItemCnt = GetPageItemCount(array, "Main")
+                                            Else
+                                                pageItemCnt = GetPageItemCount(array, pName)
+                                            End If
                                         Else
                                             pageItemCnt = GetPageItemCount(array, LineStr(1))
                                         End If
@@ -1706,7 +1712,15 @@ Public Class CIDSPattern
                                         If 1 = AttachFlag Then
                                             Dim names() As String = LineStr(1).Split(".")
                                             Dim iCnt As Integer = names.Length
-                                            pageItemCnt = GetPageItemCount(array, "Main")
+                                            'pageItemCnt = GetPageItemCount(array, "Main")
+                                            'pageItemCnt = GetPageItemCount(array, names(0))
+                                            Dim pName As String = names(iCnt - 1)
+                                            If pName = "txt" Then
+                                                pageItemCnt = GetPageItemCount(array, "Main")
+                                            Else
+                                                pageItemCnt = GetPageItemCount(array, pName)
+                                            End If
+
                                         Else
                                             pageItemCnt = GetPageItemCount(array, LineStr(1))
                                         End If

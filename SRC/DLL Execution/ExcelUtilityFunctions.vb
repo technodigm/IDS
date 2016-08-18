@@ -37,6 +37,8 @@ Public Module ExcelUtilityFunctions
         For i = 0 To gMaxReferButtons
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = True
         Next
+        Programming.ReferenceCommandBlock.Buttons(gReferenceCmdIndex).Enabled = False
+        Programming.ReferenceCommandBlock.Buttons(gRejectCmdIndex - 1).Enabled = False
         If Programming.teachingMode = "Needle" Then
             Programming.DisableCommand_NeedleMode()
         End If

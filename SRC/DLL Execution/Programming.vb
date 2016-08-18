@@ -62,7 +62,6 @@ Public Class FormProgramming
     Friend WithEvents MenuItem67 As System.Windows.Forms.MenuItem
     Friend WithEvents DomainUpDown1 As System.Windows.Forms.DomainUpDown
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents ImageListFiles As System.Windows.Forms.ImageList
     Friend WithEvents imageListElement As System.Windows.Forms.ImageList
     Friend WithEvents ImageListReference As System.Windows.Forms.ImageList
@@ -175,12 +174,13 @@ Public Class FormProgramming
     Friend WithEvents btRelease As System.Windows.Forms.Button
     Friend WithEvents btRetrieve As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents tbOpenedFile As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents cbContinueTest As System.Windows.Forms.CheckBox
-    Friend WithEvents tbHeightCompensation As System.Windows.Forms.TextBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents btChangeSyringe As System.Windows.Forms.Button
+    Friend WithEvents gbConveyor As System.Windows.Forms.GroupBox
+    Friend WithEvents btExit As System.Windows.Forms.Button
+    Friend WithEvents lbPostName As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProgramming))
@@ -234,7 +234,7 @@ Public Class FormProgramming
         Me.TextBoxRobotY = New System.Windows.Forms.TextBox
         Me.CheckBoxLockX = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotX = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
+        Me.lbPostName = New System.Windows.Forms.Label
         Me.DomainUpDown1 = New System.Windows.Forms.DomainUpDown
         Me.Label1 = New System.Windows.Forms.Label
         Me.ButtonVolCal = New System.Windows.Forms.Button
@@ -270,7 +270,6 @@ Public Class FormProgramming
         Me.TBBDotArray = New System.Windows.Forms.ToolBarButton
         Me.TBBVolumeCal = New System.Windows.Forms.ToolBarButton
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ImageListYesNo = New System.Windows.Forms.ImageList(Me.components)
         Me.Label5 = New System.Windows.Forms.Label
         Me.VisionMode = New System.Windows.Forms.RadioButton
         Me.CBExpandSpreadsheet = New System.Windows.Forms.CheckBox
@@ -278,29 +277,16 @@ Public Class FormProgramming
         Me.TeachingToolbar = New System.Windows.Forms.ToolBar
         Me.TBBOk = New System.Windows.Forms.ToolBarButton
         Me.TBBCancel = New System.Windows.Forms.ToolBarButton
+        Me.ImageListYesNo = New System.Windows.Forms.ImageList(Me.components)
         Me.EditingToolbar = New System.Windows.Forms.ToolBar
         Me.TBBSwitch = New System.Windows.Forms.ToolBarButton
         Me.TBBEdit = New System.Windows.Forms.ToolBarButton
-        Me.ImageListOper = New System.Windows.Forms.ImageList(Me.components)
         Me.ButtonClean = New System.Windows.Forms.Button
         Me.ButtonNeedleCal = New System.Windows.Forms.Button
         Me.ButtonHome = New System.Windows.Forms.Button
-        Me.ImageListMultiField = New System.Windows.Forms.ImageList(Me.components)
         Me.CBDoorLock = New System.Windows.Forms.CheckBox
-        Me.NeedleContextMenu = New System.Windows.Forms.ContextMenu
-        Me.MenuItem81 = New System.Windows.Forms.MenuItem
-        Me.MenuItem82 = New System.Windows.Forms.MenuItem
-        Me.MenuItem83 = New System.Windows.Forms.MenuItem
-        Me.MenuItem84 = New System.Windows.Forms.MenuItem
-        Me.MenuItem85 = New System.Windows.Forms.MenuItem
-        Me.MenuItem86 = New System.Windows.Forms.MenuItem
-        Me.OpenPatternFileDialog = New System.Windows.Forms.OpenFileDialog
-        Me.SavePatternFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.ImageListLineArc = New System.Windows.Forms.ImageList(Me.components)
-        Me.TimerForUpdate = New System.Windows.Forms.Timer(Me.components)
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
+        Me.ImageListMultiField = New System.Windows.Forms.ImageList(Me.components)
         Me.AxSpreadsheetProgramming = New AxOWC10.AxSpreadsheet
-        Me.IOCheck = New System.Windows.Forms.Timer(Me.components)
         Me.LabelMessege = New System.Windows.Forms.Label
         Me.DispensingMode = New System.Windows.Forms.ComboBox
         Me.btStop = New System.Windows.Forms.Button
@@ -313,253 +299,455 @@ Public Class FormProgramming
         Me.ButtonToggleMode = New System.Windows.Forms.Button
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.ButtonStartFirstStage = New System.Windows.Forms.Button
-        Me.TowerLightImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.btRelease = New System.Windows.Forms.Button
         Me.btRetrieve = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.cbContinueTest = New System.Windows.Forms.CheckBox
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.gbConveyor = New System.Windows.Forms.GroupBox
         Me.tbOpenedFile = New System.Windows.Forms.TextBox
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.tbHeightCompensation = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.btChangeSyringe = New System.Windows.Forms.Button
+        Me.btExit = New System.Windows.Forms.Button
+        Me.ImageListOper = New System.Windows.Forms.ImageList(Me.components)
+        Me.NeedleContextMenu = New System.Windows.Forms.ContextMenu
+        Me.MenuItem81 = New System.Windows.Forms.MenuItem
+        Me.MenuItem82 = New System.Windows.Forms.MenuItem
+        Me.MenuItem83 = New System.Windows.Forms.MenuItem
+        Me.MenuItem84 = New System.Windows.Forms.MenuItem
+        Me.MenuItem85 = New System.Windows.Forms.MenuItem
+        Me.MenuItem86 = New System.Windows.Forms.MenuItem
+        Me.OpenPatternFileDialog = New System.Windows.Forms.OpenFileDialog
+        Me.SavePatternFileDialog = New System.Windows.Forms.SaveFileDialog
+        Me.ImageListLineArc = New System.Windows.Forms.ImageList(Me.components)
+        Me.TimerForUpdate = New System.Windows.Forms.Timer(Me.components)
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
+        Me.IOCheck = New System.Windows.Forms.Timer(Me.components)
+        Me.TowerLightImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PanelVisionCtrl.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxSpreadsheetProgramming, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
+        Me.gbConveyor.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'MainMenuProgramming
         '
         Me.MainMenuProgramming.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1, Me.MenuItem8, Me.MenuItem11, Me.MenuItem25, Me.MenuItem64})
+        Me.MainMenuProgramming.RightToLeft = CType(resources.GetObject("MainMenuProgramming.RightToLeft"), System.Windows.Forms.RightToLeft)
         '
         'MenuItem1
         '
+        Me.MenuItem1.Enabled = CType(resources.GetObject("MenuItem1.Enabled"), Boolean)
         Me.MenuItem1.Index = 0
         Me.MenuItem1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuFileNew, Me.MenuFileOpen, Me.MenuItem19, Me.MenuFileImport, Me.MenuFileExport, Me.MenuItem20, Me.MenuFileSave, Me.MenuFileSaveAs, Me.MenuItem6, Me.MenuFileExit})
-        Me.MenuItem1.Text = "File"
+        Me.MenuItem1.Shortcut = CType(resources.GetObject("MenuItem1.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem1.ShowShortcut = CType(resources.GetObject("MenuItem1.ShowShortcut"), Boolean)
+        Me.MenuItem1.Text = resources.GetString("MenuItem1.Text")
+        Me.MenuItem1.Visible = CType(resources.GetObject("MenuItem1.Visible"), Boolean)
         '
         'MenuFileNew
         '
+        Me.MenuFileNew.Enabled = CType(resources.GetObject("MenuFileNew.Enabled"), Boolean)
         Me.MenuFileNew.Index = 0
-        Me.MenuFileNew.Text = "New"
+        Me.MenuFileNew.Shortcut = CType(resources.GetObject("MenuFileNew.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuFileNew.ShowShortcut = CType(resources.GetObject("MenuFileNew.ShowShortcut"), Boolean)
+        Me.MenuFileNew.Text = resources.GetString("MenuFileNew.Text")
+        Me.MenuFileNew.Visible = CType(resources.GetObject("MenuFileNew.Visible"), Boolean)
         '
         'MenuFileOpen
         '
+        Me.MenuFileOpen.Enabled = CType(resources.GetObject("MenuFileOpen.Enabled"), Boolean)
         Me.MenuFileOpen.Index = 1
-        Me.MenuFileOpen.Text = "Open"
+        Me.MenuFileOpen.Shortcut = CType(resources.GetObject("MenuFileOpen.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuFileOpen.ShowShortcut = CType(resources.GetObject("MenuFileOpen.ShowShortcut"), Boolean)
+        Me.MenuFileOpen.Text = resources.GetString("MenuFileOpen.Text")
+        Me.MenuFileOpen.Visible = CType(resources.GetObject("MenuFileOpen.Visible"), Boolean)
         '
         'MenuItem19
         '
+        Me.MenuItem19.Enabled = CType(resources.GetObject("MenuItem19.Enabled"), Boolean)
         Me.MenuItem19.Index = 2
-        Me.MenuItem19.Text = "-"
+        Me.MenuItem19.Shortcut = CType(resources.GetObject("MenuItem19.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem19.ShowShortcut = CType(resources.GetObject("MenuItem19.ShowShortcut"), Boolean)
+        Me.MenuItem19.Text = resources.GetString("MenuItem19.Text")
+        Me.MenuItem19.Visible = CType(resources.GetObject("MenuItem19.Visible"), Boolean)
         '
         'MenuFileImport
         '
+        Me.MenuFileImport.Enabled = CType(resources.GetObject("MenuFileImport.Enabled"), Boolean)
         Me.MenuFileImport.Index = 3
-        Me.MenuFileImport.Text = "Import"
+        Me.MenuFileImport.Shortcut = CType(resources.GetObject("MenuFileImport.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuFileImport.ShowShortcut = CType(resources.GetObject("MenuFileImport.ShowShortcut"), Boolean)
+        Me.MenuFileImport.Text = resources.GetString("MenuFileImport.Text")
+        Me.MenuFileImport.Visible = CType(resources.GetObject("MenuFileImport.Visible"), Boolean)
         '
         'MenuFileExport
         '
+        Me.MenuFileExport.Enabled = CType(resources.GetObject("MenuFileExport.Enabled"), Boolean)
         Me.MenuFileExport.Index = 4
-        Me.MenuFileExport.Text = "Export"
+        Me.MenuFileExport.Shortcut = CType(resources.GetObject("MenuFileExport.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuFileExport.ShowShortcut = CType(resources.GetObject("MenuFileExport.ShowShortcut"), Boolean)
+        Me.MenuFileExport.Text = resources.GetString("MenuFileExport.Text")
+        Me.MenuFileExport.Visible = CType(resources.GetObject("MenuFileExport.Visible"), Boolean)
         '
         'MenuItem20
         '
+        Me.MenuItem20.Enabled = CType(resources.GetObject("MenuItem20.Enabled"), Boolean)
         Me.MenuItem20.Index = 5
-        Me.MenuItem20.Text = "-"
+        Me.MenuItem20.Shortcut = CType(resources.GetObject("MenuItem20.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem20.ShowShortcut = CType(resources.GetObject("MenuItem20.ShowShortcut"), Boolean)
+        Me.MenuItem20.Text = resources.GetString("MenuItem20.Text")
+        Me.MenuItem20.Visible = CType(resources.GetObject("MenuItem20.Visible"), Boolean)
         '
         'MenuFileSave
         '
+        Me.MenuFileSave.Enabled = CType(resources.GetObject("MenuFileSave.Enabled"), Boolean)
         Me.MenuFileSave.Index = 6
-        Me.MenuFileSave.Text = "Save"
+        Me.MenuFileSave.Shortcut = CType(resources.GetObject("MenuFileSave.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuFileSave.ShowShortcut = CType(resources.GetObject("MenuFileSave.ShowShortcut"), Boolean)
+        Me.MenuFileSave.Text = resources.GetString("MenuFileSave.Text")
+        Me.MenuFileSave.Visible = CType(resources.GetObject("MenuFileSave.Visible"), Boolean)
         '
         'MenuFileSaveAs
         '
+        Me.MenuFileSaveAs.Enabled = CType(resources.GetObject("MenuFileSaveAs.Enabled"), Boolean)
         Me.MenuFileSaveAs.Index = 7
-        Me.MenuFileSaveAs.Text = "Save As..."
+        Me.MenuFileSaveAs.Shortcut = CType(resources.GetObject("MenuFileSaveAs.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuFileSaveAs.ShowShortcut = CType(resources.GetObject("MenuFileSaveAs.ShowShortcut"), Boolean)
+        Me.MenuFileSaveAs.Text = resources.GetString("MenuFileSaveAs.Text")
+        Me.MenuFileSaveAs.Visible = CType(resources.GetObject("MenuFileSaveAs.Visible"), Boolean)
         '
         'MenuItem6
         '
+        Me.MenuItem6.Enabled = CType(resources.GetObject("MenuItem6.Enabled"), Boolean)
         Me.MenuItem6.Index = 8
-        Me.MenuItem6.Text = "-"
+        Me.MenuItem6.Shortcut = CType(resources.GetObject("MenuItem6.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem6.ShowShortcut = CType(resources.GetObject("MenuItem6.ShowShortcut"), Boolean)
+        Me.MenuItem6.Text = resources.GetString("MenuItem6.Text")
+        Me.MenuItem6.Visible = CType(resources.GetObject("MenuItem6.Visible"), Boolean)
         '
         'MenuFileExit
         '
+        Me.MenuFileExit.Enabled = CType(resources.GetObject("MenuFileExit.Enabled"), Boolean)
         Me.MenuFileExit.Index = 9
-        Me.MenuFileExit.Text = "Exit"
+        Me.MenuFileExit.Shortcut = CType(resources.GetObject("MenuFileExit.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuFileExit.ShowShortcut = CType(resources.GetObject("MenuFileExit.ShowShortcut"), Boolean)
+        Me.MenuFileExit.Text = resources.GetString("MenuFileExit.Text")
+        Me.MenuFileExit.Visible = CType(resources.GetObject("MenuFileExit.Visible"), Boolean)
         '
         'MenuItem8
         '
+        Me.MenuItem8.Enabled = CType(resources.GetObject("MenuItem8.Enabled"), Boolean)
         Me.MenuItem8.Index = 1
         Me.MenuItem8.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuEditUndo, Me.MenuEditRedo, Me.MenuItem15, Me.MenuEditCut, Me.MenuEditCopy, Me.MenuEditPaste, Me.MenuEditDelete, Me.MenuItem17, Me.MenuEditSelectAll})
-        Me.MenuItem8.Text = "Edit"
+        Me.MenuItem8.Shortcut = CType(resources.GetObject("MenuItem8.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem8.ShowShortcut = CType(resources.GetObject("MenuItem8.ShowShortcut"), Boolean)
+        Me.MenuItem8.Text = resources.GetString("MenuItem8.Text")
+        Me.MenuItem8.Visible = CType(resources.GetObject("MenuItem8.Visible"), Boolean)
         '
         'MenuEditUndo
         '
+        Me.MenuEditUndo.Enabled = CType(resources.GetObject("MenuEditUndo.Enabled"), Boolean)
         Me.MenuEditUndo.Index = 0
-        Me.MenuEditUndo.Text = "Undo"
+        Me.MenuEditUndo.Shortcut = CType(resources.GetObject("MenuEditUndo.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuEditUndo.ShowShortcut = CType(resources.GetObject("MenuEditUndo.ShowShortcut"), Boolean)
+        Me.MenuEditUndo.Text = resources.GetString("MenuEditUndo.Text")
+        Me.MenuEditUndo.Visible = CType(resources.GetObject("MenuEditUndo.Visible"), Boolean)
         '
         'MenuEditRedo
         '
+        Me.MenuEditRedo.Enabled = CType(resources.GetObject("MenuEditRedo.Enabled"), Boolean)
         Me.MenuEditRedo.Index = 1
-        Me.MenuEditRedo.Text = "Redo"
+        Me.MenuEditRedo.Shortcut = CType(resources.GetObject("MenuEditRedo.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuEditRedo.ShowShortcut = CType(resources.GetObject("MenuEditRedo.ShowShortcut"), Boolean)
+        Me.MenuEditRedo.Text = resources.GetString("MenuEditRedo.Text")
+        Me.MenuEditRedo.Visible = CType(resources.GetObject("MenuEditRedo.Visible"), Boolean)
         '
         'MenuItem15
         '
+        Me.MenuItem15.Enabled = CType(resources.GetObject("MenuItem15.Enabled"), Boolean)
         Me.MenuItem15.Index = 2
-        Me.MenuItem15.Text = "-"
+        Me.MenuItem15.Shortcut = CType(resources.GetObject("MenuItem15.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem15.ShowShortcut = CType(resources.GetObject("MenuItem15.ShowShortcut"), Boolean)
+        Me.MenuItem15.Text = resources.GetString("MenuItem15.Text")
+        Me.MenuItem15.Visible = CType(resources.GetObject("MenuItem15.Visible"), Boolean)
         '
         'MenuEditCut
         '
+        Me.MenuEditCut.Enabled = CType(resources.GetObject("MenuEditCut.Enabled"), Boolean)
         Me.MenuEditCut.Index = 3
-        Me.MenuEditCut.Text = "Cut"
+        Me.MenuEditCut.Shortcut = CType(resources.GetObject("MenuEditCut.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuEditCut.ShowShortcut = CType(resources.GetObject("MenuEditCut.ShowShortcut"), Boolean)
+        Me.MenuEditCut.Text = resources.GetString("MenuEditCut.Text")
+        Me.MenuEditCut.Visible = CType(resources.GetObject("MenuEditCut.Visible"), Boolean)
         '
         'MenuEditCopy
         '
+        Me.MenuEditCopy.Enabled = CType(resources.GetObject("MenuEditCopy.Enabled"), Boolean)
         Me.MenuEditCopy.Index = 4
-        Me.MenuEditCopy.Text = "Copy"
+        Me.MenuEditCopy.Shortcut = CType(resources.GetObject("MenuEditCopy.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuEditCopy.ShowShortcut = CType(resources.GetObject("MenuEditCopy.ShowShortcut"), Boolean)
+        Me.MenuEditCopy.Text = resources.GetString("MenuEditCopy.Text")
+        Me.MenuEditCopy.Visible = CType(resources.GetObject("MenuEditCopy.Visible"), Boolean)
         '
         'MenuEditPaste
         '
+        Me.MenuEditPaste.Enabled = CType(resources.GetObject("MenuEditPaste.Enabled"), Boolean)
         Me.MenuEditPaste.Index = 5
-        Me.MenuEditPaste.Text = "Paste"
+        Me.MenuEditPaste.Shortcut = CType(resources.GetObject("MenuEditPaste.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuEditPaste.ShowShortcut = CType(resources.GetObject("MenuEditPaste.ShowShortcut"), Boolean)
+        Me.MenuEditPaste.Text = resources.GetString("MenuEditPaste.Text")
+        Me.MenuEditPaste.Visible = CType(resources.GetObject("MenuEditPaste.Visible"), Boolean)
         '
         'MenuEditDelete
         '
+        Me.MenuEditDelete.Enabled = CType(resources.GetObject("MenuEditDelete.Enabled"), Boolean)
         Me.MenuEditDelete.Index = 6
-        Me.MenuEditDelete.Text = "Delete"
+        Me.MenuEditDelete.Shortcut = CType(resources.GetObject("MenuEditDelete.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuEditDelete.ShowShortcut = CType(resources.GetObject("MenuEditDelete.ShowShortcut"), Boolean)
+        Me.MenuEditDelete.Text = resources.GetString("MenuEditDelete.Text")
+        Me.MenuEditDelete.Visible = CType(resources.GetObject("MenuEditDelete.Visible"), Boolean)
         '
         'MenuItem17
         '
+        Me.MenuItem17.Enabled = CType(resources.GetObject("MenuItem17.Enabled"), Boolean)
         Me.MenuItem17.Index = 7
-        Me.MenuItem17.Text = "-"
+        Me.MenuItem17.Shortcut = CType(resources.GetObject("MenuItem17.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem17.ShowShortcut = CType(resources.GetObject("MenuItem17.ShowShortcut"), Boolean)
+        Me.MenuItem17.Text = resources.GetString("MenuItem17.Text")
+        Me.MenuItem17.Visible = CType(resources.GetObject("MenuItem17.Visible"), Boolean)
         '
         'MenuEditSelectAll
         '
+        Me.MenuEditSelectAll.Enabled = CType(resources.GetObject("MenuEditSelectAll.Enabled"), Boolean)
         Me.MenuEditSelectAll.Index = 8
-        Me.MenuEditSelectAll.Text = "Select All"
+        Me.MenuEditSelectAll.Shortcut = CType(resources.GetObject("MenuEditSelectAll.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuEditSelectAll.ShowShortcut = CType(resources.GetObject("MenuEditSelectAll.ShowShortcut"), Boolean)
+        Me.MenuEditSelectAll.Text = resources.GetString("MenuEditSelectAll.Text")
+        Me.MenuEditSelectAll.Visible = CType(resources.GetObject("MenuEditSelectAll.Visible"), Boolean)
         '
         'MenuItem11
         '
+        Me.MenuItem11.Enabled = CType(resources.GetObject("MenuItem11.Enabled"), Boolean)
         Me.MenuItem11.Index = 2
         Me.MenuItem11.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem67, Me.MenuItem87, Me.MenuItem88})
-        Me.MenuItem11.Text = "View"
+        Me.MenuItem11.Shortcut = CType(resources.GetObject("MenuItem11.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem11.ShowShortcut = CType(resources.GetObject("MenuItem11.ShowShortcut"), Boolean)
+        Me.MenuItem11.Text = resources.GetString("MenuItem11.Text")
+        Me.MenuItem11.Visible = CType(resources.GetObject("MenuItem11.Visible"), Boolean)
         '
         'MenuItem67
         '
+        Me.MenuItem67.Enabled = CType(resources.GetObject("MenuItem67.Enabled"), Boolean)
         Me.MenuItem67.Index = 0
-        Me.MenuItem67.Text = "Information"
+        Me.MenuItem67.Shortcut = CType(resources.GetObject("MenuItem67.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem67.ShowShortcut = CType(resources.GetObject("MenuItem67.ShowShortcut"), Boolean)
+        Me.MenuItem67.Text = resources.GetString("MenuItem67.Text")
+        Me.MenuItem67.Visible = CType(resources.GetObject("MenuItem67.Visible"), Boolean)
         '
         'MenuItem87
         '
+        Me.MenuItem87.Enabled = CType(resources.GetObject("MenuItem87.Enabled"), Boolean)
         Me.MenuItem87.Index = 1
-        Me.MenuItem87.Text = "-"
+        Me.MenuItem87.Shortcut = CType(resources.GetObject("MenuItem87.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem87.ShowShortcut = CType(resources.GetObject("MenuItem87.ShowShortcut"), Boolean)
+        Me.MenuItem87.Text = resources.GetString("MenuItem87.Text")
+        Me.MenuItem87.Visible = CType(resources.GetObject("MenuItem87.Visible"), Boolean)
         '
         'MenuItem88
         '
+        Me.MenuItem88.Enabled = CType(resources.GetObject("MenuItem88.Enabled"), Boolean)
         Me.MenuItem88.Index = 2
-        Me.MenuItem88.Text = "Open Event Viewer"
+        Me.MenuItem88.Shortcut = CType(resources.GetObject("MenuItem88.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem88.ShowShortcut = CType(resources.GetObject("MenuItem88.ShowShortcut"), Boolean)
+        Me.MenuItem88.Text = resources.GetString("MenuItem88.Text")
+        Me.MenuItem88.Visible = CType(resources.GetObject("MenuItem88.Visible"), Boolean)
         '
         'MenuItem25
         '
+        Me.MenuItem25.Enabled = CType(resources.GetObject("MenuItem25.Enabled"), Boolean)
         Me.MenuItem25.Index = 3
         Me.MenuItem25.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem33, Me.MenuItem32, Me.MenuItem35, Me.MenuItem29, Me.MenuItem30, Me.MenuItem36, Me.MenuItem62, Me.MenuItem76, Me.OptimizePath, Me.MenuItem3})
-        Me.MenuItem25.Text = "Tools"
-        Me.MenuItem25.Visible = False
+        Me.MenuItem25.Shortcut = CType(resources.GetObject("MenuItem25.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem25.ShowShortcut = CType(resources.GetObject("MenuItem25.ShowShortcut"), Boolean)
+        Me.MenuItem25.Text = resources.GetString("MenuItem25.Text")
+        Me.MenuItem25.Visible = CType(resources.GetObject("MenuItem25.Visible"), Boolean)
         '
         'MenuItem33
         '
+        Me.MenuItem33.Enabled = CType(resources.GetObject("MenuItem33.Enabled"), Boolean)
         Me.MenuItem33.Index = 0
-        Me.MenuItem33.Text = "Offset"
+        Me.MenuItem33.Shortcut = CType(resources.GetObject("MenuItem33.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem33.ShowShortcut = CType(resources.GetObject("MenuItem33.ShowShortcut"), Boolean)
+        Me.MenuItem33.Text = resources.GetString("MenuItem33.Text")
+        Me.MenuItem33.Visible = CType(resources.GetObject("MenuItem33.Visible"), Boolean)
         '
         'MenuItem32
         '
+        Me.MenuItem32.Enabled = CType(resources.GetObject("MenuItem32.Enabled"), Boolean)
         Me.MenuItem32.Index = 1
-        Me.MenuItem32.Text = "Sub Pattern"
+        Me.MenuItem32.Shortcut = CType(resources.GetObject("MenuItem32.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem32.ShowShortcut = CType(resources.GetObject("MenuItem32.ShowShortcut"), Boolean)
+        Me.MenuItem32.Text = resources.GetString("MenuItem32.Text")
+        Me.MenuItem32.Visible = CType(resources.GetObject("MenuItem32.Visible"), Boolean)
         '
         'MenuItem35
         '
+        Me.MenuItem35.Enabled = CType(resources.GetObject("MenuItem35.Enabled"), Boolean)
         Me.MenuItem35.Index = 2
-        Me.MenuItem35.Text = "-"
+        Me.MenuItem35.Shortcut = CType(resources.GetObject("MenuItem35.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem35.ShowShortcut = CType(resources.GetObject("MenuItem35.ShowShortcut"), Boolean)
+        Me.MenuItem35.Text = resources.GetString("MenuItem35.Text")
+        Me.MenuItem35.Visible = CType(resources.GetObject("MenuItem35.Visible"), Boolean)
         '
         'MenuItem29
         '
+        Me.MenuItem29.Enabled = CType(resources.GetObject("MenuItem29.Enabled"), Boolean)
         Me.MenuItem29.Index = 3
-        Me.MenuItem29.Text = "Set I/O"
+        Me.MenuItem29.Shortcut = CType(resources.GetObject("MenuItem29.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem29.ShowShortcut = CType(resources.GetObject("MenuItem29.ShowShortcut"), Boolean)
+        Me.MenuItem29.Text = resources.GetString("MenuItem29.Text")
+        Me.MenuItem29.Visible = CType(resources.GetObject("MenuItem29.Visible"), Boolean)
         '
         'MenuItem30
         '
+        Me.MenuItem30.Enabled = CType(resources.GetObject("MenuItem30.Enabled"), Boolean)
         Me.MenuItem30.Index = 4
-        Me.MenuItem30.Text = "Reset I/O"
+        Me.MenuItem30.Shortcut = CType(resources.GetObject("MenuItem30.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem30.ShowShortcut = CType(resources.GetObject("MenuItem30.ShowShortcut"), Boolean)
+        Me.MenuItem30.Text = resources.GetString("MenuItem30.Text")
+        Me.MenuItem30.Visible = CType(resources.GetObject("MenuItem30.Visible"), Boolean)
         '
         'MenuItem36
         '
+        Me.MenuItem36.Enabled = CType(resources.GetObject("MenuItem36.Enabled"), Boolean)
         Me.MenuItem36.Index = 5
-        Me.MenuItem36.Text = "-"
+        Me.MenuItem36.Shortcut = CType(resources.GetObject("MenuItem36.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem36.ShowShortcut = CType(resources.GetObject("MenuItem36.ShowShortcut"), Boolean)
+        Me.MenuItem36.Text = resources.GetString("MenuItem36.Text")
+        Me.MenuItem36.Visible = CType(resources.GetObject("MenuItem36.Visible"), Boolean)
         '
         'MenuItem62
         '
+        Me.MenuItem62.Enabled = CType(resources.GetObject("MenuItem62.Enabled"), Boolean)
         Me.MenuItem62.Index = 6
-        Me.MenuItem62.Text = "Measurement"
+        Me.MenuItem62.Shortcut = CType(resources.GetObject("MenuItem62.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem62.ShowShortcut = CType(resources.GetObject("MenuItem62.ShowShortcut"), Boolean)
+        Me.MenuItem62.Text = resources.GetString("MenuItem62.Text")
+        Me.MenuItem62.Visible = CType(resources.GetObject("MenuItem62.Visible"), Boolean)
         '
         'MenuItem76
         '
+        Me.MenuItem76.Enabled = CType(resources.GetObject("MenuItem76.Enabled"), Boolean)
         Me.MenuItem76.Index = 7
-        Me.MenuItem76.Text = "-"
+        Me.MenuItem76.Shortcut = CType(resources.GetObject("MenuItem76.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem76.ShowShortcut = CType(resources.GetObject("MenuItem76.ShowShortcut"), Boolean)
+        Me.MenuItem76.Text = resources.GetString("MenuItem76.Text")
+        Me.MenuItem76.Visible = CType(resources.GetObject("MenuItem76.Visible"), Boolean)
         '
         'OptimizePath
         '
+        Me.OptimizePath.Enabled = CType(resources.GetObject("OptimizePath.Enabled"), Boolean)
         Me.OptimizePath.Index = 8
-        Me.OptimizePath.Text = "Optimize Dispensing Path"
+        Me.OptimizePath.Shortcut = CType(resources.GetObject("OptimizePath.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.OptimizePath.ShowShortcut = CType(resources.GetObject("OptimizePath.ShowShortcut"), Boolean)
+        Me.OptimizePath.Text = resources.GetString("OptimizePath.Text")
+        Me.OptimizePath.Visible = CType(resources.GetObject("OptimizePath.Visible"), Boolean)
         '
         'MenuItem3
         '
+        Me.MenuItem3.Enabled = CType(resources.GetObject("MenuItem3.Enabled"), Boolean)
         Me.MenuItem3.Index = 9
-        Me.MenuItem3.Text = "-"
+        Me.MenuItem3.Shortcut = CType(resources.GetObject("MenuItem3.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem3.ShowShortcut = CType(resources.GetObject("MenuItem3.ShowShortcut"), Boolean)
+        Me.MenuItem3.Text = resources.GetString("MenuItem3.Text")
+        Me.MenuItem3.Visible = CType(resources.GetObject("MenuItem3.Visible"), Boolean)
         '
         'MenuItem64
         '
+        Me.MenuItem64.Enabled = CType(resources.GetObject("MenuItem64.Enabled"), Boolean)
         Me.MenuItem64.Index = 4
         Me.MenuItem64.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem65})
-        Me.MenuItem64.Text = "Help"
+        Me.MenuItem64.Shortcut = CType(resources.GetObject("MenuItem64.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem64.ShowShortcut = CType(resources.GetObject("MenuItem64.ShowShortcut"), Boolean)
+        Me.MenuItem64.Text = resources.GetString("MenuItem64.Text")
+        Me.MenuItem64.Visible = CType(resources.GetObject("MenuItem64.Visible"), Boolean)
         '
         'MenuItem65
         '
+        Me.MenuItem65.Enabled = CType(resources.GetObject("MenuItem65.Enabled"), Boolean)
         Me.MenuItem65.Index = 0
-        Me.MenuItem65.Text = "About IDS"
+        Me.MenuItem65.Shortcut = CType(resources.GetObject("MenuItem65.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem65.ShowShortcut = CType(resources.GetObject("MenuItem65.ShowShortcut"), Boolean)
+        Me.MenuItem65.Text = resources.GetString("MenuItem65.Text")
+        Me.MenuItem65.Visible = CType(resources.GetObject("MenuItem65.Visible"), Boolean)
         '
         'PanelVision
         '
+        Me.PanelVision.AccessibleDescription = resources.GetString("PanelVision.AccessibleDescription")
+        Me.PanelVision.AccessibleName = resources.GetString("PanelVision.AccessibleName")
+        Me.PanelVision.Anchor = CType(resources.GetObject("PanelVision.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.PanelVision.AutoScroll = CType(resources.GetObject("PanelVision.AutoScroll"), Boolean)
+        Me.PanelVision.AutoScrollMargin = CType(resources.GetObject("PanelVision.AutoScrollMargin"), System.Drawing.Size)
+        Me.PanelVision.AutoScrollMinSize = CType(resources.GetObject("PanelVision.AutoScrollMinSize"), System.Drawing.Size)
         Me.PanelVision.BackColor = System.Drawing.Color.SlateGray
-        Me.PanelVision.Location = New System.Drawing.Point(84, 368)
+        Me.PanelVision.BackgroundImage = CType(resources.GetObject("PanelVision.BackgroundImage"), System.Drawing.Image)
+        Me.PanelVision.Dock = CType(resources.GetObject("PanelVision.Dock"), System.Windows.Forms.DockStyle)
+        Me.PanelVision.Enabled = CType(resources.GetObject("PanelVision.Enabled"), Boolean)
+        Me.PanelVision.Font = CType(resources.GetObject("PanelVision.Font"), System.Drawing.Font)
+        Me.PanelVision.ImeMode = CType(resources.GetObject("PanelVision.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.PanelVision.Location = CType(resources.GetObject("PanelVision.Location"), System.Drawing.Point)
         Me.PanelVision.Name = "PanelVision"
-        Me.PanelVision.Size = New System.Drawing.Size(768, 576)
-        Me.PanelVision.TabIndex = 0
+        Me.PanelVision.RightToLeft = CType(resources.GetObject("PanelVision.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.PanelVision.Size = CType(resources.GetObject("PanelVision.Size"), System.Drawing.Size)
+        Me.PanelVision.TabIndex = CType(resources.GetObject("PanelVision.TabIndex"), Integer)
+        Me.PanelVision.Text = resources.GetString("PanelVision.Text")
+        Me.ToolTip1.SetToolTip(Me.PanelVision, resources.GetString("PanelVision.ToolTip"))
+        Me.PanelVision.Visible = CType(resources.GetObject("PanelVision.Visible"), Boolean)
         '
         'ImageListGeneralTools
         '
-        Me.ImageListGeneralTools.ImageSize = New System.Drawing.Size(36, 28)
+        Me.ImageListGeneralTools.ImageSize = CType(resources.GetObject("ImageListGeneralTools.ImageSize"), System.Drawing.Size)
         Me.ImageListGeneralTools.ImageStream = CType(resources.GetObject("ImageListGeneralTools.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageListGeneralTools.TransparentColor = System.Drawing.Color.White
         '
         'ButtonPurge
         '
+        Me.ButtonPurge.AccessibleDescription = resources.GetString("ButtonPurge.AccessibleDescription")
+        Me.ButtonPurge.AccessibleName = resources.GetString("ButtonPurge.AccessibleName")
+        Me.ButtonPurge.Anchor = CType(resources.GetObject("ButtonPurge.Anchor"), System.Windows.Forms.AnchorStyles)
         Me.ButtonPurge.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonPurge.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonPurge.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonPurge.BackgroundImage = CType(resources.GetObject("ButtonPurge.BackgroundImage"), System.Drawing.Image)
+        Me.ButtonPurge.Dock = CType(resources.GetObject("ButtonPurge.Dock"), System.Windows.Forms.DockStyle)
+        Me.ButtonPurge.Enabled = CType(resources.GetObject("ButtonPurge.Enabled"), Boolean)
+        Me.ButtonPurge.FlatStyle = CType(resources.GetObject("ButtonPurge.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.ButtonPurge.Font = CType(resources.GetObject("ButtonPurge.Font"), System.Drawing.Font)
+        Me.ButtonPurge.Image = CType(resources.GetObject("ButtonPurge.Image"), System.Drawing.Image)
+        Me.ButtonPurge.ImageAlign = CType(resources.GetObject("ButtonPurge.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.ButtonPurge.ImageIndex = CType(resources.GetObject("ButtonPurge.ImageIndex"), Integer)
         Me.ButtonPurge.ImageList = Me.ImageListGeneralTools
-        Me.ButtonPurge.Location = New System.Drawing.Point(864, 688)
+        Me.ButtonPurge.ImeMode = CType(resources.GetObject("ButtonPurge.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ButtonPurge.Location = CType(resources.GetObject("ButtonPurge.Location"), System.Drawing.Point)
         Me.ButtonPurge.Name = "ButtonPurge"
-        Me.ButtonPurge.Size = New System.Drawing.Size(80, 80)
-        Me.ButtonPurge.TabIndex = 57
-        Me.ButtonPurge.Text = "Purge On"
+        Me.ButtonPurge.RightToLeft = CType(resources.GetObject("ButtonPurge.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ButtonPurge.Size = CType(resources.GetObject("ButtonPurge.Size"), System.Drawing.Size)
+        Me.ButtonPurge.TabIndex = CType(resources.GetObject("ButtonPurge.TabIndex"), Integer)
+        Me.ButtonPurge.Text = resources.GetString("ButtonPurge.Text")
+        Me.ButtonPurge.TextAlign = CType(resources.GetObject("ButtonPurge.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.ButtonPurge, resources.GetString("ButtonPurge.ToolTip"))
+        Me.ButtonPurge.Visible = CType(resources.GetObject("ButtonPurge.Visible"), Boolean)
         '
         'PanelVisionCtrl
         '
+        Me.PanelVisionCtrl.AccessibleDescription = resources.GetString("PanelVisionCtrl.AccessibleDescription")
+        Me.PanelVisionCtrl.AccessibleName = resources.GetString("PanelVisionCtrl.AccessibleName")
+        Me.PanelVisionCtrl.Anchor = CType(resources.GetObject("PanelVisionCtrl.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.PanelVisionCtrl.AutoScroll = CType(resources.GetObject("PanelVisionCtrl.AutoScroll"), Boolean)
+        Me.PanelVisionCtrl.AutoScrollMargin = CType(resources.GetObject("PanelVisionCtrl.AutoScrollMargin"), System.Drawing.Size)
+        Me.PanelVisionCtrl.AutoScrollMinSize = CType(resources.GetObject("PanelVisionCtrl.AutoScrollMinSize"), System.Drawing.Size)
+        Me.PanelVisionCtrl.BackgroundImage = CType(resources.GetObject("PanelVisionCtrl.BackgroundImage"), System.Drawing.Image)
         Me.PanelVisionCtrl.Controls.Add(Me.ValueBrightness)
         Me.PanelVisionCtrl.Controls.Add(Me.CheckBoxLockZ)
         Me.PanelVisionCtrl.Controls.Add(Me.TextBoxRobotZ)
@@ -567,526 +755,1503 @@ Public Class FormProgramming
         Me.PanelVisionCtrl.Controls.Add(Me.TextBoxRobotY)
         Me.PanelVisionCtrl.Controls.Add(Me.CheckBoxLockX)
         Me.PanelVisionCtrl.Controls.Add(Me.TextBoxRobotX)
-        Me.PanelVisionCtrl.Controls.Add(Me.Label4)
+        Me.PanelVisionCtrl.Controls.Add(Me.lbPostName)
         Me.PanelVisionCtrl.Controls.Add(Me.DomainUpDown1)
         Me.PanelVisionCtrl.Controls.Add(Me.Label1)
-        Me.PanelVisionCtrl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.PanelVisionCtrl.Location = New System.Drawing.Point(84, 940)
+        Me.PanelVisionCtrl.Dock = CType(resources.GetObject("PanelVisionCtrl.Dock"), System.Windows.Forms.DockStyle)
+        Me.PanelVisionCtrl.Enabled = CType(resources.GetObject("PanelVisionCtrl.Enabled"), Boolean)
+        Me.PanelVisionCtrl.Font = CType(resources.GetObject("PanelVisionCtrl.Font"), System.Drawing.Font)
+        Me.PanelVisionCtrl.ImeMode = CType(resources.GetObject("PanelVisionCtrl.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.PanelVisionCtrl.Location = CType(resources.GetObject("PanelVisionCtrl.Location"), System.Drawing.Point)
         Me.PanelVisionCtrl.Name = "PanelVisionCtrl"
-        Me.PanelVisionCtrl.Size = New System.Drawing.Size(768, 32)
-        Me.PanelVisionCtrl.TabIndex = 2
+        Me.PanelVisionCtrl.RightToLeft = CType(resources.GetObject("PanelVisionCtrl.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.PanelVisionCtrl.Size = CType(resources.GetObject("PanelVisionCtrl.Size"), System.Drawing.Size)
+        Me.PanelVisionCtrl.TabIndex = CType(resources.GetObject("PanelVisionCtrl.TabIndex"), Integer)
+        Me.PanelVisionCtrl.Text = resources.GetString("PanelVisionCtrl.Text")
+        Me.ToolTip1.SetToolTip(Me.PanelVisionCtrl, resources.GetString("PanelVisionCtrl.ToolTip"))
+        Me.PanelVisionCtrl.Visible = CType(resources.GetObject("PanelVisionCtrl.Visible"), Boolean)
         '
         'ValueBrightness
         '
-        Me.ValueBrightness.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ValueBrightness.Location = New System.Drawing.Point(72, 3)
+        Me.ValueBrightness.AccessibleDescription = resources.GetString("ValueBrightness.AccessibleDescription")
+        Me.ValueBrightness.AccessibleName = resources.GetString("ValueBrightness.AccessibleName")
+        Me.ValueBrightness.Anchor = CType(resources.GetObject("ValueBrightness.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.ValueBrightness.Dock = CType(resources.GetObject("ValueBrightness.Dock"), System.Windows.Forms.DockStyle)
+        Me.ValueBrightness.Enabled = CType(resources.GetObject("ValueBrightness.Enabled"), Boolean)
+        Me.ValueBrightness.Font = CType(resources.GetObject("ValueBrightness.Font"), System.Drawing.Font)
+        Me.ValueBrightness.ImeMode = CType(resources.GetObject("ValueBrightness.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ValueBrightness.Location = CType(resources.GetObject("ValueBrightness.Location"), System.Drawing.Point)
         Me.ValueBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
         Me.ValueBrightness.Name = "ValueBrightness"
-        Me.ValueBrightness.Size = New System.Drawing.Size(45, 21)
-        Me.ValueBrightness.TabIndex = 76
+        Me.ValueBrightness.RightToLeft = CType(resources.GetObject("ValueBrightness.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ValueBrightness.Size = CType(resources.GetObject("ValueBrightness.Size"), System.Drawing.Size)
+        Me.ValueBrightness.TabIndex = CType(resources.GetObject("ValueBrightness.TabIndex"), Integer)
+        Me.ValueBrightness.TextAlign = CType(resources.GetObject("ValueBrightness.TextAlign"), System.Windows.Forms.HorizontalAlignment)
+        Me.ValueBrightness.ThousandsSeparator = CType(resources.GetObject("ValueBrightness.ThousandsSeparator"), Boolean)
+        Me.ToolTip1.SetToolTip(Me.ValueBrightness, resources.GetString("ValueBrightness.ToolTip"))
+        Me.ValueBrightness.UpDownAlign = CType(resources.GetObject("ValueBrightness.UpDownAlign"), System.Windows.Forms.LeftRightAlignment)
         Me.ValueBrightness.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.ValueBrightness.Visible = CType(resources.GetObject("ValueBrightness.Visible"), Boolean)
         '
         'CheckBoxLockZ
         '
+        Me.CheckBoxLockZ.AccessibleDescription = resources.GetString("CheckBoxLockZ.AccessibleDescription")
+        Me.CheckBoxLockZ.AccessibleName = resources.GetString("CheckBoxLockZ.AccessibleName")
+        Me.CheckBoxLockZ.Anchor = CType(resources.GetObject("CheckBoxLockZ.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.CheckBoxLockZ.Appearance = CType(resources.GetObject("CheckBoxLockZ.Appearance"), System.Windows.Forms.Appearance)
         Me.CheckBoxLockZ.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBoxLockZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxLockZ.BackgroundImage = CType(resources.GetObject("CheckBoxLockZ.BackgroundImage"), System.Drawing.Image)
+        Me.CheckBoxLockZ.CheckAlign = CType(resources.GetObject("CheckBoxLockZ.CheckAlign"), System.Drawing.ContentAlignment)
+        Me.CheckBoxLockZ.Dock = CType(resources.GetObject("CheckBoxLockZ.Dock"), System.Windows.Forms.DockStyle)
+        Me.CheckBoxLockZ.Enabled = CType(resources.GetObject("CheckBoxLockZ.Enabled"), Boolean)
+        Me.CheckBoxLockZ.FlatStyle = CType(resources.GetObject("CheckBoxLockZ.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.CheckBoxLockZ.Font = CType(resources.GetObject("CheckBoxLockZ.Font"), System.Drawing.Font)
         Me.CheckBoxLockZ.Image = CType(resources.GetObject("CheckBoxLockZ.Image"), System.Drawing.Image)
-        Me.CheckBoxLockZ.Location = New System.Drawing.Point(724, 5)
+        Me.CheckBoxLockZ.ImageAlign = CType(resources.GetObject("CheckBoxLockZ.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.CheckBoxLockZ.ImageIndex = CType(resources.GetObject("CheckBoxLockZ.ImageIndex"), Integer)
+        Me.CheckBoxLockZ.ImeMode = CType(resources.GetObject("CheckBoxLockZ.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.CheckBoxLockZ.Location = CType(resources.GetObject("CheckBoxLockZ.Location"), System.Drawing.Point)
         Me.CheckBoxLockZ.Name = "CheckBoxLockZ"
-        Me.CheckBoxLockZ.Size = New System.Drawing.Size(40, 16)
-        Me.CheckBoxLockZ.TabIndex = 75
-        Me.CheckBoxLockZ.Visible = False
+        Me.CheckBoxLockZ.RightToLeft = CType(resources.GetObject("CheckBoxLockZ.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.CheckBoxLockZ.Size = CType(resources.GetObject("CheckBoxLockZ.Size"), System.Drawing.Size)
+        Me.CheckBoxLockZ.TabIndex = CType(resources.GetObject("CheckBoxLockZ.TabIndex"), Integer)
+        Me.CheckBoxLockZ.Text = resources.GetString("CheckBoxLockZ.Text")
+        Me.CheckBoxLockZ.TextAlign = CType(resources.GetObject("CheckBoxLockZ.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.CheckBoxLockZ, resources.GetString("CheckBoxLockZ.ToolTip"))
+        Me.CheckBoxLockZ.Visible = CType(resources.GetObject("CheckBoxLockZ.Visible"), Boolean)
         '
         'TextBoxRobotZ
         '
-        Me.TextBoxRobotZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotZ.Location = New System.Drawing.Point(651, 4)
+        Me.TextBoxRobotZ.AccessibleDescription = resources.GetString("TextBoxRobotZ.AccessibleDescription")
+        Me.TextBoxRobotZ.AccessibleName = resources.GetString("TextBoxRobotZ.AccessibleName")
+        Me.TextBoxRobotZ.Anchor = CType(resources.GetObject("TextBoxRobotZ.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.TextBoxRobotZ.AutoSize = CType(resources.GetObject("TextBoxRobotZ.AutoSize"), Boolean)
+        Me.TextBoxRobotZ.BackgroundImage = CType(resources.GetObject("TextBoxRobotZ.BackgroundImage"), System.Drawing.Image)
+        Me.TextBoxRobotZ.Dock = CType(resources.GetObject("TextBoxRobotZ.Dock"), System.Windows.Forms.DockStyle)
+        Me.TextBoxRobotZ.Enabled = CType(resources.GetObject("TextBoxRobotZ.Enabled"), Boolean)
+        Me.TextBoxRobotZ.Font = CType(resources.GetObject("TextBoxRobotZ.Font"), System.Drawing.Font)
+        Me.TextBoxRobotZ.ImeMode = CType(resources.GetObject("TextBoxRobotZ.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.TextBoxRobotZ.Location = CType(resources.GetObject("TextBoxRobotZ.Location"), System.Drawing.Point)
+        Me.TextBoxRobotZ.MaxLength = CType(resources.GetObject("TextBoxRobotZ.MaxLength"), Integer)
+        Me.TextBoxRobotZ.Multiline = CType(resources.GetObject("TextBoxRobotZ.Multiline"), Boolean)
         Me.TextBoxRobotZ.Name = "TextBoxRobotZ"
+        Me.TextBoxRobotZ.PasswordChar = CType(resources.GetObject("TextBoxRobotZ.PasswordChar"), Char)
         Me.TextBoxRobotZ.ReadOnly = True
-        Me.TextBoxRobotZ.Size = New System.Drawing.Size(74, 21)
-        Me.TextBoxRobotZ.TabIndex = 74
-        Me.TextBoxRobotZ.Text = "Z: 100.000"
+        Me.TextBoxRobotZ.RightToLeft = CType(resources.GetObject("TextBoxRobotZ.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.TextBoxRobotZ.ScrollBars = CType(resources.GetObject("TextBoxRobotZ.ScrollBars"), System.Windows.Forms.ScrollBars)
+        Me.TextBoxRobotZ.Size = CType(resources.GetObject("TextBoxRobotZ.Size"), System.Drawing.Size)
+        Me.TextBoxRobotZ.TabIndex = CType(resources.GetObject("TextBoxRobotZ.TabIndex"), Integer)
+        Me.TextBoxRobotZ.Text = resources.GetString("TextBoxRobotZ.Text")
+        Me.TextBoxRobotZ.TextAlign = CType(resources.GetObject("TextBoxRobotZ.TextAlign"), System.Windows.Forms.HorizontalAlignment)
+        Me.ToolTip1.SetToolTip(Me.TextBoxRobotZ, resources.GetString("TextBoxRobotZ.ToolTip"))
+        Me.TextBoxRobotZ.Visible = CType(resources.GetObject("TextBoxRobotZ.Visible"), Boolean)
+        Me.TextBoxRobotZ.WordWrap = CType(resources.GetObject("TextBoxRobotZ.WordWrap"), Boolean)
         '
         'CheckBoxLockY
         '
+        Me.CheckBoxLockY.AccessibleDescription = resources.GetString("CheckBoxLockY.AccessibleDescription")
+        Me.CheckBoxLockY.AccessibleName = resources.GetString("CheckBoxLockY.AccessibleName")
+        Me.CheckBoxLockY.Anchor = CType(resources.GetObject("CheckBoxLockY.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.CheckBoxLockY.Appearance = CType(resources.GetObject("CheckBoxLockY.Appearance"), System.Windows.Forms.Appearance)
         Me.CheckBoxLockY.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBoxLockY.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxLockY.BackgroundImage = CType(resources.GetObject("CheckBoxLockY.BackgroundImage"), System.Drawing.Image)
+        Me.CheckBoxLockY.CheckAlign = CType(resources.GetObject("CheckBoxLockY.CheckAlign"), System.Drawing.ContentAlignment)
+        Me.CheckBoxLockY.Dock = CType(resources.GetObject("CheckBoxLockY.Dock"), System.Windows.Forms.DockStyle)
+        Me.CheckBoxLockY.Enabled = CType(resources.GetObject("CheckBoxLockY.Enabled"), Boolean)
+        Me.CheckBoxLockY.FlatStyle = CType(resources.GetObject("CheckBoxLockY.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.CheckBoxLockY.Font = CType(resources.GetObject("CheckBoxLockY.Font"), System.Drawing.Font)
         Me.CheckBoxLockY.Image = CType(resources.GetObject("CheckBoxLockY.Image"), System.Drawing.Image)
-        Me.CheckBoxLockY.Location = New System.Drawing.Point(611, 5)
+        Me.CheckBoxLockY.ImageAlign = CType(resources.GetObject("CheckBoxLockY.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.CheckBoxLockY.ImageIndex = CType(resources.GetObject("CheckBoxLockY.ImageIndex"), Integer)
+        Me.CheckBoxLockY.ImeMode = CType(resources.GetObject("CheckBoxLockY.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.CheckBoxLockY.Location = CType(resources.GetObject("CheckBoxLockY.Location"), System.Drawing.Point)
         Me.CheckBoxLockY.Name = "CheckBoxLockY"
-        Me.CheckBoxLockY.Size = New System.Drawing.Size(40, 16)
-        Me.CheckBoxLockY.TabIndex = 73
+        Me.CheckBoxLockY.RightToLeft = CType(resources.GetObject("CheckBoxLockY.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.CheckBoxLockY.Size = CType(resources.GetObject("CheckBoxLockY.Size"), System.Drawing.Size)
+        Me.CheckBoxLockY.TabIndex = CType(resources.GetObject("CheckBoxLockY.TabIndex"), Integer)
+        Me.CheckBoxLockY.Text = resources.GetString("CheckBoxLockY.Text")
+        Me.CheckBoxLockY.TextAlign = CType(resources.GetObject("CheckBoxLockY.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.CheckBoxLockY, resources.GetString("CheckBoxLockY.ToolTip"))
+        Me.CheckBoxLockY.Visible = CType(resources.GetObject("CheckBoxLockY.Visible"), Boolean)
         '
         'TextBoxRobotY
         '
-        Me.TextBoxRobotY.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotY.Location = New System.Drawing.Point(535, 4)
+        Me.TextBoxRobotY.AccessibleDescription = resources.GetString("TextBoxRobotY.AccessibleDescription")
+        Me.TextBoxRobotY.AccessibleName = resources.GetString("TextBoxRobotY.AccessibleName")
+        Me.TextBoxRobotY.Anchor = CType(resources.GetObject("TextBoxRobotY.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.TextBoxRobotY.AutoSize = CType(resources.GetObject("TextBoxRobotY.AutoSize"), Boolean)
+        Me.TextBoxRobotY.BackgroundImage = CType(resources.GetObject("TextBoxRobotY.BackgroundImage"), System.Drawing.Image)
+        Me.TextBoxRobotY.Dock = CType(resources.GetObject("TextBoxRobotY.Dock"), System.Windows.Forms.DockStyle)
+        Me.TextBoxRobotY.Enabled = CType(resources.GetObject("TextBoxRobotY.Enabled"), Boolean)
+        Me.TextBoxRobotY.Font = CType(resources.GetObject("TextBoxRobotY.Font"), System.Drawing.Font)
+        Me.TextBoxRobotY.ImeMode = CType(resources.GetObject("TextBoxRobotY.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.TextBoxRobotY.Location = CType(resources.GetObject("TextBoxRobotY.Location"), System.Drawing.Point)
+        Me.TextBoxRobotY.MaxLength = CType(resources.GetObject("TextBoxRobotY.MaxLength"), Integer)
+        Me.TextBoxRobotY.Multiline = CType(resources.GetObject("TextBoxRobotY.Multiline"), Boolean)
         Me.TextBoxRobotY.Name = "TextBoxRobotY"
+        Me.TextBoxRobotY.PasswordChar = CType(resources.GetObject("TextBoxRobotY.PasswordChar"), Char)
         Me.TextBoxRobotY.ReadOnly = True
-        Me.TextBoxRobotY.Size = New System.Drawing.Size(74, 21)
-        Me.TextBoxRobotY.TabIndex = 72
-        Me.TextBoxRobotY.Text = "Y: 100.000"
+        Me.TextBoxRobotY.RightToLeft = CType(resources.GetObject("TextBoxRobotY.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.TextBoxRobotY.ScrollBars = CType(resources.GetObject("TextBoxRobotY.ScrollBars"), System.Windows.Forms.ScrollBars)
+        Me.TextBoxRobotY.Size = CType(resources.GetObject("TextBoxRobotY.Size"), System.Drawing.Size)
+        Me.TextBoxRobotY.TabIndex = CType(resources.GetObject("TextBoxRobotY.TabIndex"), Integer)
+        Me.TextBoxRobotY.Text = resources.GetString("TextBoxRobotY.Text")
+        Me.TextBoxRobotY.TextAlign = CType(resources.GetObject("TextBoxRobotY.TextAlign"), System.Windows.Forms.HorizontalAlignment)
+        Me.ToolTip1.SetToolTip(Me.TextBoxRobotY, resources.GetString("TextBoxRobotY.ToolTip"))
+        Me.TextBoxRobotY.Visible = CType(resources.GetObject("TextBoxRobotY.Visible"), Boolean)
+        Me.TextBoxRobotY.WordWrap = CType(resources.GetObject("TextBoxRobotY.WordWrap"), Boolean)
         '
         'CheckBoxLockX
         '
+        Me.CheckBoxLockX.AccessibleDescription = resources.GetString("CheckBoxLockX.AccessibleDescription")
+        Me.CheckBoxLockX.AccessibleName = resources.GetString("CheckBoxLockX.AccessibleName")
+        Me.CheckBoxLockX.Anchor = CType(resources.GetObject("CheckBoxLockX.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.CheckBoxLockX.Appearance = CType(resources.GetObject("CheckBoxLockX.Appearance"), System.Windows.Forms.Appearance)
         Me.CheckBoxLockX.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBoxLockX.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxLockX.BackgroundImage = CType(resources.GetObject("CheckBoxLockX.BackgroundImage"), System.Drawing.Image)
+        Me.CheckBoxLockX.CheckAlign = CType(resources.GetObject("CheckBoxLockX.CheckAlign"), System.Drawing.ContentAlignment)
+        Me.CheckBoxLockX.Dock = CType(resources.GetObject("CheckBoxLockX.Dock"), System.Windows.Forms.DockStyle)
+        Me.CheckBoxLockX.Enabled = CType(resources.GetObject("CheckBoxLockX.Enabled"), Boolean)
+        Me.CheckBoxLockX.FlatStyle = CType(resources.GetObject("CheckBoxLockX.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.CheckBoxLockX.Font = CType(resources.GetObject("CheckBoxLockX.Font"), System.Drawing.Font)
         Me.CheckBoxLockX.Image = CType(resources.GetObject("CheckBoxLockX.Image"), System.Drawing.Image)
-        Me.CheckBoxLockX.Location = New System.Drawing.Point(495, 5)
+        Me.CheckBoxLockX.ImageAlign = CType(resources.GetObject("CheckBoxLockX.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.CheckBoxLockX.ImageIndex = CType(resources.GetObject("CheckBoxLockX.ImageIndex"), Integer)
+        Me.CheckBoxLockX.ImeMode = CType(resources.GetObject("CheckBoxLockX.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.CheckBoxLockX.Location = CType(resources.GetObject("CheckBoxLockX.Location"), System.Drawing.Point)
         Me.CheckBoxLockX.Name = "CheckBoxLockX"
-        Me.CheckBoxLockX.Size = New System.Drawing.Size(40, 16)
-        Me.CheckBoxLockX.TabIndex = 71
+        Me.CheckBoxLockX.RightToLeft = CType(resources.GetObject("CheckBoxLockX.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.CheckBoxLockX.Size = CType(resources.GetObject("CheckBoxLockX.Size"), System.Drawing.Size)
+        Me.CheckBoxLockX.TabIndex = CType(resources.GetObject("CheckBoxLockX.TabIndex"), Integer)
+        Me.CheckBoxLockX.Text = resources.GetString("CheckBoxLockX.Text")
+        Me.CheckBoxLockX.TextAlign = CType(resources.GetObject("CheckBoxLockX.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.CheckBoxLockX, resources.GetString("CheckBoxLockX.ToolTip"))
+        Me.CheckBoxLockX.Visible = CType(resources.GetObject("CheckBoxLockX.Visible"), Boolean)
         '
         'TextBoxRobotX
         '
-        Me.TextBoxRobotX.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotX.Location = New System.Drawing.Point(420, 4)
+        Me.TextBoxRobotX.AccessibleDescription = resources.GetString("TextBoxRobotX.AccessibleDescription")
+        Me.TextBoxRobotX.AccessibleName = resources.GetString("TextBoxRobotX.AccessibleName")
+        Me.TextBoxRobotX.Anchor = CType(resources.GetObject("TextBoxRobotX.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.TextBoxRobotX.AutoSize = CType(resources.GetObject("TextBoxRobotX.AutoSize"), Boolean)
+        Me.TextBoxRobotX.BackgroundImage = CType(resources.GetObject("TextBoxRobotX.BackgroundImage"), System.Drawing.Image)
+        Me.TextBoxRobotX.Dock = CType(resources.GetObject("TextBoxRobotX.Dock"), System.Windows.Forms.DockStyle)
+        Me.TextBoxRobotX.Enabled = CType(resources.GetObject("TextBoxRobotX.Enabled"), Boolean)
+        Me.TextBoxRobotX.Font = CType(resources.GetObject("TextBoxRobotX.Font"), System.Drawing.Font)
+        Me.TextBoxRobotX.ImeMode = CType(resources.GetObject("TextBoxRobotX.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.TextBoxRobotX.Location = CType(resources.GetObject("TextBoxRobotX.Location"), System.Drawing.Point)
+        Me.TextBoxRobotX.MaxLength = CType(resources.GetObject("TextBoxRobotX.MaxLength"), Integer)
+        Me.TextBoxRobotX.Multiline = CType(resources.GetObject("TextBoxRobotX.Multiline"), Boolean)
         Me.TextBoxRobotX.Name = "TextBoxRobotX"
+        Me.TextBoxRobotX.PasswordChar = CType(resources.GetObject("TextBoxRobotX.PasswordChar"), Char)
         Me.TextBoxRobotX.ReadOnly = True
-        Me.TextBoxRobotX.Size = New System.Drawing.Size(74, 21)
-        Me.TextBoxRobotX.TabIndex = 6
-        Me.TextBoxRobotX.Text = "X: 100.000"
+        Me.TextBoxRobotX.RightToLeft = CType(resources.GetObject("TextBoxRobotX.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.TextBoxRobotX.ScrollBars = CType(resources.GetObject("TextBoxRobotX.ScrollBars"), System.Windows.Forms.ScrollBars)
+        Me.TextBoxRobotX.Size = CType(resources.GetObject("TextBoxRobotX.Size"), System.Drawing.Size)
+        Me.TextBoxRobotX.TabIndex = CType(resources.GetObject("TextBoxRobotX.TabIndex"), Integer)
+        Me.TextBoxRobotX.Text = resources.GetString("TextBoxRobotX.Text")
+        Me.TextBoxRobotX.TextAlign = CType(resources.GetObject("TextBoxRobotX.TextAlign"), System.Windows.Forms.HorizontalAlignment)
+        Me.ToolTip1.SetToolTip(Me.TextBoxRobotX, resources.GetString("TextBoxRobotX.ToolTip"))
+        Me.TextBoxRobotX.Visible = CType(resources.GetObject("TextBoxRobotX.Visible"), Boolean)
+        Me.TextBoxRobotX.WordWrap = CType(resources.GetObject("TextBoxRobotX.WordWrap"), Boolean)
         '
-        'Label4
+        'lbPostName
         '
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(374, 8)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(42, 16)
-        Me.Label4.TabIndex = 7
-        Me.Label4.Text = "Robot"
+        Me.lbPostName.AccessibleDescription = resources.GetString("lbPostName.AccessibleDescription")
+        Me.lbPostName.AccessibleName = resources.GetString("lbPostName.AccessibleName")
+        Me.lbPostName.Anchor = CType(resources.GetObject("lbPostName.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.lbPostName.AutoSize = CType(resources.GetObject("lbPostName.AutoSize"), Boolean)
+        Me.lbPostName.Dock = CType(resources.GetObject("lbPostName.Dock"), System.Windows.Forms.DockStyle)
+        Me.lbPostName.Enabled = CType(resources.GetObject("lbPostName.Enabled"), Boolean)
+        Me.lbPostName.Font = CType(resources.GetObject("lbPostName.Font"), System.Drawing.Font)
+        Me.lbPostName.Image = CType(resources.GetObject("lbPostName.Image"), System.Drawing.Image)
+        Me.lbPostName.ImageAlign = CType(resources.GetObject("lbPostName.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.lbPostName.ImageIndex = CType(resources.GetObject("lbPostName.ImageIndex"), Integer)
+        Me.lbPostName.ImeMode = CType(resources.GetObject("lbPostName.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.lbPostName.Location = CType(resources.GetObject("lbPostName.Location"), System.Drawing.Point)
+        Me.lbPostName.Name = "lbPostName"
+        Me.lbPostName.RightToLeft = CType(resources.GetObject("lbPostName.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.lbPostName.Size = CType(resources.GetObject("lbPostName.Size"), System.Drawing.Size)
+        Me.lbPostName.TabIndex = CType(resources.GetObject("lbPostName.TabIndex"), Integer)
+        Me.lbPostName.Text = resources.GetString("lbPostName.Text")
+        Me.lbPostName.TextAlign = CType(resources.GetObject("lbPostName.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.lbPostName, resources.GetString("lbPostName.ToolTip"))
+        Me.lbPostName.Visible = CType(resources.GetObject("lbPostName.Visible"), Boolean)
         '
         'DomainUpDown1
         '
-        Me.DomainUpDown1.Items.Add("Aa")
-        Me.DomainUpDown1.Items.Add("b")
-        Me.DomainUpDown1.Items.Add("c")
-        Me.DomainUpDown1.Location = New System.Drawing.Point(72, 3)
+        Me.DomainUpDown1.AccessibleDescription = resources.GetString("DomainUpDown1.AccessibleDescription")
+        Me.DomainUpDown1.AccessibleName = resources.GetString("DomainUpDown1.AccessibleName")
+        Me.DomainUpDown1.Anchor = CType(resources.GetObject("DomainUpDown1.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.DomainUpDown1.Dock = CType(resources.GetObject("DomainUpDown1.Dock"), System.Windows.Forms.DockStyle)
+        Me.DomainUpDown1.Enabled = CType(resources.GetObject("DomainUpDown1.Enabled"), Boolean)
+        Me.DomainUpDown1.Font = CType(resources.GetObject("DomainUpDown1.Font"), System.Drawing.Font)
+        Me.DomainUpDown1.ImeMode = CType(resources.GetObject("DomainUpDown1.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.DomainUpDown1.Items.Add(resources.GetString("resource"))
+        Me.DomainUpDown1.Items.Add(resources.GetString("resource1"))
+        Me.DomainUpDown1.Items.Add(resources.GetString("resource2"))
+        Me.DomainUpDown1.Location = CType(resources.GetObject("DomainUpDown1.Location"), System.Drawing.Point)
         Me.DomainUpDown1.Name = "DomainUpDown1"
-        Me.DomainUpDown1.Size = New System.Drawing.Size(40, 20)
-        Me.DomainUpDown1.TabIndex = 1
-        Me.DomainUpDown1.Text = "50"
-        Me.DomainUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.DomainUpDown1.RightToLeft = CType(resources.GetObject("DomainUpDown1.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.DomainUpDown1.Size = CType(resources.GetObject("DomainUpDown1.Size"), System.Drawing.Size)
+        Me.DomainUpDown1.TabIndex = CType(resources.GetObject("DomainUpDown1.TabIndex"), Integer)
+        Me.DomainUpDown1.Text = resources.GetString("DomainUpDown1.Text")
+        Me.DomainUpDown1.TextAlign = CType(resources.GetObject("DomainUpDown1.TextAlign"), System.Windows.Forms.HorizontalAlignment)
+        Me.ToolTip1.SetToolTip(Me.DomainUpDown1, resources.GetString("DomainUpDown1.ToolTip"))
+        Me.DomainUpDown1.UpDownAlign = CType(resources.GetObject("DomainUpDown1.UpDownAlign"), System.Windows.Forms.LeftRightAlignment)
+        Me.DomainUpDown1.Visible = CType(resources.GetObject("DomainUpDown1.Visible"), Boolean)
+        Me.DomainUpDown1.Wrap = CType(resources.GetObject("DomainUpDown1.Wrap"), Boolean)
         '
         'Label1
         '
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(2, 5)
+        Me.Label1.AccessibleDescription = resources.GetString("Label1.AccessibleDescription")
+        Me.Label1.AccessibleName = resources.GetString("Label1.AccessibleName")
+        Me.Label1.Anchor = CType(resources.GetObject("Label1.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoSize = CType(resources.GetObject("Label1.AutoSize"), Boolean)
+        Me.Label1.Dock = CType(resources.GetObject("Label1.Dock"), System.Windows.Forms.DockStyle)
+        Me.Label1.Enabled = CType(resources.GetObject("Label1.Enabled"), Boolean)
+        Me.Label1.Font = CType(resources.GetObject("Label1.Font"), System.Drawing.Font)
+        Me.Label1.Image = CType(resources.GetObject("Label1.Image"), System.Drawing.Image)
+        Me.Label1.ImageAlign = CType(resources.GetObject("Label1.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.Label1.ImageIndex = CType(resources.GetObject("Label1.ImageIndex"), Integer)
+        Me.Label1.ImeMode = CType(resources.GetObject("Label1.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.Label1.Location = CType(resources.GetObject("Label1.Location"), System.Drawing.Point)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(68, 16)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "Brightness"
+        Me.Label1.RightToLeft = CType(resources.GetObject("Label1.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.Label1.Size = CType(resources.GetObject("Label1.Size"), System.Drawing.Size)
+        Me.Label1.TabIndex = CType(resources.GetObject("Label1.TabIndex"), Integer)
+        Me.Label1.Text = resources.GetString("Label1.Text")
+        Me.Label1.TextAlign = CType(resources.GetObject("Label1.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.Label1, resources.GetString("Label1.ToolTip"))
+        Me.Label1.Visible = CType(resources.GetObject("Label1.Visible"), Boolean)
         '
         'ButtonVolCal
         '
+        Me.ButtonVolCal.AccessibleDescription = resources.GetString("ButtonVolCal.AccessibleDescription")
+        Me.ButtonVolCal.AccessibleName = resources.GetString("ButtonVolCal.AccessibleName")
+        Me.ButtonVolCal.Anchor = CType(resources.GetObject("ButtonVolCal.Anchor"), System.Windows.Forms.AnchorStyles)
         Me.ButtonVolCal.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonVolCal.Enabled = False
-        Me.ButtonVolCal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolCal.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonVolCal.BackgroundImage = CType(resources.GetObject("ButtonVolCal.BackgroundImage"), System.Drawing.Image)
+        Me.ButtonVolCal.Dock = CType(resources.GetObject("ButtonVolCal.Dock"), System.Windows.Forms.DockStyle)
+        Me.ButtonVolCal.Enabled = CType(resources.GetObject("ButtonVolCal.Enabled"), Boolean)
+        Me.ButtonVolCal.FlatStyle = CType(resources.GetObject("ButtonVolCal.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.ButtonVolCal.Font = CType(resources.GetObject("ButtonVolCal.Font"), System.Drawing.Font)
+        Me.ButtonVolCal.Image = CType(resources.GetObject("ButtonVolCal.Image"), System.Drawing.Image)
+        Me.ButtonVolCal.ImageAlign = CType(resources.GetObject("ButtonVolCal.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.ButtonVolCal.ImageIndex = CType(resources.GetObject("ButtonVolCal.ImageIndex"), Integer)
         Me.ButtonVolCal.ImageList = Me.ImageListGeneralTools
-        Me.ButtonVolCal.Location = New System.Drawing.Point(1032, 610)
+        Me.ButtonVolCal.ImeMode = CType(resources.GetObject("ButtonVolCal.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ButtonVolCal.Location = CType(resources.GetObject("ButtonVolCal.Location"), System.Drawing.Point)
         Me.ButtonVolCal.Name = "ButtonVolCal"
-        Me.ButtonVolCal.Size = New System.Drawing.Size(80, 80)
-        Me.ButtonVolCal.TabIndex = 55
-        Me.ButtonVolCal.Text = "Vol. Cal."
+        Me.ButtonVolCal.RightToLeft = CType(resources.GetObject("ButtonVolCal.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ButtonVolCal.Size = CType(resources.GetObject("ButtonVolCal.Size"), System.Drawing.Size)
+        Me.ButtonVolCal.TabIndex = CType(resources.GetObject("ButtonVolCal.TabIndex"), Integer)
+        Me.ButtonVolCal.Text = resources.GetString("ButtonVolCal.Text")
+        Me.ButtonVolCal.TextAlign = CType(resources.GetObject("ButtonVolCal.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.ButtonVolCal, resources.GetString("ButtonVolCal.ToolTip"))
+        Me.ButtonVolCal.Visible = CType(resources.GetObject("ButtonVolCal.Visible"), Boolean)
         '
         'ImageListFiles
         '
-        Me.ImageListFiles.ImageSize = New System.Drawing.Size(16, 16)
+        Me.ImageListFiles.ImageSize = CType(resources.GetObject("ImageListFiles.ImageSize"), System.Drawing.Size)
         Me.ImageListFiles.ImageStream = CType(resources.GetObject("ImageListFiles.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageListFiles.TransparentColor = System.Drawing.Color.Transparent
         '
         'imageListElement
         '
-        Me.imageListElement.ImageSize = New System.Drawing.Size(30, 30)
+        Me.imageListElement.ImageSize = CType(resources.GetObject("imageListElement.ImageSize"), System.Drawing.Size)
         Me.imageListElement.ImageStream = CType(resources.GetObject("imageListElement.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imageListElement.TransparentColor = System.Drawing.Color.DarkGray
         '
         'ImageListReference
         '
-        Me.ImageListReference.ImageSize = New System.Drawing.Size(30, 30)
+        Me.ImageListReference.ImageSize = CType(resources.GetObject("ImageListReference.ImageSize"), System.Drawing.Size)
         Me.ImageListReference.ImageStream = CType(resources.GetObject("ImageListReference.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageListReference.TransparentColor = System.Drawing.Color.White
         '
         'ReferenceCommandBlock
         '
+        Me.ReferenceCommandBlock.AccessibleDescription = resources.GetString("ReferenceCommandBlock.AccessibleDescription")
+        Me.ReferenceCommandBlock.AccessibleName = resources.GetString("ReferenceCommandBlock.AccessibleName")
         Me.ReferenceCommandBlock.AllowDrop = True
+        Me.ReferenceCommandBlock.Anchor = CType(resources.GetObject("ReferenceCommandBlock.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.ReferenceCommandBlock.Appearance = CType(resources.GetObject("ReferenceCommandBlock.Appearance"), System.Windows.Forms.ToolBarAppearance)
+        Me.ReferenceCommandBlock.AutoSize = CType(resources.GetObject("ReferenceCommandBlock.AutoSize"), Boolean)
+        Me.ReferenceCommandBlock.BackgroundImage = CType(resources.GetObject("ReferenceCommandBlock.BackgroundImage"), System.Drawing.Image)
         Me.ReferenceCommandBlock.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.TBFiducialPt, Me.TBHeightPt, Me.TBReferencePt, Me.TBRejectPt})
-        Me.ReferenceCommandBlock.ButtonSize = New System.Drawing.Size(42, 42)
-        Me.ReferenceCommandBlock.Dock = System.Windows.Forms.DockStyle.None
-        Me.ReferenceCommandBlock.DropDownArrows = True
-        Me.ReferenceCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ReferenceCommandBlock.ButtonSize = CType(resources.GetObject("ReferenceCommandBlock.ButtonSize"), System.Drawing.Size)
+        Me.ReferenceCommandBlock.Dock = CType(resources.GetObject("ReferenceCommandBlock.Dock"), System.Windows.Forms.DockStyle)
+        Me.ReferenceCommandBlock.DropDownArrows = CType(resources.GetObject("ReferenceCommandBlock.DropDownArrows"), Boolean)
+        Me.ReferenceCommandBlock.Enabled = CType(resources.GetObject("ReferenceCommandBlock.Enabled"), Boolean)
+        Me.ReferenceCommandBlock.Font = CType(resources.GetObject("ReferenceCommandBlock.Font"), System.Drawing.Font)
         Me.ReferenceCommandBlock.ImageList = Me.ImageListReference
-        Me.ReferenceCommandBlock.Location = New System.Drawing.Point(0, 360)
+        Me.ReferenceCommandBlock.ImeMode = CType(resources.GetObject("ReferenceCommandBlock.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ReferenceCommandBlock.Location = CType(resources.GetObject("ReferenceCommandBlock.Location"), System.Drawing.Point)
         Me.ReferenceCommandBlock.Name = "ReferenceCommandBlock"
-        Me.ReferenceCommandBlock.ShowToolTips = True
-        Me.ReferenceCommandBlock.Size = New System.Drawing.Size(86, 90)
-        Me.ReferenceCommandBlock.TabIndex = 82
+        Me.ReferenceCommandBlock.RightToLeft = CType(resources.GetObject("ReferenceCommandBlock.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ReferenceCommandBlock.ShowToolTips = CType(resources.GetObject("ReferenceCommandBlock.ShowToolTips"), Boolean)
+        Me.ReferenceCommandBlock.Size = CType(resources.GetObject("ReferenceCommandBlock.Size"), System.Drawing.Size)
+        Me.ReferenceCommandBlock.TabIndex = CType(resources.GetObject("ReferenceCommandBlock.TabIndex"), Integer)
+        Me.ReferenceCommandBlock.TextAlign = CType(resources.GetObject("ReferenceCommandBlock.TextAlign"), System.Windows.Forms.ToolBarTextAlign)
+        Me.ToolTip1.SetToolTip(Me.ReferenceCommandBlock, resources.GetString("ReferenceCommandBlock.ToolTip"))
+        Me.ReferenceCommandBlock.Visible = CType(resources.GetObject("ReferenceCommandBlock.Visible"), Boolean)
+        Me.ReferenceCommandBlock.Wrappable = CType(resources.GetObject("ReferenceCommandBlock.Wrappable"), Boolean)
         '
         'TBFiducialPt
         '
-        Me.TBFiducialPt.ImageIndex = 1
-        Me.TBFiducialPt.Text = "      Fiducial"
-        Me.TBFiducialPt.ToolTipText = "Fiducial Point"
+        Me.TBFiducialPt.Enabled = CType(resources.GetObject("TBFiducialPt.Enabled"), Boolean)
+        Me.TBFiducialPt.ImageIndex = CType(resources.GetObject("TBFiducialPt.ImageIndex"), Integer)
+        Me.TBFiducialPt.Text = resources.GetString("TBFiducialPt.Text")
+        Me.TBFiducialPt.ToolTipText = resources.GetString("TBFiducialPt.ToolTipText")
+        Me.TBFiducialPt.Visible = CType(resources.GetObject("TBFiducialPt.Visible"), Boolean)
         '
         'TBHeightPt
         '
-        Me.TBHeightPt.ImageIndex = 2
-        Me.TBHeightPt.Text = "      Height"
-        Me.TBHeightPt.ToolTipText = "Height Point"
+        Me.TBHeightPt.Enabled = CType(resources.GetObject("TBHeightPt.Enabled"), Boolean)
+        Me.TBHeightPt.ImageIndex = CType(resources.GetObject("TBHeightPt.ImageIndex"), Integer)
+        Me.TBHeightPt.Text = resources.GetString("TBHeightPt.Text")
+        Me.TBHeightPt.ToolTipText = resources.GetString("TBHeightPt.ToolTipText")
+        Me.TBHeightPt.Visible = CType(resources.GetObject("TBHeightPt.Visible"), Boolean)
         '
         'TBReferencePt
         '
-        Me.TBReferencePt.ImageIndex = 0
-        Me.TBReferencePt.Text = "     Reference"
-        Me.TBReferencePt.ToolTipText = "Reference Point"
+        Me.TBReferencePt.Enabled = CType(resources.GetObject("TBReferencePt.Enabled"), Boolean)
+        Me.TBReferencePt.ImageIndex = CType(resources.GetObject("TBReferencePt.ImageIndex"), Integer)
+        Me.TBReferencePt.Text = resources.GetString("TBReferencePt.Text")
+        Me.TBReferencePt.ToolTipText = resources.GetString("TBReferencePt.ToolTipText")
+        Me.TBReferencePt.Visible = CType(resources.GetObject("TBReferencePt.Visible"), Boolean)
         '
         'TBRejectPt
         '
-        Me.TBRejectPt.ImageIndex = 3
-        Me.TBRejectPt.Text = "     Reject"
-        Me.TBRejectPt.ToolTipText = "Reject Point"
+        Me.TBRejectPt.Enabled = CType(resources.GetObject("TBRejectPt.Enabled"), Boolean)
+        Me.TBRejectPt.ImageIndex = CType(resources.GetObject("TBRejectPt.ImageIndex"), Integer)
+        Me.TBRejectPt.Text = resources.GetString("TBRejectPt.Text")
+        Me.TBRejectPt.ToolTipText = resources.GetString("TBRejectPt.ToolTipText")
+        Me.TBRejectPt.Visible = CType(resources.GetObject("TBRejectPt.Visible"), Boolean)
         '
         'ElementsCommandBlock
         '
+        Me.ElementsCommandBlock.AccessibleDescription = resources.GetString("ElementsCommandBlock.AccessibleDescription")
+        Me.ElementsCommandBlock.AccessibleName = resources.GetString("ElementsCommandBlock.AccessibleName")
+        Me.ElementsCommandBlock.Anchor = CType(resources.GetObject("ElementsCommandBlock.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.ElementsCommandBlock.Appearance = CType(resources.GetObject("ElementsCommandBlock.Appearance"), System.Windows.Forms.ToolBarAppearance)
+        Me.ElementsCommandBlock.AutoSize = CType(resources.GetObject("ElementsCommandBlock.AutoSize"), Boolean)
+        Me.ElementsCommandBlock.BackgroundImage = CType(resources.GetObject("ElementsCommandBlock.BackgroundImage"), System.Drawing.Image)
         Me.ElementsCommandBlock.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.TBBDot, Me.TBBLine, Me.TBBArc, Me.TBBRectangle, Me.TBBCircle, Me.TBBFilledRectangle, Me.TBBFilledCircle, Me.TBBLink, Me.TBBChipEdge, Me.TBBMove, Me.TBBWait, Me.TBBPurge, Me.TBBClean, Me.TBBQC, Me.TBBSubPattern, Me.TBBArray, Me.TBBGetIO, Me.TBBSetIO, Me.TBBOffset, Me.TBBMeasure, Me.TBBDotArray, Me.TBBVolumeCal})
-        Me.ElementsCommandBlock.ButtonSize = New System.Drawing.Size(42, 42)
-        Me.ElementsCommandBlock.Dock = System.Windows.Forms.DockStyle.None
-        Me.ElementsCommandBlock.DropDownArrows = True
-        Me.ElementsCommandBlock.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ElementsCommandBlock.ButtonSize = CType(resources.GetObject("ElementsCommandBlock.ButtonSize"), System.Drawing.Size)
+        Me.ElementsCommandBlock.Dock = CType(resources.GetObject("ElementsCommandBlock.Dock"), System.Windows.Forms.DockStyle)
+        Me.ElementsCommandBlock.DropDownArrows = CType(resources.GetObject("ElementsCommandBlock.DropDownArrows"), Boolean)
+        Me.ElementsCommandBlock.Enabled = CType(resources.GetObject("ElementsCommandBlock.Enabled"), Boolean)
+        Me.ElementsCommandBlock.Font = CType(resources.GetObject("ElementsCommandBlock.Font"), System.Drawing.Font)
         Me.ElementsCommandBlock.ImageList = Me.imageListElement
-        Me.ElementsCommandBlock.Location = New System.Drawing.Point(0, 448)
+        Me.ElementsCommandBlock.ImeMode = CType(resources.GetObject("ElementsCommandBlock.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ElementsCommandBlock.Location = CType(resources.GetObject("ElementsCommandBlock.Location"), System.Drawing.Point)
         Me.ElementsCommandBlock.Name = "ElementsCommandBlock"
-        Me.ElementsCommandBlock.ShowToolTips = True
-        Me.ElementsCommandBlock.Size = New System.Drawing.Size(88, 468)
-        Me.ElementsCommandBlock.TabIndex = 83
+        Me.ElementsCommandBlock.RightToLeft = CType(resources.GetObject("ElementsCommandBlock.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ElementsCommandBlock.ShowToolTips = CType(resources.GetObject("ElementsCommandBlock.ShowToolTips"), Boolean)
+        Me.ElementsCommandBlock.Size = CType(resources.GetObject("ElementsCommandBlock.Size"), System.Drawing.Size)
+        Me.ElementsCommandBlock.TabIndex = CType(resources.GetObject("ElementsCommandBlock.TabIndex"), Integer)
+        Me.ElementsCommandBlock.TextAlign = CType(resources.GetObject("ElementsCommandBlock.TextAlign"), System.Windows.Forms.ToolBarTextAlign)
+        Me.ToolTip1.SetToolTip(Me.ElementsCommandBlock, resources.GetString("ElementsCommandBlock.ToolTip"))
+        Me.ElementsCommandBlock.Visible = CType(resources.GetObject("ElementsCommandBlock.Visible"), Boolean)
+        Me.ElementsCommandBlock.Wrappable = CType(resources.GetObject("ElementsCommandBlock.Wrappable"), Boolean)
         '
         'TBBDot
         '
-        Me.TBBDot.ImageIndex = 0
-        Me.TBBDot.Text = "       Dot"
-        Me.TBBDot.ToolTipText = "Dot"
+        Me.TBBDot.Enabled = CType(resources.GetObject("TBBDot.Enabled"), Boolean)
+        Me.TBBDot.ImageIndex = CType(resources.GetObject("TBBDot.ImageIndex"), Integer)
+        Me.TBBDot.Text = resources.GetString("TBBDot.Text")
+        Me.TBBDot.ToolTipText = resources.GetString("TBBDot.ToolTipText")
+        Me.TBBDot.Visible = CType(resources.GetObject("TBBDot.Visible"), Boolean)
         '
         'TBBLine
         '
-        Me.TBBLine.ImageIndex = 1
-        Me.TBBLine.Text = "      Line"
-        Me.TBBLine.ToolTipText = "Line"
+        Me.TBBLine.Enabled = CType(resources.GetObject("TBBLine.Enabled"), Boolean)
+        Me.TBBLine.ImageIndex = CType(resources.GetObject("TBBLine.ImageIndex"), Integer)
+        Me.TBBLine.Text = resources.GetString("TBBLine.Text")
+        Me.TBBLine.ToolTipText = resources.GetString("TBBLine.ToolTipText")
+        Me.TBBLine.Visible = CType(resources.GetObject("TBBLine.Visible"), Boolean)
         '
         'TBBArc
         '
-        Me.TBBArc.ImageIndex = 2
-        Me.TBBArc.Text = "       Arc"
-        Me.TBBArc.ToolTipText = "Arc"
+        Me.TBBArc.Enabled = CType(resources.GetObject("TBBArc.Enabled"), Boolean)
+        Me.TBBArc.ImageIndex = CType(resources.GetObject("TBBArc.ImageIndex"), Integer)
+        Me.TBBArc.Text = resources.GetString("TBBArc.Text")
+        Me.TBBArc.ToolTipText = resources.GetString("TBBArc.ToolTipText")
+        Me.TBBArc.Visible = CType(resources.GetObject("TBBArc.Visible"), Boolean)
         '
         'TBBRectangle
         '
-        Me.TBBRectangle.ImageIndex = 3
-        Me.TBBRectangle.Text = "     Rectangle"
-        Me.TBBRectangle.ToolTipText = "Rectangle"
+        Me.TBBRectangle.Enabled = CType(resources.GetObject("TBBRectangle.Enabled"), Boolean)
+        Me.TBBRectangle.ImageIndex = CType(resources.GetObject("TBBRectangle.ImageIndex"), Integer)
+        Me.TBBRectangle.Text = resources.GetString("TBBRectangle.Text")
+        Me.TBBRectangle.ToolTipText = resources.GetString("TBBRectangle.ToolTipText")
+        Me.TBBRectangle.Visible = CType(resources.GetObject("TBBRectangle.Visible"), Boolean)
         '
         'TBBCircle
         '
-        Me.TBBCircle.ImageIndex = 4
-        Me.TBBCircle.Text = "     Circle"
-        Me.TBBCircle.ToolTipText = "Circle"
+        Me.TBBCircle.Enabled = CType(resources.GetObject("TBBCircle.Enabled"), Boolean)
+        Me.TBBCircle.ImageIndex = CType(resources.GetObject("TBBCircle.ImageIndex"), Integer)
+        Me.TBBCircle.Text = resources.GetString("TBBCircle.Text")
+        Me.TBBCircle.ToolTipText = resources.GetString("TBBCircle.ToolTipText")
+        Me.TBBCircle.Visible = CType(resources.GetObject("TBBCircle.Visible"), Boolean)
         '
         'TBBFilledRectangle
         '
-        Me.TBBFilledRectangle.ImageIndex = 5
-        Me.TBBFilledRectangle.Text = "     FillRectangle"
-        Me.TBBFilledRectangle.ToolTipText = "FillRectangle"
+        Me.TBBFilledRectangle.Enabled = CType(resources.GetObject("TBBFilledRectangle.Enabled"), Boolean)
+        Me.TBBFilledRectangle.ImageIndex = CType(resources.GetObject("TBBFilledRectangle.ImageIndex"), Integer)
+        Me.TBBFilledRectangle.Text = resources.GetString("TBBFilledRectangle.Text")
+        Me.TBBFilledRectangle.ToolTipText = resources.GetString("TBBFilledRectangle.ToolTipText")
+        Me.TBBFilledRectangle.Visible = CType(resources.GetObject("TBBFilledRectangle.Visible"), Boolean)
         '
         'TBBFilledCircle
         '
-        Me.TBBFilledCircle.ImageIndex = 6
-        Me.TBBFilledCircle.Text = "      FillCircle"
-        Me.TBBFilledCircle.ToolTipText = "FillCircle"
+        Me.TBBFilledCircle.Enabled = CType(resources.GetObject("TBBFilledCircle.Enabled"), Boolean)
+        Me.TBBFilledCircle.ImageIndex = CType(resources.GetObject("TBBFilledCircle.ImageIndex"), Integer)
+        Me.TBBFilledCircle.Text = resources.GetString("TBBFilledCircle.Text")
+        Me.TBBFilledCircle.ToolTipText = resources.GetString("TBBFilledCircle.ToolTipText")
+        Me.TBBFilledCircle.Visible = CType(resources.GetObject("TBBFilledCircle.Visible"), Boolean)
         '
         'TBBLink
         '
-        Me.TBBLink.ImageIndex = 7
-        Me.TBBLink.Text = "     Link"
-        Me.TBBLink.ToolTipText = "Link"
+        Me.TBBLink.Enabled = CType(resources.GetObject("TBBLink.Enabled"), Boolean)
+        Me.TBBLink.ImageIndex = CType(resources.GetObject("TBBLink.ImageIndex"), Integer)
+        Me.TBBLink.Text = resources.GetString("TBBLink.Text")
+        Me.TBBLink.ToolTipText = resources.GetString("TBBLink.ToolTipText")
+        Me.TBBLink.Visible = CType(resources.GetObject("TBBLink.Visible"), Boolean)
         '
         'TBBChipEdge
         '
-        Me.TBBChipEdge.ImageIndex = 8
-        Me.TBBChipEdge.Text = "     ChipEdge"
-        Me.TBBChipEdge.ToolTipText = "ChipEdge"
+        Me.TBBChipEdge.Enabled = CType(resources.GetObject("TBBChipEdge.Enabled"), Boolean)
+        Me.TBBChipEdge.ImageIndex = CType(resources.GetObject("TBBChipEdge.ImageIndex"), Integer)
+        Me.TBBChipEdge.Text = resources.GetString("TBBChipEdge.Text")
+        Me.TBBChipEdge.ToolTipText = resources.GetString("TBBChipEdge.ToolTipText")
+        Me.TBBChipEdge.Visible = CType(resources.GetObject("TBBChipEdge.Visible"), Boolean)
         '
         'TBBMove
         '
-        Me.TBBMove.ImageIndex = 9
-        Me.TBBMove.Text = "     Move"
-        Me.TBBMove.ToolTipText = "Move"
+        Me.TBBMove.Enabled = CType(resources.GetObject("TBBMove.Enabled"), Boolean)
+        Me.TBBMove.ImageIndex = CType(resources.GetObject("TBBMove.ImageIndex"), Integer)
+        Me.TBBMove.Text = resources.GetString("TBBMove.Text")
+        Me.TBBMove.ToolTipText = resources.GetString("TBBMove.ToolTipText")
+        Me.TBBMove.Visible = CType(resources.GetObject("TBBMove.Visible"), Boolean)
         '
         'TBBWait
         '
-        Me.TBBWait.ImageIndex = 10
-        Me.TBBWait.Text = "    Wait"
-        Me.TBBWait.ToolTipText = "Wait"
+        Me.TBBWait.Enabled = CType(resources.GetObject("TBBWait.Enabled"), Boolean)
+        Me.TBBWait.ImageIndex = CType(resources.GetObject("TBBWait.ImageIndex"), Integer)
+        Me.TBBWait.Text = resources.GetString("TBBWait.Text")
+        Me.TBBWait.ToolTipText = resources.GetString("TBBWait.ToolTipText")
+        Me.TBBWait.Visible = CType(resources.GetObject("TBBWait.Visible"), Boolean)
         '
         'TBBPurge
         '
-        Me.TBBPurge.ImageIndex = 11
-        Me.TBBPurge.Text = "     Purge"
-        Me.TBBPurge.ToolTipText = "Purge"
+        Me.TBBPurge.Enabled = CType(resources.GetObject("TBBPurge.Enabled"), Boolean)
+        Me.TBBPurge.ImageIndex = CType(resources.GetObject("TBBPurge.ImageIndex"), Integer)
+        Me.TBBPurge.Text = resources.GetString("TBBPurge.Text")
+        Me.TBBPurge.ToolTipText = resources.GetString("TBBPurge.ToolTipText")
+        Me.TBBPurge.Visible = CType(resources.GetObject("TBBPurge.Visible"), Boolean)
         '
         'TBBClean
         '
-        Me.TBBClean.ImageIndex = 12
-        Me.TBBClean.Text = "     Clean"
-        Me.TBBClean.ToolTipText = "Clean"
+        Me.TBBClean.Enabled = CType(resources.GetObject("TBBClean.Enabled"), Boolean)
+        Me.TBBClean.ImageIndex = CType(resources.GetObject("TBBClean.ImageIndex"), Integer)
+        Me.TBBClean.Text = resources.GetString("TBBClean.Text")
+        Me.TBBClean.ToolTipText = resources.GetString("TBBClean.ToolTipText")
+        Me.TBBClean.Visible = CType(resources.GetObject("TBBClean.Visible"), Boolean)
         '
         'TBBQC
         '
-        Me.TBBQC.ImageIndex = 13
-        Me.TBBQC.Text = "     QC"
-        Me.TBBQC.ToolTipText = "QCCheck"
+        Me.TBBQC.Enabled = CType(resources.GetObject("TBBQC.Enabled"), Boolean)
+        Me.TBBQC.ImageIndex = CType(resources.GetObject("TBBQC.ImageIndex"), Integer)
+        Me.TBBQC.Text = resources.GetString("TBBQC.Text")
+        Me.TBBQC.ToolTipText = resources.GetString("TBBQC.ToolTipText")
+        Me.TBBQC.Visible = CType(resources.GetObject("TBBQC.Visible"), Boolean)
         '
         'TBBSubPattern
         '
-        Me.TBBSubPattern.ImageIndex = 14
-        Me.TBBSubPattern.Text = "      SubPattern"
-        Me.TBBSubPattern.ToolTipText = "Call Sub Pattern"
+        Me.TBBSubPattern.Enabled = CType(resources.GetObject("TBBSubPattern.Enabled"), Boolean)
+        Me.TBBSubPattern.ImageIndex = CType(resources.GetObject("TBBSubPattern.ImageIndex"), Integer)
+        Me.TBBSubPattern.Text = resources.GetString("TBBSubPattern.Text")
+        Me.TBBSubPattern.ToolTipText = resources.GetString("TBBSubPattern.ToolTipText")
+        Me.TBBSubPattern.Visible = CType(resources.GetObject("TBBSubPattern.Visible"), Boolean)
         '
         'TBBArray
         '
-        Me.TBBArray.ImageIndex = 15
-        Me.TBBArray.Text = "     Array"
-        Me.TBBArray.ToolTipText = "Array"
+        Me.TBBArray.Enabled = CType(resources.GetObject("TBBArray.Enabled"), Boolean)
+        Me.TBBArray.ImageIndex = CType(resources.GetObject("TBBArray.ImageIndex"), Integer)
+        Me.TBBArray.Text = resources.GetString("TBBArray.Text")
+        Me.TBBArray.ToolTipText = resources.GetString("TBBArray.ToolTipText")
+        Me.TBBArray.Visible = CType(resources.GetObject("TBBArray.Visible"), Boolean)
         '
         'TBBGetIO
         '
-        Me.TBBGetIO.ImageIndex = 16
-        Me.TBBGetIO.Text = "    GetIO"
-        Me.TBBGetIO.ToolTipText = "Get Digital Input"
+        Me.TBBGetIO.Enabled = CType(resources.GetObject("TBBGetIO.Enabled"), Boolean)
+        Me.TBBGetIO.ImageIndex = CType(resources.GetObject("TBBGetIO.ImageIndex"), Integer)
+        Me.TBBGetIO.Text = resources.GetString("TBBGetIO.Text")
+        Me.TBBGetIO.ToolTipText = resources.GetString("TBBGetIO.ToolTipText")
+        Me.TBBGetIO.Visible = CType(resources.GetObject("TBBGetIO.Visible"), Boolean)
         '
         'TBBSetIO
         '
-        Me.TBBSetIO.ImageIndex = 17
-        Me.TBBSetIO.Text = "     SetIO"
-        Me.TBBSetIO.ToolTipText = "Set Digital Output"
+        Me.TBBSetIO.Enabled = CType(resources.GetObject("TBBSetIO.Enabled"), Boolean)
+        Me.TBBSetIO.ImageIndex = CType(resources.GetObject("TBBSetIO.ImageIndex"), Integer)
+        Me.TBBSetIO.Text = resources.GetString("TBBSetIO.Text")
+        Me.TBBSetIO.ToolTipText = resources.GetString("TBBSetIO.ToolTipText")
+        Me.TBBSetIO.Visible = CType(resources.GetObject("TBBSetIO.Visible"), Boolean)
         '
         'TBBOffset
         '
-        Me.TBBOffset.ImageIndex = 18
-        Me.TBBOffset.Text = "      Offset"
-        Me.TBBOffset.ToolTipText = "Offset"
+        Me.TBBOffset.Enabled = CType(resources.GetObject("TBBOffset.Enabled"), Boolean)
+        Me.TBBOffset.ImageIndex = CType(resources.GetObject("TBBOffset.ImageIndex"), Integer)
+        Me.TBBOffset.Text = resources.GetString("TBBOffset.Text")
+        Me.TBBOffset.ToolTipText = resources.GetString("TBBOffset.ToolTipText")
+        Me.TBBOffset.Visible = CType(resources.GetObject("TBBOffset.Visible"), Boolean)
         '
         'TBBMeasure
         '
-        Me.TBBMeasure.ImageIndex = 19
-        Me.TBBMeasure.Text = "    Measure"
-        Me.TBBMeasure.ToolTipText = "Measure"
+        Me.TBBMeasure.Enabled = CType(resources.GetObject("TBBMeasure.Enabled"), Boolean)
+        Me.TBBMeasure.ImageIndex = CType(resources.GetObject("TBBMeasure.ImageIndex"), Integer)
+        Me.TBBMeasure.Text = resources.GetString("TBBMeasure.Text")
+        Me.TBBMeasure.ToolTipText = resources.GetString("TBBMeasure.ToolTipText")
+        Me.TBBMeasure.Visible = CType(resources.GetObject("TBBMeasure.Visible"), Boolean)
         '
         'TBBDotArray
         '
-        Me.TBBDotArray.ImageIndex = 20
-        Me.TBBDotArray.Text = "    DotArray"
-        Me.TBBDotArray.ToolTipText = "Dot Array"
+        Me.TBBDotArray.Enabled = CType(resources.GetObject("TBBDotArray.Enabled"), Boolean)
+        Me.TBBDotArray.ImageIndex = CType(resources.GetObject("TBBDotArray.ImageIndex"), Integer)
+        Me.TBBDotArray.Text = resources.GetString("TBBDotArray.Text")
+        Me.TBBDotArray.ToolTipText = resources.GetString("TBBDotArray.ToolTipText")
+        Me.TBBDotArray.Visible = CType(resources.GetObject("TBBDotArray.Visible"), Boolean)
         '
         'TBBVolumeCal
         '
-        Me.TBBVolumeCal.Text = "     VolumeCalibration"
-        '
-        'ImageListYesNo
-        '
-        Me.ImageListYesNo.ImageSize = New System.Drawing.Size(30, 30)
-        Me.ImageListYesNo.ImageStream = CType(resources.GetObject("ImageListYesNo.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageListYesNo.TransparentColor = System.Drawing.Color.White
+        Me.TBBVolumeCal.Enabled = CType(resources.GetObject("TBBVolumeCal.Enabled"), Boolean)
+        Me.TBBVolumeCal.ImageIndex = CType(resources.GetObject("TBBVolumeCal.ImageIndex"), Integer)
+        Me.TBBVolumeCal.Text = resources.GetString("TBBVolumeCal.Text")
+        Me.TBBVolumeCal.ToolTipText = resources.GetString("TBBVolumeCal.ToolTipText")
+        Me.TBBVolumeCal.Visible = CType(resources.GetObject("TBBVolumeCal.Visible"), Boolean)
         '
         'Label5
         '
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label5.Location = New System.Drawing.Point(40, 16)
+        Me.Label5.AccessibleDescription = resources.GetString("Label5.AccessibleDescription")
+        Me.Label5.AccessibleName = resources.GetString("Label5.AccessibleName")
+        Me.Label5.Anchor = CType(resources.GetObject("Label5.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.Label5.AutoSize = CType(resources.GetObject("Label5.AutoSize"), Boolean)
+        Me.Label5.Dock = CType(resources.GetObject("Label5.Dock"), System.Windows.Forms.DockStyle)
+        Me.Label5.Enabled = CType(resources.GetObject("Label5.Enabled"), Boolean)
+        Me.Label5.Font = CType(resources.GetObject("Label5.Font"), System.Drawing.Font)
+        Me.Label5.Image = CType(resources.GetObject("Label5.Image"), System.Drawing.Image)
+        Me.Label5.ImageAlign = CType(resources.GetObject("Label5.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.Label5.ImageIndex = CType(resources.GetObject("Label5.ImageIndex"), Integer)
+        Me.Label5.ImeMode = CType(resources.GetObject("Label5.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.Label5.Location = CType(resources.GetObject("Label5.Location"), System.Drawing.Point)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(56, 16)
-        Me.Label5.TabIndex = 87
-        Me.Label5.Text = "Mode:"
+        Me.Label5.RightToLeft = CType(resources.GetObject("Label5.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.Label5.Size = CType(resources.GetObject("Label5.Size"), System.Drawing.Size)
+        Me.Label5.TabIndex = CType(resources.GetObject("Label5.TabIndex"), Integer)
+        Me.Label5.Text = resources.GetString("Label5.Text")
+        Me.Label5.TextAlign = CType(resources.GetObject("Label5.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.Label5, resources.GetString("Label5.ToolTip"))
+        Me.Label5.Visible = CType(resources.GetObject("Label5.Visible"), Boolean)
         '
         'VisionMode
         '
+        Me.VisionMode.AccessibleDescription = resources.GetString("VisionMode.AccessibleDescription")
+        Me.VisionMode.AccessibleName = resources.GetString("VisionMode.AccessibleName")
+        Me.VisionMode.Anchor = CType(resources.GetObject("VisionMode.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.VisionMode.Appearance = CType(resources.GetObject("VisionMode.Appearance"), System.Windows.Forms.Appearance)
         Me.VisionMode.AutoCheck = False
+        Me.VisionMode.BackgroundImage = CType(resources.GetObject("VisionMode.BackgroundImage"), System.Drawing.Image)
+        Me.VisionMode.CheckAlign = CType(resources.GetObject("VisionMode.CheckAlign"), System.Drawing.ContentAlignment)
         Me.VisionMode.Checked = True
-        Me.VisionMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.VisionMode.Location = New System.Drawing.Point(160, 16)
+        Me.VisionMode.Dock = CType(resources.GetObject("VisionMode.Dock"), System.Windows.Forms.DockStyle)
+        Me.VisionMode.Enabled = CType(resources.GetObject("VisionMode.Enabled"), Boolean)
+        Me.VisionMode.FlatStyle = CType(resources.GetObject("VisionMode.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.VisionMode.Font = CType(resources.GetObject("VisionMode.Font"), System.Drawing.Font)
+        Me.VisionMode.Image = CType(resources.GetObject("VisionMode.Image"), System.Drawing.Image)
+        Me.VisionMode.ImageAlign = CType(resources.GetObject("VisionMode.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.VisionMode.ImageIndex = CType(resources.GetObject("VisionMode.ImageIndex"), Integer)
+        Me.VisionMode.ImeMode = CType(resources.GetObject("VisionMode.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.VisionMode.Location = CType(resources.GetObject("VisionMode.Location"), System.Drawing.Point)
         Me.VisionMode.Name = "VisionMode"
-        Me.VisionMode.Size = New System.Drawing.Size(80, 16)
-        Me.VisionMode.TabIndex = 86
+        Me.VisionMode.RightToLeft = CType(resources.GetObject("VisionMode.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.VisionMode.Size = CType(resources.GetObject("VisionMode.Size"), System.Drawing.Size)
+        Me.VisionMode.TabIndex = CType(resources.GetObject("VisionMode.TabIndex"), Integer)
         Me.VisionMode.TabStop = True
-        Me.VisionMode.Text = "Vision"
+        Me.VisionMode.Text = resources.GetString("VisionMode.Text")
+        Me.VisionMode.TextAlign = CType(resources.GetObject("VisionMode.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.VisionMode, resources.GetString("VisionMode.ToolTip"))
+        Me.VisionMode.Visible = CType(resources.GetObject("VisionMode.Visible"), Boolean)
         '
         'CBExpandSpreadsheet
         '
-        Me.CBExpandSpreadsheet.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.CBExpandSpreadsheet.Location = New System.Drawing.Point(1084, 7)
+        Me.CBExpandSpreadsheet.AccessibleDescription = resources.GetString("CBExpandSpreadsheet.AccessibleDescription")
+        Me.CBExpandSpreadsheet.AccessibleName = resources.GetString("CBExpandSpreadsheet.AccessibleName")
+        Me.CBExpandSpreadsheet.Anchor = CType(resources.GetObject("CBExpandSpreadsheet.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.CBExpandSpreadsheet.Appearance = CType(resources.GetObject("CBExpandSpreadsheet.Appearance"), System.Windows.Forms.Appearance)
+        Me.CBExpandSpreadsheet.BackgroundImage = CType(resources.GetObject("CBExpandSpreadsheet.BackgroundImage"), System.Drawing.Image)
+        Me.CBExpandSpreadsheet.CheckAlign = CType(resources.GetObject("CBExpandSpreadsheet.CheckAlign"), System.Drawing.ContentAlignment)
+        Me.CBExpandSpreadsheet.Dock = CType(resources.GetObject("CBExpandSpreadsheet.Dock"), System.Windows.Forms.DockStyle)
+        Me.CBExpandSpreadsheet.Enabled = CType(resources.GetObject("CBExpandSpreadsheet.Enabled"), Boolean)
+        Me.CBExpandSpreadsheet.FlatStyle = CType(resources.GetObject("CBExpandSpreadsheet.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.CBExpandSpreadsheet.Font = CType(resources.GetObject("CBExpandSpreadsheet.Font"), System.Drawing.Font)
+        Me.CBExpandSpreadsheet.Image = CType(resources.GetObject("CBExpandSpreadsheet.Image"), System.Drawing.Image)
+        Me.CBExpandSpreadsheet.ImageAlign = CType(resources.GetObject("CBExpandSpreadsheet.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.CBExpandSpreadsheet.ImageIndex = CType(resources.GetObject("CBExpandSpreadsheet.ImageIndex"), Integer)
+        Me.CBExpandSpreadsheet.ImeMode = CType(resources.GetObject("CBExpandSpreadsheet.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.CBExpandSpreadsheet.Location = CType(resources.GetObject("CBExpandSpreadsheet.Location"), System.Drawing.Point)
         Me.CBExpandSpreadsheet.Name = "CBExpandSpreadsheet"
-        Me.CBExpandSpreadsheet.Size = New System.Drawing.Size(192, 24)
-        Me.CBExpandSpreadsheet.TabIndex = 93
-        Me.CBExpandSpreadsheet.Text = "Expand Spreadsheet"
+        Me.CBExpandSpreadsheet.RightToLeft = CType(resources.GetObject("CBExpandSpreadsheet.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.CBExpandSpreadsheet.Size = CType(resources.GetObject("CBExpandSpreadsheet.Size"), System.Drawing.Size)
+        Me.CBExpandSpreadsheet.TabIndex = CType(resources.GetObject("CBExpandSpreadsheet.TabIndex"), Integer)
+        Me.CBExpandSpreadsheet.Text = resources.GetString("CBExpandSpreadsheet.Text")
+        Me.CBExpandSpreadsheet.TextAlign = CType(resources.GetObject("CBExpandSpreadsheet.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.CBExpandSpreadsheet, resources.GetString("CBExpandSpreadsheet.ToolTip"))
+        Me.CBExpandSpreadsheet.Visible = CType(resources.GetObject("CBExpandSpreadsheet.Visible"), Boolean)
         '
         'NeedleMode
         '
+        Me.NeedleMode.AccessibleDescription = resources.GetString("NeedleMode.AccessibleDescription")
+        Me.NeedleMode.AccessibleName = resources.GetString("NeedleMode.AccessibleName")
+        Me.NeedleMode.Anchor = CType(resources.GetObject("NeedleMode.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.NeedleMode.Appearance = CType(resources.GetObject("NeedleMode.Appearance"), System.Windows.Forms.Appearance)
         Me.NeedleMode.AutoCheck = False
         Me.NeedleMode.BackColor = System.Drawing.SystemColors.Control
-        Me.NeedleMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.NeedleMode.Location = New System.Drawing.Point(272, 16)
+        Me.NeedleMode.BackgroundImage = CType(resources.GetObject("NeedleMode.BackgroundImage"), System.Drawing.Image)
+        Me.NeedleMode.CheckAlign = CType(resources.GetObject("NeedleMode.CheckAlign"), System.Drawing.ContentAlignment)
+        Me.NeedleMode.Dock = CType(resources.GetObject("NeedleMode.Dock"), System.Windows.Forms.DockStyle)
+        Me.NeedleMode.Enabled = CType(resources.GetObject("NeedleMode.Enabled"), Boolean)
+        Me.NeedleMode.FlatStyle = CType(resources.GetObject("NeedleMode.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.NeedleMode.Font = CType(resources.GetObject("NeedleMode.Font"), System.Drawing.Font)
+        Me.NeedleMode.Image = CType(resources.GetObject("NeedleMode.Image"), System.Drawing.Image)
+        Me.NeedleMode.ImageAlign = CType(resources.GetObject("NeedleMode.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.NeedleMode.ImageIndex = CType(resources.GetObject("NeedleMode.ImageIndex"), Integer)
+        Me.NeedleMode.ImeMode = CType(resources.GetObject("NeedleMode.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.NeedleMode.Location = CType(resources.GetObject("NeedleMode.Location"), System.Drawing.Point)
         Me.NeedleMode.Name = "NeedleMode"
-        Me.NeedleMode.Size = New System.Drawing.Size(96, 16)
-        Me.NeedleMode.TabIndex = 89
-        Me.NeedleMode.Text = "Needle"
+        Me.NeedleMode.RightToLeft = CType(resources.GetObject("NeedleMode.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.NeedleMode.Size = CType(resources.GetObject("NeedleMode.Size"), System.Drawing.Size)
+        Me.NeedleMode.TabIndex = CType(resources.GetObject("NeedleMode.TabIndex"), Integer)
+        Me.NeedleMode.Text = resources.GetString("NeedleMode.Text")
+        Me.NeedleMode.TextAlign = CType(resources.GetObject("NeedleMode.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.NeedleMode, resources.GetString("NeedleMode.ToolTip"))
+        Me.NeedleMode.Visible = CType(resources.GetObject("NeedleMode.Visible"), Boolean)
         '
         'TeachingToolbar
         '
+        Me.TeachingToolbar.AccessibleDescription = resources.GetString("TeachingToolbar.AccessibleDescription")
+        Me.TeachingToolbar.AccessibleName = resources.GetString("TeachingToolbar.AccessibleName")
+        Me.TeachingToolbar.Anchor = CType(resources.GetObject("TeachingToolbar.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.TeachingToolbar.Appearance = CType(resources.GetObject("TeachingToolbar.Appearance"), System.Windows.Forms.ToolBarAppearance)
+        Me.TeachingToolbar.AutoSize = CType(resources.GetObject("TeachingToolbar.AutoSize"), Boolean)
         Me.TeachingToolbar.BackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+        Me.TeachingToolbar.BackgroundImage = CType(resources.GetObject("TeachingToolbar.BackgroundImage"), System.Drawing.Image)
         Me.TeachingToolbar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.TBBOk, Me.TBBCancel})
-        Me.TeachingToolbar.ButtonSize = New System.Drawing.Size(42, 42)
-        Me.TeachingToolbar.Dock = System.Windows.Forms.DockStyle.None
-        Me.TeachingToolbar.DropDownArrows = True
-        Me.TeachingToolbar.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TeachingToolbar.ButtonSize = CType(resources.GetObject("TeachingToolbar.ButtonSize"), System.Drawing.Size)
+        Me.TeachingToolbar.Dock = CType(resources.GetObject("TeachingToolbar.Dock"), System.Windows.Forms.DockStyle)
+        Me.TeachingToolbar.DropDownArrows = CType(resources.GetObject("TeachingToolbar.DropDownArrows"), Boolean)
+        Me.TeachingToolbar.Enabled = CType(resources.GetObject("TeachingToolbar.Enabled"), Boolean)
+        Me.TeachingToolbar.Font = CType(resources.GetObject("TeachingToolbar.Font"), System.Drawing.Font)
         Me.TeachingToolbar.ImageList = Me.ImageListYesNo
-        Me.TeachingToolbar.Location = New System.Drawing.Point(768, 320)
+        Me.TeachingToolbar.ImeMode = CType(resources.GetObject("TeachingToolbar.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.TeachingToolbar.Location = CType(resources.GetObject("TeachingToolbar.Location"), System.Drawing.Point)
         Me.TeachingToolbar.Name = "TeachingToolbar"
-        Me.TeachingToolbar.ShowToolTips = True
-        Me.TeachingToolbar.Size = New System.Drawing.Size(84, 48)
-        Me.TeachingToolbar.TabIndex = 0
+        Me.TeachingToolbar.RightToLeft = CType(resources.GetObject("TeachingToolbar.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.TeachingToolbar.ShowToolTips = CType(resources.GetObject("TeachingToolbar.ShowToolTips"), Boolean)
+        Me.TeachingToolbar.Size = CType(resources.GetObject("TeachingToolbar.Size"), System.Drawing.Size)
+        Me.TeachingToolbar.TabIndex = CType(resources.GetObject("TeachingToolbar.TabIndex"), Integer)
+        Me.TeachingToolbar.TextAlign = CType(resources.GetObject("TeachingToolbar.TextAlign"), System.Windows.Forms.ToolBarTextAlign)
+        Me.ToolTip1.SetToolTip(Me.TeachingToolbar, resources.GetString("TeachingToolbar.ToolTip"))
+        Me.TeachingToolbar.Visible = CType(resources.GetObject("TeachingToolbar.Visible"), Boolean)
+        Me.TeachingToolbar.Wrappable = CType(resources.GetObject("TeachingToolbar.Wrappable"), Boolean)
         '
         'TBBOk
         '
-        Me.TBBOk.ImageIndex = 0
-        Me.TBBOk.ToolTipText = "Ok"
+        Me.TBBOk.Enabled = CType(resources.GetObject("TBBOk.Enabled"), Boolean)
+        Me.TBBOk.ImageIndex = CType(resources.GetObject("TBBOk.ImageIndex"), Integer)
+        Me.TBBOk.Text = resources.GetString("TBBOk.Text")
+        Me.TBBOk.ToolTipText = resources.GetString("TBBOk.ToolTipText")
+        Me.TBBOk.Visible = CType(resources.GetObject("TBBOk.Visible"), Boolean)
         '
         'TBBCancel
         '
-        Me.TBBCancel.ImageIndex = 1
-        Me.TBBCancel.ToolTipText = "Cancel"
+        Me.TBBCancel.Enabled = CType(resources.GetObject("TBBCancel.Enabled"), Boolean)
+        Me.TBBCancel.ImageIndex = CType(resources.GetObject("TBBCancel.ImageIndex"), Integer)
+        Me.TBBCancel.Text = resources.GetString("TBBCancel.Text")
+        Me.TBBCancel.ToolTipText = resources.GetString("TBBCancel.ToolTipText")
+        Me.TBBCancel.Visible = CType(resources.GetObject("TBBCancel.Visible"), Boolean)
+        '
+        'ImageListYesNo
+        '
+        Me.ImageListYesNo.ImageSize = CType(resources.GetObject("ImageListYesNo.ImageSize"), System.Drawing.Size)
+        Me.ImageListYesNo.ImageStream = CType(resources.GetObject("ImageListYesNo.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageListYesNo.TransparentColor = System.Drawing.Color.White
         '
         'EditingToolbar
         '
+        Me.EditingToolbar.AccessibleDescription = resources.GetString("EditingToolbar.AccessibleDescription")
+        Me.EditingToolbar.AccessibleName = resources.GetString("EditingToolbar.AccessibleName")
+        Me.EditingToolbar.Anchor = CType(resources.GetObject("EditingToolbar.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.EditingToolbar.Appearance = CType(resources.GetObject("EditingToolbar.Appearance"), System.Windows.Forms.ToolBarAppearance)
+        Me.EditingToolbar.AutoSize = CType(resources.GetObject("EditingToolbar.AutoSize"), Boolean)
         Me.EditingToolbar.BackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+        Me.EditingToolbar.BackgroundImage = CType(resources.GetObject("EditingToolbar.BackgroundImage"), System.Drawing.Image)
         Me.EditingToolbar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.TBBSwitch, Me.TBBEdit})
-        Me.EditingToolbar.ButtonSize = New System.Drawing.Size(42, 42)
-        Me.EditingToolbar.Dock = System.Windows.Forms.DockStyle.None
-        Me.EditingToolbar.DropDownArrows = True
-        Me.EditingToolbar.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.EditingToolbar.ButtonSize = CType(resources.GetObject("EditingToolbar.ButtonSize"), System.Drawing.Size)
+        Me.EditingToolbar.Dock = CType(resources.GetObject("EditingToolbar.Dock"), System.Windows.Forms.DockStyle)
+        Me.EditingToolbar.DropDownArrows = CType(resources.GetObject("EditingToolbar.DropDownArrows"), Boolean)
+        Me.EditingToolbar.Enabled = CType(resources.GetObject("EditingToolbar.Enabled"), Boolean)
+        Me.EditingToolbar.Font = CType(resources.GetObject("EditingToolbar.Font"), System.Drawing.Font)
         Me.EditingToolbar.ImageList = Me.ImageListYesNo
-        Me.EditingToolbar.Location = New System.Drawing.Point(688, 320)
+        Me.EditingToolbar.ImeMode = CType(resources.GetObject("EditingToolbar.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.EditingToolbar.Location = CType(resources.GetObject("EditingToolbar.Location"), System.Drawing.Point)
         Me.EditingToolbar.Name = "EditingToolbar"
-        Me.EditingToolbar.ShowToolTips = True
-        Me.EditingToolbar.Size = New System.Drawing.Size(84, 48)
-        Me.EditingToolbar.TabIndex = 105
+        Me.EditingToolbar.RightToLeft = CType(resources.GetObject("EditingToolbar.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.EditingToolbar.ShowToolTips = CType(resources.GetObject("EditingToolbar.ShowToolTips"), Boolean)
+        Me.EditingToolbar.Size = CType(resources.GetObject("EditingToolbar.Size"), System.Drawing.Size)
+        Me.EditingToolbar.TabIndex = CType(resources.GetObject("EditingToolbar.TabIndex"), Integer)
+        Me.EditingToolbar.TextAlign = CType(resources.GetObject("EditingToolbar.TextAlign"), System.Windows.Forms.ToolBarTextAlign)
+        Me.ToolTip1.SetToolTip(Me.EditingToolbar, resources.GetString("EditingToolbar.ToolTip"))
+        Me.EditingToolbar.Visible = CType(resources.GetObject("EditingToolbar.Visible"), Boolean)
+        Me.EditingToolbar.Wrappable = CType(resources.GetObject("EditingToolbar.Wrappable"), Boolean)
         '
         'TBBSwitch
         '
-        Me.TBBSwitch.ImageIndex = 2
-        Me.TBBSwitch.ToolTipText = "Switch to Next Point"
+        Me.TBBSwitch.Enabled = CType(resources.GetObject("TBBSwitch.Enabled"), Boolean)
+        Me.TBBSwitch.ImageIndex = CType(resources.GetObject("TBBSwitch.ImageIndex"), Integer)
+        Me.TBBSwitch.Text = resources.GetString("TBBSwitch.Text")
+        Me.TBBSwitch.ToolTipText = resources.GetString("TBBSwitch.ToolTipText")
+        Me.TBBSwitch.Visible = CType(resources.GetObject("TBBSwitch.Visible"), Boolean)
         '
         'TBBEdit
         '
-        Me.TBBEdit.ImageIndex = 3
-        Me.TBBEdit.ToolTipText = "Edit Element"
-        '
-        'ImageListOper
-        '
-        Me.ImageListOper.ImageSize = New System.Drawing.Size(36, 36)
-        Me.ImageListOper.ImageStream = CType(resources.GetObject("ImageListOper.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageListOper.TransparentColor = System.Drawing.Color.Transparent
+        Me.TBBEdit.Enabled = CType(resources.GetObject("TBBEdit.Enabled"), Boolean)
+        Me.TBBEdit.ImageIndex = CType(resources.GetObject("TBBEdit.ImageIndex"), Integer)
+        Me.TBBEdit.Text = resources.GetString("TBBEdit.Text")
+        Me.TBBEdit.ToolTipText = resources.GetString("TBBEdit.ToolTipText")
+        Me.TBBEdit.Visible = CType(resources.GetObject("TBBEdit.Visible"), Boolean)
         '
         'ButtonClean
         '
+        Me.ButtonClean.AccessibleDescription = resources.GetString("ButtonClean.AccessibleDescription")
+        Me.ButtonClean.AccessibleName = resources.GetString("ButtonClean.AccessibleName")
+        Me.ButtonClean.Anchor = CType(resources.GetObject("ButtonClean.Anchor"), System.Windows.Forms.AnchorStyles)
         Me.ButtonClean.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonClean.BackgroundImage = CType(resources.GetObject("ButtonClean.BackgroundImage"), System.Drawing.Image)
+        Me.ButtonClean.Dock = CType(resources.GetObject("ButtonClean.Dock"), System.Windows.Forms.DockStyle)
+        Me.ButtonClean.Enabled = CType(resources.GetObject("ButtonClean.Enabled"), Boolean)
+        Me.ButtonClean.FlatStyle = CType(resources.GetObject("ButtonClean.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.ButtonClean.Font = CType(resources.GetObject("ButtonClean.Font"), System.Drawing.Font)
+        Me.ButtonClean.Image = CType(resources.GetObject("ButtonClean.Image"), System.Drawing.Image)
+        Me.ButtonClean.ImageAlign = CType(resources.GetObject("ButtonClean.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.ButtonClean.ImageIndex = CType(resources.GetObject("ButtonClean.ImageIndex"), Integer)
         Me.ButtonClean.ImageList = Me.ImageListGeneralTools
-        Me.ButtonClean.Location = New System.Drawing.Point(864, 610)
+        Me.ButtonClean.ImeMode = CType(resources.GetObject("ButtonClean.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ButtonClean.Location = CType(resources.GetObject("ButtonClean.Location"), System.Drawing.Point)
         Me.ButtonClean.Name = "ButtonClean"
-        Me.ButtonClean.Size = New System.Drawing.Size(80, 80)
-        Me.ButtonClean.TabIndex = 58
-        Me.ButtonClean.Text = "Clean On"
+        Me.ButtonClean.RightToLeft = CType(resources.GetObject("ButtonClean.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ButtonClean.Size = CType(resources.GetObject("ButtonClean.Size"), System.Drawing.Size)
+        Me.ButtonClean.TabIndex = CType(resources.GetObject("ButtonClean.TabIndex"), Integer)
+        Me.ButtonClean.Text = resources.GetString("ButtonClean.Text")
+        Me.ButtonClean.TextAlign = CType(resources.GetObject("ButtonClean.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.ButtonClean, resources.GetString("ButtonClean.ToolTip"))
+        Me.ButtonClean.Visible = CType(resources.GetObject("ButtonClean.Visible"), Boolean)
         '
         'ButtonNeedleCal
         '
+        Me.ButtonNeedleCal.AccessibleDescription = resources.GetString("ButtonNeedleCal.AccessibleDescription")
+        Me.ButtonNeedleCal.AccessibleName = resources.GetString("ButtonNeedleCal.AccessibleName")
+        Me.ButtonNeedleCal.Anchor = CType(resources.GetObject("ButtonNeedleCal.Anchor"), System.Windows.Forms.AnchorStyles)
         Me.ButtonNeedleCal.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonNeedleCal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNeedleCal.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonNeedleCal.BackgroundImage = CType(resources.GetObject("ButtonNeedleCal.BackgroundImage"), System.Drawing.Image)
+        Me.ButtonNeedleCal.Dock = CType(resources.GetObject("ButtonNeedleCal.Dock"), System.Windows.Forms.DockStyle)
+        Me.ButtonNeedleCal.Enabled = CType(resources.GetObject("ButtonNeedleCal.Enabled"), Boolean)
+        Me.ButtonNeedleCal.FlatStyle = CType(resources.GetObject("ButtonNeedleCal.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.ButtonNeedleCal.Font = CType(resources.GetObject("ButtonNeedleCal.Font"), System.Drawing.Font)
+        Me.ButtonNeedleCal.Image = CType(resources.GetObject("ButtonNeedleCal.Image"), System.Drawing.Image)
+        Me.ButtonNeedleCal.ImageAlign = CType(resources.GetObject("ButtonNeedleCal.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.ButtonNeedleCal.ImageIndex = CType(resources.GetObject("ButtonNeedleCal.ImageIndex"), Integer)
         Me.ButtonNeedleCal.ImageList = Me.ImageListGeneralTools
-        Me.ButtonNeedleCal.Location = New System.Drawing.Point(952, 610)
+        Me.ButtonNeedleCal.ImeMode = CType(resources.GetObject("ButtonNeedleCal.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ButtonNeedleCal.Location = CType(resources.GetObject("ButtonNeedleCal.Location"), System.Drawing.Point)
         Me.ButtonNeedleCal.Name = "ButtonNeedleCal"
-        Me.ButtonNeedleCal.Size = New System.Drawing.Size(80, 80)
-        Me.ButtonNeedleCal.TabIndex = 56
-        Me.ButtonNeedleCal.Text = "Need. Cal."
+        Me.ButtonNeedleCal.RightToLeft = CType(resources.GetObject("ButtonNeedleCal.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ButtonNeedleCal.Size = CType(resources.GetObject("ButtonNeedleCal.Size"), System.Drawing.Size)
+        Me.ButtonNeedleCal.TabIndex = CType(resources.GetObject("ButtonNeedleCal.TabIndex"), Integer)
+        Me.ButtonNeedleCal.Text = resources.GetString("ButtonNeedleCal.Text")
+        Me.ButtonNeedleCal.TextAlign = CType(resources.GetObject("ButtonNeedleCal.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.ButtonNeedleCal, resources.GetString("ButtonNeedleCal.ToolTip"))
+        Me.ButtonNeedleCal.Visible = CType(resources.GetObject("ButtonNeedleCal.Visible"), Boolean)
         '
         'ButtonHome
         '
+        Me.ButtonHome.AccessibleDescription = resources.GetString("ButtonHome.AccessibleDescription")
+        Me.ButtonHome.AccessibleName = resources.GetString("ButtonHome.AccessibleName")
+        Me.ButtonHome.Anchor = CType(resources.GetObject("ButtonHome.Anchor"), System.Windows.Forms.AnchorStyles)
         Me.ButtonHome.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonHome.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonHome.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonHome.BackgroundImage = CType(resources.GetObject("ButtonHome.BackgroundImage"), System.Drawing.Image)
+        Me.ButtonHome.Dock = CType(resources.GetObject("ButtonHome.Dock"), System.Windows.Forms.DockStyle)
+        Me.ButtonHome.Enabled = CType(resources.GetObject("ButtonHome.Enabled"), Boolean)
+        Me.ButtonHome.FlatStyle = CType(resources.GetObject("ButtonHome.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.ButtonHome.Font = CType(resources.GetObject("ButtonHome.Font"), System.Drawing.Font)
+        Me.ButtonHome.Image = CType(resources.GetObject("ButtonHome.Image"), System.Drawing.Image)
+        Me.ButtonHome.ImageAlign = CType(resources.GetObject("ButtonHome.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.ButtonHome.ImageIndex = CType(resources.GetObject("ButtonHome.ImageIndex"), Integer)
         Me.ButtonHome.ImageList = Me.ImageListGeneralTools
-        Me.ButtonHome.Location = New System.Drawing.Point(1114, 610)
+        Me.ButtonHome.ImeMode = CType(resources.GetObject("ButtonHome.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ButtonHome.Location = CType(resources.GetObject("ButtonHome.Location"), System.Drawing.Point)
         Me.ButtonHome.Name = "ButtonHome"
-        Me.ButtonHome.Size = New System.Drawing.Size(80, 80)
-        Me.ButtonHome.TabIndex = 53
-        Me.ButtonHome.Text = "Do Homing"
-        '
-        'ImageListMultiField
-        '
-        Me.ImageListMultiField.ImageSize = New System.Drawing.Size(36, 28)
-        Me.ImageListMultiField.ImageStream = CType(resources.GetObject("ImageListMultiField.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageListMultiField.TransparentColor = System.Drawing.Color.White
+        Me.ButtonHome.RightToLeft = CType(resources.GetObject("ButtonHome.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ButtonHome.Size = CType(resources.GetObject("ButtonHome.Size"), System.Drawing.Size)
+        Me.ButtonHome.TabIndex = CType(resources.GetObject("ButtonHome.TabIndex"), Integer)
+        Me.ButtonHome.Text = resources.GetString("ButtonHome.Text")
+        Me.ButtonHome.TextAlign = CType(resources.GetObject("ButtonHome.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.ButtonHome, resources.GetString("ButtonHome.ToolTip"))
+        Me.ButtonHome.Visible = CType(resources.GetObject("ButtonHome.Visible"), Boolean)
         '
         'CBDoorLock
         '
-        Me.CBDoorLock.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBDoorLock.AccessibleDescription = resources.GetString("CBDoorLock.AccessibleDescription")
+        Me.CBDoorLock.AccessibleName = resources.GetString("CBDoorLock.AccessibleName")
+        Me.CBDoorLock.Anchor = CType(resources.GetObject("CBDoorLock.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.CBDoorLock.Appearance = CType(resources.GetObject("CBDoorLock.Appearance"), System.Windows.Forms.Appearance)
         Me.CBDoorLock.BackColor = System.Drawing.SystemColors.Control
-        Me.CBDoorLock.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBDoorLock.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.CBDoorLock.BackgroundImage = CType(resources.GetObject("CBDoorLock.BackgroundImage"), System.Drawing.Image)
+        Me.CBDoorLock.CheckAlign = CType(resources.GetObject("CBDoorLock.CheckAlign"), System.Drawing.ContentAlignment)
+        Me.CBDoorLock.Dock = CType(resources.GetObject("CBDoorLock.Dock"), System.Windows.Forms.DockStyle)
+        Me.CBDoorLock.Enabled = CType(resources.GetObject("CBDoorLock.Enabled"), Boolean)
+        Me.CBDoorLock.FlatStyle = CType(resources.GetObject("CBDoorLock.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.CBDoorLock.Font = CType(resources.GetObject("CBDoorLock.Font"), System.Drawing.Font)
+        Me.CBDoorLock.Image = CType(resources.GetObject("CBDoorLock.Image"), System.Drawing.Image)
+        Me.CBDoorLock.ImageAlign = CType(resources.GetObject("CBDoorLock.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.CBDoorLock.ImageIndex = CType(resources.GetObject("CBDoorLock.ImageIndex"), Integer)
         Me.CBDoorLock.ImageList = Me.ImageListMultiField
-        Me.CBDoorLock.Location = New System.Drawing.Point(1195, 610)
+        Me.CBDoorLock.ImeMode = CType(resources.GetObject("CBDoorLock.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.CBDoorLock.Location = CType(resources.GetObject("CBDoorLock.Location"), System.Drawing.Point)
         Me.CBDoorLock.Name = "CBDoorLock"
-        Me.CBDoorLock.Size = New System.Drawing.Size(80, 80)
-        Me.CBDoorLock.TabIndex = 117
-        Me.CBDoorLock.Text = "Lock Door"
-        Me.CBDoorLock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBDoorLock.RightToLeft = CType(resources.GetObject("CBDoorLock.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.CBDoorLock.Size = CType(resources.GetObject("CBDoorLock.Size"), System.Drawing.Size)
+        Me.CBDoorLock.TabIndex = CType(resources.GetObject("CBDoorLock.TabIndex"), Integer)
+        Me.CBDoorLock.Text = resources.GetString("CBDoorLock.Text")
+        Me.CBDoorLock.TextAlign = CType(resources.GetObject("CBDoorLock.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.CBDoorLock, resources.GetString("CBDoorLock.ToolTip"))
+        Me.CBDoorLock.Visible = CType(resources.GetObject("CBDoorLock.Visible"), Boolean)
+        '
+        'ImageListMultiField
+        '
+        Me.ImageListMultiField.ImageSize = CType(resources.GetObject("ImageListMultiField.ImageSize"), System.Drawing.Size)
+        Me.ImageListMultiField.ImageStream = CType(resources.GetObject("ImageListMultiField.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageListMultiField.TransparentColor = System.Drawing.Color.White
+        '
+        'AxSpreadsheetProgramming
+        '
+        Me.AxSpreadsheetProgramming.AccessibleDescription = resources.GetString("AxSpreadsheetProgramming.AccessibleDescription")
+        Me.AxSpreadsheetProgramming.AccessibleName = resources.GetString("AxSpreadsheetProgramming.AccessibleName")
+        Me.AxSpreadsheetProgramming.Anchor = CType(resources.GetObject("AxSpreadsheetProgramming.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.AxSpreadsheetProgramming.BackgroundImage = CType(resources.GetObject("AxSpreadsheetProgramming.BackgroundImage"), System.Drawing.Image)
+        Me.AxSpreadsheetProgramming.DataSource = Nothing
+        Me.AxSpreadsheetProgramming.Dock = CType(resources.GetObject("AxSpreadsheetProgramming.Dock"), System.Windows.Forms.DockStyle)
+        Me.AxSpreadsheetProgramming.Enabled = CType(resources.GetObject("AxSpreadsheetProgramming.Enabled"), Boolean)
+        Me.AxSpreadsheetProgramming.Font = CType(resources.GetObject("AxSpreadsheetProgramming.Font"), System.Drawing.Font)
+        Me.AxSpreadsheetProgramming.ImeMode = CType(resources.GetObject("AxSpreadsheetProgramming.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.AxSpreadsheetProgramming.Location = CType(resources.GetObject("AxSpreadsheetProgramming.Location"), System.Drawing.Point)
+        Me.AxSpreadsheetProgramming.Name = "AxSpreadsheetProgramming"
+        Me.AxSpreadsheetProgramming.OcxState = CType(resources.GetObject("AxSpreadsheetProgramming.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxSpreadsheetProgramming.RightToLeft = CType(resources.GetObject("AxSpreadsheetProgramming.RightToLeft"), Boolean)
+        Me.AxSpreadsheetProgramming.Size = CType(resources.GetObject("AxSpreadsheetProgramming.Size"), System.Drawing.Size)
+        Me.AxSpreadsheetProgramming.TabIndex = CType(resources.GetObject("AxSpreadsheetProgramming.TabIndex"), Integer)
+        Me.AxSpreadsheetProgramming.Text = resources.GetString("AxSpreadsheetProgramming.Text")
+        Me.ToolTip1.SetToolTip(Me.AxSpreadsheetProgramming, resources.GetString("AxSpreadsheetProgramming.ToolTip"))
+        Me.AxSpreadsheetProgramming.Visible = CType(resources.GetObject("AxSpreadsheetProgramming.Visible"), Boolean)
+        '
+        'LabelMessege
+        '
+        Me.LabelMessege.AccessibleDescription = resources.GetString("LabelMessege.AccessibleDescription")
+        Me.LabelMessege.AccessibleName = resources.GetString("LabelMessege.AccessibleName")
+        Me.LabelMessege.Anchor = CType(resources.GetObject("LabelMessege.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.LabelMessege.AutoSize = CType(resources.GetObject("LabelMessege.AutoSize"), Boolean)
+        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Control
+        Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LabelMessege.Dock = CType(resources.GetObject("LabelMessege.Dock"), System.Windows.Forms.DockStyle)
+        Me.LabelMessege.Enabled = CType(resources.GetObject("LabelMessege.Enabled"), Boolean)
+        Me.LabelMessege.Font = CType(resources.GetObject("LabelMessege.Font"), System.Drawing.Font)
+        Me.LabelMessege.ForeColor = System.Drawing.Color.Black
+        Me.LabelMessege.Image = CType(resources.GetObject("LabelMessege.Image"), System.Drawing.Image)
+        Me.LabelMessege.ImageAlign = CType(resources.GetObject("LabelMessege.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.LabelMessege.ImageIndex = CType(resources.GetObject("LabelMessege.ImageIndex"), Integer)
+        Me.LabelMessege.ImeMode = CType(resources.GetObject("LabelMessege.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.LabelMessege.Location = CType(resources.GetObject("LabelMessege.Location"), System.Drawing.Point)
+        Me.LabelMessege.Name = "LabelMessege"
+        Me.LabelMessege.RightToLeft = CType(resources.GetObject("LabelMessege.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.LabelMessege.Size = CType(resources.GetObject("LabelMessege.Size"), System.Drawing.Size)
+        Me.LabelMessege.TabIndex = CType(resources.GetObject("LabelMessege.TabIndex"), Integer)
+        Me.LabelMessege.Text = resources.GetString("LabelMessege.Text")
+        Me.LabelMessege.TextAlign = CType(resources.GetObject("LabelMessege.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.LabelMessege, resources.GetString("LabelMessege.ToolTip"))
+        Me.LabelMessege.Visible = CType(resources.GetObject("LabelMessege.Visible"), Boolean)
+        '
+        'DispensingMode
+        '
+        Me.DispensingMode.AccessibleDescription = resources.GetString("DispensingMode.AccessibleDescription")
+        Me.DispensingMode.AccessibleName = resources.GetString("DispensingMode.AccessibleName")
+        Me.DispensingMode.Anchor = CType(resources.GetObject("DispensingMode.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.DispensingMode.BackgroundImage = CType(resources.GetObject("DispensingMode.BackgroundImage"), System.Drawing.Image)
+        Me.DispensingMode.Dock = CType(resources.GetObject("DispensingMode.Dock"), System.Windows.Forms.DockStyle)
+        Me.DispensingMode.Enabled = CType(resources.GetObject("DispensingMode.Enabled"), Boolean)
+        Me.DispensingMode.Font = CType(resources.GetObject("DispensingMode.Font"), System.Drawing.Font)
+        Me.DispensingMode.ImeMode = CType(resources.GetObject("DispensingMode.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.DispensingMode.IntegralHeight = CType(resources.GetObject("DispensingMode.IntegralHeight"), Boolean)
+        Me.DispensingMode.ItemHeight = CType(resources.GetObject("DispensingMode.ItemHeight"), Integer)
+        Me.DispensingMode.Items.AddRange(New Object() {resources.GetString("DispensingMode.Items"), resources.GetString("DispensingMode.Items1"), resources.GetString("DispensingMode.Items2")})
+        Me.DispensingMode.Location = CType(resources.GetObject("DispensingMode.Location"), System.Drawing.Point)
+        Me.DispensingMode.MaxDropDownItems = CType(resources.GetObject("DispensingMode.MaxDropDownItems"), Integer)
+        Me.DispensingMode.MaxLength = CType(resources.GetObject("DispensingMode.MaxLength"), Integer)
+        Me.DispensingMode.Name = "DispensingMode"
+        Me.DispensingMode.RightToLeft = CType(resources.GetObject("DispensingMode.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.DispensingMode.Size = CType(resources.GetObject("DispensingMode.Size"), System.Drawing.Size)
+        Me.DispensingMode.TabIndex = CType(resources.GetObject("DispensingMode.TabIndex"), Integer)
+        Me.DispensingMode.Text = resources.GetString("DispensingMode.Text")
+        Me.ToolTip1.SetToolTip(Me.DispensingMode, resources.GetString("DispensingMode.ToolTip"))
+        Me.DispensingMode.Visible = CType(resources.GetObject("DispensingMode.Visible"), Boolean)
+        '
+        'btStop
+        '
+        Me.btStop.AccessibleDescription = resources.GetString("btStop.AccessibleDescription")
+        Me.btStop.AccessibleName = resources.GetString("btStop.AccessibleName")
+        Me.btStop.Anchor = CType(resources.GetObject("btStop.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.btStop.BackgroundImage = CType(resources.GetObject("btStop.BackgroundImage"), System.Drawing.Image)
+        Me.btStop.Dock = CType(resources.GetObject("btStop.Dock"), System.Windows.Forms.DockStyle)
+        Me.btStop.Enabled = CType(resources.GetObject("btStop.Enabled"), Boolean)
+        Me.btStop.FlatStyle = CType(resources.GetObject("btStop.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.btStop.Font = CType(resources.GetObject("btStop.Font"), System.Drawing.Font)
+        Me.btStop.Image = CType(resources.GetObject("btStop.Image"), System.Drawing.Image)
+        Me.btStop.ImageAlign = CType(resources.GetObject("btStop.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.btStop.ImageIndex = CType(resources.GetObject("btStop.ImageIndex"), Integer)
+        Me.btStop.ImeMode = CType(resources.GetObject("btStop.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.btStop.Location = CType(resources.GetObject("btStop.Location"), System.Drawing.Point)
+        Me.btStop.Name = "btStop"
+        Me.btStop.RightToLeft = CType(resources.GetObject("btStop.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.btStop.Size = CType(resources.GetObject("btStop.Size"), System.Drawing.Size)
+        Me.btStop.TabIndex = CType(resources.GetObject("btStop.TabIndex"), Integer)
+        Me.btStop.Text = resources.GetString("btStop.Text")
+        Me.btStop.TextAlign = CType(resources.GetObject("btStop.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.btStop, resources.GetString("btStop.ToolTip"))
+        Me.btStop.Visible = CType(resources.GetObject("btStop.Visible"), Boolean)
+        '
+        'btPause
+        '
+        Me.btPause.AccessibleDescription = resources.GetString("btPause.AccessibleDescription")
+        Me.btPause.AccessibleName = resources.GetString("btPause.AccessibleName")
+        Me.btPause.Anchor = CType(resources.GetObject("btPause.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.btPause.BackgroundImage = CType(resources.GetObject("btPause.BackgroundImage"), System.Drawing.Image)
+        Me.btPause.Dock = CType(resources.GetObject("btPause.Dock"), System.Windows.Forms.DockStyle)
+        Me.btPause.Enabled = CType(resources.GetObject("btPause.Enabled"), Boolean)
+        Me.btPause.FlatStyle = CType(resources.GetObject("btPause.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.btPause.Font = CType(resources.GetObject("btPause.Font"), System.Drawing.Font)
+        Me.btPause.Image = CType(resources.GetObject("btPause.Image"), System.Drawing.Image)
+        Me.btPause.ImageAlign = CType(resources.GetObject("btPause.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.btPause.ImageIndex = CType(resources.GetObject("btPause.ImageIndex"), Integer)
+        Me.btPause.ImeMode = CType(resources.GetObject("btPause.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.btPause.Location = CType(resources.GetObject("btPause.Location"), System.Drawing.Point)
+        Me.btPause.Name = "btPause"
+        Me.btPause.RightToLeft = CType(resources.GetObject("btPause.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.btPause.Size = CType(resources.GetObject("btPause.Size"), System.Drawing.Size)
+        Me.btPause.TabIndex = CType(resources.GetObject("btPause.TabIndex"), Integer)
+        Me.btPause.Text = resources.GetString("btPause.Text")
+        Me.btPause.TextAlign = CType(resources.GetObject("btPause.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.btPause, resources.GetString("btPause.ToolTip"))
+        Me.btPause.Visible = CType(resources.GetObject("btPause.Visible"), Boolean)
+        '
+        'btPlay
+        '
+        Me.btPlay.AccessibleDescription = resources.GetString("btPlay.AccessibleDescription")
+        Me.btPlay.AccessibleName = resources.GetString("btPlay.AccessibleName")
+        Me.btPlay.Anchor = CType(resources.GetObject("btPlay.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.btPlay.BackgroundImage = CType(resources.GetObject("btPlay.BackgroundImage"), System.Drawing.Image)
+        Me.btPlay.Dock = CType(resources.GetObject("btPlay.Dock"), System.Windows.Forms.DockStyle)
+        Me.btPlay.Enabled = CType(resources.GetObject("btPlay.Enabled"), Boolean)
+        Me.btPlay.FlatStyle = CType(resources.GetObject("btPlay.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.btPlay.Font = CType(resources.GetObject("btPlay.Font"), System.Drawing.Font)
+        Me.btPlay.Image = CType(resources.GetObject("btPlay.Image"), System.Drawing.Image)
+        Me.btPlay.ImageAlign = CType(resources.GetObject("btPlay.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.btPlay.ImageIndex = CType(resources.GetObject("btPlay.ImageIndex"), Integer)
+        Me.btPlay.ImeMode = CType(resources.GetObject("btPlay.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.btPlay.Location = CType(resources.GetObject("btPlay.Location"), System.Drawing.Point)
+        Me.btPlay.Name = "btPlay"
+        Me.btPlay.RightToLeft = CType(resources.GetObject("btPlay.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.btPlay.Size = CType(resources.GetObject("btPlay.Size"), System.Drawing.Size)
+        Me.btPlay.TabIndex = CType(resources.GetObject("btPlay.TabIndex"), Integer)
+        Me.btPlay.Text = resources.GetString("btPlay.Text")
+        Me.btPlay.TextAlign = CType(resources.GetObject("btPlay.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.btPlay, resources.GetString("btPlay.ToolTip"))
+        Me.btPlay.Visible = CType(resources.GetObject("btPlay.Visible"), Boolean)
+        '
+        'Panel1
+        '
+        Me.Panel1.AccessibleDescription = resources.GetString("Panel1.AccessibleDescription")
+        Me.Panel1.AccessibleName = resources.GetString("Panel1.AccessibleName")
+        Me.Panel1.Anchor = CType(resources.GetObject("Panel1.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.Panel1.AutoScroll = CType(resources.GetObject("Panel1.AutoScroll"), Boolean)
+        Me.Panel1.AutoScrollMargin = CType(resources.GetObject("Panel1.AutoScrollMargin"), System.Drawing.Size)
+        Me.Panel1.AutoScrollMinSize = CType(resources.GetObject("Panel1.AutoScrollMinSize"), System.Drawing.Size)
+        Me.Panel1.BackgroundImage = CType(resources.GetObject("Panel1.BackgroundImage"), System.Drawing.Image)
+        Me.Panel1.Controls.Add(Me.GreenLight)
+        Me.Panel1.Controls.Add(Me.AmberLight)
+        Me.Panel1.Controls.Add(Me.RedLight)
+        Me.Panel1.Dock = CType(resources.GetObject("Panel1.Dock"), System.Windows.Forms.DockStyle)
+        Me.Panel1.Enabled = CType(resources.GetObject("Panel1.Enabled"), Boolean)
+        Me.Panel1.Font = CType(resources.GetObject("Panel1.Font"), System.Drawing.Font)
+        Me.Panel1.ImeMode = CType(resources.GetObject("Panel1.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.Panel1.Location = CType(resources.GetObject("Panel1.Location"), System.Drawing.Point)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.RightToLeft = CType(resources.GetObject("Panel1.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.Panel1.Size = CType(resources.GetObject("Panel1.Size"), System.Drawing.Size)
+        Me.Panel1.TabIndex = CType(resources.GetObject("Panel1.TabIndex"), Integer)
+        Me.Panel1.Text = resources.GetString("Panel1.Text")
+        Me.ToolTip1.SetToolTip(Me.Panel1, resources.GetString("Panel1.ToolTip"))
+        Me.Panel1.Visible = CType(resources.GetObject("Panel1.Visible"), Boolean)
+        '
+        'GreenLight
+        '
+        Me.GreenLight.AccessibleDescription = resources.GetString("GreenLight.AccessibleDescription")
+        Me.GreenLight.AccessibleName = resources.GetString("GreenLight.AccessibleName")
+        Me.GreenLight.Anchor = CType(resources.GetObject("GreenLight.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.GreenLight.BackgroundImage = CType(resources.GetObject("GreenLight.BackgroundImage"), System.Drawing.Image)
+        Me.GreenLight.Dock = CType(resources.GetObject("GreenLight.Dock"), System.Windows.Forms.DockStyle)
+        Me.GreenLight.Enabled = CType(resources.GetObject("GreenLight.Enabled"), Boolean)
+        Me.GreenLight.Font = CType(resources.GetObject("GreenLight.Font"), System.Drawing.Font)
+        Me.GreenLight.Image = CType(resources.GetObject("GreenLight.Image"), System.Drawing.Image)
+        Me.GreenLight.ImeMode = CType(resources.GetObject("GreenLight.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.GreenLight.Location = CType(resources.GetObject("GreenLight.Location"), System.Drawing.Point)
+        Me.GreenLight.Name = "GreenLight"
+        Me.GreenLight.RightToLeft = CType(resources.GetObject("GreenLight.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.GreenLight.Size = CType(resources.GetObject("GreenLight.Size"), System.Drawing.Size)
+        Me.GreenLight.SizeMode = CType(resources.GetObject("GreenLight.SizeMode"), System.Windows.Forms.PictureBoxSizeMode)
+        Me.GreenLight.TabIndex = CType(resources.GetObject("GreenLight.TabIndex"), Integer)
+        Me.GreenLight.TabStop = False
+        Me.GreenLight.Text = resources.GetString("GreenLight.Text")
+        Me.ToolTip1.SetToolTip(Me.GreenLight, resources.GetString("GreenLight.ToolTip"))
+        Me.GreenLight.Visible = CType(resources.GetObject("GreenLight.Visible"), Boolean)
+        '
+        'AmberLight
+        '
+        Me.AmberLight.AccessibleDescription = resources.GetString("AmberLight.AccessibleDescription")
+        Me.AmberLight.AccessibleName = resources.GetString("AmberLight.AccessibleName")
+        Me.AmberLight.Anchor = CType(resources.GetObject("AmberLight.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.AmberLight.BackgroundImage = CType(resources.GetObject("AmberLight.BackgroundImage"), System.Drawing.Image)
+        Me.AmberLight.Dock = CType(resources.GetObject("AmberLight.Dock"), System.Windows.Forms.DockStyle)
+        Me.AmberLight.Enabled = CType(resources.GetObject("AmberLight.Enabled"), Boolean)
+        Me.AmberLight.Font = CType(resources.GetObject("AmberLight.Font"), System.Drawing.Font)
+        Me.AmberLight.Image = CType(resources.GetObject("AmberLight.Image"), System.Drawing.Image)
+        Me.AmberLight.ImeMode = CType(resources.GetObject("AmberLight.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.AmberLight.Location = CType(resources.GetObject("AmberLight.Location"), System.Drawing.Point)
+        Me.AmberLight.Name = "AmberLight"
+        Me.AmberLight.RightToLeft = CType(resources.GetObject("AmberLight.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.AmberLight.Size = CType(resources.GetObject("AmberLight.Size"), System.Drawing.Size)
+        Me.AmberLight.SizeMode = CType(resources.GetObject("AmberLight.SizeMode"), System.Windows.Forms.PictureBoxSizeMode)
+        Me.AmberLight.TabIndex = CType(resources.GetObject("AmberLight.TabIndex"), Integer)
+        Me.AmberLight.TabStop = False
+        Me.AmberLight.Text = resources.GetString("AmberLight.Text")
+        Me.ToolTip1.SetToolTip(Me.AmberLight, resources.GetString("AmberLight.ToolTip"))
+        Me.AmberLight.Visible = CType(resources.GetObject("AmberLight.Visible"), Boolean)
+        '
+        'RedLight
+        '
+        Me.RedLight.AccessibleDescription = resources.GetString("RedLight.AccessibleDescription")
+        Me.RedLight.AccessibleName = resources.GetString("RedLight.AccessibleName")
+        Me.RedLight.Anchor = CType(resources.GetObject("RedLight.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.RedLight.BackgroundImage = CType(resources.GetObject("RedLight.BackgroundImage"), System.Drawing.Image)
+        Me.RedLight.Dock = CType(resources.GetObject("RedLight.Dock"), System.Windows.Forms.DockStyle)
+        Me.RedLight.Enabled = CType(resources.GetObject("RedLight.Enabled"), Boolean)
+        Me.RedLight.Font = CType(resources.GetObject("RedLight.Font"), System.Drawing.Font)
+        Me.RedLight.Image = CType(resources.GetObject("RedLight.Image"), System.Drawing.Image)
+        Me.RedLight.ImeMode = CType(resources.GetObject("RedLight.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.RedLight.Location = CType(resources.GetObject("RedLight.Location"), System.Drawing.Point)
+        Me.RedLight.Name = "RedLight"
+        Me.RedLight.RightToLeft = CType(resources.GetObject("RedLight.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.RedLight.Size = CType(resources.GetObject("RedLight.Size"), System.Drawing.Size)
+        Me.RedLight.SizeMode = CType(resources.GetObject("RedLight.SizeMode"), System.Windows.Forms.PictureBoxSizeMode)
+        Me.RedLight.TabIndex = CType(resources.GetObject("RedLight.TabIndex"), Integer)
+        Me.RedLight.TabStop = False
+        Me.RedLight.Text = resources.GetString("RedLight.Text")
+        Me.ToolTip1.SetToolTip(Me.RedLight, resources.GetString("RedLight.ToolTip"))
+        Me.RedLight.Visible = CType(resources.GetObject("RedLight.Visible"), Boolean)
+        '
+        'ButtonToggleMode
+        '
+        Me.ButtonToggleMode.AccessibleDescription = resources.GetString("ButtonToggleMode.AccessibleDescription")
+        Me.ButtonToggleMode.AccessibleName = resources.GetString("ButtonToggleMode.AccessibleName")
+        Me.ButtonToggleMode.Anchor = CType(resources.GetObject("ButtonToggleMode.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.ButtonToggleMode.BackgroundImage = CType(resources.GetObject("ButtonToggleMode.BackgroundImage"), System.Drawing.Image)
+        Me.ButtonToggleMode.Dock = CType(resources.GetObject("ButtonToggleMode.Dock"), System.Windows.Forms.DockStyle)
+        Me.ButtonToggleMode.Enabled = CType(resources.GetObject("ButtonToggleMode.Enabled"), Boolean)
+        Me.ButtonToggleMode.FlatStyle = CType(resources.GetObject("ButtonToggleMode.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.ButtonToggleMode.Font = CType(resources.GetObject("ButtonToggleMode.Font"), System.Drawing.Font)
+        Me.ButtonToggleMode.Image = CType(resources.GetObject("ButtonToggleMode.Image"), System.Drawing.Image)
+        Me.ButtonToggleMode.ImageAlign = CType(resources.GetObject("ButtonToggleMode.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.ButtonToggleMode.ImageIndex = CType(resources.GetObject("ButtonToggleMode.ImageIndex"), Integer)
+        Me.ButtonToggleMode.ImeMode = CType(resources.GetObject("ButtonToggleMode.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ButtonToggleMode.Location = CType(resources.GetObject("ButtonToggleMode.Location"), System.Drawing.Point)
+        Me.ButtonToggleMode.Name = "ButtonToggleMode"
+        Me.ButtonToggleMode.RightToLeft = CType(resources.GetObject("ButtonToggleMode.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ButtonToggleMode.Size = CType(resources.GetObject("ButtonToggleMode.Size"), System.Drawing.Size)
+        Me.ButtonToggleMode.TabIndex = CType(resources.GetObject("ButtonToggleMode.TabIndex"), Integer)
+        Me.ButtonToggleMode.Text = resources.GetString("ButtonToggleMode.Text")
+        Me.ButtonToggleMode.TextAlign = CType(resources.GetObject("ButtonToggleMode.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.ButtonToggleMode, resources.GetString("ButtonToggleMode.ToolTip"))
+        Me.ButtonToggleMode.Visible = CType(resources.GetObject("ButtonToggleMode.Visible"), Boolean)
+        '
+        'PanelToBeAdded
+        '
+        Me.PanelToBeAdded.AccessibleDescription = resources.GetString("PanelToBeAdded.AccessibleDescription")
+        Me.PanelToBeAdded.AccessibleName = resources.GetString("PanelToBeAdded.AccessibleName")
+        Me.PanelToBeAdded.Anchor = CType(resources.GetObject("PanelToBeAdded.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.PanelToBeAdded.AutoScroll = CType(resources.GetObject("PanelToBeAdded.AutoScroll"), Boolean)
+        Me.PanelToBeAdded.AutoScrollMargin = CType(resources.GetObject("PanelToBeAdded.AutoScrollMargin"), System.Drawing.Size)
+        Me.PanelToBeAdded.AutoScrollMinSize = CType(resources.GetObject("PanelToBeAdded.AutoScrollMinSize"), System.Drawing.Size)
+        Me.PanelToBeAdded.BackColor = System.Drawing.SystemColors.Control
+        Me.PanelToBeAdded.BackgroundImage = CType(resources.GetObject("PanelToBeAdded.BackgroundImage"), System.Drawing.Image)
+        Me.PanelToBeAdded.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelToBeAdded.Dock = CType(resources.GetObject("PanelToBeAdded.Dock"), System.Windows.Forms.DockStyle)
+        Me.PanelToBeAdded.Enabled = CType(resources.GetObject("PanelToBeAdded.Enabled"), Boolean)
+        Me.PanelToBeAdded.Font = CType(resources.GetObject("PanelToBeAdded.Font"), System.Drawing.Font)
+        Me.PanelToBeAdded.ImeMode = CType(resources.GetObject("PanelToBeAdded.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.PanelToBeAdded.Location = CType(resources.GetObject("PanelToBeAdded.Location"), System.Drawing.Point)
+        Me.PanelToBeAdded.Name = "PanelToBeAdded"
+        Me.PanelToBeAdded.RightToLeft = CType(resources.GetObject("PanelToBeAdded.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.PanelToBeAdded.Size = CType(resources.GetObject("PanelToBeAdded.Size"), System.Drawing.Size)
+        Me.PanelToBeAdded.TabIndex = CType(resources.GetObject("PanelToBeAdded.TabIndex"), Integer)
+        Me.PanelToBeAdded.Text = resources.GetString("PanelToBeAdded.Text")
+        Me.ToolTip1.SetToolTip(Me.PanelToBeAdded, resources.GetString("PanelToBeAdded.ToolTip"))
+        Me.PanelToBeAdded.Visible = CType(resources.GetObject("PanelToBeAdded.Visible"), Boolean)
+        '
+        'ButtonStartFirstStage
+        '
+        Me.ButtonStartFirstStage.AccessibleDescription = resources.GetString("ButtonStartFirstStage.AccessibleDescription")
+        Me.ButtonStartFirstStage.AccessibleName = resources.GetString("ButtonStartFirstStage.AccessibleName")
+        Me.ButtonStartFirstStage.Anchor = CType(resources.GetObject("ButtonStartFirstStage.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.ButtonStartFirstStage.BackgroundImage = CType(resources.GetObject("ButtonStartFirstStage.BackgroundImage"), System.Drawing.Image)
+        Me.ButtonStartFirstStage.Dock = CType(resources.GetObject("ButtonStartFirstStage.Dock"), System.Windows.Forms.DockStyle)
+        Me.ButtonStartFirstStage.Enabled = CType(resources.GetObject("ButtonStartFirstStage.Enabled"), Boolean)
+        Me.ButtonStartFirstStage.FlatStyle = CType(resources.GetObject("ButtonStartFirstStage.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.ButtonStartFirstStage.Font = CType(resources.GetObject("ButtonStartFirstStage.Font"), System.Drawing.Font)
+        Me.ButtonStartFirstStage.Image = CType(resources.GetObject("ButtonStartFirstStage.Image"), System.Drawing.Image)
+        Me.ButtonStartFirstStage.ImageAlign = CType(resources.GetObject("ButtonStartFirstStage.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.ButtonStartFirstStage.ImageIndex = CType(resources.GetObject("ButtonStartFirstStage.ImageIndex"), Integer)
+        Me.ButtonStartFirstStage.ImeMode = CType(resources.GetObject("ButtonStartFirstStage.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.ButtonStartFirstStage.Location = CType(resources.GetObject("ButtonStartFirstStage.Location"), System.Drawing.Point)
+        Me.ButtonStartFirstStage.Name = "ButtonStartFirstStage"
+        Me.ButtonStartFirstStage.RightToLeft = CType(resources.GetObject("ButtonStartFirstStage.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.ButtonStartFirstStage.Size = CType(resources.GetObject("ButtonStartFirstStage.Size"), System.Drawing.Size)
+        Me.ButtonStartFirstStage.TabIndex = CType(resources.GetObject("ButtonStartFirstStage.TabIndex"), Integer)
+        Me.ButtonStartFirstStage.Text = resources.GetString("ButtonStartFirstStage.Text")
+        Me.ButtonStartFirstStage.TextAlign = CType(resources.GetObject("ButtonStartFirstStage.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.ButtonStartFirstStage, resources.GetString("ButtonStartFirstStage.ToolTip"))
+        Me.ButtonStartFirstStage.Visible = CType(resources.GetObject("ButtonStartFirstStage.Visible"), Boolean)
+        '
+        'btRelease
+        '
+        Me.btRelease.AccessibleDescription = resources.GetString("btRelease.AccessibleDescription")
+        Me.btRelease.AccessibleName = resources.GetString("btRelease.AccessibleName")
+        Me.btRelease.Anchor = CType(resources.GetObject("btRelease.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.btRelease.BackgroundImage = CType(resources.GetObject("btRelease.BackgroundImage"), System.Drawing.Image)
+        Me.btRelease.Dock = CType(resources.GetObject("btRelease.Dock"), System.Windows.Forms.DockStyle)
+        Me.btRelease.Enabled = CType(resources.GetObject("btRelease.Enabled"), Boolean)
+        Me.btRelease.FlatStyle = CType(resources.GetObject("btRelease.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.btRelease.Font = CType(resources.GetObject("btRelease.Font"), System.Drawing.Font)
+        Me.btRelease.Image = CType(resources.GetObject("btRelease.Image"), System.Drawing.Image)
+        Me.btRelease.ImageAlign = CType(resources.GetObject("btRelease.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.btRelease.ImageIndex = CType(resources.GetObject("btRelease.ImageIndex"), Integer)
+        Me.btRelease.ImeMode = CType(resources.GetObject("btRelease.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.btRelease.Location = CType(resources.GetObject("btRelease.Location"), System.Drawing.Point)
+        Me.btRelease.Name = "btRelease"
+        Me.btRelease.RightToLeft = CType(resources.GetObject("btRelease.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.btRelease.Size = CType(resources.GetObject("btRelease.Size"), System.Drawing.Size)
+        Me.btRelease.TabIndex = CType(resources.GetObject("btRelease.TabIndex"), Integer)
+        Me.btRelease.Text = resources.GetString("btRelease.Text")
+        Me.btRelease.TextAlign = CType(resources.GetObject("btRelease.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.btRelease, resources.GetString("btRelease.ToolTip"))
+        Me.btRelease.Visible = CType(resources.GetObject("btRelease.Visible"), Boolean)
+        '
+        'btRetrieve
+        '
+        Me.btRetrieve.AccessibleDescription = resources.GetString("btRetrieve.AccessibleDescription")
+        Me.btRetrieve.AccessibleName = resources.GetString("btRetrieve.AccessibleName")
+        Me.btRetrieve.Anchor = CType(resources.GetObject("btRetrieve.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.btRetrieve.BackgroundImage = CType(resources.GetObject("btRetrieve.BackgroundImage"), System.Drawing.Image)
+        Me.btRetrieve.Dock = CType(resources.GetObject("btRetrieve.Dock"), System.Windows.Forms.DockStyle)
+        Me.btRetrieve.Enabled = CType(resources.GetObject("btRetrieve.Enabled"), Boolean)
+        Me.btRetrieve.FlatStyle = CType(resources.GetObject("btRetrieve.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.btRetrieve.Font = CType(resources.GetObject("btRetrieve.Font"), System.Drawing.Font)
+        Me.btRetrieve.Image = CType(resources.GetObject("btRetrieve.Image"), System.Drawing.Image)
+        Me.btRetrieve.ImageAlign = CType(resources.GetObject("btRetrieve.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.btRetrieve.ImageIndex = CType(resources.GetObject("btRetrieve.ImageIndex"), Integer)
+        Me.btRetrieve.ImeMode = CType(resources.GetObject("btRetrieve.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.btRetrieve.Location = CType(resources.GetObject("btRetrieve.Location"), System.Drawing.Point)
+        Me.btRetrieve.Name = "btRetrieve"
+        Me.btRetrieve.RightToLeft = CType(resources.GetObject("btRetrieve.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.btRetrieve.Size = CType(resources.GetObject("btRetrieve.Size"), System.Drawing.Size)
+        Me.btRetrieve.TabIndex = CType(resources.GetObject("btRetrieve.TabIndex"), Integer)
+        Me.btRetrieve.Text = resources.GetString("btRetrieve.Text")
+        Me.btRetrieve.TextAlign = CType(resources.GetObject("btRetrieve.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.btRetrieve, resources.GetString("btRetrieve.ToolTip"))
+        Me.btRetrieve.Visible = CType(resources.GetObject("btRetrieve.Visible"), Boolean)
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.AccessibleDescription = resources.GetString("GroupBox1.AccessibleDescription")
+        Me.GroupBox1.AccessibleName = resources.GetString("GroupBox1.AccessibleName")
+        Me.GroupBox1.Anchor = CType(resources.GetObject("GroupBox1.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.BackgroundImage = CType(resources.GetObject("GroupBox1.BackgroundImage"), System.Drawing.Image)
+        Me.GroupBox1.Controls.Add(Me.btStop)
+        Me.GroupBox1.Controls.Add(Me.btPause)
+        Me.GroupBox1.Controls.Add(Me.btPlay)
+        Me.GroupBox1.Controls.Add(Me.DispensingMode)
+        Me.GroupBox1.Controls.Add(Me.cbContinueTest)
+        Me.GroupBox1.Dock = CType(resources.GetObject("GroupBox1.Dock"), System.Windows.Forms.DockStyle)
+        Me.GroupBox1.Enabled = CType(resources.GetObject("GroupBox1.Enabled"), Boolean)
+        Me.GroupBox1.Font = CType(resources.GetObject("GroupBox1.Font"), System.Drawing.Font)
+        Me.GroupBox1.ImeMode = CType(resources.GetObject("GroupBox1.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.GroupBox1.Location = CType(resources.GetObject("GroupBox1.Location"), System.Drawing.Point)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.RightToLeft = CType(resources.GetObject("GroupBox1.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.GroupBox1.Size = CType(resources.GetObject("GroupBox1.Size"), System.Drawing.Size)
+        Me.GroupBox1.TabIndex = CType(resources.GetObject("GroupBox1.TabIndex"), Integer)
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = resources.GetString("GroupBox1.Text")
+        Me.ToolTip1.SetToolTip(Me.GroupBox1, resources.GetString("GroupBox1.ToolTip"))
+        Me.GroupBox1.Visible = CType(resources.GetObject("GroupBox1.Visible"), Boolean)
+        '
+        'cbContinueTest
+        '
+        Me.cbContinueTest.AccessibleDescription = resources.GetString("cbContinueTest.AccessibleDescription")
+        Me.cbContinueTest.AccessibleName = resources.GetString("cbContinueTest.AccessibleName")
+        Me.cbContinueTest.Anchor = CType(resources.GetObject("cbContinueTest.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.cbContinueTest.Appearance = CType(resources.GetObject("cbContinueTest.Appearance"), System.Windows.Forms.Appearance)
+        Me.cbContinueTest.BackgroundImage = CType(resources.GetObject("cbContinueTest.BackgroundImage"), System.Drawing.Image)
+        Me.cbContinueTest.CheckAlign = CType(resources.GetObject("cbContinueTest.CheckAlign"), System.Drawing.ContentAlignment)
+        Me.cbContinueTest.Dock = CType(resources.GetObject("cbContinueTest.Dock"), System.Windows.Forms.DockStyle)
+        Me.cbContinueTest.Enabled = CType(resources.GetObject("cbContinueTest.Enabled"), Boolean)
+        Me.cbContinueTest.FlatStyle = CType(resources.GetObject("cbContinueTest.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.cbContinueTest.Font = CType(resources.GetObject("cbContinueTest.Font"), System.Drawing.Font)
+        Me.cbContinueTest.Image = CType(resources.GetObject("cbContinueTest.Image"), System.Drawing.Image)
+        Me.cbContinueTest.ImageAlign = CType(resources.GetObject("cbContinueTest.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.cbContinueTest.ImageIndex = CType(resources.GetObject("cbContinueTest.ImageIndex"), Integer)
+        Me.cbContinueTest.ImeMode = CType(resources.GetObject("cbContinueTest.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.cbContinueTest.Location = CType(resources.GetObject("cbContinueTest.Location"), System.Drawing.Point)
+        Me.cbContinueTest.Name = "cbContinueTest"
+        Me.cbContinueTest.RightToLeft = CType(resources.GetObject("cbContinueTest.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.cbContinueTest.Size = CType(resources.GetObject("cbContinueTest.Size"), System.Drawing.Size)
+        Me.cbContinueTest.TabIndex = CType(resources.GetObject("cbContinueTest.TabIndex"), Integer)
+        Me.cbContinueTest.Text = resources.GetString("cbContinueTest.Text")
+        Me.cbContinueTest.TextAlign = CType(resources.GetObject("cbContinueTest.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.cbContinueTest, resources.GetString("cbContinueTest.ToolTip"))
+        Me.cbContinueTest.Visible = CType(resources.GetObject("cbContinueTest.Visible"), Boolean)
+        '
+        'gbConveyor
+        '
+        Me.gbConveyor.AccessibleDescription = resources.GetString("gbConveyor.AccessibleDescription")
+        Me.gbConveyor.AccessibleName = resources.GetString("gbConveyor.AccessibleName")
+        Me.gbConveyor.Anchor = CType(resources.GetObject("gbConveyor.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.gbConveyor.BackgroundImage = CType(resources.GetObject("gbConveyor.BackgroundImage"), System.Drawing.Image)
+        Me.gbConveyor.Controls.Add(Me.ButtonStartFirstStage)
+        Me.gbConveyor.Controls.Add(Me.btRelease)
+        Me.gbConveyor.Controls.Add(Me.btRetrieve)
+        Me.gbConveyor.Dock = CType(resources.GetObject("gbConveyor.Dock"), System.Windows.Forms.DockStyle)
+        Me.gbConveyor.Enabled = CType(resources.GetObject("gbConveyor.Enabled"), Boolean)
+        Me.gbConveyor.Font = CType(resources.GetObject("gbConveyor.Font"), System.Drawing.Font)
+        Me.gbConveyor.ImeMode = CType(resources.GetObject("gbConveyor.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.gbConveyor.Location = CType(resources.GetObject("gbConveyor.Location"), System.Drawing.Point)
+        Me.gbConveyor.Name = "gbConveyor"
+        Me.gbConveyor.RightToLeft = CType(resources.GetObject("gbConveyor.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.gbConveyor.Size = CType(resources.GetObject("gbConveyor.Size"), System.Drawing.Size)
+        Me.gbConveyor.TabIndex = CType(resources.GetObject("gbConveyor.TabIndex"), Integer)
+        Me.gbConveyor.TabStop = False
+        Me.gbConveyor.Text = resources.GetString("gbConveyor.Text")
+        Me.ToolTip1.SetToolTip(Me.gbConveyor, resources.GetString("gbConveyor.ToolTip"))
+        Me.gbConveyor.Visible = CType(resources.GetObject("gbConveyor.Visible"), Boolean)
+        '
+        'tbOpenedFile
+        '
+        Me.tbOpenedFile.AccessibleDescription = resources.GetString("tbOpenedFile.AccessibleDescription")
+        Me.tbOpenedFile.AccessibleName = resources.GetString("tbOpenedFile.AccessibleName")
+        Me.tbOpenedFile.Anchor = CType(resources.GetObject("tbOpenedFile.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.tbOpenedFile.AutoSize = CType(resources.GetObject("tbOpenedFile.AutoSize"), Boolean)
+        Me.tbOpenedFile.BackgroundImage = CType(resources.GetObject("tbOpenedFile.BackgroundImage"), System.Drawing.Image)
+        Me.tbOpenedFile.Dock = CType(resources.GetObject("tbOpenedFile.Dock"), System.Windows.Forms.DockStyle)
+        Me.tbOpenedFile.Enabled = CType(resources.GetObject("tbOpenedFile.Enabled"), Boolean)
+        Me.tbOpenedFile.Font = CType(resources.GetObject("tbOpenedFile.Font"), System.Drawing.Font)
+        Me.tbOpenedFile.ImeMode = CType(resources.GetObject("tbOpenedFile.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.tbOpenedFile.Location = CType(resources.GetObject("tbOpenedFile.Location"), System.Drawing.Point)
+        Me.tbOpenedFile.MaxLength = CType(resources.GetObject("tbOpenedFile.MaxLength"), Integer)
+        Me.tbOpenedFile.Multiline = CType(resources.GetObject("tbOpenedFile.Multiline"), Boolean)
+        Me.tbOpenedFile.Name = "tbOpenedFile"
+        Me.tbOpenedFile.PasswordChar = CType(resources.GetObject("tbOpenedFile.PasswordChar"), Char)
+        Me.tbOpenedFile.ReadOnly = True
+        Me.tbOpenedFile.RightToLeft = CType(resources.GetObject("tbOpenedFile.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.tbOpenedFile.ScrollBars = CType(resources.GetObject("tbOpenedFile.ScrollBars"), System.Windows.Forms.ScrollBars)
+        Me.tbOpenedFile.Size = CType(resources.GetObject("tbOpenedFile.Size"), System.Drawing.Size)
+        Me.tbOpenedFile.TabIndex = CType(resources.GetObject("tbOpenedFile.TabIndex"), Integer)
+        Me.tbOpenedFile.Text = resources.GetString("tbOpenedFile.Text")
+        Me.tbOpenedFile.TextAlign = CType(resources.GetObject("tbOpenedFile.TextAlign"), System.Windows.Forms.HorizontalAlignment)
+        Me.ToolTip1.SetToolTip(Me.tbOpenedFile, resources.GetString("tbOpenedFile.ToolTip"))
+        Me.tbOpenedFile.Visible = CType(resources.GetObject("tbOpenedFile.Visible"), Boolean)
+        Me.tbOpenedFile.WordWrap = CType(resources.GetObject("tbOpenedFile.WordWrap"), Boolean)
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.AccessibleDescription = resources.GetString("GroupBox3.AccessibleDescription")
+        Me.GroupBox3.AccessibleName = resources.GetString("GroupBox3.AccessibleName")
+        Me.GroupBox3.Anchor = CType(resources.GetObject("GroupBox3.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox3.BackgroundImage = CType(resources.GetObject("GroupBox3.BackgroundImage"), System.Drawing.Image)
+        Me.GroupBox3.Controls.Add(Me.VisionMode)
+        Me.GroupBox3.Controls.Add(Me.NeedleMode)
+        Me.GroupBox3.Controls.Add(Me.Label5)
+        Me.GroupBox3.Dock = CType(resources.GetObject("GroupBox3.Dock"), System.Windows.Forms.DockStyle)
+        Me.GroupBox3.Enabled = CType(resources.GetObject("GroupBox3.Enabled"), Boolean)
+        Me.GroupBox3.Font = CType(resources.GetObject("GroupBox3.Font"), System.Drawing.Font)
+        Me.GroupBox3.ImeMode = CType(resources.GetObject("GroupBox3.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.GroupBox3.Location = CType(resources.GetObject("GroupBox3.Location"), System.Drawing.Point)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.RightToLeft = CType(resources.GetObject("GroupBox3.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.GroupBox3.Size = CType(resources.GetObject("GroupBox3.Size"), System.Drawing.Size)
+        Me.GroupBox3.TabIndex = CType(resources.GetObject("GroupBox3.TabIndex"), Integer)
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = resources.GetString("GroupBox3.Text")
+        Me.ToolTip1.SetToolTip(Me.GroupBox3, resources.GetString("GroupBox3.ToolTip"))
+        Me.GroupBox3.Visible = CType(resources.GetObject("GroupBox3.Visible"), Boolean)
+        '
+        'btChangeSyringe
+        '
+        Me.btChangeSyringe.AccessibleDescription = resources.GetString("btChangeSyringe.AccessibleDescription")
+        Me.btChangeSyringe.AccessibleName = resources.GetString("btChangeSyringe.AccessibleName")
+        Me.btChangeSyringe.Anchor = CType(resources.GetObject("btChangeSyringe.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.btChangeSyringe.BackColor = System.Drawing.SystemColors.Control
+        Me.btChangeSyringe.BackgroundImage = CType(resources.GetObject("btChangeSyringe.BackgroundImage"), System.Drawing.Image)
+        Me.btChangeSyringe.Dock = CType(resources.GetObject("btChangeSyringe.Dock"), System.Windows.Forms.DockStyle)
+        Me.btChangeSyringe.Enabled = CType(resources.GetObject("btChangeSyringe.Enabled"), Boolean)
+        Me.btChangeSyringe.FlatStyle = CType(resources.GetObject("btChangeSyringe.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.btChangeSyringe.Font = CType(resources.GetObject("btChangeSyringe.Font"), System.Drawing.Font)
+        Me.btChangeSyringe.Image = CType(resources.GetObject("btChangeSyringe.Image"), System.Drawing.Image)
+        Me.btChangeSyringe.ImageAlign = CType(resources.GetObject("btChangeSyringe.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.btChangeSyringe.ImageIndex = CType(resources.GetObject("btChangeSyringe.ImageIndex"), Integer)
+        Me.btChangeSyringe.ImageList = Me.ImageListGeneralTools
+        Me.btChangeSyringe.ImeMode = CType(resources.GetObject("btChangeSyringe.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.btChangeSyringe.Location = CType(resources.GetObject("btChangeSyringe.Location"), System.Drawing.Point)
+        Me.btChangeSyringe.Name = "btChangeSyringe"
+        Me.btChangeSyringe.RightToLeft = CType(resources.GetObject("btChangeSyringe.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.btChangeSyringe.Size = CType(resources.GetObject("btChangeSyringe.Size"), System.Drawing.Size)
+        Me.btChangeSyringe.TabIndex = CType(resources.GetObject("btChangeSyringe.TabIndex"), Integer)
+        Me.btChangeSyringe.Text = resources.GetString("btChangeSyringe.Text")
+        Me.btChangeSyringe.TextAlign = CType(resources.GetObject("btChangeSyringe.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.btChangeSyringe, resources.GetString("btChangeSyringe.ToolTip"))
+        Me.btChangeSyringe.Visible = CType(resources.GetObject("btChangeSyringe.Visible"), Boolean)
+        '
+        'btExit
+        '
+        Me.btExit.AccessibleDescription = resources.GetString("btExit.AccessibleDescription")
+        Me.btExit.AccessibleName = resources.GetString("btExit.AccessibleName")
+        Me.btExit.Anchor = CType(resources.GetObject("btExit.Anchor"), System.Windows.Forms.AnchorStyles)
+        Me.btExit.BackColor = System.Drawing.SystemColors.Control
+        Me.btExit.BackgroundImage = CType(resources.GetObject("btExit.BackgroundImage"), System.Drawing.Image)
+        Me.btExit.Dock = CType(resources.GetObject("btExit.Dock"), System.Windows.Forms.DockStyle)
+        Me.btExit.Enabled = CType(resources.GetObject("btExit.Enabled"), Boolean)
+        Me.btExit.FlatStyle = CType(resources.GetObject("btExit.FlatStyle"), System.Windows.Forms.FlatStyle)
+        Me.btExit.Font = CType(resources.GetObject("btExit.Font"), System.Drawing.Font)
+        Me.btExit.Image = CType(resources.GetObject("btExit.Image"), System.Drawing.Image)
+        Me.btExit.ImageAlign = CType(resources.GetObject("btExit.ImageAlign"), System.Drawing.ContentAlignment)
+        Me.btExit.ImageIndex = CType(resources.GetObject("btExit.ImageIndex"), Integer)
+        Me.btExit.ImageList = Me.ImageListGeneralTools
+        Me.btExit.ImeMode = CType(resources.GetObject("btExit.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.btExit.Location = CType(resources.GetObject("btExit.Location"), System.Drawing.Point)
+        Me.btExit.Name = "btExit"
+        Me.btExit.RightToLeft = CType(resources.GetObject("btExit.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.btExit.Size = CType(resources.GetObject("btExit.Size"), System.Drawing.Size)
+        Me.btExit.TabIndex = CType(resources.GetObject("btExit.TabIndex"), Integer)
+        Me.btExit.Text = resources.GetString("btExit.Text")
+        Me.btExit.TextAlign = CType(resources.GetObject("btExit.TextAlign"), System.Drawing.ContentAlignment)
+        Me.ToolTip1.SetToolTip(Me.btExit, resources.GetString("btExit.ToolTip"))
+        Me.btExit.Visible = CType(resources.GetObject("btExit.Visible"), Boolean)
+        '
+        'ImageListOper
+        '
+        Me.ImageListOper.ImageSize = CType(resources.GetObject("ImageListOper.ImageSize"), System.Drawing.Size)
+        Me.ImageListOper.ImageStream = CType(resources.GetObject("ImageListOper.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageListOper.TransparentColor = System.Drawing.Color.Transparent
         '
         'NeedleContextMenu
         '
         Me.NeedleContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem81, Me.MenuItem82, Me.MenuItem83, Me.MenuItem84, Me.MenuItem85, Me.MenuItem86})
+        Me.NeedleContextMenu.RightToLeft = CType(resources.GetObject("NeedleContextMenu.RightToLeft"), System.Windows.Forms.RightToLeft)
         '
         'MenuItem81
         '
+        Me.MenuItem81.Enabled = CType(resources.GetObject("MenuItem81.Enabled"), Boolean)
         Me.MenuItem81.Index = 0
-        Me.MenuItem81.Text = "&Left"
+        Me.MenuItem81.Shortcut = CType(resources.GetObject("MenuItem81.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem81.ShowShortcut = CType(resources.GetObject("MenuItem81.ShowShortcut"), Boolean)
+        Me.MenuItem81.Text = resources.GetString("MenuItem81.Text")
+        Me.MenuItem81.Visible = CType(resources.GetObject("MenuItem81.Visible"), Boolean)
         '
         'MenuItem82
         '
+        Me.MenuItem82.Enabled = CType(resources.GetObject("MenuItem82.Enabled"), Boolean)
         Me.MenuItem82.Index = 1
-        Me.MenuItem82.Text = "&Right"
+        Me.MenuItem82.Shortcut = CType(resources.GetObject("MenuItem82.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem82.ShowShortcut = CType(resources.GetObject("MenuItem82.ShowShortcut"), Boolean)
+        Me.MenuItem82.Text = resources.GetString("MenuItem82.Text")
+        Me.MenuItem82.Visible = CType(resources.GetObject("MenuItem82.Visible"), Boolean)
         '
         'MenuItem83
         '
+        Me.MenuItem83.Enabled = CType(resources.GetObject("MenuItem83.Enabled"), Boolean)
         Me.MenuItem83.Index = 2
-        Me.MenuItem83.Text = "-"
+        Me.MenuItem83.Shortcut = CType(resources.GetObject("MenuItem83.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem83.ShowShortcut = CType(resources.GetObject("MenuItem83.ShowShortcut"), Boolean)
+        Me.MenuItem83.Text = resources.GetString("MenuItem83.Text")
+        Me.MenuItem83.Visible = CType(resources.GetObject("MenuItem83.Visible"), Boolean)
         '
         'MenuItem84
         '
+        Me.MenuItem84.Enabled = CType(resources.GetObject("MenuItem84.Enabled"), Boolean)
         Me.MenuItem84.Index = 3
-        Me.MenuItem84.Text = "&Undo"
+        Me.MenuItem84.Shortcut = CType(resources.GetObject("MenuItem84.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem84.ShowShortcut = CType(resources.GetObject("MenuItem84.ShowShortcut"), Boolean)
+        Me.MenuItem84.Text = resources.GetString("MenuItem84.Text")
+        Me.MenuItem84.Visible = CType(resources.GetObject("MenuItem84.Visible"), Boolean)
         '
         'MenuItem85
         '
+        Me.MenuItem85.Enabled = CType(resources.GetObject("MenuItem85.Enabled"), Boolean)
         Me.MenuItem85.Index = 4
-        Me.MenuItem85.Text = "&Insert Row"
+        Me.MenuItem85.Shortcut = CType(resources.GetObject("MenuItem85.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem85.ShowShortcut = CType(resources.GetObject("MenuItem85.ShowShortcut"), Boolean)
+        Me.MenuItem85.Text = resources.GetString("MenuItem85.Text")
+        Me.MenuItem85.Visible = CType(resources.GetObject("MenuItem85.Visible"), Boolean)
         '
         'MenuItem86
         '
+        Me.MenuItem86.Enabled = CType(resources.GetObject("MenuItem86.Enabled"), Boolean)
         Me.MenuItem86.Index = 5
-        Me.MenuItem86.Text = "&Delete Row"
+        Me.MenuItem86.Shortcut = CType(resources.GetObject("MenuItem86.Shortcut"), System.Windows.Forms.Shortcut)
+        Me.MenuItem86.ShowShortcut = CType(resources.GetObject("MenuItem86.ShowShortcut"), Boolean)
+        Me.MenuItem86.Text = resources.GetString("MenuItem86.Text")
+        Me.MenuItem86.Visible = CType(resources.GetObject("MenuItem86.Visible"), Boolean)
+        '
+        'OpenPatternFileDialog
+        '
+        Me.OpenPatternFileDialog.Filter = resources.GetString("OpenPatternFileDialog.Filter")
+        Me.OpenPatternFileDialog.Title = resources.GetString("OpenPatternFileDialog.Title")
+        '
+        'SavePatternFileDialog
+        '
+        Me.SavePatternFileDialog.Filter = resources.GetString("SavePatternFileDialog.Filter")
+        Me.SavePatternFileDialog.Title = resources.GetString("SavePatternFileDialog.Title")
         '
         'ImageListLineArc
         '
-        Me.ImageListLineArc.ImageSize = New System.Drawing.Size(32, 32)
+        Me.ImageListLineArc.ImageSize = CType(resources.GetObject("ImageListLineArc.ImageSize"), System.Drawing.Size)
         Me.ImageListLineArc.ImageStream = CType(resources.GetObject("ImageListLineArc.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageListLineArc.TransparentColor = System.Drawing.Color.Transparent
         '
@@ -1094,244 +2259,40 @@ Public Class FormProgramming
         '
         Me.TimerForUpdate.Interval = 1000
         '
-        'AxSpreadsheetProgramming
+        'SaveFileDialog1
         '
-        Me.AxSpreadsheetProgramming.DataSource = Nothing
-        Me.AxSpreadsheetProgramming.Enabled = True
-        Me.AxSpreadsheetProgramming.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.AxSpreadsheetProgramming.Location = New System.Drawing.Point(0, 40)
-        Me.AxSpreadsheetProgramming.Name = "AxSpreadsheetProgramming"
-        Me.AxSpreadsheetProgramming.OcxState = CType(resources.GetObject("AxSpreadsheetProgramming.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxSpreadsheetProgramming.Size = New System.Drawing.Size(1280, 280)
-        Me.AxSpreadsheetProgramming.TabIndex = 128
+        Me.SaveFileDialog1.Filter = resources.GetString("SaveFileDialog1.Filter")
+        Me.SaveFileDialog1.Title = resources.GetString("SaveFileDialog1.Title")
         '
         'IOCheck
         '
         Me.IOCheck.Interval = 50
         '
-        'LabelMessege
-        '
-        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Control
-        Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelMessege.ForeColor = System.Drawing.Color.Black
-        Me.LabelMessege.Location = New System.Drawing.Point(8, 328)
-        Me.LabelMessege.Name = "LabelMessege"
-        Me.LabelMessege.Size = New System.Drawing.Size(672, 32)
-        Me.LabelMessege.TabIndex = 84
-        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'DispensingMode
-        '
-        Me.DispensingMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.DispensingMode.ItemHeight = 20
-        Me.DispensingMode.Items.AddRange(New Object() {"Vision Mode", "Dry Needle Mode", "Wet Needle Mode"})
-        Me.DispensingMode.Location = New System.Drawing.Point(24, 16)
-        Me.DispensingMode.Name = "DispensingMode"
-        Me.DispensingMode.Size = New System.Drawing.Size(214, 28)
-        Me.DispensingMode.TabIndex = 52
-        Me.DispensingMode.Text = "Vision Mode"
-        '
-        'btStop
-        '
-        Me.btStop.Image = CType(resources.GetObject("btStop.Image"), System.Drawing.Image)
-        Me.btStop.Location = New System.Drawing.Point(204, 56)
-        Me.btStop.Name = "btStop"
-        Me.btStop.Size = New System.Drawing.Size(80, 80)
-        Me.btStop.TabIndex = 56
-        '
-        'btPause
-        '
-        Me.btPause.Image = CType(resources.GetObject("btPause.Image"), System.Drawing.Image)
-        Me.btPause.Location = New System.Drawing.Point(116, 56)
-        Me.btPause.Name = "btPause"
-        Me.btPause.Size = New System.Drawing.Size(80, 80)
-        Me.btPause.TabIndex = 55
-        '
-        'btPlay
-        '
-        Me.btPlay.Image = CType(resources.GetObject("btPlay.Image"), System.Drawing.Image)
-        Me.btPlay.Location = New System.Drawing.Point(28, 56)
-        Me.btPlay.Name = "btPlay"
-        Me.btPlay.Size = New System.Drawing.Size(80, 80)
-        Me.btPlay.TabIndex = 54
-        '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.GreenLight)
-        Me.Panel1.Controls.Add(Me.AmberLight)
-        Me.Panel1.Controls.Add(Me.RedLight)
-        Me.Panel1.Location = New System.Drawing.Point(872, 368)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(64, 200)
-        Me.Panel1.TabIndex = 53
-        '
-        'GreenLight
-        '
-        Me.GreenLight.BackgroundImage = CType(resources.GetObject("GreenLight.BackgroundImage"), System.Drawing.Image)
-        Me.GreenLight.Location = New System.Drawing.Point(0, 128)
-        Me.GreenLight.Name = "GreenLight"
-        Me.GreenLight.Size = New System.Drawing.Size(64, 64)
-        Me.GreenLight.TabIndex = 2
-        Me.GreenLight.TabStop = False
-        '
-        'AmberLight
-        '
-        Me.AmberLight.BackgroundImage = CType(resources.GetObject("AmberLight.BackgroundImage"), System.Drawing.Image)
-        Me.AmberLight.Location = New System.Drawing.Point(0, 64)
-        Me.AmberLight.Name = "AmberLight"
-        Me.AmberLight.Size = New System.Drawing.Size(64, 64)
-        Me.AmberLight.TabIndex = 1
-        Me.AmberLight.TabStop = False
-        '
-        'RedLight
-        '
-        Me.RedLight.BackgroundImage = CType(resources.GetObject("RedLight.BackgroundImage"), System.Drawing.Image)
-        Me.RedLight.Location = New System.Drawing.Point(0, 0)
-        Me.RedLight.Name = "RedLight"
-        Me.RedLight.Size = New System.Drawing.Size(64, 64)
-        Me.RedLight.TabIndex = 0
-        Me.RedLight.TabStop = False
-        '
-        'ButtonToggleMode
-        '
-        Me.ButtonToggleMode.Location = New System.Drawing.Point(2, 2)
-        Me.ButtonToggleMode.Name = "ButtonToggleMode"
-        Me.ButtonToggleMode.Size = New System.Drawing.Size(222, 30)
-        Me.ButtonToggleMode.TabIndex = 129
-        Me.ButtonToggleMode.Text = "Go to Basic Setup"
-        '
-        'PanelToBeAdded
-        '
-        Me.PanelToBeAdded.BackColor = System.Drawing.SystemColors.Control
-        Me.PanelToBeAdded.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PanelToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(944, 690)
-        Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(336, 280)
-        Me.PanelToBeAdded.TabIndex = 130
-        Me.PanelToBeAdded.Visible = False
-        '
-        'ButtonStartFirstStage
-        '
-        Me.ButtonStartFirstStage.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonStartFirstStage.Location = New System.Drawing.Point(28, 24)
-        Me.ButtonStartFirstStage.Name = "ButtonStartFirstStage"
-        Me.ButtonStartFirstStage.Size = New System.Drawing.Size(80, 80)
-        Me.ButtonStartFirstStage.TabIndex = 145
-        Me.ButtonStartFirstStage.Text = "Receive"
-        '
         'TowerLightImageList
         '
         Me.TowerLightImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit
-        Me.TowerLightImageList.ImageSize = New System.Drawing.Size(64, 64)
+        Me.TowerLightImageList.ImageSize = CType(resources.GetObject("TowerLightImageList.ImageSize"), System.Drawing.Size)
         Me.TowerLightImageList.ImageStream = CType(resources.GetObject("TowerLightImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.TowerLightImageList.TransparentColor = System.Drawing.Color.Transparent
         '
-        'btRelease
-        '
-        Me.btRelease.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btRelease.Location = New System.Drawing.Point(204, 24)
-        Me.btRelease.Name = "btRelease"
-        Me.btRelease.Size = New System.Drawing.Size(80, 80)
-        Me.btRelease.TabIndex = 146
-        Me.btRelease.Text = "Release"
-        '
-        'btRetrieve
-        '
-        Me.btRetrieve.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btRetrieve.Location = New System.Drawing.Point(116, 24)
-        Me.btRetrieve.Name = "btRetrieve"
-        Me.btRetrieve.Size = New System.Drawing.Size(80, 80)
-        Me.btRetrieve.TabIndex = 147
-        Me.btRetrieve.Text = "Retrieve"
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.btStop)
-        Me.GroupBox1.Controls.Add(Me.btPause)
-        Me.GroupBox1.Controls.Add(Me.btPlay)
-        Me.GroupBox1.Controls.Add(Me.DispensingMode)
-        Me.GroupBox1.Controls.Add(Me.cbContinueTest)
-        Me.GroupBox1.Location = New System.Drawing.Point(952, 352)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(312, 144)
-        Me.GroupBox1.TabIndex = 148
-        Me.GroupBox1.TabStop = False
-        '
-        'cbContinueTest
-        '
-        Me.cbContinueTest.Location = New System.Drawing.Point(248, 16)
-        Me.cbContinueTest.Name = "cbContinueTest"
-        Me.cbContinueTest.Size = New System.Drawing.Size(64, 24)
-        Me.cbContinueTest.TabIndex = 152
-        Me.cbContinueTest.Text = "Con."
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.ButtonStartFirstStage)
-        Me.GroupBox2.Controls.Add(Me.btRelease)
-        Me.GroupBox2.Controls.Add(Me.btRetrieve)
-        Me.GroupBox2.Location = New System.Drawing.Point(952, 496)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(312, 112)
-        Me.GroupBox2.TabIndex = 149
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Conveyor"
-        '
-        'tbOpenedFile
-        '
-        Me.tbOpenedFile.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbOpenedFile.Location = New System.Drawing.Point(232, 8)
-        Me.tbOpenedFile.Name = "tbOpenedFile"
-        Me.tbOpenedFile.ReadOnly = True
-        Me.tbOpenedFile.Size = New System.Drawing.Size(832, 22)
-        Me.tbOpenedFile.TabIndex = 150
-        Me.tbOpenedFile.Text = ""
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.VisionMode)
-        Me.GroupBox3.Controls.Add(Me.NeedleMode)
-        Me.GroupBox3.Controls.Add(Me.Label5)
-        Me.GroupBox3.Location = New System.Drawing.Point(872, 320)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(376, 40)
-        Me.GroupBox3.TabIndex = 151
-        Me.GroupBox3.TabStop = False
-        '
-        'tbHeightCompensation
-        '
-        Me.tbHeightCompensation.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbHeightCompensation.Location = New System.Drawing.Point(856, 888)
-        Me.tbHeightCompensation.Name = "tbHeightCompensation"
-        Me.tbHeightCompensation.ReadOnly = True
-        Me.tbHeightCompensation.Size = New System.Drawing.Size(80, 22)
-        Me.tbHeightCompensation.TabIndex = 152
-        Me.tbHeightCompensation.Text = ""
-        '
-        'Label2
-        '
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(856, 856)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(80, 32)
-        Me.Label2.TabIndex = 153
-        Me.Label2.Text = "Height Compesation"
-        '
         'FormProgramming
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(1276, 923)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.tbHeightCompensation)
+        Me.AccessibleDescription = resources.GetString("$this.AccessibleDescription")
+        Me.AccessibleName = resources.GetString("$this.AccessibleName")
+        Me.AutoScaleBaseSize = CType(resources.GetObject("$this.AutoScaleBaseSize"), System.Drawing.Size)
+        Me.AutoScroll = CType(resources.GetObject("$this.AutoScroll"), Boolean)
+        Me.AutoScrollMargin = CType(resources.GetObject("$this.AutoScrollMargin"), System.Drawing.Size)
+        Me.AutoScrollMinSize = CType(resources.GetObject("$this.AutoScrollMinSize"), System.Drawing.Size)
+        Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
+        Me.ClientSize = CType(resources.GetObject("$this.ClientSize"), System.Drawing.Size)
+        Me.Controls.Add(Me.btExit)
+        Me.Controls.Add(Me.btChangeSyringe)
         Me.Controls.Add(Me.tbOpenedFile)
-        Me.Controls.Add(Me.TeachingToolbar)
         Me.Controls.Add(Me.EditingToolbar)
         Me.Controls.Add(Me.ReferenceCommandBlock)
         Me.Controls.Add(Me.ElementsCommandBlock)
         Me.Controls.Add(Me.GroupBox3)
-        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.gbConveyor)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.Controls.Add(Me.ButtonToggleMode)
@@ -1347,19 +2308,29 @@ Public Class FormProgramming
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.ButtonPurge)
         Me.Controls.Add(Me.ButtonVolCal)
-        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Controls.Add(Me.TeachingToolbar)
+        Me.Enabled = CType(resources.GetObject("$this.Enabled"), Boolean)
+        Me.Font = CType(resources.GetObject("$this.Font"), System.Drawing.Font)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.ImeMode = CType(resources.GetObject("$this.ImeMode"), System.Windows.Forms.ImeMode)
+        Me.Location = CType(resources.GetObject("$this.Location"), System.Drawing.Point)
         Me.MaximizeBox = False
+        Me.MaximumSize = CType(resources.GetObject("$this.MaximumSize"), System.Drawing.Size)
         Me.Menu = Me.MainMenuProgramming
         Me.MinimizeBox = False
+        Me.MinimumSize = CType(resources.GetObject("$this.MinimumSize"), System.Drawing.Size)
         Me.Name = "FormProgramming"
-        Me.Text = "Programming"
+        Me.RightToLeft = CType(resources.GetObject("$this.RightToLeft"), System.Windows.Forms.RightToLeft)
+        Me.StartPosition = CType(resources.GetObject("$this.StartPosition"), System.Windows.Forms.FormStartPosition)
+        Me.Text = resources.GetString("$this.Text")
+        Me.ToolTip1.SetToolTip(Me, resources.GetString("$this.ToolTip"))
         Me.PanelVisionCtrl.ResumeLayout(False)
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AxSpreadsheetProgramming, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
+        Me.gbConveyor.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -1381,7 +2352,7 @@ Public Class FormProgramming
     Public teachingMode As String = "Vision"
     Private m_NewProjectCreated As Boolean = False
 
-
+    Public Shared logger As log4net.ILog ' for logging system
     Public Sub ErrorSubSheetStructIni(ByVal iMinItem, ByVal iMaxItem)
         'Change dimension of data structure
         ErrorSubSheet.ExtNumberOfSheets = 0
@@ -1411,6 +2382,8 @@ Public Class FormProgramming
 
     Private Sub FormProgramming_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
+        logger = log4net.LogManager.GetLogger("Pro")
+        LogFile("Start Programming Mode")
         'AxSpreadsheetProgramming.Enabled = False
         MenuItem1.Enabled = False
         Init()
@@ -1559,6 +2532,19 @@ Public Class FormProgramming
 
     End Sub
 
+    Public Function LogFile(ByVal message As String, Optional ByVal logLevel As Integer = 0)
+        If message = "" Then
+            Exit Function
+        End If
+        If logLevel = 0 Then
+            logger.Info(message)
+        ElseIf logLevel = 1 Then
+            logger.Debug(message)
+        ElseIf logLevel = 2 Then
+            logger.Error(message)
+        End If
+    End Function
+
 #End Region
 
     Public LaserHeightOffsetZ As Double = -1234
@@ -1686,15 +2672,15 @@ Public Class FormProgramming
             LabelMessage("Can't unlock the door when machine running!")
             Exit Sub
         End If
-        If CBDoorLock.Checked = False Then
+        If CBDoorLock.Text = "Lock Door" Then
             CBDoorLock.Text = "Unlock Door"
-            CBDoorLock.ImageIndex = 6
-            TraceDoEvents()
+            'CBDoorLock.ImageIndex = 6
+            'TraceDoEvents()
             LockDoor()
         Else
             CBDoorLock.Text = "Lock Door"
-            CBDoorLock.ImageIndex = 5
-            TraceDoEvents()
+            'CBDoorLock.ImageIndex = 5
+            ''TraceDoEvents()
             UnlockDoor()
 
         End If
@@ -2605,7 +3591,7 @@ Public Class FormProgramming
             End If
 
             Production.TextBoxFilename.Text = ""
-            Production.RichTextBoxNote.Text = ""
+            'Production.RichTextBoxNote.Text = ""
             Return -1
         End If
 
@@ -2730,14 +3716,14 @@ Public Class FormProgramming
             SystemSetupDataRetrieve() 'SJ add 
             'IDS.StartErrorCheck() 'kr?
             IDS.newOpen = True
-
+            LogFile("Opening file " & gPatternFileName + ".pat")
             'Acitvate the "Main" page
             AxSpreadsheetProgramming.Worksheets("Main").Activate()
 
             LabelMessage("Please wait, Checking content.....")
             'Error checking for all the Spreadsheet
             If 0 <> m_Execution.m_Pattern.m_ErrorChk.CheckAllError(AxSpreadsheetProgramming, ErrorSubSheet) Then
-
+                LabelMessage("File content invalid", True)
                 Rtn = MyMsgBox("Click Ok to flush all the data", MsgBoxStyle.Question + MsgBoxStyle.YesNo, "Error found, flush all the data or not?")
                 If MsgBoxResult.Yes = Rtn Then
                     FlushSpreadsheet()
@@ -2758,6 +3744,7 @@ Public Class FormProgramming
                     UndoData_Logging(0)
                 End If
             Else
+                LabelMessage("File opened")
                 tbOpenedFile.Text = file
                 UndoData_Logging(0)
 
@@ -3338,6 +4325,7 @@ Public Class FormProgramming
             MySettings.AddDefaultView()
             CurrentMode = "Basic Setup"
             ButtonToggleMode.Text = "Go to Program Editor"
+            Me.lbPostName.Text = "Robot"
             CBExpandSpreadsheet.Visible = False
             CBExpandSpreadsheet.Visible = False
             MySettings.PanelRight.Location = New Point(768, 33)
@@ -3353,7 +4341,11 @@ Public Class FormProgramming
             MySettings.RichTextBox1.BringToFront()
             MySettings.RevertData()
             EnableDisableMenuBar()
-
+            If m_Tri.ZPosition < -5 Then
+                m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ServiceXYSpeed)
+                m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
+                m_Tri.Move_Z(0)
+            End If
         ElseIf CurrentMode = "Basic Setup" Then
 
             MySettings.RemoveCurrentPanel()
@@ -3370,6 +4362,7 @@ Public Class FormProgramming
 
             CurrentMode = "Program Editor"
             ButtonToggleMode.Text = "Go to Basic Setup"
+            Me.lbPostName.Text = "Working Space"
             Disp_Dispenser_Unit_info()
             CBExpandSpreadsheet.Visible = True
             Me.Controls.Remove(MySettings.PanelRight)
@@ -3496,6 +4489,16 @@ Public Class FormProgramming
         End If
         Dim idFlag As Integer = 0
         If e.Button Is EditingToolbar.Buttons(0) Then
+            Dim sel As Microsoft.Office.Interop.OWC.Range = AxSpreadsheetProgramming.Selection
+            Dim m_rowCount As Integer = sel.Rows.Count()
+            Dim m_StartRow As Integer = sel.Row
+            Dim commandName As String = GetCellValue(m_StartRow, gCommandNameColumn)
+            If m_rowCount = 1 And commandName = Nothing Then
+                If Not (m_EditStateFlag) And Not (m_ProgrammingStateFlag) Then
+                    LabelMessage("")
+                End If
+                Return
+            End If
             idFlag = 1
             m_SteppingPostFlag = True
         End If
@@ -3931,13 +4934,14 @@ Public Class FormProgramming
 
         Dim buttonText As String = e.Button.Text
         buttonText = buttonText.Trim(" ")
-        m_EditStateFlag = False
-        m_ProgrammingStateFlag = True
-        AxSpreadsheetProgramming.Enabled = False
+       
         Dim SheetName As String = GetActiveSheetName()
         If m_Execution.m_Pattern.Spreadsheet_IsAnArraySheet(AxSpreadsheetProgramming, SheetName) Then
             MessageBox.Show("Command is not allowed in an Array sheet", "Warnning!")
         Else
+            m_EditStateFlag = False
+            m_ProgrammingStateFlag = True
+            AxSpreadsheetProgramming.Enabled = False
             NeedleMode.Enabled = True
             TeachElementCommand(buttonText)
             If "Measure" <> buttonText Then
@@ -4063,6 +5067,7 @@ Public Class FormProgramming
                         Vision.IDSV_Form_CE(ValueBrightness.Value)
                         Dim status As Integer = 0
                         Dim x, y As Double
+                        DisableCalibButtons()
                         Do
                             While Not (Vision.RobotMotionOffset(x, y) = True Or Vision.GetChipEdgeStatus = 2)
                                 TraceDoEvents()
@@ -4084,7 +5089,7 @@ Public Class FormProgramming
                                 status = Vision.GetChipEdgeStatus()
                             End While
                         Loop While status = 3 'status 3= reset 5 points
-
+                        EnableCalibButtons()
                         'DelayForRowDelete()
                         DisableCoordinateUpdateInSpreadsheet()
 
@@ -4101,11 +5106,13 @@ Public Class FormProgramming
                             DisplaySpreadsheetTabs()
                             SelectCell(m_Row + 1, 1)
                         End If
+                        AxSpreadsheetProgramming.Enabled = True
                         ToggleButtonsForTeachingStop()
                         ClearAndDisplayIndicator()
                         EnableTeachingButtons()
                         EnableTeachModeSwitching()
                         m_ProgrammingStateFlag = False
+                        m_EditStateFlag = False
                         EnableProgrammingBrightnessToggle()
                         DisableElementsCommandBlockButton(gSeperatorCmdIndex)
                         DisableElementsCommandBlockButton(gOffsetCmdIndex)
@@ -4119,6 +5126,7 @@ Public Class FormProgramming
                         DisableTeachingToolbar()
                         DisableProgrammingBrightnessToggle()
                         Vision.IDSV_Form_QC(ValueBrightness.Value)
+                        DisableCalibButtons()
                         Dim status As Integer = 0
                         Try
                             While status = 0 Or status = 3
@@ -4130,7 +5138,7 @@ Public Class FormProgramming
                         Catch ex As Exception
                             ExceptionDisplay(ex)
                         End Try
-
+                        EnableCalibButtons()
                         If status = 2 Then 'Cancel
                             DelayForRowDelete()
                             DisableCoordinateUpdateInSpreadsheet()
@@ -4216,7 +5224,7 @@ Public Class FormProgramming
                         ArrayDlg.Show()
                         Dim DlgReturn = ArrayDlg.DialogResult()
                         Dim PointX, PointY, PointZ As Double
-
+                    DisableCalibButtons()
                         Do
                             TraceDoEvents()
                             PointX = CDbl(GetCellValue(m_Row, gPos1XColumn))
@@ -4226,7 +5234,7 @@ Public Class FormProgramming
                             ArrayDlg.SetPoint(PointX, PointY, PointZ)
                             DlgReturn = ArrayDlg.DialogResult()
                         Loop While Nothing = DlgReturn
-
+                    EnableCalibButtons()
                         DisableCoordinateUpdateInSpreadsheet()
 
                         If DialogResult.OK = DlgReturn Then
@@ -4266,13 +5274,21 @@ Public Class FormProgramming
                                     PatternLineRecord(1), PatternLineRecord(2), arraydata)
 
                                 'Load sub and array data within the sub
-                                'Spreadsheet_AddSubandArrayInSub(PatternLineRecord(0).pPara.DispenseFlag)
-
-                                EnableTeachingButtons()
-                                DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                                DisableTeachingToolbarOKButton()
-                                EnableTeachingToolbarCancelButton()
-                            Else
+                            'Spreadsheet_AddSubandArrayInSub(PatternLineRecord(0).pPara.DispenseFlag)
+                            'yy
+                            If Not (ArrayDlg.ArrayPara1.DispenseFlag.ToUpper = "ON" Or ArrayDlg.ArrayPara1.DispenseFlag.ToUpper = "OFF ") Then
+                                Dim file1 As String = ArrayDlg.ArrayPara1.DispenseFlag
+                                If 0 = m_Execution.m_Pattern.Spreadsheet_CheckSubsheetExist( _
+                            AxSpreadsheetProgramming, m_Execution.m_File.NameOnlyFromFullPath(file1)) Then
+                                    m_Execution.m_Pattern.LoadTxtPatternPara(AxSpreadsheetProgramming, file1, 1, 0, False)
+                                End If
+                            End If
+                            
+                            EnableTeachingButtons()
+                            DisableElementsCommandBlockButton(gOffsetCmdIndex)
+                            DisableTeachingToolbarOKButton()
+                            EnableTeachingToolbarCancelButton()
+                        Else
                                 DelayForRowDelete()
                                 EnableTeachingButtons()
                                 DisableElementsCommandBlockButton(gOffsetCmdIndex)
@@ -4294,11 +5310,11 @@ Public Class FormProgramming
                             DeletingRowFromExcel = False
                             DeletingRowFinished = False
 
-                    End If
-                    AxSpreadsheetProgramming.Enabled = True
-                    m_ProgrammingStateFlag = False
+                        End If
+                        AxSpreadsheetProgramming.Enabled = True
+                        m_ProgrammingStateFlag = False
 
-                    CBExpandSpreadsheet.Enabled = True
+                        CBExpandSpreadsheet.Enabled = True
             End Select
         Catch ex As SystemException
 
@@ -4842,7 +5858,7 @@ Public Class FormProgramming
         Dim m_EndRow As Integer = m_StartRow + m_rowCount - 1
         Dim RefPos() As Double = {0, 0, 0}
         Dim commandName As String = GetCellValue(m_StartRow, gCommandNameColumn)
-        If m_rowCount = 1 And commandName = Nothing Then
+        If m_rowCount = 1 And commandName = Nothing And Not (m_EditStateFlag) And Not (m_ProgrammingStateFlag) Then
             LabelMessage("")
         End If
         If "" = gPatternFileName Then
@@ -5000,7 +6016,8 @@ Public Class FormProgramming
                 m_SteppingPostFlag = False 'Disable this flag to allow user to delete the entire row when selected new row and X button clicked
             Else
                 DisableElementsCommandBlockButton(gOffsetCmdIndex)
-                DisableEditingToolbar()
+                'DisableEditingToolbar()
+                Programming.EditingToolbar.Buttons(1).Enabled = False
             End If
 
         ElseIf gMaxColumns = m_columnCount Then
@@ -5095,7 +6112,7 @@ Public Class FormProgramming
             DisableEditingToolbar()
             DisableTeachingButtons()
 
-            If m_Column < gTravelSpeedColumn Or m_Column > gSprialColumn Or m_rowCount < 1 Then
+            If (m_Column < gTravelSpeedColumn Or m_Column > gSprialColumn Or m_rowCount < 1) And Not (m_Column = gDispensColumn) Then
                 Exit Sub
             End If
             If GetCellValue(m_Row, gCommandNameColumn) = "" Or CStr(GetCellValue(m_Row, m_Column)) = "" Then
@@ -5361,7 +6378,7 @@ Public Class FormProgramming
         i = startRow
         Do
             StrTmp = GetCellValue(i, gCommandNameColumn)
-            If "" = StrTmp Then
+            If "" = StrTmp Or StrTmp.ToUpper = "ARRAY" Or StrTmp.ToUpper = "SUBPATTERN" Then
                 emptyLinCount = emptyLinCount + 1
             Else
 
@@ -6861,6 +7878,7 @@ Public Class FormProgramming
                         vPara._Threshold = GetCellValue(m_Row, gThresholdColumn)
                         vPara._Vertical = GetCellValue(m_Row, gVerticalColumn)
                         vPara._DotDispensingDuration = GetCellValue(m_Row, gDurationColumn)
+                        vPara._Contrast = GetCellValue(m_Row, gCompactnessColumn)
                         DisableProgrammingBrightnessToggle()
                         Vision.IDSV_Form_CE_Edit(vPara)
 
@@ -6934,6 +7952,7 @@ Public Class FormProgramming
                             SetCellValue(m_Row, gThresholdColumn, vPara._Threshold)
                             SetCellValue(m_Row, gVerticalColumn, vPara._Vertical)
                             SetCellValue(m_Row, gDurationColumn, vPara._DotDispensingDuration)
+                            SetCellValue(m_Row, gCompactnessColumn, vPara._Contrast)
                             cell1 = GetCell(m_Row, gPos1XColumn)
                             cell2 = GetCell(m_Row, gPos1ZColumn)
                             m_Execution.m_Pattern.Spreadsheet_CellGrey(cell1, cell2, True, AxSpreadsheetProgramming)
@@ -8022,11 +9041,13 @@ Public Class FormProgramming
             Dim sheetname As String = "Main"
             Dim sheet As OWC10.Worksheet = AxSpreadsheetProgramming.Workbooks.Item(1).Worksheets(sheetname)
             If sheet Is Nothing Then
+                LogFile("Empy sheet when trying to run process")
                 Return
             End If
             Rows = sheet.UsedRange.Rows.Count
             Colums = sheet.UsedRange.Columns.Count
             If Rows < 1 Then
+                LogFile("Empy file when trying to run process")
                 Return
             End If
             If teachingMode = "Vision" Then
@@ -8047,12 +9068,14 @@ Public Class FormProgramming
                     fm.OkOnly()
                     fm.AddNewLine("Please insert the laser height command before running Dry/Wet needle mode")
                     fm.SetOKButtonText("Ok")
+                    LogFile("Try to run process without insert laser height command", 2)
                     fm.ShowDialog()
                     Return
                 End If
             End If
         End If
         SetState("Start")
+        btExit.Enabled = False
     End Sub
 
     Private Sub btPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPause.Click
@@ -8061,6 +9084,7 @@ Public Class FormProgramming
 
     Private Sub btStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStop.Click
         StopDispensing()
+        'btExit.Enabled = True
     End Sub
 
     Private Sub btRetrieve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btRetrieve.Click
@@ -8112,5 +9136,50 @@ Public Class FormProgramming
                 AxSpreadsheetProgramming.Enabled = True
             End If
         End If
+    End Sub
+
+    Private Sub btChangeSyringe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btChangeSyringe.Click
+        SetState("Change Syringe")
+    End Sub
+    Public Sub DisableCalibButtons()
+        Dim eb As Boolean = False
+        Me.ButtonNeedleCal.Enabled = eb
+        Me.ButtonHome.Enabled = eb
+        Me.ButtonVolCal.Enabled = eb
+        Me.ButtonPurge.Enabled = eb
+        Me.ButtonClean.Enabled = eb
+        Me.btChangeSyringe.Enabled = eb
+        Me.gbConveyor.Enabled = eb
+        Me.VisionMode.Enabled = eb
+        Me.NeedleMode.Enabled = eb
+        ButtonToggleMode.Enabled = eb
+        MenuItem1.Enabled = eb
+    End Sub
+    Public Sub EnableCalibButtons()
+        Dim eb As Boolean = True
+        Me.ButtonNeedleCal.Enabled = eb
+        Me.ButtonHome.Enabled = eb
+        Me.ButtonVolCal.Enabled = eb
+        Me.ButtonPurge.Enabled = eb
+        Me.ButtonClean.Enabled = eb
+        Me.btChangeSyringe.Enabled = eb
+        Me.gbConveyor.Enabled = eb
+        Me.VisionMode.Enabled = eb
+        MenuItem1.Enabled = eb
+        Me.NeedleMode.Enabled = eb
+        ButtonToggleMode.Enabled = eb
+    End Sub
+
+    Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
+        Dim fm As InfoForm = New InfoForm
+        fm.SetTitle("Warning")
+        fm.AddNewLine("Are you sure you want to exit programming program?")
+        fm.SetOKButtonText("Yes")
+        fm.SetCancelButtonText("No")
+        If fm.ShowDialog = DialogResult.Cancel Then
+            Return
+        End If
+        m_Tri.Move_Z(SafePosition)
+        Close()
     End Sub
 End Class

@@ -365,7 +365,8 @@ Public Class CIDSTrioController
         Dim dRemain(3) As Double
         Dim nAxis As Integer
         Dim bWaiting As Boolean
-        Dim esp As Double = 0.01
+        'Dim esp As Double = 0.01
+        Dim esp As Double = 0.0
 
         bWaiting = True
         While bWaiting  ' waiting for 3 axes all reaching demand postions
@@ -942,20 +943,24 @@ Public Class CIDSTrioController
         Return m_TriCtrl.Op(IOnum, OnOff)
     End Function
     Public Sub TrioStop()
+        If m_TriCtrl.RapidStop() Then Console.WriteLine("Rapid stop Done")
+        If m_TriCtrl.Cancel(0, 0) Then Console.WriteLine("Cancel 0 Done")
+        If m_TriCtrl.Cancel(0, 1) Then Console.WriteLine("Cancel 1 Done")
+        If m_TriCtrl.Cancel(0, 2) Then Console.WriteLine("Cancel 2 Done")
+        If m_TriCtrl.Cancel(1, 0) Then Console.WriteLine("Cancel 1,0 Done")
+        If m_TriCtrl.Cancel(1, 1) Then Console.WriteLine("Cancel 1,1 Done")
+        If m_TriCtrl.Cancel(1, 2) Then Console.WriteLine("Cancel 1,2 Done")
+        m_TriCtrl.Op(27, 0)
+        m_TriCtrl.Op(25, 0)
         m_TriCtrl.Stop("SETDATUM")
         If m_TriCtrl.Stop("CALIBRATIONS") Then
             ResetCalibrationFlag()
         End If
         m_TriCtrl.Stop("DISPENSE")
-        m_TriCtrl.RapidStop()
-        m_TriCtrl.Cancel(1, 0)
-        m_TriCtrl.Cancel(1, 1)
-        m_TriCtrl.Cancel(1, 2)
-        m_TriCtrl.Cancel(0, 0)
-        m_TriCtrl.Cancel(0, 1)
-        m_TriCtrl.Cancel(0, 2)
-        m_TriCtrl.Op(27, 0)
-        m_TriCtrl.Op(25, 0)
+        'm_TriCtrl.Cancel(1, 0)
+        'm_TriCtrl.Cancel(1, 1)
+        'm_TriCtrl.Cancel(1, 2)
+
     End Sub
 #End Region
 
@@ -1041,7 +1046,6 @@ Public Class CIDSTrioController
     End Sub
 
     Private Sub BTStepYminus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BTStepYminus.Click
-
         If Get_Limit("Y-") Or MachineRunning() Or MachineHoming() Or Calibrating() Then
             Exit Sub
         End If

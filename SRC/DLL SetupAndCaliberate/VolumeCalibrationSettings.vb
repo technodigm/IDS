@@ -1050,7 +1050,7 @@ Public Class VolumeCalibrationSettings
             RetractSpeed = RetractSpeedValue.Value
             RetractDelay = RetractDelayValue.Value
             RetractHeight = RetractHeightValue.Value
-
+            m_Tri.SteppingButtons.Enabled = False
             m_Tri.SetMachineRun()
             BoxSettings.Enabled = False
             ButtonCalibrate.Text = "Stop"
@@ -1058,6 +1058,7 @@ Public Class VolumeCalibrationSettings
             ButtonCalibrate.Text = "Calibrate"
             BoxSettings.Enabled = True
             m_Tri.SetMachineStop()
+            m_Tri.SteppingButtons.Enabled = True
             'disable temporarily for testing
         ElseIf ButtonCalibrate.Text = "Stop" Then
             VolumeCalibrationState = "Stopped"
@@ -1091,16 +1092,34 @@ Public Class VolumeCalibrationSettings
                     If CalibrateDuration() Then
                         AdjustedDispenseDuration.Text = DispenseDuration
                         .AdjustedDispenseDuration = DispenseDuration
-                        MyDispenserSettings.DownloadJettingParameters(DispenseDuration)
+                        Try
+                            MyDispenserSettings.DownloadJettingParameters(DispenseDuration)
+                        Catch ex As Exception
+                            MessageBox.Show("Error occur when download jetting parameters")
+                            Return False
+                        End Try
+
                     ElseIf CalibratePressure() Then
                         AdjustedMaterialAirPressure.Text = MaterialAirPressure
                         .AdjustedMaterialAirPressure = MaterialAirPressure
                         Dim SuckbackPressure As Double = IDS.Data.Hardware.Dispenser.Left.SuckbackPressure
-                        MyDispenserSettings.DownloadMaterialAirPressure(MaterialAirPressure, SuckbackPressure)
+                        Try
+                            MyDispenserSettings.DownloadMaterialAirPressure(MaterialAirPressure, SuckbackPressure)
+                        Catch ex As Exception
+                            MessageBox.Show("Error occur when download material air pressure parameters")
+                            Return False
+                        End Try
+
                     ElseIf CalibrateRPM() Then
                         AdjustedRPM.Text = RPM
                         .AdjustedRPM = RPM
-                        MyDispenserSettings.DownloadAugerRPM(RPM)
+                        Try
+                            MyDispenserSettings.DownloadAugerRPM(RPM)
+                        Catch ex As Exception
+                            MessageBox.Show("Error occur when download auger rpm")
+                            Return False
+                        End Try
+
                     End If
                     NextAction = "Init"
                     IDS.Data.SaveData()
@@ -1388,6 +1407,7 @@ WeightTooLow:
             ButtonTeachCalibrate.Text = "Stop"
             If Not VolumeCalibrationSetup() Then GoTo StopCalibration
             m_Tri.SetMachineRun()
+            m_Tri.SteppingButtons.Enabled = False
             BoxSettings.Enabled = False
 
             Weighting_Scale.DoTare()
@@ -1464,6 +1484,7 @@ WeightTooLow:
         m_Tri.SetMachineStop()
         rtbResult.Text = VolumeCalibrationResult
         ButtonTeachCalibrate.Text = "Dispense"
+        m_Tri.SteppingButtons.Enabled = True
         Exit Sub
 
 StopCalibration:
@@ -1472,6 +1493,7 @@ StopCalibration:
         rtbResult.Text = "Machine prematurely stopped."
         ButtonTeachCalibrate.Text = "Dispense"
         Status.Text = ""
+        m_Tri.SteppingButtons.Enabled = True
         Exit Sub
 
 Timeout:

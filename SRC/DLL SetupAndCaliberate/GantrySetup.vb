@@ -93,6 +93,7 @@ Public Class GantrySetup
     Public WithEvents Needle As System.Windows.Forms.RadioButton
     Public WithEvents RightHead As System.Windows.Forms.RadioButton
     Public WithEvents LeftHead As System.Windows.Forms.RadioButton
+    Friend WithEvents btMoveXYOnly As System.Windows.Forms.Button
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(GantrySetup))
@@ -153,6 +154,7 @@ Public Class GantrySetup
         Me.Label3 = New System.Windows.Forms.Label
         Me.SystemOriginPosZ = New System.Windows.Forms.NumericUpDown
         Me.SystemOriginPosY = New System.Windows.Forms.NumericUpDown
+        Me.btMoveXYOnly = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -195,6 +197,7 @@ Public Class GantrySetup
         '
         'GroupBox6
         '
+        Me.GroupBox6.Controls.Add(Me.btMoveXYOnly)
         Me.GroupBox6.Controls.Add(Me.SavePositionButton)
         Me.GroupBox6.Controls.Add(Me.XPosition)
         Me.GroupBox6.Controls.Add(Me.StationPosition)
@@ -210,7 +213,7 @@ Public Class GantrySetup
         '
         'SavePositionButton
         '
-        Me.SavePositionButton.Location = New System.Drawing.Point(254, 208)
+        Me.SavePositionButton.Location = New System.Drawing.Point(164, 264)
         Me.SavePositionButton.Name = "SavePositionButton"
         Me.SavePositionButton.Size = New System.Drawing.Size(168, 48)
         Me.SavePositionButton.TabIndex = 69
@@ -241,7 +244,7 @@ Public Class GantrySetup
         Me.MoveButton.Name = "MoveButton"
         Me.MoveButton.Size = New System.Drawing.Size(168, 48)
         Me.MoveButton.TabIndex = 65
-        Me.MoveButton.Text = "Move to Saved Station Position"
+        Me.MoveButton.Text = "Move to Saved Station XYZ"
         '
         'GroupBox4
         '
@@ -786,6 +789,14 @@ Public Class GantrySetup
         Me.SystemOriginPosY.TabIndex = 11
         Me.SystemOriginPosY.Value = New Decimal(New Integer() {380, 0, 0, -2147483648})
         '
+        'btMoveXYOnly
+        '
+        Me.btMoveXYOnly.Location = New System.Drawing.Point(272, 208)
+        Me.btMoveXYOnly.Name = "btMoveXYOnly"
+        Me.btMoveXYOnly.Size = New System.Drawing.Size(168, 48)
+        Me.btMoveXYOnly.TabIndex = 70
+        Me.btMoveXYOnly.Text = "Move to Saved Station XY Only"
+        '
         'GantrySetup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -975,8 +986,12 @@ Public Class GantrySetup
         If MessageBox.Show("Are you sure you want to move to the saved position?", "", MessageBoxButtons.YesNo) = DialogResult.No Then
             Return
         End If
+        MoveButton.Enabled = False
+        btMoveXYOnly.Enabled = False
+        SavePositionButton.Enabled = False
+        ButtonExit.Enabled = False
         SetServiceSpeed()
-        If Not m_Tri.Move_Z(0) Then Exit Sub
+        If Not m_Tri.Move_Z(0) Then GoTo Reset
 
         With IDS.Data.Hardware.Gantry
             If StationPosition.SelectedItem = "Park Position" Then
@@ -1031,16 +1046,19 @@ Public Class GantrySetup
             position(1) = position(1) - offset_y
         End If
         If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
-            If Not m_Tri.Move_XY(position) Then Exit Sub
+            If Not m_Tri.Move_XY(position) Then GoTo Reset
         ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
-            If Not m_Tri.Move_XY(position) Then Exit Sub
+            If Not m_Tri.Move_XY(position) Then GoTo Reset
         Else
-            If Not m_Tri.Move_XY(position) Then Exit Sub
+            If Not m_Tri.Move_XY(position) Then GoTo Reset
             z = z + IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
-            If Not m_Tri.Move_Z(z) Then Exit Sub
+            If Not m_Tri.Move_Z(z) Then GoTo Reset
         End If
-
-
+Reset:
+        MoveButton.Enabled = True
+        btMoveXYOnly.Enabled = True
+        SavePositionButton.Enabled = True
+        ButtonExit.Enabled = True
     End Sub
 
     Private Sub SavePositionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SavePositionButton.Click
@@ -1113,4 +1131,86 @@ Public Class GantrySetup
     Private Sub RightHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RightHead.Click
         RightHead.Checked = Not LeftHead.Checked
     End Sub
+
+    Private Sub btMoveXYOnly_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btMoveXYOnly.Click
+        If MessageBox.Show("Are you sure you want to move to the saved position?", "", MessageBoxButtons.YesNo) = DialogResult.No Then
+            Return
+        End If
+        MoveButton.Enabled = False
+        btMoveXYOnly.Enabled = False
+        SavePositionButton.Enabled = False
+        ButtonExit.Enabled = False
+        SetServiceSpeed()
+        If Not m_Tri.Move_Z(0) Then GoTo Reset
+
+        With IDS.Data.Hardware.Gantry
+            If StationPosition.SelectedItem = "Park Position" Then
+                position(0) = .ParkPosition.X
+                position(1) = .ParkPosition.Y
+                z = .ParkPosition.Z
+            ElseIf StationPosition.SelectedItem = "Purge Position" Then
+                position(0) = .PurgePosition.X
+                position(1) = .PurgePosition.Y
+                z = .PurgePosition.Z
+            ElseIf StationPosition.SelectedItem = "Clean Position" Then
+                position(0) = .CleanPosition.X
+                position(1) = .CleanPosition.Y
+                z = .CleanPosition.Z
+            ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
+                position(0) = .ChangeSyringePosition.X
+                position(1) = .ChangeSyringePosition.Y
+                z = .ChangeSyringePosition.Z
+            ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+                position(0) = .WeighingScalePosition.X
+                position(1) = .WeighingScalePosition.Y
+                z = .WeighingScalePosition.Z
+            End If
+        End With
+
+        With IDS.Data.Hardware.Needle
+            If LeftHead.Checked Then
+                offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
+                offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
+                If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+                    position(0) = .Left.ArrayDotPos1.X
+                    position(1) = .Left.ArrayDotPos1.Y
+                ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+                    position(0) = .Left.ArrayDotPos3.X
+                    position(1) = .Left.ArrayDotPos3.Y
+                End If
+            ElseIf RightHead.Checked Then
+                offset_x = .Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
+                offset_y = .Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
+                If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+                    position(0) = .Right.ArrayDotPos1.X
+                    position(1) = .Right.ArrayDotPos1.Y
+                ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+                    position(0) = .Right.ArrayDotPos3.X
+                    position(1) = .Right.ArrayDotPos3.Y
+                End If
+            End If
+        End With
+
+        If Needle.Checked Then
+            position(0) = position(0) - offset_x
+            position(1) = position(1) - offset_y
+        End If
+        If StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
+            If Not m_Tri.Move_XY(position) Then GoTo Reset
+        ElseIf StationPosition.SelectedItem = "Needle Calibration Last Row Last Dot Position" Then
+            If Not m_Tri.Move_XY(position) Then GoTo Reset
+        Else
+            If Not m_Tri.Move_XY(position) Then GoTo Reset
+        End If
+Reset:
+        MoveButton.Enabled = True
+        btMoveXYOnly.Enabled = True
+        SavePositionButton.Enabled = True
+        ButtonExit.Enabled = True
+    End Sub
+
+    Public Sub SetDefault()
+        StationPosition.SelectedIndex = 0
+    End Sub
+
 End Class

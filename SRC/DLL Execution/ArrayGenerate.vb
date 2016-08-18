@@ -2169,7 +2169,7 @@ Public Class ArrayGenerate
                     MyMsgBox("Please input valid number for Pt7", MsgBoxStyle.Exclamation Or MsgBoxStyle.OKOnly, "Input number invalid")
                     Rtn = False
                 End If
-
+                Return Rtn
         End Select
 
         'Check if the approach z, needle gap, clearance height, retract z is within the z range.

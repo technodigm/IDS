@@ -58,8 +58,8 @@ Public Class Settings
         Me.ButtonVolumeCalibSettings = New System.Windows.Forms.Button
         Me.ButtonNeedleCalibSettings = New System.Windows.Forms.Button
         Me.PanelLeft = New System.Windows.Forms.Panel
-        Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
         Me.gbRelMove = New System.Windows.Forms.GroupBox
+        Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
         Me.Panel3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.PanelLeft.SuspendLayout()
@@ -126,6 +126,7 @@ Public Class Settings
         Me.ButtonThermalSettings.Size = New System.Drawing.Size(112, 48)
         Me.ButtonThermalSettings.TabIndex = 46
         Me.ButtonThermalSettings.Text = "Heater"
+        Me.ButtonThermalSettings.Visible = False
         '
         'ButtonSPCLogging
         '
@@ -184,6 +185,16 @@ Public Class Settings
         Me.PanelLeft.Size = New System.Drawing.Size(768, 311)
         Me.PanelLeft.TabIndex = 33
         '
+        'gbRelMove
+        '
+        Me.gbRelMove.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbRelMove.Location = New System.Drawing.Point(24, 0)
+        Me.gbRelMove.Name = "gbRelMove"
+        Me.gbRelMove.Size = New System.Drawing.Size(370, 304)
+        Me.gbRelMove.TabIndex = 66
+        Me.gbRelMove.TabStop = False
+        Me.gbRelMove.Text = "XYZ Relative Movement :"
+        '
         'RichTextBox1
         '
         Me.RichTextBox1.BackColor = System.Drawing.SystemColors.Info
@@ -197,16 +208,6 @@ Public Class Settings
         Me.RichTextBox1.Text = "It is highly recommended to go through the entire process setup for a new pattern" & _
         "." & Microsoft.VisualBasic.ChrW(10) & Microsoft.VisualBasic.ChrW(10) & "For an existing pattern, the process setup can also be modified."
         Me.RichTextBox1.Visible = False
-        '
-        'gbRelMove
-        '
-        Me.gbRelMove.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbRelMove.Location = New System.Drawing.Point(24, 0)
-        Me.gbRelMove.Name = "gbRelMove"
-        Me.gbRelMove.Size = New System.Drawing.Size(370, 304)
-        Me.gbRelMove.TabIndex = 66
-        Me.gbRelMove.TabStop = False
-        Me.gbRelMove.Text = "XYZ Relative Movement :"
         '
         'Settings
         '
@@ -310,14 +311,22 @@ Public Class Settings
     Private Sub ButtonSelected(ByVal sender As System.Object)
         If Not (selectedButton Is Nothing) Then
             selectedButton.FlatStyle = FlatStyle.Standard
+            selectedButton.BackColor = System.Drawing.SystemColors.Control
         End If
         selectedButton = DirectCast(sender, System.Windows.Forms.Button)
         selectedButton.FlatStyle = FlatStyle.Flat
+        selectedButton.BackColor = System.Drawing.SystemColors.ControlDarkDark
     End Sub
 
     Public Function AddDefaultView()
         If CurrentPanel Is Nothing Then
+            If Not (selectedButton Is Nothing) Then
+                selectedButton.FlatStyle = FlatStyle.Standard
+                selectedButton.BackColor = System.Drawing.SystemColors.Control
+            End If
             selectedButton = ButtonDispenserSettings
+            selectedButton.FlatStyle = FlatStyle.Flat
+            selectedButton.BackColor = System.Drawing.SystemColors.ControlDarkDark
             AddPanel(PanelRight, MyDispenserSettings.PanelToBeAdded)
             MyDispenserSettings.HeadType.SelectedIndex = 0
             MyDispenserSettings.RevertData()

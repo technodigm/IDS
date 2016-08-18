@@ -439,7 +439,7 @@ Public Class CIDSPatternLoader
         End If
         heightComps = height - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
         'LabelMessage("Height compensation:" & heightComps.ToString("0.000"))
-        Programming.tbHeightCompensation.Text = heightComps.ToString("0.000")
+        'Programming.tbHeightCompensation.Text = heightComps.ToString("0.000")
         Return 0
     End Function
 
@@ -904,6 +904,7 @@ Public Class CIDSPatternLoader
         vPara._Vertical = array(j, gVerticalColumn)
 
         vPara._DotDispensingDuration = array(j, gDurationColumn)
+        vPara._Contrast = array(j, gCompactnessColumn)
         ''
         '   Xue Wen                                                                                 '
         '   Set the brightness before doing the movement. This will affect vision(ActiveX) less.    '
@@ -952,7 +953,7 @@ Public Class CIDSPatternLoader
     '      x,y:   checking position
     '      para:  detected chip edge data
     '
-
+    Public lastError As String = ""
     Public Function MoveToCheckChipEdge(ByVal x As Double, ByVal y As Double, ByRef para As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam) As Integer
         Dim pos() As Double = {x, y}
         m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
@@ -964,6 +965,7 @@ Public Class CIDSPatternLoader
         Vision.FrmVision.DisplayIndicator()
         Dim x1, y1, x2, y2, x3, y3, x4, y4 As Double
         If Not Vision.IDSV_CE(para) Then 'detecting chip edge
+            lastError = Vision.lastError
             If CheckButtonState() = -1 Then
                 Return 100
             Else
@@ -982,7 +984,6 @@ Public Class CIDSPatternLoader
         para._PointX4 = x + x4
         para._PointY4 = y - y4
         Return 0
-
     End Function
 
     'Set wait command record data
@@ -2812,6 +2813,7 @@ Public Class CIDSPatternLoader
                         If m_Optim = 0 Then
                             Dim chipData As New CIDSChipEdge
                             rtn = ChecknSetChipedgeRecData(subsheet, i, chipData, referencePt, compData, heightcomp)
+                            'MessageBox.Show("Step ChipEdge")
                             If rtn < 0 Then   'check fail
                                 If IDS.Data.Hardware.SPC.ChipFailedAction = False Then    'auto skip
                                     If ProductionMode() Then
@@ -2839,7 +2841,9 @@ Public Class CIDSPatternLoader
                                         compData.ClearParentFid()
                                         compData.ClearSub1()
                                         'delete elements from list
-                                        Return RemoveElements(list, subRecS)
+                                        'Return RemoveElements(list, subRecS)
+                                        RemoveElements(list, subRecS)
+                                        Return rtn
                                     End If
                                 End If
                             ElseIf rtn > 0 Then  'user stop execution
@@ -3259,7 +3263,9 @@ Public Class CIDSPatternLoader
                         If m_Optim = 0 Then
                             Dim heightc As Double
                             LabelMessage("Height compensation in progress")
+                            OnLaser()
                             rtn = GetHeightCompensation(sheet, I, referencePt, compData, heightc)
+                            OffLaser()
                             If rtn < 0 Then   'check fail
                                 LabelMessage("Height compensation failed")
                                 If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
@@ -3273,7 +3279,8 @@ Public Class CIDSPatternLoader
                                     LabelMessage("Height compensation failed, value > 10")
                                     Return 101
                                 End If
-                                LabelMessage("Height compensation done")
+                                Dim h As Double = (CInt(heightc * 1000)) / 1000
+                                LabelMessage("Height compensation done, different = " & h)
                                 heightcomp = heightc
                             End If
                         Else
@@ -10244,11 +10251,12 @@ Public Class CIDSPattnBurn
                         Return False
                     End If
                     SetLampsToRunningMode()
+                    LabelMessage("Start Dispensing")
                     'Vision.FrmVision.DisplayIndicator()
                 End If
 
             Next
-
+            LabelMessage("Download complete")
             Return True
 
         Catch ex As ThreadAbortException
@@ -10262,6 +10270,7 @@ Public Class CIDSPattnBurn
     '   pageno: current page no.
     '   tablepos: current Vr index
     '   bufferpos: current index of one page buffer
+
 
     Public Function DownloadOnePageTable(ByRef download_page_number As Integer, ByRef tablepos As Integer, ByRef buffer() As Single) As Boolean
 

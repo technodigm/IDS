@@ -132,7 +132,7 @@ Public Class ConveyorSettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(408, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 48
@@ -187,7 +187,7 @@ Public Class ConveyorSettings
         Me.TimeOut.Name = "TimeOut"
         Me.TimeOut.Size = New System.Drawing.Size(64, 27)
         Me.TimeOut.TabIndex = 46
-        Me.TimeOut.Value = New Decimal(New Integer() {500, 0, 0, 0})
+        Me.TimeOut.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
         'Label9
         '
@@ -237,7 +237,6 @@ Public Class ConveyorSettings
         Me.WidthDisplay.Name = "WidthDisplay"
         Me.WidthDisplay.Size = New System.Drawing.Size(272, 23)
         Me.WidthDisplay.TabIndex = 18
-        Me.WidthDisplay.Text = "Front Sensor Hit. Please Wait..."
         '
         'WidthMoveStep
         '
@@ -268,7 +267,7 @@ Public Class ConveyorSettings
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(128, 23)
         Me.Label4.TabIndex = 20
-        Me.Label4.Text = "Fine Adjust"
+        Me.Label4.Text = "Relative Move"
         '
         'ButtonConveyorHome
         '
@@ -413,9 +412,10 @@ Public Class ConveyorSettings
         With IDS.Data.Hardware.Conveyor
             .Speed = Speed.Value
             .TimeOut = TimeOut.Value
-            .Width = Width.Value
+            .Width = Conveyor.WidthPosition ' Width.Value
             .WidthMoveStep = WidthMoveStep.Value
         End With
+        Width.Value = Conveyor.WidthPosition
         IDS.Data.SaveData()
     End Sub
 

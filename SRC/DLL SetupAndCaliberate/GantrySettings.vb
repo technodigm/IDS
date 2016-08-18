@@ -71,6 +71,7 @@ Public Class GantrySettings
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents ServiceZSpeed As System.Windows.Forms.NumericUpDown
     Friend WithEvents ServiceXYSpeed As System.Windows.Forms.NumericUpDown
+    Friend WithEvents btMoveXYOnly As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(GantrySettings))
         Me.CB_UseSystemDefault = New System.Windows.Forms.CheckBox
@@ -113,6 +114,7 @@ Public Class GantrySettings
         Me.ButtonSave = New System.Windows.Forms.Button
         Me.gpbDualHead = New System.Windows.Forms.GroupBox
         Me.chkDualHead = New System.Windows.Forms.CheckBox
+        Me.btMoveXYOnly = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -151,23 +153,23 @@ Public Class GantrySettings
         '
         'GroupBox6
         '
+        Me.GroupBox6.Controls.Add(Me.btMoveXYOnly)
         Me.GroupBox6.Controls.Add(Me.SavePositionButton)
         Me.GroupBox6.Controls.Add(Me.ZPosition)
         Me.GroupBox6.Controls.Add(Me.StationPosition)
         Me.GroupBox6.Controls.Add(Me.MoveButton)
         Me.GroupBox6.Controls.Add(Me.GroupBox4)
         Me.GroupBox6.Controls.Add(Me.GroupBox7)
-        Me.GroupBox6.Location = New System.Drawing.Point(8, 456)
+        Me.GroupBox6.Location = New System.Drawing.Point(8, 400)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(496, 320)
+        Me.GroupBox6.Size = New System.Drawing.Size(496, 352)
         Me.GroupBox6.TabIndex = 69
         Me.GroupBox6.TabStop = False
-        Me.GroupBox6.Text = "Station Positions"
-        Me.GroupBox6.Visible = False
+        Me.GroupBox6.Text = "Station Z Position Setup"
         '
         'SavePositionButton
         '
-        Me.SavePositionButton.Location = New System.Drawing.Point(252, 216)
+        Me.SavePositionButton.Location = New System.Drawing.Point(164, 288)
         Me.SavePositionButton.Name = "SavePositionButton"
         Me.SavePositionButton.Size = New System.Drawing.Size(168, 48)
         Me.SavePositionButton.TabIndex = 69
@@ -194,11 +196,11 @@ Public Class GantrySettings
         '
         'MoveButton
         '
-        Me.MoveButton.Location = New System.Drawing.Point(76, 216)
+        Me.MoveButton.Location = New System.Drawing.Point(272, 224)
         Me.MoveButton.Name = "MoveButton"
         Me.MoveButton.Size = New System.Drawing.Size(168, 48)
         Me.MoveButton.TabIndex = 65
-        Me.MoveButton.Text = "Move to Saved Station Position"
+        Me.MoveButton.Text = "Move to Saved Station XYZ"
         '
         'GroupBox4
         '
@@ -526,6 +528,14 @@ Public Class GantrySettings
         Me.chkDualHead.TabIndex = 0
         Me.chkDualHead.Text = "Dual Head"
         '
+        'btMoveXYOnly
+        '
+        Me.btMoveXYOnly.Location = New System.Drawing.Point(56, 224)
+        Me.btMoveXYOnly.Name = "btMoveXYOnly"
+        Me.btMoveXYOnly.Size = New System.Drawing.Size(168, 48)
+        Me.btMoveXYOnly.TabIndex = 70
+        Me.btMoveXYOnly.Text = "Move to  Saved Station XY Only"
+        '
         'GantrySettings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -584,14 +594,34 @@ Public Class GantrySettings
             IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = z
         End If
 
-        ZPosition.Text = "Current Z:" & m_Tri.ZPosition & " - Needle Z Offset:" & offset_z & " = Calibrated Z: " + CStr(z)
-
+        'ZPosition.Text = "Current Z:" & m_Tri.ZPosition & " - Needle Z Offset:" & offset_z & " = Calibrated Z: " + CStr(z)
+        'Park Z Position
+        'Purge Z Position
+        'Clean Z Position
+        'Change Syringe Z Position
+        'Volume Calibration Z Position
+        Dim zOff As Double = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
+        With IDS.Data.Hardware.Gantry
+            If StationPosition.SelectedItem = "Park Z Position" Then
+                ZPosition.Text = "Z: " + (.ParkPosition.Z + zOff).ToString("0.000")
+            ElseIf StationPosition.SelectedItem = "Purge Z Position" Then
+                ZPosition.Text = "Z: " + (.PurgePosition.Z + zOff).ToString("0.000")
+            ElseIf StationPosition.SelectedItem = "Clean Z Position" Then
+                ZPosition.Text = "Z: " + (.CleanPosition.Z + zOff).ToString("0.000")
+            ElseIf StationPosition.SelectedItem = "Change Syringe Z Position" Then
+                ZPosition.Text = "Z: " + (.ChangeSyringePosition.Z + zOff).ToString("0.000")
+            ElseIf StationPosition.SelectedItem = "Volume Calibration Z Position" Then
+                ZPosition.Text = "Z: " + (.WeighingScalePosition.Z + zOff).ToString("0.000")
+            End If
+        End With
     End Sub
 
     Private Sub MoveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveButton.Click
 
         SetServiceSpeed()
-        If Not m_Tri.Move_Z(0) Then Exit Sub
+        MoveButton.Enabled = False
+        btMoveXYOnly.Enabled = False
+        If Not m_Tri.Move_Z(0) Then GoTo Reset
 
         With IDS.Data.Hardware.Gantry
             If StationPosition.SelectedItem.ToString = "Park Z Position" Then
@@ -639,10 +669,14 @@ Public Class GantrySettings
             position(2) = z + offset_z
         End If
 
-        If Not m_Tri.Move_Z(0) Then Exit Sub
-        If Not m_Tri.Move_XY(position) Then Exit Sub
-        If Not m_Tri.Move_Z(position(2)) Then Exit Sub
-
+        If Not m_Tri.Move_Z(0) Then GoTo Reset
+        If Not m_Tri.Move_XY(position) Then GoTo Reset
+        If Needle.Checked Then
+            If Not m_Tri.Move_Z(position(2)) Then GoTo Reset
+        End If
+Reset:
+        MoveButton.Enabled = True
+        btMoveXYOnly.Enabled = True
     End Sub
 
     Private Sub SavePositionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SavePositionButton.Click
@@ -664,18 +698,18 @@ Public Class GantrySettings
         'Else
         '    Vision.Enabled = True
         'End If
-
+        Dim zOff As Double = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
         With IDS.Data.Hardware.Gantry
             If StationPosition.SelectedItem.ToString = "Park Z Position" Then
-                ZPosition.Text = "Z: " + CStr(.ParkPosition.Z)
+                ZPosition.Text = "Z: " + (.ParkPosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem.ToString = "Purge Z Position" Then
-                ZPosition.Text = "Z: " + CStr(.PurgePosition.Z)
+                ZPosition.Text = "Z: " + (.PurgePosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem.ToString = "Clean Z Position" Then
-                ZPosition.Text = "Z: " + CStr(.CleanPosition.Z)
+                ZPosition.Text = "Z: " + (.CleanPosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem.ToString = "Change Syringe Z Position" Then
-                ZPosition.Text = "Z: " + CStr(.ChangeSyringePosition.Z)
+                ZPosition.Text = "Z: " + (.ChangeSyringePosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
-                ZPosition.Text = "Z: " + CStr(.WeighingScalePosition.Z)
+                ZPosition.Text = "Z: " + (.WeighingScalePosition.Z + zOff).ToString("0.000")
             End If
         End With
 
@@ -683,10 +717,12 @@ Public Class GantrySettings
 
     Private Sub Vision_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Needle.Checked = Not Vision.Checked
+        SavePositionButton.Enabled = Not Vision.Checked
     End Sub
 
     Private Sub Needle_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Needle.Click
         Vision.Checked = Not Needle.Checked
+        SavePositionButton.Enabled = Not Vision.Checked
     End Sub
 
     Private Sub LeftHead_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LeftHead.Click
@@ -730,5 +766,75 @@ Public Class GantrySettings
 
     Private Sub ElementXYSpeed_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ElementXYSpeed.ValueChanged
 
+    End Sub
+
+    Private Sub Vision_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Vision.Click
+        Needle.Checked = Not Vision.Checked
+        SavePositionButton.Enabled = Not Vision.Checked
+        MoveButton.Enabled = Not Vision.Checked
+    End Sub
+
+    Private Sub Vision_CheckedChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Vision.CheckedChanged
+        Needle.Checked = Not Vision.Checked
+        SavePositionButton.Enabled = Not Vision.Checked
+        MoveButton.Enabled = Not Vision.Checked
+    End Sub
+
+    Private Sub btMoveXYOnly_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btMoveXYOnly.Click
+
+        SetServiceSpeed()
+        btMoveXYOnly.Enabled = False
+        MoveButton.Enabled = False
+        With IDS.Data.Hardware.Gantry
+            If StationPosition.SelectedItem.ToString = "Park Z Position" Then
+                x = .ParkPosition.X
+                y = .ParkPosition.Y
+                z = .ParkPosition.Z
+            ElseIf StationPosition.SelectedItem.ToString = "Purge Z Position" Then
+                x = .PurgePosition.X
+                y = .PurgePosition.Y
+                z = .PurgePosition.Z
+            ElseIf StationPosition.SelectedItem.ToString = "Clean Z Position" Then
+                x = .CleanPosition.X
+                y = .CleanPosition.Y
+                z = .CleanPosition.Z
+            ElseIf StationPosition.SelectedItem.ToString = "Change Syringe Z Position" Then
+                x = .ChangeSyringePosition.X
+                y = .ChangeSyringePosition.Y
+                z = .ChangeSyringePosition.Z
+            ElseIf StationPosition.SelectedItem.ToString = "Volume Calibration Z Position" Then
+                x = .WeighingScalePosition.X
+                y = .WeighingScalePosition.Y
+                z = .WeighingScalePosition.Z
+            End If
+        End With
+
+        With IDS.Data.Hardware.Needle
+            If LeftHead.Checked Then
+                offset_x = .Left.CalibratorPos.X - .Left.NeedleCalibrationPosition.X
+                offset_y = .Left.CalibratorPos.Y - .Left.NeedleCalibrationPosition.Y
+                offset_z = .Left.NeedleCalibrationPosition.Z
+            ElseIf RightHead.Checked Then
+                offset_x = .Right.CalibratorPos.X - .Right.NeedleCalibrationPosition.X
+                offset_y = .Right.CalibratorPos.Y - .Right.NeedleCalibrationPosition.Y
+                offset_z = .Right.NeedleCalibrationPosition.Z
+            End If
+        End With
+
+        If Vision.Checked Then
+            position(0) = x
+            position(1) = y
+            position(2) = z
+        ElseIf Needle.Checked Then
+            position(0) = x - offset_x
+            position(1) = y - offset_y
+            position(2) = z + offset_z
+        End If
+
+        If Not m_Tri.Move_Z(0) Then GoTo Reset
+        If Not m_Tri.Move_XY(position) Then GoTo Reset
+Reset:
+        btMoveXYOnly.Enabled = True
+        MoveButton.Enabled = True
     End Sub
 End Class

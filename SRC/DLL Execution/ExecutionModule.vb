@@ -4,6 +4,7 @@ Imports DLL_SetupAndCalibrate
 Imports DLL_DataManager
 Imports Microsoft.DirectX.DirectInput
 Imports System.Threading
+Imports System.IO
 
 Public Class CIDSExe
 
@@ -18,7 +19,7 @@ Public Class CIDSExe
 End Class
 
 Public Module ExecutionModule
-
+#Region "Declaration"
     'threading declarations
     Public PreviousMachineState As String = "Idle"
     Public MachineState As String = "Idle"
@@ -30,6 +31,7 @@ Public Module ExecutionModule
 
     Public VolumeCalibrationRunning As Boolean = False
     Public NeedleCalibrationRunning As Boolean = False
+    Public AbortPurgeCleanChgSyringe As Boolean = False
 
     'external functions imported from DLLs
     Public Declare Sub MySleep Lib "kernel32" Alias "MySleep" (ByVal dwMilliseconds As Long)
@@ -66,8 +68,39 @@ Public Module ExecutionModule
     'for z position
     Public SafePosition As Double = 0.0 'original -> Dim SafePosition As Double = gSoftHome(2) + gSystemOrigin(2)
 
-#Region "useful utilities"
+#End Region
 
+    Sub New()
+        ConfigureLog()
+    End Sub
+    Private Function ConfigureLog()
+        Dim repo As log4net.Repository.ILoggerRepository = log4net.LogManager.GetRepository()
+        Dim lstAppender() As log4net.Appender.IAppender = repo.GetAppenders()
+        For Each itemAppender As log4net.Appender.IAppender In lstAppender
+            Dim fileappender As log4net.Appender.RollingFileAppender = itemAppender
+            fileappender.AppendToFile = True
+            fileappender.MaximumFileSize = "2MB"
+            fileappender.MaxSizeRollBackups = -1
+            fileappender.Threshold = log4net.Core.Level.Debug
+            fileappender.File = "C:\Log\logfile.txt"
+            'fileappender.DatePattern = "ddMMyyyy"
+            fileappender.DatePattern = "yyyy\\\\MM\\\\dd\\\\yyyyMMdd"
+            fileappender.StaticLogFileName = False
+            fileappender.Layout = New log4net.Layout.PatternLayout("%date %-5level - [%logger] %message%newline")
+            fileappender.RollingStyle = log4net.Appender.RollingFileAppender.RollingMode.Composite
+            fileappender.ActivateOptions()
+            log4net.Config.BasicConfigurator.Configure(fileappender)
+        Next
+        DeleteEmptyLog()
+    End Function
+
+#Region "useful utilities"
+    Private Function DeleteEmptyLog()
+        Dim path As String = Directory.GetCurrentDirectory() + "\(null)" + DateTime.Now.ToString("ddMMyyyy") + ".txt"
+        If File.Exists(path) Then
+            File.Delete(path)
+        End If
+    End Function
     Public Function ProductionMode() As Boolean
         Return (gExeMode = "Operator")
     End Function
@@ -160,7 +193,9 @@ Public Module ExecutionModule
             Programming.TextBoxRobotY.Text = "Y: " & YCor
             Programming.TextBoxRobotZ.Text = "Z: " & ZCor
         Else
-            Production.TextBoxRobotPos.Text = "X: " & XCor & ", Y: " & YCor & ", Z: " & ZCor
+            Production.TextBoxRobotPos.Text = " X: " & XCor
+            Production.tbYPost.Text = " Y: " & YCor
+            Production.tbZPost.Text = " Z: " & ZCor
         End If
 
     End Sub
@@ -247,6 +282,7 @@ Public Module ExecutionModule
         End If
         Try
             SetState("Run")
+            LabelMessage("Downloading")
             ThreadExecution = New Threading.Thread(AddressOf DownloadProgram)
             ThreadExecution.Priority = Threading.ThreadPriority.Normal
             ThreadExecution.Start()
@@ -259,6 +295,9 @@ Public Module ExecutionModule
 
 ResetMachineState:
         Vision.FrmVision.DisplayIndicator()
+        If ProductionMode() Then
+            Production.btExit.Enabled = True
+        End If
         LockMovementButtons()
         TravelToParkPosition()
         ResetToIdle()
@@ -275,7 +314,7 @@ ResetMachineState:
 
                 Dispensinglist = m_Execution.m_Command.DispenseList
                 m_Tri.SetMachineRunMode(Programming.m_RunMode)
-
+                LabelMessage("Burn table")
                 If cmdBurn.BurnTable(Dispensinglist) = False Then
                     LabelMessage("Downloading failed or cancelled.")
                     Return -1
@@ -576,6 +615,11 @@ ResetMachineState:
                                 Exit Select
                             End If
                             LockMovementButtons()
+                            Production.ContinuousMode.Enabled = False
+                            If Production.ContinuousMode.Checked Then
+                                PortLifeAction()
+                                AutoPurgeAction()
+                            End If
                             If IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Or IDS.Data.Hardware.Dispenser.Left.HeadType = "Auger Valve" Then
                                 m_Tri.TurnOn("Material Air")
                             End If
@@ -617,9 +661,11 @@ ResetMachineState:
                                     LabelMessage("Moving to park position")
                                     LockMovementButtons()
                                     TravelToParkPosition()
+                                    Production.btExit.Enabled = True
                                     LabelMessage("Dispensing done")
                                     ResetToIdle()
-                                    PortLifeAction()
+                                    'PortLifeAction()
+                                    'AutoPurgeAction()
                                 End If
                             End If
                         End If
@@ -659,6 +705,7 @@ ResetMachineState:
                         LabelMessage("System Ready")
                         If ProductionMode() Then
                             Production.ButtonOpenFile.Enabled = True
+                            Production.btPlay.Enabled = False
                         End If
 
 
@@ -678,6 +725,7 @@ ResetMachineState:
             Catch ex_abort As ThreadAbortException
             Catch ex As Exception
                 ExceptionDisplay(ex)
+                StopDispensing()
             End Try
         Loop
     End Sub
@@ -737,6 +785,9 @@ ResetMachineState:
             Case "Start"
                 If IsIdle() Then
                     str = "Start"
+                    If ProductionMode() Then
+                        Production.btExit.Enabled = False
+                    End If
                 ElseIf IsRunning() Then
                     Return False
                 ElseIf IsPaused() Then
@@ -868,13 +919,23 @@ ResetMachineState:
         SetLampsToReadyMode()
         UnlockMovementButtons()
         ChangeButtonState("Idle")
-        LabelMessage("System Idle")
+        'LabelMessage("System Idle")
         If ProgrammingMode() Then
             Programming.AxSpreadsheetProgramming.Enabled = True
             Programming.DispensingMode.Enabled = True
             Programming.VisionMode.Enabled = True
             Programming.NeedleMode.Enabled = True
             Programming.MenuItem1.Enabled = True
+            Programming.btExit.Enabled = True
+        Else
+            If Not (Production.ContinuousMode.Checked) Then
+                Production.ConveyorBox.Enabled = True
+                Production.ButtonCV_Prod_Retrieve.Enabled = True
+                Production.ButtonStartFirstStage.Enabled = True
+                Production.ButtonCV_Prod_Release.Enabled = True
+                Production.ResetPLCLogic.Enabled = True
+            End If
+            Production.ContinuousMode.Enabled = True
         End If
 
     End Sub
@@ -887,12 +948,26 @@ ResetMachineState:
             fm.AddNewLine("Click Cancel to ignore this message and pot life checking")
             fm.AddNewLine("will be disabled.")
             If fm.ShowDialog() = DialogResult.OK Then
+                SetLampsToRunningMode()
                 DoChangeSyringe()
+                SetLampsToReadyMode()
             Else
                 Production.CheckBoxPotOn.Text = "Pot Life On"
                 Production.CheckBoxPotOn.Checked = False
                 Production.m_PotLifeExpire = False
             End If
+        End If
+    End Sub
+
+    Public Sub AutoPurgeAction()
+        If Production.m_AutoPurgeRequired Then
+            Production.tbAutoPurgeCountDown.Text = "Auto Purging Now"
+            SetLampsToRunningMode()
+            Production.ProdPurgeClean()
+            SetLampsToReadyMode()
+            Production.tbAutoPurgeCountDown.Text = "Auto Purging Done"
+            Production.m_AutoPurgeRequired = False
+            Production.ResetTimer("Reset Autopurging Timers")
         End If
     End Sub
 
@@ -929,14 +1004,14 @@ ResetMachineState:
     End Sub
 
     Public Sub TravelToParkPosition()
-
+        LabelMessage("Move to parking position")
         'warning! we do not set run mode in this function.
         position(0) = IDS.Data.Hardware.Gantry.ParkPosition.X
         position(1) = IDS.Data.Hardware.Gantry.ParkPosition.Y
         m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
         MoveZToSafePosition()
         If Not m_Tri.Move_XY(position) Then Exit Sub
-
+        LabelMessage("Stationed at parking position")
     End Sub
 
 #End Region
@@ -1015,12 +1090,14 @@ ResetMachineState:
                 .ButtonToggleMode.Enabled = False
                 .VisionMode.Enabled = False
                 .NeedleMode.Enabled = False
+                .btChangeSyringe.Enabled = False
             End With
         ElseIf ProductionMode() Then
             With Production
                 .ButtonHome.Enabled = False
                 .ButtonChgSyringe.Enabled = False
                 .ButtonClean.Enabled = False
+                .DoorLock.Enabled = False
                 If VolumeCalibrationRunning = False Then
                     .ButtonVolCalib.Enabled = False
                 End If
@@ -1050,6 +1127,7 @@ ResetMachineState:
                 .ButtonToggleMode.Enabled = True
                 .VisionMode.Enabled = True
                 .NeedleMode.Enabled = True
+                .btChangeSyringe.Enabled = True
             End With
         ElseIf ProductionMode() Then
             With Production
@@ -1060,18 +1138,31 @@ ResetMachineState:
                 .ButtonNdlCalib.Enabled = True
                 .ButtonPurge.Enabled = True
                 .ConveyorBox.Enabled = True
+                .DoorLock.Enabled = True
             End With
         End If
     End Sub
 
-    Public Sub LabelMessage(ByVal message As String)
+    Public Sub LabelMessage(ByVal message As String, Optional ByVal isError As Boolean = False, Optional ByVal logToScreen As Boolean = True)
         Try
             If gExeMode <> "Operator" Then
                 Programming.LabelMessege.Text = message
                 Programming.LabelMessege.Refresh()
+                If isError Then
+                    Programming.LogFile(message, 2)
+                Else
+                    Programming.LogFile(message)
+                End If
             Else
                 Production.LabelMessege.Text = message
                 Production.LabelMessege.Refresh()
+                If logToScreen Then
+                    If isError Then
+                        Production.LogScreen(message, True, 2)
+                    Else
+                        Production.LogScreen(message)
+                    End If
+                End If
             End If
         Catch ex As Exception
         End Try
@@ -1176,8 +1267,9 @@ ResetMachineState:
 #End Region
 
 #Region "calibration routines"
-
-    Public Sub DoPurge()
+    Private stopPurge As Boolean = False
+    Private PurgingRunning As Boolean = False
+    Public Sub DoPurge(Optional ByVal notMoveAfterPurge As Boolean = False)
 
         Dim state As String
         If ProductionMode() Then
@@ -1195,11 +1287,13 @@ ResetMachineState:
         End If
 
         If state = "Purge On" Then
+            stopPurge = False
+            PurgingRunning = True
+            Production.ButtonPurge.Enabled = False
+            Programming.ButtonPurge.Enabled = False
             m_Tri.SetMachineRun()
             LockButtonsForPurge()
             DLL_SetupAndCalibrate.MyDispenserSettings.DownloadMaterialAirPressure(IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure, IDS.Data.Hardware.Dispenser.Left.SuckbackPressure)
-            Production.ButtonPurge.Enabled = False
-            Programming.ButtonPurge.Enabled = False
             Programming.ButtonPurge.Text = "Purge Off"
             Production.ButtonPurge.Text = "Purge Off"
             m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ServiceXYSpeed)
@@ -1209,33 +1303,67 @@ ResetMachineState:
             offset(2) = gLeftNeedleOffs(2) + IDS.Data.Hardware.Gantry.PurgePosition.Z
             position(0) = IDS.Data.Hardware.Gantry.PurgePosition.X - offset(0)
             position(1) = IDS.Data.Hardware.Gantry.PurgePosition.Y - offset(1)
+            Production.ButtonPurge.Enabled = True
+            Programming.ButtonPurge.Enabled = True
             '1) move to safe z
             '2) move to x and y coords for purging
             '3) move to purge position 
             '4) turn on valves
+            If stopPurge Then
+                Exit Sub
+            End If
             If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            If stopPurge Then
+                Exit Sub
+            End If
             If Not m_Tri.Move_XY(position) Then GoTo Reset
+            If stopPurge Then
+                Exit Sub
+            End If
             If Not m_Tri.Move_Z(offset(2)) Then GoTo Reset
+            If stopPurge Then
+                Exit Sub
+            End If
             LockButtonsForPurge()
             m_Tri.TurnOn("Left Needle IO")
+            If stopPurge Then
+                m_Tri.TurnOff("Left Needle IO")
+                Exit Sub
+            End If
             Exit Sub
         Else
+            Production.ButtonPurge.Enabled = False
+            Programming.ButtonPurge.Enabled = False
+            stopPurge = True
+            PurgingRunning = False
+            m_Tri.TrioStop()
             m_Tri.SetMachineStop()
             m_Tri.TurnOff("Left Needle IO")
             'If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
-            LockMovementButtons()
-            TravelToParkPosition()
+            If Not (notMoveAfterPurge) Then
+                LockMovementButtons()
+                TravelToParkPosition()
+            Else
+                MoveZToSafePosition()
+            End If
+
             Programming.ButtonPurge.Text = "Purge On"
             Production.ButtonPurge.Text = "Purge On"
-            ResetToIdle()
+            If Not (notMoveAfterPurge) Then
+                ResetToIdle()
+            End If
 
         End If
 
 Reset:
-        ResetToIdle()
+        If Not (notMoveAfterPurge) Then
+            ResetToIdle()
+        End If
 
     End Sub
-
+    Private stopClean As Boolean = False
+    Public CleaningRunning As Boolean = False
+    'Private cleaning As Boolean = False
     Public Sub DoClean()
 
         Dim state As String
@@ -1256,10 +1384,14 @@ Reset:
         End If
 
         If state = "Clean On" Then
-            m_Tri.SetMachineRun()
-            LockButtonsForClean()
+            CleaningRunning = True
+            stopClean = False
             Production.ButtonClean.Enabled = False
             Programming.ButtonClean.Enabled = False
+            m_Tri.SetMachineRun()
+            LockButtonsForClean()
+            'Production.ButtonClean.Enabled = False
+            'Programming.ButtonClean.Enabled = False
             Programming.ButtonClean.Text = "Clean Off"
             Production.ButtonClean.Text = "Clean Off"
             offset(0) = gLeftNeedleOffs(0)
@@ -1269,13 +1401,46 @@ Reset:
             position(1) = IDS.Data.Hardware.Gantry.CleanPosition.Y - offset(1)
             m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ServiceXYSpeed)
             m_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
+            Production.ButtonClean.Enabled = True
+            Programming.ButtonClean.Enabled = True
+            If stopClean Then Exit Sub
+            LabelMessage("Cleaning Moving Z Safety")
             If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
+            LabelMessage("Cleaning Moving Z Done")
+            If stopClean Then
+                'cleaning = False
+                LabelMessage("Exit Cleaning After Move Z Safety")
+                Exit Sub
+            End If
+            LabelMessage("Cleaning Moving XY")
             If Not m_Tri.Move_XY(position) Then GoTo Reset
+            LabelMessage("Cleaning Moving XY Done")
+            If stopClean Then
+                'cleaning = False
+                LabelMessage("Exit Cleaning After Move XY")
+                Exit Sub
+            End If
+            LabelMessage("Cleaning Moving Z Down")
             If Not m_Tri.Move_Z(offset(2)) Then GoTo Reset
+            LabelMessage("Cleaning Moving Z Down Done")
+            If stopClean Then
+                'cleaning = False
+                LabelMessage("Exit Cleaning After Move Z Down")
+                Exit Sub
+            End If
             LockButtonsForClean()
             m_Tri.TurnOn("Clean")
+            If stopClean Then
+                m_Tri.TurnOff("Clean")
+                Exit Sub
+            End If
             Exit Sub
         Else
+            Production.ButtonClean.Enabled = False
+            Programming.ButtonClean.Enabled = False
+            stopClean = True
+            CleaningRunning = False
+            m_Tri.TrioStop()
             m_Tri.SetMachineStop()
             m_Tri.TurnOff("Clean")
             'If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
@@ -1288,7 +1453,8 @@ Reset:
 
 Reset:
         ResetToIdle()
-
+        Production.ButtonClean.Enabled = True
+        Programming.ButtonClean.Enabled = True
     End Sub
 
     Public Sub DoNeedleCalibration()
@@ -1332,10 +1498,13 @@ Reset:
             NeedleCalibrationRunning = False
             MyNeedleCalibrationSettings.NeedleCalibrationState = "Stopped"
         End If
-     
-
+        If ProgrammingMode() Then
+            Programming.ButtonNeedleCal.Text = "Need. Cal."
+        Else
+            Production.ButtonNdlCalib.Text = "Need. Cal."
+        End If
     End Sub
-
+    Private changingSyringe As Boolean = False
     Public Sub DoChangeSyringe()
 
         'checks
@@ -1353,12 +1522,13 @@ Reset:
             '    Production.ButtonChgSyringe.Text = "Change Syringe"
             'End If
         Else
-            If Programming.IsVisionTeachMode Then
-                LabelMessage("Wrong mode. Please switch to needle mode first.")
-                GoTo Reset
-            End If
+            'If Programming.IsVisionTeachMode Then
+            '    LabelMessage("Wrong mode. Please switch to needle mode first.")
+            '    GoTo Reset
+            'End If
             isChangeSyringe = True
         End If
+        changingSyringe = True
         'If isChangeSyringe Then
         offset(0) = gLeftNeedleOffs(0)
         offset(1) = gLeftNeedleOffs(1)
@@ -1375,6 +1545,117 @@ Reset:
         If Not m_Tri.Move_Z(SafePosition) Then GoTo Reset
         If Not m_Tri.Move_XY(position) Then GoTo Reset
         If Not m_Tri.Move_Z(offset(2)) Then GoTo Reset
+        LabelMessage("Stationed at change syringe position")
+        Dim fm As InfoForm = New InfoForm
+        fm.AddNewLine("Stationed at change syring position. Door was unlocked!")
+        fm.AddNewLine("Click Done button after changed syringe.")
+        fm.AddNewLine("Click Abort button if not to change syringe")
+        fm.SetOKButtonText("Done")
+        fm.SetCancelButtonText("Abort")
+        UnlockDoor()
+        Dim dR As DialogResult = fm.ShowDialog()
+        m_Tri.SetMachineStop()
+        If dR = DialogResult.Cancel Then
+            LockDoor()
+            LockMovementButtons()
+            TravelToParkPosition()
+        Else
+            Dim db As InfoForm = New InfoForm
+            db.SetTitle("Needle Calibration")
+            db.AddNewLine("Would you like to perform purge and needle calibration?")
+            db.AddNewLine("Click Ok button to perform purge first")
+            db.AddNewLine("Click Cancel button if not to calibrate needle.")
+            If db.ShowDialog() = DialogResult.OK Then
+                Do
+                    If IDS.Devices.DIO.DIO.doorclose_flag Then Exit Do
+                    db.SetMessage("")
+                    db.AddNewLine("Please Close the door!")
+                    db.OkOnly()
+                    db.ShowDialog()
+                Loop Until IDS.Devices.DIO.DIO.doorclose_flag
+                LockDoor()
+                'ResetToIdle()
+                LabelMessage("Purging before Needle calibration")
+                If SetState("Do Purge") Then
+                    DoPurge()
+                End If
+                Dim purgeFm As InfoForm = New InfoForm
+                purgeFm.AddNewLine("Performing purging now")
+                purgeFm.AddNewLine("Click Off to stop purge otherwise cancel needle calibration")
+                purgeFm.OkOnly()
+                purgeFm.SetOKButtonText("Off")
+                dR = purgeFm.ShowDialog()
+                If SetState("Do Purge") Then
+                    DoPurge(True)
+                End If
+                If Not (dR = DialogResult.OK) Then
+                    LabelMessage("Needle calibration cancled after purging")
+                    LockMovementButtons()
+                    TravelToParkPosition()
+                    ResetToIdle()
+                    changingSyringe = False
+                    Exit Sub
+                Else
+                    LabelMessage("Purging off")
+                End If
+                Dim cleanNeedle As InfoForm = New InfoForm
+                cleanNeedle.AddNewLine("Would you like to clean needle (manually) first before proceed")
+                cleanNeedle.AddNewLine("to do needle calibration?")
+                cleanNeedle.SetOKButtonText("Yes")
+                cleanNeedle.SetCancelButtonText("No")
+                dR = cleanNeedle.ShowDialog()
+                If dR = DialogResult.OK Then
+                    'unlock the lock
+                    UnlockDoor()
+                    Dim doorForm As InfoForm = New InfoForm
+                    doorForm.AddNewLine("Door is unlocked!")
+                    doorForm.AddNewLine("Please open the door and clean the needle tip.")
+                    doorForm.AddNewLine("Please close the door before click done")
+                    doorForm.SetOKButtonText("Done")
+                    doorForm.OkOnly()
+                    doorForm.ShowDialog()
+                    Do
+                        If IDS.Devices.DIO.DIO.doorclose_flag Then Exit Do
+                        doorForm.SetMessage("")
+                        doorForm.AddNewLine("Please close the door!")
+                        doorForm.ShowDialog()
+                    Loop Until IDS.Devices.DIO.DIO.doorclose_flag
+                    LockDoor()
+                End If
+                Dim calibFm As InfoForm = New InfoForm
+                calibFm.AddNewLine("Continue with needle calibration?")
+                calibFm.AddNewLine("Click Continue for needle calibration.")
+                calibFm.AddNewLine("Click Cancel to abort.")
+                purgeFm.SetOKButtonText("Continue")
+                dR = calibFm.ShowDialog()
+                If dR = DialogResult.OK Then
+                    If ProgrammingMode() Then
+                        ResetToIdle()
+                        SetState("Needle Calibration")
+                        Programming.ButtonNeedleCal.Text = "Stop Need. Cal."
+                        Programming.ButtonNeedleCal.Enabled = True
+                        changingSyringe = False
+                        Return
+                    Else
+                        ResetToIdle()
+                        SetState("Needle Calibration")
+                        Production.ButtonNdlCalib.Text = "Stop Need. Cal."
+                        Production.ButtonNdlCalib.Enabled = True
+                        changingSyringe = False
+                        Return
+                    End If
+                Else
+                    LockMovementButtons()
+                    TravelToParkPosition()
+                End If
+
+            Else
+                LockMovementButtons()
+                TravelToParkPosition()
+            End If
+        End If
+
+        'ResetToIdle()
         'Production.ButtonChgSyringe.Enabled = True
         'Return
         'End If
@@ -1387,7 +1668,7 @@ Reset:
 
 Reset:
         ResetToIdle()
-
+        changingSyringe = False
     End Sub
 
     Public Sub DoVolumeCalibration()
@@ -1420,7 +1701,11 @@ Reset:
             If rtn = True Then
                 LabelMessage("Volume calibration successful.")
             Else
-                LabelMessage("Volume calibration failed.")
+                If Not (MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped") Then
+                    LabelMessage("Volume calibration failed.")
+                Else
+                    LabelMessage("Volume calibration canceled.")
+                End If
             End If
 Reset:
             If Not (MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped") Then
@@ -1428,7 +1713,7 @@ Reset:
             End If
             VolumeCalibrationRunning = False
         Else
-            LabelMessage("Volume calibration failed.")
+            LabelMessage("Volume calibration canceled.")
         End If
 
 
@@ -1446,6 +1731,8 @@ Reset:
     End Sub
 
     Public Sub StopDispensing()
+        If changingSyringe Then Exit Sub
+        If IsIdle() Then Exit Sub 'Prevent hardware stop button to trigger stop when system idle
         If VolumeCalibrationRunning = True Then
             MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped"
             LabelMessage("Stopping Volume Calibration")
@@ -1455,6 +1742,32 @@ Reset:
             Else
                 Production.ButtonVolCalib.Enabled = False
                 Production.ButtonVolCalib.Text = "Vol. Cal."
+            End If
+        End If
+        If CleaningRunning Then
+            stopClean = True
+            CleaningRunning = False
+            m_Tri.TurnOff("Clean")
+            LabelMessage("Stopping Cleaning Process")
+            If ProgrammingMode() Then
+                Programming.ButtonClean.Enabled = False
+                Programming.ButtonClean.Text = "Clean On"
+            Else
+                Production.ButtonClean.Enabled = False
+                Production.ButtonClean.Text = "Clean On"
+            End If
+        End If
+        If PurgingRunning Then
+            stopPurge = True
+            PurgingRunning = False
+            m_Tri.TurnOff("Left Needle IO")
+            LabelMessage("Stopping Purging Process")
+            If ProgrammingMode() Then
+                Programming.ButtonPurge.Enabled = False
+                Programming.ButtonPurge.Text = "Purge On"
+            Else
+                Production.ButtonPurge.Enabled = False
+                Production.ButtonPurge.Text = "Purge On"
             End If
         End If
         'VolumeCalibrationRunning = False
@@ -1473,10 +1786,10 @@ Reset:
         SetState("Stop")
         m_Tri.TrioStop()
         If Not ThreadExecution Is Nothing Then ThreadExecution.Abort()
-        If VolumeCalibrationRunning Then
-            'Turn of dispensing output
-            m_Tri.m_TriCtrl.Execute("OP(25,0)")
-        End If
+        'If VolumeCalibrationRunning Then
+        'Turn of dispensing output
+        m_Tri.m_TriCtrl.Execute("OP(25,0)")
+        'End If
         If Not WasStart() Or VolumeCalibrationRunning Or NeedleCalibrationRunning Then
             LockMovementButtons()
             TravelToParkPosition()
@@ -1513,7 +1826,7 @@ Reset:
             Vision.FrmVision.SetBrightness(Programming.ValueBrightness.Value)
         End If
         Vision.FrmVision.SwitchCamera("Teach Camera")
-        ClearAndDisplayIndicator()
+        'ClearAndDisplayIndicator()
     End Sub
 
     Public Sub SwitchToRealTimeCamera()
@@ -1529,10 +1842,20 @@ Reset:
 
     Public Function UnlockDoor()
         IDS.Devices.DIO.DIO.DoorLock(True) 'unlock is true
+        If ProductionMode() Then
+            Production.DoorLock.Text = "Lock Door"
+        Else
+            Programming.CBDoorLock.Text = "Lock Door"
+        End If
     End Function
 
     Public Function LockDoor()
         IDS.Devices.DIO.DIO.DoorLock(False) 'lock is false
+        If ProductionMode() Then
+            Production.DoorLock.Text = "Unlock Door"
+        Else
+            Programming.CBDoorLock.Text = "Unlock Door"
+        End If
     End Function
 
     Public Sub OnLaser()

@@ -34,8 +34,11 @@ Public Class CIDSVision
     Public Sub IDSV_FIOutput(ByRef DelX As Double, ByRef DelY As Double) 'useless
         FrmVision.IDSV_FI(DelX, DelY)
     End Sub
+    Public lastError As String = ""
     Public Function IDSV_CE(ByVal vParam As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam) As Boolean
-        Return FrmVision.IDSV_CE(vParam)
+        Dim rtn As Boolean = FrmVision.IDSV_CE(vParam)
+        lastError = FrmVision.lastError
+        Return rtn
     End Function
     Public Sub IDSV_CEOutput(ByRef PointX1, ByRef PointY1, ByRef PointX2, ByRef PointY2, ByRef PointX3, ByRef PointY3, ByRef PointX4, ByRef PointY4)
         FrmVision.IDSV_CE(PointX1, PointY1, PointX2, PointY2, PointX3, PointY3, PointX4, PointY4)

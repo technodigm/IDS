@@ -1201,7 +1201,7 @@ Imports System.Runtime.Serialization
 #Region " Conveyor "
         <Serializable()> Public Class CIDSConveyor
 
-            Public Width As Integer
+            Public Width As Double
             Public FullWidth As Integer                     'DB
             Public MinWidth As Integer                      'DB  
             Public Speed As Integer                         'PAT 
@@ -3572,7 +3572,7 @@ Public Module Module1
 
             'conveyor
             Index = PatArray.IndexOf("[CONVEYOR]")
-            IDSData.Hardware.Conveyor.Width = GetIntegerArrayValue(Index)
+            IDSData.Hardware.Conveyor.Width = GetDoubleArrayValue(Index)
             IDSData.Hardware.Conveyor.FullWidth = GetIntegerArrayValue(Index)
             IDSData.Hardware.Conveyor.MinWidth = GetIntegerArrayValue(Index)
             IDSData.Hardware.Conveyor.Speed = GetIntegerArrayValue(Index)

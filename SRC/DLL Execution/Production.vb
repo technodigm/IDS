@@ -20,7 +20,7 @@ Public Class FormProduction
 
     'autopurging time tracking flags
     Public CurrentTime As Date
-    Public StartTimeOfMachineIdle As Date = Now
+    Public StartTimeOfMachineIdle As Date = Nothing
     Public ElapsedTimeSinceMachineIdle As Integer = 0 'mins
 
     'check whether the machine has been running in continuous mode 
@@ -30,6 +30,8 @@ Public Class FormProduction
     'constants
     Public Const tickToMinute As Double = 0.0000000016666666  '0.0000001/60.0
     Public m_PotLifeExpire As Boolean = False
+    Public m_AutoPurgeRequired As Boolean = False
+    Public Shared logger As log4net.ILog
 
 #Region " Windows Form Designer generated code "
 
@@ -67,10 +69,8 @@ Public Class FormProduction
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents TextBoxRobotPos As System.Windows.Forms.TextBox
-    Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents PanelProDownTimeInfor As System.Windows.Forms.Panel
-    Friend WithEvents RichTextBoxNote As System.Windows.Forms.RichTextBox
     Friend WithEvents CheckBoxPotOn As System.Windows.Forms.CheckBox
     Friend WithEvents DoorLock As System.Windows.Forms.CheckBox
     Friend WithEvents ButtonPotReset As System.Windows.Forms.Button
@@ -123,7 +123,6 @@ Public Class FormProduction
     Friend WithEvents tbEquipmentID As System.Windows.Forms.TextBox
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
-    Friend WithEvents tbCurrentDispense As System.Windows.Forms.TextBox
     Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
     Friend WithEvents tbDispensedUnit As System.Windows.Forms.TextBox
     Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
@@ -131,6 +130,12 @@ Public Class FormProduction
     Friend WithEvents TimeDisplayTimer As System.Windows.Forms.Timer
     Friend WithEvents tbDispensePressure As System.Windows.Forms.TextBox
     Friend WithEvents tbPortLifeRemain As System.Windows.Forms.TextBox
+    Friend WithEvents rtLog As System.Windows.Forms.RichTextBox
+    Friend WithEvents tbYPost As System.Windows.Forms.TextBox
+    Friend WithEvents tbZPost As System.Windows.Forms.TextBox
+    Friend WithEvents tbAutoPurgeCountDown As System.Windows.Forms.TextBox
+    Friend WithEvents tbDispenserType As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -140,16 +145,17 @@ Public Class FormProduction
         Me.ImageListGeneralTools = New System.Windows.Forms.ImageList(Me.components)
         Me.Label7 = New System.Windows.Forms.Label
         Me.Panel2 = New System.Windows.Forms.Panel
+        Me.tbZPost = New System.Windows.Forms.TextBox
+        Me.tbYPost = New System.Windows.Forms.TextBox
         Me.ValueBrightness = New System.Windows.Forms.NumericUpDown
         Me.TextBoxRobotPos = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.tbTime = New System.Windows.Forms.TextBox
         Me.tbDispensedUnit = New System.Windows.Forms.TextBox
         Me.TextBox7 = New System.Windows.Forms.TextBox
-        Me.tbCurrentDispense = New System.Windows.Forms.TextBox
+        Me.tbAutoPurgeCountDown = New System.Windows.Forms.TextBox
         Me.TextBox6 = New System.Windows.Forms.TextBox
         Me.tbPortLifeRemain = New System.Windows.Forms.TextBox
         Me.TextBox5 = New System.Windows.Forms.TextBox
@@ -184,7 +190,7 @@ Public Class FormProduction
         Me.NeedleLabel = New System.Windows.Forms.Label
         Me.SyringeLabel = New System.Windows.Forms.Label
         Me.PanelProDownTimeInfor = New System.Windows.Forms.Panel
-        Me.RichTextBoxNote = New System.Windows.Forms.RichTextBox
+        Me.rtLog = New System.Windows.Forms.RichTextBox
         Me.CheckBoxPotOn = New System.Windows.Forms.CheckBox
         Me.DoorLock = New System.Windows.Forms.CheckBox
         Me.ButtonPotReset = New System.Windows.Forms.Button
@@ -205,6 +211,8 @@ Public Class FormProduction
         Me.panelVision = New System.Windows.Forms.Panel
         Me.TowerLightImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.TimeDisplayTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.tbDispenserType = New System.Windows.Forms.TextBox
+        Me.TextBox4 = New System.Windows.Forms.TextBox
         Me.Panel2.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
@@ -244,15 +252,36 @@ Public Class FormProduction
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.tbZPost)
+        Me.Panel2.Controls.Add(Me.tbYPost)
         Me.Panel2.Controls.Add(Me.ValueBrightness)
         Me.Panel2.Controls.Add(Me.TextBoxRobotPos)
-        Me.Panel2.Controls.Add(Me.Label4)
         Me.Panel2.Controls.Add(Me.Label1)
         Me.Panel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.Panel2.Location = New System.Drawing.Point(0, 960)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(768, 32)
         Me.Panel2.TabIndex = 4
+        '
+        'tbZPost
+        '
+        Me.tbZPost.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbZPost.Location = New System.Drawing.Point(672, 3)
+        Me.tbZPost.Name = "tbZPost"
+        Me.tbZPost.ReadOnly = True
+        Me.tbZPost.Size = New System.Drawing.Size(88, 21)
+        Me.tbZPost.TabIndex = 79
+        Me.tbZPost.Text = ""
+        '
+        'tbYPost
+        '
+        Me.tbYPost.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbYPost.Location = New System.Drawing.Point(584, 3)
+        Me.tbYPost.Name = "tbYPost"
+        Me.tbYPost.ReadOnly = True
+        Me.tbYPost.Size = New System.Drawing.Size(88, 21)
+        Me.tbYPost.TabIndex = 78
+        Me.tbYPost.Text = ""
         '
         'ValueBrightness
         '
@@ -267,21 +296,12 @@ Public Class FormProduction
         'TextBoxRobotPos
         '
         Me.TextBoxRobotPos.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotPos.Location = New System.Drawing.Point(504, 3)
+        Me.TextBoxRobotPos.Location = New System.Drawing.Point(496, 3)
         Me.TextBoxRobotPos.Name = "TextBoxRobotPos"
         Me.TextBoxRobotPos.ReadOnly = True
-        Me.TextBoxRobotPos.Size = New System.Drawing.Size(256, 21)
+        Me.TextBoxRobotPos.Size = New System.Drawing.Size(88, 21)
         Me.TextBoxRobotPos.TabIndex = 8
-        Me.TextBoxRobotPos.Text = "X: -100.000,   Y: -100.000,  Z: -100.000"
-        '
-        'Label4
-        '
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(450, 5)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(45, 16)
-        Me.Label4.TabIndex = 7
-        Me.Label4.Text = "Robot"
+        Me.TextBoxRobotPos.Text = ""
         '
         'Label1
         '
@@ -309,10 +329,12 @@ Public Class FormProduction
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.tbDispenserType)
+        Me.GroupBox2.Controls.Add(Me.TextBox4)
         Me.GroupBox2.Controls.Add(Me.tbTime)
         Me.GroupBox2.Controls.Add(Me.tbDispensedUnit)
         Me.GroupBox2.Controls.Add(Me.TextBox7)
-        Me.GroupBox2.Controls.Add(Me.tbCurrentDispense)
+        Me.GroupBox2.Controls.Add(Me.tbAutoPurgeCountDown)
         Me.GroupBox2.Controls.Add(Me.TextBox6)
         Me.GroupBox2.Controls.Add(Me.tbPortLifeRemain)
         Me.GroupBox2.Controls.Add(Me.TextBox5)
@@ -322,7 +344,7 @@ Public Class FormProduction
         Me.GroupBox2.Controls.Add(Me.TextBox1)
         Me.GroupBox2.Location = New System.Drawing.Point(16, 216)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(480, 256)
+        Me.GroupBox2.Size = New System.Drawing.Size(480, 280)
         Me.GroupBox2.TabIndex = 143
         Me.GroupBox2.TabStop = False
         '
@@ -362,31 +384,29 @@ Public Class FormProduction
         Me.TextBox7.Text = "Dispensed Unit :"
         Me.TextBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'tbCurrentDispense
+        'tbAutoPurgeCountDown
         '
-        Me.tbCurrentDispense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbCurrentDispense.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbCurrentDispense.Location = New System.Drawing.Point(196, 216)
-        Me.tbCurrentDispense.Name = "tbCurrentDispense"
-        Me.tbCurrentDispense.ReadOnly = True
-        Me.tbCurrentDispense.Size = New System.Drawing.Size(272, 31)
-        Me.tbCurrentDispense.TabIndex = 7
-        Me.tbCurrentDispense.Text = "0"
-        Me.tbCurrentDispense.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.tbCurrentDispense.Visible = False
+        Me.tbAutoPurgeCountDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbAutoPurgeCountDown.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbAutoPurgeCountDown.Location = New System.Drawing.Point(196, 200)
+        Me.tbAutoPurgeCountDown.Name = "tbAutoPurgeCountDown"
+        Me.tbAutoPurgeCountDown.ReadOnly = True
+        Me.tbAutoPurgeCountDown.Size = New System.Drawing.Size(272, 31)
+        Me.tbAutoPurgeCountDown.TabIndex = 7
+        Me.tbAutoPurgeCountDown.Text = "NA"
+        Me.tbAutoPurgeCountDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'TextBox6
         '
         Me.TextBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox6.Location = New System.Drawing.Point(12, 216)
+        Me.TextBox6.Location = New System.Drawing.Point(12, 200)
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.ReadOnly = True
         Me.TextBox6.Size = New System.Drawing.Size(184, 31)
         Me.TextBox6.TabIndex = 6
-        Me.TextBox6.Text = "Current Dispense :"
+        Me.TextBox6.Text = "Auto Purging :"
         Me.TextBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TextBox6.Visible = False
         '
         'tbPortLifeRemain
         '
@@ -515,6 +535,7 @@ Public Class FormProduction
         '
         'btStop
         '
+        Me.btStop.Enabled = False
         Me.btStop.ForeColor = System.Drawing.Color.Black
         Me.btStop.Image = CType(resources.GetObject("btStop.Image"), System.Drawing.Image)
         Me.btStop.Location = New System.Drawing.Point(256, 48)
@@ -524,6 +545,7 @@ Public Class FormProduction
         '
         'btPause
         '
+        Me.btPause.Enabled = False
         Me.btPause.ForeColor = System.Drawing.Color.Black
         Me.btPause.Image = CType(resources.GetObject("btPause.Image"), System.Drawing.Image)
         Me.btPause.Location = New System.Drawing.Point(160, 48)
@@ -533,6 +555,7 @@ Public Class FormProduction
         '
         'btPlay
         '
+        Me.btPlay.Enabled = False
         Me.btPlay.ForeColor = System.Drawing.Color.Black
         Me.btPlay.Image = CType(resources.GetObject("btPlay.Image"), System.Drawing.Image)
         Me.btPlay.Location = New System.Drawing.Point(64, 48)
@@ -548,7 +571,7 @@ Public Class FormProduction
         Me.ContinuousMode.Name = "ContinuousMode"
         Me.ContinuousMode.Size = New System.Drawing.Size(160, 24)
         Me.ContinuousMode.TabIndex = 141
-        Me.ContinuousMode.Text = "Continuous Run"
+        Me.ContinuousMode.Text = "Auto Process"
         '
         'btExit
         '
@@ -569,7 +592,7 @@ Public Class FormProduction
         Me.ConveyorBox.Controls.Add(Me.ButtonCV_Prod_Retrieve)
         Me.ConveyorBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ConveyorBox.ForeColor = System.Drawing.Color.Black
-        Me.ConveyorBox.Location = New System.Drawing.Point(16, 480)
+        Me.ConveyorBox.Location = New System.Drawing.Point(16, 520)
         Me.ConveyorBox.Name = "ConveyorBox"
         Me.ConveyorBox.Size = New System.Drawing.Size(480, 96)
         Me.ConveyorBox.TabIndex = 130
@@ -628,7 +651,7 @@ Public Class FormProduction
         Me.HeaterBox.Controls.Add(Me.SyringeLabel)
         Me.HeaterBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.HeaterBox.ForeColor = System.Drawing.Color.Black
-        Me.HeaterBox.Location = New System.Drawing.Point(16, 592)
+        Me.HeaterBox.Location = New System.Drawing.Point(16, 632)
         Me.HeaterBox.Name = "HeaterBox"
         Me.HeaterBox.Size = New System.Drawing.Size(480, 160)
         Me.HeaterBox.TabIndex = 130
@@ -739,7 +762,7 @@ Public Class FormProduction
         'PanelProDownTimeInfor
         '
         Me.PanelProDownTimeInfor.BackColor = System.Drawing.SystemColors.Control
-        Me.PanelProDownTimeInfor.Controls.Add(Me.RichTextBoxNote)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.rtLog)
         Me.PanelProDownTimeInfor.Controls.Add(Me.CheckBoxPotOn)
         Me.PanelProDownTimeInfor.Controls.Add(Me.DoorLock)
         Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonPotReset)
@@ -759,15 +782,16 @@ Public Class FormProduction
         Me.PanelProDownTimeInfor.Size = New System.Drawing.Size(768, 384)
         Me.PanelProDownTimeInfor.TabIndex = 6
         '
-        'RichTextBoxNote
+        'rtLog
         '
-        Me.RichTextBoxNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.RichTextBoxNote.Location = New System.Drawing.Point(8, 128)
-        Me.RichTextBoxNote.Name = "RichTextBoxNote"
-        Me.RichTextBoxNote.ReadOnly = True
-        Me.RichTextBoxNote.Size = New System.Drawing.Size(752, 208)
-        Me.RichTextBoxNote.TabIndex = 98
-        Me.RichTextBoxNote.Text = ""
+        Me.rtLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rtLog.HideSelection = False
+        Me.rtLog.Location = New System.Drawing.Point(8, 112)
+        Me.rtLog.Name = "rtLog"
+        Me.rtLog.ReadOnly = True
+        Me.rtLog.Size = New System.Drawing.Size(752, 224)
+        Me.rtLog.TabIndex = 135
+        Me.rtLog.Text = ""
         '
         'CheckBoxPotOn
         '
@@ -965,6 +989,30 @@ Public Class FormProduction
         '
         Me.TimeDisplayTimer.Interval = 500
         '
+        'tbDispenserType
+        '
+        Me.tbDispenserType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbDispenserType.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDispenserType.Location = New System.Drawing.Point(196, 232)
+        Me.tbDispenserType.Name = "tbDispenserType"
+        Me.tbDispenserType.ReadOnly = True
+        Me.tbDispenserType.Size = New System.Drawing.Size(272, 31)
+        Me.tbDispenserType.TabIndex = 13
+        Me.tbDispenserType.Text = ""
+        Me.tbDispenserType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox4
+        '
+        Me.TextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox4.Location = New System.Drawing.Point(12, 232)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.ReadOnly = True
+        Me.TextBox4.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox4.TabIndex = 12
+        Me.TextBox4.Text = "Dispenser Type :"
+        Me.TextBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
         'FormProduction
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -994,6 +1042,7 @@ Public Class FormProduction
 #End Region
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        logger = log4net.LogManager.GetLogger("Opt")
         TimeDisplayTimer.Start()
         Init()
         While isInited = False
@@ -1076,30 +1125,34 @@ Public Class FormProduction
     End Sub
 
     Public Sub ProductionInfoDispClear()
-        Dim i As Integer
-        For i = 0 To 49
-            Production_info(i) = ""
-        Next
+        'Dim i As Integer
+        'For i = 0 To 49
+        '    Production_info(i) = ""
+        'Next
 
-        RichTextBoxNote.Lines = Production_info
-        RichTextBoxNote.Show()
+        'RichTextBoxNote.Lines = Production_info
+        'RichTextBoxNote.Show()
     End Sub
 
 
     Public Sub ProductionInfoDisp()
         '  IDS.Data.OpenData()
-        Production_info(0) = "Author: " + IDS.Data.Hardware.SPC.ProgAuthorName
-        Production_info(1) = "Contact: " + IDS.Data.Hardware.SPC.ProgAuthorContact
-        Production_info(2) = "Notes: " + IDS.Data.Hardware.SPC.ProductionNote
-        Production_info(3) = "Needle: Left"
-        Production_info(4) = "        Material: " & IDS.Data.Hardware.Dispenser.Left.MaterialInfo
+        'Production_info(0) = "Author: " + IDS.Data.Hardware.SPC.ProgAuthorName
+        LogScreen("Author: " + IDS.Data.Hardware.SPC.ProgAuthorName)
+        'Production_info(1) = "Contact: " + IDS.Data.Hardware.SPC.ProgAuthorContact
+        LogScreen("Contact: " + IDS.Data.Hardware.SPC.ProgAuthorContact)
+        'Production_info(2) = "Notes: " + IDS.Data.Hardware.SPC.ProductionNote
+        LogScreen("Notes: " + IDS.Data.Hardware.SPC.ProductionNote)
+        'Production_info(3) = "Needle: Left"
+        LogScreen("Needle: Left")
+        'Production_info(4) = "        Material: " & IDS.Data.Hardware.Dispenser.Left.MaterialInfo
+        LogScreen("Material: " & IDS.Data.Hardware.Dispenser.Left.MaterialInfo)
+        'Production_info(7) = "        Left Needle Color "
+        LogScreen("Left Needle Color: " + IDS.Data.Hardware.Dispenser.Left.NeedleColor)
+        'RichTextBoxNote.Lines = Production_info
 
-        Production_info(7) = "        Left Needle Color "
-
-        RichTextBoxNote.Lines = Production_info
-
-        RichTextBoxNote.Show()
-        If Not GetInputState = 0 Then Application.DoEvents()
+        'RichTextBoxNote.Show()
+        'If Not GetInputState = 0 Then Application.DoEvents()
     End Sub
 
     ' open file sub
@@ -1121,9 +1174,10 @@ Public Class FormProduction
         Dim filename As String = m_Execution.m_File.FolderWithNameFromFileName(TextBoxFilename.Text)
         Programming.Disp_Dispenser_Unit_info()
 
-        LabelMessage("Please wait, system is uploading..")
+        LabelMessage("Opening file")
+        LabelMessage(filename)
         TextBoxFilename.Refresh()
-        RichTextBoxNote.Refresh()
+        'RichTextBoxNote.Refresh()
 
         ProductionInfoDisp()
 
@@ -1133,11 +1187,17 @@ Public Class FormProduction
         PressureSettings()
         OnPressure()
         tbDispensePressure.Text = IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.00") + " Bar"
+        tbDispenserType.Text = IDS.Data.Hardware.Dispenser.Left.HeadType
         LabelMessage("File loaded")
-
+        btPlay.Enabled = True
         If IDS.Data.Hardware.Dispenser.Left.PotLifeOption Then
             ButtonPotReset.Enabled = True
             CheckBoxPotOn.Enabled = True
+        End If
+        If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
+            If StartTimeOfMachineIdle = Nothing Then
+                ResetTimer("Reset Autopurging Timers")
+            End If
         End If
         ButtonOpenFile.Enabled = True
     End Sub
@@ -1195,7 +1255,7 @@ Public Class FormProduction
         'End If
 
 StopCalibration:
-        ResetToIdle()
+        'ResetToIdle()
     End Sub
 
     Public Function ProdChangeSyringeMaterial(ByVal needle As String) As Integer
@@ -1237,11 +1297,16 @@ StopCalibration:
     End Sub
 
     Private Sub ButtonPurge_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonPurge.Click
-        If SetState("Purge") Then DoPurge()
+        If SetState("Purge") Then
+            DoPurge()
+        End If
     End Sub
 
     Private Sub ButtonClean_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClean.Click
-        If SetState("Clean") Then DoClean()
+        If SetState("Clean") Then
+            ButtonClean.Enabled = False
+            DoClean()
+        End If
     End Sub
 
     Private Sub ButtonVolCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolCalib.Click
@@ -1276,7 +1341,7 @@ StopCalibration:
             Exit Sub
         End If
 
-        If DoorLock.Checked = False Then
+        If DoorLock.Text = "Lock Door" Then
             DoorLock.Text = "Unlock Door"
             'DoorLock.ImageIndex = 2
             LockDoor()
@@ -1363,13 +1428,15 @@ StopCalibration:
             If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
                 LabelMessage("Auto purging and auto cleaning is turned off.")
             End If
+            Conveyor.Command("Reset PLC Logic")
+            tbAutoPurgeCountDown.Text = "NA"
         Else
             Conveyor.Command("Auto Mode")
             If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
                 LabelMessage("Auto purging and auto cleaning is turned on.")
             End If
         End If
-        If ContinuousMode.Checked Then
+        If Not (ContinuousMode.Checked) Then
             ButtonStartFirstStage.Enabled = True
             ButtonCV_Prod_Retrieve.Enabled = True
             ButtonCV_Prod_Release.Enabled = True
@@ -1432,7 +1499,7 @@ StopCalibration:
         While onoff = 1 And Not m_Tri.MotionError
 
             m_Tri.m_TriCtrl.In(gIOloadReady, gIOloadReady, onoff) 'when ready set onoff = 0
-            LabelMessage("Waiting for board..")
+            LabelMessage("Waiting for board..", False, False)
             TraceDoEvents()
 
             If IsIdle() Or m_Tri.MotionError Then
@@ -1488,7 +1555,8 @@ StopCalibration:
         m_Tri.m_TriCtrl.Op(gIODispensingDone, 1) 'release board
         TravelToParkPosition()
         m_Tri.m_TriCtrl.Op(gIODispensingDone, 0) 'release board
-
+        PortLifeAction()
+        AutoPurgeAction()
         Form_Service.LogEventInSPCReport("Board Goes")
 
         If IsRunning() Then
@@ -1506,13 +1574,18 @@ StopCalibration:
         Dim door_close As Boolean = IDS.Devices.DIO.DIO.doorclose_flag
         Dim door_interlock As Boolean = IDS.Devices.DIO.DIO.interlockon_flag
 
-        If door_interlock = False Then
+        'If door_interlock = False Then
+        '    Return True
+        If door_close Then
+            LockDoor()
             Return True
-        ElseIf door_interlock = True Then
-            If door_close Then
-                LockDoor()
-            End If
-            Return door_close
+        Else
+            Return False
+            'ElseIf door_interlock = True Then
+            '    If door_close Then
+            '        LockDoor()
+            '    End If
+            '    Return door_close
         End If
 
     End Function
@@ -1660,7 +1733,7 @@ StopCalibration:
         '    Exit Sub
         'End If
 
-        Dim auto_purging_enabled As Boolean = IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption And ContinuousMode.Checked And IsIdle() And Form_Service.Visible = False
+        Dim auto_purging_enabled As Boolean = IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption And ContinuousMode.Checked And Form_Service.Visible = False 'And IsIdle() And Form_Service.Visible = False
         CurrentTime = Now
 
         If m_PotLifeOn Then
@@ -1680,10 +1753,20 @@ StopCalibration:
 
         'auto purging and auto cleaning is only carried out if conveyor mode is ticked and auto purging option is enabled
         If auto_purging_enabled Then
-            ElapsedTimeSinceMachineIdle = (CurrentTime.Ticks - StartTimeOfMachineIdle.Ticks) * tickToMinute    'elapsed time
-            If ElapsedTimeSinceMachineIdle >= IDS.Data.Hardware.Dispenser.Left.AutoPurgingInterval Then  'when elapsed time > time
-                ResetTimer("Reset Autopurging Timers")
-                SetState("AutoPurge")
+            If Not (StartTimeOfMachineIdle = Nothing) Then
+                ElapsedTimeSinceMachineIdle = (CurrentTime.Ticks - StartTimeOfMachineIdle.Ticks) * tickToMinute    'elapsed time
+                If Not (m_AutoPurgeRequired) Then
+                    Me.tbAutoPurgeCountDown.Text = (IDS.Data.Hardware.Dispenser.Left.AutoPurgingInterval - ElapsedTimeSinceMachineIdle).ToString() + " Minutes"
+                End If
+
+                If Not (m_AutoPurgeRequired) Then
+                    If ElapsedTimeSinceMachineIdle >= IDS.Data.Hardware.Dispenser.Left.AutoPurgingInterval Then  'when elapsed time > time
+                        'ResetTimer("Reset Autopurging Timers")
+                        'SetState("AutoPurge")
+                        Me.tbAutoPurgeCountDown.Text = "Waiting Auto Purge"
+                        m_AutoPurgeRequired = True
+                    End If
+                End If
             End If
         End If
     End Sub
@@ -1693,11 +1776,16 @@ StopCalibration:
     End Sub
 
     Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
-
+        Dim fm As InfoForm = New InfoForm
+        fm.SetTitle("Warning")
+        fm.AddNewLine("Are you sure you want to exit the production program?")
+        fm.SetOKButtonText("Yes")
+        fm.SetCancelButtonText("No")
+        If fm.ShowDialog() = DialogResult.Cancel Then Exit Sub
         If ContinuousMode.Checked = True Then
             ContinuousMode.Checked = False
         End If
-
+        m_Tri.Move_Z(SafePosition)
         'error handling
         Form_Service.ResetEventCode()
 
@@ -1737,22 +1825,51 @@ StopCalibration:
     End Sub
 
     Private Sub btPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPlay.Click
+        If Production.DoorCheck() = False Then
+            LabelMessage("Close the door first.")
+            Return
+        End If
         SetState("Start")
     End Sub
 
     Private Sub btPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPause.Click
         PauseDispensing()
+        'DoorLock.Enabled = True
     End Sub
 
     Private Sub btStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStop.Click
+        If Production.DoorCheck() = False Then
+            LabelMessage("Close the door first.")
+            Return
+        End If
         StopDispensing()
+        Production.btExit.Enabled = True
     End Sub
 
-    Private Sub RichTextBoxNote_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RichTextBoxNote.TextChanged
+    Private Sub RichTextBoxNote_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
     Private Sub TimeDisplayTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimeDisplayTimer.Tick
         tbTime.Text = DateTime.Today.ToShortDateString() + TimeOfDay.ToString(" h:mm:ss tt")
+    End Sub
+
+    Public Function LogScreen(ByVal message As String, Optional ByVal toFile As Boolean = True, Optional ByVal logLevel As Integer = 0)
+        rtLog.AppendText(DateTime.Now().Today.ToString("MM-dd-yy ") & TimeOfDay.ToString("HH:mm:ss ") & message & Environment.NewLine)
+        rtLog.SelectionStart = rtLog.Text.Length
+        rtLog.ScrollToCaret()
+        If toFile Then
+            If logLevel = 0 Then
+                logger.Info(message)
+            ElseIf logLevel = 1 Then
+                logger.Debug(message)
+            ElseIf logLevel = 2 Then
+                logger.Error(message)
+            End If
+        End If
+    End Function
+
+    Private Sub ContinuousMode_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContinuousMode.CheckedChanged
+
     End Sub
 End Class

@@ -442,6 +442,7 @@ Public Class NeedleCalibrationSettings
         '
         'Label1
         '
+        Me.Label1.ForeColor = System.Drawing.Color.Brown
         Me.Label1.Location = New System.Drawing.Point(32, 216)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(216, 48)
@@ -489,7 +490,7 @@ Public Class NeedleCalibrationSettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(416, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 73
@@ -724,6 +725,7 @@ Public Class NeedleCalibrationSettings
         '
         'Label20
         '
+        Me.Label20.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Label20.Location = New System.Drawing.Point(32, 32)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(216, 48)
@@ -776,11 +778,12 @@ Public Class NeedleCalibrationSettings
         '
         'lblNotice
         '
-        Me.lblNotice.Location = New System.Drawing.Point(32, 32)
+        Me.lblNotice.ForeColor = System.Drawing.Color.Brown
+        Me.lblNotice.Location = New System.Drawing.Point(32, 24)
         Me.lblNotice.Name = "lblNotice"
         Me.lblNotice.Size = New System.Drawing.Size(216, 64)
         Me.lblNotice.TabIndex = 91
-        Me.lblNotice.Text = "Move the needle tip to above the touch sensor before pressing."
+        Me.lblNotice.Text = "Move the needle tip to above the center of touch sensor before pressing."
         '
         'BoxStep1Jetting
         '
@@ -1013,11 +1016,17 @@ StopCalibration:
         OffLaser()
 
         'download dispenser settings
-        If LeftHead.Checked Then
-            MyDispenserSettings.DownloadDispenserSettings("Left")
-        ElseIf RightHead.Checked Then
-            MyDispenserSettings.DownloadDispenserSettings("Right")
-        End If
+        Try
+            If LeftHead.Checked Then
+                MyDispenserSettings.DownloadDispenserSettings("Left")
+            ElseIf RightHead.Checked Then
+                MyDispenserSettings.DownloadDispenserSettings("Right")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error occur when downloading dispenser settings. Make sure devices is all connected.")
+            GoTo StopCalibration
+        End Try
+
         If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         'xy dispensing
         SetNeedleXYCal(8, 25)
@@ -1150,6 +1159,14 @@ StopCalibration:
         OffLaser()
         'MsgBox("Needle calibration process stopped prematurely.")
         m_Tri.SetMachineStop()
+        m_Tri.Move_Z(0)
+        Calibrate.Enabled = True
+        Calibrate.Text = "Calibrate"
+        If localCalib Then
+            MessageBox.Show("Needle Calibration stopped.")
+            localCalib = False
+        End If
+
         Return False
 
     End Function
@@ -1232,17 +1249,51 @@ StopCalibration:
     End Sub
 
     Private Sub ButtonCalibratePosition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrateZPosition.Click
+        If IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
+            MessageBox.Show("Jetting valve do not need to calibrate Z")
+            Return
+        End If
         PanelToBeAdded.Enabled = False
         SetServiceSpeed()
         CalibrateNeedleZPosition()
         PanelToBeAdded.Enabled = True
     End Sub
-
+    Private localCalib As Boolean = False
     Private Sub Calibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Calibrate.Click
-        PanelToBeAdded.Enabled = False
-        If PanelToBeAdded.Visible = True Then SaveData()
-        NeedleCalibration()
-        PanelToBeAdded.Enabled = True
+        If Calibrate.Text = "Calibrate" Then
+            Calibrate.Text = "Stop Calibrate"
+            localCalib = True
+            Dim flag As Boolean = False
+            BoxStep1.Enabled = flag
+            BoxStep2.Enabled = flag
+            BoxStep3.Enabled = flag
+            BoxStep1Jetting.Enabled = flag
+            ButtonExit.Enabled = flag
+            ButtonRevert.Enabled = flag
+            ButtonSave.Enabled = flag
+            m_Tri.SteppingButtons.Enabled = flag
+            'PanelToBeAdded.Enabled = False
+            NeedleCalibrationState = "Running"
+            If PanelToBeAdded.Visible = True Then SaveData()
+            NeedleCalibration()
+            Calibrate.Text = "Calibrate"
+            localCalib = False
+            flag = True
+            BoxStep1.Enabled = flag
+            ButtonRevert.Enabled = flag
+            ButtonSave.Enabled = flag
+            BoxStep2.Enabled = flag
+            BoxStep3.Enabled = flag
+            BoxStep1Jetting.Enabled = flag
+            ButtonExit.Enabled = flag
+            m_Tri.SteppingButtons.Enabled = flag
+            'PanelToBeAdded.Enabled = True
+        Else
+            Calibrate.Enabled = False
+            Me.NeedleCalibrationState = "Stopped"
+            Calibrate.Text = "Stopping"
+        End If
+       
     End Sub
 
     Private Sub ButtonCalibrateVision_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrateVision.Click

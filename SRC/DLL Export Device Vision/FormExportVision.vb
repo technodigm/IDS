@@ -4890,7 +4890,15 @@ Public Class FormVision
             AxGraphicContext2.LineSegment()
         End If
     End Function
-    Function MeasurementPoint(ByVal Contrast As Double, ByVal Threshold As Double, ByVal RotationAngle As Double, ByVal Inside_Out As Boolean, ByVal vertical As Boolean, ByVal ROI As Double, ByVal Chip_QC_SS As Integer) As Boolean
+    Function MeasurementPoint(ByVal Contrast As Double, ByVal Threshold As Double, ByVal RotationAngle As Double, ByVal Inside_Out As Boolean, ByVal vertical As Boolean, ByVal ROI As Double, ByVal Chip_QC_SS As Integer, Optional ByVal EdgeStrength As Double = 0.0, Optional ByVal polarity As String = "Any") As Boolean
+        Dim _polarity As Measurement.MeasMarkerPolarityConstants = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+        'If polarity = "Any" Then
+        '    _polarity = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+        'ElseIf polarity = "Negative" Then
+        '    _polarity = Measurement.MeasMarkerPolarityConstants.measNegative
+        'ElseIf polarity = "Positive" Then
+        '    _polarity = Measurement.MeasMarkerPolarityConstants.measPositive
+        'End If
         Dim SizeROI As Double = (ChipEdgePoints_form.ValueROI.Value / 0.001 * PixelSizeX)
         If Chip_QC_SS = 1 Then
             SizeROI = ROI / 0.001 * PixelSizeX
@@ -4919,16 +4927,16 @@ Public Class FormVision
 
                 'brightness
                 .Contrast.Edge1 = Contrast
-                .EdgeStrength.Edge1 = 50
+                .EdgeStrength.Edge1 = EdgeStrength
                 .EdgeThreshold = Threshold
                 .NumberOfOccurrences = 1
 
                 If vertical = False Then
                     .Orientation = Measurement.MeasMarkerOrientationConstants.measHorizontal
-                    .Polarity.Edge1 = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                    .Polarity.Edge1 = _polarity
                 Else
                     .Orientation = Measurement.MeasMarkerOrientationConstants.measVertical
-                    .Polarity.Edge1 = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                    .Polarity.Edge1 = _polarity
                 End If
 
                 .SearchRegion.SizeX = Convert.ToInt16(SizeROI)
@@ -4958,16 +4966,16 @@ Public Class FormVision
 
             'brightness
             AxMeasurement8.Markers.Item(MarkersPointNo2).Contrast.Edge1 = Contrast
-            AxMeasurement8.Markers.Item(MarkersPointNo2).EdgeStrength.Edge1 = 50
+            AxMeasurement8.Markers.Item(MarkersPointNo2).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement8.Markers.Item(MarkersPointNo2).EdgeThreshold = Threshold
             AxMeasurement8.Markers.Item(MarkersPointNo2).NumberOfOccurrences = 1
 
             If vertical = False Then
                 AxMeasurement8.Markers.Item(MarkersPointNo2).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
-                AxMeasurement8.Markers.Item(MarkersPointNo2).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                AxMeasurement8.Markers.Item(MarkersPointNo2).Polarity.Edge1 = _polarity
             Else
                 AxMeasurement8.Markers.Item(MarkersPointNo2).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
-                AxMeasurement8.Markers.Item(MarkersPointNo2).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                AxMeasurement8.Markers.Item(MarkersPointNo2).Polarity.Edge1 = _polarity
             End If
 
             AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.SizeX = Convert.ToInt16(SizeROI)
@@ -4996,16 +5004,15 @@ Public Class FormVision
 
             'brightness
             AxMeasurement9.Markers.Item(MarkersPointNo3).Contrast.Edge1 = Contrast
-            AxMeasurement9.Markers.Item(MarkersPointNo3).EdgeStrength.Edge1 = 50
+            AxMeasurement9.Markers.Item(MarkersPointNo3).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement9.Markers.Item(MarkersPointNo3).EdgeThreshold = Threshold
             AxMeasurement9.Markers.Item(MarkersPointNo3).NumberOfOccurrences = 1
 
             If vertical = False Then
                 AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
-                AxMeasurement9.Markers.Item(MarkersPointNo3).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
-            Else
+                AxMeasurement9.Markers.Item(MarkersPointNo3).Polarity.Edge1 = _polarity
                 AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
-                AxMeasurement9.Markers.Item(MarkersPointNo3).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                AxMeasurement9.Markers.Item(MarkersPointNo3).Polarity.Edge1 = _polarity
             End If
 
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.SizeX = Convert.ToInt16(SizeROI)
@@ -5034,16 +5041,16 @@ Public Class FormVision
 
             'brightness
             AxMeasurement10.Markers.Item(MarkersPointNo4).Contrast.Edge1 = Contrast
-            AxMeasurement10.Markers.Item(MarkersPointNo4).EdgeStrength.Edge1 = 50
+            AxMeasurement10.Markers.Item(MarkersPointNo4).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement10.Markers.Item(MarkersPointNo4).EdgeThreshold = Threshold
             AxMeasurement10.Markers.Item(MarkersPointNo4).NumberOfOccurrences = 1
 
             If vertical = False Then
                 AxMeasurement10.Markers.Item(MarkersPointNo4).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
-                AxMeasurement10.Markers.Item(MarkersPointNo4).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                AxMeasurement10.Markers.Item(MarkersPointNo4).Polarity.Edge1 = _polarity
             Else
                 AxMeasurement10.Markers.Item(MarkersPointNo4).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
-                AxMeasurement10.Markers.Item(MarkersPointNo4).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                AxMeasurement10.Markers.Item(MarkersPointNo4).Polarity.Edge1 = _polarity
             End If
 
             AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.SizeX = Convert.ToInt16(SizeROI)
@@ -5072,16 +5079,16 @@ Public Class FormVision
 
             'brightness
             AxMeasurement11.Markers.Item(MarkersPointNo5).Contrast.Edge1 = Contrast
-            AxMeasurement11.Markers.Item(MarkersPointNo5).EdgeStrength.Edge1 = 50
+            AxMeasurement11.Markers.Item(MarkersPointNo5).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement11.Markers.Item(MarkersPointNo5).EdgeThreshold = Threshold
             AxMeasurement11.Markers.Item(MarkersPointNo5).NumberOfOccurrences = 1
 
             If vertical = False Then
                 AxMeasurement11.Markers.Item(MarkersPointNo5).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
-                AxMeasurement11.Markers.Item(MarkersPointNo5).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                AxMeasurement11.Markers.Item(MarkersPointNo5).Polarity.Edge1 = _polarity
             Else
                 AxMeasurement11.Markers.Item(MarkersPointNo5).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
-                AxMeasurement11.Markers.Item(MarkersPointNo5).Polarity.Edge1 = Matrox.ActiveMIL.Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+                AxMeasurement11.Markers.Item(MarkersPointNo5).Polarity.Edge1 = _polarity
             End If
 
             AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.SizeX = Convert.ToInt16(SizeROI)
@@ -5271,7 +5278,7 @@ Public Class FormVision
                             ChipEdgePoints_form.TextBox_RSizeX.Text = WidthPointX
                             ChipEdgePoints_form.TextBox_RSizeY.Text = WidthPointY
                             ChipEdgePoints_form.TextBox_RRot.Text = ChipPointRot
-                            ChipPointDrawing(Chip_QC_SS)
+                            If Not (ChipPointDrawing(Chip_QC_SS)) Then Return False
                         ElseIf Chip_QC_SS = 3 Then
                             WidthPointY = Sqrt((Py1 - Py2) ^ 2 + (Px1 - Px2) ^ 2) * PixelSizeY
                             WidthPointX = Sqrt((Py1 - Py4) ^ 2 + (Px1 - Px4) ^ 2) * PixelSizeX
@@ -5283,7 +5290,7 @@ Public Class FormVision
                             TextboxRSizeX.Text = WidthPointX
                             TextboxRSizeY.Text = WidthPointY
                             TextboxRRot.Text = ChipPointRot
-                            ChipPointDrawing(Chip_QC_SS)
+                            If Not (ChipPointDrawing(Chip_QC_SS)) Then Return False
                         End If
                     Else
                         If Chip_QC_SS = 1 Then
@@ -5301,7 +5308,7 @@ Public Class FormVision
                             ChipEdgePoints_form.TextBox_RSizeX.Text = WidthPointX
                             ChipEdgePoints_form.TextBox_RSizeY.Text = WidthPointY
                             ChipEdgePoints_form.TextBox_RRot.Text = ChipPointRot
-                            ChipPointDrawing(Chip_QC_SS)
+                            If Not (ChipPointDrawing(Chip_QC_SS)) Then Return False
                         ElseIf Chip_QC_SS = 3 Then
                             WidthPointX = Sqrt((Py1 - Py2) ^ 2 + (Px1 - Px2) ^ 2) * PixelSizeX
                             WidthPointY = Sqrt((Py1 - Py4) ^ 2 + (Px1 - Px4) ^ 2) * PixelSizeY
@@ -5322,7 +5329,7 @@ Public Class FormVision
                             TextboxRSizeX.Text = WidthPointX
                             TextboxRSizeY.Text = WidthPointY
                             TextboxRRot.Text = ChipPointRot
-                            ChipPointDrawing(Chip_QC_SS)
+                            If Not (ChipPointDrawing(Chip_QC_SS)) Then Return False
                         End If
                     End If
                     Return True
@@ -5397,6 +5404,7 @@ Public Class FormVision
         End Try
 
     End Function
+    Public lastError As String = ""
     ''Get the world position based on current found chip four corner top left/right, bottom left/right
     ''
     Public Function GetChipCenter_World(ByVal Post() As Double, ByRef chipCenterX As Double, ByRef chipCenterY As Double)
@@ -5446,7 +5454,7 @@ Public Class FormVision
         chipCenterX = (LeftX + RightX) / 2
         chipCenterY = (TopY + BottomY) / 2
     End Function
-    Function ChipPointDrawing(ByVal Chip_QC_SS As Integer)
+    Function ChipPointDrawing(ByVal Chip_QC_SS As Integer) As Boolean
         If AxMeasurement7.Results.Count > 0 And AxMeasurement8.Results.Count > 0 And AxMeasurement9.Results.Count > 0 And AxMeasurement10.Results.Count > 0 And AxMeasurement11.Results.Count > 0 Then
             If AxMeasurement7.Markers.Item(MarkersPointNo1).IsFound And AxMeasurement8.Markers.Item(MarkersPointNo2).IsFound And AxMeasurement9.Markers.Item(MarkersPointNo3).IsFound And AxMeasurement10.Markers.Item(MarkersPointNo4).IsFound And AxMeasurement11.Markers.Item(MarkersPointNo5).IsFound Then
                 If Chip_QC_SS = 1 Then
@@ -5514,7 +5522,7 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                             .CtlText("Position Out of Range!!")
                         End With
-
+                        Return False
                     ElseIf _
                     ((ChipEdgePoints_form.TextBox_PosX.Text) * (1 - ChipEdgePoints_form.ValuePos.Value / 100)) < ChipPointPosX And _
                     ChipPointPosX < ((ChipEdgePoints_form.TextBox_PosX.Text) * (1 + ChipEdgePoints_form.ValuePos.Value / 100)) And _
@@ -5531,6 +5539,8 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                         End With
                         AxGraphicContext1.CtlText("Size Out of Range!!")
+                        lastError = "Size Out of Range!!"
+                        Return False
                     ElseIf _
                     ((ChipEdgePoints_form.TextBox_SizeX.Text) * (1 - ChipEdgePoints_form.ValueSize.Value / 100)) < WidthPointX And _
                     WidthPointX < ((ChipEdgePoints_form.TextBox_SizeX.Text) * (1 + ChipEdgePoints_form.ValueSize.Value / 100)) And _
@@ -5550,6 +5560,8 @@ Public Class FormVision
                         End With
                         Dim text As String = ("Chip Rotated" + " " & ChipPointRot.ToString & " deg")
                         AxGraphicContext1.CtlText(text)
+                        lastError = "Chip rotation out of range"
+                        Return False
                     ElseIf _
                     ((ChipEdgePoints_form.TextBox_SizeX.Text) * (1 - ChipEdgePoints_form.ValueSize.Value / 100)) < WidthPointX And _
                     WidthPointX < ((ChipEdgePoints_form.TextBox_SizeX.Text) * (1 + ChipEdgePoints_form.ValueSize.Value / 100)) And _
@@ -5564,6 +5576,8 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                             .CtlText("Position and Rotation Angle Out of Range!!")
                         End With
+                        lastError = "Position and Rotation Angle Out of Range!!"
+                        Return False
                     ElseIf _
                         ChipPointRot < ((ChipEdgePoints_form.ValueRot.Value)) And _
                         (-(ChipEdgePoints_form.ValueRot.Value) < ChipPointRot) Then
@@ -5576,6 +5590,8 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                             .CtlText("Position and Size Out of Range!!")
                         End With
+                        lastError = "Position and Size Out of Range!!"
+                        Return False
                     ElseIf _
                     ((ChipEdgePoints_form.TextBox_PosX.Text) * (1 - ChipEdgePoints_form.ValuePos.Value / 100)) < ChipPointPosX And _
                     ChipPointPosX < ((ChipEdgePoints_form.TextBox_PosX.Text) * (1 + ChipEdgePoints_form.ValuePos.Value / 100)) And _
@@ -5591,6 +5607,8 @@ Public Class FormVision
                         End With
                         Dim text As String = ("Size and Rotation Angle Out of Range!!")
                         AxGraphicContext1.CtlText(text)
+                        lastError = "Size and Rotation Angle Out of Range!!"
+                        Return False
                     Else
                         With AxGraphicContext1
                             .FontScaleX = 1
@@ -5602,6 +5620,8 @@ Public Class FormVision
                         End With
                         Dim text As String = ("Chip's Edge not found")
                         AxGraphicContext1.CtlText(text)
+                        lastError = "Chip's Edge not found"
+                        Return False
                     End If
                 ElseIf Chip_QC_SS = 3 Then
                     If _
@@ -5667,6 +5687,8 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                             .CtlText("Position Out of Range!!")
                         End With
+                        lastError = "Position Out of Range!!"
+                        Return False
 
                     ElseIf _
                     ((TextboxPosX.Text) * (1 - ValuePos.Value / 100)) < ChipPointPosX And _
@@ -5684,6 +5706,8 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                         End With
                         AxGraphicContext1.CtlText("Size Out of Range!!")
+                        lastError = "Size Out of Range!!"
+                        Return False
                     ElseIf _
                     ((TextboxSizeX.Text) * (1 - ValueSize.Value / 100)) < WidthPointX And _
                     WidthPointX < ((TextboxSizeX.Text) * (1 + ValueSize.Value / 100)) And _
@@ -5703,6 +5727,8 @@ Public Class FormVision
                         End With
                         Dim text As String = ("Chip Rotated" + " " & ChipPointRot.ToString & " deg")
                         AxGraphicContext1.CtlText(text)
+                        lastError = "Chip rotation out of range"
+                        Return False
                     ElseIf _
                     ((TextboxSizeX.Text) * (1 - ValueSize.Value / 100)) < WidthPointX And _
                     WidthPointX < ((TextboxSizeX.Text) * (1 + ValueSize.Value / 100)) And _
@@ -5717,6 +5743,8 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                             .CtlText("Position and Rotation Angle Out of Range!!")
                         End With
+                        lastError = "Position and Rotation Angle Out of Range!!"
+                        Return False
                     ElseIf _
                         ChipPointRot < ((ValueRot.Value)) And _
                         (-(ValueRot.Value) < ChipPointRot) Then
@@ -5729,6 +5757,8 @@ Public Class FormVision
                             .DrawingRegion.EndY = DisplayHeight
                             .CtlText("Position and Size Out of Range!!")
                         End With
+                        lastError = "Position and Size Out of Range!!"
+                        Return False
                     ElseIf _
                     ((TextboxPosX.Text) * (1 - ValuePos.Value / 100)) < ChipPointPosX And _
                     ChipPointPosX < ((TextboxPosX.Text) * (1 + ValuePos.Value / 100)) And _
@@ -5744,6 +5774,8 @@ Public Class FormVision
                         End With
                         Dim text As String = ("Size and Rotation Angle Out of Range!!")
                         AxGraphicContext1.CtlText(text)
+                        lastError = "Size and Rotation Angle Out of Range!!"
+                        Return False
                     Else
                         With AxGraphicContext1
                             .FontScaleX = 1
@@ -5755,10 +5787,15 @@ Public Class FormVision
                         End With
                         Dim text As String = ("Chip's Edge not found")
                         AxGraphicContext1.CtlText(text)
+                        lastError = "Chip's Edge not found"
+                        Return False
                     End If
                 End If
             End If
+            lastError = ""
+            Return True
         End If
+        Return False
     End Function
     Function ChipPointInput(ByVal PointX1, ByVal PointY1, ByVal PointX2, ByVal PointY2, ByVal PointX3, ByVal PointY3, ByVal PointX4, ByVal PointY4, ByVal PointX5, ByVal PointY5)
         SizeXPoint = Abs(PointX5 - PointX3)
@@ -6574,6 +6611,7 @@ Public Class FormVision
         RejectPoint_form.SetRMReset()
     End Function
     Sub Form_QC(ByVal brightness As Double)
+        DisableChipEdgeDrawing()
         SetBrightness(brightness)
         QC_form.ValueDotBrightness.Value = brightness
         QC_form.ValueDotBrightness.Text = brightness
@@ -6608,6 +6646,7 @@ Public Class FormVision
 #Region "Edit"
     Function Form_FI_Edit(ByVal Fi_No As Integer, ByVal Filename As String, ByVal brightness As Integer) As Boolean
         Try
+            DisableChipEdgeDrawing()
             SetBrightness(brightness)
             FiducialMark_form.BrightnessValue.Value = brightness
             FiducialMark_form.BrightnessValue.Text = brightness
@@ -6674,6 +6713,11 @@ Public Class FormVision
         Else
             ChipEdgePoints_form.ValueBrightness.Value = vParam._Brightness
         End If
+        If vParam._Contrast < ChipEdgePoints_form.ValueContrast.Minimum Then
+            ChipEdgePoints_form.ValueContrast.Value = ChipEdgePoints_form.ValueContrast.Minimum
+        Else
+            ChipEdgePoints_form.ValueContrast.Value = vParam._Contrast
+        End If
 
         ChipEdgePoints_form.ValueBrightness.Text = ChipEdgePoints_form.ValueBrightness.Value
 
@@ -6731,6 +6775,7 @@ Public Class FormVision
     End Function
     Function Form_QC_Edit(ByVal vParam As QC.QCParam) As Boolean
         Try
+            DisableChipEdgeDrawing()
             QC_form.Show()
             QC_form.DialogResult = DialogResult.OK
             QC_form.Location = New Point(0, 50)
@@ -6817,6 +6862,7 @@ Public Class FormVision
         ChipEdgePoints_form.ValuePos.Value() = vParam._Pos
         ChipEdgePoints_form.ValueRot.Value() = vParam._Rot
         ChipEdgePoints_form.ValueThreshold.Value = vParam._Threshold
+        ChipEdgePoints_form.ValueContrast.Value = vParam._Contrast
         If vParam._ROI > 0.1 Then
             ChipEdgePoints_form.ValueROI.Value = vParam._ROI
         Else

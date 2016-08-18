@@ -822,3 +822,213 @@ Total run time of this production:	40 Second(s)
 Number of pauses:			0
 Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+************************************************************************
+SPC Report. Automatically Generated at: 8/12/2016 10:51:48 AM
+************************************************************************
+Production Start:			8/12/2016 10:51:19 AM
+Production End:				8/12/2016 10:51:48 AM
+Duration:				0.008 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\TestAutoPurge
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 29.000 Second(s)
+Number of boards per hour:		124.138
+Total down time of this production:	18 Second(s)
+Total run time of this production:	11 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/12/2016 11:05:22 AM
+************************************************************************
+Production Start:			8/12/2016 11:04:10 AM
+Production End:				8/12/2016 11:05:21 AM
+Duration:				0.020 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\DispenseDots
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 71.000 Second(s)
+Number of boards per hour:		50.704
+Total down time of this production:	0 Second(s)
+Total run time of this production:	71 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/12/2016 1:31:49 PM
+************************************************************************
+Production Start:			8/12/2016 1:30:13 PM
+Production End:				8/12/2016 1:31:49 PM
+Duration:				0.027 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\DispenseDots
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 96.000 Second(s)
+Number of boards per hour:		37.500
+Total down time of this production:	0 Second(s)
+Total run time of this production:	96 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/12/2016 1:42:58 PM
+************************************************************************
+Production Start:			8/12/2016 1:40:55 PM
+Production End:				8/12/2016 1:42:58 PM
+Duration:				0.034 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\DispenseDots
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 123.000 Second(s)
+Number of boards per hour:		29.268
+Total down time of this production:	0 Second(s)
+Total run time of this production:	123 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/12/2016 1:52:54 PM
+************************************************************************
+Production Start:			8/12/2016 1:52:36 PM
+Production End:				8/12/2016 1:52:54 PM
+Duration:				0.005 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\OneDot
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 18.000 Second(s)
+Number of boards per hour:		200.000
+Total down time of this production:	0 Second(s)
+Total run time of this production:	18 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/12/2016 2:03:37 PM
+************************************************************************
+Production Start:			8/12/2016 2:02:49 PM
+Production End:				8/12/2016 2:03:36 PM
+Duration:				0.013 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\OneDot
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 47.000 Second(s)
+Number of boards per hour:		76.596
+Total down time of this production:	0 Second(s)
+Total run time of this production:	47 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/15/2016 8:41:57 AM
+************************************************************************
+Production Start:			8/15/2016 8:40:52 AM
+Production End:				8/15/2016 8:41:56 AM
+Duration:				0.018 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\DispenseDots
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 64.000 Second(s)
+Number of boards per hour:		56.250
+Total down time of this production:	0 Second(s)
+Total run time of this production:	64 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/15/2016 8:46:37 AM
+************************************************************************
+Production Start:			8/15/2016 8:43:58 AM
+Production End:				8/15/2016 8:46:37 AM
+Duration:				0.044 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\DispenseDots
+Material Batch(es):			L:some amazing epoxy R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 159.000 Second(s)
+Number of boards per hour:		22.642
+Total down time of this production:	0 Second(s)
+Total run time of this production:	159 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/15/2016 8:57:55 AM
+************************************************************************
+Production Start:			8/15/2016 8:54:21 AM
+Production End:				8/15/2016 8:57:55 AM
+Duration:				0.059 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\DispenseDots
+Material Batch(es):			L:Epoxy for testing only R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 214.000 Second(s)
+Number of boards per hour:		16.822
+Total down time of this production:	0 Second(s)
+Total run time of this production:	214 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+************************************************************************
+SPC Report. Automatically Generated at: 8/15/2016 9:01:53 AM
+************************************************************************
+Production Start:			8/15/2016 8:59:05 AM
+Production End:				8/15/2016 9:01:52 AM
+Duration:				0.046 Hour(s)
+Operator ID:				patIDSData.Pa
+Pattern File:				C:\IDS\Pattern_Dir\DispenseDots
+Material Batch(es):			L:Epoxy for testing only R:-2830136
+Number of incoming boards:		1
+Number of outgoing boards:		1
+Number of passed boards:		1
+Number of failed boards (partially):	0
+Number of failed boards (totally):	0
+Average time per board:                 167.000 Second(s)
+Number of boards per hour:		21.557
+Total down time of this production:	0 Second(s)
+Total run time of this production:	167 Second(s)
+Number of pauses:			0
+Report End @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+

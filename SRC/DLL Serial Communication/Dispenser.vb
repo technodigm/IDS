@@ -423,43 +423,48 @@ Public Class Dispenser
 
     End Sub
 
-    Public Sub DownloadJettingParameters(ByVal Pulse As Double, ByVal Pause As Double, ByVal Count As Double, ByVal Temperature As Double)
-        With AxMSComm1
-            .InBufferCount = 0
-            .OutBufferCount = 0
-            .SThreshold = 1
-            .RThreshold = 25
-        End With
+    Public Function DownloadJettingParameters(ByVal Pulse As Double, ByVal Pause As Double, ByVal Count As Double, ByVal Temperature As Double) As Boolean
+        Try
+            With AxMSComm1
+                .InBufferCount = 0
+                .OutBufferCount = 0
+                .SThreshold = 1
+                .RThreshold = 25
+            End With
 
-        Dim SendData, SendVal As String
-        'Pulse Time
-        Call JettingData(Pulse.ToString, SendVal)
-        SendData = SendData & Trim(SendVal)
-        'Pause Time
-        Call JettingData(Pause.ToString, SendVal)
-        SendData = SendData & Trim(SendVal)
-        'Count
-        If Len(Count.ToString) = 1 Then
-            SendData = SendData & "000" & Trim(Count.ToString)
-        ElseIf Len(Count.ToString) = 2 Then
-            SendData = SendData & "00" & Trim(Count.ToString)
-        ElseIf Len(Count.ToString) = 3 Then
-            SendData = SendData & "0" & Trim(Count.ToString)
-        Else
-            SendData = SendData & Trim(Count.ToString)
-        End If
-        'Temperature
-        If Len(Temperature.ToString) = 1 Then
-            SendData = SendData & "00" & Trim(Temperature.ToString)
-        ElseIf Len(Temperature.ToString) = 2 Then
-            SendData = SendData & "0" & Trim(Temperature.ToString)
-        Else
-            SendData = SendData & Trim(Temperature.ToString)
-        End If
+            Dim SendData, SendVal As String
+            'Pulse Time
+            Call JettingData(Pulse.ToString, SendVal)
+            SendData = SendData & Trim(SendVal)
+            'Pause Time
+            Call JettingData(Pause.ToString, SendVal)
+            SendData = SendData & Trim(SendVal)
+            'Count
+            If Len(Count.ToString) = 1 Then
+                SendData = SendData & "000" & Trim(Count.ToString)
+            ElseIf Len(Count.ToString) = 2 Then
+                SendData = SendData & "00" & Trim(Count.ToString)
+            ElseIf Len(Count.ToString) = 3 Then
+                SendData = SendData & "0" & Trim(Count.ToString)
+            Else
+                SendData = SendData & Trim(Count.ToString)
+            End If
+            'Temperature
+            If Len(Temperature.ToString) = 1 Then
+                SendData = SendData & "00" & Trim(Temperature.ToString)
+            ElseIf Len(Temperature.ToString) = 2 Then
+                SendData = SendData & "0" & Trim(Temperature.ToString)
+            Else
+                SendData = SendData & Trim(Temperature.ToString)
+            End If
 
-        SendData = SendData & "O"
-        AxMSComm1.Output = SendData
-    End Sub
+            SendData = SendData & "O"
+            AxMSComm1.Output = SendData
+        Catch ex As Exception
+            Return False
+        End Try
+        Return True
+    End Function
 
     Public Sub DownloadAugerRPM(ByVal RPM As Double, ByVal RetractTime As Double, ByVal RetractDelay As Double)
         With AxMSComm1
@@ -556,7 +561,7 @@ Public Class Dispenser
             .RThreshold = 1                 'Set 2 characters to receive before generate OnComm event
             .InputMode = MSCommLib.InputModeConstants.comInputModeText  'Set to return text data
             .InBufferCount = 0                                          'Initialize receive buffer
-            .CommPort = dispenserport
+            .CommPort = DispenserPort
             Try
                 If Not .PortOpen Then
                     .PortOpen = True

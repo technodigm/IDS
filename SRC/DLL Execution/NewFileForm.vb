@@ -168,6 +168,7 @@ Public Class NewFileForm
                     lbExistingProject.Items.Add(str(i))
                 End If
         Next
+        tbFileName.Focus()
     End Sub
 
     Private Sub cbTeachingMode_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbTeachMode.SelectedIndexChanged
@@ -177,6 +178,7 @@ Public Class NewFileForm
     End Sub
 
     Private Sub btOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btOK.Click
+        abortExit = False
         If tbFileName.Text = "" Then
             MessageBox.Show("Please insert File Name")
             Return
@@ -200,6 +202,7 @@ Public Class NewFileForm
 
     Private Sub NewFileForm_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         If abortExit Then e.Cancel = True
+        abortExit = False
     End Sub
 
     Private Sub lbExistingProject_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lbExistingProject.SelectedIndexChanged

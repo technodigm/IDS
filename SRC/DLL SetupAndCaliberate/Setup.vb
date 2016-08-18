@@ -47,9 +47,7 @@ Public Class Setup
     Friend WithEvents PanelRight As System.Windows.Forms.Panel
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents TextBoxRobotZ As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxRobotY As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxRobotX As System.Windows.Forms.TextBox
@@ -146,9 +144,7 @@ Public Class Setup
         Me.cbLockX = New System.Windows.Forms.CheckBox
         Me.TextBoxRobotX = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
-        Me.TextBox7 = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
         Me.DisplayBrightness = New System.Windows.Forms.NumericUpDown
         Me.OleDbConnection1 = New System.Data.OleDb.OleDbConnection
         Me.Timer1 = New System.Timers.Timer
@@ -602,9 +598,7 @@ Public Class Setup
         Me.Panel2.Controls.Add(Me.cbLockX)
         Me.Panel2.Controls.Add(Me.TextBoxRobotX)
         Me.Panel2.Controls.Add(Me.Label1)
-        Me.Panel2.Controls.Add(Me.TextBox7)
         Me.Panel2.Controls.Add(Me.Label3)
-        Me.Panel2.Controls.Add(Me.Label6)
         Me.Panel2.Controls.Add(Me.DisplayBrightness)
         Me.Panel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.Panel2.Location = New System.Drawing.Point(0, 916)
@@ -682,16 +676,6 @@ Public Class Setup
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "Robot"
         '
-        'TextBox7
-        '
-        Me.TextBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox7.Location = New System.Drawing.Point(55, 4)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.ReadOnly = True
-        Me.TextBox7.Size = New System.Drawing.Size(145, 21)
-        Me.TextBox7.TabIndex = 0
-        Me.TextBox7.Text = "Z: 100.000,  Y: 100.000"
-        '
         'Label3
         '
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -700,15 +684,6 @@ Public Class Setup
         Me.Label3.Size = New System.Drawing.Size(66, 23)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Brightness"
-        '
-        'Label6
-        '
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(8, 6)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(45, 16)
-        Me.Label6.TabIndex = 5
-        Me.Label6.Text = "Cursor"
         '
         'DisplayBrightness
         '
@@ -1393,6 +1368,7 @@ Public Class Setup
         Else
             MyGantrySetup.RightHead.Visible = True
         End If
+        MyGantrySetup.SetDefault()
         MyGantrySetup.RevertData()
     End Sub
 
