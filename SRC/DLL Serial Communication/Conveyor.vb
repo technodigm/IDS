@@ -56,6 +56,13 @@ Public Class Conveyor
     Public WithEvents PositionTimer As System.Windows.Forms.Timer
     Friend WithEvents ButtonHome As System.Windows.Forms.Button
     Friend WithEvents ButtonApply As System.Windows.Forms.Button
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents upstreamTimeout As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents downstreamTimeout As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Conveyor))
@@ -66,12 +73,20 @@ Public Class Conveyor
         Me.ConveyorFineAdjust = New System.Windows.Forms.NumericUpDown
         Me.PositionTimer = New System.Windows.Forms.Timer(Me.components)
         Me.BoxToBeAdded = New System.Windows.Forms.GroupBox
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.downstreamTimeout = New System.Windows.Forms.NumericUpDown
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.upstreamTimeout = New System.Windows.Forms.NumericUpDown
+        Me.Label3 = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
         Me.TimeOutEnter = New System.Windows.Forms.NumericUpDown
         Me.Label9 = New System.Windows.Forms.Label
         Me.Label11 = New System.Windows.Forms.Label
         Me.SpeedEnter = New System.Windows.Forms.NumericUpDown
         Me.Label10 = New System.Windows.Forms.Label
+        Me.ButtonApply = New System.Windows.Forms.Button
         Me.ConveyorWidth = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label5 = New System.Windows.Forms.Label
@@ -80,13 +95,15 @@ Public Class Conveyor
         Me.ConveyorWidthEnter = New System.Windows.Forms.NumericUpDown
         Me.Label8 = New System.Windows.Forms.Label
         Me.Label12 = New System.Windows.Forms.Label
-        Me.ButtonApply = New System.Windows.Forms.Button
         Me.BT_Retrieve = New System.Windows.Forms.Button
         Me.BT_Release = New System.Windows.Forms.Button
         Me.ResetPLCLogic = New System.Windows.Forms.Button
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ConveyorFineAdjust, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.BoxToBeAdded.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.downstreamTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.upstreamTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TimeOutEnter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SpeedEnter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ConveyorWidthEnter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,9 +111,8 @@ Public Class Conveyor
         '
         'AxMSComm1
         '
-        Me.AxMSComm1.ContainingControl = Me
         Me.AxMSComm1.Enabled = True
-        Me.AxMSComm1.Location = New System.Drawing.Point(448, 240)
+        Me.AxMSComm1.Location = New System.Drawing.Point(488, 392)
         Me.AxMSComm1.Name = "AxMSComm1"
         Me.AxMSComm1.OcxState = CType(resources.GetObject("AxMSComm1.OcxState"), System.Windows.Forms.AxHost.State)
         Me.AxMSComm1.Size = New System.Drawing.Size(38, 38)
@@ -140,16 +156,11 @@ Public Class Conveyor
         '
         'PositionTimer
         '
-        Me.PositionTimer.Interval = 500
+        Me.PositionTimer.Interval = 800
         '
         'BoxToBeAdded
         '
-        Me.BoxToBeAdded.Controls.Add(Me.Label6)
-        Me.BoxToBeAdded.Controls.Add(Me.TimeOutEnter)
-        Me.BoxToBeAdded.Controls.Add(Me.Label9)
-        Me.BoxToBeAdded.Controls.Add(Me.Label11)
-        Me.BoxToBeAdded.Controls.Add(Me.SpeedEnter)
-        Me.BoxToBeAdded.Controls.Add(Me.Label10)
+        Me.BoxToBeAdded.Controls.Add(Me.GroupBox1)
         Me.BoxToBeAdded.Controls.Add(Me.ConveyorWidth)
         Me.BoxToBeAdded.Controls.Add(Me.Label2)
         Me.BoxToBeAdded.Controls.Add(Me.Label5)
@@ -162,21 +173,105 @@ Public Class Conveyor
         Me.BoxToBeAdded.Controls.Add(Me.ButtonConveyorMoveForward)
         Me.BoxToBeAdded.Controls.Add(Me.ButtonHome)
         Me.BoxToBeAdded.Controls.Add(Me.ConveyorFineAdjust)
-        Me.BoxToBeAdded.Controls.Add(Me.ButtonApply)
-        Me.BoxToBeAdded.Controls.Add(Me.AxMSComm1)
         Me.BoxToBeAdded.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BoxToBeAdded.Location = New System.Drawing.Point(16, 16)
         Me.BoxToBeAdded.Name = "BoxToBeAdded"
-        Me.BoxToBeAdded.Size = New System.Drawing.Size(496, 288)
+        Me.BoxToBeAdded.Size = New System.Drawing.Size(496, 360)
         Me.BoxToBeAdded.TabIndex = 49
         Me.BoxToBeAdded.TabStop = False
         Me.BoxToBeAdded.Text = "Conveyor Information"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Label4)
+        Me.GroupBox1.Controls.Add(Me.downstreamTimeout)
+        Me.GroupBox1.Controls.Add(Me.Label13)
+        Me.GroupBox1.Controls.Add(Me.Label1)
+        Me.GroupBox1.Controls.Add(Me.upstreamTimeout)
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.Label6)
+        Me.GroupBox1.Controls.Add(Me.TimeOutEnter)
+        Me.GroupBox1.Controls.Add(Me.Label9)
+        Me.GroupBox1.Controls.Add(Me.Label11)
+        Me.GroupBox1.Controls.Add(Me.SpeedEnter)
+        Me.GroupBox1.Controls.Add(Me.Label10)
+        Me.GroupBox1.Controls.Add(Me.ButtonApply)
+        Me.GroupBox1.Location = New System.Drawing.Point(16, 168)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(464, 168)
+        Me.GroupBox1.TabIndex = 55
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Conveyor Settings"
+        '
+        'Label4
+        '
+        Me.Label4.BackColor = System.Drawing.SystemColors.Control
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label4.Location = New System.Drawing.Point(264, 128)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(24, 23)
+        Me.Label4.TabIndex = 53
+        Me.Label4.Text = "s"
+        '
+        'downstreamTimeout
+        '
+        Me.downstreamTimeout.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.downstreamTimeout.Location = New System.Drawing.Point(192, 128)
+        Me.downstreamTimeout.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
+        Me.downstreamTimeout.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.downstreamTimeout.Name = "downstreamTimeout"
+        Me.downstreamTimeout.Size = New System.Drawing.Size(64, 27)
+        Me.downstreamTimeout.TabIndex = 52
+        Me.downstreamTimeout.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'Label13
+        '
+        Me.Label13.BackColor = System.Drawing.SystemColors.Control
+        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label13.Location = New System.Drawing.Point(8, 128)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(176, 23)
+        Me.Label13.TabIndex = 54
+        Me.Label13.Text = "downstream Timeout"
+        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label1
+        '
+        Me.Label1.BackColor = System.Drawing.SystemColors.Control
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label1.Location = New System.Drawing.Point(264, 96)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(24, 23)
+        Me.Label1.TabIndex = 50
+        Me.Label1.Text = "s"
+        '
+        'upstreamTimeout
+        '
+        Me.upstreamTimeout.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.upstreamTimeout.Location = New System.Drawing.Point(192, 96)
+        Me.upstreamTimeout.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
+        Me.upstreamTimeout.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.upstreamTimeout.Name = "upstreamTimeout"
+        Me.upstreamTimeout.Size = New System.Drawing.Size(64, 27)
+        Me.upstreamTimeout.TabIndex = 49
+        Me.upstreamTimeout.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'Label3
+        '
+        Me.Label3.BackColor = System.Drawing.SystemColors.Control
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label3.Location = New System.Drawing.Point(16, 96)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(168, 23)
+        Me.Label3.TabIndex = 51
+        Me.Label3.Text = "Upstream Timeout"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label6
         '
         Me.Label6.BackColor = System.Drawing.SystemColors.Control
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label6.Location = New System.Drawing.Point(232, 232)
+        Me.Label6.Location = New System.Drawing.Point(264, 72)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(24, 23)
         Me.Label6.TabIndex = 47
@@ -185,7 +280,7 @@ Public Class Conveyor
         'TimeOutEnter
         '
         Me.TimeOutEnter.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TimeOutEnter.Location = New System.Drawing.Point(168, 232)
+        Me.TimeOutEnter.Location = New System.Drawing.Point(192, 72)
         Me.TimeOutEnter.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.TimeOutEnter.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.TimeOutEnter.Name = "TimeOutEnter"
@@ -197,17 +292,18 @@ Public Class Conveyor
         '
         Me.Label9.BackColor = System.Drawing.SystemColors.Control
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label9.Location = New System.Drawing.Point(16, 232)
+        Me.Label9.Location = New System.Drawing.Point(40, 72)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(128, 23)
+        Me.Label9.Size = New System.Drawing.Size(144, 23)
         Me.Label9.TabIndex = 48
-        Me.Label9.Text = "Retrieve Timer"
+        Me.Label9.Text = "Retrieve Timeout"
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label11
         '
         Me.Label11.BackColor = System.Drawing.SystemColors.Control
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label11.Location = New System.Drawing.Point(232, 184)
+        Me.Label11.Location = New System.Drawing.Point(264, 40)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(56, 24)
         Me.Label11.TabIndex = 45
@@ -216,7 +312,7 @@ Public Class Conveyor
         'SpeedEnter
         '
         Me.SpeedEnter.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.SpeedEnter.Location = New System.Drawing.Point(168, 184)
+        Me.SpeedEnter.Location = New System.Drawing.Point(192, 40)
         Me.SpeedEnter.Maximum = New Decimal(New Integer() {400, 0, 0, 0})
         Me.SpeedEnter.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.SpeedEnter.Name = "SpeedEnter"
@@ -226,11 +322,19 @@ Public Class Conveyor
         '
         'Label10
         '
-        Me.Label10.Location = New System.Drawing.Point(16, 184)
+        Me.Label10.Location = New System.Drawing.Point(120, 40)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(64, 23)
         Me.Label10.TabIndex = 43
         Me.Label10.Text = "Speed"
+        '
+        'ButtonApply
+        '
+        Me.ButtonApply.Location = New System.Drawing.Point(336, 64)
+        Me.ButtonApply.Name = "ButtonApply"
+        Me.ButtonApply.Size = New System.Drawing.Size(112, 56)
+        Me.ButtonApply.TabIndex = 19
+        Me.ButtonApply.Text = "Download to Conveyor"
         '
         'ConveyorWidth
         '
@@ -306,18 +410,10 @@ Public Class Conveyor
         Me.Label12.TabIndex = 45
         Me.Label12.Text = "mm"
         '
-        'ButtonApply
-        '
-        Me.ButtonApply.Location = New System.Drawing.Point(336, 208)
-        Me.ButtonApply.Name = "ButtonApply"
-        Me.ButtonApply.Size = New System.Drawing.Size(75, 40)
-        Me.ButtonApply.TabIndex = 19
-        Me.ButtonApply.Text = "Apply"
-        '
         'BT_Retrieve
         '
         Me.BT_Retrieve.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_Retrieve.Location = New System.Drawing.Point(52, 320)
+        Me.BT_Retrieve.Location = New System.Drawing.Point(52, 392)
         Me.BT_Retrieve.Name = "BT_Retrieve"
         Me.BT_Retrieve.Size = New System.Drawing.Size(88, 48)
         Me.BT_Retrieve.TabIndex = 50
@@ -326,7 +422,7 @@ Public Class Conveyor
         'BT_Release
         '
         Me.BT_Release.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_Release.Location = New System.Drawing.Point(164, 320)
+        Me.BT_Release.Location = New System.Drawing.Point(164, 392)
         Me.BT_Release.Name = "BT_Release"
         Me.BT_Release.Size = New System.Drawing.Size(88, 48)
         Me.BT_Release.TabIndex = 51
@@ -335,7 +431,7 @@ Public Class Conveyor
         'ResetPLCLogic
         '
         Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetPLCLogic.Location = New System.Drawing.Point(276, 320)
+        Me.ResetPLCLogic.Location = New System.Drawing.Point(276, 392)
         Me.ResetPLCLogic.Name = "ResetPLCLogic"
         Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
         Me.ResetPLCLogic.TabIndex = 54
@@ -344,11 +440,12 @@ Public Class Conveyor
         'Conveyor
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(528, 384)
+        Me.ClientSize = New System.Drawing.Size(528, 456)
         Me.Controls.Add(Me.BT_Retrieve)
         Me.Controls.Add(Me.BT_Release)
         Me.Controls.Add(Me.ResetPLCLogic)
         Me.Controls.Add(Me.BoxToBeAdded)
+        Me.Controls.Add(Me.AxMSComm1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Conveyor"
@@ -356,6 +453,9 @@ Public Class Conveyor
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ConveyorFineAdjust, System.ComponentModel.ISupportInitialize).EndInit()
         Me.BoxToBeAdded.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        CType(Me.downstreamTimeout, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.upstreamTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TimeOutEnter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SpeedEnter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ConveyorWidthEnter, System.ComponentModel.ISupportInitialize).EndInit()
@@ -369,8 +469,8 @@ Public Class Conveyor
     Public MinWidth As Double = 25
     Public WidthPosition As Double = 0
     Public ConveyorError As String = ""
-    Public MoveToWidth As Double = 0
-
+    Public MoveToWidth As Double = -1
+  
     Public Function GetError() As String
         If ConveyorError = "Width" Then
             Return "Width Adjustment Failed"
@@ -432,7 +532,13 @@ Public Class Conveyor
                 ConveyorError = "No Error"
                 Command("Reset Width Error")
             Else
-                ConveyorError = "Width"
+                If Not (MoveToWidth = -1) Then
+                    ConveyorError = "Width"
+                    Console.WriteLine(DateTime.Now.ToLongTimeString() + " Width error received.")
+                Else
+                    Console.WriteLine(DateTime.Now.ToLongTimeString() + " Width error received before any moveto command was sent")
+                End If
+
             End If
         ElseIf byte_result(0) = &H77 Or byte_result(0) = &H2 And byte_result(3) = &H3 Then
             ConveyorError = "No Error"
@@ -490,6 +596,8 @@ Public Class Conveyor
 
 
     Public Sub Command(ByVal command As String)
+
+        
 
         Dim output_str As String = Chr(&H2)
 
@@ -553,10 +661,16 @@ Public Class Conveyor
         'if yes, then reenable after temporarily stopping read
         'if no, then dont enable at all.
         Dim currently_reading As Boolean = PositionTimer.Enabled
-        If currently_reading Then PositionTimer.Stop()
+        If currently_reading Then
+            PositionTimer.Stop()
+        End If
+
         If AxMSComm1.PortOpen Then AxMSComm1.Output = output_str
         Sleep(50)
-        If currently_reading Then PositionTimer.Start()
+        If currently_reading Then
+            PositionTimer.Start()
+        End If
+
 
     End Sub
 
@@ -602,7 +716,7 @@ Public Class Conveyor
                 output_str = output_str + Chr(&H7)
             Case "Left Timer"
                 output_str = output_str + Chr(&H6)
-            Case "Center Timer"
+            Case "Right Timer"
                 output_str = output_str + Chr(&H60)
             Case "Retrieve Timer"
                 output_str = output_str + Chr(&H5)
@@ -612,10 +726,16 @@ Public Class Conveyor
 
         output_str = output_str + Chr(&H3)
         Dim PositionTimerStatus As Boolean = PositionTimer.Enabled
-        If PositionTimerStatus Then PositionTimer.Stop()
+        If PositionTimerStatus Then
+            PositionTimer.Stop()
+        End If
+
         If AxMSComm1.PortOpen Then AxMSComm1.Output = output_str
         Sleep(50)
-        If PositionTimerStatus Then PositionTimer.Start()
+        If PositionTimerStatus Then
+            PositionTimer.Start()
+        End If
+
 
     End Sub
 
@@ -625,6 +745,7 @@ Public Class Conveyor
 
 
     Public Function MoveTo(ByVal width As Double) As Boolean
+        Console.WriteLine("Conveyor command move to " & width)
         MoveToWidth = width
         Dim DesiredAbsPost As Double = 0.0
         Dim distance As Decimal
@@ -669,6 +790,8 @@ Public Class Conveyor
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonApply.Click
         SetCommand("Retrieve Timer", TimeOutEnter.Value)
+        SetCommand("Left Timer", upstreamTimeout.Value)
+        SetCommand("Right Timer", downstreamTimeout.Value)
         SetCommand("speed", SpeedEnter.Value)
     End Sub
 
@@ -678,7 +801,7 @@ Public Class Conveyor
 
 
     Private Sub ResetPLCLogic_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetPLCLogic.Click
-        Command("Reset PLC Logic")
+        Command("Reset Conveyor Status")
     End Sub
 
 
@@ -693,5 +816,13 @@ Public Class Conveyor
     Private Sub Conveyor_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         e.Cancel = True
         Hide()
+    End Sub
+
+    Private Sub Label3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub Label9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label9.Click
+
     End Sub
 End Class

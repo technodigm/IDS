@@ -508,6 +508,14 @@ Public Class Weighting_Scale
         'CommandFormat1("Print")
     End Sub
 
+    Public Sub Restart()
+        CommandFormat1("Restart")
+    End Sub
+
+    Public Sub Zero()
+        CommandFormat1("Zero")
+    End Sub
+
     'Private Sub AxMSComm1_OnComm(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxMSComm1.OnComm
 
     '    Dim raw_result As Object
@@ -669,6 +677,8 @@ Public Class Weighting_Scale
         Dim string_result As String
         Dim tempStr As String
         If Not Taring And ValueUpdated Then
+            raw_result = AxMSComm1.Input
+            string_result = CType(raw_result, String)
             ClearBuffer()
         End If
         'tbComData.Text += "####Trigger####" + vbLf

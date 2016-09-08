@@ -57,6 +57,12 @@ Public Class ConveyorSettings
     Friend WithEvents WidthMoveStep As System.Windows.Forms.NumericUpDown
     Friend WithEvents Width As System.Windows.Forms.NumericUpDown
     Friend WithEvents PositionTimer As System.Timers.Timer
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents upstreamTimeout As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents downstreamTimeout As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label13 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConveyorSettings))
         Me.ButtonRevert = New System.Windows.Forms.Button
@@ -64,6 +70,12 @@ Public Class ConveyorSettings
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Label12 = New System.Windows.Forms.Label
+        Me.downstreamTimeout = New System.Windows.Forms.NumericUpDown
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.upstreamTimeout = New System.Windows.Forms.NumericUpDown
+        Me.Label8 = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
         Me.TimeOut = New System.Windows.Forms.NumericUpDown
         Me.Label9 = New System.Windows.Forms.Label
@@ -88,6 +100,8 @@ Public Class ConveyorSettings
         Me.PositionTimer = New System.Timers.Timer
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.downstreamTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.upstreamTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TimeOut, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Speed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WidthMoveStep, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +113,7 @@ Public Class ConveyorSettings
         'ButtonRevert
         '
         Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.ButtonRevert.Location = New System.Drawing.Point(408, 400)
+        Me.ButtonRevert.Location = New System.Drawing.Point(408, 464)
         Me.ButtonRevert.Name = "ButtonRevert"
         Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
         Me.ButtonRevert.TabIndex = 20
@@ -108,7 +122,7 @@ Public Class ConveyorSettings
         'ButtonSave
         '
         Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
-        Me.ButtonSave.Location = New System.Drawing.Point(296, 400)
+        Me.ButtonSave.Location = New System.Drawing.Point(296, 464)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(88, 48)
         Me.ButtonSave.TabIndex = 19
@@ -142,6 +156,12 @@ Public Class ConveyorSettings
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label12)
+        Me.GroupBox1.Controls.Add(Me.downstreamTimeout)
+        Me.GroupBox1.Controls.Add(Me.Label13)
+        Me.GroupBox1.Controls.Add(Me.Label7)
+        Me.GroupBox1.Controls.Add(Me.upstreamTimeout)
+        Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.TimeOut)
         Me.GroupBox1.Controls.Add(Me.Label9)
@@ -163,16 +183,78 @@ Public Class ConveyorSettings
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(8, 88)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(496, 288)
+        Me.GroupBox1.Size = New System.Drawing.Size(496, 360)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Conveyor Information"
+        '
+        'Label12
+        '
+        Me.Label12.BackColor = System.Drawing.SystemColors.Control
+        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label12.Location = New System.Drawing.Point(256, 296)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(24, 23)
+        Me.Label12.TabIndex = 53
+        Me.Label12.Text = "s"
+        '
+        'downstreamTimeout
+        '
+        Me.downstreamTimeout.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.downstreamTimeout.Location = New System.Drawing.Point(192, 296)
+        Me.downstreamTimeout.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
+        Me.downstreamTimeout.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.downstreamTimeout.Name = "downstreamTimeout"
+        Me.downstreamTimeout.Size = New System.Drawing.Size(64, 27)
+        Me.downstreamTimeout.TabIndex = 52
+        Me.downstreamTimeout.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'Label13
+        '
+        Me.Label13.BackColor = System.Drawing.SystemColors.Control
+        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label13.Location = New System.Drawing.Point(16, 296)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(176, 23)
+        Me.Label13.TabIndex = 54
+        Me.Label13.Text = "downstream Timeout"
+        '
+        'Label7
+        '
+        Me.Label7.BackColor = System.Drawing.SystemColors.Control
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label7.Location = New System.Drawing.Point(256, 264)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(24, 23)
+        Me.Label7.TabIndex = 50
+        Me.Label7.Text = "s"
+        '
+        'upstreamTimeout
+        '
+        Me.upstreamTimeout.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.upstreamTimeout.Location = New System.Drawing.Point(192, 264)
+        Me.upstreamTimeout.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
+        Me.upstreamTimeout.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.upstreamTimeout.Name = "upstreamTimeout"
+        Me.upstreamTimeout.Size = New System.Drawing.Size(64, 27)
+        Me.upstreamTimeout.TabIndex = 49
+        Me.upstreamTimeout.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'Label8
+        '
+        Me.Label8.BackColor = System.Drawing.SystemColors.Control
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label8.Location = New System.Drawing.Point(16, 264)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(168, 23)
+        Me.Label8.TabIndex = 51
+        Me.Label8.Text = "Upstream Timeout"
         '
         'Label6
         '
         Me.Label6.BackColor = System.Drawing.SystemColors.Control
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label6.Location = New System.Drawing.Point(232, 232)
+        Me.Label6.Location = New System.Drawing.Point(256, 232)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(24, 23)
         Me.Label6.TabIndex = 47
@@ -181,7 +263,7 @@ Public Class ConveyorSettings
         'TimeOut
         '
         Me.TimeOut.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TimeOut.Location = New System.Drawing.Point(168, 232)
+        Me.TimeOut.Location = New System.Drawing.Point(192, 232)
         Me.TimeOut.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.TimeOut.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.TimeOut.Name = "TimeOut"
@@ -195,15 +277,15 @@ Public Class ConveyorSettings
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.Label9.Location = New System.Drawing.Point(16, 232)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(128, 23)
+        Me.Label9.Size = New System.Drawing.Size(144, 23)
         Me.Label9.TabIndex = 48
-        Me.Label9.Text = "Retrieve Timer"
+        Me.Label9.Text = "Retrieve Timeout"
         '
         'Label11
         '
         Me.Label11.BackColor = System.Drawing.SystemColors.Control
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label11.Location = New System.Drawing.Point(232, 184)
+        Me.Label11.Location = New System.Drawing.Point(256, 184)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(56, 24)
         Me.Label11.TabIndex = 45
@@ -212,7 +294,7 @@ Public Class ConveyorSettings
         'Speed
         '
         Me.Speed.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Speed.Location = New System.Drawing.Point(168, 184)
+        Me.Speed.Location = New System.Drawing.Point(192, 184)
         Me.Speed.Maximum = New Decimal(New Integer() {400, 0, 0, 0})
         Me.Speed.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.Speed.Name = "Speed"
@@ -391,6 +473,8 @@ Public Class ConveyorSettings
         Me.Text = "Conveyor"
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
+        CType(Me.downstreamTimeout, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.upstreamTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TimeOut, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Speed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.WidthMoveStep, System.ComponentModel.ISupportInitialize).EndInit()
@@ -412,9 +496,13 @@ Public Class ConveyorSettings
         With IDS.Data.Hardware.Conveyor
             .Speed = Speed.Value
             .TimeOut = TimeOut.Value
+            .upstreamTimeout = upstreamTimeout.Value
+            .downstreamTimeout = downstreamTimeout.Value
             .Width = Conveyor.WidthPosition ' Width.Value
             .WidthMoveStep = WidthMoveStep.Value
         End With
+        'upstreamTimeout.Value
+        'downstreamTimeout.Value
         Width.Value = Conveyor.WidthPosition
         IDS.Data.SaveData()
     End Sub
@@ -431,6 +519,8 @@ Public Class ConveyorSettings
             TimeOut.Text = .TimeOut
             Width.Text = .Width
             WidthMoveStep.Text = .WidthMoveStep
+            Me.upstreamTimeout.Text = .upstreamTimeout
+            Me.downstreamTimeout.Text = .downstreamTimeout
         End With
     End Sub
 
@@ -475,7 +565,7 @@ Public Class ConveyorSettings
 
         Conveyor.Command("Width Mode")
         Conveyor.MoveToWidth = IDS.Data.Hardware.Conveyor.Width
-
+        Console.WriteLine("Conveyor width: " & IDS.Data.Hardware.Conveyor.Width)
         'wait abit to get position value from positiontimer_tick otherwise widthposition = 0
         For i As Integer = 1 To 5
             Sleep(50)
@@ -637,7 +727,7 @@ Public Class ConveyorSettings
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
-        Conveyor.PositionTimer.Stop()
+        'Conveyor.PositionTimer.Stop()
         RemovePanel(CurrentControl)
     End Sub
 

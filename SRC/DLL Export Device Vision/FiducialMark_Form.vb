@@ -8,6 +8,9 @@ Public Class FiducialForm
     '   Another method, Not to fire "ValueChanged" event while constructing Form's components.      '
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private Initializing As Boolean = True
+    Public Delegate Sub FormCloseDelegate()
+    Public FormCloseEvent As FormCloseDelegate = Nothing
+    Public isEdit As Boolean = False
 
 #Region " Windows Form Designer generated code "
     Dim frm As FormVision
@@ -201,6 +204,7 @@ Public Class FiducialForm
         Me.PictureBox20 = New System.Windows.Forms.PictureBox
         Me.Button_EndFi = New System.Windows.Forms.Button
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.tbModelInfo = New System.Windows.Forms.TextBox
         Me.Button_Load = New System.Windows.Forms.Button
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage3 = New System.Windows.Forms.TabPage
@@ -211,7 +215,6 @@ Public Class FiducialForm
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
-        Me.tbModelInfo = New System.Windows.Forms.TextBox
         Me.Panel_BlackOnWhite.SuspendLayout()
         Me.Panel_WhiteOnBlack.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -993,6 +996,15 @@ Public Class FiducialForm
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Teach Fiducial"
         '
+        'tbModelInfo
+        '
+        Me.tbModelInfo.Location = New System.Drawing.Point(16, 288)
+        Me.tbModelInfo.Name = "tbModelInfo"
+        Me.tbModelInfo.ReadOnly = True
+        Me.tbModelInfo.Size = New System.Drawing.Size(440, 20)
+        Me.tbModelInfo.TabIndex = 17
+        Me.tbModelInfo.Text = ""
+        '
         'Button_Load
         '
         Me.Button_Load.Location = New System.Drawing.Point(16, 232)
@@ -1072,15 +1084,6 @@ Public Class FiducialForm
         Me.GroupBox7.Size = New System.Drawing.Size(1280, 336)
         Me.GroupBox7.TabIndex = 20
         Me.GroupBox7.TabStop = False
-        '
-        'tbModelInfo
-        '
-        Me.tbModelInfo.Location = New System.Drawing.Point(16, 288)
-        Me.tbModelInfo.Name = "tbModelInfo"
-        Me.tbModelInfo.ReadOnly = True
-        Me.tbModelInfo.Size = New System.Drawing.Size(440, 20)
-        Me.tbModelInfo.TabIndex = 17
-        Me.tbModelInfo.Text = ""
         '
         'FiducialForm
         '
@@ -1186,9 +1189,16 @@ Public Class FiducialForm
             End If
             Status = 1
         Else
-            MsgBox("Please select a fiducial mark~!")
+            If Not isEdit Then
+                MsgBox("Please select a fiducial mark~!")
+            Else
+                Me.Visible = False
+            End If
         End If
-
+        If Not (FormCloseEvent Is Nothing) Then
+            Status = 1
+            FormCloseEvent()
+        End If
     End Sub
     Private Sub Button_Fid_Ok1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'Fiducial black on white
@@ -1316,6 +1326,9 @@ Public Class FiducialForm
         Button_EndFi.Enabled = False
         FrmVision.CustomizeFiducial_PM(True)
         Status = 2
+        If Not (FormCloseEvent Is Nothing) Then
+            FormCloseEvent()
+        End If
     End Sub
     Private Sub FiducialMark_form_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         FrmVision.ClearDisplay()
@@ -2137,6 +2150,4 @@ Public Class FiducialForm
             FrmVision.SetBrightness(BrightnessValue.Value)
         End If
     End Sub
-
-
 End Class

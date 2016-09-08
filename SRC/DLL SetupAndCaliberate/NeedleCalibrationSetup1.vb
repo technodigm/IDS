@@ -464,7 +464,7 @@ Public Class NeedleCalibrationSetup1
         'NeedleCalibrationSetup1
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(576, 912)
+        Me.ClientSize = New System.Drawing.Size(536, 912)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "NeedleCalibrationSetup1"
@@ -520,6 +520,7 @@ Public Class NeedleCalibrationSetup1
         IDS.Data.SaveData()
         NSensorXPos.Text = IDS.Data.Hardware.Needle.Right.CalibratorPos.X - IDS.Data.Hardware.Camera.ReferencePos.X
         NSensorYPos.Text = IDS.Data.Hardware.Needle.Right.CalibratorPos.Y - IDS.Data.Hardware.Camera.ReferencePos.Y
+        MessageBox.Show("Touch sensor captured successfully.")
     End Sub
 
     Public Sub RevertData()

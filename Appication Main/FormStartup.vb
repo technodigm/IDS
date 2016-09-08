@@ -254,19 +254,20 @@ Public Class FormStartup
         'LoginName = "Application_Programmer"
         'formlg.StartPosition = FormStartPosition.CenterScreen
         'formlg.ShowDialog()
-        If loginForm.logging Then Return
-        loginForm.ShowChangePassword(True)
-        loginForm.logging = True
-        loginForm.loginMode = 0
-        loginForm.ShowDialog()
-        If loginForm.passed Then
+        'If loginForm.logging Then Return
+        'loginForm.ShowChangePassword(True)
+        'loginForm.logging = True
+        'loginForm.loginMode = 0
+        'loginForm.ShowDialog()
+        'If loginForm.passed Then
             IDS.Data.ParameterID.RecordID = "FactoryDefault"
             IDSData.Admin.Folder.FileExtension = "Pat"
             IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
             IDS.Data.OpenData()
             IDS.Data.Admin.User.RunApplication = "Programmer"
-            Call frmLogin.LoadProgrammerMaintenance()
-        End If
+        Call frmLogin.LoadProgrammerMaintenance()
+        Me.BringToFront()
+        'End If
         loginForm.logging = False
     End Sub
 

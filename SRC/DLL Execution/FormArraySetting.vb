@@ -295,10 +295,13 @@ Public Class FormArraySetting
         Me.Controls.Add(Me.LabelMessage)
         Me.Controls.Add(Me.GroupBoxSize)
         Me.Controls.Add(Me.GroupBox1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "FormArraySetting"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Array Setup"
+        Me.TopMost = True
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBoxSize.ResumeLayout(False)
         CType(Me.NumericUpDownColum, System.ComponentModel.ISupportInitialize).EndInit()

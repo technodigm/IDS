@@ -37,8 +37,8 @@ Public Module ExcelUtilityFunctions
         For i = 0 To gMaxReferButtons
             Programming.ReferenceCommandBlock.Buttons(i).Enabled = True
         Next
-        Programming.ReferenceCommandBlock.Buttons(gReferenceCmdIndex).Enabled = False
-        Programming.ReferenceCommandBlock.Buttons(gRejectCmdIndex - 1).Enabled = False
+        ' Programming.ReferenceCommandBlock.Buttons(gReferenceCmdIndex).Enabled = False
+        ' Programming.ReferenceCommandBlock.Buttons(gRejectCmdIndex - 1).Enabled = False
         If Programming.teachingMode = "Needle" Then
             Programming.DisableCommand_NeedleMode()
         End If
@@ -73,14 +73,20 @@ Public Module ExcelUtilityFunctions
         For i = 0 To gMaxElementButtons
             Programming.ElementsCommandBlock.Buttons(i).Enabled = True
             If i = 9 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'disable move command for now
-            If i = 19 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False
+            If i = 19 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False 'Measurement
+            If i = 20 Then Programming.ElementsCommandBlock.Buttons(i).Enabled = False '3 point Dot array cmd
         Next
+        'If Programming.GlobalQCEnabled Then
+        '    DisableElementsCommandBlockButton(gGlobalQCCmdIndex) 'QC
+        'End If
         If Programming.teachingMode = "Needle" Then
             DisableElementsCommandBlockButton(gQCCmdIndex) 'QC
             DisableElementsCommandBlockButton(gChipEdgeCmdIndex) 'ChipEdge
+            ' DisableElementsCommandBlockButton(gGlobalQCCmdIndex) 'QC
             Programming.ElementsCommandBlock.Buttons(19).Enabled = False
+            Programming.ElementsCommandBlock.Buttons(20).Enabled = False
         End If
-  
+
         TraceGCCollect()
     End Sub
 
@@ -89,7 +95,7 @@ Public Module ExcelUtilityFunctions
         For i = 0 To gMaxElementButtons
             Programming.ElementsCommandBlock.Buttons(i).Enabled = False
         Next
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableTeachingButtons()
@@ -103,59 +109,80 @@ Public Module ExcelUtilityFunctions
     End Sub
 
     Public Sub DisableTeachingToolbar()
-        Programming.TeachingToolbar.Buttons(0).Enabled = False
-        Programming.TeachingToolbar.Buttons(1).Enabled = False
+        'Programming.TeachingToolBar1.Buttons(0).Enabled = False
+        'Programming.TeachingToolBar1.Buttons(1).Enabled = False
+        Programming.btConfirm.Enabled = False
+        Programming.btCancel.Enabled = False
     End Sub
 
     Public Sub EnableTeachingToolbar()
-        Programming.TeachingToolbar.Buttons(0).Enabled = True
-        Programming.TeachingToolbar.Buttons(1).Enabled = True
+        'Programming.TeachingToolBar1.Buttons(0).Enabled = True
+        'Programming.TeachingToolBar1.Buttons(1).Enabled = True
+        Programming.btConfirm.Enabled = True
+        Programming.btCancel.Enabled = True
     End Sub
 
     Public Sub EnableEditingToolbar()
-        Programming.EditingToolbar.Buttons(0).Enabled = True
-        Programming.EditingToolbar.Buttons(1).Enabled = True
+        'Programming.EditingToolBar1.Buttons(0).Enabled = True
+        'Programming.EditingToolBar1.Buttons(1).Enabled = True
+        Programming.btStep.Enabled = True
+        Programming.btEdit.Enabled = True
     End Sub
 
     Public Sub DisableEditingToolbar()
-        Programming.EditingToolbar.Buttons(0).Enabled = False
-        Programming.EditingToolbar.Buttons(1).Enabled = False
+        'Programming.EditingToolBar1.Buttons(0).Enabled = False
+        'Programming.EditingToolBar1.Buttons(1).Enabled = False
+        Programming.btStep.Enabled = False
+        Programming.btEdit.Enabled = False
     End Sub
 
     Public Sub EnableEditingToolbar(ByVal CmdButton As Integer, ByVal flag As Boolean)
-        Programming.EditingToolbar.Buttons(CmdButton).Enabled = flag
+        'Programming.EditingToolBar1.Buttons(CmdButton).Enabled = flag
+        If CmdButton = 0 Then
+            Programming.btStep.Enabled = flag
+        ElseIf CmdButton = 1 Then
+            Programming.btEdit.Enabled = flag
+        End If
     End Sub
 
     Public Sub EnableEditingToolbarSwitchButton()
-        Programming.EditingToolbar.Buttons(0).Enabled = True
+        'Programming.EditingToolBar1.Buttons(0).Enabled = True
+        Programming.btStep.Enabled = True
     End Sub
 
     Public Sub DisableEditingToolbarSwitchButton()
-        Programming.EditingToolbar.Buttons(0).Enabled = False
+        'Programming.EditingToolBar1.Buttons(0).Enabled = False
+        Programming.btStep.Enabled = False
     End Sub
 
     Public Sub EnableEditingToolbarEditButton()
-        Programming.EditingToolbar.Buttons(1).Enabled = True
+        'Programming.EditingToolBar1.Buttons(1).Enabled = True
+        Programming.btEdit.Enabled = True
     End Sub
 
     Public Sub DisableEditingToolbarEditButton()
-        Programming.EditingToolbar.Buttons(1).Enabled = False
+        'Programming.EditingToolBar1.Buttons(1).Enabled = False
+        Programming.btEdit.Enabled = False
     End Sub
 
     Public Sub EnableTeachingToolbarOKButton()
-        Programming.TeachingToolbar.Buttons(0).Enabled = True
+        'Programming.TeachingToolBar1.Buttons(0).Enabled = True
+        Programming.btConfirm.Enabled = True
     End Sub
 
     Public Sub DisableTeachingToolbarOKButton()
-        Programming.TeachingToolbar.Buttons(0).Enabled = False
+        'Programming.TeachingToolBar1.Buttons(0).Enabled = False
+        Programming.btConfirm.Enabled = False
     End Sub
 
     Public Sub EnableTeachingToolbarCancelButton()
-        Programming.TeachingToolbar.Buttons(1).Enabled = True
+        'Programming.TeachingToolBar1.Buttons(1).Enabled = True
+        Programming.btCancel.Enabled = True
     End Sub
 
     Public Sub DisableTeachingToolbarCancelButton()
-        Programming.TeachingToolbar.Buttons(1).Enabled = False
+        'Programming.TeachingToolBar1.Buttons(1).Enabled = False
+        Programming.btCancel.Enabled = False
     End Sub
 
     Public Sub DisplaySpreadsheetTabs()

@@ -11,7 +11,7 @@ Imports System.Runtime.Serialization
 
 <Serializable()> Public Class CIDSData
 
-    Public SoftwareVersion As Double = 1.2              'current software version. - 26 sep 2007
+    Public SoftwareVersion As Double = 1.7              'current software version. - 26 sep 2007
     Public SystemAtLogin As Boolean
 
 
@@ -289,6 +289,7 @@ Imports System.Runtime.Serialization
             Public CleanPosition As New CIDSPosXYZ               'DB and Pat
             Public ChangeSyringePosition As New CIDSPosXYZ       'DB and Pat
             Public WeighingScalePosition As New CIDSPosXYZ       'DB
+            Public WeighingScaleBottomRight As New CIDSPosXYZ       'DB
 
             'this defines the x,y,z work area. defined in system set-up
             Public WorkArea As New CIDSWorkArea             'DB
@@ -540,6 +541,7 @@ Imports System.Runtime.Serialization
             Public ResultSize As New CIDSPosXY
             Public ResultDia As Double
             Public ResultRotation As Double
+            Public DotQCEnable As Boolean = False
 
 
 
@@ -980,6 +982,7 @@ Imports System.Runtime.Serialization
                 Shared Selection As String
                 Public Sub New(ByVal _Selection As String)           'select needle = left or right
                     Selection = _Selection
+                    DotDiameter = 2.5
                 End Sub
 
                 Public CalibratorPos As New CIDSPosXYZ              'DB
@@ -1016,8 +1019,10 @@ Imports System.Runtime.Serialization
                 Public CalClose As Integer
                 Public CalMaxRadius As Double
                 Public CalMinRadius As Double
-                Public CalRoughness As Integer
-                Public CalCompactness As Integer
+                Public CalRoughness As Double
+                Public CalCompactness As Double
+
+                Public DotDiameter As Double
 
                 'Table Needle
                 Public Function SaveData() As Boolean
@@ -1140,6 +1145,10 @@ Imports System.Runtime.Serialization
                 Public AdjustedRPM As Double 'for auger valve
                 Public AdjustedDispenseDuration As Double 'for slider, jetting valve
 
+                Public PulseOnDuration As Double 'Pulse on and off duration consider as on cycle
+                Public PulseOffDuration As Double 'Jetting valve only dispesing at pulse on duration
+                Public JettingNoOfDispense As Double
+
             End Class
 
             Public Function SaveData() As Boolean
@@ -1207,7 +1216,8 @@ Imports System.Runtime.Serialization
             Public Speed As Integer                         'PAT 
             Public TimeOut As Integer                       'PAT
             Public WidthMoveStep As Double                  'PAT
-
+            Public upstreamTimeout As Integer
+            Public downstreamTimeout As Integer
 
             Public Function SaveData() As Boolean
                 MsgErr = ""
@@ -1421,6 +1431,22 @@ Imports System.Runtime.Serialization
 
                 Public MaterialSensorEnabled As Boolean
                 Public HeadType As String
+                'Jetting Valve
+                'Auger Valve
+                'Slider Valve
+                'Time Pressure Valve
+                'Time Pressure Syringe
+                'These 5 settings were used for safety checking when doing calibration
+                'When doing calibration, there are 4 step. If for newly setup dispenser
+                'user must start with step 1 until step 4
+                'With these 5 settings, user are forced to start from step 1 to 4 when setup a
+                'new dispenser but only once. These settings also can be a flage that indicate
+                'that what type of dispenser had been used on this system before.
+                Public JettingCalOnce As Boolean
+                Public AugerCalOnce As Boolean
+                Public SlideValveCalOnce As Boolean
+                Public TimePressureSyringeCalOnce As Boolean
+                Public TimePressureValveCalOnce As Boolean
 
                 Public PressControlTable As New CIDSPressControlTable(99)   'create instance for control table array size of 100
                 <Serializable()> Public Class CIDSPressControlTable
@@ -1743,6 +1769,7 @@ Imports System.Runtime.Serialization
             Public FilledRecTemplateDir As String = "?IDSPttnTempletDir/FilledRectangle/"
             Public FilledCircleTemplateDir As String = "?IDSPttnTempletDir/FilledCircle/"
             Public ChipEdgeTemplateDir As String = "?IDSPttnTempletDir/ChipEdge/"
+            Public DefaultFileToOpen As String = ""
 
             Public Function SaveData() As Boolean
                 MsgErr = ""
@@ -2484,6 +2511,9 @@ Public Module Module1
             PatDisplayArray.Add("IDSData.Hardware.Camera.ResultRotation")
             PatArray.Add(IDSData.Hardware.Camera.ResultRotation)
 
+            PatDisplayArray.Add("IDSData.Hardware.Camera.DotQCEnable")
+            PatArray.Add(IDSData.Hardware.Camera.DotQCEnable)
+
             ''''''''''' Conveyor '''''''''''''''''
             PatDisplayArray.Add("")
             PatArray.Add("")
@@ -2501,6 +2531,11 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Conveyor.TimeOut)
             PatDisplayArray.Add("IDSData.Hardware.Conveyor.WidthMoveStep")
             PatArray.Add(IDSData.Hardware.Conveyor.WidthMoveStep)
+
+            PatDisplayArray.Add("IDSData.Hardware.Conveyor.upstreamTimeout")
+            PatArray.Add(IDSData.Hardware.Conveyor.upstreamTimeout)
+            PatDisplayArray.Add("IDSData.Hardware.Conveyor.downstreamTimeout")
+            PatArray.Add(IDSData.Hardware.Conveyor.downstreamTimeout)
 
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             ''''''''''' Dispenser '''''''''''''''''
@@ -2556,6 +2591,17 @@ Public Module Module1
             PatDisplayArray.Add("IDSData.Hardware.Dispenser.Left.HeadType")
             PatArray.Add(IDSData.Hardware.Dispenser.Left.HeadType)
 
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Left.JettingCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Left.JettingCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Left.AugerCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Left.AugerCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Left.SlideValveCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Left.SlideValveCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Left.TimePressureValveCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Left.TimePressureValveCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Left.TimePressureSyringeCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Left.TimePressureSyringeCalOnce)
+
             PatDisplayArray.Add("")
             PatArray.Add("")
             PatDisplayArray.Add("~")
@@ -2598,6 +2644,17 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Dispenser.Right.AutoPurgingOption)
             PatDisplayArray.Add("IDSData.Hardware.Dispenser.Right.HeadType")
             PatArray.Add(IDSData.Hardware.Dispenser.Right.HeadType)
+
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Right.JettingCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Right.JettingCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Right.AugerCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Right.AugerCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Right.SlideValveCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Right.SlideValveCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Right.TimePressureValveCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Right.TimePressureValveCalOnce)
+            PatDisplayArray.Add("IDSData.Hardware.Dispenser.Right.TimePressureSyringeCalOnce")
+            PatArray.Add(IDSData.Hardware.Dispenser.Right.TimePressureSyringeCalOnce)
 
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             ''''''''''' Gantry '''''''''''''''''
@@ -2676,6 +2733,13 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Gantry.ChangeSyringePosition.Y)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ChangeSyringePosition.Z")
             PatArray.Add(IDSData.Hardware.Gantry.ChangeSyringePosition.Z)
+
+            PatDisplayArray.Add("IDSData.Hardware.Gantry.WeighingScaleBottomRight.X")
+            PatArray.Add(IDSData.Hardware.Gantry.WeighingScaleBottomRight.X)
+            PatDisplayArray.Add("IDSData.Hardware.Gantry.WeighingScaleBottomRight.Y")
+            PatArray.Add(IDSData.Hardware.Gantry.WeighingScaleBottomRight.Y)
+            'PatDisplayArray.Add("IDSData.Hardware.Gantry.WeighingScaleBottomRight.Z")
+            'PatArray.Add(IDSData.Hardware.Gantry.WeighingScaleBottomRight.Z)
 
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             ''''''''''' HEIGHTSENOR'''''''''''''''''
@@ -2841,6 +2905,9 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Needle.Left.DispenseDot.RetractHeight)
             PatDisplayArray.Add("IDSData.Hardware.Needle.Left.DispenseDot.RetractSpeed")
             PatArray.Add(IDSData.Hardware.Needle.Left.DispenseDot.RetractSpeed)
+
+            PatDisplayArray.Add("IDSData.Hardware.Needle.Left.DotDiameter")
+            PatArray.Add(IDSData.Hardware.Needle.Left.DotDiameter)
 
 
             PatDisplayArray.Add("")
@@ -3089,12 +3156,25 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Volume.Left.AdjustedDispenseDuration)
             PatDisplayArray.Add("IDSData.Hardware.Volume.Left.PressureStepValue")
             PatArray.Add(IDSData.Hardware.Volume.Left.PressureStepValue)
+
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Left.DurationStepValue")
+            PatArray.Add(IDSData.Hardware.Volume.Left.DurationStepValue)
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Left.RPMStepValue")
+            PatArray.Add(IDSData.Hardware.Volume.Left.RPMStepValue)
+
             PatDisplayArray.Add("IDSData.Hardware.Volume.Left.RetractSpeed")
             PatArray.Add(IDSData.Hardware.Volume.Left.RetractSpeed)
             PatDisplayArray.Add("IDSData.Hardware.Volume.Left.RetractHeight")
             PatArray.Add(IDSData.Hardware.Volume.Left.RetractHeight)
             PatDisplayArray.Add("IDSData.Hardware.Volume.Left.RetractDelay")
             PatArray.Add(IDSData.Hardware.Volume.Left.RetractDelay)
+
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Left.PulseOnDuration")
+            PatArray.Add(IDSData.Hardware.Volume.Left.PulseOnDuration)
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Left.PulseOffDuration")
+            PatArray.Add(IDSData.Hardware.Volume.Left.PulseOffDuration)
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Left.JettingNoOfDispense")
+            PatArray.Add(IDSData.Hardware.Volume.Left.JettingNoOfDispense)
 
             ' right
             PatDisplayArray.Add("IDSData.Hardware.Volume.Right.OnOff")
@@ -3121,12 +3201,25 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Volume.Right.AdjustedDispenseDuration)
             PatDisplayArray.Add("IDSData.Hardware.Volume.Right.PressureStepValue")
             PatArray.Add(IDSData.Hardware.Volume.Right.PressureStepValue)
+
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Right.DurationStepValue")
+            PatArray.Add(IDSData.Hardware.Volume.Right.DurationStepValue)
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Right.RPMStepValue")
+            PatArray.Add(IDSData.Hardware.Volume.Right.RPMStepValue)
+
             PatDisplayArray.Add("IDSData.Hardware.Volume.Right.RetractSpeed")
             PatArray.Add(IDSData.Hardware.Volume.Right.RetractSpeed)
             PatDisplayArray.Add("IDSData.Hardware.Volume.Right.RetractHeight")
             PatArray.Add(IDSData.Hardware.Volume.Right.RetractHeight)
             PatDisplayArray.Add("IDSData.Hardware.Volume.Right.RetractDelay")
             PatArray.Add(IDSData.Hardware.Volume.Right.RetractDelay)
+
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Right.PulseOnDuration")
+            PatArray.Add(IDSData.Hardware.Volume.Right.PulseOnDuration)
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Right.PulseOffDuration")
+            PatArray.Add(IDSData.Hardware.Volume.Right.PulseOffDuration)
+            PatDisplayArray.Add("IDSData.Hardware.Volume.Right.JettingNoOfDispense")
+            PatArray.Add(IDSData.Hardware.Volume.Right.JettingNoOfDispense)
 
 
             '           Pattern Execution
@@ -3154,8 +3247,10 @@ Public Module Module1
             PatArray.Add(IDSData.Execution.Setting.PatternDir)
             PatDisplayArray.Add("IDSData.Execution.Setting.RecTemplateDir")
             PatArray.Add(IDSData.Execution.Setting.RecTemplateDir)
-
-
+            If IDSData.ParameterID.RecordID = "FactoryDefault" Then
+                PatDisplayArray.Add("IDSData.Execution.Setting.DefaultFileToOpen")
+                PatArray.Add(IDSData.Execution.Setting.DefaultFileToOpen)
+            End If
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             '''''''''''''''Programming '''''''''''''''''''''''
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -3567,8 +3662,11 @@ Public Module Module1
             IDSData.Hardware.Camera.ResultSize.Y = GetDoubleArrayValue(Index)
             IDSData.Hardware.Camera.ResultDia = GetDoubleArrayValue(Index)
             IDSData.Hardware.Camera.ResultRotation = GetDoubleArrayValue(Index)
-
-
+            If SWVersion > 1.2 Then
+                IDSData.Hardware.Camera.DotQCEnable = GetBooleanArrayValue(Index)
+            Else
+                IDSData.Hardware.Camera.DotQCEnable = False
+            End If
 
             'conveyor
             Index = PatArray.IndexOf("[CONVEYOR]")
@@ -3578,6 +3676,14 @@ Public Module Module1
             IDSData.Hardware.Conveyor.Speed = GetIntegerArrayValue(Index)
             IDSData.Hardware.Conveyor.TimeOut = GetIntegerArrayValue(Index)
             IDSData.Hardware.Conveyor.WidthMoveStep = GetDoubleArrayValue(Index)
+
+            If SWVersion > 1.2 Then
+                IDSData.Hardware.Conveyor.upstreamTimeout = GetIntegerArrayValue(Index)
+                IDSData.Hardware.Conveyor.downstreamTimeout = GetIntegerArrayValue(Index)
+            Else
+                IDSData.Hardware.Conveyor.upstreamTimeout = 30
+                IDSData.Hardware.Conveyor.downstreamTimeout = 30
+            End If
 
             'dispenser
             Index = PatArray.IndexOf("[DISPENSER]")
@@ -3604,7 +3710,15 @@ Public Module Module1
             IDSData.Hardware.Dispenser.Left.PotLifeOption = GetBooleanArrayValue(Index)
             IDSData.Hardware.Dispenser.Left.AutoPurgingOption = GetBooleanArrayValue(Index)
             IDSData.Hardware.Dispenser.Left.HeadType = GetStringArrayValue(Index)
-
+            If SWVersion > 1.6 Then
+                If IDSData.ParameterID.RecordID = "FactoryDefault" Then
+                    IDSData.Hardware.Dispenser.Left.JettingCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Left.AugerCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Left.SlideValveCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Left.TimePressureValveCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Left.TimePressureSyringeCalOnce = GetBooleanArrayValue(Index)
+                End If
+            End If
             'left dispenser - pressure control
 
             Index = PatArray.IndexOf("[DISPENSER@RIGHT]")
@@ -3629,8 +3743,16 @@ Public Module Module1
             IDSData.Hardware.Dispenser.Right.AutoPurgingOption = GetBooleanArrayValue(Index)
             IDSData.Hardware.Dispenser.Right.HeadType = GetStringArrayValue(Index)
 
+            If SWVersion > 1.6 Then
+                If IDSData.ParameterID.RecordID = "FactoryDefault" Then
+                    IDSData.Hardware.Dispenser.Right.JettingCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Right.AugerCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Right.SlideValveCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Right.TimePressureValveCalOnce = GetBooleanArrayValue(Index)
+                    IDSData.Hardware.Dispenser.Right.TimePressureSyringeCalOnce = GetBooleanArrayValue(Index)
+                End If
+            End If
             'right dispenser - pressure control
-
             'gantry
             Index = PatArray.IndexOf("[GANTRY]")
             If IDSData.ParameterID.RecordID = "FactoryDefault" Then
@@ -3686,7 +3808,13 @@ Public Module Module1
                 IDSData.Hardware.Gantry.ChangeSyringePosition.X = GetDoubleArrayValue(Index)
                 IDSData.Hardware.Gantry.ChangeSyringePosition.Y = GetDoubleArrayValue(Index)
                 IDSData.Hardware.Gantry.ChangeSyringePosition.Z = GetDoubleArrayValue(Index)
+                If SWVersion > 1.3 Then
+                    IDSData.Hardware.Gantry.WeighingScaleBottomRight.X = GetDoubleArrayValue(Index)
+                    IDSData.Hardware.Gantry.WeighingScaleBottomRight.Y = GetDoubleArrayValue(Index)
+                    'IDSData.Hardware.Gantry.WeighingScaleBottomRight.Z = GetDoubleArrayValue(Index)
+                End If
             End If
+
             ' End If
             'If Index > 0 Then
             '    IDSData.Hardware.Gantry.ChangeSyringePosition.X = GetDoubleArrayValue(Index)
@@ -3780,8 +3908,8 @@ Public Module Module1
             IDSData.Hardware.Needle.Left.CalClose = GetIntegerArrayValue(Index)
             IDSData.Hardware.Needle.Left.CalMaxRadius = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Left.CalMinRadius = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Needle.Left.CalRoughness = GetIntegerArrayValue(Index)
-            IDSData.Hardware.Needle.Left.CalCompactness = GetIntegerArrayValue(Index)
+            IDSData.Hardware.Needle.Left.CalRoughness = GetDoubleArrayValue(Index)
+            IDSData.Hardware.Needle.Left.CalCompactness = GetDoubleArrayValue(Index)
 
             ''' [version 1.1]
             If SWVersion >= 1.1 Then
@@ -3795,6 +3923,10 @@ Public Module Module1
                 IDSData.Hardware.Needle.Left.DispenseDot.RetractSpeed = GetDoubleArrayValue(Index)
             End If
             ''' [version 1.1]
+
+            If SWVersion > 1.3 Then
+                IDSData.Hardware.Needle.Left.DotDiameter = GetDoubleArrayValue(Index)
+            End If
 
             Index = PatArray.IndexOf("[NEEDLE@RIGHT]")
             IDSData.Hardware.Needle.Right.ArcRadius = GetDoubleArrayValue(Index)
@@ -3838,8 +3970,8 @@ Public Module Module1
             IDSData.Hardware.Needle.Right.CalClose = GetIntegerArrayValue(Index)
             IDSData.Hardware.Needle.Right.CalMaxRadius = GetDoubleArrayValue(Index)
             IDSData.Hardware.Needle.Right.CalMinRadius = GetDoubleArrayValue(Index)
-            IDSData.Hardware.Needle.Right.CalRoughness = GetIntegerArrayValue(Index)
-            IDSData.Hardware.Needle.Right.CalCompactness = GetIntegerArrayValue(Index)
+            IDSData.Hardware.Needle.Right.CalRoughness = GetDoubleArrayValue(Index)
+            IDSData.Hardware.Needle.Right.CalCompactness = GetDoubleArrayValue(Index)
 
             ''' [version 1.1]
             If SWVersion >= 1.1 Then
@@ -3948,9 +4080,21 @@ Public Module Module1
             IDSData.Hardware.Volume.Left.AdjustedRPM = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Left.AdjustedDispenseDuration = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Left.PressureStepValue = GetDoubleArrayValue(Index)
+
+            If SWVersion > 1.4 Then
+                IDSData.Hardware.Volume.Left.DurationStepValue = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Volume.Left.RPMStepValue = GetDoubleArrayValue(Index)
+            End If
+
             IDSData.Hardware.Volume.Left.RetractSpeed = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Left.RetractHeight = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Left.RetractDelay = GetDoubleArrayValue(Index)
+
+            If SWVersion > 1.5 Then
+                IDSData.Hardware.Volume.Left.PulseOnDuration = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Volume.Left.PulseOffDuration = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Volume.Left.JettingNoOfDispense = GetDoubleArrayValue(Index)
+            End If
 
             ' right
             IDSData.Hardware.Volume.Right.OnOff = GetBooleanArrayValue(Index)
@@ -3965,9 +4109,19 @@ Public Module Module1
             IDSData.Hardware.Volume.Right.AdjustedRPM = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Right.AdjustedDispenseDuration = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Right.PressureStepValue = GetDoubleArrayValue(Index)
+            If SWVersion > 1.4 Then
+                IDSData.Hardware.Volume.Right.DurationStepValue = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Volume.Right.RPMStepValue = GetDoubleArrayValue(Index)
+            End If
             IDSData.Hardware.Volume.Right.RetractSpeed = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Right.RetractHeight = GetDoubleArrayValue(Index)
             IDSData.Hardware.Volume.Right.RetractDelay = GetDoubleArrayValue(Index)
+
+            If SWVersion > 1.5 Then
+                IDSData.Hardware.Volume.Right.PulseOnDuration = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Volume.Right.PulseOffDuration = GetDoubleArrayValue(Index)
+                IDSData.Hardware.Volume.Right.JettingNoOfDispense = GetDoubleArrayValue(Index)
+            End If
 
 
             'pattern
@@ -3982,6 +4136,12 @@ Public Module Module1
             IDSData.Execution.Setting.LineTemplateDir = GetStringArrayValue(Index)
             IDSData.Execution.Setting.PatternDir = GetStringArrayValue(Index)
             IDSData.Execution.Setting.RecTemplateDir = GetStringArrayValue(Index)
+
+            If SWVersion > 1.7 Then
+                If IDSData.ParameterID.RecordID = "FactoryDefault" Then
+                    IDSData.Execution.Setting.DefaultFileToOpen = GetStringArrayValue(Index)
+                End If
+            End If
 
 
             '''''''''''''''PATTERNSERVICE '''''''''''''''''''''''

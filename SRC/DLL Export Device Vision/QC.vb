@@ -50,7 +50,6 @@ Public Class QC
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents RadioButton_BlackDot As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButton_WhiteDot As System.Windows.Forms.RadioButton
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents ValueMinArea As System.Windows.Forms.NumericUpDown
     Friend WithEvents ValueMaxArea As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label16 As System.Windows.Forms.Label
@@ -84,6 +83,10 @@ Public Class QC
     Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents ValueDesiredDiameter As System.Windows.Forms.NumericUpDown
+    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents rbLocal As System.Windows.Forms.RadioButton
+    Friend WithEvents rbGlobal As System.Windows.Forms.RadioButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.ValueBinarized = New System.Windows.Forms.NumericUpDown
@@ -108,15 +111,18 @@ Public Class QC
         Me.Label16 = New System.Windows.Forms.Label
         Me.RadioButton_BlackDot = New System.Windows.Forms.RadioButton
         Me.RadioButton_WhiteDot = New System.Windows.Forms.RadioButton
-        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.Button_Ok = New System.Windows.Forms.Button
         Me.Button_Cancel = New System.Windows.Forms.Button
         Me.Label8 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
         Me.Panel2 = New System.Windows.Forms.Panel
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.rbGlobal = New System.Windows.Forms.RadioButton
+        Me.rbLocal = New System.Windows.Forms.RadioButton
         Me.Label12 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.Button_Reset = New System.Windows.Forms.Button
+        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.Panel3 = New System.Windows.Forms.Panel
         Me.binarizedimage = New System.Windows.Forms.PictureBox
         Me.Label13 = New System.Windows.Forms.Label
@@ -144,6 +150,7 @@ Public Class QC
         CType(Me.ValueCompactness, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ValueDotBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.ValueTolerance, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -339,7 +346,7 @@ Public Class QC
         'RadioButton_BlackDot
         '
         Me.RadioButton_BlackDot.Checked = True
-        Me.RadioButton_BlackDot.Location = New System.Drawing.Point(200, 40)
+        Me.RadioButton_BlackDot.Location = New System.Drawing.Point(24, 208)
         Me.RadioButton_BlackDot.Name = "RadioButton_BlackDot"
         Me.RadioButton_BlackDot.Size = New System.Drawing.Size(72, 24)
         Me.RadioButton_BlackDot.TabIndex = 18
@@ -348,20 +355,11 @@ Public Class QC
         '
         'RadioButton_WhiteDot
         '
-        Me.RadioButton_WhiteDot.Location = New System.Drawing.Point(280, 40)
+        Me.RadioButton_WhiteDot.Location = New System.Drawing.Point(104, 208)
         Me.RadioButton_WhiteDot.Name = "RadioButton_WhiteDot"
         Me.RadioButton_WhiteDot.Size = New System.Drawing.Size(72, 24)
         Me.RadioButton_WhiteDot.TabIndex = 19
         Me.RadioButton_WhiteDot.Text = "White Dot"
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(8, 272)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(536, 27)
-        Me.TextBox1.TabIndex = 18
-        Me.TextBox1.Text = "Set the settings and test it"
-        Me.TextBox1.Visible = False
         '
         'Button_Ok
         '
@@ -400,6 +398,7 @@ Public Class QC
         'Panel2
         '
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Controls.Add(Me.GroupBox1)
         Me.Panel2.Controls.Add(Me.Label12)
         Me.Panel2.Controls.Add(Me.ValueBinarized)
         Me.Panel2.Controls.Add(Me.ValueClose)
@@ -425,6 +424,31 @@ Public Class QC
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(552, 288)
         Me.Panel2.TabIndex = 25
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbGlobal)
+        Me.GroupBox1.Controls.Add(Me.rbLocal)
+        Me.GroupBox1.Location = New System.Drawing.Point(16, 16)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(520, 48)
+        Me.GroupBox1.TabIndex = 49
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "QC Mode"
+        '
+        'rbGlobal
+        '
+        Me.rbGlobal.Location = New System.Drawing.Point(160, 16)
+        Me.rbGlobal.Name = "rbGlobal"
+        Me.rbGlobal.TabIndex = 1
+        Me.rbGlobal.Text = "Global"
+        '
+        'rbLocal
+        '
+        Me.rbLocal.Location = New System.Drawing.Point(24, 16)
+        Me.rbLocal.Name = "rbLocal"
+        Me.rbLocal.TabIndex = 0
+        Me.rbLocal.Text = "Local"
         '
         'Label12
         '
@@ -456,6 +480,17 @@ Public Class QC
         Me.Button_Reset.Size = New System.Drawing.Size(152, 120)
         Me.Button_Reset.TabIndex = 62
         Me.Button_Reset.Text = "Reset"
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(8, 288)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(536, 27)
+        Me.TextBox1.TabIndex = 18
+        Me.TextBox1.Text = ""
+        Me.TextBox1.Visible = False
         '
         'Panel3
         '
@@ -669,6 +704,7 @@ Public Class QC
         CType(Me.ValueCompactness, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ValueDotBrightness, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         CType(Me.ValueTolerance, System.ComponentModel.ISupportInitialize).EndInit()
@@ -685,9 +721,10 @@ Public Class QC
     '"3) Adjust minimum size of the dot" 
     '"4) Adjust Binarized Threshold/Open/Close to remove the noise at the dot." 
     '"5) Adjust brightness to contrast the dot with background if the dot is blur"
-
+    Public Delegate Sub FormCloseDelegate()
+    Public FormCloseEvent As FormCloseDelegate = Nothing
     Private Shared m_instance As QC
-
+    Private m_isGlobalQC As Boolean = False
     Public Shared ReadOnly Property Instance() As QC
         Get
             If m_instance Is Nothing Then
@@ -728,7 +765,11 @@ Public Class QC
     Dim timer As Boolean = False
     Shared PointX1a, PointY1a, PointX2a, PointY2a, PointX3a, PointY3a, PointX4a, PointY4a, PointX5a, PointY5a As Double
     Dim P1x, P1y, P2x, P2y, P3x, P3y, P4x, P4y, P5x, P5y As Double
-    Dim MQCRegionX, MQCRegionY, MQCRoix, MQCRoiY, MQC_X, MQC_Y, MQC_Dia As Double
+    Dim MQC_X, MQC_Y, MQC_Dia As Double
+    Dim MQCRegionX As Double = 768 / 2
+    Dim MQCRegionY As Double = 576 / 2
+    Dim MQCRoix As Double = 100
+    Dim MQCRoiY As Double = 100
     Dim BlackDot As Boolean = True
     Dim Status As Integer = 0   '0=yet done, 1=done, 2=cancel '3=reset
     Dim MainEdge As Integer = 1
@@ -737,6 +778,36 @@ Public Class QC
     Function GetQCStatus() As Integer
         TraceDoEvents()
         Return Status
+    End Function
+    Function GetIsGlobalQC() As Boolean
+        Return Me.m_isGlobalQC
+    End Function
+    Function SetAllowGlobalMode(ByVal allow As Boolean)
+        If allow Then
+            Me.rbGlobal.Enabled = True
+            Me.rbGlobal.Checked = False
+            Me.rbLocal.Checked = True
+            Me.rbLocal.Enabled = True
+        Else
+            Me.rbGlobal.Enabled = False
+            Me.rbGlobal.Checked = False
+            Me.rbLocal.Checked = True
+            Me.rbLocal.Enabled = True
+        End If
+    End Function
+    Function SetGlobalMode(ByVal isGlobal As Boolean)
+        If isGlobal Then
+            Me.rbLocal.Checked = False
+            Me.rbLocal.Enabled = False
+            Me.rbGlobal.Enabled = True
+            Me.rbGlobal.Checked = True
+        Else
+            Me.rbLocal.Checked = True
+            Me.rbLocal.Enabled = True
+            Me.rbGlobal.Enabled = False
+            Me.rbGlobal.Checked = False
+        End If
+       
     End Function
     Sub SetQCBrightness(ByVal brightness As Decimal)
         ValueDotBrightness.Value = brightness
@@ -850,7 +921,7 @@ Public Class QC
             Timer1.Stop()
             timer = False
             Button_Test.Text = "Test"
-            FrmVision.ClearDisplay()
+            FrmVision.DisplayIndicator()
             FrmVision.modelregionDrawing()
         End If
     End Sub
@@ -860,13 +931,20 @@ Public Class QC
         Dim QCParam As QCParam
         GetQCParameters(QCParam)
         Me.Visible = False
+        Me.m_isGlobalQC = Me.rbGlobal.Checked
         FrmVision.DisplayIndicator()
+        If Not (FormCloseEvent Is Nothing) Then
+            FormCloseEvent()
+        End If
     End Sub
     Private Sub Button_Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Cancel.Click
         Status = 2 'for SJ to check if QC canceled
         DotResetVariables()
         Me.Visible = False
         FrmVision.DisplayIndicator()
+        If Not (FormCloseEvent Is Nothing) Then
+            FormCloseEvent()
+        End If
     End Sub
     Private Sub RadioButton_WhiteDot_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton_WhiteDot.CheckedChanged
         If RadioButton_WhiteDot.Checked = True Then
@@ -958,4 +1036,11 @@ Public Class QC
         End If
     End Sub
 
+    Private Sub rbGlobal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles rbGlobal.Click
+        rbLocal.Checked = False
+    End Sub
+
+    Private Sub rbLocal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles rbLocal.Click
+        rbGlobal.Checked = False
+    End Sub
 End Class

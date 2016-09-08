@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DLL Export Device Motor", "DLL Export Device Motor.vbproj", "{9A844E95-E935-464C-9570-B04DCF7EAE0C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Debug.ActiveCfg = Debug|.NET
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Debug.Build.0 = Debug|.NET
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Release.ActiveCfg = Release|.NET
+		{9A844E95-E935-464C-9570-B04DCF7EAE0C}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -34,11 +34,18 @@ Public Class WeightScaleForm
     Friend WithEvents btTare As System.Windows.Forms.Button
     Friend WithEvents rtbInfo As System.Windows.Forms.RichTextBox
     Friend WithEvents btOpenPort As System.Windows.Forms.Button
+    Friend WithEvents btRestart As System.Windows.Forms.Button
+    Friend WithEvents RestartTimer As System.Windows.Forms.Timer
+    Friend WithEvents btZero As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.btGetWeight = New System.Windows.Forms.Button
         Me.btTare = New System.Windows.Forms.Button
         Me.rtbInfo = New System.Windows.Forms.RichTextBox
         Me.btOpenPort = New System.Windows.Forms.Button
+        Me.btRestart = New System.Windows.Forms.Button
+        Me.RestartTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.btZero = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'btGetWeight
@@ -54,9 +61,9 @@ Public Class WeightScaleForm
         'btTare
         '
         Me.btTare.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btTare.Location = New System.Drawing.Point(144, 8)
+        Me.btTare.Location = New System.Drawing.Point(160, 8)
         Me.btTare.Name = "btTare"
-        Me.btTare.Size = New System.Drawing.Size(128, 48)
+        Me.btTare.Size = New System.Drawing.Size(72, 48)
         Me.btTare.TabIndex = 1
         Me.btTare.Text = "Tare"
         '
@@ -65,10 +72,10 @@ Public Class WeightScaleForm
         Me.rtbInfo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rtbInfo.Location = New System.Drawing.Point(16, 72)
+        Me.rtbInfo.Location = New System.Drawing.Point(16, 104)
         Me.rtbInfo.Name = "rtbInfo"
         Me.rtbInfo.ReadOnly = True
-        Me.rtbInfo.Size = New System.Drawing.Size(464, 376)
+        Me.rtbInfo.Size = New System.Drawing.Size(464, 504)
         Me.rtbInfo.TabIndex = 3
         Me.rtbInfo.Text = ""
         '
@@ -80,11 +87,37 @@ Public Class WeightScaleForm
         Me.btOpenPort.Size = New System.Drawing.Size(128, 48)
         Me.btOpenPort.TabIndex = 4
         Me.btOpenPort.Text = "Open Port"
+        Me.btOpenPort.Visible = False
+        '
+        'btRestart
+        '
+        Me.btRestart.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btRestart.Location = New System.Drawing.Point(256, 8)
+        Me.btRestart.Name = "btRestart"
+        Me.btRestart.Size = New System.Drawing.Size(72, 48)
+        Me.btRestart.TabIndex = 5
+        Me.btRestart.Text = "Restart"
+        '
+        'RestartTimer
+        '
+        Me.RestartTimer.Interval = 5000
+        '
+        'btZero
+        '
+        Me.btZero.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btZero.Location = New System.Drawing.Point(160, 56)
+        Me.btZero.Name = "btZero"
+        Me.btZero.Size = New System.Drawing.Size(72, 48)
+        Me.btZero.TabIndex = 6
+        Me.btZero.Text = "Zero"
+        Me.btZero.Visible = False
         '
         'WeightScaleForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(488, 464)
+        Me.ClientSize = New System.Drawing.Size(488, 624)
+        Me.Controls.Add(Me.btZero)
+        Me.Controls.Add(Me.btRestart)
         Me.Controls.Add(Me.btOpenPort)
         Me.Controls.Add(Me.rtbInfo)
         Me.Controls.Add(Me.btTare)
@@ -101,7 +134,7 @@ Public Class WeightScaleForm
 
     Private Sub btGetWeight_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btGetWeight.Click
         btGetWeight.Enabled = False
-        AddInfo("Readig current weight")
+        AddInfo("Reading current weight")
         Weighting_Scale.GetWeight()
         WaitForData(timeOut)
     End Sub
@@ -123,10 +156,15 @@ Public Class WeightScaleForm
             btTare.Enabled = False
         End If
     End Sub
+    Private lineCount As Integer = 0
     Private Sub AddInfo(ByVal info As String)
+        If lineCount > 20 Then
+            rtbInfo.Text = ""
+        End If
         rtbInfo.AppendText(info + vbLf)
-        rtbInfo.SelectionLength = rtbInfo.Text.Length
+        rtbInfo.SelectionStart = rtbInfo.Text.Length
         rtbInfo.ScrollToCaret()
+        lineCount += 1
     End Sub
     Private Sub WaitForData(ByVal timeOut As Double)
         Dim time As DateTime = DateTime.Now
@@ -160,11 +198,31 @@ Public Class WeightScaleForm
             Weighting_Scale.ClosePort()
             btGetWeight.Enabled = False
             btTare.Enabled = False
-        End If 
+        End If
     End Sub
 
     Private Sub WeightScaleForm_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         e.Cancel = True
+        RestartTimer.Stop()
+        RestartTimer.Enabled = False
         Hide()
+    End Sub
+
+    Private Sub btRestart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btRestart.Click
+        Weighting_Scale.Restart()
+        Me.Enabled = False
+        RestartTimer.Enabled = True
+        AddInfo("Restarting Scale")
+    End Sub
+
+    Private Sub RestartTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RestartTimer.Tick
+        RestartTimer.Stop()
+        RestartTimer.Enabled = False
+        Me.Enabled = True
+        AddInfo("Restarting Scale done")
+    End Sub
+
+    Private Sub btZero_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btZero.Click
+        Weighting_Scale.Zero()
     End Sub
 End Class

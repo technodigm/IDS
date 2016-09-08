@@ -95,7 +95,10 @@ Public Class DispenserSettings
     Friend WithEvents RPM As System.Windows.Forms.NumericUpDown
     Friend WithEvents AugerTemperature As System.Windows.Forms.NumericUpDown
     Friend WithEvents RetractTime As System.Windows.Forms.NumericUpDown
+    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
+    Friend WithEvents cbEnableGlobalQC As System.Windows.Forms.CheckBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents btZeroPressure As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(DispenserSettings))
         Me.MaterialAirPressure = New System.Windows.Forms.NumericUpDown
@@ -112,6 +115,7 @@ Public Class DispenserSettings
         Me.RetractDelayLabel2 = New System.Windows.Forms.Label
         Me.RetractTimeLabel2 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.btZeroPressure = New System.Windows.Forms.Button
         Me.SliderOrJetting = New System.Windows.Forms.GroupBox
         Me.Pulse = New System.Windows.Forms.NumericUpDown
         Me.pause = New System.Windows.Forms.NumericUpDown
@@ -131,6 +135,8 @@ Public Class DispenserSettings
         Me.RetractTime = New System.Windows.Forms.NumericUpDown
         Me.Label7 = New System.Windows.Forms.Label
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.cbEnableGlobalQC = New System.Windows.Forms.CheckBox
         Me.Label17 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.ButtonSave = New System.Windows.Forms.Button
@@ -176,6 +182,7 @@ Public Class DispenserSettings
         CType(Me.AugerTemperature, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RetractTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelToBeAdded.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         CType(Me.AutoPurgingIntervalHours, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -212,9 +219,9 @@ Public Class DispenserSettings
         '
         'Download
         '
-        Me.Download.Location = New System.Drawing.Point(16, 208)
+        Me.Download.Location = New System.Drawing.Point(0, 208)
         Me.Download.Name = "Download"
-        Me.Download.Size = New System.Drawing.Size(184, 32)
+        Me.Download.Size = New System.Drawing.Size(200, 32)
         Me.Download.TabIndex = 53
         Me.Download.Text = "Download"
         '
@@ -297,26 +304,27 @@ Public Class DispenserSettings
         '
         Me.RetractDelayLabel2.BackColor = System.Drawing.SystemColors.Control
         Me.RetractDelayLabel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.RetractDelayLabel2.Location = New System.Drawing.Point(240, 128)
+        Me.RetractDelayLabel2.Location = New System.Drawing.Point(232, 128)
         Me.RetractDelayLabel2.Name = "RetractDelayLabel2"
         Me.RetractDelayLabel2.Size = New System.Drawing.Size(32, 16)
         Me.RetractDelayLabel2.TabIndex = 50
-        Me.RetractDelayLabel2.Text = "ms"
+        Me.RetractDelayLabel2.Text = "s"
         Me.RetractDelayLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'RetractTimeLabel2
         '
         Me.RetractTimeLabel2.BackColor = System.Drawing.SystemColors.Control
         Me.RetractTimeLabel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.RetractTimeLabel2.Location = New System.Drawing.Point(240, 88)
+        Me.RetractTimeLabel2.Location = New System.Drawing.Point(232, 88)
         Me.RetractTimeLabel2.Name = "RetractTimeLabel2"
         Me.RetractTimeLabel2.Size = New System.Drawing.Size(32, 16)
         Me.RetractTimeLabel2.TabIndex = 49
-        Me.RetractTimeLabel2.Text = "ms"
+        Me.RetractTimeLabel2.Text = "s"
         Me.RetractTimeLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.btZeroPressure)
         Me.GroupBox1.Controls.Add(Me.SliderOrJetting)
         Me.GroupBox1.Controls.Add(Me.MaterialAirPressureLabel2)
         Me.GroupBox1.Controls.Add(Me.SuckbackPressureLabel2)
@@ -334,6 +342,14 @@ Public Class DispenserSettings
         Me.GroupBox1.TabIndex = 64
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Dispenser Information"
+        '
+        'btZeroPressure
+        '
+        Me.btZeroPressure.Location = New System.Drawing.Point(0, 168)
+        Me.btZeroPressure.Name = "btZeroPressure"
+        Me.btZeroPressure.Size = New System.Drawing.Size(200, 32)
+        Me.btZeroPressure.TabIndex = 57
+        Me.btZeroPressure.Text = "Off Pressure/Suckback"
         '
         'SliderOrJetting
         '
@@ -357,6 +373,8 @@ Public Class DispenserSettings
         '
         'Pulse
         '
+        Me.Pulse.DecimalPlaces = 3
+        Me.Pulse.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.Pulse.Location = New System.Drawing.Point(160, 40)
         Me.Pulse.Name = "Pulse"
         Me.Pulse.Size = New System.Drawing.Size(80, 27)
@@ -364,6 +382,8 @@ Public Class DispenserSettings
         '
         'pause
         '
+        Me.pause.DecimalPlaces = 3
+        Me.pause.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.pause.Location = New System.Drawing.Point(160, 80)
         Me.pause.Name = "pause"
         Me.pause.Size = New System.Drawing.Size(80, 27)
@@ -378,6 +398,8 @@ Public Class DispenserSettings
         '
         'SliderOrJettingTemperature
         '
+        Me.SliderOrJettingTemperature.DecimalPlaces = 2
+        Me.SliderOrJettingTemperature.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.SliderOrJettingTemperature.Location = New System.Drawing.Point(160, 160)
         Me.SliderOrJettingTemperature.Name = "SliderOrJettingTemperature"
         Me.SliderOrJettingTemperature.Size = New System.Drawing.Size(80, 27)
@@ -387,25 +409,25 @@ Public Class DispenserSettings
         '
         Me.Label1.Location = New System.Drawing.Point(8, 40)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(96, 24)
+        Me.Label1.Size = New System.Drawing.Size(128, 24)
         Me.Label1.TabIndex = 67
-        Me.Label1.Text = "Pulse Time"
+        Me.Label1.Text = "Pulse On Time"
         '
         'Label3
         '
         Me.Label3.Location = New System.Drawing.Point(8, 120)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(56, 24)
+        Me.Label3.Size = New System.Drawing.Size(136, 24)
         Me.Label3.TabIndex = 68
-        Me.Label3.Text = "Count"
+        Me.Label3.Text = "No Of Dispense"
         '
         'Label4
         '
         Me.Label4.Location = New System.Drawing.Point(8, 80)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(104, 24)
+        Me.Label4.Size = New System.Drawing.Size(128, 24)
         Me.Label4.TabIndex = 66
-        Me.Label4.Text = "Pause Time"
+        Me.Label4.Text = "Pulse Off Time"
         '
         'Label6
         '
@@ -491,6 +513,7 @@ Public Class DispenserSettings
         Me.AugerTemperature.Name = "AugerTemperature"
         Me.AugerTemperature.Size = New System.Drawing.Size(72, 27)
         Me.AugerTemperature.TabIndex = 66
+        Me.AugerTemperature.Visible = False
         '
         'RetractTime
         '
@@ -503,14 +526,17 @@ Public Class DispenserSettings
         '
         'Label7
         '
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.Location = New System.Drawing.Point(8, 160)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(112, 24)
         Me.Label7.TabIndex = 68
         Me.Label7.Text = "Temperature"
+        Me.Label7.Visible = False
         '
         'PanelToBeAdded
         '
+        Me.PanelToBeAdded.Controls.Add(Me.GroupBox4)
         Me.PanelToBeAdded.Controls.Add(Me.Label17)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonExit)
         Me.PanelToBeAdded.Controls.Add(Me.ButtonSave)
@@ -523,6 +549,24 @@ Public Class DispenserSettings
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 911)
         Me.PanelToBeAdded.TabIndex = 65
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.cbEnableGlobalQC)
+        Me.GroupBox4.Location = New System.Drawing.Point(8, 664)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(496, 72)
+        Me.GroupBox4.TabIndex = 67
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "QC Settings"
+        '
+        'cbEnableGlobalQC
+        '
+        Me.cbEnableGlobalQC.Location = New System.Drawing.Point(16, 32)
+        Me.cbEnableGlobalQC.Name = "cbEnableGlobalQC"
+        Me.cbEnableGlobalQC.Size = New System.Drawing.Size(384, 24)
+        Me.cbEnableGlobalQC.TabIndex = 0
+        Me.cbEnableGlobalQC.Text = "Enable QC Check for all Dots in the recipe."
         '
         'Label17
         '
@@ -550,7 +594,7 @@ Public Class DispenserSettings
         'ButtonSave
         '
         Me.ButtonSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSave.Location = New System.Drawing.Point(288, 688)
+        Me.ButtonSave.Location = New System.Drawing.Point(288, 792)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(75, 40)
         Me.ButtonSave.TabIndex = 50
@@ -559,7 +603,7 @@ Public Class DispenserSettings
         'ButtonRevert
         '
         Me.ButtonRevert.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonRevert.Location = New System.Drawing.Point(400, 688)
+        Me.ButtonRevert.Location = New System.Drawing.Point(400, 792)
         Me.ButtonRevert.Name = "ButtonRevert"
         Me.ButtonRevert.Size = New System.Drawing.Size(75, 40)
         Me.ButtonRevert.TabIndex = 49
@@ -853,7 +897,7 @@ Public Class DispenserSettings
         'DispenserSettings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
-        Me.ClientSize = New System.Drawing.Size(912, 912)
+        Me.ClientSize = New System.Drawing.Size(544, 912)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -873,6 +917,7 @@ Public Class DispenserSettings
         CType(Me.AugerTemperature, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RetractTime, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelToBeAdded.ResumeLayout(False)
+        Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         CType(Me.AutoPurgingIntervalHours, System.ComponentModel.ISupportInitialize).EndInit()
@@ -905,7 +950,7 @@ Public Class DispenserSettings
             .Pause = pause.Text
             .Count = Count.Text
             If HeadType.SelectedItem = "Auger Valve" Then
-                .ValveTemperature = AugerTemperature.Value
+                ' .ValveTemperature = AugerTemperature.Value
             ElseIf HeadType.SelectedItem = "Slider Valve" Or HeadType.SelectedItem = "Jetting Valve" Then
                 .ValveTemperature = SliderOrJettingTemperature.Value
             End If
@@ -920,6 +965,7 @@ Public Class DispenserSettings
             .AutoPurgingOption = AutoPurgingOption.Checked
             .HeadType = HeadType.SelectedItem
         End With
+        IDS.Data.Hardware.Camera.DotQCEnable = cbEnableGlobalQC.Checked
         IDS.Data.SaveData()
 
     End Sub
@@ -965,6 +1011,7 @@ Public Class DispenserSettings
             AutoPurgingOption.Checked = .AutoPurgingOption
             HeadType.SelectedItem = .HeadType
         End With
+        cbEnableGlobalQC.Checked = IDS.Data.Hardware.Camera.DotQCEnable
     End Sub
 
     Public Sub Revert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRevert.Click
@@ -1151,15 +1198,18 @@ Public Class DispenserSettings
 
     End Sub
 
-    Public Sub DownloadAugerRPM(ByVal RPM As Double)
-        With IDS.Data.Hardware.Dispenser.Left
-            Dispenser.DownloadAugerRPM(RPM, .RetractTime, .RetractDelay)
-        End With
+    Public Sub DownloadAugerRPM(ByVal RPM As Double, ByVal RetractTime As Double, ByVal RetractDelay As Double)
+        'With IDS.Data.Hardware.Dispenser.Left
+        Dispenser.DownloadAugerRPM(RPM, RetractTime, RetractDelay)
+        'End With
     End Sub
-
+    Public Sub DownloadJettingParameters(ByVal PulseOnDuration As Double, ByVal PulseOffDuration As Double, ByVal noOfDispense As Double, ByVal temperature As Double)
+        Dispenser.DownloadJettingParameters(PulseOnDuration, PulseOffDuration, noOfDispense, temperature)
+    End Sub
     Public Sub DownloadJettingParameters(ByVal PulseDuration As Double)
         With IDS.Data.Hardware.Dispenser.Left
-            Dispenser.DownloadJettingParameters(PulseDuration, .RetractTime, .RetractDelay, .ValveTemperature)
+            'Dispenser.DownloadJettingParameters(PulseDuration, .RetractTime, .RetractDelay, .ValveTemperature)
+            Dispenser.DownloadJettingParameters(PulseDuration, .Pause, .Count, .ValveTemperature)
         End With
     End Sub
 
@@ -1167,4 +1217,7 @@ Public Class DispenserSettings
         RemovePanel(CurrentControl)
     End Sub
 
+    Private Sub btZeroPressure_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btZeroPressure.Click
+        DownloadMaterialAirPressure(0, 0)
+    End Sub
 End Class

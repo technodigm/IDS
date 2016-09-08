@@ -32,11 +32,11 @@ Public Class KeyboardControl
         'Send the message along  
         If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
             ControlKeyPressed = True
-            Console.WriteLine("Programming Key Down" & Hex(KeyboardSruct.vkCode))
+            'Console.WriteLine("Programming Key Down" & Hex(KeyboardSruct.vkCode))
         End If
         If wParam = WM_KEYUP And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
             ControlKeyPressed = False
-            Console.WriteLine("Programming Key Up" & Hex(KeyboardSruct.vkCode))
+            'Console.WriteLine("Programming Key Up" & Hex(KeyboardSruct.vkCode))
         End If
         Return CallNextHookEx(HookId, nCode, New IntPtr(wParam), lParam)
     End Function

@@ -1,4 +1,5 @@
 Imports System.IO.File
+Imports DLL_DataManager
 Public Class FormSelectPatternFile
     Inherits System.Windows.Forms.Form
 
@@ -42,6 +43,7 @@ Public Class FormSelectPatternFile
     Friend WithEvents DirListBox2 As Microsoft.VisualBasic.Compatibility.VB6.DirListBox
     Friend WithEvents DriveListBox2 As Microsoft.VisualBasic.Compatibility.VB6.DriveListBox
     Friend WithEvents FileListBox2 As Microsoft.VisualBasic.Compatibility.VB6.FileListBox
+    Friend WithEvents cbDefaultFile As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormSelectPatternFile))
         Me.textFilename = New System.Windows.Forms.TextBox
@@ -53,6 +55,7 @@ Public Class FormSelectPatternFile
         Me.DirListBox2 = New Microsoft.VisualBasic.Compatibility.VB6.DirListBox
         Me.DriveListBox2 = New Microsoft.VisualBasic.Compatibility.VB6.DriveListBox
         Me.FileListBox2 = New Microsoft.VisualBasic.Compatibility.VB6.FileListBox
+        Me.cbDefaultFile = New System.Windows.Forms.CheckBox
         Me.SuspendLayout()
         '
         'textFilename
@@ -142,10 +145,19 @@ Public Class FormSelectPatternFile
         Me.FileListBox2.Size = New System.Drawing.Size(208, 290)
         Me.FileListBox2.TabIndex = 12
         '
+        'cbDefaultFile
+        '
+        Me.cbDefaultFile.Enabled = False
+        Me.cbDefaultFile.Location = New System.Drawing.Point(8, 360)
+        Me.cbDefaultFile.Name = "cbDefaultFile"
+        Me.cbDefaultFile.TabIndex = 13
+        Me.cbDefaultFile.Text = "Default"
+        '
         'FormSelectPatternFile
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(488, 414)
+        Me.Controls.Add(Me.cbDefaultFile)
         Me.Controls.Add(Me.FileListBox2)
         Me.Controls.Add(Me.DriveListBox2)
         Me.Controls.Add(Me.DirListBox2)
@@ -174,6 +186,8 @@ Public Class FormSelectPatternFile
     'Save CDROM, Floppy Disk
     Dim CD_Drive, Flop_Drive(5) As String
     Dim Flop_Count As Integer = 0
+    Public defaultOpenFile As String = ""
+    Public removeDefaultFile As Boolean = False
 
     Private Sub DriveListBox2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DriveListBox2.SelectedIndexChanged
 
@@ -230,6 +244,12 @@ Public Class FormSelectPatternFile
 
     Private Sub FileListBox2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileListBox2.SelectedIndexChanged
         textFilename.Text = FileListBox2.Path + "\" + FileListBox2.FileName
+        Me.cbDefaultFile.Enabled = True
+        If DLL_DataManager.IDSData.Execution.Setting.DefaultFileToOpen = textFilename.Text Then
+            Me.cbDefaultFile.Checked = True
+        Else
+            Me.cbDefaultFile.Checked = False
+        End If
         If System.IO.File.Exists(textFilename.Text) = True Then
             BtnOK.Enabled = True
         Else
@@ -360,8 +380,15 @@ Public Class FormSelectPatternFile
         If System.IO.File.Exists(TempFileName2) = True Then
             BtnOK.Enabled = True
             textFilename.Text = TempFileName2
+            Me.cbDefaultFile.Enabled = True
+            If DLL_DataManager.IDSData.Execution.Setting.DefaultFileToOpen = TempFileName2 Then
+                Me.cbDefaultFile.Checked = True
+            Else
+                Me.cbDefaultFile.Checked = False
+            End If
         Else
             BtnOK.Enabled = False
+            Me.cbDefaultFile.Checked = False
         End If
 
         'Dim TempFileName3 As String = DirName + "\" + TempFileName + ".bmp"
@@ -376,6 +403,7 @@ Public Class FormSelectPatternFile
 
     Private Sub FileListBox2_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FileListBox2.DoubleClick
         Try
+            Me.DialogResult = DialogResult.OK
             Me.Close()
         Catch ex As Exception
             ExceptionDisplay(ex)
@@ -394,5 +422,13 @@ Public Class FormSelectPatternFile
         '    BtnOK.Enabled = False
         'End If
         'FileListDisplay()
+    End Sub
+
+    Private Sub cbDefaultFile_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cbDefaultFile.CheckedChanged
+        If Not cbDefaultFile.Checked Then
+            If Me.TempFileName2 = Me.defaultOpenFile Then
+                removeDefaultFile = True
+            End If
+        End If
     End Sub
 End Class

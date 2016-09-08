@@ -18,36 +18,4 @@ PatternID =ABCDE_GHIJ_KLMN
 
 
 [Page=Main]
-Height,,,203.99,197.347,0.924,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-
-[Page=SubPattern_1]
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,203.992,197.349,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,244.647666666667,197.065666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,285.303333333333,196.782333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,325.959,196.499,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,325.808666666667,180.007666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,285.153,180.291,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,244.497333333333,180.574333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,203.841666666667,180.857666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,203.691333333333,164.366333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,244.347,164.083,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,285.002666666667,163.799666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,325.658333333333,163.516333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,325.508,147.025,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,284.852333333333,147.308333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,203.541,147.875,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,203.390666666667,131.383666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,244.046333333333,131.100333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,284.702,130.817,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,325.357666666667,130.533666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,325.207333333333,114.042333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,284.551666666667,114.325666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,243.896,114.609,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,203.240333333333,114.892333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,203.09,98.401,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,243.745666666667,98.1176666666667,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,284.401333333333,97.8343333333333,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SubPattern,,C:\IDS\Pattern_Dir\ChipEdgesDetect\ChipEdgesDetect.txt,325.057,97.551,0,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-
-[Page=ChipEdgesDetect.txt]
-ChipEdge,Left,On,203.916,197.48,0,,,,,,,2,0.5,,100,100,5,250,5,8,0,3,,,,,,1,,,,,,100,True,True,2,True,1,317.5,432.5,489.5,383.5,278.5,182.5,184.5,289.5,393.5,288.5,5,8.104,6.061,2,5,6,4.447,4.463,2,False,200,,,,,,,,,,,,,,,,,
+Fiducial,1.mno,2.mno,184.537,213.064,0,341.02,87.165,0,,,,,,,,,,,,,,,,,,,,,,,,,,15,,,,,,,,,,,,,,,,,,,,,,,,15,,,,,,,,,,,,,,,,,,,

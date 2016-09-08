@@ -16,6 +16,12 @@ Public Class FormVision
     Private Initializing As Boolean = True
     Public diameter As Double = 0.0
 
+    Public Delegate Sub ChipEdgeSetDelegate(ByVal xOffset As Double, ByVal yOffset As Double)
+    Public ChipEdge5PointsSet As ChipEdgeSetDelegate = Nothing
+
+    Public Delegate Function ClickToMoveDelegate(ByVal xOffset As Double, ByVal yOffset As Double) As Boolean
+    Public ClickToMove As ClickToMoveDelegate = Nothing
+
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -1362,6 +1368,16 @@ Public Class FormVision
         End If
     End Sub
     Private Sub AxDisplay1_ClickEvent1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxDisplay1.ClickEvent
+        If enableClickToMove Then
+            Dim X1, Y1 As Double
+            X1 = (PanelPositionX - DisplayCenterXPosition) * PixelSizeX
+            Y1 = (PanelPositionY - DisplayCenterYPosition) * PixelSizeY
+            If Not (Me.ClickToMove) Is Nothing Then
+                If ClickToMove(X1, Y1) Then
+                    Return
+                End If
+            End If
+        End If
         If ChipEdgeDrawingEnabled() Then 'by mouse
             x = PanelPositionX
             y = PanelPositionY
@@ -1374,6 +1390,7 @@ Public Class FormVision
             Distance(x, y)
             Return
         End If
+
         '======================
     End Sub
     Private Sub AxDisplay1_MouseDownEvent1(ByVal sender As System.Object, ByVal e As AxMatrox.ActiveMIL.IDisplayEvents_MouseDownEvent) Handles AxDisplay1.MouseDownEvent
@@ -3882,29 +3899,34 @@ Public Class FormVision
         End If
     End Function 'called by FiducialMark_Form
     Sub SaveFiducial(ByVal Fiducial_no As Integer, ByVal Fid As Integer)
-        If Fid <> 20 Then
-            If IndexNo = 1 Then 'Got model
+        Try
+            If Fid <> 20 Then
+                If IndexNo = 1 Then 'Got model
+                    If Fiducial_no = 1 Then
+                        AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
+                        If File.Exists(Folder & Fiducial_no.ToString & ".bmp") Then
+                            File.Delete(Folder & Fiducial_no.ToString & ".bmp")
+                        End If
+                        FiducialMark_form.PictureBox20.Image.Save(Folder & Fiducial_no.ToString & ".bmp")
+                    Else
+                        AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
+                        If File.Exists(Folder & Fiducial_no.ToString & ".bmp") Then
+                            File.Delete(Folder & Fiducial_no.ToString & ".bmp")
+                        End If
+                        FiducialMark_form.PictureBox20.Image.Save(Folder & Fiducial_no.ToString & ".bmp")
+                    End If
+                End If
+            Else
                 If Fiducial_no = 1 Then
-                    AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
-                    If File.Exists(Folder & Fiducial_no.ToString & ".bmp") Then
-                        File.Delete(Folder & Fiducial_no.ToString & ".bmp")
-                    End If
-                    FiducialMark_form.PictureBox20.Image.Save(Folder & Fiducial_no.ToString & ".bmp")
+                    AxPatternMatching2.Models.Item(1).Save(Folder & Fiducial_no.ToString & ".mmo")
                 Else
-                    AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
-                    If File.Exists(Folder & Fiducial_no.ToString & ".bmp") Then
-                        File.Delete(Folder & Fiducial_no.ToString & ".bmp")
-                    End If
-                    FiducialMark_form.PictureBox20.Image.Save(Folder & Fiducial_no.ToString & ".bmp")
+                    AxPatternMatching2.Models.Item(1).Save(Folder & Fiducial_no.ToString & ".mmo")
                 End If
             End If
-        Else
-            If Fiducial_no = 1 Then
-                AxPatternMatching2.Models.Item(1).Save(Folder & Fiducial_no.ToString & ".mmo")
-            Else
-                AxPatternMatching2.Models.Item(1).Save(Folder & Fiducial_no.ToString & ".mmo")
-            End If
-        End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+        
     End Sub
     Function LoadFiducial(ByVal Filename As String) As Boolean
         'Dim LoadFile As New OpenFileDialogPreview.Form1
@@ -4212,7 +4234,10 @@ Public Class FormVision
     Dim WidthPointX, WidthPointY, ChipPointPosX, ChipPointPosY, ChipPointRot As Double
     Dim Output(7) As Double
     Dim ChipFirst As Integer = 0
-
+    Dim enableClickToMove As Boolean = False
+    Function EnableClickToMoveMode(ByVal enable As Boolean)
+        enableClickToMove = enable
+    End Function
     Function ChipEdgeDrawingEnabled()
         Return ChipEdgeDrawingFlag
     End Function
@@ -4425,9 +4450,13 @@ Public Class FormVision
                         PointY4 = PointY4 - MoveOffsetYpix
                         PointY5 = PointY5 - MoveOffsetYpix
                         MotionFlag = True
+                        If Not (ChipEdge5PointsSet Is Nothing) Then
+                            ChipEdge5PointsSet(MoveOffsetXmm, MoveOffsetYmm)
+                        End If
                         'RobotMotionOffset(MoveOffsetXmm, MoveOffsetYmm)
 
                         'ClearDisplay()
+
                         SearchRegionPoints(1, ChipEdgePoints_form.ValueROI.Value)
                     Else
                         SizeXPoint = Abs(PointX1 - PointX4) * PixelSizeX
@@ -4452,8 +4481,12 @@ Public Class FormVision
                         PosXPoint = (DisplayCenterXPosition) * PixelSizeX
                         PosYPoint = (DisplayCenterYPosition) * PixelSizeY
                         MotionFlag = True
+                        If Not (ChipEdge5PointsSet Is Nothing) Then
+                            ChipEdge5PointsSet(MoveOffsetXmm, MoveOffsetYmm)
+                        End If
                         'RobotMotionOffset(MoveOffsetXmm, MoveOffsetYmm)
                         'ClearDisplay()
+
                         SearchRegionPoints(1, ChipEdgePoints_form.ValueROI.Value)
                     End If
                     If vertical = False Then
@@ -5009,8 +5042,11 @@ Public Class FormVision
             AxMeasurement9.Markers.Item(MarkersPointNo3).NumberOfOccurrences = 1
 
             If vertical = False Then
+                ' AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
                 AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
                 AxMeasurement9.Markers.Item(MarkersPointNo3).Polarity.Edge1 = _polarity
+            Else
+                'AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
                 AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
                 AxMeasurement9.Markers.Item(MarkersPointNo3).Polarity.Edge1 = _polarity
             End If
@@ -5025,10 +5061,16 @@ Public Class FormVision
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.InterpolationMode = Matrox.ActiveMIL.AngleInterpolationModeConstants.angleBilinear
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.CenterOfRotation = Matrox.ActiveMIL.AngleCenterOfRotationConstants.angleCenter
 
+            'If Inside_Out = True Then
+            '    AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 0
+            'Else
+            '    AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 180
+            'End If
+
             If Inside_Out = True Then
-                AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 0
-            Else
                 AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 180
+            Else
+                AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 0
             End If
 
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.NegativeDelta = RotationAngle
@@ -6308,7 +6350,7 @@ Public Class FormVision
             ExceptionDisplay(ex)
         End Try
     End Function
-
+    Public diameterResult As Double = 0
     Function BlobAnalysisQC(ByVal BlackDot As Boolean, ByVal ValueMinArea As Integer, ByVal ValueMaxArea As Integer, ByVal ValueRoughness As Double, ByVal ValueCompactness As Double, ByVal Tolerance As Double, ByVal Diameter As Double) As Boolean
         Dim nTotalBlobs, BlobAreaFilter, BlobCompactFilter As Integer
 
@@ -6379,6 +6421,7 @@ Public Class FormVision
                 QC_form.TextBox1.Text = "Found one object. Click <Ok> to save the settings."
                 QC_form.GetVariables(DisplayCenterXPosition, DisplayCenterYPosition, MROIx, MROIy, QC_X, QC_Y, QC_Dia)
                 QC_form.ValueDetectedDiameter.Text = QC_Dia * PixelSizeX
+                diameterResult = QC_Dia * PixelSizeX
                 QC_form.DotOutput((QC_X - DisplayCenterXPosition) * PixelSizeX, (QC_Y - DisplayCenterYPosition) * PixelSizeY, QC_Dia * PixelSizeX)
                 QC_form.QCResults(True)
                 Return True
@@ -6580,7 +6623,9 @@ Public Class FormVision
 #Region "Programming"
     Sub ShowFiducialForm(ByVal Fi_No As Integer, ByVal brightness As Double)
         Try
+            isEdit = False
             SetBrightness(brightness)
+            FiducialMark_form.isEdit = False
             FiducialMark_form.BrightnessValue.Value = brightness
             FiducialMark_form.BrightnessValue.Text = brightness
             FiducialMark_form.Show()
@@ -6644,13 +6689,17 @@ Public Class FormVision
 
 #End Region
 #Region "Edit"
+    Dim isEdit As Boolean = False
     Function Form_FI_Edit(ByVal Fi_No As Integer, ByVal Filename As String, ByVal brightness As Integer) As Boolean
         Try
             DisableChipEdgeDrawing()
-            SetBrightness(brightness)
             FiducialMark_form.BrightnessValue.Value = brightness
             FiducialMark_form.BrightnessValue.Text = brightness
             FiducialMark_form.Show()
+            SetBrightness(brightness)
+            isEdit = True
+            FiducialMark_form.isEdit = True
+            FiducialMark_form.Button_Fid_Ok.Enabled = True
             FiducialMark_form.Location = New Point(0, 50)
             If FiducialMark_form.Visible = False Then
                 FiducialMark_form.Visible = True

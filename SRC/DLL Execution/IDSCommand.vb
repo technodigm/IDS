@@ -19,8 +19,10 @@ Public Class CIDSCommand
     Protected m_PatternList As New ArrayList  'pattern command list
     Protected m_MainSubList As New ArrayList  'main/sub sheet name list
     Protected m_DispenseList As New ArrayList 'dispensing command list
+    Protected m_GlobalQCList As New ArrayList
     Protected m_CompilerStatus As Integer = 0 'compiling status flag
     'Protected m_Tri As CIDSTrioController = IDS.Devices.Motor
+    Public globalQCParam As DLL_Export_Device_Vision.QC.QCParam
     Protected m_Optim As Integer = 0
 
     Public Sub New()
@@ -88,10 +90,10 @@ Public Class CIDSCommand
         If (m_Optim) Then
             Dim tmpList As New ArrayList
             tmpList = m_Execution.m_Command.DispenseList
-            rtn = loadSheet.SetPatternList(m_MainSubList, tmpList) 'originally (m_MainSubList, tmpList)
+            rtn = loadSheet.SetPatternList(m_MainSubList, tmpList, Me.globalQCParam) 'originally (m_MainSubList, tmpList)
             If rtn = 0 Or rtn = 100 Then DotOptimize(tmpList, m_PatternList)
         Else
-            rtn = loadSheet.SetPatternList(m_MainSubList, m_PatternList)
+            rtn = loadSheet.SetPatternList(m_MainSubList, m_PatternList, Me.globalQCParam)
         End If
 
         If rtn <> 0 Then
@@ -197,7 +199,7 @@ Public Class CIDSCommand
     'Compiling pattern command list into dispensing command list
     '   runmode:  0-vision 1-dry 2-dry left 3-dry right 4-wet 5-dry left 6-dry right                                                                               
 
-    Public Function Compile(ByVal runmode As Integer) As Integer
+    Public Function Compile(ByVal runmode As Integer, Optional ByVal GlobalQCEnabled As Boolean = False) As Integer
         m_CompilerStatus = 0
         If m_PatternList.Count < 1 Then
             m_CompilerStatus = -1
@@ -212,10 +214,47 @@ Public Class CIDSCommand
             SwitchToRealTimeCamera()
         End If
         'generate dispensing command list
-        If comP.Compile(m_DispenseList) < 0 Then
-            m_CompilerStatus = -1
-            Return -1
+        If GlobalQCEnabled Then
+            m_GlobalQCList.Clear()
+            If comP.Compile(m_DispenseList, m_GlobalQCList) < 0 Then
+                m_CompilerStatus = -1
+                Return -1
+            End If
+            Dim lst As ArrayList = New ArrayList
+            Dim vParam As DLL_Export_Device_Vision.QC.QCParam
+            lst.Add(m_Execution.m_Command.globalQCParam._Binarized)
+            If m_Execution.m_Command.globalQCParam._BlackDot Then
+                lst.Add(1)
+            Else
+                lst.Add(0)
+            End If
+            lst.Add(m_Execution.m_Command.globalQCParam._Brightness)
+            lst.Add(m_Execution.m_Command.globalQCParam._Close)
+            lst.Add(m_Execution.m_Command.globalQCParam._Compactness)
+            lst.Add(m_Execution.m_Command.globalQCParam._MaxArea)
+            lst.Add(m_Execution.m_Command.globalQCParam._MinArea)
+            lst.Add(m_Execution.m_Command.globalQCParam._MRegionX)
+            lst.Add(m_Execution.m_Command.globalQCParam._MRegionY)
+            lst.Add(m_Execution.m_Command.globalQCParam._MROIx)
+            lst.Add(m_Execution.m_Command.globalQCParam._MROIy)
+            lst.Add(m_Execution.m_Command.globalQCParam._Open)
+            lst.Add(m_Execution.m_Command.globalQCParam._Roughness)
+            lst.Add(m_Execution.m_Command.globalQCParam._Diameter)
+            lst.Add(m_Execution.m_Command.globalQCParam._Tolerance)
+            lst.Add(1) 'Turn of is globalQC
+            'Insert into element 8th which is after first QC command
+            'For global QC check, it only need to set once for the QC check settings
+            'm_GlobalQCList.InsertRange(11, lst)
+            m_GlobalQCList.InsertRange(13, lst)
+            m_DispenseList.InsertRange(m_DispenseList.Count - 1, m_GlobalQCList)
+            'm_DispenseList.AddRange(m_GlobalQCList)
+        Else
+            If comP.Compile(m_DispenseList) < 0 Then
+                m_CompilerStatus = -1
+                Return -1
+            End If
         End If
+
         m_CompilerStatus = 1 'compiling finished flag
         Return 0
     End Function
@@ -360,9 +399,21 @@ Public Class CIDSPatternLoader
         End If
         Dim rtn As Boolean
         Dim height1, height2 As Double
+        OnLaser()
         rtn = Laser.WaitForReadingToStabilize
+        OffLaser()
+        'Dim start_time As DateTime = Now
+        'Dim stop_time As DateTime = Now
+        'Dim elapsed_time As TimeSpan
+        'Do
+        '    Application.DoEvents()
+        '    stop_time = Now
+        '    elapsed_time = stop_time.Subtract(start_time)
+        'Loop Until elapsed_time.TotalSeconds > 3
         If rtn Then
-            height = Laser.MM_Reading
+            height = Laser.LASER_Reading
+            Programming.tbLsHeight.Text = "Process LS Height:" & height.ToString("0.000")
+            Programming.tbLsHeight.Refresh()
         Else
             If CheckButtonState() = -1 Then
                 Return 100
@@ -430,6 +481,9 @@ Public Class CIDSPatternLoader
         '    Return -1
         'End If
         Dim rtn As Integer
+        'If ProgrammingMode() Then
+        '    'Programming.tbLsHeight.Text = ""
+        'End If
         rtn = MoveToCheckHeight(PosX, PosY, height) 'Move to get height
         If rtn < 0 Then
             CompileErrorDisplay(sheetname, row, 6)
@@ -438,8 +492,10 @@ Public Class CIDSPatternLoader
             Return rtn
         End If
         heightComps = height - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
-        'LabelMessage("Height compensation:" & heightComps.ToString("0.000"))
-        'Programming.tbHeightCompensation.Text = heightComps.ToString("0.000")
+        If ProgrammingMode() Then
+            Programming.tbLsHeight.Text += " After " + height.ToString("0.000") + "-" + IDS.Data.Hardware.HeightSensor.Laser.HeightReference.ToString("0.000") + " = " + heightComps.ToString("0.000")
+            Programming.tbLsHeight.Refresh()
+        End If
         Return 0
     End Function
 
@@ -769,7 +825,27 @@ Public Class CIDSPatternLoader
         Return 0
 
     End Function
-
+    Public Function SetGlobalQCData(ByVal sheet As OWC10.Worksheet, ByVal row As Integer, ByRef vPara As DLL_Export_Device_Vision.QC.QCParam)
+        Dim array As Object(,) ' array start at (1,1)
+        Dim j = 1
+        array = sheet.Range("A" & row, "BZ" & row).Value
+        'set vision data
+        vPara._Brightness = array(j, gBrightnessColumn)
+        vPara._Binarized = array(j, gBinarizedColumn)
+        vPara._BlackDot = array(j, gBlackDotColumn)
+        vPara._Open = array(j, gOpenColumn)
+        vPara._Close = array(j, gCloseColumn)
+        vPara._Compactness = array(j, gCompactnessColumn)
+        vPara._MaxArea = array(j, gMaxAreaColumn)
+        vPara._MinArea = array(j, gMinAreaColumn)
+        vPara._MRegionX = array(j, gMRegionXColumn)
+        vPara._MRegionY = array(j, gMRegionYColumn)
+        vPara._MROIx = array(j, gMROIxColumn)
+        vPara._MROIy = array(j, gMROIyColumn)
+        vPara._Roughness = array(j, gRoughnessColumn)
+        vPara._Diameter = array(j, gDiameterColumn)
+        vPara._Tolerance = array(j, gToleranceColumn)
+    End Function
 
     'Set QC record dara
     '      sheet: pattern sheet
@@ -3144,7 +3220,7 @@ Public Class CIDSPatternLoader
     'Set main pattern command record data
     '      sheetlist: whole pattern sheet name list
     '      list:  pattern command list
-    Public Function SetPatternList(ByVal sheetlist As ArrayList, ByRef list As ArrayList) As Integer
+    Public Function SetPatternList(ByVal sheetlist As ArrayList, ByRef list As ArrayList, ByRef GQCParam As DLL_Export_Device_Vision.QC.QCParam) As Integer
         Dim I, J As Integer
         Dim compData As FidCompData
         Dim referencePt(3) As Double
@@ -3263,9 +3339,9 @@ Public Class CIDSPatternLoader
                         If m_Optim = 0 Then
                             Dim heightc As Double
                             LabelMessage("Height compensation in progress")
-                            OnLaser()
+                            'OnLaser()
                             rtn = GetHeightCompensation(sheet, I, referencePt, compData, heightc)
-                            OffLaser()
+                            'OffLaser()
                             If rtn < 0 Then   'check fail
                                 LabelMessage("Height compensation failed")
                                 If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
@@ -3328,6 +3404,9 @@ Public Class CIDSPatternLoader
                             End If
                             DebugAddList(list, getIOData)
                         End If
+                    Case "GLOBALQC"
+                        Programming.GlobalQCEnabled = True
+                        Me.SetGlobalQCData(sheet, I, GQCParam)
                     Case "VOLUMECALIBRATION"
                         If m_Optim = 0 Then
                             Dim volcalData As New CIDSVolumeCalibration
@@ -6174,7 +6253,7 @@ Public Class IDSPattnCompiler
     '  disCmdList:    dispensing command list
     '
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function GenerateDotCommandSet(ByVal elemData As Object, ByRef disCmdList As ArrayList) As Integer
+    Public Function GenerateDotCommandSet(ByVal elemData As Object, ByRef disCmdList As ArrayList, Optional ByRef GlobalQCList As ArrayList = Nothing) As Integer
         Dim dot As CIDSDot = elemData
         Dim sheetname As String = dot.SheetName
         If dot.CmdType <> "DOT" Then
@@ -6218,8 +6297,26 @@ Public Class IDSPattnCompiler
             comp(0) = p(0)
             comp(1) = p(1)
             comp(2) = 0.0
-        End If
 
+        End If
+        Dim qcPost(2) As Double
+        If Not (GlobalQCList Is Nothing) Then
+            qcPost(0) = p(0)
+            qcPost(1) = p(1)
+            qcPost(2) = 0.0
+            'Add global QC
+            Dim qcZPost(0) As Double
+            qcZPost(0) = 0.0
+            'SetToXYPlane(m_Plane)
+            AddZXYBase(GlobalQCList)
+            AddMoveZ(GlobalQCList, qcZPost)
+            AddWaitIdle(GlobalQCList)
+            AddXYZBase(GlobalQCList)
+            AddSpeed(GlobalQCList, IDS.Data.Hardware.Gantry.ElementXYSpeed) 'set travel speed
+            AddMoveXYZ(GlobalQCList, qcPost)
+            AddWaitIdle(GlobalQCList)
+            GlobalQCList.Add(27) 'GlobalQC
+        End If
         If Not WorkAreaErrorCheckXYZ(m_RunMode, comp) Then
             CompileErrorDisplay(sheetname, dot.CmdLineNo, 0)
             Return -1
@@ -9752,7 +9849,7 @@ Public Class IDSPattnCompiler
         Return 0
     End Function
 
-    Public Function Compile(ByRef dispenselist As ArrayList) As Integer
+    Public Function Compile(ByRef dispenselist As ArrayList, Optional ByRef GlobalQCList As ArrayList = Nothing) As Integer
         Dim row As Integer
         Dim elemData, endelemdata, nextelemdata As Object
         Dim type As String
@@ -9842,7 +9939,7 @@ Public Class IDSPattnCompiler
                         Return -1
                     End If
                 Case "DOT"
-                    If GenerateDotCommandSet(elemData, dispenselist) < 0 Then
+                    If GenerateDotCommandSet(elemData, dispenselist, GlobalQCList) < 0 Then
                         Return -1
                     End If
                     m_IsFirstElement = False
@@ -10207,63 +10304,69 @@ Public Class CIDSPattnBurn
     '   CmdList: dispensing element list
 
     Public Function BurnTable(ByVal dispenselist As ArrayList) As Boolean
-        Dim download_number As Integer = OnePageElements - 2
-        Dim downloads As Integer = Math.Ceiling(dispenselist.Count / download_number)
-        Dim page_number, table_pos, count, values_left As Integer
-        Dim cmddata(40) As Double
-        Dim Buffer(OnePageElements - 1) As Single
-        Dim download_page_number = 1
-        count = 0
-        m_Tri.RunTrioMotionProgram("CLEARTABLE", 2)
-        Try
-            For page_number = 1 To downloads
-                If CheckButtonState() = -1 Then Return False
-                table_pos = StartPosition + OnePageElements * page_number
+        If dispenselist.Count > 999 Then
+            Dim download_number As Integer = OnePageElements - 2
+            Dim downloads As Integer = Math.Ceiling(dispenselist.Count / download_number)
+            Dim page_number, table_pos, count, values_left As Integer
+            Dim cmddata(40) As Double
+            Dim Buffer(OnePageElements - 1) As Single
+            Dim download_page_number = 1
+            count = 0
+            m_Tri.RunTrioMotionProgram("CLEARTABLE", 2)
+            Try
+                For page_number = 1 To downloads
+                    If CheckButtonState() = -1 Then Return False
+                    table_pos = StartPosition + OnePageElements * page_number
 
-                'i.e. if onePageElements is 1000, we download 998 values of m_dispenselist2 into Buffer. 
-                'if m_dispenselist2 has 2500 elements, on our last download, we set the entire array to 0 values, then download the last 500
-                values_left = dispenselist.Count Mod download_number
-                If page_number = downloads And values_left <> 0 Then
-                    Array.Clear(Buffer, 0, OnePageElements)
-                    For buffer_index As Integer = 1 To values_left
-                        Buffer(buffer_index) = dispenselist(count)
-                        count += 1
-                    Next
-                Else
-                    For buffer_index As Integer = 1 To download_number
-                        Buffer(buffer_index) = dispenselist(count)
-                        count += 1
-                    Next
-                End If
+                    'i.e. if onePageElements is 1000, we download 998 values of m_dispenselist2 into Buffer. 
+                    'if m_dispenselist2 has 2500 elements, on our last download, we set the entire array to 0 values, then download the last 500
+                    values_left = dispenselist.Count Mod download_number
+                    If page_number = downloads And values_left <> 0 Then
+                        Array.Clear(Buffer, 0, OnePageElements)
+                        For buffer_index As Integer = 1 To values_left
+                            Buffer(buffer_index) = dispenselist(count)
+                            count += 1
+                        Next
+                    Else
+                        For buffer_index As Integer = 1 To download_number
+                            Buffer(buffer_index) = dispenselist(count)
+                            count += 1
+                        Next
+                    End If
 
-                If DownloadOnePageTable(download_page_number, table_pos, Buffer) = False Then
-                    Return False
-                End If
-
-                If page_number = 1 Then
-                    Dim rtn As Boolean = False
-                    Dim counter As Integer = 1
-                    Do
-                        counter += 1
-                        rtn = m_Tri.RunTrioMotionProgram("DISPENSE", 8)
-                    Loop Until rtn = True Or counter = 5 Or m_Tri.EStopActivated
-                    If rtn = False Or m_Tri.EStopActivated Then
+                    If DownloadOnePageTable(download_page_number, table_pos, Buffer) = False Then
                         Return False
                     End If
-                    SetLampsToRunningMode()
-                    LabelMessage("Start Dispensing")
-                    'Vision.FrmVision.DisplayIndicator()
-                End If
 
-            Next
-            LabelMessage("Download complete")
-            Return True
+                    If page_number = 1 Then
+                        Dim rtn As Boolean = False
+                        Dim counter As Integer = 1
+                        Do
+                            counter += 1
+                            rtn = m_Tri.RunTrioMotionProgram("DISPENSE", 8)
+                        Loop Until rtn = True Or counter = 5 Or m_Tri.EStopActivated
+                        If rtn = False Or m_Tri.EStopActivated Then
+                            Return False
+                        End If
+                        SetLampsToRunningMode()
+                        LabelMessage("Start Dispensing")
+                        'Vision.FrmVision.DisplayIndicator()
+                    End If
 
-        Catch ex As ThreadAbortException
-        Catch ex As Exception
-            ExceptionDisplay(ex)
-        End Try
+                Next
+                LabelMessage("Download complete")
+                Return True
 
+            Catch ex As ThreadAbortException
+            Catch ex As Exception
+                ExceptionDisplay(ex)
+            End Try
+        Else
+            If DownloadToTable_Below1000(dispenselist) Then
+                Return True
+            End If
+            Return False
+        End If
     End Function
 
     'Download one page motion data to trio controller
@@ -10347,5 +10450,51 @@ Public Class CIDSPattnBurn
             bufferpos = 1
         End If
         Return 0
+    End Function
+    'When less than 1000 items
+    'Always download table to the from begin
+    'This function cannot be used at the moment unless the dispense algorithm in Motion perfect was revised.
+    Public Function DownloadToTable_Below1000(ByVal dispenselist As ArrayList) As Boolean
+        If dispenselist.Count > 999 Then
+            Return False
+        End If
+        Dim startTime As Long = DateTime.Now.Ticks
+        If Not (m_Tri.RunTrioMotionProgram("CLEARTABLE", 2)) Then
+            If Not (m_Tri.RunTrioMotionProgram("CLEARTABLE", 2)) Then Return False
+        End If
+        Dim firstSet = DateTime.Now.Ticks
+        Dim Buffer(dispenselist.Count - 1) As Single
+        For i As Integer = 0 To dispenselist.Count - 1
+            Buffer(i) = dispenselist(i)
+        Next
+
+        If Not m_Tri.m_TriCtrl.SetTable(1001, dispenselist.Count, Buffer) Then
+            If Not m_Tri.m_TriCtrl.SetTable(1001, dispenselist.Count, Buffer) Then
+                Return False
+            End If
+        End If
+
+        'Dim tail(0) As Double
+        'tail(0) = 9999.0
+        'Buffer(0) = 9999.0
+        'If Not m_Tri.m_TriCtrl.SetTable(2000, 1, tail) Then
+        '    If Not m_Tri.m_TriCtrl.SetTable(2000, 1, tail) Then
+        '        Return False
+        '    End If
+        'End If
+        Dim secSet As Long = DateTime.Now.Ticks
+        Console.WriteLine("#1" + ((firstSet - startTime) / 10000).ToString() + "  #2" + ((secSet - firstSet) / 10000).ToString())
+        Dim counter As Integer = 0
+        Dim rtn As Boolean
+        Do
+            counter += 1
+            rtn = m_Tri.RunTrioMotionProgram("DISPENSE", 8)
+        Loop Until rtn = True Or counter = 5 Or m_Tri.EStopActivated
+        If rtn = False Or m_Tri.EStopActivated Then
+            Return False
+        End If
+        SetLampsToRunningMode()
+        LabelMessage("Start Dispensing")
+        Return True
     End Function
 End Class

@@ -95,33 +95,36 @@ Public Class NeedleCalibrationSetup2
         Me.GroupBox1.Size = New System.Drawing.Size(496, 672)
         Me.GroupBox1.TabIndex = 53
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Needle Calibrator Sensor - Z Reference Level"
+        Me.GroupBox1.Text = "Needle Calibrator Sensor - Z Reference Point"
         '
         'Label2
         '
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label2.Location = New System.Drawing.Point(24, 112)
+        Me.Label2.Location = New System.Drawing.Point(24, 96)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(460, 78)
+        Me.Label2.Size = New System.Drawing.Size(460, 120)
         Me.Label2.TabIndex = 10
-        Me.Label2.Text = "2. Loosen the needle and lower the Z Axis until the needle touches the plate . Lo" & _
-        "wer the z axis 2-3mm more and tighten the needle. Click Set Z Button."
+        Me.Label2.Text = "2.For time pressure syringe,  loosen the needle and lower the Z Axis until the ne" & _
+        "edle touches the plate . Lower the z axis 2-3mm more and tighten the needle. For" & _
+        " fixed dispenser such as auger valve dispenser, manually move down the Z axis un" & _
+        "til the needle tip touch the reference block. Click Set Z Button to save the Z r" & _
+        "eference point"
         '
         'Label3
         '
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label3.Location = New System.Drawing.Point(24, 48)
+        Me.Label3.Location = New System.Drawing.Point(24, 40)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(460, 48)
         Me.Label3.TabIndex = 6
-        Me.Label3.Text = "1. Jog the needle to approximate center of the height reference block"
+        Me.Label3.Text = "1. Jog the needle to the center of the height reference block."
         '
         'ButtonSetZ
         '
         Me.ButtonSetZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSetZ.Location = New System.Drawing.Point(200, 480)
+        Me.ButtonSetZ.Location = New System.Drawing.Point(200, 312)
         Me.ButtonSetZ.Name = "ButtonSetZ"
         Me.ButtonSetZ.Size = New System.Drawing.Size(100, 50)
         Me.ButtonSetZ.TabIndex = 9
@@ -149,7 +152,7 @@ Public Class NeedleCalibrationSetup2
         '
         Me.NCalZPos.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.NCalZPos.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.NCalZPos.Location = New System.Drawing.Point(296, 440)
+        Me.NCalZPos.Location = New System.Drawing.Point(208, 272)
         Me.NCalZPos.Name = "NCalZPos"
         Me.NCalZPos.Size = New System.Drawing.Size(96, 24)
         Me.NCalZPos.TabIndex = 16
@@ -159,7 +162,7 @@ Public Class NeedleCalibrationSetup2
         '
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.Label7.Location = New System.Drawing.Point(184, 440)
+        Me.Label7.Location = New System.Drawing.Point(88, 272)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(96, 24)
         Me.Label7.TabIndex = 15
@@ -169,12 +172,13 @@ Public Class NeedleCalibrationSetup2
         '
         Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(96, 208)
+        Me.PictureBox1.Location = New System.Drawing.Point(8, 488)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(312, 216)
+        Me.PictureBox1.Size = New System.Drawing.Size(88, 64)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 8
         Me.PictureBox1.TabStop = False
+        Me.PictureBox1.Visible = False
         '
         'NeedleCalibrationSetup2
         '

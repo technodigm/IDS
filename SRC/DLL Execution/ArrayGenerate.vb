@@ -9,6 +9,9 @@ Public Class ArrayGenerate
     Public ArrayPara2 As New CIDSData.CIDSPatternExecution.CIDSTemplate
     Public ArrayPara3 As New CIDSData.CIDSPatternExecution.CIDSTemplate
     Public isVisionMode As Boolean = True
+    Public needPositionUpdate As Boolean = False
+    Public Delegate Sub FormCloseDelegate()
+    Public FormCloseEvent As FormCloseDelegate = Nothing
 
 #Region " Windows Form Designer generated code "
     Dim m_CurrentPara As New CIDSData.CIDSPatternExecution.CIDSTemplate
@@ -2223,12 +2226,20 @@ Public Class ArrayGenerate
         If CheckValidate(CombElementType.Text) Then
             Me.DialogResult = DialogResult.OK
             ArrayTextBoxStore(typeSelected)
+            If Not (FormCloseEvent Is Nothing) Then
+                FormCloseEvent()
+            End If
+            needPositionUpdate = False
             Me.Close()
         End If
     End Sub
 
     Private Sub Button_OnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_OnCancel.Click
         Me.DialogResult = DialogResult.Cancel
+        If Not (FormCloseEvent Is Nothing) Then
+            FormCloseEvent()
+        End If
+        needPositionUpdate = False
         Me.Close()
     End Sub
 
@@ -2242,5 +2253,9 @@ Public Class ArrayGenerate
         Button_OnOK.Enabled = True
         Button_OnCancel.Enabled = True
         TraceGCCollect()
+    End Sub
+
+    Private Sub ArrayGenerate_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Me.needPositionUpdate = True
     End Sub
 End Class

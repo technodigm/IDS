@@ -121,7 +121,6 @@ Public Class FormProduction
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents tbEquipmentID As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
     Friend WithEvents tbDispensedUnit As System.Windows.Forms.TextBox
@@ -136,6 +135,9 @@ Public Class FormProduction
     Friend WithEvents tbAutoPurgeCountDown As System.Windows.Forms.TextBox
     Friend WithEvents tbDispenserType As System.Windows.Forms.TextBox
     Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
+    Friend WithEvents btResetPressure As System.Windows.Forms.Button
+    Friend WithEvents btDownStream As System.Windows.Forms.Button
+    Friend WithEvents tbPressureInfo As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -152,6 +154,8 @@ Public Class FormProduction
         Me.Label1 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.tbDispenserType = New System.Windows.Forms.TextBox
+        Me.TextBox4 = New System.Windows.Forms.TextBox
         Me.tbTime = New System.Windows.Forms.TextBox
         Me.tbDispensedUnit = New System.Windows.Forms.TextBox
         Me.TextBox7 = New System.Windows.Forms.TextBox
@@ -160,7 +164,7 @@ Public Class FormProduction
         Me.tbPortLifeRemain = New System.Windows.Forms.TextBox
         Me.TextBox5 = New System.Windows.Forms.TextBox
         Me.tbDispensePressure = New System.Windows.Forms.TextBox
-        Me.TextBox3 = New System.Windows.Forms.TextBox
+        Me.tbPressureInfo = New System.Windows.Forms.TextBox
         Me.tbEquipmentID = New System.Windows.Forms.TextBox
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
@@ -178,6 +182,7 @@ Public Class FormProduction
         Me.ButtonStartFirstStage = New System.Windows.Forms.Button
         Me.ButtonCV_Prod_Release = New System.Windows.Forms.Button
         Me.ButtonCV_Prod_Retrieve = New System.Windows.Forms.Button
+        Me.btDownStream = New System.Windows.Forms.Button
         Me.HeaterBox = New System.Windows.Forms.GroupBox
         Me.Syringe = New System.Windows.Forms.Label
         Me.Station1 = New System.Windows.Forms.Label
@@ -190,6 +195,7 @@ Public Class FormProduction
         Me.NeedleLabel = New System.Windows.Forms.Label
         Me.SyringeLabel = New System.Windows.Forms.Label
         Me.PanelProDownTimeInfor = New System.Windows.Forms.Panel
+        Me.btResetPressure = New System.Windows.Forms.Button
         Me.rtLog = New System.Windows.Forms.RichTextBox
         Me.CheckBoxPotOn = New System.Windows.Forms.CheckBox
         Me.DoorLock = New System.Windows.Forms.CheckBox
@@ -211,8 +217,6 @@ Public Class FormProduction
         Me.panelVision = New System.Windows.Forms.Panel
         Me.TowerLightImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.TimeDisplayTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.tbDispenserType = New System.Windows.Forms.TextBox
-        Me.TextBox4 = New System.Windows.Forms.TextBox
         Me.Panel2.SuspendLayout()
         CType(Me.ValueBrightness, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
@@ -339,7 +343,7 @@ Public Class FormProduction
         Me.GroupBox2.Controls.Add(Me.tbPortLifeRemain)
         Me.GroupBox2.Controls.Add(Me.TextBox5)
         Me.GroupBox2.Controls.Add(Me.tbDispensePressure)
-        Me.GroupBox2.Controls.Add(Me.TextBox3)
+        Me.GroupBox2.Controls.Add(Me.tbPressureInfo)
         Me.GroupBox2.Controls.Add(Me.tbEquipmentID)
         Me.GroupBox2.Controls.Add(Me.TextBox1)
         Me.GroupBox2.Location = New System.Drawing.Point(16, 216)
@@ -347,6 +351,30 @@ Public Class FormProduction
         Me.GroupBox2.Size = New System.Drawing.Size(480, 280)
         Me.GroupBox2.TabIndex = 143
         Me.GroupBox2.TabStop = False
+        '
+        'tbDispenserType
+        '
+        Me.tbDispenserType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbDispenserType.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDispenserType.Location = New System.Drawing.Point(196, 232)
+        Me.tbDispenserType.Name = "tbDispenserType"
+        Me.tbDispenserType.ReadOnly = True
+        Me.tbDispenserType.Size = New System.Drawing.Size(272, 31)
+        Me.tbDispenserType.TabIndex = 13
+        Me.tbDispenserType.Text = ""
+        Me.tbDispenserType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox4
+        '
+        Me.TextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox4.Location = New System.Drawing.Point(12, 232)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.ReadOnly = True
+        Me.TextBox4.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox4.TabIndex = 12
+        Me.TextBox4.Text = "Dispenser Type :"
+        Me.TextBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'tbTime
         '
@@ -357,7 +385,7 @@ Public Class FormProduction
         Me.tbTime.ReadOnly = True
         Me.tbTime.Size = New System.Drawing.Size(448, 38)
         Me.tbTime.TabIndex = 11
-        Me.tbTime.Text = ""
+        Me.tbTime.Text = "Date/Time"
         Me.tbTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'tbDispensedUnit
@@ -444,17 +472,17 @@ Public Class FormProduction
         Me.tbDispensePressure.Text = "NA"
         Me.tbDispensePressure.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'TextBox3
+        'tbPressureInfo
         '
-        Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox3.Location = New System.Drawing.Point(12, 136)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(184, 31)
-        Me.TextBox3.TabIndex = 2
-        Me.TextBox3.Text = "Pressure :"
-        Me.TextBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.tbPressureInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbPressureInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbPressureInfo.Location = New System.Drawing.Point(12, 136)
+        Me.tbPressureInfo.Name = "tbPressureInfo"
+        Me.tbPressureInfo.ReadOnly = True
+        Me.tbPressureInfo.Size = New System.Drawing.Size(184, 31)
+        Me.tbPressureInfo.TabIndex = 2
+        Me.tbPressureInfo.Text = "Pressure :"
+        Me.tbPressureInfo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'tbEquipmentID
         '
@@ -590,11 +618,12 @@ Public Class FormProduction
         Me.ConveyorBox.Controls.Add(Me.ButtonStartFirstStage)
         Me.ConveyorBox.Controls.Add(Me.ButtonCV_Prod_Release)
         Me.ConveyorBox.Controls.Add(Me.ButtonCV_Prod_Retrieve)
+        Me.ConveyorBox.Controls.Add(Me.btDownStream)
         Me.ConveyorBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ConveyorBox.ForeColor = System.Drawing.Color.Black
         Me.ConveyorBox.Location = New System.Drawing.Point(16, 520)
         Me.ConveyorBox.Name = "ConveyorBox"
-        Me.ConveyorBox.Size = New System.Drawing.Size(480, 96)
+        Me.ConveyorBox.Size = New System.Drawing.Size(480, 160)
         Me.ConveyorBox.TabIndex = 130
         Me.ConveyorBox.TabStop = False
         Me.ConveyorBox.Text = "Conveyor Operation"
@@ -602,7 +631,7 @@ Public Class FormProduction
         'ResetPLCLogic
         '
         Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetPLCLogic.Location = New System.Drawing.Point(359, 24)
+        Me.ResetPLCLogic.Location = New System.Drawing.Point(192, 88)
         Me.ResetPLCLogic.Name = "ResetPLCLogic"
         Me.ResetPLCLogic.Size = New System.Drawing.Size(104, 56)
         Me.ResetPLCLogic.TabIndex = 143
@@ -636,6 +665,14 @@ Public Class FormProduction
         Me.ButtonCV_Prod_Retrieve.TabIndex = 139
         Me.ButtonCV_Prod_Retrieve.Text = "Retrieve"
         '
+        'btDownStream
+        '
+        Me.btDownStream.Location = New System.Drawing.Point(360, 24)
+        Me.btDownStream.Name = "btDownStream"
+        Me.btDownStream.Size = New System.Drawing.Size(104, 56)
+        Me.btDownStream.TabIndex = 144
+        Me.btDownStream.Text = "Eject"
+        '
         'HeaterBox
         '
         Me.HeaterBox.BackColor = System.Drawing.SystemColors.Control
@@ -651,7 +688,7 @@ Public Class FormProduction
         Me.HeaterBox.Controls.Add(Me.SyringeLabel)
         Me.HeaterBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.HeaterBox.ForeColor = System.Drawing.Color.Black
-        Me.HeaterBox.Location = New System.Drawing.Point(16, 632)
+        Me.HeaterBox.Location = New System.Drawing.Point(16, 712)
         Me.HeaterBox.Name = "HeaterBox"
         Me.HeaterBox.Size = New System.Drawing.Size(480, 160)
         Me.HeaterBox.TabIndex = 130
@@ -762,6 +799,7 @@ Public Class FormProduction
         'PanelProDownTimeInfor
         '
         Me.PanelProDownTimeInfor.BackColor = System.Drawing.SystemColors.Control
+        Me.PanelProDownTimeInfor.Controls.Add(Me.btResetPressure)
         Me.PanelProDownTimeInfor.Controls.Add(Me.rtLog)
         Me.PanelProDownTimeInfor.Controls.Add(Me.CheckBoxPotOn)
         Me.PanelProDownTimeInfor.Controls.Add(Me.DoorLock)
@@ -782,6 +820,19 @@ Public Class FormProduction
         Me.PanelProDownTimeInfor.Size = New System.Drawing.Size(768, 384)
         Me.PanelProDownTimeInfor.TabIndex = 6
         '
+        'btResetPressure
+        '
+        Me.btResetPressure.BackColor = System.Drawing.SystemColors.Control
+        Me.btResetPressure.Enabled = False
+        Me.btResetPressure.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btResetPressure.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btResetPressure.ImageList = Me.ImageListPotEtc
+        Me.btResetPressure.Location = New System.Drawing.Point(616, 8)
+        Me.btResetPressure.Name = "btResetPressure"
+        Me.btResetPressure.Size = New System.Drawing.Size(75, 56)
+        Me.btResetPressure.TabIndex = 136
+        Me.btResetPressure.Text = "Reset Vol. Cal. Position"
+        '
         'rtLog
         '
         Me.rtLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -801,7 +852,7 @@ Public Class FormProduction
         Me.CheckBoxPotOn.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBoxPotOn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.CheckBoxPotOn.ImageList = Me.ImageListPotEtc
-        Me.CheckBoxPotOn.Location = New System.Drawing.Point(480, 8)
+        Me.CheckBoxPotOn.Location = New System.Drawing.Point(456, 8)
         Me.CheckBoxPotOn.Name = "CheckBoxPotOn"
         Me.CheckBoxPotOn.Size = New System.Drawing.Size(75, 56)
         Me.CheckBoxPotOn.TabIndex = 119
@@ -817,7 +868,7 @@ Public Class FormProduction
         Me.DoorLock.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DoorLock.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.DoorLock.ImageList = Me.ImageListPotEtc
-        Me.DoorLock.Location = New System.Drawing.Point(672, 8)
+        Me.DoorLock.Location = New System.Drawing.Point(688, 8)
         Me.DoorLock.Name = "DoorLock"
         Me.DoorLock.Size = New System.Drawing.Size(75, 56)
         Me.DoorLock.TabIndex = 116
@@ -831,7 +882,7 @@ Public Class FormProduction
         Me.ButtonPotReset.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonPotReset.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPotReset.ImageList = Me.ImageListPotEtc
-        Me.ButtonPotReset.Location = New System.Drawing.Point(560, 8)
+        Me.ButtonPotReset.Location = New System.Drawing.Point(536, 8)
         Me.ButtonPotReset.Name = "ButtonPotReset"
         Me.ButtonPotReset.Size = New System.Drawing.Size(75, 56)
         Me.ButtonPotReset.TabIndex = 105
@@ -989,30 +1040,6 @@ Public Class FormProduction
         '
         Me.TimeDisplayTimer.Interval = 500
         '
-        'tbDispenserType
-        '
-        Me.tbDispenserType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.tbDispenserType.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbDispenserType.Location = New System.Drawing.Point(196, 232)
-        Me.tbDispenserType.Name = "tbDispenserType"
-        Me.tbDispenserType.ReadOnly = True
-        Me.tbDispenserType.Size = New System.Drawing.Size(272, 31)
-        Me.tbDispenserType.TabIndex = 13
-        Me.tbDispenserType.Text = ""
-        Me.tbDispenserType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox4
-        '
-        Me.TextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox4.Location = New System.Drawing.Point(12, 232)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.ReadOnly = True
-        Me.TextBox4.Size = New System.Drawing.Size(184, 31)
-        Me.TextBox4.TabIndex = 12
-        Me.TextBox4.Text = "Dispenser Type :"
-        Me.TextBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
         'FormProduction
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -1071,14 +1098,24 @@ Public Class FormProduction
         m_Execution.m_Pattern.m_ErrorChk.GetErrorCheckParameter()
 
         'if jetting valve or auger valve turn on material air
-        With IDS.Data.Hardware.Dispenser.Left
-            If .HeadType = "Jetting Valve" Or .HeadType = "Auger Valve" Then
-                m_Tri.TurnOn("Material Air")
-            End If
-        End With
+        'With IDS.Data.Hardware.Dispenser.Left
+        '    If .HeadType = "Jetting Valve" Or .HeadType = "Auger Valve" Then
+        '        m_Tri.TurnOn("Material Air")
+        '    End If
+        'End With
 
         'error handling message
         Form_Service.ResetEventCode()
+
+        'background threads help to update UI without slowing them down.
+        ThreadMonitor = New Threading.Thread(AddressOf StateMonitor)
+        ThreadMonitor.Priority = Threading.ThreadPriority.Normal
+        ThreadMonitor.IsBackground = True
+        ThreadMonitor.Start()
+
+        ThreadExecutor = New Threading.Thread(AddressOf StateChanger)
+        ThreadExecutor.Priority = Threading.ThreadPriority.Normal
+        ThreadExecutor.Start()
 
         'hardware
         Laser.OpenPort()
@@ -1098,7 +1135,7 @@ Public Class FormProduction
 
         'motion controller
         'm_Tri.Connect_Controller()
-        SetState("Homing")
+        'SetState("Homing")
 
         'timers start
         IDS.StartErrorCheck()
@@ -1107,15 +1144,17 @@ Public Class FormProduction
         Programming.IOCheck.Start()
         Conveyor.PositionTimer.Start()
 
-        ' background threads help to update UI without slowing them down.
-        ThreadMonitor = New Threading.Thread(AddressOf StateMonitor)
-        ThreadMonitor.Priority = Threading.ThreadPriority.Normal
-        'ThreadMonitor.IsBackground = True
-        ThreadMonitor.Start()
+        '' background threads help to update UI without slowing them down.
+        'ThreadMonitor = New Threading.Thread(AddressOf StateMonitor)
+        'ThreadMonitor.Priority = Threading.ThreadPriority.Normal
+        ''ThreadMonitor.IsBackground = True
+        'ThreadMonitor.Start()
 
-        ThreadExecutor = New Threading.Thread(AddressOf StateChanger)
-        ThreadExecutor.Priority = Threading.ThreadPriority.Normal
-        ThreadExecutor.Start()
+        'ThreadExecutor = New Threading.Thread(AddressOf StateChanger)
+        'ThreadExecutor.Priority = Threading.ThreadPriority.Normal
+        'ThreadExecutor.Start()
+
+        SetState("Homing")
 
     End Sub
 
@@ -1185,11 +1224,18 @@ Public Class FormProduction
         OnHeaters()
 
         PressureSettings()
+        'With IDS.Data.Hardware.Dispenser.Left
+        '    If .HeadType = "Jetting Valve" Or .HeadType = "Auger Valve" Then
+        '        m_Tri.TurnOn("Material Air")
+        '    End If
+        'End With
         OnPressure()
-        tbDispensePressure.Text = IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.00") + " Bar"
+        SetConveyorSettings()
+        'tbDispensePressure.Text = IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.00") + " Bar"
         tbDispenserType.Text = IDS.Data.Hardware.Dispenser.Left.HeadType
         LabelMessage("File loaded")
         btPlay.Enabled = True
+        Me.btResetPressure.Enabled = True
         If IDS.Data.Hardware.Dispenser.Left.PotLifeOption Then
             ButtonPotReset.Enabled = True
             CheckBoxPotOn.Enabled = True
@@ -1312,10 +1358,10 @@ StopCalibration:
     Private Sub ButtonVolCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolCalib.Click
         If Me.ButtonVolCalib.Text = "Vol. Cal." Then
             SetState("Volume Calibration")
-            Me.ButtonVolCalib.Text = "Stop Vol. Cal."
+            'Me.ButtonVolCalib.Text = "Stop Vol. Cal."
         Else
             Me.ButtonVolCalib.Enabled = False
-            Me.ButtonVolCalib.Text = "Vol. Cal."
+            'Me.ButtonVolCalib.Text = "Vol. Cal."
             StopDispensing()
         End If
 
@@ -1441,11 +1487,13 @@ StopCalibration:
             ButtonCV_Prod_Retrieve.Enabled = True
             ButtonCV_Prod_Release.Enabled = True
             ResetPLCLogic.Enabled = True
+            btDownStream.Enabled = True
         Else
             ButtonStartFirstStage.Enabled = False
             ButtonCV_Prod_Retrieve.Enabled = False
             ButtonCV_Prod_Release.Enabled = False
             ResetPLCLogic.Enabled = False
+            btDownStream.Enabled = False
         End If
     End Sub
 
@@ -1480,6 +1528,17 @@ StopCalibration:
     End Sub
 
 
+    Public Sub SetConveyorSettings()
+        Conveyor.SetCommand("Retrieve Timer", IDS.Data.Hardware.Conveyor.TimeOut)
+        Conveyor.SetCommand("Left Timer", IDS.Data.Hardware.Conveyor.upstreamTimeout)
+        Conveyor.SetCommand("Right Timer", IDS.Data.Hardware.Conveyor.downstreamTimeout)
+        Conveyor.SetCommand("speed", IDS.Data.Hardware.Conveyor.Speed)
+        LabelMessage("Conveyor Speed:" + IDS.Data.Hardware.Conveyor.Speed.ToString("0.000"), False, False)
+        LabelMessage("Conveyor L Timeout:" + IDS.Data.Hardware.Conveyor.Speed.ToString("0.000"), False, False)
+        LabelMessage("Conveyor Retrieve Timeout:" + IDS.Data.Hardware.Conveyor.upstreamTimeout.ToString("0.000"), False, False)
+        LabelMessage("Conveyor R Timeout:" + IDS.Data.Hardware.Conveyor.downstreamTimeout.ToString("0.000"), False, False)
+    End Sub
+
     '                                       kr                                       '
     ' tmrRunPro_tick ensures continuous operation in production (if conveyor ticked) '
     ' enabled by tmrfinish, prodpurgeclean, prodvolumcalib and prodchangesyringe     '
@@ -1496,7 +1555,7 @@ StopCalibration:
 
         ChangeButtonState("Only Stop Displayed")
 
-        While onoff = 1 And Not m_Tri.MotionError
+        While onoff = 1 And Not m_Tri.MotionError And Not IsStopped()
 
             m_Tri.m_TriCtrl.In(gIOloadReady, gIOloadReady, onoff) 'when ready set onoff = 0
             LabelMessage("Waiting for board..", False, False)
@@ -1527,8 +1586,22 @@ StopCalibration:
         'End While
 
         If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Comes")
+        Dim ifPurging As Boolean = Me.m_AutoPurgeRequired
+        If ifPurging Then
+            LogScreen("Auto purging when product come.")
+            LogScreen("Waiting auto purging to be done.")
+        End If
+        While Me.m_AutoPurgeRequired
+            TraceDoEvents()
+            If IsIdle() Or m_Tri.MotionError Then
+                ResetToIdle()
+                Exit Sub
+            End If
+        End While
+        If ifPurging Then
+            LogScreen("Process resume from auto purging.")
+        End If
         Start()
-
     End Sub
 
     Public Sub ResetTimer(ByVal command As String)
@@ -1556,7 +1629,9 @@ StopCalibration:
         TravelToParkPosition()
         m_Tri.m_TriCtrl.Op(gIODispensingDone, 0) 'release board
         PortLifeAction()
-        AutoPurgeAction()
+        'AutoPurgeAction()
+        'Reset purging time after dispensing
+        ResetTimer("Reset Autopurging Timers")
         Form_Service.LogEventInSPCReport("Board Goes")
 
         If IsRunning() Then
@@ -1712,9 +1787,66 @@ StopCalibration:
     Public Sub PressureSettings()
 
     End Sub
+    Public Sub ResetPressure()
+        IDS.Data.OpenData()
+        LabelMessage("Download dispenser settings", False, False)
+        Try
+            If IDS.Data.Hardware.Dispenser.Left.HeadType = "Auger Valve" Then
+                Dispenser.DownloadAugerRPM(IDS.Data.Hardware.Dispenser.Left.RPM, IDS.Data.Hardware.Dispenser.Left.RetractTime, IDS.Data.Hardware.Dispenser.Left.RetractDelay)
 
+                Me.tbDispensePressure.Text = "RPM: " + IDS.Data.Hardware.Dispenser.Left.RPM + " / "
+                LabelMessage("Auger RPM: " + IDS.Data.Hardware.Dispenser.Left.RPM, False, False)
+            ElseIf IDS.Data.Hardware.Dispenser.Left.HeadType = "Slider Valve" Or IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
+                Me.tbDispensePressure.Text = "Pulse(ms): " + IDS.Data.Hardware.Dispenser.Left.Pulse + " / "
+
+                Dispenser.DownloadJettingParameters(IDS.Data.Hardware.Dispenser.Left.Pulse, IDS.Data.Hardware.Dispenser.Left.Pause, IDS.Data.Hardware.Dispenser.Left.Count, IDS.Data.Hardware.Dispenser.Left.ValveTemperature)
+            End If
+            IDS.Data.Hardware.Volume.Left.AdjustedMaterialAirPressure = 0
+            DLL_SetupAndCalibrate.MyDispenserSettings.DownloadMaterialAirPressure(IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure, IDS.Data.Hardware.Dispenser.Left.SuckbackPressure)
+            Me.tbDispensePressure.Text += IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.000") + " bar"
+            LabelMessage("Material Air Pressure: " + IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.000") + " Suck Back Pressure:" + IDS.Data.Hardware.Dispenser.Left.SuckbackPressure.ToString("0.000"), False, False)
+            'Reset all adjusted value for all type of dispenser  at once
+            IDS.Data.Hardware.Volume.Left.AdjustedRPM = 0
+            IDS.Data.Hardware.Volume.Left.AdjustedDispenseDuration = 0
+            IDS.Data.SaveData()
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+        End Try
+    End Sub
+    'Download Dispenser settings to Dispenser controller or valve or others after recipe was loaded
     Public Sub OnPressure()
         IDS.Data.OpenData()
+        LabelMessage("Download dispenser settings", False, False)
+        Try
+            If IDS.Data.Hardware.Dispenser.Left.HeadType = "Auger Valve" Then
+                Me.tbDispensePressure.Text = "RPM: " + IDS.Data.Hardware.Dispenser.Left.RPM + " / "
+                Dispenser.DownloadAugerRPM(IDS.Data.Hardware.Dispenser.Left.RPM, IDS.Data.Hardware.Dispenser.Left.RetractTime, IDS.Data.Hardware.Dispenser.Left.RetractDelay)
+                LabelMessage("Auger RPM: " + IDS.Data.Hardware.Dispenser.Left.RPM, False, False)
+            ElseIf IDS.Data.Hardware.Dispenser.Left.HeadType = "Slider Valve" Or IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
+                Me.tbDispensePressure.Text = "Pulse(ms): " + IDS.Data.Hardware.Dispenser.Left.Pulse + " / "
+                Dispenser.DownloadJettingParameters(IDS.Data.Hardware.Dispenser.Left.Pulse, IDS.Data.Hardware.Dispenser.Left.Pause, IDS.Data.Hardware.Dispenser.Left.Count, IDS.Data.Hardware.Dispenser.Left.ValveTemperature)
+            End If
+            DLL_SetupAndCalibrate.MyDispenserSettings.DownloadMaterialAirPressure(IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure, IDS.Data.Hardware.Dispenser.Left.SuckbackPressure)
+            Me.tbDispensePressure.Text += IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.000") + " bar"
+            LabelMessage("Material Air Pressure: " + IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.000") + " Suck Back Pressure:" + IDS.Data.Hardware.Dispenser.Left.SuckbackPressure.ToString("0.000"), False, False)
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+        End Try
+    End Sub
+
+    Public Sub DisplayAdjustedPressure()
+        If Not btPlay.Enabled Then Return
+        IDS.Data.OpenData()
+        Try
+            If IDS.Data.Hardware.Dispenser.Left.HeadType = "Auger Valve" Then
+                Me.tbDispensePressure.Text = "RPM: " + IDS.Data.Hardware.Volume.Left.AdjustedRPM + " / "
+            ElseIf IDS.Data.Hardware.Dispenser.Left.HeadType = "Slider Valve" Or IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
+                Me.tbDispensePressure.Text = "Pulse On(ms): " + IDS.Data.Hardware.Volume.Left.AdjustedDispenseDuration + " / "
+            End If
+            Me.tbDispensePressure.Text += IDS.Data.Hardware.Volume.Left.AdjustedMaterialAirPressure.ToString("0.000") + " bar"
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+        End Try
     End Sub
 
     Private Sub TimerMonitor_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerMonitor.Tick
@@ -1733,7 +1865,7 @@ StopCalibration:
         '    Exit Sub
         'End If
 
-        Dim auto_purging_enabled As Boolean = IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption And ContinuousMode.Checked And Form_Service.Visible = False 'And IsIdle() And Form_Service.Visible = False
+        Dim auto_purging_enabled As Boolean = IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption And ContinuousMode.Checked And Form_Service.Visible = False And IsIdle()
         CurrentTime = Now
 
         If m_PotLifeOn Then
@@ -1762,9 +1894,10 @@ StopCalibration:
                 If Not (m_AutoPurgeRequired) Then
                     If ElapsedTimeSinceMachineIdle >= IDS.Data.Hardware.Dispenser.Left.AutoPurgingInterval Then  'when elapsed time > time
                         'ResetTimer("Reset Autopurging Timers")
-                        'SetState("AutoPurge")
-                        Me.tbAutoPurgeCountDown.Text = "Waiting Auto Purge"
+                        Me.tbAutoPurgeCountDown.Text = "Start Auto Purge"
                         m_AutoPurgeRequired = True
+                        Me.ProdPurgeClean()
+                        m_AutoPurgeRequired = False
                     End If
                 End If
             End If
@@ -1772,7 +1905,7 @@ StopCalibration:
     End Sub
 
     Private Sub ResetPLCLogic_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ResetPLCLogic.Click
-        Conveyor.Command("Reset PLC Logic")
+        Conveyor.Command("Reset Conveyor Status")
     End Sub
 
     Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
@@ -1855,9 +1988,11 @@ StopCalibration:
     End Sub
 
     Public Function LogScreen(ByVal message As String, Optional ByVal toFile As Boolean = True, Optional ByVal logLevel As Integer = 0)
+
         rtLog.AppendText(DateTime.Now().Today.ToString("MM-dd-yy ") & TimeOfDay.ToString("HH:mm:ss ") & message & Environment.NewLine)
         rtLog.SelectionStart = rtLog.Text.Length
         rtLog.ScrollToCaret()
+
         If toFile Then
             If logLevel = 0 Then
                 logger.Info(message)
@@ -1871,5 +2006,15 @@ StopCalibration:
 
     Private Sub ContinuousMode_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContinuousMode.CheckedChanged
 
+    End Sub
+
+    Private Sub btResetPressure_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btResetPressure.Click
+        LabelMessage("Reset Volume Calibration settings")
+        ResetPressure()
+        LabelMessage("Reset Volume Calibration settings done")
+    End Sub
+
+    Private Sub btDownStream_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btDownStream.Click
+        DIO_Service.TriggerDownstream()
     End Sub
 End Class

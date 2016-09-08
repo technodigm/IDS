@@ -8,6 +8,8 @@ Public Class ChipEdgePoints
     '   Another method, Not to fire "ValueChanged" event while constructing Form's components.      '
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private Initializing As Boolean = True
+    Public Delegate Sub FormCloseDelegate()
+    Public FormCloseEvent As FormCloseDelegate = Nothing
 
 #Region " Windows Form Designer generated code "
     Public Sub New()
@@ -160,6 +162,8 @@ Public Class ChipEdgePoints
         Me.Label4 = New System.Windows.Forms.Label
         Me.Button3 = New System.Windows.Forms.Button
         Me.GroupBox_Settings = New System.Windows.Forms.GroupBox
+        Me.cbbPolarity = New System.Windows.Forms.ComboBox
+        Me.Label22 = New System.Windows.Forms.Label
         Me.ValueROI = New System.Windows.Forms.NumericUpDown
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
         Me.RadioButton_CCW = New System.Windows.Forms.RadioButton
@@ -189,6 +193,7 @@ Public Class ChipEdgePoints
         Me.RadioButton_TwoEdges = New System.Windows.Forms.RadioButton
         Me.RadioButton_OneEdge = New System.Windows.Forms.RadioButton
         Me.RadioButton_Dot = New System.Windows.Forms.RadioButton
+        Me.nudEdgeStrength = New System.Windows.Forms.NumericUpDown
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
         Me.Button1 = New System.Windows.Forms.Button
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
@@ -213,9 +218,6 @@ Public Class ChipEdgePoints
         Me.TextBox_Score = New System.Windows.Forms.TextBox
         Me.TextBox_RSizeX = New System.Windows.Forms.TextBox
         Me.Button_Reset = New System.Windows.Forms.Button
-        Me.nudEdgeStrength = New System.Windows.Forms.NumericUpDown
-        Me.Label22 = New System.Windows.Forms.Label
-        Me.cbbPolarity = New System.Windows.Forms.ComboBox
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -232,8 +234,8 @@ Public Class ChipEdgePoints
         Me.GroupBox_Vertical_Horizontal.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox_DispenseModel.SuspendLayout()
-        Me.GroupBox5.SuspendLayout()
         CType(Me.nudEdgeStrength, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox5.SuspendLayout()
         Me.SuspendLayout()
         '
         'Timer1
@@ -582,6 +584,25 @@ Public Class ChipEdgePoints
         Me.GroupBox_Settings.TabStop = False
         Me.GroupBox_Settings.Text = "Settings"
         '
+        'cbbPolarity
+        '
+        Me.cbbPolarity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbbPolarity.Items.AddRange(New Object() {"Any", "Negative", "Positive"})
+        Me.cbbPolarity.Location = New System.Drawing.Point(96, 144)
+        Me.cbbPolarity.Name = "cbbPolarity"
+        Me.cbbPolarity.Size = New System.Drawing.Size(121, 21)
+        Me.cbbPolarity.TabIndex = 65
+        Me.cbbPolarity.Visible = False
+        '
+        'Label22
+        '
+        Me.Label22.Location = New System.Drawing.Point(8, 120)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(88, 23)
+        Me.Label22.TabIndex = 64
+        Me.Label22.Text = "Edge Strength:"
+        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'ValueROI
         '
         Me.ValueROI.DecimalPlaces = 1
@@ -646,7 +667,6 @@ Public Class ChipEdgePoints
         Me.ValueContrast.Location = New System.Drawing.Point(144, 96)
         Me.ValueContrast.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
         Me.ValueContrast.Name = "ValueContrast"
-        Me.ValueContrast.ReadOnly = True
         Me.ValueContrast.Size = New System.Drawing.Size(48, 20)
         Me.ValueContrast.TabIndex = 41
         Me.ValueContrast.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -693,7 +713,6 @@ Public Class ChipEdgePoints
         'ValueThreshold
         '
         Me.ValueThreshold.Location = New System.Drawing.Point(16, 96)
-        Me.ValueThreshold.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.ValueThreshold.Name = "ValueThreshold"
         Me.ValueThreshold.Size = New System.Drawing.Size(48, 20)
         Me.ValueThreshold.TabIndex = 36
@@ -863,6 +882,15 @@ Public Class ChipEdgePoints
         Me.RadioButton_Dot.Size = New System.Drawing.Size(48, 24)
         Me.RadioButton_Dot.TabIndex = 5
         Me.RadioButton_Dot.Text = "Dot"
+        '
+        'nudEdgeStrength
+        '
+        Me.nudEdgeStrength.Location = New System.Drawing.Point(16, 144)
+        Me.nudEdgeStrength.Name = "nudEdgeStrength"
+        Me.nudEdgeStrength.Size = New System.Drawing.Size(48, 20)
+        Me.nudEdgeStrength.TabIndex = 63
+        Me.nudEdgeStrength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.nudEdgeStrength.Value = New Decimal(New Integer() {50, 0, 0, 0})
         '
         'GroupBox5
         '
@@ -1107,36 +1135,6 @@ Public Class ChipEdgePoints
         Me.Button_Reset.TabIndex = 62
         Me.Button_Reset.Text = "Reset"
         '
-        'nudEdgeStrength
-        '
-        Me.nudEdgeStrength.Location = New System.Drawing.Point(16, 144)
-        Me.nudEdgeStrength.Name = "nudEdgeStrength"
-        Me.nudEdgeStrength.ReadOnly = True
-        Me.nudEdgeStrength.Size = New System.Drawing.Size(48, 20)
-        Me.nudEdgeStrength.TabIndex = 63
-        Me.nudEdgeStrength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.nudEdgeStrength.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.nudEdgeStrength.Visible = False
-        '
-        'Label22
-        '
-        Me.Label22.Location = New System.Drawing.Point(8, 120)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(88, 23)
-        Me.Label22.TabIndex = 64
-        Me.Label22.Text = "Edge Strength:"
-        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'cbbPolarity
-        '
-        Me.cbbPolarity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbbPolarity.Items.AddRange(New Object() {"Any", "Negative", "Positive"})
-        Me.cbbPolarity.Location = New System.Drawing.Point(96, 144)
-        Me.cbbPolarity.Name = "cbbPolarity"
-        Me.cbbPolarity.Size = New System.Drawing.Size(121, 21)
-        Me.cbbPolarity.TabIndex = 65
-        Me.cbbPolarity.Visible = False
-        '
         'ChipEdgePoints
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -1162,8 +1160,8 @@ Public Class ChipEdgePoints
         Me.GroupBox_Vertical_Horizontal.ResumeLayout(False)
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox_DispenseModel.ResumeLayout(False)
-        Me.GroupBox5.ResumeLayout(False)
         CType(Me.nudEdgeStrength, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox5.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1485,7 +1483,7 @@ Public Class ChipEdgePoints
             Button_Reset.Enabled = True
             Test_Click = False
             Button_Test.Text = "Test"
-            FrmVision.ClearDisplay()
+            FrmVision.DisplayIndicator()
         End If
     End Sub
     Private Sub Button_Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Cancel.Click
@@ -1501,6 +1499,9 @@ Public Class ChipEdgePoints
         FrmVision.DisplayIndicator()
         FrmVision.DisableChipEdgeDrawing()
         Me.Visible = False
+        If Not (Me.FormCloseEvent Is Nothing) Then
+            FormCloseEvent()
+        End If
     End Sub
     Private Sub ChipEdgePoints_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Visible = True
@@ -1626,6 +1627,9 @@ Public Class ChipEdgePoints
         FrmVision.GetChipEdgeParameters(vParam)
         FrmVision.DisplayIndicator()
         Me.Visible = False
+        If Not (Me.FormCloseEvent Is Nothing) Then
+            FormCloseEvent()
+        End If
     End Sub
 
     Private Sub Button_Reset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Reset.Click
@@ -1688,7 +1692,7 @@ Public Class ChipEdgePoints
         If (CStr(ValueThreshold.Value) = "") Then
             ValueThreshold.Value = 15
         Else
-            If Not ((ValueThreshold.Value >= 1) And (ValueThreshold.Value <= 100)) Then
+            If Not ((ValueThreshold.Value >= 0) And (ValueThreshold.Value <= 100)) Then
                 ValueThreshold.Value = 15
             End If
         End If

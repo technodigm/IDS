@@ -202,10 +202,12 @@ Public Module Module1
 
     Public Sub OnLaser()
         IDS.Devices.Vision.FrmVision.SetLaser(False) 'turn on
+        Laser.SendCommand("TurnOnMeasurement")
     End Sub
 
     Public Sub OffLaser()
         IDS.Devices.Vision.FrmVision.SetLaser(True) 'turn off
+        Laser.SendCommand("TurnOffMeasurement")
     End Sub
 
     Public Sub TraceDoEvents()
@@ -236,7 +238,7 @@ Public Module Module1
 
     Public Sub AddPanel(ByVal ParentControl As System.windows.forms.Control, ByVal ChildPanel As Panel)
         If Not (CurrentControl Is Nothing) Then
-            MySettings.PanelRight.Controls.Remove(ChildPanel)
+            MySettings.PanelRight.Controls.Remove(CurrentControl)
         End If
         CurrentControl = ChildPanel
         ParentControl.Controls.Add(ChildPanel)
@@ -247,8 +249,12 @@ Public Module Module1
     End Sub
 
     Public Sub RemovePanel(ByVal ChildPanel As Panel)
-        MySetup.PanelRight.Controls.Remove(ChildPanel)
-        MySettings.PanelRight.Controls.Remove(ChildPanel)
+        If MySetup.PanelRight.Controls.Count > 1 Then
+            MySetup.PanelRight.Controls.Remove(ChildPanel)
+        End If
+        If MySettings.PanelRight.Controls.Count > 1 Then
+            MySettings.PanelRight.Controls.Remove(ChildPanel)
+        End If
     End Sub
 
     Public Function MachineRunning() As Boolean

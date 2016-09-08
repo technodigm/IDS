@@ -68,8 +68,9 @@ Public Module ExecutionModule
     'for z position
     Public SafePosition As Double = 0.0 'original -> Dim SafePosition As Double = gSoftHome(2) + gSystemOrigin(2)
 
-#End Region
 
+#End Region
+    Private thisLock As Object = New Object
     Sub New()
         ConfigureLog()
     End Sub
@@ -190,8 +191,11 @@ Public Module ExecutionModule
 
         If ProgrammingMode() Then
             Programming.TextBoxRobotX.Text = "X: " & XCor
+            Programming.TextBoxRobotX.Refresh()
             Programming.TextBoxRobotY.Text = "Y: " & YCor
+            Programming.TextBoxRobotY.Refresh()
             Programming.TextBoxRobotZ.Text = "Z: " & ZCor
+            Programming.TextBoxRobotZ.Refresh()
         Else
             Production.TextBoxRobotPos.Text = " X: " & XCor
             Production.tbYPost.Text = " Y: " & YCor
@@ -209,6 +213,7 @@ Public Module ExecutionModule
     End Sub
 
     Private Sub UpdateTeachPoint(ByVal XCor As Double, ByVal YCor As Double, ByVal ZCor As Double)
+        If Not (m_PosUpdate) Then Return
         Dim colmX, colmY, colmZ As Integer
         Try
 
@@ -216,6 +221,14 @@ Public Module ExecutionModule
                 colmX = gPos1XColumn
                 colmY = gPos1YColumn
                 colmZ = gPos1ZColumn
+                If ProgrammingMode() Then
+                    If Not (Programming.ArrayDlg Is Nothing) Then
+                        If Programming.ArrayDlg.needPositionUpdate Then
+                            Programming.ArrayDlg.SetPoint(XCor, YCor, ZCor)
+                        End If
+                    End If
+                End If
+
             ElseIf m_TeachStepNumber = 2 Then
                 colmX = gPos2XColumn
                 colmY = gPos2YColumn
@@ -256,12 +269,13 @@ Public Module ExecutionModule
         m_Tri.SetMachineRun()
         ChangeButtonState("Running")
         SwitchToTeachCamera()
-        OnLaser()
+        'OnLaser()
+        OffLaser()
         rtn = m_Execution.m_Command.ReadPattern(Programming.AxSpreadsheetProgramming)
         'to show cross
         'Vision.FrmVision.DisplayIndicator()
         OffLaser()
-        DLL_SetupAndCalibrate.MyDispenserSettings.DownloadMaterialAirPressure(IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure, IDS.Data.Hardware.Dispenser.Left.SuckbackPressure)
+
         If rtn = 100 Then
             LabelMessage("Machine stopped.") 'pressed stop while doing reference check
             GoTo resetmachinestate
@@ -275,7 +289,7 @@ Public Module ExecutionModule
 
         LabelMessage("Compiling program.")
         Vision.FrmVision.DisplayIndicator()
-        If m_Execution.m_Command.Compile(Programming.m_RunMode) < 0 Then
+        If m_Execution.m_Command.Compile(Programming.m_RunMode, Programming.GlobalQCEnabled) < 0 Then
             LabelMessage(ErrorMessage())
             ' LabelMessage("Compilation error.")
             GoTo resetmachinestate
@@ -314,7 +328,7 @@ ResetMachineState:
 
                 Dispensinglist = m_Execution.m_Command.DispenseList
                 m_Tri.SetMachineRunMode(Programming.m_RunMode)
-                LabelMessage("Burn table")
+                LabelMessage("Downloading data......")
                 If cmdBurn.BurnTable(Dispensinglist) = False Then
                     LabelMessage("Downloading failed or cancelled.")
                     Return -1
@@ -354,18 +368,18 @@ ResetMachineState:
                     LabelMessage("Motion controller error. Please restart the motion controller and program.")
                 End If
 
-                Dim status_update As String = MyVolumeCalibrationSettings.VolumeCalibrationResult
-                If VolumeCalibrationRunning And status_update <> "" Then
-                    If ProgrammingMode() Then
-                        If Programming.LabelMessege.Text <> status_update Then
-                            LabelMessage(status_update)
-                        End If
-                    Else
-                        If Production.LabelMessege.Text <> status_update Then
-                            LabelMessage(status_update)
-                        End If
-                    End If
-                End If
+                'Dim status_update As String = MyVolumeCalibrationSettings.VolumeCalibrationResult
+                'If VolumeCalibrationRunning And status_update <> "" Then
+                '    If ProgrammingMode() Then
+                '        If Programming.LabelMessege.Text <> status_update Then
+                '            LabelMessage(status_update)
+                '        End If
+                '    Else
+                '        If Production.LabelMessege.Text <> status_update Then
+                '            LabelMessage(status_update)
+                '        End If
+                '    End If
+                'End If
 
                 Hpos(0) = m_Tri.XPosition
                 Hpos(1) = m_Tri.YPosition
@@ -468,7 +482,8 @@ ResetMachineState:
         MyVolumeCalibrationSettings.VolumeCalibrationResult = "Doing volume calibration."
 
         Dim success As Boolean = False
-        MyVolumeCalibrationSettings.VolumeCalibrationSetup()
+        'MyVolumeCalibrationSettings.VolumeCalibrationSetup()
+        MyVolumeCalibrationSettings.VolumeCalibrationParamSetup()
         success = MyVolumeCalibrationSettings.VolumeCalibration(IDS.Data.Hardware.Volume.Left.NumberOfAttempts)
         'LabelMessage("Finished volume calibration.")
         VolumeCalibrationRunning = False
@@ -506,16 +521,80 @@ ResetMachineState:
         End If
 
     End Sub
+    Public Function HandlingGlobalQCCheck() As Integer
+
+        Return 0
+    End Function
+    'This function is to handle a standalone Global QC check.
+    'Global QC check only need to set once and all the dots will be 
+    'checked after all dispensing was done.
+    'Return 1 is abort, 2 is continue, 0 is QC passed
+    Public Function GlobalQCCheck() As Integer
+        SwitchToTeachCamera()
+        Dim vParam As DLL_Export_Device_Vision.QC.QCParam
+        vParam._Binarized = m_Execution.m_Command.globalQCParam._Binarized
+        vParam._BlackDot = m_Execution.m_Command.globalQCParam._BlackDot
+
+        vParam._Brightness = m_Execution.m_Command.globalQCParam._Brightness
+        'Set the brightness before doing the movement. This will affect vision(ActiveX) less.
+        Vision.IDSV_SetBrightness(vParam._Brightness)
+        vParam._Close = m_Execution.m_Command.globalQCParam._Close
+        vParam._Compactness = m_Execution.m_Command.globalQCParam._Compactness
+        vParam._MaxArea = m_Execution.m_Command.globalQCParam._MaxArea
+        vParam._MinArea = m_Execution.m_Command.globalQCParam._MinArea
+        vParam._MRegionX = m_Execution.m_Command.globalQCParam._MRegionX
+        vParam._MRegionY = m_Execution.m_Command.globalQCParam._MRegionY
+        vParam._MROIx = m_Execution.m_Command.globalQCParam._MROIx
+        vParam._MROIy = m_Execution.m_Command.globalQCParam._MROIy
+        vParam._Open = m_Execution.m_Command.globalQCParam._Open
+        vParam._Roughness = m_Execution.m_Command.globalQCParam._Roughness
+        vParam._Diameter = m_Execution.m_Command.globalQCParam._Diameter
+        vParam._Tolerance = m_Execution.m_Command.globalQCParam._Tolerance
+        Dim rtn As Boolean = Vision.IDSV_QC(vParam)
+        If rtn Then
+            If ShouldLog() Then Form_Service.LogEventInSPCReport("Dot Size Check Passed")
+            Programming.LogFile("Dot QC passed.")
+            Return True
+        Else
+            If CheckButtonState() = -1 Then Exit Function
+            If IDS.Data.Hardware.SPC.QCFailedAction = False And ProductionMode() Then
+                Form_Service.LogEventInSPCReport("Dot Size Check Failed")
+            ElseIf IDS.Data.Hardware.SPC.QCFailedAction = True And ProductionMode() Then
+                Form_Service.LogEventInSPCReport("Dot Size Check Failed")
+                Form_Service.DisplayErrorMessage("Dot Size Check Failed")
+            ElseIf IDS.Data.Hardware.SPC.QCFailedAction = True And ProgrammingMode() Then
+                Form_Service.DisplayErrorMessage("Dot Size Check Failed")
+            ElseIf IDS.Data.Hardware.SPC.QCFailedAction = False And ProgrammingMode() Then
+                Programming.LogFile("Dot size check failed! #QC failed action alarm bypassed.")
+                Return 0
+            End If
+
+            WaitUntilErrorMessagesCleared()
+            If Form_Service.DotSizeCheckStop Then
+                If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
+                LabelMessage("Dot size failed. Process aborted!", True)
+                Return 1
+            ElseIf Form_Service.DotSizeCheckContinue Then
+                If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Partial Failure")
+                LabelMessage("Dot size failed alarm ignored", True)
+                Return 2
+            Else
+                'estop
+                Return 1
+            End If
+        End If
+        Return 1
+    End Function
 
     Public Sub QCcheck()
 
         Dim vParam As DLL_Export_Device_Vision.QC.QCParam
-        Dim readbuf(15) As Double
-
+        Dim readbuf(16) As Double
+        LabelMessage("QC Checking")
         SwitchToTeachCamera()
         m_Tri.ResetQCFlag()
 
-        m_Tri.m_TriCtrl.GetTable(210, 15, readbuf)
+        m_Tri.m_TriCtrl.GetTable(210, 16, readbuf)
         vParam._Binarized = readbuf(0)
         If readbuf(1) = 1 Then
             vParam._BlackDot = True
@@ -539,10 +618,13 @@ ResetMachineState:
         vParam._Tolerance = readbuf(14)
 
         Dim rtn As Boolean = Vision.IDSV_QC(vParam)
+        LabelMessage("QC Checked")
         ClearDisplay()
-        If Programming.m_RunMode <> 0 Then SwitchToRealTimeCamera()
+        LabelMessage("#2 QC Checked")
+        If Programming.m_RunMode <> 0 And readbuf(15) = 0 Then SwitchToRealTimeCamera()
         If rtn Then
             If ShouldLog() Then Form_Service.LogEventInSPCReport("Dot Size Check Passed")
+            LabelMessage("Dot size check passed! Diameter(mm): " + Vision.diameterResult.ToString("0.000"))
             m_Tri.SetQCFinished()
         Else
             If CheckButtonState() = -1 Then Exit Sub
@@ -558,7 +640,7 @@ ResetMachineState:
                 Exit Sub
             End If
 
-            WaitUntilErrorMessagesCleared()
+            'WaitUntilErrorMessagesCleared()
 
             If Form_Service.DotSizeCheckStop Then
                 If ShouldLog() Then Form_Service.LogEventInSPCReport("Board Total Failure")
@@ -607,6 +689,17 @@ ResetMachineState:
                             If VolumeCalibrationRunning = True Then MyVolumeCalibrationSettings.VolumeCalibrationState = "Running"
                             LockMovementButtons()
                             MoveZToSafePosition()
+                            If IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Or IDS.Data.Hardware.Dispenser.Left.HeadType = "Auger Valve" Then
+                                'This is to always on the Valve if using jetting valve
+                                'This is Output 27 of Trio Controller
+                                'Output 25 used as trigger signal and is connected to microcontroller that used
+                                'to send PWM to jetting driver in order to dispense. All the dispensing    
+                                'parameter like How many dispenses or dots are control by micro controller.
+                                If Programming.m_RunMode = 4 Then
+                                    m_Tri.TurnOn("Material Air")
+                                End If
+
+                            End If
                             GeneratePatternAndRunProgram()
                         Else
                             If Programming.IsFilePresent Then
@@ -618,9 +711,14 @@ ResetMachineState:
                             Production.ContinuousMode.Enabled = False
                             If Production.ContinuousMode.Checked Then
                                 PortLifeAction()
-                                AutoPurgeAction()
+                                'AutoPurgeAction()
                             End If
                             If IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Or IDS.Data.Hardware.Dispenser.Left.HeadType = "Auger Valve" Then
+                                'This is to always on the Valve if using jetting valve
+                                'This is Output 27 of Trio Controller
+                                'Output 25 used as trigger signal and is connected to microcontroller that used
+                                'to send PWM to jetting driver in order to dispense. All the dispensing    
+                                'parameter like How many dispenses or dots are control by micro controller.
                                 m_Tri.TurnOn("Material Air")
                             End If
                             If Production.ContinuousMode.Checked = True Then ' continuous run
@@ -647,6 +745,7 @@ ResetMachineState:
                                 LockMovementButtons()
                                 TravelToParkPosition()
                                 ResetToIdle()
+                                ClearAndDisplayIndicator()
                                 LabelMessage("Dispensing done")
                                 Programming.NeedleMode.Enabled = True
                                 Programming.VisionMode.Enabled = True
@@ -657,6 +756,7 @@ ResetMachineState:
                             Else
                                 If Production.ContinuousMode.Checked = True Then
                                     Production.DispensingFinishCallback.Invoke() 'synchronous
+                                    ClearAndDisplayIndicator()
                                 Else
                                     LabelMessage("Moving to park position")
                                     LockMovementButtons()
@@ -664,6 +764,7 @@ ResetMachineState:
                                     Production.btExit.Enabled = True
                                     LabelMessage("Dispensing done")
                                     ResetToIdle()
+                                    ClearAndDisplayIndicator()
                                     'PortLifeAction()
                                     'AutoPurgeAction()
                                 End If
@@ -699,27 +800,27 @@ ResetMachineState:
                             MySleep(25)
                             TraceDoEvents()
                         Loop Until m_Tri.HomingFinished Or m_Tri.EStopActivated Or m_Tri.IDSIsHomed()
-
                         ResetToIdle()
 
-                        LabelMessage("System Ready")
                         If ProductionMode() Then
                             Production.ButtonOpenFile.Enabled = True
                             Production.btPlay.Enabled = False
+                        Else
+                            Programming.ButtonToggleMode.Enabled = False
+                            LabelMessage("Opening default file......")
+                            Programming.OpenDefaultFile()
+                            Programming.EnableClickToMove()
+                            Programming.ButtonToggleMode.Enabled = True
                         End If
-
-
+                        LabelMessage("System Ready")
                     Case "AutoPurge"
                         Production.ProdPurgeClean()
-
                     Case "Purge", "Clean"
                         For i As Integer = 1 To 5
                             TraceDoEvents()
                             MySleep(100)
                         Next
-
                     Case "Idle", "Stop", "Pause"
-
                 End Select
 
             Catch ex_abort As ThreadAbortException
@@ -867,6 +968,11 @@ ResetMachineState:
         Return False
 
     End Function
+    'This function is use to track if the system is started and on standby for production
+    Public Function IsStopped()
+        If MachineState = "stop" Then Return True
+        Return False
+    End Function
     Public Function IsStart()
         If MachineState = "Start" Then Return True
         Return False
@@ -927,6 +1033,8 @@ ResetMachineState:
             Programming.NeedleMode.Enabled = True
             Programming.MenuItem1.Enabled = True
             Programming.btExit.Enabled = True
+            Programming.btReset.Enabled = True
+            Programming.btEject.Enabled = True
         Else
             If Not (Production.ContinuousMode.Checked) Then
                 Production.ConveyorBox.Enabled = True
@@ -1091,6 +1199,8 @@ ResetMachineState:
                 .VisionMode.Enabled = False
                 .NeedleMode.Enabled = False
                 .btChangeSyringe.Enabled = False
+                Programming.btReset.Enabled = False
+                Programming.btEject.Enabled = False
             End With
         ElseIf ProductionMode() Then
             With Production
@@ -1128,6 +1238,8 @@ ResetMachineState:
                 .VisionMode.Enabled = True
                 .NeedleMode.Enabled = True
                 .btChangeSyringe.Enabled = True
+                Programming.btReset.Enabled = True
+                Programming.btEject.Enabled = True
             End With
         ElseIf ProductionMode() Then
             With Production
@@ -1142,9 +1254,10 @@ ResetMachineState:
             End With
         End If
     End Sub
-
     Public Sub LabelMessage(ByVal message As String, Optional ByVal isError As Boolean = False, Optional ByVal logToScreen As Boolean = True)
         Try
+            If thisLock Is Nothing Then Exit Sub
+            Monitor.Enter(thisLock)
             If gExeMode <> "Operator" Then
                 Programming.LabelMessege.Text = message
                 Programming.LabelMessege.Refresh()
@@ -1164,7 +1277,9 @@ ResetMachineState:
                     End If
                 End If
             End If
+            Monitor.Exit(thisLock)
         Catch ex As Exception
+            Monitor.Exit(thisLock)
         End Try
     End Sub
 
@@ -1483,7 +1598,7 @@ Reset:
         End If
         OnLaser()
 
-        Dim rtn As Boolean = MyNeedleCalibrationSettings.NeedleCalibration()
+        Dim rtn As Boolean = MyNeedleCalibrationSettings.NeedleCalibration(False)
         OffLaser()
         If MyNeedleCalibrationSettings.NeedleCalibrationState = "Running" Then
             If rtn = True Then
@@ -1548,7 +1663,10 @@ Reset:
         LabelMessage("Stationed at change syringe position")
         Dim fm As InfoForm = New InfoForm
         fm.AddNewLine("Stationed at change syring position. Door was unlocked!")
-        fm.AddNewLine("Click Done button after changed syringe.")
+        fm.AddNewLine("Only click Done button after changed syringe.")
+        If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
+            fm.AddNewLine("Only click Done button after changed syringe.")
+        End If
         fm.AddNewLine("Click Abort button if not to change syringe")
         fm.SetOKButtonText("Done")
         fm.SetCancelButtonText("Abort")
@@ -1560,6 +1678,10 @@ Reset:
             LockMovementButtons()
             TravelToParkPosition()
         Else
+            If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
+                LabelMessage("Auto purging enabled: Auto purging timer was reset after syringe changed.")
+                Production.ResetTimer("Reset Autopurging Timers")
+            End If
             Dim db As InfoForm = New InfoForm
             db.SetTitle("Needle Calibration")
             db.AddNewLine("Would you like to perform purge and needle calibration?")
@@ -1669,21 +1791,21 @@ Reset:
 Reset:
         ResetToIdle()
         changingSyringe = False
+        If ProductionMode() Then
+            Production.ButtonVolCalib.Text = "Vol. Cal"
+        End If
     End Sub
 
     Public Sub DoVolumeCalibration()
         VolumeCalibrationRunning = True
+        MyVolumeCalibrationSettings.VolumeCalibrationState = "Running"
+        MyVolumeCalibrationSettings.VCRunning = True
         If ProductionMode() Then
             If Production.DoorCheck() = False Then
                 LabelMessage("Close the door first.")
                 GoTo Reset
             End If
             Form_Service.LogEventInSPCReport("Volume Calibration")
-            'Else
-            '    If Programming.IsVisionTeachMode Then
-            '        LabelMessage("Wrong mode. Please switch to needle mode first.")
-            '        GoTo Reset
-            '    End If
         End If
 
         LockMovementButtons()
@@ -1692,14 +1814,20 @@ Reset:
         Else
             Production.ButtonVolCalib.Text = "Stop Vol. Cal."
         End If
+        MyVolumeCalibrationSettings.VCStatusUpdate = New VolumeCalibrationSettings.VCStatusUpdateDelegate(AddressOf updateLabelMessage)
+        MyVolumeCalibrationSettings.VolumeCalibrationResult = ""
         LabelMessage("Doing volume calibration.")
-        MyVolumeCalibrationSettings.VolumeCalibrationSetup()
+        ' MyVolumeCalibrationSettings.VolumeCalibrationSetup()
         If Not (MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped") Then
             'VolumeCalibrationRunning = True
             m_Tri.SetMachineRun()
+            MyVolumeCalibrationSettings.VolumeCalibrationParamSetup()
             Dim rtn As Boolean = MyVolumeCalibrationSettings.VolumeCalibration(IDS.Data.Hardware.Volume.Left.NumberOfAttempts)
             If rtn = True Then
                 LabelMessage("Volume calibration successful.")
+                If ProductionMode() Then
+                    Production.DisplayAdjustedPressure()
+                End If
             Else
                 If Not (MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped") Then
                     LabelMessage("Volume calibration failed.")
@@ -1707,13 +1835,34 @@ Reset:
                     LabelMessage("Volume calibration canceled.")
                 End If
             End If
+            If ProgrammingMode() Then
+                Programming.ButtonVolCal.Text = "Vol. Cal."
+            Else
+                Production.ButtonVolCalib.Text = "Vol. Cal."
+            End If
 Reset:
             If Not (MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped") Then
                 ResetToIdle()
+            Else
+                SetState("Idle")
             End If
+            If ProgrammingMode() Then
+                Programming.ButtonVolCal.Text = "Vol. Cal."
+            Else
+                Production.ButtonVolCalib.Text = "Vol. Cal."
+            End If
+            MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped"
+            MyVolumeCalibrationSettings.VCRunning = False
             VolumeCalibrationRunning = False
         Else
             LabelMessage("Volume calibration canceled.")
+            MyVolumeCalibrationSettings.VCRunning = False
+            VolumeCalibrationRunning = False
+            If ProgrammingMode() Then
+                Programming.ButtonVolCal.Text = "Vol. Cal."
+            Else
+                Production.ButtonVolCalib.Text = "Vol. Cal."
+            End If
         End If
 
 
@@ -1733,9 +1882,10 @@ Reset:
     Public Sub StopDispensing()
         If changingSyringe Then Exit Sub
         If IsIdle() Then Exit Sub 'Prevent hardware stop button to trigger stop when system idle
-        If VolumeCalibrationRunning = True Then
+
+        If MyVolumeCalibrationSettings.VolumeCalibrationState = "Running" Then
+            LabelMessage("Stopping volume calibration")
             MyVolumeCalibrationSettings.VolumeCalibrationState = "Stopped"
-            LabelMessage("Stopping Volume Calibration")
             If ProgrammingMode() Then
                 Programming.ButtonVolCal.Enabled = False
                 Programming.ButtonVolCal.Text = "Vol. Cal."
@@ -1771,10 +1921,15 @@ Reset:
             End If
         End If
         'VolumeCalibrationRunning = False
-        LabelMessage("Dispensing Stop!")
-        If NeedleCalibrationRunning Then
+        'LabelMessage("Dispensing Stop!")
+        If MyNeedleCalibrationSettings.NeedleCalibrationState = "Running" Then 'NeedleCalibrationRunning Then
             MyNeedleCalibrationSettings.NeedleCalibrationState = "Stopped"
-            LabelMessage("Stopping Needle Calibration")
+            LabelMessage("Stopping needle calibration")
+            Dim pos(0) As Integer
+            pos(0) = 1
+            m_Tri.m_TriCtrl.SetTable(126, 1, pos)
+            'm_Tri.AbortMotionDone()
+            'LabelMessage("Stopping Needle Calibration")
             If ProgrammingMode() Then
                 Programming.ButtonNeedleCal.Enabled = False
                 Programming.ButtonNeedleCal.Text = "Need. Cal."
@@ -1783,28 +1938,48 @@ Reset:
                 Production.ButtonNdlCalib.Text = "Need. Cal."
             End If
         End If
+        While MyVolumeCalibrationSettings.VCRunning
+            Application.DoEvents()
+        End While
+        While MyNeedleCalibrationSettings.NCRunning
+            Application.DoEvents()
+        End While
         SetState("Stop")
+        m_Tri.AbortMotionDone()
         m_Tri.TrioStop()
         If Not ThreadExecution Is Nothing Then ThreadExecution.Abort()
         'If VolumeCalibrationRunning Then
         'Turn of dispensing output
         m_Tri.m_TriCtrl.Execute("OP(25,0)")
         'End If
-        If Not WasStart() Or VolumeCalibrationRunning Or NeedleCalibrationRunning Then
+        m_Tri.SetQCStop()
+        m_Tri.ResetQCFlag()
+
+        Dim enterTime As Long = DateTime.Now.Ticks
+        While ((DateTime.Now.Ticks - enterTime) / 1000) > 500
+            Application.DoEvents()
+        End While
+        Console.WriteLine("After abort motion done")
+        If Not IsIdle() Then 'If Not WasStart() Or VolumeCalibrationRunning Or NeedleCalibrationRunning Then
             LockMovementButtons()
+            Console.WriteLine("#c")
             TravelToParkPosition()
+            Console.WriteLine("#d")
             ResetToIdle()
+            Console.WriteLine("#e")
             Programming.ButtonVolCal.Text = "Vol. Cal."
             Programming.ButtonNeedleCal.Text = "Need. Cal."
         End If
         VolumeCalibrationRunning = False
         NeedleCalibrationRunning = False
+        Console.WriteLine("#a")
         If ProductionMode() Then
             If Production.ContinuousMode.Checked Then
                 Conveyor.Command("Release")
             End If
             Production.WriteSPCReport()
         End If
+        Console.WriteLine("#b")
     End Sub
 
     Public Sub ResumeDispensing()
@@ -1860,12 +2035,20 @@ Reset:
 
     Public Sub OnLaser()
         Vision.FrmVision.SetLaser(False) 'turn on
+        'Laser.ClearComBuffer()
+        Laser.SendCommand("TurnOnMeasurement")
     End Sub
 
     Public Sub OffLaser()
         Vision.FrmVision.SetLaser(True) 'turn offset
+        Laser.SendCommand("TurnOffMeasurement")
+        'Laser.ClearComBuffer()
     End Sub
 
 #End Region
+
+    Public Sub updateLabelMessage(ByVal status As String)
+        LabelMessage(status)
+    End Sub
 
 End Module

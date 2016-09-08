@@ -46,8 +46,15 @@ Public Class CIDSVision
     Public Function IDSV_NC(ByVal BlackDot As Boolean, ByVal Binarized As Integer, ByVal MaxArea As Double, ByVal MinArea As Double, ByVal Close As Integer, ByVal Open As Integer, ByVal Roughness As Double, ByVal Compactness As Double, ByVal _DisplayCenterXPosition As Decimal, ByVal _DisplayCenterYPosition As Decimal, ByVal _MRoiX As Decimal, ByVal _MRoiY As Decimal, ByRef NC_OffX As Double, ByRef NC_OffY As Double) As Boolean
         Return FrmVision.IDSV_NC(BlackDot, Binarized, MaxArea, MinArea, Close, Open, Roughness, Compactness, _DisplayCenterXPosition, _DisplayCenterYPosition, _MRoiX, _MRoiY, NC_OffX, NC_OffY)
     End Function
+    Public diameterResult As Double = 0
     Public Function IDSV_QC(ByVal VParam As DLL_Export_Device_Vision.QC.QCParam) As Boolean
-        Return FrmVision.IDSV_QC(VParam)
+        Dim rtn = FrmVision.IDSV_QC(VParam)
+        If rtn Then
+            diameterResult = FrmVision.diameterResult
+        Else
+            diameterResult = -1
+        End If
+        Return rtn
     End Function
     Public Function IDSV_RM(ByVal VParam As DLL_Export_Device_Vision.RejectPoint.RMParam) As Boolean
         Return FrmVision.IDSV_RM(VParam)
@@ -114,6 +121,15 @@ Public Class CIDSVision
     End Sub
     Function GetQCStatus() As Integer
         Return QC_form.GetQCStatus()
+    End Function
+    Function GetIsGlobalQC() As Boolean
+        Return QC_form.GetIsGlobalQC()
+    End Function
+    Function SetAllowGlobalQC(ByVal allow As Boolean)
+        QC_form.SetAllowGlobalMode(allow)
+    End Function
+    Function SetGlobalQCMode(ByVal isGlobal As Boolean)
+        QC_form.SetGlobalMode(isGlobal)
     End Function
     Function GetQCParameters(ByRef param As DLL_Export_Device_Vision.QC.QCParam)
         Return QC_form.GetQCParameters(param)

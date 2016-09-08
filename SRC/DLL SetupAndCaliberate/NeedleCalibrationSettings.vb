@@ -5,7 +5,7 @@ Public Class NeedleCalibrationSettings
     Inherits System.Windows.Forms.Form
 
     Friend Z_Offset As Double
-    Public CalibrationTable(15) As Double
+    Public CalibrationTable(16) As Double
     Friend x_pitch_l, y_pitch_l As Double
     Private RegionX = 768 / 2
     Private RegionY = 576 / 2
@@ -16,6 +16,8 @@ Public Class NeedleCalibrationSettings
 
     Friend LeftRoughNeedleCalibrationOffset(2) As Double
     Public NeedleCalibrationState As String = "Stopped"
+
+    Private m_Rough, m_Open, m_Close, m_Threshold, m_Brightness, m_maxRad, m_minRad, m_Compact
 
 #Region " Windows Form Designer generated code "
 
@@ -111,12 +113,17 @@ Public Class NeedleCalibrationSettings
     Friend WithEvents ButtonCalibrateZPositionJetting As System.Windows.Forms.Button
     Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents btCheckDotOnce As System.Windows.Forms.Button
+    Friend WithEvents btSaveDotSize As System.Windows.Forms.Button
+    Friend WithEvents btPurgeNow As System.Windows.Forms.Button
+    Friend WithEvents tbStatus As System.Windows.Forms.TextBox
+    Friend WithEvents btCheckCalibrationAccuracy As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NeedleCalibrationSettings))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.Label21 = New System.Windows.Forms.Label
         Me.BoxStep2 = New System.Windows.Forms.GroupBox
+        Me.btPurgeNow = New System.Windows.Forms.Button
         Me.Label17 = New System.Windows.Forms.Label
         Me.RetractHeight = New System.Windows.Forms.NumericUpDown
         Me.Label31 = New System.Windows.Forms.Label
@@ -145,6 +152,8 @@ Public Class NeedleCalibrationSettings
         Me.Label11 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.BoxStep3 = New System.Windows.Forms.GroupBox
+        Me.tbStatus = New System.Windows.Forms.TextBox
+        Me.btSaveDotSize = New System.Windows.Forms.Button
         Me.btCheckDotOnce = New System.Windows.Forms.Button
         Me.Compactness = New System.Windows.Forms.NumericUpDown
         Me.Roughness = New System.Windows.Forms.NumericUpDown
@@ -166,6 +175,7 @@ Public Class NeedleCalibrationSettings
         Me.WhiteBackground = New System.Windows.Forms.RadioButton
         Me.Label19 = New System.Windows.Forms.Label
         Me.ButtonTest = New System.Windows.Forms.Button
+        Me.btCheckCalibrationAccuracy = New System.Windows.Forms.Button
         Me.BoxStep4 = New System.Windows.Forms.GroupBox
         Me.Label20 = New System.Windows.Forms.Label
         Me.Calibrate = New System.Windows.Forms.Button
@@ -233,6 +243,7 @@ Public Class NeedleCalibrationSettings
         '
         'BoxStep2
         '
+        Me.BoxStep2.Controls.Add(Me.btPurgeNow)
         Me.BoxStep2.Controls.Add(Me.Label17)
         Me.BoxStep2.Controls.Add(Me.RetractHeight)
         Me.BoxStep2.Controls.Add(Me.Label31)
@@ -266,9 +277,17 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep2.TabStop = False
         Me.BoxStep2.Text = "Step 2: Single Dot Dispense"
         '
+        'btPurgeNow
+        '
+        Me.btPurgeNow.Location = New System.Drawing.Point(360, 192)
+        Me.btPurgeNow.Name = "btPurgeNow"
+        Me.btPurgeNow.Size = New System.Drawing.Size(128, 64)
+        Me.btPurgeNow.TabIndex = 92
+        Me.btPurgeNow.Text = "Purge At Current Position"
+        '
         'Label17
         '
-        Me.Label17.Location = New System.Drawing.Point(264, 136)
+        Me.Label17.Location = New System.Drawing.Point(256, 136)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(104, 24)
         Me.Label17.TabIndex = 57
@@ -276,15 +295,16 @@ Public Class NeedleCalibrationSettings
         '
         'RetractHeight
         '
-        Me.RetractHeight.Location = New System.Drawing.Point(384, 104)
+        Me.RetractHeight.DecimalPlaces = 3
+        Me.RetractHeight.Location = New System.Drawing.Point(376, 104)
         Me.RetractHeight.Name = "RetractHeight"
-        Me.RetractHeight.Size = New System.Drawing.Size(64, 27)
+        Me.RetractHeight.Size = New System.Drawing.Size(80, 27)
         Me.RetractHeight.TabIndex = 66
         '
         'Label31
         '
         Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.Location = New System.Drawing.Point(448, 136)
+        Me.Label31.Location = New System.Drawing.Point(456, 136)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(40, 23)
         Me.Label31.TabIndex = 82
@@ -301,7 +321,7 @@ Public Class NeedleCalibrationSettings
         'Label29
         '
         Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.Location = New System.Drawing.Point(448, 104)
+        Me.Label29.Location = New System.Drawing.Point(456, 104)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(40, 23)
         Me.Label29.TabIndex = 84
@@ -318,16 +338,17 @@ Public Class NeedleCalibrationSettings
         '
         'NeedleGap
         '
-        Me.NeedleGap.DecimalPlaces = 1
-        Me.NeedleGap.Location = New System.Drawing.Point(384, 136)
+        Me.NeedleGap.DecimalPlaces = 3
+        Me.NeedleGap.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NeedleGap.Location = New System.Drawing.Point(376, 136)
         Me.NeedleGap.Name = "NeedleGap"
-        Me.NeedleGap.Size = New System.Drawing.Size(64, 27)
+        Me.NeedleGap.Size = New System.Drawing.Size(80, 27)
         Me.NeedleGap.TabIndex = 58
         Me.NeedleGap.Value = New Decimal(New Integer() {5, 0, 0, 65536})
         '
         'Label13
         '
-        Me.Label13.Location = New System.Drawing.Point(264, 104)
+        Me.Label13.Location = New System.Drawing.Point(256, 104)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(120, 24)
         Me.Label13.TabIndex = 65
@@ -361,7 +382,10 @@ Public Class NeedleCalibrationSettings
         '
         'ApproachHeight
         '
+        Me.ApproachHeight.DecimalPlaces = 3
+        Me.ApproachHeight.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.ApproachHeight.Location = New System.Drawing.Point(152, 104)
+        Me.ApproachHeight.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
         Me.ApproachHeight.Name = "ApproachHeight"
         Me.ApproachHeight.Size = New System.Drawing.Size(64, 27)
         Me.ApproachHeight.TabIndex = 60
@@ -369,7 +393,7 @@ Public Class NeedleCalibrationSettings
         'Label25
         '
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(448, 72)
+        Me.Label25.Location = New System.Drawing.Point(456, 72)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(32, 23)
         Me.Label25.TabIndex = 88
@@ -377,15 +401,18 @@ Public Class NeedleCalibrationSettings
         '
         'RetractDelay
         '
-        Me.RetractDelay.Location = New System.Drawing.Point(384, 72)
+        Me.RetractDelay.Location = New System.Drawing.Point(376, 72)
         Me.RetractDelay.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.RetractDelay.Name = "RetractDelay"
-        Me.RetractDelay.Size = New System.Drawing.Size(64, 27)
+        Me.RetractDelay.Size = New System.Drawing.Size(80, 27)
         Me.RetractDelay.TabIndex = 62
         '
         'ClearanceHeight
         '
+        Me.ClearanceHeight.DecimalPlaces = 3
+        Me.ClearanceHeight.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.ClearanceHeight.Location = New System.Drawing.Point(152, 136)
+        Me.ClearanceHeight.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
         Me.ClearanceHeight.Name = "ClearanceHeight"
         Me.ClearanceHeight.Size = New System.Drawing.Size(64, 27)
         Me.ClearanceHeight.TabIndex = 68
@@ -418,7 +445,7 @@ Public Class NeedleCalibrationSettings
         '
         'Label15
         '
-        Me.Label15.Location = New System.Drawing.Point(264, 72)
+        Me.Label15.Location = New System.Drawing.Point(256, 72)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(120, 23)
         Me.Label15.TabIndex = 61
@@ -443,7 +470,7 @@ Public Class NeedleCalibrationSettings
         'Label1
         '
         Me.Label1.ForeColor = System.Drawing.Color.Brown
-        Me.Label1.Location = New System.Drawing.Point(32, 216)
+        Me.Label1.Location = New System.Drawing.Point(8, 216)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(216, 48)
         Me.Label1.TabIndex = 91
@@ -451,9 +478,9 @@ Public Class NeedleCalibrationSettings
         '
         'ButtonCalibrateVision
         '
-        Me.ButtonCalibrateVision.Location = New System.Drawing.Point(272, 216)
+        Me.ButtonCalibrateVision.Location = New System.Drawing.Point(224, 216)
         Me.ButtonCalibrateVision.Name = "ButtonCalibrateVision"
-        Me.ButtonCalibrateVision.Size = New System.Drawing.Size(176, 40)
+        Me.ButtonCalibrateVision.Size = New System.Drawing.Size(128, 40)
         Me.ButtonCalibrateVision.TabIndex = 61
         Me.ButtonCalibrateVision.Text = "Dispense Dot"
         '
@@ -500,6 +527,8 @@ Public Class NeedleCalibrationSettings
         '
         'BoxStep3
         '
+        Me.BoxStep3.Controls.Add(Me.tbStatus)
+        Me.BoxStep3.Controls.Add(Me.btSaveDotSize)
         Me.BoxStep3.Controls.Add(Me.btCheckDotOnce)
         Me.BoxStep3.Controls.Add(Me.Compactness)
         Me.BoxStep3.Controls.Add(Me.Roughness)
@@ -521,6 +550,7 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep3.Controls.Add(Me.WhiteBackground)
         Me.BoxStep3.Controls.Add(Me.Label19)
         Me.BoxStep3.Controls.Add(Me.ButtonTest)
+        Me.BoxStep3.Controls.Add(Me.btCheckCalibrationAccuracy)
         Me.BoxStep3.Location = New System.Drawing.Point(8, 456)
         Me.BoxStep3.Name = "BoxStep3"
         Me.BoxStep3.Size = New System.Drawing.Size(496, 296)
@@ -528,9 +558,27 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep3.TabStop = False
         Me.BoxStep3.Text = "Step 3: Check Dot"
         '
+        'tbStatus
+        '
+        Me.tbStatus.Location = New System.Drawing.Point(16, 256)
+        Me.tbStatus.Name = "tbStatus"
+        Me.tbStatus.ReadOnly = True
+        Me.tbStatus.Size = New System.Drawing.Size(464, 27)
+        Me.tbStatus.TabIndex = 108
+        Me.tbStatus.Text = ""
+        '
+        'btSaveDotSize
+        '
+        Me.btSaveDotSize.Location = New System.Drawing.Point(424, 200)
+        Me.btSaveDotSize.Name = "btSaveDotSize"
+        Me.btSaveDotSize.Size = New System.Drawing.Size(88, 48)
+        Me.btSaveDotSize.TabIndex = 107
+        Me.btSaveDotSize.Text = "Save Dot Size"
+        Me.btSaveDotSize.Visible = False
+        '
         'btCheckDotOnce
         '
-        Me.btCheckDotOnce.Location = New System.Drawing.Point(56, 224)
+        Me.btCheckDotOnce.Location = New System.Drawing.Point(80, 200)
         Me.btCheckDotOnce.Name = "btCheckDotOnce"
         Me.btCheckDotOnce.Size = New System.Drawing.Size(160, 48)
         Me.btCheckDotOnce.TabIndex = 106
@@ -615,19 +663,19 @@ Public Class NeedleCalibrationSettings
         '
         'Label8
         '
-        Me.Label8.Location = New System.Drawing.Point(243, 104)
+        Me.Label8.Location = New System.Drawing.Point(224, 104)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(104, 23)
+        Me.Label8.Size = New System.Drawing.Size(120, 23)
         Me.Label8.TabIndex = 92
-        Me.Label8.Text = "Min Radius"
+        Me.Label8.Text = "Min Diameter"
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(243, 72)
+        Me.Label4.Location = New System.Drawing.Point(224, 72)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(104, 23)
+        Me.Label4.Size = New System.Drawing.Size(120, 23)
         Me.Label4.TabIndex = 91
-        Me.Label4.Text = "Max Radius"
+        Me.Label4.Text = "Max Diameter"
         '
         'Label5
         '
@@ -706,11 +754,19 @@ Public Class NeedleCalibrationSettings
         '
         'ButtonTest
         '
-        Me.ButtonTest.Location = New System.Drawing.Point(280, 224)
+        Me.ButtonTest.Location = New System.Drawing.Point(256, 200)
         Me.ButtonTest.Name = "ButtonTest"
         Me.ButtonTest.Size = New System.Drawing.Size(160, 48)
         Me.ButtonTest.TabIndex = 61
         Me.ButtonTest.Text = "Continous Check Dot"
+        '
+        'btCheckCalibrationAccuracy
+        '
+        Me.btCheckCalibrationAccuracy.Location = New System.Drawing.Point(392, 16)
+        Me.btCheckCalibrationAccuracy.Name = "btCheckCalibrationAccuracy"
+        Me.btCheckCalibrationAccuracy.Size = New System.Drawing.Size(96, 48)
+        Me.btCheckCalibrationAccuracy.TabIndex = 93
+        Me.btCheckCalibrationAccuracy.Text = "Check Accuracy"
         '
         'BoxStep4
         '
@@ -728,15 +784,15 @@ Public Class NeedleCalibrationSettings
         Me.Label20.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Label20.Location = New System.Drawing.Point(32, 32)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(216, 48)
+        Me.Label20.Size = New System.Drawing.Size(176, 48)
         Me.Label20.TabIndex = 91
         Me.Label20.Text = "Final calibration with dispensing of 8 dots."
         '
         'Calibrate
         '
-        Me.Calibrate.Location = New System.Drawing.Point(280, 32)
+        Me.Calibrate.Location = New System.Drawing.Point(216, 32)
         Me.Calibrate.Name = "Calibrate"
-        Me.Calibrate.Size = New System.Drawing.Size(176, 40)
+        Me.Calibrate.Size = New System.Drawing.Size(88, 40)
         Me.Calibrate.TabIndex = 9
         Me.Calibrate.Text = "Calibrate"
         '
@@ -831,7 +887,7 @@ Public Class NeedleCalibrationSettings
         'NeedleCalibrationSettings
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1000, 912)
+        Me.ClientSize = New System.Drawing.Size(544, 912)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "NeedleCalibrationSettings"
@@ -866,7 +922,7 @@ Public Class NeedleCalibrationSettings
 #Region "Calibration Procedures"
 
     Private Function CheckLocalDot()
-        Return IDS.Devices.Vision.IDSV_NC(WhiteBackground.Checked, Threshold.Value, MaxRadius.Value, MinRadius.Value, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, RegionX, RegionY, ROI_X, ROI_Y, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y)
+        Return IDS.Devices.Vision.IDSV_NC(WhiteBackground.Checked, Threshold.Value, MaxRadius.Value / 2, MinRadius.Value / 2, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, RegionX, RegionY, ROI_X, ROI_Y, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y)
     End Function
 
     Private Function CheckDot()
@@ -903,11 +959,12 @@ Public Class NeedleCalibrationSettings
             CalibrationTable(13) = Z_Offset
             CalibrationTable(14) = x_pitch_l
             CalibrationTable(15) = y_pitch_l '125
+            CalibrationTable(16) = 0 '125
         End With
 
     End Sub
 
-    Public Function CalibrateNeedleZPosition() As Boolean
+    Public Function CalibrateNeedleZPosition(Optional ByVal moveToZ As Boolean = True) As Boolean
         'call the z calibration sub routine in the program CALIBRATIONS inside Motion Perfect 
         m_Tri.SetMachineRun()
         m_Tri.SetCalibrationType("Needle Z Calibration")
@@ -938,6 +995,16 @@ Public Class NeedleCalibrationSettings
 StopCalibration:
         'MsgBox("Checking the Z position for needle calibration stopped prematurely.")
         m_Tri.SetMachineStop()
+
+        SetServiceSpeed()
+        m_Tri.Move_Z(0)
+       
+        Calibrate.Enabled = True
+        Calibrate.Text = "Calibrate"
+        If localCalib Then
+            MessageBox.Show("Needle Calibration stopped.")
+            localCalib = False
+        End If
         Return False
     End Function
 
@@ -961,10 +1028,10 @@ StopCalibration:
         'laser checks the height of the disp. plane
         MySleep(50)
         If Not Laser.WaitForReadingToStabilize() Then GoTo stopcalibration
-        Z_Offset = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z - Laser.MM_Reading
+        Z_Offset = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z - Laser.LASER_Reading
 
         SetNeedleXYCal(1, 25)
-        m_Tri.m_TriCtrl.SetTable(110, 16, CalibrationTable)
+        m_Tri.m_TriCtrl.SetTable(110, 17, CalibrationTable)
 
         'download dispenser settings
         If LeftHead.Checked Then
@@ -992,7 +1059,7 @@ StopCalibration:
         Return False
     End Function
 
-    Public Function CalibrateNeedleXYPosition() As Boolean
+    Public Function CalibrateNeedleXYPosition(Optional ByVal moveToZ As Boolean = True) As Boolean
 
         'gantry moves to position laser at calibration block
         'position(0) = -5     'position has to be found by laser-camera offset, etc...
@@ -1010,9 +1077,10 @@ StopCalibration:
 
         'laser checks the height of the disp. plane
         MySleep(50)
+        OnLaser()
         If Not Laser.WaitForReadingToStabilize() Then GoTo stopcalibration
         If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
-        Z_Offset = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z - Laser.MM_Reading
+        Z_Offset = IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z + IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z - Laser.LASER_Reading
         OffLaser()
 
         'download dispenser settings
@@ -1030,7 +1098,7 @@ StopCalibration:
         If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         'xy dispensing
         SetNeedleXYCal(8, 25)
-        m_Tri.m_TriCtrl.SetTable(110, 16, CalibrationTable)
+        m_Tri.m_TriCtrl.SetTable(110, 17, CalibrationTable)
         m_Tri.SetCalibrationType("Needle XY Calibration")
         If Not TrioMotionCalibrating() Then GoTo StopCalibration
         If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
@@ -1159,7 +1227,9 @@ StopCalibration:
         OffLaser()
         'MsgBox("Needle calibration process stopped prematurely.")
         m_Tri.SetMachineStop()
+
         m_Tri.Move_Z(0)
+
         Calibrate.Enabled = True
         Calibrate.Text = "Calibrate"
         If localCalib Then
@@ -1191,8 +1261,8 @@ StopCalibration:
                 .Left.CalOpen = OpenValue.Value
                 .Left.CalThreshold = Threshold.Value
                 .Left.CalRoughness = Roughness.Value
-                .Left.CalMinRadius = MinRadius.Value
-                .Left.CalMaxRadius = MaxRadius.Value
+                .Left.CalMinRadius = MinRadius.Value / 2
+                .Left.CalMaxRadius = MaxRadius.Value / 2
             ElseIf RightHead.Checked Then
                 .Right.DispenseDot.DispenseDuration = DispenseDuration.Value
                 .Right.DispenseDot.NeedleGap = NeedleGap.Value
@@ -1217,17 +1287,28 @@ StopCalibration:
                 ApproachHeight.Text = .Left.DispenseDot.ApproachHeight
                 RetractDelay.Text = .Left.DispenseDot.RetractDelay
                 RetractSpeed.Text = .Left.DispenseDot.RetractSpeed
-                RetractHeight.Text = .Left.DispenseDot.RetractHeight
                 ClearanceHeight.Text = .Left.DispenseDot.ClearanceHeight
+                RetractHeight.Text = .Left.DispenseDot.RetractHeight
                 BlackBackground.Checked = .Left.CalBackground
+                If Not BlackBackground.Checked Then
+                    Me.WhiteBackground.Checked = True
+                End If
                 Brightness.Text = .Left.CalBrightness
+                Me.m_Brightness = .Left.CalBrightness
                 Compactness.Text = .Left.CalCompactness
+                m_Compact = .Left.CalCompactness
                 CloseValue.Text = .Left.CalClose
+                m_Close = .Left.CalClose
                 OpenValue.Text = .Left.CalOpen
+                m_Open = .Left.CalOpen
                 Threshold.Text = .Left.CalThreshold
+                m_Threshold = .Left.CalThreshold
                 Roughness.Text = .Left.CalRoughness
+                m_Rough = .Left.CalRoughness
                 MinRadius.Text = .Left.CalMinRadius
+                Me.m_minRad = .Left.CalMinRadius
                 MaxRadius.Text = .Left.CalMaxRadius
+                Me.m_maxRad = .Left.CalMaxRadius
             ElseIf RightHead.Checked Then
                 DispenseDuration.Text = .Right.DispenseDot.DispenseDuration
                 NeedleGap.Text = .Right.DispenseDot.NeedleGap
@@ -1238,7 +1319,38 @@ StopCalibration:
                 ClearanceHeight.Text = .Right.DispenseDot.ClearanceHeight
             End If
         End With
-
+        '        Jetting(Valve)
+        '        Auger(Valve)
+        '        Slider(Valve)
+        'Time Pressure Valve
+        'Time Pressure Syringe
+        'BoxStep(False)
+        'If IDS.Data.Hardware.Dispenser.Left.HeadType.ToUpper = "AUGER VALVE" Then
+        '    If Not IDS.Data.Hardware.Dispenser.Left.AugerCalOnce Then
+        '        BoxStep(False)
+        '    End If
+        'ElseIf IDS.Data.Hardware.Dispenser.Left.HeadType.ToUpper = "JETTING VALVE" Then
+        '    If Not IDS.Data.Hardware.Dispenser.Left.JettingCalOnce Then
+        '        BoxStep(False)
+        '    End If
+        'ElseIf IDS.Data.Hardware.Dispenser.Left.HeadType.ToUpper = "SLIDER VALVE" Then
+        '    If Not IDS.Data.Hardware.Dispenser.Left.SlideValveCalOnce Then
+        '        BoxStep(False)
+        '    End If
+        'ElseIf IDS.Data.Hardware.Dispenser.Left.HeadType.ToUpper = "TIME PRESSURE VALVE" Then
+        '    If Not IDS.Data.Hardware.Dispenser.Left.TimePressureValveCalOnce Then
+        '        BoxStep(False)
+        '    End If
+        'ElseIf IDS.Data.Hardware.Dispenser.Left.HeadType.ToUpper = "TIME PRESSURE SYRINGE VALVE" Then
+        '    If Not IDS.Data.Hardware.Dispenser.Left.TimePressureSyringeCalOnce Then
+        '        BoxStep(False)
+        '    End If
+        'End If
+    End Sub
+    Private Sub BoxStep(ByVal enable As Boolean)
+        'Me.BoxStep2.Enabled = enable
+        'Me.BoxStep3.Enabled = enable
+        Me.BoxStep4.Enabled = enable
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
@@ -1253,9 +1365,13 @@ StopCalibration:
             MessageBox.Show("Jetting valve do not need to calibrate Z")
             Return
         End If
+        Me.NeedleCalibrationState = "Running"
         PanelToBeAdded.Enabled = False
         SetServiceSpeed()
-        CalibrateNeedleZPosition()
+        If CalibrateNeedleZPosition() Then
+            MessageBox.Show("Z calibration success!")
+        End If
+        BoxStep(True)
         PanelToBeAdded.Enabled = True
     End Sub
     Private localCalib As Boolean = False
@@ -1263,6 +1379,8 @@ StopCalibration:
         If Calibrate.Text = "Calibrate" Then
             Calibrate.Text = "Stop Calibrate"
             localCalib = True
+            Timer1.Enabled = False
+            Timer1.Stop()
             Dim flag As Boolean = False
             BoxStep1.Enabled = flag
             BoxStep2.Enabled = flag
@@ -1289,14 +1407,20 @@ StopCalibration:
             m_Tri.SteppingButtons.Enabled = flag
             'PanelToBeAdded.Enabled = True
         Else
+            Dim pos(0) As Integer
+            pos(0) = 1
+            m_Tri.m_TriCtrl.SetTable(126, 1, pos)
             Calibrate.Enabled = False
             Me.NeedleCalibrationState = "Stopped"
             Calibrate.Text = "Stopping"
         End If
-       
+
     End Sub
 
     Private Sub ButtonCalibrateVision_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrateVision.Click
+        If Not CheckZ() Then
+            Return
+        End If
         PanelToBeAdded.Enabled = False
         SetServiceSpeed()
         OnLaser()
@@ -1310,15 +1434,33 @@ StopCalibration:
             Return True
         End If
     End Function
-    Public Function NeedleCalibration() As Boolean
+    Public NCRunning As Boolean = False
+    Public Function NeedleCalibration(Optional ByVal moveToZ As Boolean = True) As Boolean
         SetServiceSpeed()
+        NCRunning = True
         OnLaser()
         If Not IDS.Data.Hardware.Dispenser.Left.HeadType = "Jetting Valve" Then
-            If Not MoveToZCalibratorPosition() Then Return False
-            If Me.NeedleCalibrationState = "Stopped" Then Return False
-            If Not CalibrateNeedleZPosition() Then Return False
+            If Not MoveToZCalibratorPosition() Then
+                NCRunning = False
+                Return False
+            End If
+            If Me.NeedleCalibrationState = "Stopped" Then
+                NCRunning = False
+                Return False
+            End If
+            If Not CalibrateNeedleZPosition(moveToZ) Then
+                NCRunning = False
+                Return False
+            End If
+
+
         End If
-        Return CalibrateNeedleXYPosition()
+        If Not (CalibrateNeedleXYPosition(moveToZ)) Then
+            NCRunning = False
+            Return False
+        End If
+        NCRunning = False
+        Return True
     End Function
 
     Public Function MoveToZCalibratorPosition() As Boolean
@@ -1327,6 +1469,7 @@ StopCalibration:
             position(1) = .Y
             position(2) = .Z
             m_Tri.SetMachineRun()
+            SetServiceSpeed()
             If Not m_Tri.Move_XY(position) Then GoTo StopCalibration
             If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
             If Not m_Tri.Move_Z(position(2)) Then GoTo StopCalibration
@@ -1343,16 +1486,28 @@ StopCalibration:
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
         Timer1.Stop()
         Timer1.Enabled = False
+        If stopTimer Then
+            Timer1.Stop()
+            Timer1.Enabled = False
+            Return
+        End If
+        tbStatus.Text = ""
         Dim left_tip_x As Double
         Dim left_tip_y As Double
         Dim right_tip_x As Double
         Dim right_tip_y As Double
-
+        Vision.FrmVision.DisplayIndicator()
         'try to make a way to automate this process in the future
         IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
         Try
-            IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value, MinRadius.Value, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y)
-            Vision.FrmVision.DisplayIndicator()
+            'If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value, MinRadius.Value, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, m_Threshold, m_maxRad, m_minRad, m_Close, m_Open, m_Rough, m_Compact, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+                IDS.Data.Hardware.Needle.Left.DotDiameter = Vision.FrmVision.diameter
+                tbStatus.Text = "Dot found. Diameter = " + IDS.Data.Hardware.Needle.Left.DotDiameter.ToString("0.000") + "mm"
+            Else
+                tbStatus.Text = "Dot not found"
+            End If
+            'Vision.FrmVision.DisplayIndicator()
 
         Catch ex As Exception
             ExceptionDisplay(ex)
@@ -1365,14 +1520,24 @@ StopCalibration:
     Private Sub ButtonRevert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRevert.Click
         RevertData()
     End Sub
-
+    Dim stopTimer As Boolean = False
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTest.Click
-        Timer1.Enabled = Not Timer1.Enabled
         If ButtonTest.Text = "Continous Check Dot" Then
             ButtonTest.Text = "Stop Dot Checking"
+            btCheckDotOnce.Enabled = False
+            Me.btSaveDotSize.Enabled = False
+            stopTimer = False
+            Timer1.Enabled = True
+            Timer1.Start()
+
         Else
             Vision.FrmVision.DisplayIndicator()
             ButtonTest.Text = "Continous Check Dot"
+            btCheckDotOnce.Enabled = True
+            Me.btSaveDotSize.Enabled = True
+            stopTimer = True
+            Timer1.Enabled = False
+            Timer1.Stop()
         End If
     End Sub
 
@@ -1391,9 +1556,14 @@ StopCalibration:
     End Sub
 
     Private Sub RetractHeight_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RetractHeight.TextChanged
-        If CDbl(RetractHeight.Text) > CDbl(ClearanceHeight.Text) Then
-            RetractHeight.Text = ClearanceHeight.Text
-        End If
+        Try
+            If CDbl(RetractHeight.Text) > CDbl(ClearanceHeight.Text) Then
+                RetractHeight.Text = ClearanceHeight.Text
+            End If
+        Catch ex As Exception
+
+        End Try
+
     End Sub
 
     Private Sub ClearanceHeight_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearanceHeight.TextChanged
@@ -1404,15 +1574,20 @@ StopCalibration:
 
     Private Sub btCheckDotOnce_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btCheckDotOnce.Click
         Timer1.Stop()
+        tbStatus.Text = ""
         Timer1.Enabled = False
         ButtonTest.Text = "Continous Check Dot"
+        Vision.FrmVision.DisplayIndicator()
         IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
         Try
-            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value, MinRadius.Value, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
-                Vision.FrmVision.DisplayIndicator()
-                MessageBox.Show("Dot found! Dot diameter(mm) is " & Vision.FrmVision.diameter)
+            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value / 2, MinRadius.Value / 2, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+                'Vision.FrmVision.DisplayIndicator()
+                'MessageBox.Show("Dot found! Dot diameter(mm) is " & Vision.FrmVision.diameter)
+                IDS.Data.Hardware.Needle.Left.DotDiameter = Vision.FrmVision.diameter
+                tbStatus.Text = "Dot found. Diameter = " + IDS.Data.Hardware.Needle.Left.DotDiameter.ToString("0.000") + "mm"
             Else
-                MessageBox.Show("Dot not found!")
+                'MessageBox.Show("Dot not found!")
+                tbStatus.Text = "Dot not found"
             End If
 
         Catch ex As Exception
@@ -1420,4 +1595,118 @@ StopCalibration:
             Return
         End Try
     End Sub
+
+    Private Sub btSaveDotSize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btSaveDotSize.Click
+        IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
+        Try
+            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value / 2, MinRadius.Value / 2, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+                Vision.FrmVision.DisplayIndicator()
+                MessageBox.Show("Dot found! Dot diameter(mm) is " & Vision.FrmVision.diameter + " and saved")
+                IDS.Data.Hardware.Needle.Left.DotDiameter = Vision.FrmVision.diameter
+            Else
+                MessageBox.Show("Dot not found! Can't save dot size")
+            End If
+
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+            Return
+        End Try
+    End Sub
+
+    Private Sub btPurgeNow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPurgeNow.Click
+        'download dispenser settings
+        If LeftHead.Checked Then
+            MyDispenserSettings.DownloadDispenserSettings("Left")
+        ElseIf RightHead.Checked Then
+            MyDispenserSettings.DownloadDispenserSettings("Right")
+        End If
+        If btPurgeNow.Text = "Off Purge" Then
+            btPurgeNow.Text = "Purge at current position"
+            m_Tri.TurnOff("Left Needle IO")
+        Else
+            btPurgeNow.Text = "Off Purge"
+            m_Tri.TurnOn("Left Needle IO")
+        End If
+
+    End Sub
+
+    Private Sub Threshold_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Threshold.ValueChanged
+        Me.m_Threshold = Me.Threshold.Value
+    End Sub
+
+    Private Sub Brightness_ValueChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Brightness.ValueChanged
+        m_Brightness = Me.Brightness.Value
+    End Sub
+
+    Private Sub OpenValue_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenValue.ValueChanged
+        m_Open = Me.OpenValue.Value
+    End Sub
+
+    Private Sub CloseValue_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseValue.ValueChanged
+        Me.m_Close = Me.CloseValue.Value
+    End Sub
+
+    Private Sub MaxRadius_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaxRadius.ValueChanged
+        Me.m_maxRad = Me.MaxRadius.Value
+    End Sub
+
+    Private Sub MinRadius_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinRadius.ValueChanged
+        Me.m_minRad = Me.MinRadius.Value
+    End Sub
+
+    Private Sub Roughness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Roughness.ValueChanged
+        Me.m_Rough = Me.Roughness.Value
+    End Sub
+
+    Private Sub Compactness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Compactness.ValueChanged
+        Me.m_Compact = Me.Compactness.Value
+    End Sub
+
+    Private Sub btCheckCalibrationAccuracy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btCheckCalibrationAccuracy.Click
+        Vision.FrmVision.DisplayIndicator()
+        IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
+        Try
+            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value / 2, MinRadius.Value / 2, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+                IDS.Data.Hardware.Needle.Left.DotDiameter = Vision.FrmVision.diameter
+                tbStatus.Text = "Dot found. Dot offset X = " + MyNeedleCalibrationSetup1.Offset_X.ToString("0.000") + "mm" + " Y = " + MyNeedleCalibrationSetup1.Offset_Y.ToString("0.000") + " mm"
+            Else
+                tbStatus.Text = "Dot not found"
+            End If
+
+        Catch ex As Exception
+            ExceptionDisplay(ex)
+            Return
+        End Try
+    End Sub
+
+    'Private Sub ApproachHeight_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ApproachHeight.ValueChanged
+    '    CheckZ(ApproachHeight)
+    'End Sub
+
+    'Private Sub RetractHeight_ValueChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RetractHeight.ValueChanged
+    '    CheckZ(RetractHeight)
+    'End Sub
+
+    'Private Sub ClearanceHeight_ValueChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearanceHeight.ValueChanged
+    '    CheckZ(ClearanceHeight)
+    'End Sub
+
+    Private Function CheckZ() As Boolean
+        If CDbl(Me.NeedleGap.Text) > CDbl(ApproachHeight.Text) Then
+            'ctrl.Text = Me.NeedleGap.Text
+            MessageBox.Show("Approach height cannot be smaller than needle gap!")
+            Return False
+        End If
+        If CDbl(Me.NeedleGap.Text) > CDbl(RetractHeight.Text) Then
+            'ctrl.Text = Me.NeedleGap.Text
+            MessageBox.Show("Retract height cannot be smaller than needle gap!")
+            Return False
+        End If
+        If CDbl(Me.NeedleGap.Text) > CDbl(ClearanceHeight.Text) Then
+            'ctrl.Text = Me.NeedleGap.Text
+            MessageBox.Show("Clearance height cannot be smaller than needle gap!")
+            Return False
+        End If
+        Return True
+    End Function
 End Class

@@ -459,6 +459,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Programming.en.resx"
+                    DependentUpon = "Programming.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Programming.resx"
                     DependentUpon = "Programming.vb"
                     BuildAction = "EmbeddedResource"

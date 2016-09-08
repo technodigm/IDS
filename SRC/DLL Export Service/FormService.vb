@@ -522,7 +522,7 @@ Public Class FormService
 
     Public Sub DisplayErrorMessage(ByVal ErrorType As String)
         Try
-            Form_Execution.Hide()
+            'Form_Execution.Hide()
             Select Case ErrorType
                 Case "Width Adjustment Failed"
                     IDS.FrmExecution.DisplayErrorPopup("1003201")

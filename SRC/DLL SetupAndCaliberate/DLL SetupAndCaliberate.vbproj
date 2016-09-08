@@ -185,6 +185,11 @@
                     AssemblyName = "Microsoft.DirectX.DirectInput"
                     HintPath = "bin\Microsoft.DirectX.DirectInput.dll"
                 />
+                <Reference
+                    Name = "VolumeCalibration"
+                    Project = "{126F3C40-5C5B-4DD2-9EF0-5F5D0A8B7DF1}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -285,6 +290,16 @@
                 <File
                     RelPath = "HeaterSettings.resx"
                     DependentUpon = "HeaterSettings.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "InfoForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InfoForm.resx"
+                    DependentUpon = "InfoForm.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

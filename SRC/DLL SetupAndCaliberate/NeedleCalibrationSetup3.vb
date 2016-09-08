@@ -73,7 +73,7 @@ Public Class NeedleCalibrationSetup3
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox1)
         Me.PanelToBeAdded.Location = New System.Drawing.Point(8, 32)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
-        Me.PanelToBeAdded.Size = New System.Drawing.Size(632, 944)
+        Me.PanelToBeAdded.Size = New System.Drawing.Size(520, 944)
         Me.PanelToBeAdded.TabIndex = 46
         '
         'Label9
@@ -100,10 +100,10 @@ Public Class NeedleCalibrationSetup3
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(8, 184)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(496, 672)
+        Me.GroupBox1.Size = New System.Drawing.Size(488, 672)
         Me.GroupBox1.TabIndex = 8
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Needle Calibrator Sensor - Z Reference Level"
+        Me.GroupBox1.Text = "Needle Calibrator Sensor - Z Reference Point"
         '
         'Label5
         '
@@ -111,16 +111,16 @@ Public Class NeedleCalibrationSetup3
         Me.Label5.ImageAlign = System.Drawing.ContentAlignment.TopLeft
         Me.Label5.Location = New System.Drawing.Point(24, 40)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(456, 48)
+        Me.Label5.Size = New System.Drawing.Size(448, 48)
         Me.Label5.TabIndex = 47
-        Me.Label5.Text = "1. Move needle to approximately touching the center of z sensor"
+        Me.Label5.Text = "1. Move needle until touching the center of z sensor."
         '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.Label6)
         Me.GroupBox2.Controls.Add(Me.Label4)
         Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(32, 120)
+        Me.GroupBox2.Location = New System.Drawing.Point(32, 144)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(432, 200)
         Me.GroupBox2.TabIndex = 46
@@ -135,7 +135,7 @@ Public Class NeedleCalibrationSetup3
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(396, 24)
         Me.Label6.TabIndex = 50
-        Me.Label6.Text = "Upon clicking Start ..."
+        Me.Label6.Text = "Upon clicking Start and Save button ..."
         '
         'Label4
         '
@@ -145,7 +145,8 @@ Public Class NeedleCalibrationSetup3
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(408, 72)
         Me.Label4.TabIndex = 49
-        Me.Label4.Text = "Needle will extend very slowly while checking the touch sensor output."
+        Me.Label4.Text = "Needle will extend very slowly while checking the touch sensor output. Please wai" & _
+        "t for the process complete message."
         '
         'Label3
         '
@@ -153,9 +154,9 @@ Public Class NeedleCalibrationSetup3
         Me.Label3.ImageAlign = System.Drawing.ContentAlignment.TopLeft
         Me.Label3.Location = New System.Drawing.Point(24, 96)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(456, 32)
+        Me.Label3.Size = New System.Drawing.Size(448, 40)
         Me.Label3.TabIndex = 6
-        Me.Label3.Text = "2. Click Start Button to find the touch sensor Z Level"
+        Me.Label3.Text = "2. Click Start and Save Button to find the touch sensor Z level"
         '
         'ButtonStart
         '
@@ -226,7 +227,7 @@ Public Class NeedleCalibrationSetup3
         'NeedleCalibrationSetup3
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(672, 912)
+        Me.ClientSize = New System.Drawing.Size(544, 912)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.PanelToBeAdded)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -255,10 +256,10 @@ Public Class NeedleCalibrationSetup3
 
     Private Sub ButtonStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStart.Click
 
-        distance(0) = 0
-        distance(1) = 0
-        distance(2) = 10.0
-        m_Tri.MoveRelative_XYZ(distance)
+        'distance(0) = 0
+        'distance(1) = 0
+        'distance(2) = 10.0
+        'm_Tri.MoveRelative_XYZ(distance)
 
         'this is a fixed xy value from the middle of the calibration block to the touch sensor
         'distance(0) = -76.005
@@ -266,16 +267,17 @@ Public Class NeedleCalibrationSetup3
 
         'm_Tri.MoveRelative_XY(distance)
 
-        distance(0) = 0
-        distance(1) = 0
-        distance(2) = -9.6 'kr jan 26 original -10.2
-        m_Tri.MoveRelative_XYZ(distance)
+        'distance(0) = 0
+        'distance(1) = 0
+        'distance(2) = -9.6 'kr jan 26 original -10.2
+        'm_Tri.MoveRelative_XYZ(distance)
 
         m_Tri.m_TriCtrl.SetTable(109, 1, 2)
 
         If Not TrioMotionCalibrating() Then Exit Sub
 
         Dim NeedleZCalFlag As Integer = m_Tri.GetCalibrationFlag
+        Dim dataSaved As Boolean = False
         If NeedleZCalFlag = 0 Then
             TraceDoEvents()
             m_Tri.m_TriCtrl.GetTable(101, 2, TableValues)
@@ -283,6 +285,7 @@ Public Class NeedleCalibrationSetup3
             IDS.Data.Hardware.Needle.Left.TouchSensorZPosition = TableValues(0)
             NSensorZPos.Text = IDS.Data.Hardware.Needle.Left.TouchSensorZPosition
             IDS.Data.SaveData()
+            dataSaved = True
         ElseIf NeedleZCalFlag = 2 Then
             m_Tri.ResetCalibrationFlag()
             MessageBox.Show("nothing sensed")
@@ -290,6 +293,9 @@ Public Class NeedleCalibrationSetup3
         SetServiceSpeed()
         If Not m_Tri.Move_Z(0) Then Exit Sub
         MyNeedleCalibrationSetup3.NSensorZPos.Text = IDS.Data.Hardware.Needle.Right.TouchSensorZPosition - IDS.Data.Hardware.Needle.Left.CalibratorPos.Z
+        If dataSaved Then
+            MessageBox.Show("Touch sensor z position was saved.")
+        End If
 
     End Sub
 

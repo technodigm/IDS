@@ -466,31 +466,40 @@ Public Class Dispenser
         Return True
     End Function
 
-    Public Sub DownloadAugerRPM(ByVal RPM As Double, ByVal RetractTime As Double, ByVal RetractDelay As Double)
-        With AxMSComm1
-            .InBufferCount = 0
-            .OutBufferCount = 0
-            .SThreshold = 21
-            .RThreshold = 21
-        End With
-        'for RPM and Reverse RPM
-        Dim SendData, SendVal As String
-        SendData = "S"
-        'Dispense Speed/RPM
-        Call Format4Digits(RPM.ToString, SendVal)
-        SendData = SendData & Trim(SendVal)
-        'Dispense Time - not used in robot. It is only necessary when using AVC in standalone dispenser
-        SendData = SendData & "00000"
-        'Retract Time
-        Call Format5Digits(RetractTime.ToString, SendVal)
-        SendData = SendData & Trim(SendVal)
-        'Retract Delay
-        Call Format5Digits(RetractDelay.ToString, SendVal)
-        SendData = SendData & Trim(SendVal)
+    Public Function DownloadAugerRPM(ByVal RPM As Double, ByVal RetractTime As Double, ByVal RetractDelay As Double) As Boolean
+        OpenPort()
+        Try
+            With AxMSComm1
+                .InBufferCount = 0
+                .OutBufferCount = 0
+                .SThreshold = 21
+                .RThreshold = 21
+            End With
+            'for RPM and Reverse RPM
+            Dim SendData, SendVal As String
+            SendData = "S"
+            'Dispense Speed/RPM
+            Dim tempD As Double = (RPM * 10)
+            Call Format4Digits(tempD.ToString("0"), SendVal)
+            SendData = SendData & Trim(SendVal)
+            'Dispense Time - not used in robot. It is only necessary when using AVC in standalone dispenser
+            SendData = SendData & "00000"
+            'Retract Time
+            tempD = RetractTime * 100
+            Call Format5Digits(tempD.ToString("0"), SendVal)
+            SendData = SendData & Trim(SendVal)
+            'Retract Delay
+            tempD = RetractDelay * 100
+            Call Format5Digits(tempD.ToString("0"), SendVal)
+            SendData = SendData & Trim(SendVal)
 
-        SendData = SendData & "O"
-        AxMSComm1.Output = SendData
-    End Sub
+            SendData = SendData & "O"
+            AxMSComm1.Output = SendData
+        Catch ex As Exception
+            Return False
+        End Try
+        Return True
+    End Function
 
     Public Sub Format5Digits(ByVal toadd As String, ByRef tosend As String)
         If toadd.Length = 5 Then

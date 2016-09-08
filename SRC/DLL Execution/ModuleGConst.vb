@@ -339,7 +339,7 @@ Public Module ModuleGConst
     Public gNeedleRadius As Double = 0.1  '0.5
 
     Public Const gMaxElementButtons As Integer = 21
-    Public Const gMaxReferButtons As Integer = 3
+    Public Const gMaxReferButtons As Integer = 1
 
     Public gPatternFileDir As String = "C:\IDS\Pattern_Dir"
     Public gFidFileName As String = ""
@@ -520,6 +520,8 @@ Public Module ModuleGConst
     Public gSeperatorCmdIndex As Integer = 19
     Public gOffsetCmdIndex As Integer = 19
     Public gMeasurementCmdIndex As Integer = 21
+    Public gDotArrayCmdIndex As Integer = 22
+    'Public gGlobalQCCmdIndex As Integer = 23
 
 End Module
 

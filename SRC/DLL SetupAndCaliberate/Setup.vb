@@ -1023,7 +1023,7 @@ Public Class Setup
 
     Private Sub TheThreadMonitor()
         Do
-            TraceDoEvents()
+            'TraceDoEvents()
             MySleep(50)
 
             'we may want more detailed functionality here
@@ -1093,6 +1093,7 @@ Public Class Setup
         LabelMessage.Text = "Initialize Hardware......"
         HardwareInitTimer.Enabled = True
         HardwareInitTimer.Start()
+        OffLaser()
     End Sub
 
     Private Sub Setup_Closed(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Closed
@@ -1127,7 +1128,7 @@ Public Class Setup
         Laser.ClosePort()
         Conveyor.ClosePort()
         Weighting_Scale.ClosePort()
-
+        Dispenser.ClosePort()
     End Sub
 
     Private Function Get_Limit(ByVal Direction As String) As Boolean
@@ -1558,6 +1559,7 @@ Public Class Setup
             Else
                 LabelMessage.Text = "System Ready"
                 EnableControls(True)
+                OffLaser()
             End If
         End If
     End Sub

@@ -43,6 +43,8 @@ Public Class Laser
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents ContinuousReadButton As System.Windows.Forms.Button
     Friend WithEvents lbReading As System.Windows.Forms.Label
+    Friend WithEvents btTurnOffMeasurement As System.Windows.Forms.Button
+    Friend WithEvents btTurnOnMeasurement As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Laser))
         Me.AxMSComm1 = New AxMSCommLib.AxMSComm
@@ -56,6 +58,8 @@ Public Class Laser
         Me.Button1 = New System.Windows.Forms.Button
         Me.ContinuousReadButton = New System.Windows.Forms.Button
         Me.lbReading = New System.Windows.Forms.Label
+        Me.btTurnOffMeasurement = New System.Windows.Forms.Button
+        Me.btTurnOnMeasurement = New System.Windows.Forms.Button
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -150,10 +154,28 @@ Public Class Laser
         Me.lbReading.Name = "lbReading"
         Me.lbReading.TabIndex = 10
         '
+        'btTurnOffMeasurement
+        '
+        Me.btTurnOffMeasurement.Location = New System.Drawing.Point(360, 296)
+        Me.btTurnOffMeasurement.Name = "btTurnOffMeasurement"
+        Me.btTurnOffMeasurement.Size = New System.Drawing.Size(152, 48)
+        Me.btTurnOffMeasurement.TabIndex = 11
+        Me.btTurnOffMeasurement.Text = "Turn Off Measurement"
+        '
+        'btTurnOnMeasurement
+        '
+        Me.btTurnOnMeasurement.Location = New System.Drawing.Point(360, 368)
+        Me.btTurnOnMeasurement.Name = "btTurnOnMeasurement"
+        Me.btTurnOnMeasurement.Size = New System.Drawing.Size(152, 48)
+        Me.btTurnOnMeasurement.TabIndex = 12
+        Me.btTurnOnMeasurement.Text = "Turn On Measurement"
+        '
         'Laser
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(8, 20)
         Me.ClientSize = New System.Drawing.Size(600, 574)
+        Me.Controls.Add(Me.btTurnOnMeasurement)
+        Me.Controls.Add(Me.btTurnOffMeasurement)
         Me.Controls.Add(Me.lbReading)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label1)
@@ -169,6 +191,7 @@ Public Class Laser
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Laser"
         Me.Text = "Laser"
+        Me.TopMost = True
         CType(Me.AxMSComm1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -185,7 +208,8 @@ Public Class Laser
     Private readCount As Integer = 0
 
     'exposed to other modules
-    Public MM_Reading As Double
+    Public LASER_Reading As Double = 0
+    'Public MM_Reading As Double
     Public ValueUpdated As Boolean 'when you turn on, use this flag to check wether the axmscomm has updated the reading.
     'Public AverageValues(10) As Double
     'Public AverageValueIndex As Integer = 0
@@ -232,7 +256,8 @@ Public Class Laser
         '100 um / 0.1 mm tolerance
         Return Math.Abs(val2 - val1) < 0.1
     End Function
-
+    'Private retrieving As Boolean = False
+    Private afterCommand As Boolean = False
     Private Sub AxMSComm1_OnComm(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxMSComm1.OnComm
 
         Dim raw_result As Object 'raw char values from serial port'
@@ -243,23 +268,47 @@ Public Class Laser
         Dim digit_count As Integer = 0
         Dim string_store As String
 
-        If DoRead = False And ContinuousRead = False Then
-            Exit Sub
-        End If
-
+        'If DoRead = False And ContinuousRead = False Then
+        '    Exit Sub
+        'End If
+        'If Not DoRead Then Exit Sub
+        'If ValueUpdated Then Exit Sub
+        'If retrieving Then Exit Sub
+        'retrieving = True
+        Dim comStatus As Short = 0
         Try
             With AxMSComm1
-                Select Case .CommEvent
+                comStatus = .CommEvent
+                Select Case comStatus
                     Case 2
                         .RThreshold = 0 'prevent generation of events
+                        'If Not DoRead Then
+                        '    raw_result = AxMSComm1.Input
+                        '    '.InBufferCount = 0
+                        '    .RThreshold = 12
+                        '    Exit Sub
+                        'End If
                         raw_result = AxMSComm1.Input
                         string_result = CType(raw_result, String)
                         string_iterator = string_result.GetEnumerator
                         digit_count = 0
                         string_store = ""
                         valid_reading = False
+                        'If needReturn Then
+                        '    If string_result.Length = 12 Then
+                        '        'Console.WriteLine(DateTime.Now.ToLongTimeString() + " command returned.")
+                        '        afterCommand = True
 
+                        '    End If
+                        '    AxMSComm1.RThreshold = 12
+                        '    needReturn = False
+                        '    Exit Sub
+                        'End If
                         'this is to read sequences of consecutive 4-5 digits to get the proper reading
+                        'If afterCommand Then
+                        'afterCommand = False
+                        ' Console.WriteLine(DateTime.Now.ToLongTimeString() + " Received data after command")
+                        'End If
                         While string_iterator.MoveNext()
                             If IsDigit(CChar(string_iterator.Current)) Then
                                 string_store = string_store + CStr(string_iterator.Current)
@@ -267,18 +316,28 @@ Public Class Laser
                             Else
                                 'if there there are spaces in betwen then use as a valid reading.
                                 If digit_count = 4 Then
-                                    MM_Reading = ConvertReadingToMM(string_store)
-                                    string_result = FormatNumber(MM_Reading, 3)
-                                    If readCount >= 2 Then
+                                    LASER_Reading = ConvertReadingToMM(string_store)
+                                    string_result = FormatNumber(LASER_Reading, 3)
+                                    If readCount >= 10 Then
                                         ValueUpdated = True
-                                        readCount = 0
+                                        DoRead = False
                                         'Console.WriteLine("Laser Updated #" & readCount)
+                                        '.InBufferCount = 0
+                                        readCount = 0
+                                        'Display.Text = ""
+                                        Exit While
+
                                     Else
                                         readCount += 1
-                                        'Console.WriteLine("Laser #" & readCount)
+                                        If ContinuousRead Then
+                                            Display.Text += DateTime.Now.ToLongTimeString() & "Ls Read: " & LASER_Reading & vbCrLf
+                                        End If
+
+                                        'Console.WriteLine("Laser #" & MM_Reading)
                                     End If
                                     'Console.WriteLine("Laser OnCom reading: " & MM_Reading)
-                                    Exit While
+
+                                    'Exit While
                                 Else
                                     ValueUpdated = False
                                     string_store = ""
@@ -325,7 +384,7 @@ Public Class Laser
                         'Display.Text = raw_result_store
                 End Select
             End With
-
+            'retrieving = False
         Catch ex As Exception
             ExceptionDisplay(ex)
         End Try
@@ -355,6 +414,10 @@ Public Class Laser
         ContinuousRead = False
     End Sub
 
+    Public Sub ClearComBuffer()
+        AxMSComm1.InBufferCount = 0
+    End Sub
+
     Public Function WaitForReadingToStabilize() As Boolean
         readCount = 0
         ValueUpdated = False
@@ -362,26 +425,30 @@ Public Class Laser
         'Sleep(250)
         start_time = Now
         Do
-            'Sleep(25)
+            Sleep(25)
             Application.DoEvents()
             stop_time = Now
             elapsed_time = stop_time.Subtract(start_time)
-        Loop Until ValueUpdated Or elapsed_time.TotalSeconds > 5
-        If elapsed_time.TotalSeconds > 5 Then
+        Loop Until ValueUpdated Or elapsed_time.TotalSeconds > 10
+        If elapsed_time.TotalSeconds > 10 Then
             Return False
         End If
-        start_time = Now
-        Do
-            Application.DoEvents()
-            stop_time = Now
-            elapsed_time = stop_time.Subtract(start_time)
-        Loop Until elapsed_time.TotalSeconds > 0.5
+        'start_time = Now
+        'Do
+        '    Application.DoEvents()
+        '    stop_time = Now
+        '    elapsed_time = stop_time.Subtract(start_time)
+        'Loop Until elapsed_time.TotalSeconds > 0.5
         DoRead = False
         Return True
     End Function
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        WaitForReadingToStabilize()
+        If WaitForReadingToStabilize() Then
+            Display.Text += "Laser Reading:" + Me.LASER_Reading.ToString("0.00") + " mm." + vbCrLf
+        Else
+            Display.Text += "Laser Reading failed." + vbCrLf
+        End If
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContinuousReadButton.Click
@@ -395,7 +462,60 @@ Public Class Laser
     End Sub
 
     Private Sub Laser_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        DisableContinuousRead()
+        ContinuousReadButton.Text = "Enable Continuous Read"
         e.Cancel = True
         Hide()
+    End Sub
+    Private needReturn As Boolean = False
+    Public Function SendCommand(ByVal cmd As String) As Boolean
+        needReturn = False
+        OpenPort()
+        Dim output_str As String
+        Dim header As String = Chr(&H2B) & Chr(&H2B) & Chr(&H2B) & Chr(&HD)
+        Dim subHeader1 As String = Chr(&H49) & Chr(&H4C) & Chr(&H44) & Chr(&H31)
+        Dim subHeader2 As String = Chr(&H20) & Chr(&H90) & Chr(&H0) & Chr(&H3)
+        Dim command As String = Chr(&H20) & Chr(&H76) & Chr(&H0) & Chr(&H2)
+        If cmd = "TurnOnMeasurement" Then
+            command = Chr(&H20) & Chr(&H77) & Chr(&H0) & Chr(&H2)
+            output_str = header + subHeader1 + command
+            Console.WriteLine("Turn On Laser")
+        ElseIf cmd = "TurnOffMeasurement" Then
+            command = Chr(&H20) & Chr(&H76) & Chr(&H0) & Chr(&H2)
+            output_str = header + subHeader1 + command
+            Console.WriteLine("Turn Off Laser")
+        Else : Return False
+        End If
+        Try
+            DoRead = True
+            needReturn = True
+            afterCommand = False
+            AxMSComm1.RThreshold = 12
+            AxMSComm1.Output = output_str
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return False
+        End Try
+        'WaitForReply(1000)
+        Return True
+    End Function
+
+    Private Function WaitForReply(ByVal timeout As Double) As Boolean
+        Dim timeStart As Long = DateTime.Now.Ticks
+        Do
+            Application.DoEvents()
+        Loop Until Not needReturn Or (((DateTime.Now.Ticks - timeStart) / 10000) > timeout)
+        If needReturn Then
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Sub btTurnOffMeasurement_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btTurnOffMeasurement.Click
+        Me.SendCommand("TurnOffMeasurement")
+    End Sub
+
+    Private Sub btTurnOnMeasurement_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btTurnOnMeasurement.Click
+        Me.SendCommand("TurnOnMeasurement")
     End Sub
 End Class

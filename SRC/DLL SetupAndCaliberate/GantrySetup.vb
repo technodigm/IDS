@@ -99,6 +99,7 @@ Public Class GantrySetup
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(GantrySetup))
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
+        Me.btMoveXYOnly = New System.Windows.Forms.Button
         Me.SavePositionButton = New System.Windows.Forms.Button
         Me.XPosition = New System.Windows.Forms.Label
         Me.StationPosition = New System.Windows.Forms.ComboBox
@@ -154,7 +155,6 @@ Public Class GantrySetup
         Me.Label3 = New System.Windows.Forms.Label
         Me.SystemOriginPosZ = New System.Windows.Forms.NumericUpDown
         Me.SystemOriginPosY = New System.Windows.Forms.NumericUpDown
-        Me.btMoveXYOnly = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -211,6 +211,14 @@ Public Class GantrySetup
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Station Positions"
         '
+        'btMoveXYOnly
+        '
+        Me.btMoveXYOnly.Location = New System.Drawing.Point(272, 208)
+        Me.btMoveXYOnly.Name = "btMoveXYOnly"
+        Me.btMoveXYOnly.Size = New System.Drawing.Size(168, 48)
+        Me.btMoveXYOnly.TabIndex = 70
+        Me.btMoveXYOnly.Text = "Move to Saved Station XY Only"
+        '
         'SavePositionButton
         '
         Me.SavePositionButton.Location = New System.Drawing.Point(164, 264)
@@ -232,7 +240,7 @@ Public Class GantrySetup
         '
         Me.StationPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.StationPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.StationPosition.Items.AddRange(New Object() {"Park Position", "Purge Position", "Clean Position", "Change Syringe Position", "Volume Calibration Position", "Needle Calibration First Row First Dot Position", "Needle Calibration Last Row Last Dot Position"})
+        Me.StationPosition.Items.AddRange(New Object() {"Park Position", "Purge Position", "Clean Position", "Change Syringe Position", "Top Left Volume Calibration Position", "Bottom Right Volume Calibration Position", "Needle Calibration First Row First Dot Position", "Needle Calibration Last Row Last Dot Position"})
         Me.StationPosition.Location = New System.Drawing.Point(72, 120)
         Me.StationPosition.Name = "StationPosition"
         Me.StationPosition.Size = New System.Drawing.Size(352, 28)
@@ -789,14 +797,6 @@ Public Class GantrySetup
         Me.SystemOriginPosY.TabIndex = 11
         Me.SystemOriginPosY.Value = New Decimal(New Integer() {380, 0, 0, -2147483648})
         '
-        'btMoveXYOnly
-        '
-        Me.btMoveXYOnly.Location = New System.Drawing.Point(272, 208)
-        Me.btMoveXYOnly.Name = "btMoveXYOnly"
-        Me.btMoveXYOnly.Size = New System.Drawing.Size(168, 48)
-        Me.btMoveXYOnly.TabIndex = 70
-        Me.btMoveXYOnly.Text = "Move to Saved Station XY Only"
-        '
         'GantrySetup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -901,10 +901,14 @@ Public Class GantrySetup
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.X = post(0)
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.Y = post(1)
             IDS.Data.Hardware.Gantry.ChangeSyringePosition.Z = post(2)
-        ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+        ElseIf StationPosition.SelectedItem = "Top Left Volume Calibration Position" Then
             IDS.Data.Hardware.Gantry.WeighingScalePosition.X = post(0)
             IDS.Data.Hardware.Gantry.WeighingScalePosition.Y = post(1)
             IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = post(2)
+        ElseIf StationPosition.SelectedItem = "Bottom Right Volume Calibration Position" Then
+            IDS.Data.Hardware.Gantry.WeighingScaleBottomRight.X = post(0)
+            IDS.Data.Hardware.Gantry.WeighingScaleBottomRight.Y = post(1)
+            IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = post(2) 'Only use setting from Top left
         Else
 
             If LeftHead.Checked Then
@@ -1010,10 +1014,17 @@ Public Class GantrySetup
                 position(0) = .ChangeSyringePosition.X
                 position(1) = .ChangeSyringePosition.Y
                 z = .ChangeSyringePosition.Z
-            ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+            ElseIf StationPosition.SelectedItem = "Top Left Volume Calibration Position" Then
                 position(0) = .WeighingScalePosition.X
                 position(1) = .WeighingScalePosition.Y
                 z = .WeighingScalePosition.Z
+            ElseIf StationPosition.SelectedItem = "Bottom Right Volume Calibration Position" Then
+                position(0) = .WeighingScaleBottomRight.X
+                position(1) = .WeighingScaleBottomRight.Y
+                z = .WeighingScalePosition.Z
+            Else
+                MessageBox.Show("Error: Unknow settings selected, move aborted")
+                Return
             End If
         End With
 
@@ -1062,6 +1073,10 @@ Reset:
     End Sub
 
     Private Sub SavePositionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SavePositionButton.Click
+        If m_Tri.YPosition < -410 Then
+            MessageBox.Show("Y position is out of limit, unable to save position")
+            Return
+        End If
         If MessageBox.Show("Are you sure you want to save the current position? Click Ok to save otherwise cancel this operation") = DialogResult.Cancel Then
             Return
         End If
@@ -1097,8 +1112,10 @@ Reset:
                 XPosition.Text = "X: " + (.CleanPosition.X - offsetX).ToString("0.000") + " Y: " + (.CleanPosition.Y - offsetY).ToString("0.000") + " Z: " + (.CleanPosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem = "Change Syringe Position" Then
                 XPosition.Text = "X: " + (.ChangeSyringePosition.X - offsetX).ToString("0.000") + " Y: " + (.ChangeSyringePosition.Y - offsetY).ToString("0.000") + " Z: " + (.ChangeSyringePosition.Z + zOff).ToString("0.000")
-            ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+            ElseIf StationPosition.SelectedItem = "Top Left Volume Calibration Position" Then
                 XPosition.Text = "X: " + (.WeighingScalePosition.X - offsetX).ToString("0.000") + " Y: " + (.WeighingScalePosition.Y - offsetY).ToString("0.000") + " Z: " + (.WeighingScalePosition.Z + zOff).ToString("0.000")
+            ElseIf StationPosition.SelectedItem = "Bottom Right Volume Calibration Position" Then
+                XPosition.Text = "X: " + (.WeighingScaleBottomRight.X - offsetX).ToString("0.000") + " Y: " + (.WeighingScaleBottomRight.Y - offsetY).ToString("0.000") + " Z: " + (.WeighingScalePosition.Z + zOff).ToString("0.000")
             ElseIf StationPosition.SelectedItem = "Needle Calibration First Row First Dot Position" Then
                 If LeftHead.Checked Then
                     XPosition.Text = "X: " + (IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X).ToString("0.000") + " Y: " + (IDS.Data.Hardware.Needle.Left.ArrayDotPos1.Y).ToString("0.000")
@@ -1160,10 +1177,13 @@ Reset:
                 position(0) = .ChangeSyringePosition.X
                 position(1) = .ChangeSyringePosition.Y
                 z = .ChangeSyringePosition.Z
-            ElseIf StationPosition.SelectedItem = "Volume Calibration Position" Then
+            ElseIf StationPosition.SelectedItem = "Top Left Volume Calibration Position" Then
                 position(0) = .WeighingScalePosition.X
                 position(1) = .WeighingScalePosition.Y
                 z = .WeighingScalePosition.Z
+            ElseIf StationPosition.SelectedItem = "Bottom Right Volume Calibration Position" Then
+                position(0) = .WeighingScaleBottomRight.X
+                position(1) = .WeighingScaleBottomRight.Y
             End If
         End With
 

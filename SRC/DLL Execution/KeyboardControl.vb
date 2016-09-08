@@ -7,6 +7,9 @@ Public Class KeyboardControl
     Private Shared HookId As Integer
     Private Const Wh_Keyboard_LL As Integer = 13
     Private Const Vk_Tab As Integer = 9
+    Private Const Vk_LShift As Integer = 160
+    Private Const Vk_RShift As Integer = 161
+    Private Const Vk_A As Integer = 65
     Private Const Vk_Escape As Integer = 27
     Private Const VK_LWinKey As Integer = 91
     Private Const VK_RWinKey As Integer = 92
@@ -18,6 +21,15 @@ Public Class KeyboardControl
     Private Const VK_RControl As Integer = 163
 
     Public Shared ControlKeyPressed As Boolean = False
+    Private Shared shiftPressed As Boolean = False
+    Private Shared aKeyPressed As Boolean = False
+    Public Shared Function ShifyAKeyPressed() As Boolean
+        Return (shiftPressed And aKeyPressed)
+    End Function
+    Public Shared Function ShiftKeyPressed() As Boolean
+        Return (shiftPressed)
+    End Function
+
     Private Shared Function KeyBoardHookProc(ByVal nCode As Integer, ByVal wParam As Integer, ByVal lParam As IntPtr) As Integer
         'All keyboard events will be sent here.
         'Don't process just pass along.
@@ -38,6 +50,20 @@ Public Class KeyboardControl
         If wParam = WM_KEYUP And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
             ControlKeyPressed = False
             Console.WriteLine("Programming Key Up" & Hex(KeyboardSruct.vkCode))
+        End If
+
+        If wParam = WM_KEYDOWN And ((KeyboardSruct.vkCode = Vk_LShift) Or (KeyboardSruct.vkCode = Vk_RShift)) Then
+            shiftPressed = True
+        End If
+        If wParam = WM_KEYUP And ((KeyboardSruct.vkCode = Vk_LShift) Or (KeyboardSruct.vkCode = Vk_RShift)) Then
+            shiftPressed = False
+        End If
+
+        If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = Vk_A) Then
+            aKeyPressed = True
+        End If
+        If wParam = WM_KEYUP And (KeyboardSruct.vkCode = Vk_A) Then
+            aKeyPressed = False
         End If
         Return CallNextHookEx(HookId, nCode, New IntPtr(wParam), lParam)
     End Function

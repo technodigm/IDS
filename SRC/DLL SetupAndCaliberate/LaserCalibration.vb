@@ -418,9 +418,9 @@ Public Class LaserCalibration
         Dim calibrator_plate_height, block_height, difference As Double
         Dim position(3) As Double
 
-        Laser.MM_Reading = 0
+        Laser.LASER_Reading = 0
         WaitLoop()
-        block_height = Laser.MM_Reading
+        block_height = Laser.LASER_Reading
         NewLaserZReference.Text = block_height
         IDS.Data.Hardware.HeightSensor.Laser.HeightReference = block_height
         IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z = block_height
@@ -435,30 +435,30 @@ Public Class LaserCalibration
 
         '2) move to the center right position outside block
         'MySleep(100)
-        difference = Math.Abs(Laser.MM_Reading - block_height)
+        difference = Math.Abs(Laser.LASER_Reading - block_height)
         If difference > 0.95 And difference < 2 Then
             distance(0) = 0
             distance(1) = -7
             m_Tri.MoveRelative_XY(distance)
             WaitLoop()
-            calibrator_plate_height = Laser.MM_Reading
+            calibrator_plate_height = Laser.LASER_Reading
         Else
             GoTo CalibrationError
         End If
 
         '3) move from center right position outside block to
         '   the right side of the block edge
-        While Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400
+        While Math.Abs(calibrator_plate_height - Laser.LASER_Reading) < 0.95 And counter <= 400
             distance(0) = -0.01
             distance(1) = 0
             counter = counter + 1
-            LaserReading.Text = Laser.MM_Reading
+            LaserReading.Text = Laser.LASER_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
         '4) move to the center x position inside block
         'MySleep(100)
-        difference = Math.Abs(Laser.MM_Reading - calibrator_plate_height)
+        difference = Math.Abs(Laser.LASER_Reading - calibrator_plate_height)
         If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
             position(0) = m_Tri.XPosition
@@ -466,7 +466,7 @@ Public Class LaserCalibration
             distance(1) = 0
             m_Tri.MoveRelative_XY(distance)
             WaitLoop()
-            block_height = Laser.MM_Reading
+            block_height = Laser.LASER_Reading
         Else
             GoTo CalibrationError
         End If
@@ -474,18 +474,18 @@ Public Class LaserCalibration
         '5) move from center x position inside block to
         '   left side of the block edge
         counter = 0
-        While Math.Abs(block_height - Laser.MM_Reading) < 0.95 And counter <= 400
+        While Math.Abs(block_height - Laser.LASER_Reading) < 0.95 And counter <= 400
             counter = counter + 1
             distance(0) = -0.01
             distance(1) = 0
-            LaserReading.Text = Laser.MM_Reading
+            LaserReading.Text = Laser.LASER_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
         '6) move from left side of the block edge 
         '   to top center position outside of block
         'MySleep(100)
-        difference = Math.Abs(Laser.MM_Reading - block_height)
+        difference = Math.Abs(Laser.LASER_Reading - block_height)
         If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
             position(1) = m_Tri.XPosition
@@ -493,25 +493,25 @@ Public Class LaserCalibration
             distance(1) = 7
             m_Tri.MoveRelative_XY(distance)
             WaitLoop()
-            calibrator_plate_height = Laser.MM_Reading
+            calibrator_plate_height = Laser.LASER_Reading
         Else
             GoTo CalibrationError
         End If
 
         '7) move from top center position outside of block
         '   to top edge of the block
-        While Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400
+        While Math.Abs(calibrator_plate_height - Laser.LASER_Reading) < 0.95 And counter <= 400
             counter = counter + 1
             distance(0) = 0
             distance(1) = -0.01
-            LaserReading.Text = Laser.MM_Reading
+            LaserReading.Text = Laser.LASER_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
         '8) move from top edge of the block
         '   to the center y position of the block
         'MySleep(100)
-        difference = Math.Abs(Laser.MM_Reading - calibrator_plate_height)
+        difference = Math.Abs(Laser.LASER_Reading - calibrator_plate_height)
         If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
             position(2) = m_Tri.YPosition
@@ -519,7 +519,7 @@ Public Class LaserCalibration
             distance(1) = -9
             m_Tri.MoveRelative_XY(distance)
             WaitLoop()
-            block_height = Laser.MM_Reading
+            block_height = Laser.LASER_Reading
         Else
             GoTo CalibrationError
         End If
@@ -527,16 +527,16 @@ Public Class LaserCalibration
         '9) move from the center y position of the block
         '   to the bottom edge of the block
         counter = 0
-        While Math.Abs(block_height - Laser.MM_Reading) < 0.95 And counter <= 400
+        While Math.Abs(block_height - Laser.LASER_Reading) < 0.95 And counter <= 400
             counter = counter + 1
             distance(0) = 0
             distance(1) = -0.01
-            LaserReading.Text = Laser.MM_Reading
+            LaserReading.Text = Laser.LASER_Reading
             m_Tri.MoveRelative_XY(distance)
         End While
 
         '10) get the y position of the bottom edge of the block
-        difference = Math.Abs(Laser.MM_Reading - block_height)
+        difference = Math.Abs(Laser.LASER_Reading - block_height)
         If difference > 0.95 And counter < 400 Then
             m_Tri.GetIDSState()
             position(3) = m_Tri.YPosition
@@ -589,7 +589,7 @@ CalibrationError:
     End Sub
 
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
-        'LaserReading.Text = CStr(Laser.MM_Reading)
+        'LaserReading.Text = CStr(Laser.LASER_Reading)
     End Sub
 
     Private Sub WaitLoop()
@@ -658,9 +658,9 @@ CalibrationError:
                         counter = 0
                         m_Tri.SetMachineRun()
                         Laser.EnableContinuousRead()
-                        Laser.MM_Reading = 0
+                        Laser.LASER_Reading = 0
                         WaitLoop()
-                        block_height = Laser.MM_Reading
+                        block_height = Laser.LASER_Reading
                         NewLaserZReference.Text = block_height
                         IDS.Data.Hardware.HeightSensor.Laser.HeightReference = block_height
                         IDS.Data.Hardware.HeightSensor.Laser.CurrentPos.Z = block_height
@@ -672,16 +672,16 @@ CalibrationError:
                         bigStep(1) = 0
                         m_Tri.MoveRelative_XY(bigStep)
                         WaitLoop()
-                        calibrator_plate_height = Laser.MM_Reading
+                        calibrator_plate_height = Laser.LASER_Reading
                         smallStep(0) = -0.01
                         smallStep(1) = 0
                         stepCnt += 1
                     ElseIf stepCnt = 1 Then
-                        If Math.Abs(calibrator_plate_height - Laser.MM_Reading) < 0.95 And counter <= 400 Then
+                        If Math.Abs(calibrator_plate_height - Laser.LASER_Reading) < 0.95 And counter <= 400 Then
                             counter = counter + 1
-                            LaserReading.Text = Laser.MM_Reading
+                            LaserReading.Text = Laser.LASER_Reading
                             m_Tri.MoveRelative_XY(smallStep)
-                        ElseIf Math.Abs(calibrator_plate_height - Laser.MM_Reading) > 0.95 Then 'sharp 
+                        ElseIf Math.Abs(calibrator_plate_height - Laser.LASER_Reading) > 0.95 Then 'sharp 
                             'ElseIf Math.Abs(9.8) > 0.95 Then 'sharp drop
                             m_Tri.GetIDSState()
                             If (index < 2) Then  'Convert to system coordinate

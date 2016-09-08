@@ -1,3 +1,6 @@
+
+Imports System.Threading
+
 Public Class CIDSTrioController
     Inherits System.Windows.Forms.Form
 
@@ -236,10 +239,12 @@ Public Class CIDSTrioController
     Public Const gCANLowerOutput As Integer = 16   'Trio CAN digital IO output lower bound no.
     Public Const gCANUpperOutput As Integer = 31   'Trio CAN digital IO output upper bound no.
 
-    Public m_TriCtrl As New TrioPCLib.TrioPCClass
+    Public Shared m_TriCtrl As New TrioPCLib.TrioPCClass
+    Public WithEvents robot_Asyn As New TrioPCLib.TrioPCClass
     Public StateContainer(250) As Double
     Public HomeStateContainer(0) As Double
-
+    Private startTime As Long = DateTime.Now.Ticks
+    Private Shared motionDoneEvent(1) As ManualResetEvent
 
 #Region " Connection "
 
@@ -250,18 +255,30 @@ Public Class CIDSTrioController
     '          3240:Synchronous Mode (for Ethernet connections only)  ' 
     '                                                                 '
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    Dim asynConnect As Boolean = False
     Public Function TrioConnectEthernet(ByVal address As String, ByVal pmode As Short) As Boolean ' input for ip 
         Try
+            
+
             m_TriCtrl.CmdProtocol = 0
             m_TriCtrl.SetHost(address)
             Dim type As Short = 2
             m_TriCtrl.Open(type, pmode)
             Dim mode As Integer = pmode
             If m_TriCtrl.IsOpen(mode) Then
+                'robot_Asyn.CmdProtocol = 0
+                'robot_Asyn.SetHost(address)
+                'robot_Asyn.Open(2, 23)
+                'If robot_Asyn.IsOpen(23) Then
+                '    asynConnect = True
+                '    Console.WriteLine("Asyn Port 23 opened")
+                'End If
                 Return True
             Else
                 Return False
             End If
+
+
         Catch ex As Exception
 
         End Try
@@ -361,51 +378,125 @@ Public Class CIDSTrioController
     End Function
 
     'Waiting for reaching demand positions on 3 axes                  '
-    Public Sub WaitForEndOfMove()
-        Dim dRemain(3) As Double
-        Dim nAxis As Integer
-        Dim bWaiting As Boolean
-        'Dim esp As Double = 0.01
-        Dim esp As Double = 0.0
+    'Public Sub WaitForEndOfMove()
+    '    Dim dRemain(3) As Double
+    '    Dim nAxis As Integer
+    '    Dim bWaiting As Boolean
+    '    'Dim esp As Double = 0.01
+    '    Dim esp As Double = 0.0
 
+    '    bWaiting = True
+    '    While bWaiting  ' waiting for 3 axes all reaching demand postions
+    '        For nAxis = 0 To 2
+    '            If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
+    '                m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
+    '            End If
+    '        Next nAxis
+
+    '        Sleep(25)
+    '        Application.DoEvents()
+
+    '        bWaiting = (Math.Abs(dRemain(0)) > esp) Or (Math.Abs(dRemain(1)) > esp) Or (Math.Abs(dRemain(2)) > esp)
+    '        ' as long any axis more than 0.05 continue waiting
+    '    End While
+    'End Sub
+
+    'Waiting for reaching demand positions on 3 axes   
+    Shared waitMotionTimeout As Integer = 60000
+    Shared thd As Thread
+    'Pool inside thread
+    Dim startWaitTime As Long = 0
+    Public Function WaitMotionDone() As Boolean
+        Dim bWaiting As Boolean
         bWaiting = True
-        While bWaiting  ' waiting for 3 axes all reaching demand postions
+        If Not (thd Is Nothing) Then
+            thd.Abort()
+        End If
+        'motionDoneEvent(0).Reset()
+        'motionDoneEvent(1).Reset()
+
+        thd = New Thread(AddressOf CheckAxesRemain)
+        thd.Start()
+        startWaitTime = DateTime.Now.Ticks
+        While True
+            Dim rtn As Integer = WaitHandle.WaitAny(motionDoneEvent, 100, False)
+            'motionDoneEvent(0).Reset()
+            'motionDoneEvent(1).Reset()
+            If rtn = WaitHandle.WaitTimeout Then
+                Try
+                    If ((DateTime.Now.Ticks - startWaitTime) / 10000) > waitMotionTimeout Then
+                        thd.Abort()
+                        Return False
+                        'Else keep waiting
+                    End If
+                    Application.DoEvents()
+                    'Console.WriteLine("#1TH Abort Thd")
+                    'Return False
+                Catch ex As Exception
+                End Try
+                'Return False
+            ElseIf rtn = 0 Then
+                motionDoneEvent(0).Reset()
+                Try
+                    thd.Abort()
+                    ' Console.WriteLine("#2TH Abort Thd cos of motion done event received")
+                Catch ex As Exception
+                End Try
+                Return True
+            ElseIf rtn = 1 Then
+                Try
+                    motionDoneEvent(1).Reset()
+                    AbortStatus = False
+                    thd.Abort()
+                    Console.WriteLine("#2TH Wait motion done cancel")
+                Catch ex As Exception
+                End Try
+                Return False
+            End If
+        End While
+        
+    End Function
+    Public Shared AbortStatus As Boolean = False
+    Public Shared Sub AbortMotionDone()
+        If Not (thd Is Nothing) Then
+            thd.Abort()
+            AbortStatus = True
+            'motionDoneEvent(1).Set()
+            Console.WriteLine("Abort motion done thread")
+        End If
+        'If Not (motionDoneEvent(1) Is Nothing) Then
+        '    Console.WriteLine("Trigger Abort motion done event")
+        '    AbortStatus = True
+        '    motionDoneEvent(1).Set()
+        'End If
+    End Sub
+
+
+    Private Shared Sub CheckAxesRemain()
+        Dim wait As Boolean
+        Dim nAxis As Integer
+        Dim dRemain(3) As Double
+        wait = True
+        Dim enterTime As Long = DateTime.Now.Ticks
+        Console.WriteLine("#TH Check remain start")
+        Do
             For nAxis = 0 To 2
                 If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
                     m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
                 End If
             Next nAxis
-
             Sleep(25)
-            Application.DoEvents()
-
-            bWaiting = (Math.Abs(dRemain(0)) > esp) Or (Math.Abs(dRemain(1)) > esp) Or (Math.Abs(dRemain(2)) > esp)
-            ' as long any axis more than 0.05 continue waiting
-        End While
+            wait = (Math.Abs(dRemain(0)) > 0) Or (Math.Abs(dRemain(1)) > 0) Or (Math.Abs(dRemain(2)) > 0)
+        Loop Until Not (wait) Or (DateTime.Now.Ticks - enterTime) / 1000 > (waitMotionTimeout)
+        If Not wait Then
+            motionDoneEvent(0).Set()
+            Console.WriteLine("#TH Event Set")
+        Else
+            Console.WriteLine("#TH Time out")
+        End If
+        ' Console.WriteLine("#TH Check remain Ended")
     End Sub
 
-    'Waiting for reaching demand positions on 3 axes                  '
-    Public Sub WaitMotionDone()
-        Dim dRemain(3) As Double
-        Dim nAxis As Integer
-        Dim bWaiting As Boolean
-        Dim esp As Double = 0.001
-
-        bWaiting = True
-        While bWaiting  ' waiting for 3 axes all reaching demand postions
-            For nAxis = 0 To 2
-                If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
-                    m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
-                End If
-            Next nAxis
-
-            Sleep(25)
-            Application.DoEvents()
-
-            bWaiting = (Math.Abs(dRemain(0)) > esp) Or (Math.Abs(dRemain(1)) > esp) Or (Math.Abs(dRemain(2)) > esp)
-            ' as long any axis more than 0.05 continue waiting
-        End While
-    End Sub
 
     Public Sub WaitForNoError()
         Dim dError(3) As Double
@@ -414,7 +505,7 @@ Public Class CIDSTrioController
         Dim esp As Double = 0.005
 
         bWaiting = True
-        While bWaiting  ' waiting for 3 axes all reaching demand postions
+        While bWaiting   ' waiting for 3 axes all reaching demand postions
             For nAxis = 0 To 2
                 If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
                     m_TriCtrl.GetVariable("FE", dError(nAxis))  'get remaining distance for base axis
@@ -485,56 +576,56 @@ Public Class CIDSTrioController
         m_TriCtrl.Base(3, order)
     End Sub
     Public Function Move_Z(ByVal Height As Double)
-        WaitForEndOfMove()
-        DoStepXZero()
-        WaitForEndOfMove()
+        'WaitMotionDone()
+        ' DoStepXZero()
+        'WaitMotionDone()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
         m_TriCtrl.MoveAbs(1, Height, 2)
-        WaitForEndOfMove()
+        WaitMotionDone()
         Return True
     End Function
     Public Function MoveRelative_Z(ByVal Height As Double)
-        WaitForEndOfMove()
+        WaitMotionDone()
         DoStepXZero()
-        WaitForEndOfMove()
+        WaitMotionDone()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
         m_TriCtrl.MoveRel(1, Height, 2)
-        WaitForEndOfMove()
+        WaitMotionDone()
         Return True
     End Function
     Public Function Move_XY(ByVal Position() As Double)
-        WaitForEndOfMove()
+        ' WaitMotionDone()
         'DoStepXZero()
         'WaitForEndOfMove()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
         m_TriCtrl.MoveAbs(2, Position, 0)
-        WaitForEndOfMove()
+        WaitMotionDone()
         Return True
     End Function
     Public Function Move_XY(ByVal x As Double, ByVal y As Double)
-        WaitForEndOfMove()
+        WaitMotionDone()
         DoStepXZero()
         Dim Position(2) As Double
         Position(0) = x
         Position(1) = y
-        'WaitForEndOfMove()
+        WaitMotionDone()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
         m_TriCtrl.MoveAbs(2, Position, 0)
-        WaitForEndOfMove()
+        WaitMotionDone()
         Return True
     End Function
     Public Function MoveRelative_XY(ByVal Position() As Double)
-        WaitForEndOfMove()
+        WaitMotionDone()
         DoStepXZero()
-        WaitForEndOfMove()
+        WaitMotionDone()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
@@ -545,24 +636,25 @@ Public Class CIDSTrioController
     End Function
     'Only move but not wait for motion done
     Public Function MoveRelOnly(ByVal Position() As Double)
-        WaitForEndOfMove()
+        WaitMotionDone()
         DoStepXZero()
-        WaitForEndOfMove()
+        WaitMotionDone()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
         m_TriCtrl.MoveRel(2, Position, 0)
+        WaitMotionDone()
         Return True
     End Function
     Public Function MoveRelative_XYZ(ByVal Position() As Double)
-        WaitForEndOfMove()
+        WaitMotionDone()
         DoStepXZero()
-        WaitForEndOfMove()
+        WaitMotionDone()
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
         m_TriCtrl.MoveRel(3, Position, 0)
-        WaitForEndOfMove()
+        WaitMotionDone()
         Return True
     End Function
 
@@ -693,8 +785,9 @@ Public Class CIDSTrioController
     'set TABLE(25) to 2 to stop triggering "homing is finished label"
     Public Function HomingFinished()
         If StateContainer(25) = 1 Then
-            m_TriCtrl.SetTable(25, 1, 2)
+            'm_TriCtrl.SetTable(25, 1, 2)
             Do
+                If m_TriCtrl.SetTable(25, 1, 2) Then Exit Function
                 Sleep(25)
                 GetIDSState()
             Loop Until StateContainer(25) = 2
@@ -746,20 +839,29 @@ Public Class CIDSTrioController
         For i As Integer = 0 To 2
             values(i) = 0
         Next
-        m_TriCtrl.SetTable(5, 3, values)
+        'Retry 3 time
+        If m_TriCtrl.SetTable(5, 3, values) Then Exit Sub
+        If m_TriCtrl.SetTable(5, 3, values) Then Exit Sub
+        If m_TriCtrl.SetTable(5, 3, values) Then Exit Sub
     End Sub
+    Private Function IfTimeout() As Boolean
+        If ((DateTime.Now.Ticks - startTime) / 1000) > 5000 Then Return True
+        Return False
+    End Function
+
     Public Sub ResetDispensingFlag()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(23, 1, 0)
+            If m_TriCtrl.SetTable(23, 1, 0) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(23) = 0
+        Loop Until (StateContainer(23) = 0 Or IfTimeout())
     End Sub
     Public Function ResetSteppingFlag(Optional ByVal timeOut As Double = 5000)
         Dim dt As DateTime = DateTime.Now
         Dim diff As Long = 0
         Do
-            m_TriCtrl.SetTable(50, 1, 1)
+            If m_TriCtrl.SetTable(50, 1, 1) Then Exit Function
             Sleep(25)
             GetIDSState()
             diff = (DateTime.Now.Ticks - dt.Now.Ticks) / 10000
@@ -770,67 +872,79 @@ Public Class CIDSTrioController
         Return True
     End Function
     Public Sub ResetCalibrationFlag()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(100, 1, 0)
+            If m_TriCtrl.SetTable(100, 1, 0) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(100) = 0
+        Loop Until StateContainer(100) = 0 Or IfTimeout()
     End Sub
     Public Sub ResetVolCalFlag()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(199, 1, 0)
+            If m_TriCtrl.SetTable(199, 1, 0) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(199) = 0
+        Loop Until StateContainer(199) = 0 Or IfTimeout()
     End Sub
     Public Sub ResetQCFlag()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(200, 1, 0)
+            If m_TriCtrl.SetTable(200, 1, 0) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(200) = 0
+        Loop Until StateContainer(200) = 0 Or IfTimeout()
     End Sub
     Public Sub SetQCFinished()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(201, 1, 1)
+            If m_TriCtrl.SetTable(201, 1, 1) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(201) = 1
+        Loop Until StateContainer(201) = 1 Or IfTimeout()
     End Sub
     Public Sub SetVolCalFinished()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(198, 1, 1)
+            If m_TriCtrl.SetTable(198, 1, 1) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(198) = 1
+        Loop Until StateContainer(198) = 1 Or IfTimeout()
     End Sub
     Public Sub SetVolCalStop()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(198, 1, 2)
+            If m_TriCtrl.SetTable(198, 1, 2) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(198) = 2
+        Loop Until StateContainer(198) = 2 Or IfTimeout()
     End Sub
     Public Sub SetQCStop()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(201, 1, 2)
+            If m_TriCtrl.SetTable(201, 1, 2) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(201) = 2
+        Loop Until StateContainer(201) = 2 Or IfTimeout()
     End Sub
     Public Sub SetMachineRun()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(21, 1, 2)
+            If m_TriCtrl.SetTable(21, 1, 2) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(21) = 2
+        Loop Until StateContainer(21) = 2 Or IfTimeout()
     End Sub
     Public Sub SetCalibrationFlag()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(100, 1, 1)
+            If m_TriCtrl.SetTable(100, 1, 1) Then
+                GetIDSState()
+                Exit Sub
+            End If
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(100) = 1
+        Loop Until StateContainer(100) = 1 Or IfTimeout()
     End Sub
     Public Sub SetCalibrationType(ByVal command As String)
         Dim flag_num As Integer
@@ -844,33 +958,36 @@ Public Class CIDSTrioController
             Case "Laser XY Calibration"
                 flag_num = 4
         End Select
-
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(109, 1, flag_num)
+            If m_TriCtrl.SetTable(109, 1, flag_num) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(109) = flag_num
+        Loop Until StateContainer(109) = flag_num Or IfTimeout()
     End Sub
     Public Sub SetMachinePause()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(21, 1, 1)
+            If m_TriCtrl.SetTable(21, 1, 1) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(21) = 1
+        Loop Until StateContainer(21) = 1 Or IfTimeout()
     End Sub
     Public Sub SetMachineStop()
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(21, 1, 0)
+            If m_TriCtrl.SetTable(21, 1, 0) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(21) = 0
+        Loop Until StateContainer(21) = 0 Or IfTimeout()
     End Sub
     Public Sub SetMachineRunMode(ByVal runmode As Integer)
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(20, 1, runmode)
+            If m_TriCtrl.SetTable(20, 1, runmode) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(20) = runmode
+        Loop Until StateContainer(20) = runmode Or IfTimeout()
     End Sub
     Public Sub SetTrioMotionValues(ByVal Command As String)
         Dim table_index, value As Integer
@@ -894,11 +1011,12 @@ Public Class CIDSTrioController
                 table_index = 12
                 value = 0
         End Select
+        startTime = DateTime.Now.Ticks
         Do
-            m_TriCtrl.SetTable(table_index, 1, value)
+            If m_TriCtrl.SetTable(table_index, 1, value) Then Exit Sub
             Sleep(25)
             GetIDSState()
-        Loop Until StateContainer(table_index) = value
+        Loop Until StateContainer(table_index) = value Or IfTimeout()
     End Sub
     Public Sub SetTrioMotionValues(ByVal Command As String, ByVal values As Object)
         Select Case Command
@@ -943,6 +1061,9 @@ Public Class CIDSTrioController
         Return m_TriCtrl.Op(IOnum, OnOff)
     End Function
     Public Sub TrioStop()
+        If m_TriCtrl.Stop("CALIBRATIONS") Then
+            ResetCalibrationFlag()
+        End If
         If m_TriCtrl.RapidStop() Then Console.WriteLine("Rapid stop Done")
         If m_TriCtrl.Cancel(0, 0) Then Console.WriteLine("Cancel 0 Done")
         If m_TriCtrl.Cancel(0, 1) Then Console.WriteLine("Cancel 1 Done")
@@ -953,19 +1074,21 @@ Public Class CIDSTrioController
         m_TriCtrl.Op(27, 0)
         m_TriCtrl.Op(25, 0)
         m_TriCtrl.Stop("SETDATUM")
-        If m_TriCtrl.Stop("CALIBRATIONS") Then
-            ResetCalibrationFlag()
+        'If m_TriCtrl.Stop("CALIBRATIONS") Then
+        '    ResetCalibrationFlag()
+        'End If
+        If Not (m_TriCtrl.Stop("DISPENSE")) Then
+            If Not (m_TriCtrl.Stop("DISPENSE")) Then
+                m_TriCtrl.Stop("DISPENSE")
+            End If
         End If
-        m_TriCtrl.Stop("DISPENSE")
-        'm_TriCtrl.Cancel(1, 0)
-        'm_TriCtrl.Cancel(1, 1)
-        'm_TriCtrl.Cancel(1, 2)
-
     End Sub
 #End Region
 
     Public Sub Disconnect_Controller()
-
+        If asynConnect Then
+            robot_Asyn.Close(-1)
+        End If
         If m_TriCtrl.IsOpen(0) Then
             TrioStop()
             StopTrioMotionProgram("LOGPOS")
@@ -996,6 +1119,10 @@ Public Class CIDSTrioController
         'StopTrioMotionProgram("DISPENSE")
         'StopTrioMotionProgram("SETDATUM")
         'StopTrioMotionProgram("CALIBRATIONS")
+        If motionDoneEvent(0) Is Nothing Then
+            motionDoneEvent(0) = New ManualResetEvent(False)
+            motionDoneEvent(1) = New ManualResetEvent(False)
+        End If
         If TrioConnectEthernet("192.168.0.250", 3240) Then
             RunTrioMotionProgram("STARTUP")
             Sleep(500)
@@ -1011,6 +1138,56 @@ Public Class CIDSTrioController
 
     End Function
 
+    Private Sub Received0() Handles robot_Asyn.OnReceiveChannel0
+        Console.WriteLine("#Channel 0 Triggered")
+        Dim str As String
+        If robot_Asyn.GetData(0, str) Then
+            Console.WriteLine("#Channel 0 Data: " + str)
+        End If
+    End Sub
+    Private Sub Received5() Handles robot_Asyn.OnReceiveChannel5
+        Console.WriteLine("#Channel 5 Triggered")
+        Dim str As String
+        If robot_Asyn.GetData(5, str) Then
+            Console.WriteLine("#Channel 5 Data: " + str)
+        End If
+    End Sub
+    Private Sub Received6() Handles robot_Asyn.OnReceiveChannel6
+        Console.WriteLine("#Channel 6 Triggered")
+        Dim str As String
+        If robot_Asyn.GetData(6, str) Then
+            Console.WriteLine("#Channel 6 Data: " + str)
+        End If
+    End Sub
+    Private Sub Received7() Handles robot_Asyn.OnReceiveChannel7
+        Console.WriteLine("#Channel 7 Triggered")
+        Dim str As String
+        If robot_Asyn.GetData(7, str) Then
+            Console.WriteLine("#Channel 7 Data: " + str)
+        End If
+    End Sub
+    Private Sub Received9() Handles robot_Asyn.OnReceiveChannel9
+        Console.WriteLine("#Channel 9 Triggered")
+        Dim str As String
+        If robot_Asyn.GetData(9, str) Then
+            Console.WriteLine("#Channel 9 Data: " + str)
+        End If
+    End Sub
+
+    Public Sub SetOutputOn()
+        If robot_Asyn.IsOpen(23) Then
+            If robot_Asyn.SendData(0, "OP(25,1)") Then
+                Console.WriteLine("#1 Channel 0 Data Send")
+            End If
+        End If
+    End Sub
+    Public Sub SetOutputOff()
+        If robot_Asyn.IsOpen(23) Then
+            If robot_Asyn.SendData(0, "OP(25,0)") Then
+                Console.WriteLine("#2 Channel 0 Data Send")
+            End If
+        End If
+    End Sub
 #Region "GUI for stepper"
     Dim dStepVal(5) As Single
     Dim gStepCtrlSpeed As Double = 100.0
@@ -1027,7 +1204,7 @@ Public Class CIDSTrioController
         dStepVal(3) = 0
         dStepVal(4) = 0
         DoStep(dStepVal)
-
+        'Me.SetOutputOff()
     End Sub
 
     Private Sub BTStepXplus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BTStepXplus.Click
@@ -1042,7 +1219,7 @@ Public Class CIDSTrioController
         dStepVal(3) = 0
         dStepVal(4) = 0
         DoStep(dStepVal)
-
+        'Me.SetOutputOn()
     End Sub
 
     Private Sub BTStepYminus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BTStepYminus.Click

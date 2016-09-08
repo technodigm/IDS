@@ -4530,7 +4530,7 @@ Public Class CIDSErrorCheck
         If "Fiducial" = cmdStr Or "Reference" = cmdStr Or "Height" = cmdStr Or "Reject" = cmdStr Or _
                 "Dot" = cmdStr Or "Line" = cmdStr Or "Arc" = cmdStr Or "Circle" = cmdStr Or "FillCircle" = cmdStr Or _
                 "Rectangle" = cmdStr Or "FillRectangle" = cmdStr Or "SubPattern" = cmdStr Or _
-                "Wait" = cmdStr Or "Move" = cmdStr Or "ChipEdge" = cmdStr Or "QC" = cmdStr Or _
+                "Wait" = cmdStr Or "Move" = cmdStr Or "ChipEdge" = cmdStr Or "QC" = cmdStr Or "GlobalQC" = cmdStr Or _
                 "Subpattern" = cmdStr Or "DotArray" = cmdStr Then
             ValidPtFound = True
         End If

@@ -187,6 +187,12 @@
   <data name="ButtonPurge.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
+  <data name="ButtonPurge.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>864, 696</value>
+  </data>
+  <data name="cbDisplayIndicator.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>NoControl</value>
+  </data>
   <data name="CheckBoxLockZ.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
@@ -532,17 +538,32 @@
   <data name="ReferenceCommandBlock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
+  <data name="ReferenceCommandBlock.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>86, 48</value>
+  </data>
+  <data name="ElementsCommandBlock.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>None</value>
+  </data>
   <data name="ElementsCommandBlock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
+  </data>
+  <data name="ElementsCommandBlock.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>0, 398</value>
+  </data>
+  <data name="TBBVolumeCal.ImageIndex" type="System.Int32, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>15</value>
+  </data>
+  <data name="TBBVolumeCal.Text">
+    <value>        VC</value>
   </data>
   <data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>24, 16</value>
+    <value>8, 16</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>120, 16</value>
+    <value>112, 16</value>
   </data>
   <data name="Label5.Text">
     <value>Motion Mode:</value>
@@ -553,14 +574,29 @@
   <data name="VisionMode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
+  <data name="VisionMode.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>144, 16</value>
+  </data>
   <data name="CBExpandSpreadsheet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
   <data name="NeedleMode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
+  <data name="NeedleMode.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>232, 16</value>
+  </data>
+  <data name="TeachingToolbar.Font" type="System.Drawing.Font, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>Microsoft Sans Serif, 12.75pt</value>
+  </data>
   <data name="TeachingToolbar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
+  </data>
+  <data name="TBBOk.Text">
+    <value>O</value>
+  </data>
+  <data name="TBBCancel.Text">
+    <value>C</value>
   </data>
   <data name="ImageListYesNo.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -646,6 +682,9 @@
   </data>
   <data name="ButtonClean.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
+  </data>
+  <data name="ButtonClean.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>864, 616</value>
   </data>
   <data name="ButtonNeedleCal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
@@ -779,6 +818,9 @@
         PC9zczpUYWJsZT4NCiA8L3NzOldvcmtzaGVldD4NCjwvc3M6V29ya2Jvb2s+DQoL
 </value>
   </data>
+  <data name="LabelMessege.Font" type="System.Drawing.Font, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
   <data name="LabelMessege.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
@@ -790,6 +832,9 @@
   </data>
   <data name="btPlay.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
+  </data>
+  <data name="Panel1.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>872, 328</value>
   </data>
   <data name="GreenLight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
@@ -815,11 +860,26 @@
   <data name="cbContinueTest.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
+  <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>952, 320</value>
+  </data>
+  <data name="GroupBox3.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>320, 40</value>
+  </data>
   <data name="btChangeSyringe.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
   </data>
+  <data name="btChangeSyringe.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>864, 776</value>
+  </data>
+  <data name="btExit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>None</value>
+  </data>
   <data name="btExit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
+  </data>
+  <data name="btExit.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>872, 894</value>
   </data>
   <data name="ImageListOper.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -2373,7 +2433,7 @@
 </value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1276, 983</value>
+    <value>1276, 962</value>
   </data>
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>NoControl</value>
