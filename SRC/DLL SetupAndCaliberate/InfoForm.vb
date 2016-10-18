@@ -1,17 +1,18 @@
+Imports DLL_Export_Service
 Public Class InfoForm
     Inherits System.Windows.Forms.Form
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New()
-        MyBase.New()
+    'Public Sub New()
+    '    MyBase.New()
 
-        'This call is required by the Windows Form Designer.
-        InitializeComponent()
+    '    'This call is required by the Windows Form Designer.
+    '    InitializeComponent()
 
-        'Add any initialization after the InitializeComponent() call
+    '    'Add any initialization after the InitializeComponent() call
 
-    End Sub
+    'End Sub
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -33,11 +34,13 @@ Public Class InfoForm
     Friend WithEvents btOK As System.Windows.Forms.Button
     Friend WithEvents btCancel As System.Windows.Forms.Button
     Friend WithEvents btIgnore As System.Windows.Forms.Button
+    Friend WithEvents btStopBuzzer As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.tbInfo = New System.Windows.Forms.TextBox
         Me.btOK = New System.Windows.Forms.Button
         Me.btCancel = New System.Windows.Forms.Button
         Me.btIgnore = New System.Windows.Forms.Button
+        Me.btStopBuzzer = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'tbInfo
@@ -56,6 +59,7 @@ Public Class InfoForm
         '
         'btOK
         '
+        Me.btOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btOK.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.btOK.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btOK.Location = New System.Drawing.Point(161, 168)
@@ -66,6 +70,7 @@ Public Class InfoForm
         '
         'btCancel
         '
+        Me.btCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btCancel.Location = New System.Drawing.Point(321, 168)
@@ -76,6 +81,7 @@ Public Class InfoForm
         '
         'btIgnore
         '
+        Me.btIgnore.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btIgnore.DialogResult = System.Windows.Forms.DialogResult.Ignore
         Me.btIgnore.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btIgnore.Location = New System.Drawing.Point(472, 168)
@@ -85,10 +91,22 @@ Public Class InfoForm
         Me.btIgnore.Text = "Ignore"
         Me.btIgnore.Visible = False
         '
+        'btStopBuzzer
+        '
+        Me.btStopBuzzer.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.btStopBuzzer.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btStopBuzzer.Location = New System.Drawing.Point(0, 160)
+        Me.btStopBuzzer.Name = "btStopBuzzer"
+        Me.btStopBuzzer.Size = New System.Drawing.Size(72, 48)
+        Me.btStopBuzzer.TabIndex = 4
+        Me.btStopBuzzer.Text = "Stop Buzzer"
+        Me.btStopBuzzer.Visible = False
+        '
         'InfoForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(578, 216)
+        Me.Controls.Add(Me.btStopBuzzer)
         Me.Controls.Add(Me.btIgnore)
         Me.Controls.Add(Me.btCancel)
         Me.Controls.Add(Me.btOK)
@@ -105,8 +123,19 @@ Public Class InfoForm
 #End Region
     Delegate Sub OKClicked()
     Delegate Sub CancelClicked()
+    Delegate Sub StopBuzzerClicked()
     Public okClickedDelegate As OKClicked
     Public cancelClickedDelegate As CancelClicked
+    Public isError As Boolean = False
+    'Public stopBuzzerClickedDelegate As StopBuzzerClicked
+    Public Sub New(Optional ByVal isError As Boolean = False)
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+        Me.isError = isError
+    End Sub
+
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btOK.Click
         If Not (okClickedDelegate Is Nothing) Then
             okClickedDelegate.Invoke()
@@ -131,7 +160,11 @@ Public Class InfoForm
     End Function
 
     Private Sub InfoForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        If isError Then
+            Me.btStopBuzzer.Visible = True
+            'IDS.Devices.DIO.DIO.TurnOnTowerSiren()
+            IDS.Devices.DIO.DIO.TurnOnTowerLightRed()
+        End If
     End Sub
     Public Sub SetOKButtonText(ByVal text As String)
         btOK.Text = text
@@ -143,20 +176,40 @@ Public Class InfoForm
         btOK.Location = New Point((Me.Size.Width - (btOK.Size.Width)) / 2, btOK.Location.Y)
         btCancel.Hide()
     End Sub
-    Public Sub OkCancelOnly()
-        btCancel.Visible = True
-        btOK.Visible = True
-        btOK.Location = New Point((Me.Size.Width) / 2 - (btOK.Size.Width * 1.5), btOK.Location.Y)
-        btCancel.Location = New Point((Me.Size.Width) / 2 + (btCancel.Size.Width / 2), btCancel.Location.Y)
-    End Sub
     Public Sub SetTitle(ByVal title As String)
         Me.Text = title
     End Sub
+    Public Sub OKCancelOnly()
+        btCancel.Location = New Point(Me.Size.Width / 2 + btCancel.Size.Width + 20, btCancel.Location.Y)
+        btOK.Location = New Point(Me.Size.Width / 2 - btOK.Size.Width - 20, btOK.Location.Y)
+        btOK.Visible = True
+        btCancel.Visible = True
+        btIgnore.Visible = False
+    End Sub
     Public Sub ShowIgnoreButton()
+        btCancel.Location = New Point(Me.Size.Width / 2 - btCancel.Size.Width / 2, btCancel.Location.Y)
+        btOK.Location = New Point(btCancel.Location.X - btOK.Size.Width - 20, btOK.Location.Y)
+        btIgnore.Location = New Point(btCancel.Location.X + btIgnore.Size.Width + 20, btIgnore.Location.Y)
         btIgnore.Visible = True
+
     End Sub
 
     Private Sub btIgnore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btIgnore.Click
         Close()
+    End Sub
+
+    Private Sub btStopBuzzer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btStopBuzzer.Click
+        'If Not (stopBuzzerClickedDelegate Is Nothing) Then
+        '    stopBuzzerClickedDelegate.Invoke()
+        'End If
+        IDS.Devices.DIO.DIO.TurnOffTowerSiren()
+        'IDS.Devices.DIO.DIO.TurnOffTowerLightRed()
+    End Sub
+
+    Private Sub InfoForm_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        If isError Then
+            IDS.Devices.DIO.DIO.TurnOffTowerSiren()
+            IDS.Devices.DIO.DIO.TurnOffTowerLightRed()
+        End If
     End Sub
 End Class

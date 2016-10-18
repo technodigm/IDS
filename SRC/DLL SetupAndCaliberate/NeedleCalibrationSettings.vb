@@ -517,7 +517,7 @@ Public Class NeedleCalibrationSettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(416, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(392, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 73
@@ -798,7 +798,7 @@ Public Class NeedleCalibrationSettings
         '
         'ButtonSave
         '
-        Me.ButtonSave.Location = New System.Drawing.Point(280, 760)
+        Me.ButtonSave.Location = New System.Drawing.Point(219, 760)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(75, 40)
         Me.ButtonSave.TabIndex = 72
@@ -811,6 +811,7 @@ Public Class NeedleCalibrationSettings
         Me.ButtonRevert.Size = New System.Drawing.Size(75, 40)
         Me.ButtonRevert.TabIndex = 71
         Me.ButtonRevert.Text = "Revert"
+        Me.ButtonRevert.Visible = False
         '
         'BoxStep1
         '
@@ -822,7 +823,7 @@ Public Class NeedleCalibrationSettings
         Me.BoxStep1.Size = New System.Drawing.Size(496, 104)
         Me.BoxStep1.TabIndex = 0
         Me.BoxStep1.TabStop = False
-        Me.BoxStep1.Text = "Step 1: Calibration Needle Z"
+        Me.BoxStep1.Text = "Step 1: Set Needle Datum"
         '
         'ButtonCalibrateZPosition
         '
@@ -932,6 +933,10 @@ Public Class NeedleCalibrationSettings
             Dim rtn As Boolean
             rtn = Vision.IDSV_NC(.CalBackground, .CalThreshold, .CalMaxRadius, .CalMinRadius, .CalClose, .CalOpen, .CalRoughness, .CalCompactness, RegionX, RegionY, ROI_X, ROI_Y, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y)
             Vision.FrmVision.ClearDisplay()
+            If rtn Then
+                tbStatus.Text = Vision.FrmVision.diameter
+                tbStatus.Refresh()
+            End If
             Return rtn
         End With
     End Function
@@ -1001,10 +1006,10 @@ StopCalibration:
        
         Calibrate.Enabled = True
         Calibrate.Text = "Calibrate"
-        If localCalib Then
-            MessageBox.Show("Needle Calibration stopped.")
-            localCalib = False
-        End If
+        'If localCalib Then
+        '    MessageBox.Show("Needle Calibration stopped.")
+        '    localCalib = False
+        'End If
         Return False
     End Function
 
@@ -1094,7 +1099,6 @@ StopCalibration:
             MessageBox.Show("Error occur when downloading dispenser settings. Make sure devices is all connected.")
             GoTo StopCalibration
         End Try
-
         If Me.NeedleCalibrationState = "Stopped" Then GoTo StopCalibration
         'xy dispensing
         SetNeedleXYCal(8, 25)
@@ -1107,7 +1111,9 @@ StopCalibration:
 
         MeasuredOffsetX = 0
         MeasuredOffsetY = 0
-
+        Vision.FrmVision.SwitchCamera("Teach Camera")
+        Vision.FrmVision.DisplayIndicator()
+        IDS.Devices.Vision.IDSV_SetBrightness(IDS.Data.Hardware.Camera.Brightness)
         'vision checking
         IDS.Devices.Vision.IDSV_SetBrightness(IDS.Data.Hardware.Needle.Left.CalBrightness)
         distance(0) = IDS.Data.Hardware.Needle.Left.ArrayDotPos1.X
@@ -1232,10 +1238,10 @@ StopCalibration:
 
         Calibrate.Enabled = True
         Calibrate.Text = "Calibrate"
-        If localCalib Then
-            MessageBox.Show("Needle Calibration stopped.")
-            localCalib = False
-        End If
+        'If localCalib Then
+        '    MessageBox.Show("Needle Calibration stopped.")
+        '    localCalib = False
+        'End If
 
         Return False
 
@@ -1277,8 +1283,8 @@ StopCalibration:
         IDS.Data.SaveData()
     End Sub
 
-    Public Sub RevertData()
-
+    Public Sub RevertData(Optional ByVal hideexit As Boolean = False)
+        ButtonExit.Visible = Not hideexit
         IDS.Data.OpenData()
         With IDS.Data.Hardware.Needle
             If LeftHead.Checked Then
@@ -1305,10 +1311,10 @@ StopCalibration:
                 m_Threshold = .Left.CalThreshold
                 Roughness.Text = .Left.CalRoughness
                 m_Rough = .Left.CalRoughness
-                MinRadius.Text = .Left.CalMinRadius
-                Me.m_minRad = .Left.CalMinRadius
-                MaxRadius.Text = .Left.CalMaxRadius
-                Me.m_maxRad = .Left.CalMaxRadius
+                MinRadius.Text = .Left.CalMinRadius * 2
+                Me.m_minRad = .Left.CalMinRadius * 2
+                MaxRadius.Text = .Left.CalMaxRadius * 2
+                Me.m_maxRad = .Left.CalMaxRadius * 2
             ElseIf RightHead.Checked Then
                 DispenseDuration.Text = .Right.DispenseDot.DispenseDuration
                 NeedleGap.Text = .Right.DispenseDot.NeedleGap
@@ -1378,6 +1384,7 @@ StopCalibration:
     Private Sub Calibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Calibrate.Click
         If Calibrate.Text = "Calibrate" Then
             Calibrate.Text = "Stop Calibrate"
+            Vision.FrmVision.SwitchCamera("View Camera")
             localCalib = True
             Timer1.Enabled = False
             Timer1.Stop()
@@ -1405,6 +1412,7 @@ StopCalibration:
             BoxStep1Jetting.Enabled = flag
             ButtonExit.Enabled = flag
             m_Tri.SteppingButtons.Enabled = flag
+            Calibrate.Enabled = True
             'PanelToBeAdded.Enabled = True
         Else
             Dim pos(0) As Integer
@@ -1480,6 +1488,9 @@ StopCalibration:
 StopCalibration:
         'MsgBox("Checking the Z position for needle calibration stopped prematurely.")
         m_Tri.SetMachineStop()
+        SetServiceSpeed()
+        m_Tri.Move_Z(0)
+        Calibrate.Enabled = True
         Return False
     End Function
 
@@ -1501,7 +1512,7 @@ StopCalibration:
         IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
         Try
             'If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value, MinRadius.Value, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
-            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, m_Threshold, m_maxRad, m_minRad, m_Close, m_Open, m_Rough, m_Compact, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, m_Threshold, m_maxRad / 2, m_minRad / 2, m_Close, m_Open, m_Rough, m_Compact, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
                 IDS.Data.Hardware.Needle.Left.DotDiameter = Vision.FrmVision.diameter
                 tbStatus.Text = "Dot found. Diameter = " + IDS.Data.Hardware.Needle.Left.DotDiameter.ToString("0.000") + "mm"
             Else
@@ -1527,6 +1538,8 @@ StopCalibration:
             btCheckDotOnce.Enabled = False
             Me.btSaveDotSize.Enabled = False
             stopTimer = False
+            Vision.FrmVision.SwitchCamera("Teach Camera")
+            Vision.FrmVision.DisplayIndicator()
             Timer1.Enabled = True
             Timer1.Start()
 
@@ -1576,24 +1589,38 @@ StopCalibration:
         Timer1.Stop()
         tbStatus.Text = ""
         Timer1.Enabled = False
+        btCheckDotOnce.Enabled = False
         ButtonTest.Text = "Continous Check Dot"
+        Vision.FrmVision.SwitchCamera("Teach Camera")
         Vision.FrmVision.DisplayIndicator()
         IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
+        If MinRadius.Value >= MaxRadius.Value Then
+            MinRadius.Value = MaxRadius.Value - 0.1
+            MessageBox.Show("Minimum diameter cannot be equal to or greater than maximum diameter. It will be reset to smaller than Maximum diamter - " & MinRadius.Value & " now")
+            Return
+        End If
         Try
-            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value / 2, MinRadius.Value / 2, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
-                'Vision.FrmVision.DisplayIndicator()
-                'MessageBox.Show("Dot found! Dot diameter(mm) is " & Vision.FrmVision.diameter)
+            'If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value / 2, MinRadius.Value / 2, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
+            '    'Vision.FrmVision.DisplayIndicator()
+            '    'MessageBox.Show("Dot found! Dot diameter(mm) is " & Vision.FrmVision.diameter)
+            '    IDS.Data.Hardware.Needle.Left.DotDiameter = Vision.FrmVision.diameter
+            '    tbStatus.Text = "Dot found. Diameter = " + IDS.Data.Hardware.Needle.Left.DotDiameter.ToString("0.000") + "mm"
+            'Else
+            '    'MessageBox.Show("Dot not found!")
+            '    tbStatus.Text = "Dot not found"
+            'End If
+            If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, m_Threshold, m_maxRad / 2, m_minRad / 2, m_Close, m_Open, m_Rough, m_Compact, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then
                 IDS.Data.Hardware.Needle.Left.DotDiameter = Vision.FrmVision.diameter
                 tbStatus.Text = "Dot found. Diameter = " + IDS.Data.Hardware.Needle.Left.DotDiameter.ToString("0.000") + "mm"
             Else
-                'MessageBox.Show("Dot not found!")
                 tbStatus.Text = "Dot not found"
             End If
-
         Catch ex As Exception
             ExceptionDisplay(ex)
+            btCheckDotOnce.Enabled = True
             Return
         End Try
+        btCheckDotOnce.Enabled = True
     End Sub
 
     Private Sub btSaveDotSize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btSaveDotSize.Click
@@ -1615,15 +1642,16 @@ StopCalibration:
 
     Private Sub btPurgeNow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btPurgeNow.Click
         'download dispenser settings
-        If LeftHead.Checked Then
-            MyDispenserSettings.DownloadDispenserSettings("Left")
-        ElseIf RightHead.Checked Then
-            MyDispenserSettings.DownloadDispenserSettings("Right")
-        End If
+       
         If btPurgeNow.Text = "Off Purge" Then
             btPurgeNow.Text = "Purge at current position"
             m_Tri.TurnOff("Left Needle IO")
         Else
+            If LeftHead.Checked Then
+                MyDispenserSettings.DownloadDispenserSettings("Left")
+            ElseIf RightHead.Checked Then
+                MyDispenserSettings.DownloadDispenserSettings("Right")
+            End If
             btPurgeNow.Text = "Off Purge"
             m_Tri.TurnOn("Left Needle IO")
         End If
@@ -1651,6 +1679,10 @@ StopCalibration:
     End Sub
 
     Private Sub MinRadius_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MinRadius.ValueChanged
+        If MinRadius.Value > MaxRadius.Value Then
+            MinRadius.Value = MaxRadius.Value - 0.1
+            Return
+        End If
         Me.m_minRad = Me.MinRadius.Value
     End Sub
 
@@ -1664,6 +1696,7 @@ StopCalibration:
 
     Private Sub btCheckCalibrationAccuracy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btCheckCalibrationAccuracy.Click
         Vision.FrmVision.DisplayIndicator()
+        Vision.FrmVision.SwitchCamera("Teach Camera")
         IDS.Devices.Vision.IDSV_SetBrightness(Brightness.Value)
         Try
             If IDS.Devices.Vision.IDSV_NC(BlackBackground.Checked, Threshold.Value, MaxRadius.Value / 2, MinRadius.Value / 2, CloseValue.Value, OpenValue.Value, Roughness.Value, Compactness.Value, 768 / 2, 576 / 2, 700, 550, MyNeedleCalibrationSetup1.Offset_X, MyNeedleCalibrationSetup1.Offset_Y) Then

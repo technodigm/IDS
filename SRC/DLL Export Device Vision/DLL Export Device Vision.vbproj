@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <VisualBasic
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{7FBD9B64-D1D7-4E03-9FF4-5B3A4D1109CC}"
     >
@@ -318,6 +318,22 @@
                     Guid = "{9AE86E03-97BC-11D1-A49B-000021633168}"
                     VersionMajor = "6"
                     VersionMinor = "7"
+                    Lcid = "0"
+                    WrapperTool = "aximp"
+                />
+                <Reference
+                    Name = "Matrox.ActiveMIL.EdgeFinder"
+                    Guid = "{0F66884A-9C4A-4E63-9C14-42C27D218F9E}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
+                    Lcid = "0"
+                    WrapperTool = "tlbimp"
+                />
+                <Reference
+                    Name = "AxMatrox.ActiveMIL.EdgeFinder"
+                    Guid = "{0F66884A-9C4A-4E63-9C14-42C27D218F9E}"
+                    VersionMajor = "8"
+                    VersionMinor = "0"
                     Lcid = "0"
                     WrapperTool = "aximp"
                 />

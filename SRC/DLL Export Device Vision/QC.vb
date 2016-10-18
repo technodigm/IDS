@@ -159,7 +159,7 @@ Public Class QC
         '
         'ValueBinarized
         '
-        Me.ValueBinarized.Location = New System.Drawing.Point(240, 112)
+        Me.ValueBinarized.Location = New System.Drawing.Point(256, 112)
         Me.ValueBinarized.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
         Me.ValueBinarized.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.ValueBinarized.Name = "ValueBinarized"
@@ -169,7 +169,7 @@ Public Class QC
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(16, 112)
+        Me.Label1.Location = New System.Drawing.Point(8, 112)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(168, 23)
         Me.Label1.TabIndex = 1
@@ -186,35 +186,35 @@ Public Class QC
         '
         'Timer1
         '
-        Me.Timer1.Interval = 500
+        Me.Timer1.Interval = 1000
         '
         'ValueMinArea
         '
         Me.ValueMinArea.DecimalPlaces = 3
         Me.ValueMinArea.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.ValueMinArea.Location = New System.Drawing.Point(440, 112)
-        Me.ValueMinArea.Maximum = New Decimal(New Integer() {8, 0, 0, 0})
+        Me.ValueMinArea.Location = New System.Drawing.Point(448, 112)
+        Me.ValueMinArea.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.ValueMinArea.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.ValueMinArea.Name = "ValueMinArea"
         Me.ValueMinArea.Size = New System.Drawing.Size(64, 27)
         Me.ValueMinArea.TabIndex = 4
-        Me.ValueMinArea.Value = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.ValueMinArea.Value = New Decimal(New Integer() {5, 0, 0, 65536})
         '
         'Label2
         '
-        Me.Label2.Location = New System.Drawing.Point(320, 112)
+        Me.Label2.Location = New System.Drawing.Point(328, 112)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(104, 23)
+        Me.Label2.Size = New System.Drawing.Size(112, 23)
         Me.Label2.TabIndex = 5
-        Me.Label2.Text = "Min Radius"
+        Me.Label2.Text = "Min Diameter"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ValueMaxArea
         '
         Me.ValueMaxArea.DecimalPlaces = 3
         Me.ValueMaxArea.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.ValueMaxArea.Location = New System.Drawing.Point(440, 80)
-        Me.ValueMaxArea.Maximum = New Decimal(New Integer() {8, 0, 0, 0})
+        Me.ValueMaxArea.Location = New System.Drawing.Point(448, 80)
+        Me.ValueMaxArea.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.ValueMaxArea.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.ValueMaxArea.Name = "ValueMaxArea"
         Me.ValueMaxArea.Size = New System.Drawing.Size(64, 27)
@@ -223,33 +223,34 @@ Public Class QC
         '
         'Label3
         '
-        Me.Label3.Location = New System.Drawing.Point(320, 80)
+        Me.Label3.Location = New System.Drawing.Point(328, 80)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(104, 23)
+        Me.Label3.Size = New System.Drawing.Size(120, 23)
         Me.Label3.TabIndex = 7
-        Me.Label3.Text = "Max Radius"
+        Me.Label3.Text = "Max Diameter"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ValueClose
         '
-        Me.ValueClose.Location = New System.Drawing.Point(240, 144)
+        Me.ValueClose.Location = New System.Drawing.Point(256, 144)
         Me.ValueClose.Maximum = New Decimal(New Integer() {9, 0, 0, 0})
         Me.ValueClose.Name = "ValueClose"
         Me.ValueClose.Size = New System.Drawing.Size(64, 27)
         Me.ValueClose.TabIndex = 10
+        Me.ValueClose.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(16, 144)
+        Me.Label4.Location = New System.Drawing.Point(8, 144)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(232, 23)
+        Me.Label4.Size = New System.Drawing.Size(264, 23)
         Me.Label4.TabIndex = 11
-        Me.Label4.Text = "Number of Close Operations"
+        Me.Label4.Text = "Close Method(Reduce Particles)"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ValueOpen
         '
-        Me.ValueOpen.Location = New System.Drawing.Point(240, 176)
+        Me.ValueOpen.Location = New System.Drawing.Point(256, 176)
         Me.ValueOpen.Maximum = New Decimal(New Integer() {9, 0, 0, 0})
         Me.ValueOpen.Name = "ValueOpen"
         Me.ValueOpen.Size = New System.Drawing.Size(64, 27)
@@ -258,18 +259,18 @@ Public Class QC
         '
         'Label5
         '
-        Me.Label5.Location = New System.Drawing.Point(16, 176)
+        Me.Label5.Location = New System.Drawing.Point(8, 176)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(232, 23)
+        Me.Label5.Size = New System.Drawing.Size(256, 23)
         Me.Label5.TabIndex = 9
-        Me.Label5.Text = "Number of Open Operations"
+        Me.Label5.Text = "Open Method(Reduce Particles)"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ValueRoughness
         '
         Me.ValueRoughness.DecimalPlaces = 1
         Me.ValueRoughness.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.ValueRoughness.Location = New System.Drawing.Point(440, 144)
+        Me.ValueRoughness.Location = New System.Drawing.Point(448, 144)
         Me.ValueRoughness.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.ValueRoughness.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.ValueRoughness.Name = "ValueRoughness"
@@ -279,7 +280,7 @@ Public Class QC
         '
         'Label6
         '
-        Me.Label6.Location = New System.Drawing.Point(320, 144)
+        Me.Label6.Location = New System.Drawing.Point(328, 144)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(120, 23)
         Me.Label6.TabIndex = 14
@@ -290,17 +291,17 @@ Public Class QC
         '
         Me.ValueCompactness.DecimalPlaces = 1
         Me.ValueCompactness.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.ValueCompactness.Location = New System.Drawing.Point(440, 176)
+        Me.ValueCompactness.Location = New System.Drawing.Point(448, 176)
         Me.ValueCompactness.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.ValueCompactness.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.ValueCompactness.Name = "ValueCompactness"
         Me.ValueCompactness.Size = New System.Drawing.Size(64, 27)
         Me.ValueCompactness.TabIndex = 15
-        Me.ValueCompactness.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.ValueCompactness.Value = New Decimal(New Integer() {20, 0, 0, 65536})
         '
         'Label7
         '
-        Me.Label7.Location = New System.Drawing.Point(320, 176)
+        Me.Label7.Location = New System.Drawing.Point(328, 176)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(120, 23)
         Me.Label7.TabIndex = 16
@@ -309,7 +310,7 @@ Public Class QC
         '
         'Label11
         '
-        Me.Label11.Location = New System.Drawing.Point(496, 112)
+        Me.Label11.Location = New System.Drawing.Point(504, 112)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(56, 23)
         Me.Label11.TabIndex = 47
@@ -318,7 +319,7 @@ Public Class QC
         '
         'Label10
         '
-        Me.Label10.Location = New System.Drawing.Point(496, 80)
+        Me.Label10.Location = New System.Drawing.Point(504, 80)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(56, 23)
         Me.Label10.TabIndex = 46
@@ -327,7 +328,7 @@ Public Class QC
         '
         'ValueDotBrightness
         '
-        Me.ValueDotBrightness.Location = New System.Drawing.Point(240, 80)
+        Me.ValueDotBrightness.Location = New System.Drawing.Point(256, 80)
         Me.ValueDotBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
         Me.ValueDotBrightness.Name = "ValueDotBrightness"
         Me.ValueDotBrightness.Size = New System.Drawing.Size(64, 27)
@@ -336,7 +337,7 @@ Public Class QC
         '
         'Label16
         '
-        Me.Label16.Location = New System.Drawing.Point(16, 80)
+        Me.Label16.Location = New System.Drawing.Point(8, 80)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(96, 23)
         Me.Label16.TabIndex = 40
@@ -345,20 +346,20 @@ Public Class QC
         '
         'RadioButton_BlackDot
         '
-        Me.RadioButton_BlackDot.Checked = True
         Me.RadioButton_BlackDot.Location = New System.Drawing.Point(24, 208)
         Me.RadioButton_BlackDot.Name = "RadioButton_BlackDot"
         Me.RadioButton_BlackDot.Size = New System.Drawing.Size(72, 24)
         Me.RadioButton_BlackDot.TabIndex = 18
-        Me.RadioButton_BlackDot.TabStop = True
         Me.RadioButton_BlackDot.Text = "Black Dot"
         '
         'RadioButton_WhiteDot
         '
+        Me.RadioButton_WhiteDot.Checked = True
         Me.RadioButton_WhiteDot.Location = New System.Drawing.Point(104, 208)
         Me.RadioButton_WhiteDot.Name = "RadioButton_WhiteDot"
         Me.RadioButton_WhiteDot.Size = New System.Drawing.Size(72, 24)
         Me.RadioButton_WhiteDot.TabIndex = 19
+        Me.RadioButton_WhiteDot.TabStop = True
         Me.RadioButton_WhiteDot.Text = "White Dot"
         '
         'Button_Ok
@@ -445,9 +446,12 @@ Public Class QC
         '
         'rbLocal
         '
+        Me.rbLocal.Checked = True
+        Me.rbLocal.Cursor = System.Windows.Forms.Cursors.Default
         Me.rbLocal.Location = New System.Drawing.Point(24, 16)
         Me.rbLocal.Name = "rbLocal"
         Me.rbLocal.TabIndex = 0
+        Me.rbLocal.TabStop = True
         Me.rbLocal.Text = "Local"
         '
         'Label12
@@ -725,6 +729,8 @@ Public Class QC
     Public FormCloseEvent As FormCloseDelegate = Nothing
     Private Shared m_instance As QC
     Private m_isGlobalQC As Boolean = False
+    Private dValueMinArea, dValueMaxArea, dValueRoughness, dValueCompactness As Double
+    Private iValueBinarized, iValueClose, iValueOpen As Integer
     Public Shared ReadOnly Property Instance() As QC
         Get
             If m_instance Is Nothing Then
@@ -819,8 +825,8 @@ Public Class QC
         QCParam._Brightness = ValueDotBrightness.Value
         QCParam._BlackDot = RadioButton_BlackDot.Checked
         QCParam._Binarized = ValueBinarized.Value
-        QCParam._MaxArea = ValueMaxArea.Value
-        QCParam._MinArea = ValueMinArea.Value
+        QCParam._MaxArea = ValueMaxArea.Value / 2
+        QCParam._MinArea = ValueMinArea.Value / 2
         QCParam._Close = ValueClose.Value
         QCParam._Open = ValueOpen.Value
         QCParam._Roughness = ValueRoughness.Value
@@ -926,6 +932,10 @@ Public Class QC
         End If
     End Sub
     Private Sub Button_Ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Ok.Click
+        If Button_Test.Text = "Stop" Then
+            MessageBox.Show("Please stop the QC checking before exit!")
+            Return
+        End If
         Status = 1  'for SJ to check if QC done
         DotResetVariables()
         Dim QCParam As QCParam
@@ -938,6 +948,10 @@ Public Class QC
         End If
     End Sub
     Private Sub Button_Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Cancel.Click
+        If Button_Test.Text = "Stop" Then
+            MessageBox.Show("Please stop the QC checking before exit!")
+            Return
+        End If
         Status = 2 'for SJ to check if QC canceled
         DotResetVariables()
         Me.Visible = False
@@ -967,29 +981,60 @@ Public Class QC
             Me.DialogResult = DialogResult.OK
             FrmVision.ClearDisplay()
             FrmVision.modelregionDrawing()
-            FrmVision.DotQC(BlackDot, ValueBinarized.Value, ValueClose.Value, ValueOpen.Value, ValueMinArea.Value, ValueMaxArea.Value, ValueRoughness.Value, ValueCompactness.Value)
+            'iValueBinarized = ValueBinarized.Value
+            'iValueClose = ValueClose.Value
+            'iValueOpen = ValueOpen.Value
+            'dValueMinArea = ValueMinArea.Value
+            'dValueMaxArea = ValueMaxArea.Value
+            'dValueRoughness = ValueRoughness.Value
+            'dValueCompactness = ValueCompactness.Value
+            FrmVision.DotQC(BlackDot, iValueBinarized, iValueClose, iValueOpen, dValueMinArea / 2, dValueMaxArea / 2, dValueRoughness, dValueCompactness)
 
             Dim orig As New FileStream("C:\IDS\SRC\DLL Export Device Vision\QC\test1.bmp", FileMode.Open, FileAccess.Read)
             Dim binarized As New FileStream("C:\IDS\SRC\DLL Export Device Vision\QC\test2.bmp", FileMode.Open, FileAccess.Read)
             Dim close As New FileStream("C:\IDS\SRC\DLL Export Device Vision\QC\test3.bmp", FileMode.Open, FileAccess.Read)
             Dim open As New FileStream("C:\IDS\SRC\DLL Export Device Vision\QC\test4.bmp", FileMode.Open, FileAccess.Read)
+            'If Not (orig Is Nothing) Then
+            '    originalimage.Image = Image.FromStream(orig)
+            'End If
+            'If Not (binarized Is Nothing) Then
+            '    binarizedimage.Image = Image.FromStream(binarized)
+            'End If
+
+            'If Not (close Is Nothing) Then
+            '    closeoperationimage.Image = Image.FromStream(close)
+            'End If
+            'If Not (open Is Nothing) Then
+            '    openoperationimage.Image = Image.FromStream(open)
+            'End If
             originalimage.Image = Image.FromStream(orig)
             binarizedimage.Image = Image.FromStream(binarized)
             closeoperationimage.Image = Image.FromStream(close)
             openoperationimage.Image = Image.FromStream(open)
-            binarized.Close()
-            orig.Close()
-            close.Close()
-            open.Close()
 
+            If Not (binarized Is Nothing) Then
+                binarized.Close()
+            End If
+            If Not (orig Is Nothing) Then
+                orig.Close()
+            End If
+            If Not (close Is Nothing) Then
+                close.Close()
+            End If
+            If Not (open Is Nothing) Then
+                open.Close()
+            End If
             If timer Then
-                Timer1.Start()
+                Timer1.Enabled = True
             Else
                 FrmVision.modelregionDrawing()
             End If
 
         Catch ex As Exception
             ExceptionDisplay(ex)
+            If timer Then
+                Timer1.Start()
+            End If
         End Try
     End Sub
 
@@ -1042,5 +1087,35 @@ Public Class QC
 
     Private Sub rbLocal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles rbLocal.Click
         rbGlobal.Checked = False
+    End Sub
+
+    Private Sub ValueBinarized_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueBinarized.ValueChanged
+        'ValueBinarized.Enabled = False
+        Me.iValueBinarized = ValueBinarized.Value
+        'ValueBinarized.Enabled = True
+    End Sub
+
+    Private Sub ValueClose_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueClose.ValueChanged
+        Me.iValueClose = ValueClose.Value
+    End Sub
+
+    Private Sub ValueOpen_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueOpen.ValueChanged
+        Me.iValueOpen = ValueOpen.Value
+    End Sub
+
+    Private Sub ValueMaxArea_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueMaxArea.ValueChanged
+        Me.dValueMaxArea = ValueMaxArea.Value
+    End Sub
+
+    Private Sub ValueMinArea_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueMinArea.ValueChanged
+        Me.dValueMinArea = ValueMinArea.Value
+    End Sub
+
+    Private Sub ValueRoughness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueRoughness.ValueChanged
+        Me.dValueRoughness = ValueRoughness.Value
+    End Sub
+
+    Private Sub ValueCompactness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueCompactness.ValueChanged
+        Me.dValueCompactness = ValueCompactness.Value
     End Sub
 End Class

@@ -479,11 +479,11 @@ Public Class Laser
         If cmd = "TurnOnMeasurement" Then
             command = Chr(&H20) & Chr(&H77) & Chr(&H0) & Chr(&H2)
             output_str = header + subHeader1 + command
-            Console.WriteLine("Turn On Laser")
+            'Console.WriteLine("Turn On Laser")
         ElseIf cmd = "TurnOffMeasurement" Then
             command = Chr(&H20) & Chr(&H76) & Chr(&H0) & Chr(&H2)
             output_str = header + subHeader1 + command
-            Console.WriteLine("Turn Off Laser")
+            'Console.WriteLine("Turn Off Laser")
         Else : Return False
         End If
         Try

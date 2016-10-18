@@ -1,6 +1,7 @@
 Imports DLL_Export_Service
 Imports DLL_DataManager
 Imports DLL_Export_Device_Motor
+Imports Laser
 
 Public Class CIDSSetup
 
@@ -59,10 +60,10 @@ Public Module Module1
     Public MyPSInformation As New PSInformation
 
     'outside of this DLL
-    Public Conveyor As CIDSService.CIDSServiceDevices.CIDSServiceConveyor = Conveyor.Instance
-    Public Weighting_Scale As CIDSService.CIDSServiceDevices.CIDSServiceWeighting = Weighting_Scale.Instance
+    Public Conveyor As PLC.IPLC = CIDSService.CIDSServiceDevices.CIDSServiceConveyor.Instance
+    Public Weighting_Scale As WeightScale.IWeightingScale = CIDSService.CIDSServiceDevices.CIDSServiceWeighting.Instance
     Public Heater As CIDSService.CIDSServiceDevices.CIDSServiceThermal = Heater.Instance
-    Public Laser As CIDSService.CIDSServiceDevices.CIDSServiceLaser = Laser.Instance
+    Public Laser As Laser.ILaser = CIDSService.CIDSServiceDevices.CIDSServiceLaser.Instance
     Public Dispenser As CIDSService.CIDSServiceDevices.CIDSServiceDispenser = Dispenser.Instance
     Public Vision As CIDSService.CIDSServiceDevices.CIDSServiceVision = Vision.Minstance
 
@@ -187,7 +188,10 @@ Public Module Module1
         MyConveyorSettings.Pressure_T1_Tick() 'low pressure
         MyConveyorSettings.Camera_T1_Tick()
         'MyConveyorSettings.e_stop_T1_Tick()
-        MyConveyorSettings.Conveyor_T1_Tick() 'conveyor
+        If Not (Conveyor Is Nothing) Then
+            MyConveyorSettings.Conveyor_T1_Tick() 'conveyor
+        End If
+
         StartErrorCheck()
 
     End Sub
@@ -201,11 +205,13 @@ Public Module Module1
     End Function
 
     Public Sub OnLaser()
+        If Laser Is Nothing Then Return
         IDS.Devices.Vision.FrmVision.SetLaser(False) 'turn on
         Laser.SendCommand("TurnOnMeasurement")
     End Sub
 
     Public Sub OffLaser()
+        If Laser Is Nothing Then Return
         IDS.Devices.Vision.FrmVision.SetLaser(True) 'turn off
         Laser.SendCommand("TurnOffMeasurement")
     End Sub

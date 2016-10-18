@@ -558,7 +558,7 @@ Public Class GantrySetup
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(400, 16)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 0
@@ -905,10 +905,14 @@ Public Class GantrySetup
             IDS.Data.Hardware.Gantry.WeighingScalePosition.X = post(0)
             IDS.Data.Hardware.Gantry.WeighingScalePosition.Y = post(1)
             IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = post(2)
+            MyVolumeCalibrationSettings.ClearCalFile()
+            MessageBox.Show("Volume calibration position overwritten. Please clean volume calibration container")
         ElseIf StationPosition.SelectedItem = "Bottom Right Volume Calibration Position" Then
             IDS.Data.Hardware.Gantry.WeighingScaleBottomRight.X = post(0)
             IDS.Data.Hardware.Gantry.WeighingScaleBottomRight.Y = post(1)
             IDS.Data.Hardware.Gantry.WeighingScalePosition.Z = post(2) 'Only use setting from Top left
+            MyVolumeCalibrationSettings.ClearCalFile()
+            MessageBox.Show("Volume calibration position overwritten. Please clean volume calibration tray container")
         Else
 
             If LeftHead.Checked Then
@@ -1073,8 +1077,8 @@ Reset:
     End Sub
 
     Private Sub SavePositionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SavePositionButton.Click
-        If m_Tri.YPosition < -410 Then
-            MessageBox.Show("Y position is out of limit, unable to save position")
+        If m_Tri.YPosition < -400 Then
+            MessageBox.Show("Y position is out of limit(-400), unable to save position")
             Return
         End If
         If MessageBox.Show("Are you sure you want to save the current position? Click Ok to save otherwise cancel this operation") = DialogResult.Cancel Then

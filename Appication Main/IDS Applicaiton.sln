@@ -38,6 +38,30 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VolumeCalibration", "..\SRC
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WeightScale", "..\SRC\WeightScale\WeightScale.vbproj", "{C720F5E6-A071-483C-A81C-A2D6EAEE081D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Sartorius_WZA", "..\SRC\Sartorius_WZA\Sartorius_WZA.vbproj", "{C059326C-E1F5-47C0-B292-845294F2724F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PLC", "..\SRC\IPLC\PLC.vbproj", "{B0E255C0-EEA2-420B-AA1F-48C1A53D53D4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PLCConveyor", "..\SRC\Conveyor\PLCConveyor.vbproj", "{03585433-2D6D-44DA-BEA3-EEA129294A73}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ILaser", "..\SRC\ILaser\ILaser.vbproj", "{54E5C587-314E-44D0-A203-2B46E1DB2341}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LaserILD1402", "..\SRC\LaserILD1402\LaserILD1402.vbproj", "{3608A3D3-D789-4EE7-943F-9CDA601F17EA}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -82,6 +106,30 @@ Global
 		{126F3C40-5C5B-4DD2-9EF0-5F5D0A8B7DF1}.Debug.Build.0 = Debug|.NET
 		{126F3C40-5C5B-4DD2-9EF0-5F5D0A8B7DF1}.Release.ActiveCfg = Release|.NET
 		{126F3C40-5C5B-4DD2-9EF0-5F5D0A8B7DF1}.Release.Build.0 = Release|.NET
+		{C720F5E6-A071-483C-A81C-A2D6EAEE081D}.Debug.ActiveCfg = Debug|.NET
+		{C720F5E6-A071-483C-A81C-A2D6EAEE081D}.Debug.Build.0 = Debug|.NET
+		{C720F5E6-A071-483C-A81C-A2D6EAEE081D}.Release.ActiveCfg = Release|.NET
+		{C720F5E6-A071-483C-A81C-A2D6EAEE081D}.Release.Build.0 = Release|.NET
+		{C059326C-E1F5-47C0-B292-845294F2724F}.Debug.ActiveCfg = Debug|.NET
+		{C059326C-E1F5-47C0-B292-845294F2724F}.Debug.Build.0 = Debug|.NET
+		{C059326C-E1F5-47C0-B292-845294F2724F}.Release.ActiveCfg = Release|.NET
+		{C059326C-E1F5-47C0-B292-845294F2724F}.Release.Build.0 = Release|.NET
+		{B0E255C0-EEA2-420B-AA1F-48C1A53D53D4}.Debug.ActiveCfg = Debug|.NET
+		{B0E255C0-EEA2-420B-AA1F-48C1A53D53D4}.Debug.Build.0 = Debug|.NET
+		{B0E255C0-EEA2-420B-AA1F-48C1A53D53D4}.Release.ActiveCfg = Release|.NET
+		{B0E255C0-EEA2-420B-AA1F-48C1A53D53D4}.Release.Build.0 = Release|.NET
+		{03585433-2D6D-44DA-BEA3-EEA129294A73}.Debug.ActiveCfg = Debug|.NET
+		{03585433-2D6D-44DA-BEA3-EEA129294A73}.Debug.Build.0 = Debug|.NET
+		{03585433-2D6D-44DA-BEA3-EEA129294A73}.Release.ActiveCfg = Release|.NET
+		{03585433-2D6D-44DA-BEA3-EEA129294A73}.Release.Build.0 = Release|.NET
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Debug.ActiveCfg = Debug|.NET
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Debug.Build.0 = Debug|.NET
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Release.ActiveCfg = Release|.NET
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Release.Build.0 = Release|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Debug.ActiveCfg = Debug|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Debug.Build.0 = Debug|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Release.ActiveCfg = Release|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -38,23 +38,42 @@ Public Class CIDSTrioController
     Friend WithEvents BTStepXplus As System.Windows.Forms.Button
     Friend WithEvents BTStepYminus As System.Windows.Forms.Button
     Friend WithEvents BTStepYplus As System.Windows.Forms.Button
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents LabelStep As System.Windows.Forms.Label
     Friend WithEvents ComboBoxFineStep As System.Windows.Forms.NumericUpDown
     Public WithEvents SteppingButtons As System.Windows.Forms.Panel
+    Friend WithEvents rbtSteps As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt100micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt10micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt1micron As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents rtb20micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt50micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt2micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt5micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt200micron As System.Windows.Forms.RadioButton
+    Friend WithEvents rbt500 As System.Windows.Forms.RadioButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(CIDSTrioController))
         Me.SteppingButtons = New System.Windows.Forms.Panel
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.rtb20micron = New System.Windows.Forms.RadioButton
+        Me.rbt10micron = New System.Windows.Forms.RadioButton
         Me.ComboBoxFineStep = New System.Windows.Forms.NumericUpDown
+        Me.rbtSteps = New System.Windows.Forms.RadioButton
+        Me.rbt500 = New System.Windows.Forms.RadioButton
+        Me.rbt200micron = New System.Windows.Forms.RadioButton
+        Me.rbt100micron = New System.Windows.Forms.RadioButton
+        Me.rbt50micron = New System.Windows.Forms.RadioButton
+        Me.rbt5micron = New System.Windows.Forms.RadioButton
+        Me.rbt2micron = New System.Windows.Forms.RadioButton
+        Me.rbt1micron = New System.Windows.Forms.RadioButton
         Me.BTStepZdown = New System.Windows.Forms.Button
         Me.BTStepZup = New System.Windows.Forms.Button
         Me.BTStepXminus = New System.Windows.Forms.Button
         Me.BTStepXplus = New System.Windows.Forms.Button
         Me.BTStepYminus = New System.Windows.Forms.Button
         Me.BTStepYplus = New System.Windows.Forms.Button
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.LabelStep = New System.Windows.Forms.Label
         Me.SteppingButtons.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -62,30 +81,132 @@ Public Class CIDSTrioController
         '
         Me.SteppingButtons.BackColor = System.Drawing.SystemColors.Control
         Me.SteppingButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SteppingButtons.Controls.Add(Me.ComboBoxFineStep)
+        Me.SteppingButtons.Controls.Add(Me.GroupBox1)
         Me.SteppingButtons.Controls.Add(Me.BTStepZdown)
         Me.SteppingButtons.Controls.Add(Me.BTStepZup)
         Me.SteppingButtons.Controls.Add(Me.BTStepXminus)
         Me.SteppingButtons.Controls.Add(Me.BTStepXplus)
         Me.SteppingButtons.Controls.Add(Me.BTStepYminus)
         Me.SteppingButtons.Controls.Add(Me.BTStepYplus)
-        Me.SteppingButtons.Controls.Add(Me.Label6)
-        Me.SteppingButtons.Controls.Add(Me.LabelStep)
         Me.SteppingButtons.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.SteppingButtons.Location = New System.Drawing.Point(20, 23)
         Me.SteppingButtons.Name = "SteppingButtons"
-        Me.SteppingButtons.Size = New System.Drawing.Size(336, 280)
+        Me.SteppingButtons.Size = New System.Drawing.Size(332, 280)
         Me.SteppingButtons.TabIndex = 23
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rtb20micron)
+        Me.GroupBox1.Controls.Add(Me.rbt10micron)
+        Me.GroupBox1.Controls.Add(Me.ComboBoxFineStep)
+        Me.GroupBox1.Controls.Add(Me.rbtSteps)
+        Me.GroupBox1.Controls.Add(Me.rbt500)
+        Me.GroupBox1.Controls.Add(Me.rbt200micron)
+        Me.GroupBox1.Controls.Add(Me.rbt100micron)
+        Me.GroupBox1.Controls.Add(Me.rbt50micron)
+        Me.GroupBox1.Controls.Add(Me.rbt5micron)
+        Me.GroupBox1.Controls.Add(Me.rbt2micron)
+        Me.GroupBox1.Controls.Add(Me.rbt1micron)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 184)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(320, 88)
+        Me.GroupBox1.TabIndex = 14
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "mm"
+        '
+        'rtb20micron
+        '
+        Me.rtb20micron.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.rtb20micron.Location = New System.Drawing.Point(256, 56)
+        Me.rtb20micron.Name = "rtb20micron"
+        Me.rtb20micron.Size = New System.Drawing.Size(59, 24)
+        Me.rtb20micron.TabIndex = 14
+        Me.rtb20micron.Text = "0.02"
+        '
+        'rbt10micron
+        '
+        Me.rbt10micron.Location = New System.Drawing.Point(200, 56)
+        Me.rbt10micron.Name = "rbt10micron"
+        Me.rbt10micron.Size = New System.Drawing.Size(64, 24)
+        Me.rbt10micron.TabIndex = 12
+        Me.rbt10micron.Text = "0.01"
         '
         'ComboBoxFineStep
         '
         Me.ComboBoxFineStep.DecimalPlaces = 3
-        Me.ComboBoxFineStep.Location = New System.Drawing.Point(152, 240)
+        Me.ComboBoxFineStep.Enabled = False
+        Me.ComboBoxFineStep.Location = New System.Drawing.Point(224, 24)
         Me.ComboBoxFineStep.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
         Me.ComboBoxFineStep.Name = "ComboBoxFineStep"
         Me.ComboBoxFineStep.Size = New System.Drawing.Size(88, 27)
         Me.ComboBoxFineStep.TabIndex = 9
-        Me.ComboBoxFineStep.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        Me.ComboBoxFineStep.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'rbtSteps
+        '
+        Me.rbtSteps.Location = New System.Drawing.Point(208, 24)
+        Me.rbtSteps.Name = "rbtSteps"
+        Me.rbtSteps.Size = New System.Drawing.Size(16, 24)
+        Me.rbtSteps.TabIndex = 10
+        '
+        'rbt500
+        '
+        Me.rbt500.Location = New System.Drawing.Point(160, 24)
+        Me.rbt500.Name = "rbt500"
+        Me.rbt500.Size = New System.Drawing.Size(56, 24)
+        Me.rbt500.TabIndex = 19
+        Me.rbt500.Text = "0.5"
+        '
+        'rbt200micron
+        '
+        Me.rbt200micron.Location = New System.Drawing.Point(112, 24)
+        Me.rbt200micron.Name = "rbt200micron"
+        Me.rbt200micron.Size = New System.Drawing.Size(56, 24)
+        Me.rbt200micron.TabIndex = 18
+        Me.rbt200micron.Text = "0.2"
+        '
+        'rbt100micron
+        '
+        Me.rbt100micron.Location = New System.Drawing.Point(64, 24)
+        Me.rbt100micron.Name = "rbt100micron"
+        Me.rbt100micron.Size = New System.Drawing.Size(56, 24)
+        Me.rbt100micron.TabIndex = 11
+        Me.rbt100micron.Text = "0.1"
+        '
+        'rbt50micron
+        '
+        Me.rbt50micron.Checked = True
+        Me.rbt50micron.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.rbt50micron.Location = New System.Drawing.Point(8, 24)
+        Me.rbt50micron.Name = "rbt50micron"
+        Me.rbt50micron.Size = New System.Drawing.Size(64, 24)
+        Me.rbt50micron.TabIndex = 15
+        Me.rbt50micron.TabStop = True
+        Me.rbt50micron.Text = "0.05"
+        '
+        'rbt5micron
+        '
+        Me.rbt5micron.Location = New System.Drawing.Point(136, 56)
+        Me.rbt5micron.Name = "rbt5micron"
+        Me.rbt5micron.Size = New System.Drawing.Size(72, 24)
+        Me.rbt5micron.TabIndex = 17
+        Me.rbt5micron.Text = "0.005"
+        '
+        'rbt2micron
+        '
+        Me.rbt2micron.Location = New System.Drawing.Point(72, 56)
+        Me.rbt2micron.Name = "rbt2micron"
+        Me.rbt2micron.Size = New System.Drawing.Size(72, 24)
+        Me.rbt2micron.TabIndex = 16
+        Me.rbt2micron.Text = "0.002"
+        '
+        'rbt1micron
+        '
+        Me.rbt1micron.Location = New System.Drawing.Point(8, 56)
+        Me.rbt1micron.Name = "rbt1micron"
+        Me.rbt1micron.Size = New System.Drawing.Size(72, 24)
+        Me.rbt1micron.TabIndex = 13
+        Me.rbt1micron.Text = "0.001"
         '
         'BTStepZdown
         '
@@ -93,7 +214,7 @@ Public Class CIDSTrioController
         Me.BTStepZdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepZdown.Image = CType(resources.GetObject("BTStepZdown.Image"), System.Drawing.Image)
         Me.BTStepZdown.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.BTStepZdown.Location = New System.Drawing.Point(264, 128)
+        Me.BTStepZdown.Location = New System.Drawing.Point(264, 104)
         Me.BTStepZdown.Name = "BTStepZdown"
         Me.BTStepZdown.Size = New System.Drawing.Size(48, 72)
         Me.BTStepZdown.TabIndex = 8
@@ -106,7 +227,7 @@ Public Class CIDSTrioController
         Me.BTStepZup.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepZup.Image = CType(resources.GetObject("BTStepZup.Image"), System.Drawing.Image)
         Me.BTStepZup.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.BTStepZup.Location = New System.Drawing.Point(264, 40)
+        Me.BTStepZup.Location = New System.Drawing.Point(264, 16)
         Me.BTStepZup.Name = "BTStepZup"
         Me.BTStepZup.Size = New System.Drawing.Size(48, 72)
         Me.BTStepZup.TabIndex = 7
@@ -119,7 +240,7 @@ Public Class CIDSTrioController
         Me.BTStepXminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepXminus.Image = CType(resources.GetObject("BTStepXminus.Image"), System.Drawing.Image)
         Me.BTStepXminus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BTStepXminus.Location = New System.Drawing.Point(24, 96)
+        Me.BTStepXminus.Location = New System.Drawing.Point(16, 72)
         Me.BTStepXminus.Name = "BTStepXminus"
         Me.BTStepXminus.Size = New System.Drawing.Size(80, 48)
         Me.BTStepXminus.TabIndex = 6
@@ -132,7 +253,7 @@ Public Class CIDSTrioController
         Me.BTStepXplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepXplus.Image = CType(resources.GetObject("BTStepXplus.Image"), System.Drawing.Image)
         Me.BTStepXplus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BTStepXplus.Location = New System.Drawing.Point(152, 96)
+        Me.BTStepXplus.Location = New System.Drawing.Point(160, 72)
         Me.BTStepXplus.Name = "BTStepXplus"
         Me.BTStepXplus.Size = New System.Drawing.Size(80, 48)
         Me.BTStepXplus.TabIndex = 5
@@ -145,7 +266,7 @@ Public Class CIDSTrioController
         Me.BTStepYminus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepYminus.Image = CType(resources.GetObject("BTStepYminus.Image"), System.Drawing.Image)
         Me.BTStepYminus.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.BTStepYminus.Location = New System.Drawing.Point(104, 144)
+        Me.BTStepYminus.Location = New System.Drawing.Point(104, 104)
         Me.BTStepYminus.Name = "BTStepYminus"
         Me.BTStepYminus.Size = New System.Drawing.Size(48, 80)
         Me.BTStepYminus.TabIndex = 4
@@ -158,34 +279,12 @@ Public Class CIDSTrioController
         Me.BTStepYplus.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.BTStepYplus.Image = CType(resources.GetObject("BTStepYplus.Image"), System.Drawing.Image)
         Me.BTStepYplus.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.BTStepYplus.Location = New System.Drawing.Point(104, 16)
+        Me.BTStepYplus.Location = New System.Drawing.Point(104, 8)
         Me.BTStepYplus.Name = "BTStepYplus"
         Me.BTStepYplus.Size = New System.Drawing.Size(48, 80)
         Me.BTStepYplus.TabIndex = 3
         Me.BTStepYplus.Text = "Y+"
         Me.BTStepYplus.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'Label6
-        '
-        Me.Label6.BackColor = System.Drawing.SystemColors.Control
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label6.Location = New System.Drawing.Point(248, 240)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(40, 24)
-        Me.Label6.TabIndex = 2
-        Me.Label6.Text = "mm"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'LabelStep
-        '
-        Me.LabelStep.BackColor = System.Drawing.SystemColors.Control
-        Me.LabelStep.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LabelStep.Location = New System.Drawing.Point(56, 240)
-        Me.LabelStep.Name = "LabelStep"
-        Me.LabelStep.Size = New System.Drawing.Size(88, 24)
-        Me.LabelStep.TabIndex = 0
-        Me.LabelStep.Text = "Fine Step:"
-        Me.LabelStep.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'CIDSTrioController
         '
@@ -195,6 +294,7 @@ Public Class CIDSTrioController
         Me.Name = "CIDSTrioController"
         Me.Text = "Axes Relative Move"
         Me.SteppingButtons.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
         CType(Me.ComboBoxFineStep, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -241,10 +341,12 @@ Public Class CIDSTrioController
 
     Public Shared m_TriCtrl As New TrioPCLib.TrioPCClass
     Public WithEvents robot_Asyn As New TrioPCLib.TrioPCClass
-    Public StateContainer(250) As Double
+    Public StateContainer(251) As Double
     Public HomeStateContainer(0) As Double
     Private startTime As Long = DateTime.Now.Ticks
     Private Shared motionDoneEvent(1) As ManualResetEvent
+    Private Shared checkRemainEvent(2) As ManualResetEvent
+    Private stepSize As Single
 
 #Region " Connection "
 
@@ -406,26 +508,85 @@ Public Class CIDSTrioController
     Shared thd As Thread
     'Pool inside thread
     Dim startWaitTime As Long = 0
+    Shared bWaitingWMD As Boolean = False
+    Shared bWaitingCheckRemain As Boolean = False
     Public Function WaitMotionDone() As Boolean
-        Dim bWaiting As Boolean
-        bWaiting = True
-        If Not (thd Is Nothing) Then
-            thd.Abort()
-        End If
+
+        bWaitingWMD = True
+        'If Not (thd Is Nothing) Then
+        'thd.Abort()
+        'breakCheckRemain = True
+        'While breakCheckRemain
+        '    Application.DoEvents()
+        'End While
+        'Sleep(5)
+        'End If
         'motionDoneEvent(0).Reset()
         'motionDoneEvent(1).Reset()
+        If isCheckingRemain Then
+            checkRemainEvent(1).Set()
+            While isCheckingRemain
+                Application.DoEvents()
+                Sleep(5)
+            End While
+        End If
+        If thd Is Nothing Then
+            thd = New Thread(AddressOf CheckAxesRemain)
+            'Console.WriteLine("#Start motion done check")
+            Sleep(100)
+            thd.Start()
+            checkRemainEvent(2).Set()
+        Else
+            checkRemainEvent(2).Set()
+            'Sleep(50)
+        End If
 
-        thd = New Thread(AddressOf CheckAxesRemain)
-        thd.Start()
         startWaitTime = DateTime.Now.Ticks
+        'Console.WriteLine("#Start Motion done wait")
         While True
             Dim rtn As Integer = WaitHandle.WaitAny(motionDoneEvent, 100, False)
             'motionDoneEvent(0).Reset()
             'motionDoneEvent(1).Reset()
-            If rtn = WaitHandle.WaitTimeout Then
+            If rtn = 0 Then
+                motionDoneEvent(0).Reset()
+                motionDoneEvent(1).Reset()
+                Try
+                    If thd.IsAlive Then
+                        checkRemainEvent(1).Reset()
+                        'thd.Abort()
+                        'While thd.IsAlive
+                        '    Application.DoEvents()
+                        'End While
+                    End If
+                    Console.WriteLine("#2TH motion done event received")
+                    bWaitingWMD = False
+                    Return True
+                Catch ex As Exception
+                End Try
+                Return True
+            ElseIf rtn = 1 Then
+                Try
+                    'motionDoneEvent(0).Reset()
+                    motionDoneEvent(1).Reset()
+                    AbortStatus = False
+                    If thd.IsAlive Then
+                        checkRemainEvent(1).Reset()
+                        'thd.Abort()
+                        'While thd.IsAlive
+                        '    Application.DoEvents()
+                        'End While
+                    End If
+                    bWaitingWMD = False
+                    Console.WriteLine("#2TH Wait motion done cancel")
+                Catch ex As Exception
+                End Try
+                Return False
+            ElseIf rtn = WaitHandle.WaitTimeout Then
                 Try
                     If ((DateTime.Now.Ticks - startWaitTime) / 10000) > waitMotionTimeout Then
-                        thd.Abort()
+                        'thd.Abort()
+                        checkRemainEvent(2).Reset()
+                        bWaitingWMD = False
                         Return False
                         'Else keep waiting
                     End If
@@ -435,34 +596,25 @@ Public Class CIDSTrioController
                 Catch ex As Exception
                 End Try
                 'Return False
-            ElseIf rtn = 0 Then
-                motionDoneEvent(0).Reset()
-                Try
-                    thd.Abort()
-                    ' Console.WriteLine("#2TH Abort Thd cos of motion done event received")
-                Catch ex As Exception
-                End Try
-                Return True
-            ElseIf rtn = 1 Then
-                Try
-                    motionDoneEvent(1).Reset()
-                    AbortStatus = False
-                    thd.Abort()
-                    Console.WriteLine("#2TH Wait motion done cancel")
-                Catch ex As Exception
-                End Try
-                Return False
+            Else
+                MessageBox.Show("Unknow event in thread")
             End If
         End While
-        
+
     End Function
     Public Shared AbortStatus As Boolean = False
     Public Shared Sub AbortMotionDone()
         If Not (thd Is Nothing) Then
-            thd.Abort()
             AbortStatus = True
-            'motionDoneEvent(1).Set()
-            Console.WriteLine("Abort motion done thread")
+            If bWaitingWMD Then
+                motionDoneEvent(1).Set()
+            End If
+
+            'thd.Abort()
+            If isCheckingRemain Then
+                checkRemainEvent(1).Set()
+            End If
+            'Console.WriteLine("Abort motion done thread")
         End If
         'If Not (motionDoneEvent(1) Is Nothing) Then
         '    Console.WriteLine("Trigger Abort motion done event")
@@ -471,29 +623,79 @@ Public Class CIDSTrioController
         'End If
     End Sub
 
-
+    Public Shared breakCheckRemain As Boolean = False
+    Public Shared isCheckingRemain As Boolean = False
     Private Shared Sub CheckAxesRemain()
         Dim wait As Boolean
         Dim nAxis As Integer
         Dim dRemain(3) As Double
         wait = True
-        Dim enterTime As Long = DateTime.Now.Ticks
-        Console.WriteLine("#TH Check remain start")
-        Do
-            For nAxis = 0 To 2
-                If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
-                    m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
+
+        While True
+            Dim rtn As Integer = WaitHandle.WaitAny(checkRemainEvent)
+            'motionDoneEvent(0).Reset()
+            If rtn = 0 Then ' Abort this thread
+                checkRemainEvent(0).Reset()
+                checkRemainEvent(1).Reset()
+                checkRemainEvent(2).Reset()
+                Console.WriteLine("#Check Remain exit")
+                Exit Sub
+            ElseIf rtn = 1 Then 'Reset
+                checkRemainEvent(0).Reset()
+                checkRemainEvent(1).Reset()
+                checkRemainEvent(2).Reset()
+                isCheckingRemain = False
+                Console.WriteLine("#Check Remain reset")
+            ElseIf rtn = 2 Then 'Check remain
+                isCheckingRemain = True
+                For nAxis = 0 To 2
+                    If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
+                        m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
+                    End If
+                    If breakCheckRemain Then
+                        breakCheckRemain = False
+                        Exit Sub
+                    End If
+                Next nAxis
+                Sleep(25)
+                If (Math.Abs(dRemain(0)) = 0) And (Math.Abs(dRemain(1)) = 0) And (Math.Abs(dRemain(2)) = 0) Then
+                    checkRemainEvent(0).Reset()
+                    checkRemainEvent(1).Reset()
+                    checkRemainEvent(2).Reset()
+                    isCheckingRemain = False
+                    motionDoneEvent(0).Set()
+                    Console.WriteLine("#MotionDone Event Set")
                 End If
-            Next nAxis
-            Sleep(25)
-            wait = (Math.Abs(dRemain(0)) > 0) Or (Math.Abs(dRemain(1)) > 0) Or (Math.Abs(dRemain(2)) > 0)
-        Loop Until Not (wait) Or (DateTime.Now.Ticks - enterTime) / 1000 > (waitMotionTimeout)
-        If Not wait Then
-            motionDoneEvent(0).Set()
-            Console.WriteLine("#TH Event Set")
-        Else
-            Console.WriteLine("#TH Time out")
-        End If
+            Else
+                MessageBox.Show("Unknow event in check remain")
+            End If
+        End While
+        Console.WriteLine("#Check Remain exit")
+        'Dim enterTime As Long = DateTime.Now.Ticks
+        ''Console.WriteLine("#TH Check remain start")
+        'Do
+        '    If breakCheckRemain Then
+        '        breakCheckRemain = False
+        '        Exit Sub
+        '    End If
+        '    For nAxis = 0 To 2
+        '        If m_TriCtrl.Base(1, nAxis) Then  ' set base axis
+        '            m_TriCtrl.GetVariable("REMAIN", dRemain(nAxis))  'get remaining distance for base axis
+        '        End If
+        '        If breakCheckRemain Then
+        '            breakCheckRemain = False
+        '            Exit Sub
+        '        End If
+        '    Next nAxis
+        '    Sleep(25)
+        '    wait = (Math.Abs(dRemain(0)) > 0) Or (Math.Abs(dRemain(1)) > 0) Or (Math.Abs(dRemain(2)) > 0)
+        'Loop Until Not (wait) Or (DateTime.Now.Ticks - enterTime) / 1000 > (waitMotionTimeout)
+        'If Not wait Then
+        '    motionDoneEvent(0).Set()
+        '    Console.WriteLine("#MotionDone Event Set")
+        'Else
+        '    'Console.WriteLine("#TH Time out")
+        'End If
         ' Console.WriteLine("#TH Check remain Ended")
     End Sub
 
@@ -578,12 +780,16 @@ Public Class CIDSTrioController
     Public Function Move_Z(ByVal Height As Double)
         'WaitMotionDone()
         ' DoStepXZero()
-        'WaitMotionDone()
+        Console.WriteLine("Wait MD before Move Z")
+        If Not WaitMotionDone() Then Return False
+        Console.WriteLine("After Wait MD before Move Z")
         If MachineHoming() Or MachineJogging() Or EStopActivated() Then
             Return False
         End If
+        Console.WriteLine("Move Z")
         m_TriCtrl.MoveAbs(1, Height, 2)
-        WaitMotionDone()
+        Console.WriteLine("After Move Z")
+        If Not WaitMotionDone() Then Return False
         Return True
     End Function
     Public Function MoveRelative_Z(ByVal Height As Double)
@@ -743,7 +949,7 @@ Public Class CIDSTrioController
         Return False
     End Function
     Public Function GetIDSState()
-        Return m_TriCtrl.GetTable(0, 251, StateContainer)
+        Return m_TriCtrl.GetTable(0, 252, StateContainer)
     End Function
     Public Function XPosition()
         Return StateContainer(0)
@@ -813,11 +1019,15 @@ Public Class CIDSTrioController
         Return False
     End Function
     Public Function Calibrating()
+        'GetIDSState()
         If StateContainer(100) = 1 Then Return True
         Return False
     End Function
     Public Function GetCalibrationFlag()
         Return StateContainer(100)
+    End Function
+    Public Function GetVCTable100(ByRef table100Value As Object) As Boolean
+        Return m_TriCtrl.GetTable(100, 1, table100Value)
     End Function
     Public Function ReadIO(ByVal Sensor As String, ByVal Value As Integer)
         Select Case Sensor
@@ -874,7 +1084,10 @@ Public Class CIDSTrioController
     Public Sub ResetCalibrationFlag()
         startTime = DateTime.Now.Ticks
         Do
-            If m_TriCtrl.SetTable(100, 1, 0) Then Exit Sub
+            If m_TriCtrl.SetTable(100, 1, 0) Then
+                'StateContainer(100) = 0
+                Exit Sub
+            End If
             Sleep(25)
             GetIDSState()
         Loop Until StateContainer(100) = 0 Or IfTimeout()
@@ -927,6 +1140,33 @@ Public Class CIDSTrioController
             GetIDSState()
         Loop Until StateContainer(201) = 2 Or IfTimeout()
     End Sub
+    'To make sure dispensing process is stopped
+    Public Sub AbortDispensing()
+        startTime = DateTime.Now.Ticks
+        Do
+            If m_TriCtrl.SetTable(251, 1, 1) Then Exit Sub
+            Sleep(25)
+            GetIDSState()
+        Loop Until StateContainer(251) = 1 Or IfTimeout()
+    End Sub
+    Public Function WaitAbortDispensing() As Boolean
+        startTime = DateTime.Now.Ticks
+        Do
+            Sleep(25)
+            GetIDSState()
+            If IfTimeout() Then Return False
+        Loop Until StateContainer(251) = 0
+        Return True
+    End Function
+    'Reset the flag if start a new dispensing process
+    Public Sub ResetAbortDispensingFlag()
+        startTime = DateTime.Now.Ticks
+        Do
+            If m_TriCtrl.SetTable(251, 1, 0) Then Exit Sub
+            Sleep(25)
+            GetIDSState()
+        Loop Until StateContainer(251) = 0 Or IfTimeout()
+    End Sub
     Public Sub SetMachineRun()
         startTime = DateTime.Now.Ticks
         Do
@@ -935,17 +1175,21 @@ Public Class CIDSTrioController
             GetIDSState()
         Loop Until StateContainer(21) = 2 Or IfTimeout()
     End Sub
-    Public Sub SetCalibrationFlag()
+    Public Function SetCalibrationFlag() As Boolean
         startTime = DateTime.Now.Ticks
         Do
             If m_TriCtrl.SetTable(100, 1, 1) Then
-                GetIDSState()
-                Exit Sub
+                ' GetIDSState()
+                StateContainer(100) = 1
+                'Exit Sub
             End If
             Sleep(25)
             GetIDSState()
         Loop Until StateContainer(100) = 1 Or IfTimeout()
-    End Sub
+        If IfTimeout() Then Return False
+        Return True
+    End Function
+
     Public Sub SetCalibrationType(ByVal command As String)
         Dim flag_num As Integer
         Select Case command
@@ -1060,31 +1304,112 @@ Public Class CIDSTrioController
     Public Function WriteToIO(ByVal IOnum As Integer, ByVal OnOff As Integer)
         Return m_TriCtrl.Op(IOnum, OnOff)
     End Function
-    Public Sub TrioStop()
-        If m_TriCtrl.Stop("CALIBRATIONS") Then
-            ResetCalibrationFlag()
+    Public Function TrioStop() As Boolean
+        Dim timeOut As Long = 5000
+        If Not (m_TriCtrl.Stop("DISPENSE")) Then
+            If Not (m_TriCtrl.Stop("DISPENSE")) Then
+                If Not (m_TriCtrl.Stop("DISPENSE")) Then
+                    MessageBox.Show("Failed to stop dispense program")
+                    Return False
+                End If
+            End If
         End If
-        If m_TriCtrl.RapidStop() Then Console.WriteLine("Rapid stop Done")
-        If m_TriCtrl.Cancel(0, 0) Then Console.WriteLine("Cancel 0 Done")
-        If m_TriCtrl.Cancel(0, 1) Then Console.WriteLine("Cancel 1 Done")
-        If m_TriCtrl.Cancel(0, 2) Then Console.WriteLine("Cancel 2 Done")
-        If m_TriCtrl.Cancel(1, 0) Then Console.WriteLine("Cancel 1,0 Done")
-        If m_TriCtrl.Cancel(1, 1) Then Console.WriteLine("Cancel 1,1 Done")
-        If m_TriCtrl.Cancel(1, 2) Then Console.WriteLine("Cancel 1,2 Done")
-        m_TriCtrl.Op(27, 0)
-        m_TriCtrl.Op(25, 0)
-        m_TriCtrl.Stop("SETDATUM")
+        Dim status_value As Double = -1
+        Dim sTime As Long = DateTime.Now.Ticks
+        While Not (status_value = 0) And (DateTime.Now.Ticks - sTime) / 10000 < timeOut
+            If m_TriCtrl.GetProcVariable("PROC_STATUS", 8, status_value) Then
+                If status_value = 0 Then
+                    ' the process has stopped
+                    Exit While
+                Else
+                    Sleep(50)
+                    Application.DoEvents()
+                End If
+            End If
+        End While
+        If (DateTime.Now.Ticks - sTime) / 10000 > timeOut Then
+            MessageBox.Show("Timeout while wait for dispense process to stop")
+            Return False
+        End If
+
+        If Not m_TriCtrl.Stop("CALIBRATIONS") Then
+            If Not m_TriCtrl.Stop("CALIBRATIONS") Then
+                If Not m_TriCtrl.Stop("CALIBRATIONS") Then
+                    MessageBox.Show("Failed to stop calibration program")
+                    Return False
+                End If
+            End If
+        End If
+        ResetCalibrationFlag()
+        sTime = DateTime.Now.Ticks
+        While Not (status_value = 0) And (DateTime.Now.Ticks - sTime) / 10000 < timeOut
+            If m_TriCtrl.GetProcVariable("PROC_STATUS", 3, status_value) Then
+                If status_value = 0 Then
+                    ' the process has stopped
+                    Exit While
+                Else
+                    Sleep(50)
+                    Application.DoEvents()
+                End If
+            End If
+        End While
+        If (DateTime.Now.Ticks - sTime) / 10000 > timeOut Then
+            MessageBox.Show("Timeout while wait for calibration process to stop")
+            Return False
+        End If
+
+        If Not m_TriCtrl.Stop("SETDATUM") Then
+            If Not m_TriCtrl.Stop("SETDATUM") Then
+                If Not m_TriCtrl.Stop("SETDATUM") Then
+                    MessageBox.Show("Failed to stop homing program")
+                    Return False
+                End If
+            End If
+        End If
+
+        sTime = DateTime.Now.Ticks
+        While Not (status_value = 0) And (DateTime.Now.Ticks - sTime) / 10000 < timeOut
+            If m_TriCtrl.GetProcVariable("PROC_STATUS", 3, status_value) Then
+                If status_value = 0 Then
+                    ' the process has stopped
+                    Exit While
+                Else
+                    Sleep(50)
+                    Application.DoEvents()
+                End If
+            End If
+        End While
+        If (DateTime.Now.Ticks - sTime) / 10000 > timeOut Then
+            MessageBox.Show("Timeout while wait for homing process to stop")
+            Return False
+        End If
         'If m_TriCtrl.Stop("CALIBRATIONS") Then
         '    ResetCalibrationFlag()
         'End If
-        If Not (m_TriCtrl.Stop("DISPENSE")) Then
-            If Not (m_TriCtrl.Stop("DISPENSE")) Then
-                m_TriCtrl.Stop("DISPENSE")
-            End If
-        End If
-    End Sub
+        m_TriCtrl.RapidStop() 'Then Console.WriteLine("Rapid stop Done")
+        m_TriCtrl.Cancel(0, 0) 'Then Console.WriteLine("Cancel 0 Done")
+        m_TriCtrl.Cancel(0, 1) 'Then Console.WriteLine("Cancel 1 Done")
+        m_TriCtrl.Cancel(0, 2) 'Then Console.WriteLine("Cancel 2 Done")
+        m_TriCtrl.Cancel(1, 0) 'Then Console.WriteLine("Cancel 1,0 Done")
+        m_TriCtrl.Cancel(1, 1) 'Then Console.WriteLine("Cancel 1,1 Done")
+        m_TriCtrl.Cancel(1, 2) 'Then Console.WriteLine("Cancel 1,2 Done")
+        m_TriCtrl.Op(27, 0)
+        m_TriCtrl.Op(25, 0)
+        'm_TriCtrl.Stop("SETDATUM")
+        'If m_TriCtrl.Stop("CALIBRATIONS") Then
+        '    ResetCalibrationFlag()
+        'End If
+        'If Not (m_TriCtrl.Stop("DISPENSE")) Then
+        '    If Not (m_TriCtrl.Stop("DISPENSE")) Then
+        '        m_TriCtrl.Stop("DISPENSE")
+        '    End If
+        'End If
+        Return True
+    End Function
 #End Region
-
+    Public Function IsOpen() As Boolean
+        Return m_TriCtrl.IsOpen(0)
+    End Function
     Public Sub Disconnect_Controller()
         If asynConnect Then
             robot_Asyn.Close(-1)
@@ -1122,6 +1447,9 @@ Public Class CIDSTrioController
         If motionDoneEvent(0) Is Nothing Then
             motionDoneEvent(0) = New ManualResetEvent(False)
             motionDoneEvent(1) = New ManualResetEvent(False)
+            checkRemainEvent(0) = New ManualResetEvent(False)
+            checkRemainEvent(1) = New ManualResetEvent(False)
+            checkRemainEvent(2) = New ManualResetEvent(False)
         End If
         If TrioConnectEthernet("192.168.0.250", 3240) Then
             RunTrioMotionProgram("STARTUP")
@@ -1139,52 +1467,52 @@ Public Class CIDSTrioController
     End Function
 
     Private Sub Received0() Handles robot_Asyn.OnReceiveChannel0
-        Console.WriteLine("#Channel 0 Triggered")
+        'Console.WriteLine("#Channel 0 Triggered")
         Dim str As String
         If robot_Asyn.GetData(0, str) Then
-            Console.WriteLine("#Channel 0 Data: " + str)
+            'Console.WriteLine("#Channel 0 Data: " + str)
         End If
     End Sub
     Private Sub Received5() Handles robot_Asyn.OnReceiveChannel5
-        Console.WriteLine("#Channel 5 Triggered")
+        'Console.WriteLine("#Channel 5 Triggered")
         Dim str As String
         If robot_Asyn.GetData(5, str) Then
-            Console.WriteLine("#Channel 5 Data: " + str)
+            'Console.WriteLine("#Channel 5 Data: " + str)
         End If
     End Sub
     Private Sub Received6() Handles robot_Asyn.OnReceiveChannel6
-        Console.WriteLine("#Channel 6 Triggered")
+        'Console.WriteLine("#Channel 6 Triggered")
         Dim str As String
         If robot_Asyn.GetData(6, str) Then
-            Console.WriteLine("#Channel 6 Data: " + str)
+            'Console.WriteLine("#Channel 6 Data: " + str)
         End If
     End Sub
     Private Sub Received7() Handles robot_Asyn.OnReceiveChannel7
-        Console.WriteLine("#Channel 7 Triggered")
+        'Console.WriteLine("#Channel 7 Triggered")
         Dim str As String
         If robot_Asyn.GetData(7, str) Then
-            Console.WriteLine("#Channel 7 Data: " + str)
+            'Console.WriteLine("#Channel 7 Data: " + str)
         End If
     End Sub
     Private Sub Received9() Handles robot_Asyn.OnReceiveChannel9
-        Console.WriteLine("#Channel 9 Triggered")
+        'Console.WriteLine("#Channel 9 Triggered")
         Dim str As String
         If robot_Asyn.GetData(9, str) Then
-            Console.WriteLine("#Channel 9 Data: " + str)
+            'Console.WriteLine("#Channel 9 Data: " + str)
         End If
     End Sub
 
     Public Sub SetOutputOn()
         If robot_Asyn.IsOpen(23) Then
             If robot_Asyn.SendData(0, "OP(25,1)") Then
-                Console.WriteLine("#1 Channel 0 Data Send")
+                'Console.WriteLine("#1 Channel 0 Data Send")
             End If
         End If
     End Sub
     Public Sub SetOutputOff()
         If robot_Asyn.IsOpen(23) Then
             If robot_Asyn.SendData(0, "OP(25,0)") Then
-                Console.WriteLine("#2 Channel 0 Data Send")
+                'Console.WriteLine("#2 Channel 0 Data Send")
             End If
         End If
     End Sub
@@ -1200,7 +1528,12 @@ Public Class CIDSTrioController
 
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
-        dStepVal(2) = -ComboBoxFineStep.Value
+        'dStepVal(2) = -ComboBoxFineStep.Value
+        If rbtSteps.Checked Then
+            dStepVal(2) = -ComboBoxFineStep.Value
+        Else
+            dStepVal(2) = -stepSize
+        End If
         dStepVal(3) = 0
         dStepVal(4) = 0
         DoStep(dStepVal)
@@ -1215,7 +1548,12 @@ Public Class CIDSTrioController
 
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
-        dStepVal(2) = ComboBoxFineStep.Value
+        'dStepVal(2) = ComboBoxFineStep.Value
+        If rbtSteps.Checked Then
+            dStepVal(2) = ComboBoxFineStep.Value
+        Else
+            dStepVal(2) = stepSize
+        End If
         dStepVal(3) = 0
         dStepVal(4) = 0
         DoStep(dStepVal)
@@ -1230,14 +1568,19 @@ Public Class CIDSTrioController
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
-        dStepVal(3) = -ComboBoxFineStep.Value
+        'dStepVal(3) = -ComboBoxFineStep.Value
+        If rbtSteps.Checked Then
+            dStepVal(3) = -ComboBoxFineStep.Value
+        Else
+            dStepVal(3) = -stepSize
+        End If
         dStepVal(4) = 0
         DoStep(dStepVal)
 
     End Sub
 
     Private Sub BTStepYplus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BTStepYplus.Click
-
+        'Me.m_TriCtrl.AboutBox()
         If Get_Limit("Y+") Or MachineRunning() Or MachineHoming() Or Calibrating() Then
             Exit Sub
         End If
@@ -1245,7 +1588,12 @@ Public Class CIDSTrioController
         dStepVal(0) = 0
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
-        dStepVal(3) = ComboBoxFineStep.Value
+        If rbtSteps.Checked Then
+            dStepVal(3) = ComboBoxFineStep.Value
+        Else
+            dStepVal(3) = stepSize
+        End If
+
         dStepVal(4) = 0
         DoStep(dStepVal)
 
@@ -1262,7 +1610,12 @@ Public Class CIDSTrioController
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
         dStepVal(3) = 0
-        dStepVal(4) = ComboBoxFineStep.Value
+        'dStepVal(4) = ComboBoxFineStep.Value
+        If rbtSteps.Checked Then
+            dStepVal(4) = ComboBoxFineStep.Value
+        Else
+            dStepVal(4) = stepSize
+        End If
         DoStep(dStepVal)
 
     End Sub
@@ -1277,7 +1630,12 @@ Public Class CIDSTrioController
         dStepVal(1) = gStepCtrlSpeed
         dStepVal(2) = 0
         dStepVal(3) = 0
-        dStepVal(4) = -ComboBoxFineStep.Value
+        'dStepVal(4) = -ComboBoxFineStep.Value
+        If rbtSteps.Checked Then
+            dStepVal(4) = -ComboBoxFineStep.Value
+        Else
+            dStepVal(4) = -stepSize
+        End If
         DoStep(dStepVal)
 
     End Sub
@@ -1291,30 +1649,110 @@ Public Class CIDSTrioController
         Select Case Direction
             Case "X+"
                 Read_Value = Read_Value And &H2
+                If (Read_Value = 0) Then
+                    MsgBox("Machine reach the X+ limit sensor position!", MsgBoxStyle.OKOnly, "Limit Error")
+                    Return True
+                Else
+                    Return False
+                End If
             Case "X-"
                 Read_Value = Read_Value And &H1
+                If (Read_Value = 0) Then
+                    MsgBox("Machine reach the X- limit sensor position!", MsgBoxStyle.OKOnly, "Limit Error")
+                    Return True
+                Else
+                    Return False
+                End If
             Case "Y+"
                 Read_Value = Read_Value And &H4
+                If (Read_Value = 0) Then
+                    MsgBox("Machine reach the Y+ limit sensor position!", MsgBoxStyle.OKOnly, "Limit Error")
+                    Return True
+                Else
+                    Return False
+                End If
             Case "Y-"
                 Read_Value = Read_Value And &H8
+                If (Read_Value = 0) Then
+                    MsgBox("Machine reach the Y- limit sensor position!", MsgBoxStyle.OKOnly, "Limit Error")
+                    Return True
+                Else
+                    Return False
+                End If
             Case "Up"
                 Read_Value = Read_Value And &H10
+                If (Read_Value = 0) Then
+                    MsgBox("Machine reach the Z+ limit sensor position!", MsgBoxStyle.OKOnly, "Limit Error")
+                    Return True
+                Else
+                    Return False
+                End If
             Case "Dn"
                 Read_Value = Read_Value And &H20
+                If (Read_Value = 0) Then
+                    MsgBox("Machine reach the Z- limit sensor position!", MsgBoxStyle.OKOnly, "Limit Error")
+                    Return True
+                Else
+                    Return False
+                End If
             Case Else
                 Return False
         End Select
 
-        If (Read_Value = 0) Then
-            MsgBox("Machine gets the limit position!", MsgBoxStyle.OKOnly, "Limit Error")
-            Return True
-        Else
-            Return False
-        End If
+
 
     End Function
 
 
 #End Region
 
+    Private Sub rbtSteps_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtSteps.CheckedChanged
+        ComboBoxFineStep.Enabled = True
+        stepSize = ComboBoxFineStep.Value
+    End Sub
+
+    Private Sub rbt50micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt50micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.05
+    End Sub
+
+    Private Sub rbt100micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt100micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.1
+    End Sub
+
+    Private Sub rbt200micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt200micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.2
+    End Sub
+
+    Private Sub rbt500_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt500.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.5
+    End Sub
+
+    Private Sub rbt1micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt1micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.001
+    End Sub
+
+    Private Sub rbt2micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt2micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.002
+    End Sub
+
+    Private Sub rbt5micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt5micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.005
+    End Sub
+
+    Private Sub rbt10micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbt10micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.01
+    End Sub
+
+    Private Sub rtb20micron_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rtb20micron.CheckedChanged
+        ComboBoxFineStep.Enabled = False
+        stepSize = 0.02
+    End Sub
 End Class

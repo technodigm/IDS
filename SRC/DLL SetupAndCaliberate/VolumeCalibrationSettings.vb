@@ -229,7 +229,7 @@ Public Class VolumeCalibrationSettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 0)
+        Me.ButtonExit.Location = New System.Drawing.Point(400, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 47
@@ -489,7 +489,8 @@ Public Class VolumeCalibrationSettings
         Me.SetupRPM.DecimalPlaces = 1
         Me.SetupRPM.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.SetupRPM.Location = New System.Drawing.Point(268, 160)
-        Me.SetupRPM.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.SetupRPM.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
+        Me.SetupRPM.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SetupRPM.Name = "SetupRPM"
         Me.SetupRPM.Size = New System.Drawing.Size(72, 27)
         Me.SetupRPM.TabIndex = 17
@@ -575,6 +576,7 @@ Public Class VolumeCalibrationSettings
         Me.ButtonRevert.Size = New System.Drawing.Size(80, 40)
         Me.ButtonRevert.TabIndex = 6
         Me.ButtonRevert.Text = "Revert"
+        Me.ButtonRevert.Visible = False
         '
         'ButtonSave
         '
@@ -795,7 +797,7 @@ Public Class VolumeCalibrationSettings
         Me.RPMStepValue.DecimalPlaces = 1
         Me.RPMStepValue.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.RPMStepValue.Location = New System.Drawing.Point(268, 224)
-        Me.RPMStepValue.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.RPMStepValue.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.RPMStepValue.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.RPMStepValue.Name = "RPMStepValue"
         Me.RPMStepValue.Size = New System.Drawing.Size(72, 27)
@@ -964,6 +966,10 @@ Public Class VolumeCalibrationSettings
 
     Public Delegate Sub VCStatusUpdateDelegate(ByVal status As String)
     Public VCStatusUpdate As VCStatusUpdateDelegate = Nothing
+    Public Function ClearCalFile()
+        Dim t = New VolumeCalibration.VolumeCalPostHandler
+        t.DeleteCalFile()
+    End Function
 
     Friend Sub Weighting_T1_Tick()
         'If Form_Service.NoActionToExecute Then
@@ -1057,8 +1063,8 @@ Public Class VolumeCalibrationSettings
         Me.lbValveTemp.Visible = toShow
     End Sub
     'all this text can't be helped to toggle on and off the label/valuebox visibility. but if the programmer desires, he can put them into groupboxes 
-    Public Sub RevertData()
-
+    Public Sub RevertData(Optional ByVal hideexit As Boolean = False)
+        ButtonExit.Visible = Not hideexit
         With IDS.Data.Hardware.Dispenser
 
             DispenserType.Text = IDS.Data.Hardware.Dispenser.Left.HeadType
@@ -1256,17 +1262,14 @@ Public Class VolumeCalibrationSettings
     Public Sub ButtonCalibrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCalibrate.Click
 
         If ButtonCalibrate.Text = "Calibrate" Then
+            Vision.FrmVision.SwitchCamera("View Camera")
+            Vision.FrmVision.ClearDisplay()
             Cursor = Cursors.WaitCursor
             rtbResult.Text = ""
             Status.Text = ""
             'Weighting_Scale.OpenPort()
             Cursor = Cursors.Default
             attemptCount = 0
-            'If Not (VolumeCalibrationSetup() = 0) Then
-            '    MessageBox.Show("Error when setting up volume calibration")
-            '    Exit Sub
-            'End If
-            'VolumeCalibrationParamSetup()
             VolumeCalibrationState = "Running"
             Me.VCLocalParamSetup()
             rtbResult.Clear()
@@ -1285,27 +1288,69 @@ Public Class VolumeCalibrationSettings
             BoxSettings.Enabled = False
             ButtonCalibrate.Text = "Stop"
             ButtonCalibrate.Refresh()
+            With IDS.Data.Hardware.Volume.Left
+                If CalibrateDuration() Then
+                    .AdjustedDispenseDuration = DispenseDuration
+                    Try
+                        MyDispenserSettings.DownloadJettingParameters(DispenseDuration)
+                    Catch ex As Exception
+                        MessageBox.Show("Error occur when download jetting parameters")
+                        Return
+                    End Try
+                ElseIf CalibrateRPM() Then
+                    .AdjustedRPM = RPM
+                    Try
+                        MyDispenserSettings.DownloadAugerRPM(RPM, AugerRetractTime, AugerRetractDelay)
+                    Catch ex As Exception
+                        MessageBox.Show("Error occur when download auger rpm")
+                        Return
+                    End Try
+                End If
+            End With
+            Dim SuckbackPressure As Double = IDS.Data.Hardware.Dispenser.Left.SuckbackPressure
+            Try
+                MyDispenserSettings.DownloadMaterialAirPressure(MaterialAirPressure, SuckbackPressure)
+            Catch ex As Exception
+                MessageBox.Show("Error occur when download material air pressure parameters")
+                Return
+            End Try
             VolumeCalibration(NumberOfAttempts.Value)
-            If DispensingResult = "Stopped" Then
-                m_Tri.Move_Z(0)
-            End If
+            'If DispensingResult = "Stopped" Then
+            '    m_Tri.Move_Z(0)
+            'End If
+            'ButtonCalibrate.Text = "Calibrate"
+            'ButtonCalibrate.Enabled = True
+            'BoxSettings.Enabled = True
+            'm_Tri.ResetCalibrationFlag()
+            'm_Tri.SetMachineStop()
+            'm_Tri.SteppingButtons.Enabled = True
+            'disable temporarily for testing
+        ElseIf ButtonCalibrate.Text = "Stop" Then
+            ButtonCalibrate.Text = "Stopping"
+            ButtonCalibrate.Enabled = False
+            Dim getWeight As Boolean = Weighting_Scale.RequestWeightUpdate
+            Weighting_Scale.RequestWeightUpdate = False
+            m_Tri.TrioStop()
+            m_Tri.ResetCalibrationFlag()
+            SetServiceSpeed()
+            m_Tri.Move_Z(0)
+            VolumeCalibrationState = "Stopped"
+            NextAction = "Init"
+            attemptCount = 0
             ButtonCalibrate.Text = "Calibrate"
             ButtonCalibrate.Enabled = True
             BoxSettings.Enabled = True
             m_Tri.SetMachineStop()
             m_Tri.SteppingButtons.Enabled = True
-            'disable temporarily for testing
-        ElseIf ButtonCalibrate.Text = "Stop" Then
-            ButtonCalibrate.Text = "Stopping"
-            ButtonCalibrate.Enabled = False
-            m_Tri.TrioStop()
-            VolumeCalibrationState = "Stopped"
+            If Not getWeight Then
+                ButtonCalibrate.Enabled = True
+            End If
             'ButtonCalibrate.Text = "Calibrate"
         End If
 
     End Sub
     Private Function VContainerFullResponse()
-        Dim fm As InfoForm = New InfoForm
+        Dim fm As InfoForm = New InfoForm(True)
         fm.SetTitle("Volume Calibration Warning")
         fm.SetMessage("")
         fm.AddNewLine("Volume Calibration container is full. Please clean the container now")
@@ -1321,7 +1366,7 @@ Public Class VolumeCalibrationSettings
             fm.SetCancelButtonText("Abort Process")
             fm.SetMessage("")
             fm.AddNewLine("Click continue button to continue the volume calibration now")
-            fm.OkCancelOnly()
+            fm.OKCancelOnly()
             If Not (fm.ShowDialog() = DialogResult.OK) Then
                 Return False
             Else
@@ -1333,20 +1378,27 @@ Public Class VolumeCalibrationSettings
             Return False
         End If
     End Function
-    Private attemptCount As Integer = 0
+    Public attemptCount As Integer = 0
     Dim DispensingResult As String
+    Dim VCAttemp As Integer = 0
     Public Function VolumeCalibration(ByVal AttemptsLeft As Integer) As Boolean
 
         Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
         Dim Attempts As Integer = IDS.Data.Hardware.Volume.Left.NumberOfAttempts
 
-
+        VCAttemp = AttemptsLeft
         If AttemptsLeft > 0 Then
             Dim rtn As Integer = VolumeCalibrationSetup()
             If Not (rtn = 0) Then
                 If rtn = VCalStatus.containerFull Then
                     If Not VContainerFullResponse() Then
                         DispensingResult = "Stopped"
+                        Status.Text = "Volume calibration failed."
+                        NextAction = "Init"
+                        VCRunning = False
+                        attemptCount = 0
+                        ButtonCalibrate.Text = "Calibrate"
+                        BoxSettings.Enabled = True
                         Return False
                     End If
                 Else
@@ -1369,64 +1421,142 @@ Public Class VolumeCalibrationSettings
                 DispensingResult = DispenseAndWeightRPM()
             End If
             volumeCalPostHandler.SetCurrentDotDispensed()
-            If DispensingResult = "Success" Then
-                'adjusted pressure/rpm/dispenseduration is saved in WithinTolerance
-                With IDS.Data.Hardware.Volume.Left
-                    If CalibrateDuration() Then
-                        AdjustedDispenseDuration.Text = DispenseDuration
-                        .AdjustedDispenseDuration = DispenseDuration
-                        Try
-                            MyDispenserSettings.DownloadJettingParameters(DispenseDuration)
-                        Catch ex As Exception
-                            MessageBox.Show("Error occur when download jetting parameters")
-                            Return False
-                        End Try
+            'If DispensingResult = "Success" Then
+            '    'adjusted pressure/rpm/dispenseduration is saved in WithinTolerance
+            '    With IDS.Data.Hardware.Volume.Left
+            '        If CalibrateDuration() Then
+            '            AdjustedDispenseDuration.Text = DispenseDuration
+            '            .AdjustedDispenseDuration = DispenseDuration
+            '            Try
+            '                MyDispenserSettings.DownloadJettingParameters(DispenseDuration)
+            '            Catch ex As Exception
+            '                MessageBox.Show("Error occur when download jetting parameters")
+            '                Return False
+            '            End Try
 
-                    ElseIf CalibratePressure() Then
-                        AdjustedMaterialAirPressure.Text = MaterialAirPressure
-                        .AdjustedMaterialAirPressure = MaterialAirPressure
-                        Dim SuckbackPressure As Double = IDS.Data.Hardware.Dispenser.Left.SuckbackPressure
-                        Try
-                            MyDispenserSettings.DownloadMaterialAirPressure(MaterialAirPressure, SuckbackPressure)
-                        Catch ex As Exception
-                            MessageBox.Show("Error occur when download material air pressure parameters")
-                            Return False
-                        End Try
+            '        ElseIf CalibratePressure() Then
+            '            AdjustedMaterialAirPressure.Text = MaterialAirPressure
+            '            .AdjustedMaterialAirPressure = MaterialAirPressure
+            '            Dim SuckbackPressure As Double = IDS.Data.Hardware.Dispenser.Left.SuckbackPressure
+            '            Try
+            '                MyDispenserSettings.DownloadMaterialAirPressure(MaterialAirPressure, SuckbackPressure)
+            '            Catch ex As Exception
+            '                MessageBox.Show("Error occur when download material air pressure parameters")
+            '                Return False
+            '            End Try
 
-                    ElseIf CalibrateRPM() Then
-                        AdjustedRPM.Text = RPM
-                        .AdjustedRPM = RPM
-                        Try
-                            MyDispenserSettings.DownloadAugerRPM(RPM, AugerRetractTime, AugerRetractDelay)
-                        Catch ex As Exception
-                            MessageBox.Show("Error occur when download auger rpm")
-                            Return False
-                        End Try
+            '        ElseIf CalibrateRPM() Then
+            '            AdjustedRPM.Text = RPM
+            '            .AdjustedRPM = RPM
+            '            Try
+            '                MyDispenserSettings.DownloadAugerRPM(RPM, AugerRetractTime, AugerRetractDelay)
+            '            Catch ex As Exception
+            '                MessageBox.Show("Error occur when download auger rpm")
+            '                Return False
+            '            End Try
 
-                    End If
-                    NextAction = "Init"
-                    IDS.Data.SaveData()
-                    attemptCount = 0
-                    Status.Text = "Volume calibration success."
-                    Return True
-                End With
-            ElseIf DispensingResult = "Failed" Then
-                Return VolumeCalibration(AttemptsLeft - 1)
-            ElseIf DispensingResult = "Stopped" Then
-                Status.Text = "Volume calibration stopped."
-                NextAction = "Init"
-                VCRunning = False
-                attemptCount = 0
-                Return False
-            End If
+            '        End If
+            '        NextAction = "Init"
+            '        IDS.Data.SaveData()
+            '        attemptCount = 0
+            '        Status.Text = "Volume calibration success."
+            '        Return True
+            '    End With
+            'ElseIf DispensingResult = "Failed" Then
+            '    Return VolumeCalibration(AttemptsLeft - 1)
+            'ElseIf DispensingResult = "Stopped" Then
+            '    Status.Text = "Volume calibration stopped."
+            '    NextAction = "Init"
+            '    VCRunning = False
+            '    attemptCount = 0
+            '    Return False
+            'End If
         Else
             Status.Text = "Volume calibration failed."
             NextAction = "Init"
             VCRunning = False
             attemptCount = 0
+            ButtonCalibrate.Text = "Calibrate"
+            BoxSettings.Enabled = True
+            m_Tri.SteppingButtons.Enabled = True
+            MyVolumeCalibrationSettings.VolumeCalibrationState = "FAILED"
             Return False
         End If
 
+    End Function
+    Public Function AfterGetWeight(ByVal success As Boolean)
+        If success Then
+            'adjusted pressure/rpm/dispenseduration is saved in WithinTolerance
+            With IDS.Data.Hardware.Volume.Left
+                If CalibrateDuration() Then
+                    AdjustedDispenseDuration.Text = DispenseDuration
+                    .AdjustedDispenseDuration = DispenseDuration
+                    Try
+                        MyDispenserSettings.DownloadJettingParameters(DispenseDuration)
+                    Catch ex As Exception
+                        MessageBox.Show("Error occur when download jetting parameters")
+                        Return False
+                    End Try
+
+                ElseIf CalibratePressure() Then
+                    AdjustedMaterialAirPressure.Text = MaterialAirPressure
+                    .AdjustedMaterialAirPressure = MaterialAirPressure
+                    Dim SuckbackPressure As Double = IDS.Data.Hardware.Dispenser.Left.SuckbackPressure
+                    Try
+                        MyDispenserSettings.DownloadMaterialAirPressure(MaterialAirPressure, SuckbackPressure)
+                    Catch ex As Exception
+                        MessageBox.Show("Error occur when download material air pressure parameters")
+                        Return False
+                    End Try
+
+                ElseIf CalibrateRPM() Then
+                    AdjustedRPM.Text = RPM
+                    .AdjustedRPM = RPM
+                    Try
+                        MyDispenserSettings.DownloadAugerRPM(RPM, AugerRetractTime, AugerRetractDelay)
+                    Catch ex As Exception
+                        MessageBox.Show("Error occur when download auger rpm")
+                        Return False
+                    End Try
+
+                End If
+                NextAction = "Init"
+                IDS.Data.SaveData()
+                attemptCount = 0
+                Status.Text = "Volume calibration success."
+                If DispensingResult = "Stopped" Then
+                    m_Tri.Move_Z(0)
+                End If
+                ButtonCalibrate.Text = "Calibrate"
+                ButtonCalibrate.Enabled = True
+                BoxSettings.Enabled = True
+                m_Tri.ResetCalibrationFlag()
+                m_Tri.SetMachineStop()
+                m_Tri.SteppingButtons.Enabled = True
+                MyVolumeCalibrationSettings.VolumeCalibrationState = "SUCCESS"
+                Return True
+            End With
+        Else
+            If VolumeCalibrationState = "Stopped" Then
+                NextAction = "Init"
+                attemptCount = 0
+                ButtonCalibrate.Text = "Calibrate"
+                ButtonCalibrate.Enabled = True
+                BoxSettings.Enabled = True
+                m_Tri.ResetCalibrationFlag()
+                m_Tri.SetMachineStop()
+                m_Tri.SteppingButtons.Enabled = True
+                Exit Function
+            End If
+            Return VolumeCalibration(VCAttemp - 1)
+        End If
+        'ElseIf DispensingResult = "Stopped" Then
+        '    Status.Text = "Volume calibration stopped."
+        '    NextAction = "Init"
+        '    VCRunning = False
+        '    attemptCount = 0
+        '    Return False
+        'End If
     End Function
     Public volumeCalPostHandler As VolumeCalibration.VolumeCalPostHandler
     Public vcPostParam As VolumeCalibration.VolumeCalPostHandler.VolumeCalPostHandlerParam
@@ -1511,7 +1641,7 @@ Public Class VolumeCalibrationSettings
             vcPostParam.topLeftX = position(0)
             vcPostParam.topLeftY = position(1)
             vcPostParam.pitch = 0.01
-            vcPostParam.dotDiameter = IDS.Data.Hardware.Needle.Left.DotDiameter
+            vcPostParam.dotDiameter = 3 'mm  'IDS.Data.Hardware.Needle.Left.DotDiameter
             vcPostParam.bottomRightX = IDS.Data.Hardware.Gantry.WeighingScaleBottomRight.X - offset_x
             vcPostParam.bottomRightY = IDS.Data.Hardware.Gantry.WeighingScaleBottomRight.Y - offset_y
             volumeCalPostHandler = New VolumeCalibration.VolumeCalPostHandler(vcPostParam)
@@ -1687,7 +1817,7 @@ StopCalibration:
         Weighting_Scale.GetWeight()
         Status.Text = "Reading weight.."
         Me.ExportStatus("Reading weight..")
-        Console.WriteLine("Read Weight")
+        'Console.WriteLine("Read Weight")
         Do
             'Sleep(5)
             TraceDoEvents()
@@ -1701,7 +1831,7 @@ StopCalibration:
             errorcode = 2
             GoTo StopCalibration
         End If
-        Console.WriteLine("Weight Read")
+        'Console.WriteLine("Weight Read")
         If Not CheckState() Then GoTo StopCalibration
 
         Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
@@ -1785,12 +1915,42 @@ WeightTooLow:
         If Not CheckState() Then GoTo StopCalibration
         Status.Text = "Taring Done"
         SetupVCParam()
-
+        Dim stime As Long
+        If (VolumeCalibrationState = "Stopped") Then
+            GoTo StopCalibration
+        End If
         If m_Tri.m_TriCtrl.SetTable(109, 18, VCValue) Then
-            m_Tri.SetCalibrationFlag()
-            m_Tri.RunTrioMotionProgram("CALIBRATIONS", 3)
-            While (m_Tri.Calibrating And Not m_Tri.EStopActivated)
+            If Not m_Tri.SetCalibrationFlag() Then
+                If Not m_Tri.SetCalibrationFlag() Then
+                    If Not m_Tri.SetCalibrationFlag() Then
+                        MessageBox.Show("Unable to set caibration flag")
+                        GoTo StopCalibration
+                    End If
+                End If
+            End If
+            m_Tri.GetIDSState()
+            If m_Tri.StateContainer(100) = 0 Then
+                MessageBox.Show("State Container 100 = 0")
+            End If
+            If Not (m_Tri.RunTrioMotionProgram("CALIBRATIONS", 3)) Then
+                MessageBox.Show("Run Cali program failed")
+            End If
+            If Not (m_Tri.RunTrioMotionProgram("CALIBRATIONS", 3)) Then
+                MessageBox.Show("Run Cali program failed")
+                GoTo StopCalibration
+            End If
+            If Not (m_Tri.RunTrioMotionProgram("CALIBRATIONS", 3)) Then
+                MessageBox.Show("Run Cali program failed")
+            End If
+            'm_Tri.GetIDSState()
+            stime = DateTime.Now.Ticks
+            Dim table100(0) As Integer
+            Dim tableValue As Integer = 1
+            While (tableValue = 1 And Not m_Tri.EStopActivated) ' And Not m_Tri.EStopActivated)
                 TraceDoEvents()
+                If m_Tri.GetVCTable100(table100) Then
+                    tableValue = table100(0)
+                End If
                 If (VolumeCalibrationState = "Stopped") Then
                     GoTo StopCalibration
                 End If
@@ -1798,51 +1958,57 @@ WeightTooLow:
         Else
             GoTo StopCalibration
         End If
-
-        Status.Text = "Waiting weighting scale.."
-        start_time = Now
-        Weighting_Scale.GetWeight()
-        Status.Text = "Reading weight.."
-        Me.ExportStatus("Reading weight..")
-        Console.WriteLine("Read Weight")
-        Do
-            'Sleep(5)
-            TraceDoEvents()
-            'DisplayProgressText(Status)
-            stop_time = Now
-            elapsed_time = stop_time.Subtract(start_time)
-        Loop Until Weighting_Scale.ValueUpdated Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
-        Dim reading As String = CStr(Weighting_Scale.WeightReading)
-        Weighting_Scale.ResetValues()
-        If elapsed_time.TotalSeconds > TimeOutDuration Then
-            errorcode = 2
+        If m_Tri.EStopActivated Then
             GoTo StopCalibration
         End If
-        Console.WriteLine("Weight Read")
-        If Not CheckState() Then GoTo StopCalibration
-
-        Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
-        If CalibrateDuration() Then
-            VolumeCalibrationResult = " Dispensing duration of " + DispenseDuration.ToString + " ms gives a result of " + reading + " mg."
-        ElseIf CalibratePressure() Then
-            VolumeCalibrationResult = " Pressure of " + MaterialAirPressure.ToString + " bar gives a result of " + reading + " mg."
-        ElseIf CalibrateRPM() Then
-            VolumeCalibrationResult = " RPM of " + RPM.ToString + " gives a result of " + reading + " mg."
-
+        If (DateTime.Now.Ticks - stime) / 10000 < 500 Then
+            MessageBox.Show("Calibration got issues")
         End If
-        rtbResult.Text = VolumeCalibrationResult
-        With IDS.Data.Hardware.Volume.Left
-            Dim str As String = WithinTolerance(.Tolerance, .DesiredWeight, CDbl(reading))
-            If str.ToUpper = "SUCCESS" Then
-                VolumeCalibrationResult = "Vol. Cal. Success!" + VolumeCalibrationResult
-                VolumeCalibrationResult += " Info=" + "Desired Weight:" + .DesiredWeight.ToString("0.0") + "mg" + " Tolerance: " + .Tolerance.ToString("0.0") + "mg "
-                Me.ExportStatus(VolumeCalibrationResult)
-            Else
-                VolumeCalibrationResult = "Vol. Cal. Attemp #" + attemptCount.ToString() + " not success!" + VolumeCalibrationResult
-                Me.ExportStatus(VolumeCalibrationResult)
-            End If
-            Return str
-        End With
+        m_Tri.StopTrioMotionProgram("CALIBRATIONS")
+        Status.Text = "Waiting weighting scale.."
+        start_time = Now
+        Weighting_Scale.ReadWeightReturned = New WeightScale.IWeightingScale.ReadWeightDel(AddressOf Me.WeightReturn)
+        Status.Text = "Reading weight.."
+        Me.ExportStatus("Reading weight..")
+        'ButtonCalibrate.Enabled = False
+        Weighting_Scale.GetWeight()
+        Exit Function
+        'Do
+        '    TraceDoEvents()
+        '    stop_time = Now
+        '    elapsed_time = stop_time.Subtract(start_time)
+        'Loop Until Weighting_Scale.ValueUpdated Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
+        'Dim reading As String = CStr(Weighting_Scale.WeightReading)
+        'Weighting_Scale.ResetValues()
+        'If elapsed_time.TotalSeconds > TimeOutDuration Then
+        '    errorcode = 2
+        '    GoTo StopCalibration
+        'End If
+        ''Console.WriteLine("Weight Read")
+        'If Not CheckState() Then GoTo StopCalibration
+
+        'Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
+        'If CalibrateDuration() Then
+        '    VolumeCalibrationResult = " Dispensing duration of " + DispenseDuration.ToString + " ms gives a result of " + reading + " mg."
+        'ElseIf CalibratePressure() Then
+        '    VolumeCalibrationResult = " Pressure of " + MaterialAirPressure.ToString + " bar gives a result of " + reading + " mg."
+        'ElseIf CalibrateRPM() Then
+        '    VolumeCalibrationResult = " RPM of " + RPM.ToString + " gives a result of " + reading + " mg."
+
+        'End If
+        'rtbResult.Text = VolumeCalibrationResult
+        'With IDS.Data.Hardware.Volume.Left
+        '    Dim str As String = WithinTolerance(.Tolerance, .DesiredWeight, CDbl(reading))
+        '    If str.ToUpper = "SUCCESS" Then
+        '        VolumeCalibrationResult = "Vol. Cal. Success! " + VolumeCalibrationResult
+        '        VolumeCalibrationResult += "Weight = " + reading + " mg."
+        '        Me.ExportStatus(VolumeCalibrationResult)
+        '    Else
+        '        VolumeCalibrationResult = "Vol. Cal. Attemp #" + attemptCount.ToString() + " not success! " + reading + " mg."
+        '        Me.ExportStatus(VolumeCalibrationResult)
+        '    End If
+        '    Return str
+        'End With
 
 StopCalibration:
         If errorcode = 1 Then
@@ -1865,6 +2031,59 @@ WeightTooLow:
         Return "Failed"
 
     End Function
+    Private Sub WeightReturn(ByVal weight As Double)
+        Dim reading As String = CStr(weight)
+        ButtonCalibrate.Enabled = True
+        Weighting_Scale.ResetValues()
+        Status.Text = "Weight returned:" & reading & " mg"
+        Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
+        If CalibrateDuration() Then
+            VolumeCalibrationResult = " Dispensing duration of " + DispenseDuration.ToString + " ms gives a result of " + reading + " mg."
+        ElseIf CalibratePressure() Then
+            VolumeCalibrationResult = " Pressure of " + MaterialAirPressure.ToString + " bar gives a result of " + reading + " mg."
+        ElseIf CalibrateRPM() Then
+            VolumeCalibrationResult = " RPM = " + RPM.ToString + " Weight = " + reading + " mg."
+
+        End If
+        rtbResult.Text = VolumeCalibrationResult
+        With IDS.Data.Hardware.Volume.Left
+            Dim str As String = WithinTolerance(.Tolerance, .DesiredWeight, CDbl(reading))
+            If str.ToUpper = "SUCCESS" Then
+                VolumeCalibrationResult = "Volume Calibration Success! " + VolumeCalibrationResult
+                'VolumeCalibrationResult += "Weight = " + reading + " mg."
+                Me.ExportStatus(VolumeCalibrationResult)
+                AfterGetWeight(True)
+            Else
+                VolumeCalibrationResult = "Vol. Cal. Attemp #" + attemptCount.ToString() + " not success! " + reading + " mg."
+                Me.ExportStatus(VolumeCalibrationResult)
+                AfterGetWeight(False)
+            End If
+        End With
+    End Sub
+    Private Sub DispenseWeightReturn(ByVal weight As Double)
+
+        Dim reading As String = CStr(weight)
+        Weighting_Scale.ResetValues()
+
+        Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
+        If CalibrateDuration() Then
+            VolumeCalibrationResult = "Dispensing duration of " + DispenseDuration.ToString + " ms gives a result of " + reading + " mg."
+        ElseIf CalibratePressure() Then
+            VolumeCalibrationResult = "Pressure of " + MaterialAirPressure.ToString + " bar gives a result of " + reading + " mg."
+        ElseIf CalibrateRPM() Then
+            VolumeCalibrationResult = "RPM of " + RPM.ToString + " gives a result of " + reading + " mg."
+        Else
+            MessageBox.Show("Unknown mode")
+        End If
+
+        Status.Text = "Dispensing done"
+        ButtonTeachCalibrate.Text = "Dispense"
+        BoxSettings.Enabled = True
+        m_Tri.SetMachineStop()
+        m_Tri.ResetCalibrationFlag()
+        rtbResult.Text = VolumeCalibrationResult
+        m_Tri.SteppingButtons.Enabled = True
+    End Sub
     'Export the status display to any other form
     Public Function ExportStatus(ByVal status As String)
         If Not (Me.VCStatusUpdate Is Nothing) Then
@@ -1907,12 +2126,18 @@ WeightTooLow:
 
         If ButtonTeachCalibrate.Text = "Stop" Then
             ButtonTeachCalibrate.Enabled = False
+            ButtonTeachCalibrate.Text = "Stopping Dispense"
             ButtonTeachCalibrate.Refresh()
             m_Tri.TrioStop()
+            If Weighting_Scale.RequestWeightUpdate Then
+                ButtonTeachCalibrate.Enabled = True
+            End If
+            Weighting_Scale.RequestWeightUpdate = False
             VolumeCalibrationState = "Stopped"
-            ButtonTeachCalibrate.Text = "Stopping Dispense"
 
         ElseIf ButtonTeachCalibrate.Text = "Dispense" Then
+            Vision.FrmVision.SwitchCamera("View Camera")
+            Vision.FrmVision.ClearDisplay()
             Cursor = Cursors.WaitCursor
             rtbResult.Text = ""
             rtbResult.Refresh()
@@ -1943,15 +2168,9 @@ WeightTooLow:
             Weighting_Scale.DoTare()
             start_time = Now
             Status.Text = "Taring.."
-            'Do
-            '    Sleep(5)
-            '    DisplayProgressText(Status)
-            '    TraceDoEvents()
-            '    stop_time = Now
-            '    elapsed_time = stop_time.Subtract(start_time)
-            'Loop Until Not Weighting_Scale.Taring Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
+
             If VolumeCalibrationState = "Stopped" Then GoTo StopCalibration
-            'If elapsed_time.TotalSeconds > TimeOutDuration Then GoTo timeout
+
             Status.Text = "Tared"
             If Not CheckState() Then GoTo StopCalibration
 
@@ -1964,41 +2183,20 @@ WeightTooLow:
                 MyDispenserSettings.DownloadAugerRPM(RPM, AugerRetractTime, AugerRetractDelay)
             End If
             If VolumeCalibrationState = "Stopped" Then GoTo StopCalibration
-            'If Not m_Tri.Move_Z(position(2)) Then GoTo StopCalibration
-            'If VolumeCalibrationState = "Stopped" Then GoTo StopCalibration
-            'Status.Text = "Dispensing.."
-            'Status.Refresh()
-            'm_Tri.m_TriCtrl.Execute("OP(25,1)")
-            ''dispenseDuration was set to param based on the dispenser type at the start of this function
-            'm_Tri.m_TriCtrl.Execute("WA(" & DispenseDuration.ToString & ")")
-            'm_Tri.m_TriCtrl.Execute("OP(25,0)")
-            'If CalibrateDuration() Then
-            '    Dim tempD As Double = Me.jettingPulseOffValue.Value * Me.jettingNumOfDispense.Value + Me.jettingpulseOnValue.Value * Me.jettingNumOfDispense.Value - jettingpulseOnValue.Value + RetractDelayValue.Value
-            '    m_Tri.m_TriCtrl.Execute("WA(" & tempD.ToString & ")")
-            'Else
-            '    m_Tri.m_TriCtrl.Execute("WA(" & RetractDelay.ToString & ")")
-            'End If
-            'If CalibrateRPM() Then
-            '    m_Tri.m_TriCtrl.Execute("WA(" & AugerRetractDelay.ToString & ")")
-            '    m_Tri.m_TriCtrl.Execute("WA(" & AugerRetractTime.ToString & ")")
-            'End If
-            'Application.DoEvents()
-            'If VolumeCalibrationState = "Stopped" Then GoTo StopCalibration
-            'volumeCalPostHandler.SetCurrentDotDispensed()
-            'Status.Text = "Retracting..."
-            'If DoRetract() Then
-            '    m_Tri.Set_Z_Speed(RetractSpeed)
-            '    If Not m_Tri.Move_Z(position(2) + RetractHeight) Then GoTo StopCalibration
-            'End If
-            'If VolumeCalibrationState = "Stopped" Then GoTo StopCalibration
-            'm_Tri.Set_Z_Speed(IDS.Data.Hardware.Gantry.ServiceZSpeed)
-            'If Not m_Tri.Move_Z(0) Then GoTo StopCalibration
+
             SetupVCParam()
 
             If m_Tri.m_TriCtrl.SetTable(109, 18, VCValue) Then
                 m_Tri.SetCalibrationFlag()
+                m_Tri.GetIDSState()
                 m_Tri.RunTrioMotionProgram("CALIBRATIONS", 3)
-                While (m_Tri.Calibrating And Not m_Tri.EStopActivated)
+                m_Tri.GetIDSState()
+                Dim table100 As Integer = 1
+                Dim tableValue(0) As Integer
+                While (table100 = 1 And Not m_Tri.EStopActivated)
+                    If m_Tri.GetVCTable100(tableValue) Then
+                        table100 = tableValue(0)
+                    End If
                     TraceDoEvents()
                     If (VolumeCalibrationState = "Stopped") Then
                         GoTo StopCalibration
@@ -2007,55 +2205,27 @@ WeightTooLow:
             Else
                 GoTo StopCalibration
             End If
+            If m_Tri.EStopActivated Then
+                Exit Sub
+            End If
             volumeCalPostHandler.SetCurrentDotDispensed()
-
+            m_Tri.StopTrioMotionProgram("CALIBRATIONS")
+            m_Tri.ResetCalibrationFlag()
             RetractSpeed = RetractSpeedValue.Value
             RetractDelay = RetractDelayValue.Value
             RetractHeight = RetractHeightValue.Value
-
-            '3)read the weighted value
-            'For i As Integer = 1 To 10
-            '    Sleep(5)
-            '    TraceDoEvents()
-            'Next
             start_time = Now
+            Weighting_Scale.ReadWeightReturned = New WeightScale.IWeightingScale.ReadWeightDel(AddressOf Me.DispenseWeightReturn)
             Weighting_Scale.GetWeight()
             Status.Text = "Reading.."
-            Do
-                Sleep(5)
-                TraceDoEvents()
-                DisplayProgressText(Status)
-                stop_time = Now
-                elapsed_time = stop_time.Subtract(start_time)
-            Loop Until Weighting_Scale.ValueUpdated Or elapsed_time.TotalSeconds > TimeOutDuration Or Not CheckState() Or m_Tri.EStopActivated
-            Dim reading As String = CStr(Weighting_Scale.WeightReading)
-            Weighting_Scale.ResetValues()
-            If elapsed_time.TotalSeconds > TimeOutDuration Then GoTo Timeout
-            If Not CheckState() Then GoTo StopCalibration
-
-            Dim HeadType As String = IDS.Data.Hardware.Dispenser.Left.HeadType
-            If CalibrateDuration() Then
-                VolumeCalibrationResult = "Dispensing duration of " + DispenseDuration.ToString + " ms gives a result of " + reading + " mg."
-            ElseIf CalibratePressure() Then
-                VolumeCalibrationResult = "Pressure of " + MaterialAirPressure.ToString + " bar gives a result of " + reading + " mg."
-            ElseIf CalibrateRPM() Then
-                VolumeCalibrationResult = "RPM of " + RPM.ToString + " gives a result of " + reading + " mg."
-            End If
-            Status.Text = "Dispensing done"
-            ButtonTeachCalibrate.Text = "Dispense"
-
         End If
-
-        BoxSettings.Enabled = True
-        m_Tri.SetMachineStop()
-        rtbResult.Text = VolumeCalibrationResult
-        ' ButtonTeachCalibrate.Text = "Dispense"
-        m_Tri.SteppingButtons.Enabled = True
         Exit Sub
 
 StopCalibration:
         BoxSettings.Enabled = True
+        Weighting_Scale.RequestWeightUpdate = False
         m_Tri.SetMachineStop()
+        m_Tri.ResetCalibrationFlag()
         SetServiceSpeed()
         m_Tri.Move_Z(0)
         rtbResult.Text = "Volume calibration stopped."
@@ -2063,6 +2233,7 @@ StopCalibration:
         ButtonTeachCalibrate.Enabled = True
         Status.Text = ""
         m_Tri.SteppingButtons.Enabled = True
+        m_Tri.StopTrioMotionProgram("CALIBRATIONS")
         Exit Sub
 
 Timeout:
@@ -2073,6 +2244,7 @@ Timeout:
         Status.Text = ""
     End Sub
 
+
     Private Sub WeighingScaleButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WeighingScaleButton.Click
         'Weighting_Scale.Location() = New System.Drawing.Point(0, 0)
         'If Weighting_Scale.Visible Then
@@ -2080,12 +2252,13 @@ Timeout:
         'Else
         '    Weighting_Scale.Show()
         'End If
+        Cursor = Cursors.WaitCursor
         If WeightingScaleForm.Visible Then
             WeightingScaleForm.Hide()
         Else
             WeightingScaleForm.Show()
         End If
-
+        Cursor = Cursors.Default
     End Sub
 
 End Class

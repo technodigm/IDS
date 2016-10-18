@@ -118,6 +118,7 @@ Public Class ConveyorSettings
         Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
         Me.ButtonRevert.TabIndex = 20
         Me.ButtonRevert.Text = "Revert"
+        Me.ButtonRevert.Visible = False
         '
         'ButtonSave
         '
@@ -512,7 +513,8 @@ Public Class ConveyorSettings
         RevertData()
     End Sub
 
-    Public Sub RevertData()
+    Public Sub RevertData(Optional ByVal hideexit As Boolean = False)
+        ButtonExit.Visible = Not hideexit
         IDS.Data.OpenData()
         With IDS.Data.Hardware.Conveyor
             Speed.Text = .Speed
@@ -533,6 +535,7 @@ Public Class ConveyorSettings
     End Sub
 
     Public Sub CloseConveyorSetup()
+        If Conveyor Is Nothing Then Return
         Conveyor.Command("Normal Mode")
         Conveyor.Command("Start Mode")
         Conveyor.Command("Manual Mode")
@@ -557,6 +560,9 @@ Public Class ConveyorSettings
     End Sub
 
     Public Function InitializeConveyorSetup() As Boolean
+        If (Conveyor Is Nothing) Then
+            Return False
+        End If
 
         Dim speed As Integer
         Dim success As Boolean = True
@@ -565,7 +571,7 @@ Public Class ConveyorSettings
 
         Conveyor.Command("Width Mode")
         Conveyor.MoveToWidth = IDS.Data.Hardware.Conveyor.Width
-        Console.WriteLine("Conveyor width: " & IDS.Data.Hardware.Conveyor.Width)
+        'Console.WriteLine("Conveyor width: " & IDS.Data.Hardware.Conveyor.Width)
         'wait abit to get position value from positiontimer_tick otherwise widthposition = 0
         For i As Integer = 1 To 5
             Sleep(50)
@@ -594,6 +600,7 @@ Public Class ConveyorSettings
     End Function
 
     Friend Sub Conveyor_T1_Tick()
+
         If Form_Service.NoActionToExecute Then
             If Conveyor.GetError() <> "No Error" Then
                 Form_Service.DisplayErrorMessage(Conveyor.GetError())
@@ -603,7 +610,9 @@ Public Class ConveyorSettings
         '1003201 - Width Adjustment Failed
         'OK pressed
         If IDS.__ID = "1013201" Then
-            Conveyor.PositionTimer.Start()
+            If Not (Conveyor Is Nothing) Then
+                Conveyor.ActivePositionTimer(True)
+            End If
             Conveyor.Command("Width Mode")
             start_time = Now
             Do
@@ -755,6 +764,9 @@ Public Class ConveyorSettings
     End Sub
 
     Private Overloads Sub MyConveyorSettings_Tick(ByVal sender As System.Object, ByVal e As System.Timers.ElapsedEventArgs) Handles PositionTimer.Elapsed
-        WidthDisplay.Text = CStr(Conveyor.WidthPosition)
+        If Not (Conveyor Is Nothing) Then
+            WidthDisplay.Text = CStr(Conveyor.WidthPosition)
+        End If
+
     End Sub
 End Class

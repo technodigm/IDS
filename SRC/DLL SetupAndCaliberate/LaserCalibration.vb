@@ -79,17 +79,17 @@ Public Class LaserCalibration
         Me.ButtonSave = New System.Windows.Forms.Button
         Me.LaserReading = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
+        Me.LaserOffsetY = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.Label16 = New System.Windows.Forms.Label
+        Me.LaserOffsetZ = New System.Windows.Forms.Label
+        Me.LaserOffsetX = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.StatusBar1 = New System.Windows.Forms.StatusBar
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.Label11 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.Panel2 = New System.Windows.Forms.Panel
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.LaserOffsetX = New System.Windows.Forms.Label
-        Me.LaserOffsetY = New System.Windows.Forms.Label
-        Me.LaserOffsetZ = New System.Windows.Forms.Label
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -257,11 +257,54 @@ Public Class LaserCalibration
         Me.Label9.TabIndex = 12
         Me.Label9.Text = "Current Laser Reading  :"
         '
+        'LaserOffsetY
+        '
+        Me.LaserOffsetY.Location = New System.Drawing.Point(224, 32)
+        Me.LaserOffsetY.Name = "LaserOffsetY"
+        Me.LaserOffsetY.Size = New System.Drawing.Size(120, 23)
+        Me.LaserOffsetY.TabIndex = 77
+        Me.LaserOffsetY.Text = "100.000"
+        '
+        'Label5
+        '
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(16, 64)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(224, 23)
+        Me.Label5.TabIndex = 81
+        Me.Label5.Text = "Existing Laser Reference :"
+        '
+        'Label16
+        '
+        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Location = New System.Drawing.Point(16, 32)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(184, 23)
+        Me.Label16.TabIndex = 35
+        Me.Label16.Text = "Existing Laser Offset :"
+        '
+        'LaserOffsetZ
+        '
+        Me.LaserOffsetZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LaserOffsetZ.Location = New System.Drawing.Point(312, 64)
+        Me.LaserOffsetZ.Name = "LaserOffsetZ"
+        Me.LaserOffsetZ.Size = New System.Drawing.Size(72, 23)
+        Me.LaserOffsetZ.TabIndex = 79
+        Me.LaserOffsetZ.Text = "100.000"
+        '
+        'LaserOffsetX
+        '
+        Me.LaserOffsetX.Location = New System.Drawing.Point(352, 32)
+        Me.LaserOffsetX.Name = "LaserOffsetX"
+        Me.LaserOffsetX.Size = New System.Drawing.Size(96, 23)
+        Me.LaserOffsetX.TabIndex = 74
+        Me.LaserOffsetX.Text = "100.000"
+        '
         'Label1
         '
         Me.Label1.Location = New System.Drawing.Point(-102, -8)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(80, 21)
+        Me.Label1.Size = New System.Drawing.Size(81, 21)
         Me.Label1.TabIndex = 30
         Me.Label1.Text = "Sensor"
         '
@@ -298,7 +341,7 @@ Public Class LaserCalibration
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(416, 16)
+        Me.ButtonExit.Location = New System.Drawing.Point(408, 16)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 38
@@ -314,49 +357,6 @@ Public Class LaserCalibration
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(488, 848)
         Me.Panel2.TabIndex = 34
-        '
-        'Label5
-        '
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(16, 64)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(224, 23)
-        Me.Label5.TabIndex = 81
-        Me.Label5.Text = "Existing Laser Reference :"
-        '
-        'Label16
-        '
-        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(16, 32)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(184, 23)
-        Me.Label16.TabIndex = 35
-        Me.Label16.Text = "Existing Laser Offset :"
-        '
-        'LaserOffsetX
-        '
-        Me.LaserOffsetX.Location = New System.Drawing.Point(352, 32)
-        Me.LaserOffsetX.Name = "LaserOffsetX"
-        Me.LaserOffsetX.Size = New System.Drawing.Size(96, 23)
-        Me.LaserOffsetX.TabIndex = 74
-        Me.LaserOffsetX.Text = "100.000"
-        '
-        'LaserOffsetY
-        '
-        Me.LaserOffsetY.Location = New System.Drawing.Point(224, 32)
-        Me.LaserOffsetY.Name = "LaserOffsetY"
-        Me.LaserOffsetY.Size = New System.Drawing.Size(120, 23)
-        Me.LaserOffsetY.TabIndex = 77
-        Me.LaserOffsetY.Text = "100.000"
-        '
-        'LaserOffsetZ
-        '
-        Me.LaserOffsetZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LaserOffsetZ.Location = New System.Drawing.Point(312, 64)
-        Me.LaserOffsetZ.Name = "LaserOffsetZ"
-        Me.LaserOffsetZ.Size = New System.Drawing.Size(72, 23)
-        Me.LaserOffsetZ.TabIndex = 79
-        Me.LaserOffsetZ.Text = "100.000"
         '
         'Timer1
         '
@@ -412,13 +412,18 @@ Public Class LaserCalibration
         Return
         Timer1.Start()
         m_Tri.SetMachineRun()
-        Laser.EnableContinuousRead()
+        If Not (Laser Is Nothing) Then
+            Laser.EnableContinuousRead()
+        End If
+
 
         Dim counter As Integer = 0
         Dim calibrator_plate_height, block_height, difference As Double
         Dim position(3) As Double
+        If Not (Laser Is Nothing) Then
+            Laser.LASER_Reading = 0
+        End If
 
-        Laser.LASER_Reading = 0
         WaitLoop()
         block_height = Laser.LASER_Reading
         NewLaserZReference.Text = block_height
@@ -640,7 +645,7 @@ CalibrationError:
             Select Case i
                 Case 0
                     'Abort
-                    Console.WriteLine("Laser blob calibration Thread exit #1")
+                    'Console.WriteLine("Laser blob calibration Thread exit #1")
                     abortInit.Reset()
                     isExited = True
                     InitThread.Abort() 'Kill the thread if sucess

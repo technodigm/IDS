@@ -534,9 +534,9 @@ Public Class Conveyor
             Else
                 If Not (MoveToWidth = -1) Then
                     ConveyorError = "Width"
-                    Console.WriteLine(DateTime.Now.ToLongTimeString() + " Width error received.")
+                    'Console.WriteLine(DateTime.Now.ToLongTimeString() + " Width error received.")
                 Else
-                    Console.WriteLine(DateTime.Now.ToLongTimeString() + " Width error received before any moveto command was sent")
+                    'Console.WriteLine(DateTime.Now.ToLongTimeString() + " Width error received before any moveto command was sent")
                 End If
 
             End If
@@ -596,15 +596,10 @@ Public Class Conveyor
 
 
     Public Sub Command(ByVal command As String)
-
-        
-
         Dim output_str As String = Chr(&H2)
-
         'If AxMSComm1.InBufferCount < 4 Then
         '    Exit Sub
         'End If
-
         Select Case command
             Case "Read Position"
                 output_str = output_str + Chr(&H13)   'read position
@@ -745,7 +740,7 @@ Public Class Conveyor
 
 
     Public Function MoveTo(ByVal width As Double) As Boolean
-        Console.WriteLine("Conveyor command move to " & width)
+        'Console.WriteLine("Conveyor command move to " & width)
         MoveToWidth = width
         Dim DesiredAbsPost As Double = 0.0
         Dim distance As Decimal

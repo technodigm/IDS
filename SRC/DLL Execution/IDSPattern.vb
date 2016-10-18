@@ -1072,7 +1072,8 @@ Public Class CIDSPattern
             If "EOF" = eof Then
                 file.Close()
                 If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
-                    Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                    'Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                    Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "BZ" & pageItemCnt)
                     range.Value2 = dataArray
                     pageItemCnt = 0
                     Application.DoEvents()
@@ -1120,7 +1121,8 @@ Public Class CIDSPattern
                                 Else
 
                                     If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
-                                        Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                        'Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                        Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "BZ" & pageItemCnt)
                                         range.Value2 = dataArray
                                         pageItemCnt = 0
                                     End If
@@ -1174,7 +1176,8 @@ Public Class CIDSPattern
                                 End If
                             Else
                                 If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
-                                    Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                    'Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                    Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "BZ" & pageItemCnt)
                                     range.Value2 = dataArray
                                     pageItemCnt = 0
                                     AxSpreadsheet.ActiveWindow.ActiveSheet.Cells(1, 1).Select()
@@ -1602,7 +1605,8 @@ Public Class CIDSPattern
                     '         b.) Check for "Sub/Array page".                                   '
                     ''''''''''
                     If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
-                        Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                        'Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                        Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "BZ" & pageItemCnt)
                         range.Value2 = dataArray
                         pageItemCnt = 0
                         Application.DoEvents()
@@ -1655,7 +1659,8 @@ Public Class CIDSPattern
                                         '    LineStr(1) = LineStr(1).Remove(31, LineStr(1).Length - 31)
                                         'End If
                                         If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
-                                            Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                            'Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                            Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "BZ" & pageItemCnt)
                                             range.Value2 = dataArray
                                             pageItemCnt = 0
                                         End If
@@ -1742,7 +1747,8 @@ Public Class CIDSPattern
                                 Else
                                     'Here to activate the sheet, start from main to all the subsheet
                                     If rowOfLoad > 0 Then 'From here to add the data to that particular sheet
-                                        Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                        'Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "AD" & pageItemCnt)
+                                        Dim range As OWC.Range = AxSpreadsheet.ActiveSheet.Range("A1", "BZ" & pageItemCnt)
                                         range.Value2 = dataArray
                                         pageItemCnt = 0
                                         AxSpreadsheet.ActiveWindow.ActiveSheet.Cells(1, 1).Select()
@@ -1831,6 +1837,7 @@ Public Class CIDSPattern
                                             'Lim's code here =====
                                         Case gMaxColumns + 1 To gWRMCoulumn
                                             AxSpreadsheet.ActiveSheet.Cells(rowOfLoad, i) = LineStr(i - 1)
+                                            dataArray(rowOfLoad - 1, i - 1) = LineStr(i - 1)
                                             '======
                                         Case Else
                                     End Select
@@ -1855,7 +1862,7 @@ Public Class CIDSPattern
             array.Add(sr.ReadLine())
         Loop
         sr.Close()
-        Console.WriteLine(array.Count)
+        'Console.WriteLine(array.Count)
     End Function
     Function GetPageItemCount(ByRef array As ArrayList, ByVal pageName As String) As Integer
         Dim pageFound As Boolean = False
@@ -4056,9 +4063,9 @@ Public Class CIDSErrorCheck
         'With AxSpreadsheet.Worksheets(SpreadSheetName)
         Do
             j = j + 1
-            If j = 99 Then
-                Console.WriteLine("")
-            End If
+            'If j = 99 Then
+            '    'Console.WriteLine("")
+            'End If
             'strTmp = .Cells(j, gCommandNameColumn).Value
             strTmp = array(j, gCommandNameColumn)
             If "" = strTmp Then
@@ -5251,7 +5258,7 @@ Public Class CIDSErrorCheck
                 Rtn = 1
                 Return Rtn
             End If
-            Console.WriteLine("Check Speed used: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+            'Console.WriteLine("Check Speed used: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
         Next
         'No error checked for Speed.  Then we check Points
         enterTime = DateTime.Now.Ticks
@@ -5264,13 +5271,13 @@ Public Class CIDSErrorCheck
             Rtn = 1
             Return Rtn
         End If
-        Console.WriteLine("#2 used: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+        'Console.WriteLine("#2 used: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
         enterTime = DateTime.Now.Ticks
         'If 0 <> CheckPointsXYError(sheet, ErrorSheetData) Then
         '    Rtn = 1
         '    Return Rtn
         'End If
-        Console.WriteLine("#3 used: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
+        'Console.WriteLine("#3 used: " & ((DateTime.Now.Ticks - enterTime) / 10000).ToString())
         Return Rtn
         TraceGCCollect()
     End Function

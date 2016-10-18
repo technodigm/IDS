@@ -283,7 +283,7 @@ Public Class EventSettings
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox1)
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox3)
         Me.PanelToBeAdded.Controls.Add(Me.GroupBox2)
-        Me.PanelToBeAdded.Location = New System.Drawing.Point(144, -48)
+        Me.PanelToBeAdded.Location = New System.Drawing.Point(144, 8)
         Me.PanelToBeAdded.Name = "PanelToBeAdded"
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
         Me.PanelToBeAdded.TabIndex = 13
@@ -349,7 +349,7 @@ Public Class EventSettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(408, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 50
@@ -449,7 +449,8 @@ Public Class EventSettings
         RevertData()
     End Sub
 
-    Public Sub RevertData()
+    Public Sub RevertData(Optional ByVal hideexit As Boolean = False)
+        ButtonExit.Visible = Not hideexit
         IDS.Data.OpenData()
         RB_ChipPrompt.Checked = IDS.Data.Hardware.SPC.ChipFailedAction
         RB_HeightPrompt.Checked = IDS.Data.Hardware.SPC.HeightFailedAction

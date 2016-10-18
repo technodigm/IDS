@@ -503,9 +503,11 @@ Public Class DispenserSettings
         Me.RPM.DecimalPlaces = 1
         Me.RPM.Location = New System.Drawing.Point(168, 40)
         Me.RPM.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
+        Me.RPM.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.RPM.Name = "RPM"
         Me.RPM.Size = New System.Drawing.Size(72, 27)
         Me.RPM.TabIndex = 69
+        Me.RPM.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'AugerTemperature
         '
@@ -559,6 +561,7 @@ Public Class DispenserSettings
         Me.GroupBox4.TabIndex = 67
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "QC Settings"
+        Me.GroupBox4.Visible = False
         '
         'cbEnableGlobalQC
         '
@@ -583,7 +586,7 @@ Public Class DispenserSettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(416, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 65
@@ -608,6 +611,7 @@ Public Class DispenserSettings
         Me.ButtonRevert.Size = New System.Drawing.Size(75, 40)
         Me.ButtonRevert.TabIndex = 49
         Me.ButtonRevert.Text = "Revert"
+        Me.ButtonRevert.Visible = False
         '
         'GroupBox2
         '
@@ -974,7 +978,10 @@ Public Class DispenserSettings
         SaveData()
     End Sub
 
-    Public Sub RevertData()
+    Public Sub RevertData(Optional ByVal hideExit As Boolean = False)
+
+        ButtonExit.Visible = Not (hideExit)
+
         IDS.Data.OpenData()
         If IDS.Data.Hardware.Dispenser.CurrentHeads = 1 Then
             CurrentHeads.Enabled = False

@@ -39,12 +39,6 @@ Public Class HardwareCommunicationSetup
     Friend WithEvents ButtonDispenseLifterON As System.Windows.Forms.Button
     Friend WithEvents ButtonPreLifterOn As System.Windows.Forms.Button
     Friend WithEvents Label17 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-    Friend WithEvents HeaterStatus As System.Windows.Forms.Label
-    Friend WithEvents LifterStatus As System.Windows.Forms.Label
-    Friend WithEvents ConveyorStatus As System.Windows.Forms.Label
-    Friend WithEvents MotionControllerStatus As System.Windows.Forms.Label
-    Friend WithEvents WeighingScaleStatus As System.Windows.Forms.Label
     Friend WithEvents ConveyorBox As System.Windows.Forms.GroupBox
     Friend WithEvents LifterBox As System.Windows.Forms.GroupBox
     Friend WithEvents HeaterButton As System.Windows.Forms.Button
@@ -65,24 +59,17 @@ Public Class HardwareCommunicationSetup
         Me.Label17 = New System.Windows.Forms.Label
         Me.ConveyorBox = New System.Windows.Forms.GroupBox
         Me.BT_UpSignal = New System.Windows.Forms.Button
+        Me.BT_Retrieve = New System.Windows.Forms.Button
+        Me.BT_Release = New System.Windows.Forms.Button
         Me.BT_DownSignal = New System.Windows.Forms.Button
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.HeaterStatus = New System.Windows.Forms.Label
-        Me.LifterStatus = New System.Windows.Forms.Label
-        Me.WeighingScaleStatus = New System.Windows.Forms.Label
-        Me.MotionControllerStatus = New System.Windows.Forms.Label
-        Me.ConveyorStatus = New System.Windows.Forms.Label
+        Me.ResetPLCLogic = New System.Windows.Forms.Button
         Me.WeighingScaleButton = New System.Windows.Forms.Button
         Me.ConveyorButton = New System.Windows.Forms.Button
         Me.HeaterButton = New System.Windows.Forms.Button
         Me.LaserButton = New System.Windows.Forms.Button
-        Me.ResetPLCLogic = New System.Windows.Forms.Button
-        Me.BT_Retrieve = New System.Windows.Forms.Button
-        Me.BT_Release = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.LifterBox.SuspendLayout()
         Me.ConveyorBox.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'PanelToBeAdded
@@ -92,7 +79,6 @@ Public Class HardwareCommunicationSetup
         Me.PanelToBeAdded.Controls.Add(Me.LifterBox)
         Me.PanelToBeAdded.Controls.Add(Me.Label17)
         Me.PanelToBeAdded.Controls.Add(Me.ConveyorBox)
-        Me.PanelToBeAdded.Controls.Add(Me.GroupBox2)
         Me.PanelToBeAdded.Controls.Add(Me.WeighingScaleButton)
         Me.PanelToBeAdded.Controls.Add(Me.ConveyorButton)
         Me.PanelToBeAdded.Controls.Add(Me.HeaterButton)
@@ -108,7 +94,7 @@ Public Class HardwareCommunicationSetup
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(408, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 48
@@ -164,7 +150,7 @@ Public Class HardwareCommunicationSetup
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(176, 32)
         Me.Label17.TabIndex = 33
-        Me.Label17.Text = "Hardware Setup"
+        Me.Label17.Text = "Hardware"
         '
         'ConveyorBox
         '
@@ -190,116 +176,6 @@ Public Class HardwareCommunicationSetup
         Me.BT_UpSignal.TabIndex = 21
         Me.BT_UpSignal.Text = "Up-Flow"
         '
-        'BT_DownSignal
-        '
-        Me.BT_DownSignal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BT_DownSignal.Location = New System.Drawing.Point(128, 48)
-        Me.BT_DownSignal.Name = "BT_DownSignal"
-        Me.BT_DownSignal.Size = New System.Drawing.Size(88, 48)
-        Me.BT_DownSignal.TabIndex = 22
-        Me.BT_DownSignal.Text = "Down-Flow"
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.HeaterStatus)
-        Me.GroupBox2.Controls.Add(Me.LifterStatus)
-        Me.GroupBox2.Controls.Add(Me.WeighingScaleStatus)
-        Me.GroupBox2.Controls.Add(Me.MotionControllerStatus)
-        Me.GroupBox2.Controls.Add(Me.ConveyorStatus)
-        Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(16, 64)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(232, 270)
-        Me.GroupBox2.TabIndex = 3
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Communication Interfaces"
-        '
-        'HeaterStatus
-        '
-        Me.HeaterStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.HeaterStatus.Location = New System.Drawing.Point(16, 168)
-        Me.HeaterStatus.Name = "HeaterStatus"
-        Me.HeaterStatus.Size = New System.Drawing.Size(64, 24)
-        Me.HeaterStatus.TabIndex = 0
-        Me.HeaterStatus.Text = "Heater"
-        '
-        'LifterStatus
-        '
-        Me.LifterStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LifterStatus.Location = New System.Drawing.Point(16, 208)
-        Me.LifterStatus.Name = "LifterStatus"
-        Me.LifterStatus.Size = New System.Drawing.Size(48, 24)
-        Me.LifterStatus.TabIndex = 0
-        Me.LifterStatus.Text = "Lifter"
-        '
-        'WeighingScaleStatus
-        '
-        Me.WeighingScaleStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.WeighingScaleStatus.Location = New System.Drawing.Point(16, 128)
-        Me.WeighingScaleStatus.Name = "WeighingScaleStatus"
-        Me.WeighingScaleStatus.Size = New System.Drawing.Size(136, 24)
-        Me.WeighingScaleStatus.TabIndex = 0
-        Me.WeighingScaleStatus.Text = "Weighing Scale"
-        '
-        'MotionControllerStatus
-        '
-        Me.MotionControllerStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MotionControllerStatus.Location = New System.Drawing.Point(16, 48)
-        Me.MotionControllerStatus.Name = "MotionControllerStatus"
-        Me.MotionControllerStatus.Size = New System.Drawing.Size(144, 24)
-        Me.MotionControllerStatus.TabIndex = 0
-        Me.MotionControllerStatus.Text = "Motion Controller"
-        '
-        'ConveyorStatus
-        '
-        Me.ConveyorStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ConveyorStatus.Location = New System.Drawing.Point(16, 88)
-        Me.ConveyorStatus.Name = "ConveyorStatus"
-        Me.ConveyorStatus.Size = New System.Drawing.Size(88, 24)
-        Me.ConveyorStatus.TabIndex = 0
-        Me.ConveyorStatus.Text = "Conveyor"
-        '
-        'WeighingScaleButton
-        '
-        Me.WeighingScaleButton.Location = New System.Drawing.Point(16, 488)
-        Me.WeighingScaleButton.Name = "WeighingScaleButton"
-        Me.WeighingScaleButton.Size = New System.Drawing.Size(232, 40)
-        Me.WeighingScaleButton.TabIndex = 49
-        Me.WeighingScaleButton.Text = "Weighing Scale Interface"
-        '
-        'ConveyorButton
-        '
-        Me.ConveyorButton.Location = New System.Drawing.Point(16, 360)
-        Me.ConveyorButton.Name = "ConveyorButton"
-        Me.ConveyorButton.Size = New System.Drawing.Size(232, 40)
-        Me.ConveyorButton.TabIndex = 49
-        Me.ConveyorButton.Text = "Conveyor Interface"
-        '
-        'HeaterButton
-        '
-        Me.HeaterButton.Location = New System.Drawing.Point(16, 552)
-        Me.HeaterButton.Name = "HeaterButton"
-        Me.HeaterButton.Size = New System.Drawing.Size(232, 40)
-        Me.HeaterButton.TabIndex = 49
-        Me.HeaterButton.Text = "Heater Interface"
-        '
-        'LaserButton
-        '
-        Me.LaserButton.Location = New System.Drawing.Point(16, 424)
-        Me.LaserButton.Name = "LaserButton"
-        Me.LaserButton.Size = New System.Drawing.Size(232, 40)
-        Me.LaserButton.TabIndex = 49
-        Me.LaserButton.Text = "Laser Interface"
-        '
-        'ResetPLCLogic
-        '
-        Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetPLCLogic.Location = New System.Drawing.Point(16, 192)
-        Me.ResetPLCLogic.Name = "ResetPLCLogic"
-        Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
-        Me.ResetPLCLogic.TabIndex = 31
-        Me.ResetPLCLogic.Text = "Reset PLC Logic"
-        '
         'BT_Retrieve
         '
         Me.BT_Retrieve.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -318,6 +194,56 @@ Public Class HardwareCommunicationSetup
         Me.BT_Release.TabIndex = 20
         Me.BT_Release.Text = "Release"
         '
+        'BT_DownSignal
+        '
+        Me.BT_DownSignal.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BT_DownSignal.Location = New System.Drawing.Point(128, 48)
+        Me.BT_DownSignal.Name = "BT_DownSignal"
+        Me.BT_DownSignal.Size = New System.Drawing.Size(88, 48)
+        Me.BT_DownSignal.TabIndex = 22
+        Me.BT_DownSignal.Text = "Down-Flow"
+        '
+        'ResetPLCLogic
+        '
+        Me.ResetPLCLogic.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ResetPLCLogic.Location = New System.Drawing.Point(16, 192)
+        Me.ResetPLCLogic.Name = "ResetPLCLogic"
+        Me.ResetPLCLogic.Size = New System.Drawing.Size(200, 48)
+        Me.ResetPLCLogic.TabIndex = 31
+        Me.ResetPLCLogic.Text = "Reset PLC Logic"
+        '
+        'WeighingScaleButton
+        '
+        Me.WeighingScaleButton.Location = New System.Drawing.Point(16, 200)
+        Me.WeighingScaleButton.Name = "WeighingScaleButton"
+        Me.WeighingScaleButton.Size = New System.Drawing.Size(232, 40)
+        Me.WeighingScaleButton.TabIndex = 49
+        Me.WeighingScaleButton.Text = "Weighing Scale Interface"
+        '
+        'ConveyorButton
+        '
+        Me.ConveyorButton.Location = New System.Drawing.Point(16, 72)
+        Me.ConveyorButton.Name = "ConveyorButton"
+        Me.ConveyorButton.Size = New System.Drawing.Size(232, 40)
+        Me.ConveyorButton.TabIndex = 49
+        Me.ConveyorButton.Text = "Conveyor Interface"
+        '
+        'HeaterButton
+        '
+        Me.HeaterButton.Location = New System.Drawing.Point(16, 264)
+        Me.HeaterButton.Name = "HeaterButton"
+        Me.HeaterButton.Size = New System.Drawing.Size(232, 40)
+        Me.HeaterButton.TabIndex = 49
+        Me.HeaterButton.Text = "Heater Interface"
+        '
+        'LaserButton
+        '
+        Me.LaserButton.Location = New System.Drawing.Point(16, 136)
+        Me.LaserButton.Name = "LaserButton"
+        Me.LaserButton.Size = New System.Drawing.Size(232, 40)
+        Me.LaserButton.TabIndex = 49
+        Me.LaserButton.Text = "Laser Interface"
+        '
         'HardwareCommunicationSetup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -329,7 +255,6 @@ Public Class HardwareCommunicationSetup
         Me.PanelToBeAdded.ResumeLayout(False)
         Me.LifterBox.ResumeLayout(False)
         Me.ConveyorBox.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -393,23 +318,26 @@ Public Class HardwareCommunicationSetup
     End Sub
 
     Public Sub RefreshDisplay()
-        WeighingScaleButton.Visible = MySetup.CheckBoxVolume.Checked
+        'WeighingScaleButton.Visible = MySetup.CheckBoxVolume.Checked
         HeaterButton.Visible = MySetup.CheckBoxHeater.Checked
         LifterBox.Visible = MySetup.CheckBoxLifter.Checked
     End Sub
 
     Public Sub UpdateStatus()
-        WeighingScaleStatus.Visible = MySetup.CheckBoxVolume.Checked
-        HeaterStatus.Visible = MySetup.CheckBoxHeater.Checked
-        LifterStatus.Visible = MySetup.CheckBoxLifter.Checked
+       
     End Sub
 
     Private Sub ButtonExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonExit.Click
         'Weighting_Scale.Instance.Hide()
         WeightingScaleForm.Hide()
-        Conveyor.Instance.Hide()
-        Laser.Instance.Hide()
-        OffLaser()
+        If Not (Conveyor Is Nothing) Then
+            Conveyor.HideForm()
+        End If
+
+        If Not (Laser Is Nothing) Then
+            Laser.HideForm()
+            OffLaser()
+        End If
         RemovePanel(CurrentControl)
     End Sub
 
@@ -427,11 +355,12 @@ Public Class HardwareCommunicationSetup
     End Sub
 
     Private Sub ConveyorButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConveyorButton.Click
-        Conveyor.Instance.Show()
+        Conveyor.ShowForm()
     End Sub
 
     Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LaserButton.Click
+        If Laser Is Nothing Then Return
         OnLaser()
-        Laser.Instance.Show()
+        Laser.ShowForm()
     End Sub
 End Class

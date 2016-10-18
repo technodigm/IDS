@@ -20,6 +20,8 @@ Public Class KeyboardControl
     Private Const VK_LControl As Integer = 162
     Private Const VK_RControl As Integer = 163
 
+    Private Const VK_Z As Integer = 90
+
     Public Shared ControlKeyPressed As Boolean = False
     Private Shared shiftPressed As Boolean = False
     Private Shared aKeyPressed As Boolean = False
@@ -43,13 +45,13 @@ Public Class KeyboardControl
         Dim KeyboardSruct As KBDLLHOOKSTRUCT = Marshal.PtrToStructure(lParam, GetType(KBDLLHOOKSTRUCT))
 
         'Send the message along  
-        If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
+        If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = VK_Z Or KeyboardSruct.vkCode = VK_Z) Then
             ControlKeyPressed = True
-            Console.WriteLine("Programming Key Down" & Hex(KeyboardSruct.vkCode))
+            'Console.WriteLine("Programming Key Down" & Hex(KeyboardSruct.vkCode))
         End If
-        If wParam = WM_KEYUP And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
+        If wParam = WM_KEYUP And (KeyboardSruct.vkCode = VK_Z Or KeyboardSruct.vkCode = VK_Z) Then
             ControlKeyPressed = False
-            Console.WriteLine("Programming Key Up" & Hex(KeyboardSruct.vkCode))
+            'Console.WriteLine("Programming Key Up" & Hex(KeyboardSruct.vkCode))
         End If
 
         If wParam = WM_KEYDOWN And ((KeyboardSruct.vkCode = Vk_LShift) Or (KeyboardSruct.vkCode = Vk_RShift)) Then

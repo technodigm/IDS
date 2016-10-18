@@ -93,19 +93,8 @@ Public Class FormProduction
     Friend WithEvents TimerMonitor As System.Windows.Forms.Timer
     Friend WithEvents ButtonStartFirstStage As System.Windows.Forms.Button
     Friend WithEvents ValueBrightness As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Needle As System.Windows.Forms.Label
-    Friend WithEvents Syringe As System.Windows.Forms.Label
-    Friend WithEvents Station1 As System.Windows.Forms.Label
-    Friend WithEvents Station2 As System.Windows.Forms.Label
-    Friend WithEvents Station3 As System.Windows.Forms.Label
     Friend WithEvents ContinuousMode As System.Windows.Forms.CheckBox
-    Friend WithEvents Station3Label As System.Windows.Forms.Label
-    Friend WithEvents Station2Label As System.Windows.Forms.Label
-    Friend WithEvents Station1Label As System.Windows.Forms.Label
-    Friend WithEvents NeedleLabel As System.Windows.Forms.Label
-    Friend WithEvents SyringeLabel As System.Windows.Forms.Label
     Friend WithEvents ConveyorBox As System.Windows.Forms.GroupBox
-    Friend WithEvents HeaterBox As System.Windows.Forms.GroupBox
     Friend WithEvents ResetPLCLogic As System.Windows.Forms.Button
     Friend WithEvents btExit As System.Windows.Forms.Button
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
@@ -135,9 +124,12 @@ Public Class FormProduction
     Friend WithEvents tbAutoPurgeCountDown As System.Windows.Forms.TextBox
     Friend WithEvents tbDispenserType As System.Windows.Forms.TextBox
     Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
-    Friend WithEvents btResetPressure As System.Windows.Forms.Button
     Friend WithEvents btDownStream As System.Windows.Forms.Button
     Friend WithEvents tbPressureInfo As System.Windows.Forms.TextBox
+    Friend WithEvents btResetVolumePost As System.Windows.Forms.Button
+    Friend WithEvents btResetPressure As System.Windows.Forms.Button
+    Friend WithEvents tbRobotStatus As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormProduction))
@@ -154,6 +146,8 @@ Public Class FormProduction
         Me.Label1 = New System.Windows.Forms.Label
         Me.Panel5 = New System.Windows.Forms.Panel
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.tbRobotStatus = New System.Windows.Forms.TextBox
+        Me.TextBox3 = New System.Windows.Forms.TextBox
         Me.tbDispenserType = New System.Windows.Forms.TextBox
         Me.TextBox4 = New System.Windows.Forms.TextBox
         Me.tbTime = New System.Windows.Forms.TextBox
@@ -176,40 +170,30 @@ Public Class FormProduction
         Me.btPause = New System.Windows.Forms.Button
         Me.btPlay = New System.Windows.Forms.Button
         Me.ContinuousMode = New System.Windows.Forms.CheckBox
-        Me.btExit = New System.Windows.Forms.Button
         Me.ConveyorBox = New System.Windows.Forms.GroupBox
         Me.ResetPLCLogic = New System.Windows.Forms.Button
         Me.ButtonStartFirstStage = New System.Windows.Forms.Button
         Me.ButtonCV_Prod_Release = New System.Windows.Forms.Button
         Me.ButtonCV_Prod_Retrieve = New System.Windows.Forms.Button
         Me.btDownStream = New System.Windows.Forms.Button
-        Me.HeaterBox = New System.Windows.Forms.GroupBox
-        Me.Syringe = New System.Windows.Forms.Label
-        Me.Station1 = New System.Windows.Forms.Label
-        Me.Station2 = New System.Windows.Forms.Label
-        Me.Station3 = New System.Windows.Forms.Label
-        Me.Station3Label = New System.Windows.Forms.Label
-        Me.Station2Label = New System.Windows.Forms.Label
-        Me.Needle = New System.Windows.Forms.Label
-        Me.Station1Label = New System.Windows.Forms.Label
-        Me.NeedleLabel = New System.Windows.Forms.Label
-        Me.SyringeLabel = New System.Windows.Forms.Label
-        Me.PanelProDownTimeInfor = New System.Windows.Forms.Panel
-        Me.btResetPressure = New System.Windows.Forms.Button
-        Me.rtLog = New System.Windows.Forms.RichTextBox
-        Me.CheckBoxPotOn = New System.Windows.Forms.CheckBox
         Me.DoorLock = New System.Windows.Forms.CheckBox
-        Me.ButtonPotReset = New System.Windows.Forms.Button
+        Me.btExit = New System.Windows.Forms.Button
+        Me.PanelProDownTimeInfor = New System.Windows.Forms.Panel
+        Me.rtLog = New System.Windows.Forms.RichTextBox
         Me.ButtonOpenFile = New System.Windows.Forms.Button
         Me.TextBoxFilename = New System.Windows.Forms.TextBox
         Me.Label5 = New System.Windows.Forms.Label
-        Me.ButtonNdlCalib = New System.Windows.Forms.Button
+        Me.LabelMessege = New System.Windows.Forms.Label
+        Me.btResetPressure = New System.Windows.Forms.Button
+        Me.btResetVolumePost = New System.Windows.Forms.Button
         Me.ButtonClean = New System.Windows.Forms.Button
         Me.ButtonPurge = New System.Windows.Forms.Button
         Me.ButtonChgSyringe = New System.Windows.Forms.Button
         Me.ButtonHome = New System.Windows.Forms.Button
-        Me.LabelMessege = New System.Windows.Forms.Label
+        Me.ButtonNdlCalib = New System.Windows.Forms.Button
         Me.ButtonVolCalib = New System.Windows.Forms.Button
+        Me.CheckBoxPotOn = New System.Windows.Forms.CheckBox
+        Me.ButtonPotReset = New System.Windows.Forms.Button
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.ImageListOperation = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -224,7 +208,6 @@ Public Class FormProduction
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.ConveyorBox.SuspendLayout()
-        Me.HeaterBox.SuspendLayout()
         Me.PanelProDownTimeInfor.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -269,6 +252,7 @@ Public Class FormProduction
         '
         'tbZPost
         '
+        Me.tbZPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.tbZPost.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbZPost.Location = New System.Drawing.Point(672, 3)
         Me.tbZPost.Name = "tbZPost"
@@ -279,6 +263,7 @@ Public Class FormProduction
         '
         'tbYPost
         '
+        Me.tbYPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.tbYPost.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tbYPost.Location = New System.Drawing.Point(584, 3)
         Me.tbYPost.Name = "tbYPost"
@@ -289,6 +274,7 @@ Public Class FormProduction
         '
         'ValueBrightness
         '
+        Me.ValueBrightness.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ValueBrightness.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ValueBrightness.Location = New System.Drawing.Point(80, 5)
         Me.ValueBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
@@ -299,6 +285,7 @@ Public Class FormProduction
         '
         'TextBoxRobotPos
         '
+        Me.TextBoxRobotPos.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.TextBoxRobotPos.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxRobotPos.Location = New System.Drawing.Point(496, 3)
         Me.TextBoxRobotPos.Name = "TextBoxRobotPos"
@@ -309,6 +296,7 @@ Public Class FormProduction
         '
         'Label1
         '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(10, 8)
         Me.Label1.Name = "Label1"
@@ -321,18 +309,18 @@ Public Class FormProduction
         Me.Panel5.BackColor = System.Drawing.SystemColors.Control
         Me.Panel5.Controls.Add(Me.GroupBox2)
         Me.Panel5.Controls.Add(Me.GroupBox1)
-        Me.Panel5.Controls.Add(Me.btExit)
         Me.Panel5.Controls.Add(Me.ConveyorBox)
-        Me.Panel5.Controls.Add(Me.HeaterBox)
         Me.Panel5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Panel5.ForeColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(0, Byte), CType(0, Byte))
-        Me.Panel5.Location = New System.Drawing.Point(768, 0)
+        Me.Panel5.Location = New System.Drawing.Point(768, 64)
         Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(504, 992)
+        Me.Panel5.Size = New System.Drawing.Size(504, 900)
         Me.Panel5.TabIndex = 0
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.tbRobotStatus)
+        Me.GroupBox2.Controls.Add(Me.TextBox3)
         Me.GroupBox2.Controls.Add(Me.tbDispenserType)
         Me.GroupBox2.Controls.Add(Me.TextBox4)
         Me.GroupBox2.Controls.Add(Me.tbTime)
@@ -346,11 +334,37 @@ Public Class FormProduction
         Me.GroupBox2.Controls.Add(Me.tbPressureInfo)
         Me.GroupBox2.Controls.Add(Me.tbEquipmentID)
         Me.GroupBox2.Controls.Add(Me.TextBox1)
-        Me.GroupBox2.Location = New System.Drawing.Point(16, 216)
+        Me.GroupBox2.Location = New System.Drawing.Point(16, 224)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(480, 280)
+        Me.GroupBox2.Size = New System.Drawing.Size(480, 312)
         Me.GroupBox2.TabIndex = 143
         Me.GroupBox2.TabStop = False
+        '
+        'tbRobotStatus
+        '
+        Me.tbRobotStatus.BackColor = System.Drawing.SystemColors.Control
+        Me.tbRobotStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.tbRobotStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbRobotStatus.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.tbRobotStatus.Location = New System.Drawing.Point(196, 264)
+        Me.tbRobotStatus.Name = "tbRobotStatus"
+        Me.tbRobotStatus.ReadOnly = True
+        Me.tbRobotStatus.Size = New System.Drawing.Size(272, 31)
+        Me.tbRobotStatus.TabIndex = 15
+        Me.tbRobotStatus.Text = ""
+        Me.tbRobotStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox3
+        '
+        Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox3.Location = New System.Drawing.Point(12, 264)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.ReadOnly = True
+        Me.TextBox3.Size = New System.Drawing.Size(184, 31)
+        Me.TextBox3.TabIndex = 14
+        Me.TextBox3.Text = "Robot Connection:"
+        Me.TextBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'tbDispenserType
         '
@@ -517,7 +531,7 @@ Public Class FormProduction
         Me.GroupBox1.Controls.Add(Me.ContinuousMode)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox1.Location = New System.Drawing.Point(16, 0)
+        Me.GroupBox1.Location = New System.Drawing.Point(16, 8)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(480, 216)
         Me.GroupBox1.TabIndex = 142
@@ -601,16 +615,6 @@ Public Class FormProduction
         Me.ContinuousMode.TabIndex = 141
         Me.ContinuousMode.Text = "Auto Process"
         '
-        'btExit
-        '
-        Me.btExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btExit.ForeColor = System.Drawing.Color.Black
-        Me.btExit.Location = New System.Drawing.Point(360, 904)
-        Me.btExit.Name = "btExit"
-        Me.btExit.Size = New System.Drawing.Size(120, 64)
-        Me.btExit.TabIndex = 133
-        Me.btExit.Text = "Exit"
-        '
         'ConveyorBox
         '
         Me.ConveyorBox.BackColor = System.Drawing.SystemColors.Control
@@ -621,7 +625,7 @@ Public Class FormProduction
         Me.ConveyorBox.Controls.Add(Me.btDownStream)
         Me.ConveyorBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ConveyorBox.ForeColor = System.Drawing.Color.Black
-        Me.ConveyorBox.Location = New System.Drawing.Point(16, 520)
+        Me.ConveyorBox.Location = New System.Drawing.Point(16, 544)
         Me.ConveyorBox.Name = "ConveyorBox"
         Me.ConveyorBox.Size = New System.Drawing.Size(480, 160)
         Me.ConveyorBox.TabIndex = 130
@@ -673,192 +677,6 @@ Public Class FormProduction
         Me.btDownStream.TabIndex = 144
         Me.btDownStream.Text = "Eject"
         '
-        'HeaterBox
-        '
-        Me.HeaterBox.BackColor = System.Drawing.SystemColors.Control
-        Me.HeaterBox.Controls.Add(Me.Syringe)
-        Me.HeaterBox.Controls.Add(Me.Station1)
-        Me.HeaterBox.Controls.Add(Me.Station2)
-        Me.HeaterBox.Controls.Add(Me.Station3)
-        Me.HeaterBox.Controls.Add(Me.Station3Label)
-        Me.HeaterBox.Controls.Add(Me.Station2Label)
-        Me.HeaterBox.Controls.Add(Me.Needle)
-        Me.HeaterBox.Controls.Add(Me.Station1Label)
-        Me.HeaterBox.Controls.Add(Me.NeedleLabel)
-        Me.HeaterBox.Controls.Add(Me.SyringeLabel)
-        Me.HeaterBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.HeaterBox.ForeColor = System.Drawing.Color.Black
-        Me.HeaterBox.Location = New System.Drawing.Point(16, 712)
-        Me.HeaterBox.Name = "HeaterBox"
-        Me.HeaterBox.Size = New System.Drawing.Size(480, 160)
-        Me.HeaterBox.TabIndex = 130
-        Me.HeaterBox.TabStop = False
-        Me.HeaterBox.Text = "Thermal Readings"
-        Me.HeaterBox.Visible = False
-        '
-        'Syringe
-        '
-        Me.Syringe.ForeColor = System.Drawing.Color.Red
-        Me.Syringe.Location = New System.Drawing.Point(304, 32)
-        Me.Syringe.Name = "Syringe"
-        Me.Syringe.Size = New System.Drawing.Size(56, 24)
-        Me.Syringe.TabIndex = 143
-        Me.Syringe.Text = "50 oC"
-        Me.Syringe.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Station1
-        '
-        Me.Station1.ForeColor = System.Drawing.Color.Red
-        Me.Station1.Location = New System.Drawing.Point(72, 128)
-        Me.Station1.Name = "Station1"
-        Me.Station1.Size = New System.Drawing.Size(56, 24)
-        Me.Station1.TabIndex = 143
-        Me.Station1.Text = "50 oC"
-        Me.Station1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Station2
-        '
-        Me.Station2.ForeColor = System.Drawing.Color.Red
-        Me.Station2.Location = New System.Drawing.Point(208, 128)
-        Me.Station2.Name = "Station2"
-        Me.Station2.Size = New System.Drawing.Size(56, 24)
-        Me.Station2.TabIndex = 143
-        Me.Station2.Text = "50 oC"
-        Me.Station2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Station3
-        '
-        Me.Station3.ForeColor = System.Drawing.Color.Red
-        Me.Station3.Location = New System.Drawing.Point(352, 128)
-        Me.Station3.Name = "Station3"
-        Me.Station3.Size = New System.Drawing.Size(56, 24)
-        Me.Station3.TabIndex = 143
-        Me.Station3.Text = "50 oC"
-        Me.Station3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Station3Label
-        '
-        Me.Station3Label.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Station3Label.Location = New System.Drawing.Point(320, 104)
-        Me.Station3Label.Name = "Station3Label"
-        Me.Station3Label.Size = New System.Drawing.Size(112, 16)
-        Me.Station3Label.TabIndex = 26
-        Me.Station3Label.Text = "Post Heater"
-        Me.Station3Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Station2Label
-        '
-        Me.Station2Label.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Station2Label.Location = New System.Drawing.Point(184, 104)
-        Me.Station2Label.Name = "Station2Label"
-        Me.Station2Label.Size = New System.Drawing.Size(112, 16)
-        Me.Station2Label.TabIndex = 25
-        Me.Station2Label.Text = "Disp. Heater"
-        Me.Station2Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Needle
-        '
-        Me.Needle.ForeColor = System.Drawing.Color.Red
-        Me.Needle.Location = New System.Drawing.Point(112, 32)
-        Me.Needle.Name = "Needle"
-        Me.Needle.Size = New System.Drawing.Size(56, 24)
-        Me.Needle.TabIndex = 143
-        Me.Needle.Text = "50 oC"
-        Me.Needle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Station1Label
-        '
-        Me.Station1Label.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Station1Label.Location = New System.Drawing.Point(48, 104)
-        Me.Station1Label.Name = "Station1Label"
-        Me.Station1Label.Size = New System.Drawing.Size(112, 16)
-        Me.Station1Label.TabIndex = 24
-        Me.Station1Label.Text = "Pre Heater"
-        Me.Station1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'NeedleLabel
-        '
-        Me.NeedleLabel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.NeedleLabel.Location = New System.Drawing.Point(84, 64)
-        Me.NeedleLabel.Name = "NeedleLabel"
-        Me.NeedleLabel.Size = New System.Drawing.Size(128, 16)
-        Me.NeedleLabel.TabIndex = 23
-        Me.NeedleLabel.Text = "Needle Heater"
-        Me.NeedleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'SyringeLabel
-        '
-        Me.SyringeLabel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.SyringeLabel.Location = New System.Drawing.Point(268, 64)
-        Me.SyringeLabel.Name = "SyringeLabel"
-        Me.SyringeLabel.Size = New System.Drawing.Size(128, 16)
-        Me.SyringeLabel.TabIndex = 22
-        Me.SyringeLabel.Text = "Syringe Heater"
-        Me.SyringeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'PanelProDownTimeInfor
-        '
-        Me.PanelProDownTimeInfor.BackColor = System.Drawing.SystemColors.Control
-        Me.PanelProDownTimeInfor.Controls.Add(Me.btResetPressure)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.rtLog)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.CheckBoxPotOn)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.DoorLock)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonPotReset)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonOpenFile)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.TextBoxFilename)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.Label5)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonNdlCalib)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonClean)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonPurge)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonChgSyringe)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonHome)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.LabelMessege)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonVolCalib)
-        Me.PanelProDownTimeInfor.Controls.Add(Me.Label7)
-        Me.PanelProDownTimeInfor.Location = New System.Drawing.Point(0, 0)
-        Me.PanelProDownTimeInfor.Name = "PanelProDownTimeInfor"
-        Me.PanelProDownTimeInfor.Size = New System.Drawing.Size(768, 384)
-        Me.PanelProDownTimeInfor.TabIndex = 6
-        '
-        'btResetPressure
-        '
-        Me.btResetPressure.BackColor = System.Drawing.SystemColors.Control
-        Me.btResetPressure.Enabled = False
-        Me.btResetPressure.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btResetPressure.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btResetPressure.ImageList = Me.ImageListPotEtc
-        Me.btResetPressure.Location = New System.Drawing.Point(616, 8)
-        Me.btResetPressure.Name = "btResetPressure"
-        Me.btResetPressure.Size = New System.Drawing.Size(75, 56)
-        Me.btResetPressure.TabIndex = 136
-        Me.btResetPressure.Text = "Reset Vol. Cal. Position"
-        '
-        'rtLog
-        '
-        Me.rtLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rtLog.HideSelection = False
-        Me.rtLog.Location = New System.Drawing.Point(8, 112)
-        Me.rtLog.Name = "rtLog"
-        Me.rtLog.ReadOnly = True
-        Me.rtLog.Size = New System.Drawing.Size(752, 224)
-        Me.rtLog.TabIndex = 135
-        Me.rtLog.Text = ""
-        '
-        'CheckBoxPotOn
-        '
-        Me.CheckBoxPotOn.Appearance = System.Windows.Forms.Appearance.Button
-        Me.CheckBoxPotOn.BackColor = System.Drawing.SystemColors.Control
-        Me.CheckBoxPotOn.Enabled = False
-        Me.CheckBoxPotOn.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxPotOn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.CheckBoxPotOn.ImageList = Me.ImageListPotEtc
-        Me.CheckBoxPotOn.Location = New System.Drawing.Point(456, 8)
-        Me.CheckBoxPotOn.Name = "CheckBoxPotOn"
-        Me.CheckBoxPotOn.Size = New System.Drawing.Size(75, 56)
-        Me.CheckBoxPotOn.TabIndex = 119
-        Me.CheckBoxPotOn.Text = "Pot Life On"
-        Me.CheckBoxPotOn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'DoorLock
         '
         Me.DoorLock.Appearance = System.Windows.Forms.Appearance.Button
@@ -866,34 +684,57 @@ Public Class FormProduction
         Me.DoorLock.Checked = True
         Me.DoorLock.CheckState = System.Windows.Forms.CheckState.Checked
         Me.DoorLock.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DoorLock.ForeColor = System.Drawing.Color.Black
         Me.DoorLock.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.DoorLock.ImageList = Me.ImageListPotEtc
-        Me.DoorLock.Location = New System.Drawing.Point(688, 8)
+        Me.DoorLock.Location = New System.Drawing.Point(928, 8)
         Me.DoorLock.Name = "DoorLock"
         Me.DoorLock.Size = New System.Drawing.Size(75, 56)
         Me.DoorLock.TabIndex = 116
         Me.DoorLock.Text = "Lock Door"
         Me.DoorLock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'ButtonPotReset
+        'btExit
         '
-        Me.ButtonPotReset.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonPotReset.Enabled = False
-        Me.ButtonPotReset.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonPotReset.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonPotReset.ImageList = Me.ImageListPotEtc
-        Me.ButtonPotReset.Location = New System.Drawing.Point(536, 8)
-        Me.ButtonPotReset.Name = "ButtonPotReset"
-        Me.ButtonPotReset.Size = New System.Drawing.Size(75, 56)
-        Me.ButtonPotReset.TabIndex = 105
-        Me.ButtonPotReset.Text = "Reset Pot"
+        Me.btExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btExit.ForeColor = System.Drawing.Color.Black
+        Me.btExit.Location = New System.Drawing.Point(1192, 8)
+        Me.btExit.Name = "btExit"
+        Me.btExit.Size = New System.Drawing.Size(72, 56)
+        Me.btExit.TabIndex = 133
+        Me.btExit.Text = "Exit"
+        '
+        'PanelProDownTimeInfor
+        '
+        Me.PanelProDownTimeInfor.BackColor = System.Drawing.SystemColors.Control
+        Me.PanelProDownTimeInfor.Controls.Add(Me.rtLog)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.ButtonOpenFile)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.TextBoxFilename)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.Label5)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.Label7)
+        Me.PanelProDownTimeInfor.Controls.Add(Me.LabelMessege)
+        Me.PanelProDownTimeInfor.Location = New System.Drawing.Point(0, 64)
+        Me.PanelProDownTimeInfor.Name = "PanelProDownTimeInfor"
+        Me.PanelProDownTimeInfor.Size = New System.Drawing.Size(768, 312)
+        Me.PanelProDownTimeInfor.TabIndex = 6
+        '
+        'rtLog
+        '
+        Me.rtLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rtLog.HideSelection = False
+        Me.rtLog.Location = New System.Drawing.Point(8, 40)
+        Me.rtLog.Name = "rtLog"
+        Me.rtLog.ReadOnly = True
+        Me.rtLog.Size = New System.Drawing.Size(752, 224)
+        Me.rtLog.TabIndex = 135
+        Me.rtLog.Text = ""
         '
         'ButtonOpenFile
         '
         Me.ButtonOpenFile.BackColor = System.Drawing.SystemColors.Control
         Me.ButtonOpenFile.Enabled = False
         Me.ButtonOpenFile.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonOpenFile.Location = New System.Drawing.Point(680, 80)
+        Me.ButtonOpenFile.Location = New System.Drawing.Point(680, 8)
         Me.ButtonOpenFile.Name = "ButtonOpenFile"
         Me.ButtonOpenFile.Size = New System.Drawing.Size(64, 27)
         Me.ButtonOpenFile.TabIndex = 96
@@ -904,35 +745,60 @@ Public Class FormProduction
         Me.TextBoxFilename.BackColor = System.Drawing.SystemColors.Control
         Me.TextBoxFilename.Enabled = False
         Me.TextBoxFilename.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.TextBoxFilename.Location = New System.Drawing.Point(56, 80)
+        Me.TextBoxFilename.Location = New System.Drawing.Point(56, 8)
         Me.TextBoxFilename.Name = "TextBoxFilename"
         Me.TextBoxFilename.ReadOnly = True
         Me.TextBoxFilename.Size = New System.Drawing.Size(608, 27)
         Me.TextBoxFilename.TabIndex = 95
-        Me.TextBoxFilename.Text = ""
+        Me.TextBoxFilename.Text = "Please select production file......"
         '
         'Label5
         '
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label5.Location = New System.Drawing.Point(8, 80)
+        Me.Label5.Location = New System.Drawing.Point(8, 8)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(48, 23)
         Me.Label5.TabIndex = 94
         Me.Label5.Text = "File :"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'ButtonNdlCalib
+        'LabelMessege
         '
-        Me.ButtonNdlCalib.BackColor = System.Drawing.SystemColors.Control
-        Me.ButtonNdlCalib.Enabled = False
-        Me.ButtonNdlCalib.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonNdlCalib.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonNdlCalib.ImageList = Me.ImageListGeneralTools
-        Me.ButtonNdlCalib.Location = New System.Drawing.Point(308, 8)
-        Me.ButtonNdlCalib.Name = "ButtonNdlCalib"
-        Me.ButtonNdlCalib.Size = New System.Drawing.Size(75, 56)
-        Me.ButtonNdlCalib.TabIndex = 91
-        Me.ButtonNdlCalib.Text = "Need. Cal."
+        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Control
+        Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelMessege.ForeColor = System.Drawing.Color.Black
+        Me.LabelMessege.Location = New System.Drawing.Point(8, 272)
+        Me.LabelMessege.Name = "LabelMessege"
+        Me.LabelMessege.Size = New System.Drawing.Size(752, 32)
+        Me.LabelMessege.TabIndex = 85
+        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'btResetPressure
+        '
+        Me.btResetPressure.BackColor = System.Drawing.SystemColors.Control
+        Me.btResetPressure.Enabled = False
+        Me.btResetPressure.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btResetPressure.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btResetPressure.ImageList = Me.ImageListPotEtc
+        Me.btResetPressure.Location = New System.Drawing.Point(652, 8)
+        Me.btResetPressure.Name = "btResetPressure"
+        Me.btResetPressure.Size = New System.Drawing.Size(75, 56)
+        Me.btResetPressure.TabIndex = 137
+        Me.btResetPressure.Text = "Reset Vol. Cal. Settings"
+        '
+        'btResetVolumePost
+        '
+        Me.btResetVolumePost.BackColor = System.Drawing.SystemColors.Control
+        Me.btResetVolumePost.Enabled = False
+        Me.btResetVolumePost.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btResetVolumePost.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btResetVolumePost.ImageList = Me.ImageListPotEtc
+        Me.btResetVolumePost.Location = New System.Drawing.Point(560, 8)
+        Me.btResetVolumePost.Name = "btResetVolumePost"
+        Me.btResetVolumePost.Size = New System.Drawing.Size(75, 56)
+        Me.btResetVolumePost.TabIndex = 136
+        Me.btResetVolumePost.Text = "Reset Vol. Cal. Position"
         '
         'ButtonClean
         '
@@ -941,7 +807,7 @@ Public Class FormProduction
         Me.ButtonClean.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonClean.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonClean.ImageList = Me.ImageListGeneralTools
-        Me.ButtonClean.Location = New System.Drawing.Point(158, 8)
+        Me.ButtonClean.Location = New System.Drawing.Point(284, 8)
         Me.ButtonClean.Name = "ButtonClean"
         Me.ButtonClean.Size = New System.Drawing.Size(75, 56)
         Me.ButtonClean.TabIndex = 89
@@ -954,7 +820,7 @@ Public Class FormProduction
         Me.ButtonPurge.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonPurge.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonPurge.ImageList = Me.ImageListGeneralTools
-        Me.ButtonPurge.Location = New System.Drawing.Point(83, 8)
+        Me.ButtonPurge.Location = New System.Drawing.Point(192, 8)
         Me.ButtonPurge.Name = "ButtonPurge"
         Me.ButtonPurge.Size = New System.Drawing.Size(75, 56)
         Me.ButtonPurge.TabIndex = 88
@@ -967,7 +833,7 @@ Public Class FormProduction
         Me.ButtonChgSyringe.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonChgSyringe.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonChgSyringe.ImageList = Me.ImageListGeneralTools
-        Me.ButtonChgSyringe.Location = New System.Drawing.Point(383, 8)
+        Me.ButtonChgSyringe.Location = New System.Drawing.Point(376, 8)
         Me.ButtonChgSyringe.Name = "ButtonChgSyringe"
         Me.ButtonChgSyringe.Size = New System.Drawing.Size(75, 56)
         Me.ButtonChgSyringe.TabIndex = 87
@@ -986,17 +852,18 @@ Public Class FormProduction
         Me.ButtonHome.TabIndex = 86
         Me.ButtonHome.Text = "Home"
         '
-        'LabelMessege
+        'ButtonNdlCalib
         '
-        Me.LabelMessege.BackColor = System.Drawing.SystemColors.Control
-        Me.LabelMessege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LabelMessege.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelMessege.ForeColor = System.Drawing.Color.Black
-        Me.LabelMessege.Location = New System.Drawing.Point(8, 344)
-        Me.LabelMessege.Name = "LabelMessege"
-        Me.LabelMessege.Size = New System.Drawing.Size(752, 32)
-        Me.LabelMessege.TabIndex = 85
-        Me.LabelMessege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ButtonNdlCalib.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonNdlCalib.Enabled = False
+        Me.ButtonNdlCalib.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonNdlCalib.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonNdlCalib.ImageList = Me.ImageListGeneralTools
+        Me.ButtonNdlCalib.Location = New System.Drawing.Point(100, 8)
+        Me.ButtonNdlCalib.Name = "ButtonNdlCalib"
+        Me.ButtonNdlCalib.Size = New System.Drawing.Size(75, 56)
+        Me.ButtonNdlCalib.TabIndex = 91
+        Me.ButtonNdlCalib.Text = "Calibrate Needle"
         '
         'ButtonVolCalib
         '
@@ -1005,11 +872,41 @@ Public Class FormProduction
         Me.ButtonVolCalib.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonVolCalib.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.ButtonVolCalib.ImageList = Me.ImageListGeneralTools
-        Me.ButtonVolCalib.Location = New System.Drawing.Point(233, 8)
+        Me.ButtonVolCalib.Location = New System.Drawing.Point(468, 8)
         Me.ButtonVolCalib.Name = "ButtonVolCalib"
         Me.ButtonVolCalib.Size = New System.Drawing.Size(75, 56)
         Me.ButtonVolCalib.TabIndex = 90
-        Me.ButtonVolCalib.Text = "Vol. Cal."
+        Me.ButtonVolCalib.Text = "Calibrate Volume"
+        '
+        'CheckBoxPotOn
+        '
+        Me.CheckBoxPotOn.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CheckBoxPotOn.BackColor = System.Drawing.SystemColors.Control
+        Me.CheckBoxPotOn.Enabled = False
+        Me.CheckBoxPotOn.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxPotOn.ForeColor = System.Drawing.Color.Black
+        Me.CheckBoxPotOn.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.CheckBoxPotOn.ImageList = Me.ImageListPotEtc
+        Me.CheckBoxPotOn.Location = New System.Drawing.Point(744, 8)
+        Me.CheckBoxPotOn.Name = "CheckBoxPotOn"
+        Me.CheckBoxPotOn.Size = New System.Drawing.Size(75, 56)
+        Me.CheckBoxPotOn.TabIndex = 119
+        Me.CheckBoxPotOn.Text = "Pot Life On"
+        Me.CheckBoxPotOn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'ButtonPotReset
+        '
+        Me.ButtonPotReset.BackColor = System.Drawing.SystemColors.Control
+        Me.ButtonPotReset.Enabled = False
+        Me.ButtonPotReset.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonPotReset.ForeColor = System.Drawing.Color.Black
+        Me.ButtonPotReset.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.ButtonPotReset.ImageList = Me.ImageListPotEtc
+        Me.ButtonPotReset.Location = New System.Drawing.Point(836, 8)
+        Me.ButtonPotReset.Name = "ButtonPotReset"
+        Me.ButtonPotReset.Size = New System.Drawing.Size(75, 56)
+        Me.ButtonPotReset.TabIndex = 105
+        Me.ButtonPotReset.Text = "Reset Pot"
         '
         'ImageListOperation
         '
@@ -1048,6 +945,18 @@ Public Class FormProduction
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.PanelProDownTimeInfor)
         Me.Controls.Add(Me.Panel2)
+        Me.Controls.Add(Me.CheckBoxPotOn)
+        Me.Controls.Add(Me.ButtonPotReset)
+        Me.Controls.Add(Me.DoorLock)
+        Me.Controls.Add(Me.btExit)
+        Me.Controls.Add(Me.ButtonHome)
+        Me.Controls.Add(Me.btResetPressure)
+        Me.Controls.Add(Me.btResetVolumePost)
+        Me.Controls.Add(Me.ButtonNdlCalib)
+        Me.Controls.Add(Me.ButtonClean)
+        Me.Controls.Add(Me.ButtonVolCalib)
+        Me.Controls.Add(Me.ButtonPurge)
+        Me.Controls.Add(Me.ButtonChgSyringe)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Menu = Me.MainMenuProduction
         Me.Name = "FormProduction"
@@ -1060,30 +969,48 @@ Public Class FormProduction
         Me.GroupBox1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.ConveyorBox.ResumeLayout(False)
-        Me.HeaterBox.ResumeLayout(False)
         Me.PanelProDownTimeInfor.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
-
+    Public firstLoad As Boolean = False
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         logger = log4net.LogManager.GetLogger("Opt")
+        firstLoad = True
+        trioMotionConnection = False
+        If Not (Weighting_Scale Is Nothing) Then
+            If Weighting_Scale.OpenPort() Then
+                ButtonVolCalib.Enabled = True
+            Else
+                ButtonVolCalib.Enabled = False
+            End If
+        Else 'Remove weighting scale relate gui
+            ButtonVolCalib.Visible = False
+            btResetVolumePost.Visible = False
+            btResetPressure.Visible = False
+        End If
+        If Conveyor Is Nothing Then
+            ConveyorBox.Visible = False
+        End If
         TimeDisplayTimer.Start()
-        Init()
-        While isInited = False
-            Application.DoEvents()
-        End While
-        'reset!
-        ResetToIdle()
+        'vision
+        panelVision.Controls.Add(Vision.FrmVision.PanelVision) 'lsgoh
+        SwitchToTeachCamera()
+        'Init()
+        'While isInited = False
+        '    Application.DoEvents()
+        'End While
+        ''reset!
+        'ResetToIdle()
         'gui visibility
-        HeaterBox.Visible = IDS.Data.Hardware.Thermal.HeaterFeatureEnabled
+        'HeaterBox.Visible = IDS.Data.Hardware.Thermal.HeaterFeatureEnabled
 
         'initialize private flags
         HasBeenRunning = False
         m_PotLifeOn = False
-        TextBoxFilename.Text = " "
+        'TextBoxFilename.Text = " "
         ProductionInfoDispClear()
 
         m_Execution.m_Pattern.SubCallSheetInitialization(200)     '200 subsheets maximum without duplicated name
@@ -1107,6 +1034,21 @@ Public Class FormProduction
         'error handling message
         Form_Service.ResetEventCode()
 
+        Init()
+        Dim stime = DateTime.Now.Ticks
+        While isInited = False
+            Application.DoEvents()
+            If (DateTime.Now.Ticks - stime) / 10000 > 10000 Then Exit While
+        End While
+        'reset!
+        If Not isInited Then
+            btExit.Enabled = True
+            ButtonOpenFile.Enabled = False
+        Else
+            ResetToIdle()
+        End If
+
+        ButtonVolCalib.Enabled = False
         'background threads help to update UI without slowing them down.
         ThreadMonitor = New Threading.Thread(AddressOf StateMonitor)
         ThreadMonitor.Priority = Threading.ThreadPriority.Normal
@@ -1118,14 +1060,25 @@ Public Class FormProduction
         ThreadExecutor.Start()
 
         'hardware
-        Laser.OpenPort()
-        Weighting_Scale.OpenPort()
-        'conveyor
-        Conveyor.OpenPort()
+        If Not (Laser Is Nothing) Then
+            Laser.OpenPort()
+        End If
 
-        'vision
-        panelVision.Controls.Add(Vision.FrmVision.PanelVision) 'lsgoh
-        SwitchToTeachCamera()
+
+
+        'conveyor
+        If Not (Conveyor Is Nothing) Then
+            If Not Conveyor.OpenPort() Then
+
+                ConveyorBox.Enabled = False
+            Else
+                ConveyorBox.Enabled = True
+            End If
+        End If
+
+        ''vision
+        'panelVision.Controls.Add(Vision.FrmVision.PanelVision) 'lsgoh
+        'SwitchToTeachCamera()
         Try
             ValueBrightness.Value = IDS.Data.Hardware.Camera.Brightness
         Catch ex As Exception
@@ -1142,7 +1095,9 @@ Public Class FormProduction
         TimerMonitor.Enabled = True
         TimerMonitor.Start()
         Programming.IOCheck.Start()
-        Conveyor.PositionTimer.Start()
+        If Not (Conveyor Is Nothing) Then
+            Conveyor.ActivePositionTimer(True)
+        End If
 
         '' background threads help to update UI without slowing them down.
         'ThreadMonitor = New Threading.Thread(AddressOf StateMonitor)
@@ -1153,9 +1108,9 @@ Public Class FormProduction
         'ThreadExecutor = New Threading.Thread(AddressOf StateChanger)
         'ThreadExecutor.Priority = Threading.ThreadPriority.Normal
         'ThreadExecutor.Start()
-
-        SetState("Homing")
-
+        If isInited Then
+            SetState("Homing")
+        End If
     End Sub
 
     Private Sub FormProduction_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
@@ -1195,6 +1150,7 @@ Public Class FormProduction
     End Sub
 
     ' open file sub
+    Public fileLoaded As Boolean = False
     Private Sub OpenFile()
 
         ButtonOpenFile.Enabled = False
@@ -1217,7 +1173,7 @@ Public Class FormProduction
         LabelMessage(filename)
         TextBoxFilename.Refresh()
         'RichTextBoxNote.Refresh()
-
+        ButtonVolCalib.Enabled = True
         ProductionInfoDisp()
 
         HeaterSettings()
@@ -1234,8 +1190,14 @@ Public Class FormProduction
         'tbDispensePressure.Text = IDS.Data.Hardware.Dispenser.Left.MaterialAirPressure.ToString("0.00") + " Bar"
         tbDispenserType.Text = IDS.Data.Hardware.Dispenser.Left.HeadType
         LabelMessage("File loaded")
+        fileLoaded = True
         btPlay.Enabled = True
         Me.btResetPressure.Enabled = True
+        Me.btResetVolumePost.Enabled = True
+        Production.ButtonClean.Enabled = True
+        Production.ButtonNdlCalib.Enabled = True
+        Production.ButtonChgSyringe.Enabled = True
+        Production.ButtonPurge.Enabled = True
         If IDS.Data.Hardware.Dispenser.Left.PotLifeOption Then
             ButtonPotReset.Enabled = True
             CheckBoxPotOn.Enabled = True
@@ -1356,7 +1318,7 @@ StopCalibration:
     End Sub
 
     Private Sub ButtonVolCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolCalib.Click
-        If Me.ButtonVolCalib.Text = "Vol. Cal." Then
+        If Me.ButtonVolCalib.Text = "Calibrate Volume" Then
             SetState("Volume Calibration")
             'Me.ButtonVolCalib.Text = "Stop Vol. Cal."
         Else
@@ -1368,12 +1330,12 @@ StopCalibration:
     End Sub
 
     Private Sub ButtonNdlCalib_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNdlCalib.Click
-        If Me.ButtonNdlCalib.Text = "Need. Cal." Then
+        If Me.ButtonNdlCalib.Text = "Calibrate Needle" Then
             SetState("Needle Calibration")
-            Me.ButtonNdlCalib.Text = "Stop Need. Cal."
+            Me.ButtonNdlCalib.Text = "Stop Cal. Need."
         Else
             Me.ButtonNdlCalib.Enabled = False
-            Me.ButtonNdlCalib.Text = "Need. Cal."
+            Me.ButtonNdlCalib.Text = "Calibrate Needle"
             StopDispensing()
         End If
     End Sub
@@ -1462,39 +1424,44 @@ StopCalibration:
         ' this option allows user to choose between continuous operation or to operate   '
         ' on a single board using the buttons start, retrieve and release to control the '
         ' conveyor manually. otherwise the conveyor will be controlled by signals        '
-        Dim door_interlock As Boolean = IDS.Devices.DIO.DIO.interlockon_flag
-        Dim door_close As Boolean = IDS.Devices.DIO.DIO.doorclose_flag
-        If door_interlock And door_close = False Then
-            LabelMessage("Door is open. Please close to turn on continuous mode.")
-            Exit Sub
-        End If
-        ContinuousMode.Checked = Not ContinuousMode.Checked
-        If ContinuousMode.Checked = False Then
-            Conveyor.Command("Manual Mode")
-            If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
-                LabelMessage("Auto purging and auto cleaning is turned off.")
+        Try
+            Dim door_interlock As Boolean = IDS.Devices.DIO.DIO.interlockon_flag
+            Dim door_close As Boolean = IDS.Devices.DIO.DIO.doorclose_flag
+            If door_interlock And door_close = False Then
+                LabelMessage("Door is open. Please close to turn on continuous mode.")
+                Exit Sub
             End If
-            Conveyor.Command("Reset PLC Logic")
-            tbAutoPurgeCountDown.Text = "NA"
-        Else
-            Conveyor.Command("Auto Mode")
-            If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
-                LabelMessage("Auto purging and auto cleaning is turned on.")
+            ContinuousMode.Checked = Not ContinuousMode.Checked
+            If ContinuousMode.Checked = False Then
+                Conveyor.Command("Manual Mode")
+                If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
+                    LabelMessage("Auto purging and auto cleaning is turned off.")
+                End If
+                Conveyor.Command("Reset PLC Logic")
+                tbAutoPurgeCountDown.Text = "NA"
+            Else
+                Conveyor.Command("Auto Mode")
+                If IDS.Data.Hardware.Dispenser.Left.AutoPurgingOption Then
+                    LabelMessage("Auto purging and auto cleaning is turned on.")
+                End If
             End If
-        End If
-        If Not (ContinuousMode.Checked) Then
-            ButtonStartFirstStage.Enabled = True
-            ButtonCV_Prod_Retrieve.Enabled = True
-            ButtonCV_Prod_Release.Enabled = True
-            ResetPLCLogic.Enabled = True
-            btDownStream.Enabled = True
-        Else
-            ButtonStartFirstStage.Enabled = False
-            ButtonCV_Prod_Retrieve.Enabled = False
-            ButtonCV_Prod_Release.Enabled = False
-            ResetPLCLogic.Enabled = False
-            btDownStream.Enabled = False
-        End If
+            If Not (ContinuousMode.Checked) Then
+                ButtonStartFirstStage.Enabled = True
+                ButtonCV_Prod_Retrieve.Enabled = True
+                ButtonCV_Prod_Release.Enabled = True
+                ResetPLCLogic.Enabled = True
+                btDownStream.Enabled = True
+            Else
+                ButtonStartFirstStage.Enabled = False
+                ButtonCV_Prod_Retrieve.Enabled = False
+                ButtonCV_Prod_Release.Enabled = False
+                ResetPLCLogic.Enabled = False
+                btDownStream.Enabled = False
+            End If
+        Catch ex As Exception
+
+        End Try
+        
     End Sub
 
     Private Sub ValueBrightness_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueBrightness.ValueChanged
@@ -1529,6 +1496,7 @@ StopCalibration:
 
 
     Public Sub SetConveyorSettings()
+        If Conveyor Is Nothing Then Return
         Conveyor.SetCommand("Retrieve Timer", IDS.Data.Hardware.Conveyor.TimeOut)
         Conveyor.SetCommand("Left Timer", IDS.Data.Hardware.Conveyor.upstreamTimeout)
         Conveyor.SetCommand("Right Timer", IDS.Data.Hardware.Conveyor.downstreamTimeout)
@@ -1908,17 +1876,30 @@ StopCalibration:
         Conveyor.Command("Reset Conveyor Status")
     End Sub
 
+
     Private Sub btExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExit.Click
         Dim fm As InfoForm = New InfoForm
-        fm.SetTitle("Warning")
+        fm.SetTitle("Confirmation")
         fm.AddNewLine("Are you sure you want to exit the production program?")
+        fm.Size = New Size(584, 150)
         fm.SetOKButtonText("Yes")
         fm.SetCancelButtonText("No")
         If fm.ShowDialog() = DialogResult.Cancel Then Exit Sub
         If ContinuousMode.Checked = True Then
             ContinuousMode.Checked = False
         End If
-        m_Tri.Move_Z(SafePosition)
+        If IsHoming() Then
+
+        End If
+        If m_Tri.IsOpen Then
+            If Not m_Tri.TrioStop() Then
+                MessageBox.Show("Unable to stop robot now. Please try again later!")
+                Return
+            End If
+            m_Tri.Set_Z_Speed(50)
+            m_Tri.Move_Z(SafePosition)
+        End If
+
         'error handling
         Form_Service.ResetEventCode()
 
@@ -1936,19 +1917,32 @@ StopCalibration:
         If Not (ThreadExecutor) Is Nothing Then
             ThreadExecutor.Abort()
         End If
-        Conveyor.PositionTimer.Stop()
+
+        If Not (Conveyor Is Nothing) Then
+            Conveyor.ActivePositionTimer(False)
+        End If
 
         'm_Tri.Move_Z(0)
         'motion controller
-        m_Tri.TurnOff("Material Air")
-        m_Tri.Disconnect_Controller()
+        If m_Tri.IsOpen Then
+            m_Tri.TurnOff("Material Air")
+            m_Tri.Disconnect_Controller()
+        End If
 
         'hardware
-        MyConveyorSettings.CloseConveyorSetup()
-        Conveyor.ClosePort()
-        Weighting_Scale.ClosePort()
-        Laser.ClosePort()
-        OffLaser()
+        If Not (Conveyor Is Nothing) Then
+            MyConveyorSettings.CloseConveyorSetup()
+            Conveyor.ClosePort()
+        End If
+
+        If Not (Weighting_Scale Is Nothing) Then
+            Weighting_Scale.ClosePort()
+        End If
+        If Not (Laser Is Nothing) Then
+            Laser.ClosePort()
+            OffLaser()
+        End If
+
         OffTowerLamp()
         UnlockDoor()
 
@@ -1962,6 +1956,10 @@ StopCalibration:
             LabelMessage("Close the door first.")
             Return
         End If
+        If Not IsIdle() And Not IsRunning() And Not IsPaused() Then
+            Return
+        End If
+        btPlay.Enabled = False
         SetState("Start")
     End Sub
 
@@ -2008,13 +2006,21 @@ StopCalibration:
 
     End Sub
 
-    Private Sub btResetPressure_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btResetPressure.Click
+    Private Sub btResetPressure_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btResetVolumePost.Click
         LabelMessage("Reset Volume Calibration settings")
-        ResetPressure()
+        MyVolumeCalibrationSettings.ClearCalFile()
+        Dim fm As InfoForm = New InfoForm
+        fm.AddNewLine("Please make sure the volume calibration container is clean")
+        fm.OkOnly()
+        fm.Show()
         LabelMessage("Reset Volume Calibration settings done")
     End Sub
 
     Private Sub btDownStream_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btDownStream.Click
         DIO_Service.TriggerDownstream()
+    End Sub
+
+    Private Sub btResetPressure_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btResetPressure.Click
+        Me.ResetPressure()
     End Sub
 End Class

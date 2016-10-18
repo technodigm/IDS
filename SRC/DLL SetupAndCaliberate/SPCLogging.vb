@@ -91,6 +91,7 @@ Public Class SPCLogging
         Me.Label1 = New System.Windows.Forms.Label
         Me.CB_EnableSPCLog = New System.Windows.Forms.CheckBox
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
+        Me.tbReportDirectory = New System.Windows.Forms.TextBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.Nud_EventCleanInterval = New System.Windows.Forms.NumericUpDown
@@ -100,7 +101,6 @@ Public Class SPCLogging
         Me.Label17 = New System.Windows.Forms.Label
         Me.ButtonExit = New System.Windows.Forms.Button
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.tbReportDirectory = New System.Windows.Forms.TextBox
         Me.GroupBox2.SuspendLayout()
         Me.PanelToBeAdded.SuspendLayout()
         CType(Me.Nud_EventCleanInterval, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -347,6 +347,16 @@ Public Class SPCLogging
         Me.PanelToBeAdded.Size = New System.Drawing.Size(512, 944)
         Me.PanelToBeAdded.TabIndex = 20
         '
+        'tbReportDirectory
+        '
+        Me.tbReportDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbReportDirectory.Location = New System.Drawing.Point(32, 136)
+        Me.tbReportDirectory.Name = "tbReportDirectory"
+        Me.tbReportDirectory.ReadOnly = True
+        Me.tbReportDirectory.Size = New System.Drawing.Size(368, 26)
+        Me.tbReportDirectory.TabIndex = 47
+        Me.tbReportDirectory.Text = ""
+        '
         'Label5
         '
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
@@ -393,6 +403,7 @@ Public Class SPCLogging
         Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
         Me.ButtonRevert.TabIndex = 38
         Me.ButtonRevert.Text = "Revert"
+        Me.ButtonRevert.Visible = False
         '
         'ButtonSave
         '
@@ -418,23 +429,13 @@ Public Class SPCLogging
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(416, 24)
+        Me.ButtonExit.Location = New System.Drawing.Point(408, 40)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 46
         Me.ButtonExit.TabStop = False
         Me.ButtonExit.Text = "Exit"
         Me.ButtonExit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'tbReportDirectory
-        '
-        Me.tbReportDirectory.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbReportDirectory.Location = New System.Drawing.Point(32, 136)
-        Me.tbReportDirectory.Name = "tbReportDirectory"
-        Me.tbReportDirectory.ReadOnly = True
-        Me.tbReportDirectory.Size = New System.Drawing.Size(368, 26)
-        Me.tbReportDirectory.TabIndex = 47
-        Me.tbReportDirectory.Text = ""
         '
         'SPCLogging
         '
@@ -481,7 +482,8 @@ Public Class SPCLogging
         RevertData()
     End Sub
 
-    Public Sub RevertData()
+    Public Sub RevertData(Optional ByVal hideexit As Boolean = False)
+        ButtonExit.Visible = Not hideexit
         'IDS.Data.OpenData()
         If IDS.Data.Hardware.SPC.ItemsToBeReported.Length < 2 Then
             IDS.Data.Hardware.SPC.ItemsToBeReported = "0000000000000"

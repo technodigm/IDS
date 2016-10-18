@@ -425,6 +425,7 @@ Public Class Weighting_Scale
     Private errorCode As Integer = 0
     Private tempCnt As Integer = 0
     Public portOpened As Boolean = False
+    Public RequestWeightUpdate As Boolean = False
     Public ReadOnly Property returnString() As String
         Get
             Return WeightReading.ToString()
@@ -433,6 +434,9 @@ Public Class Weighting_Scale
 
     Public Delegate Sub WeightingScaleReturnedDel()
     Public WeightingScaleReturned As WeightingScaleReturnedDel
+
+    Public Delegate Sub ReadWeightDel(ByVal returnedWeight As Double)
+    Public ReadWeightReturned As ReadWeightDel
 
     Public Function OpenPort() As Boolean
         If AxMSComm1.PortOpen = True Then
@@ -457,7 +461,7 @@ Public Class Weighting_Scale
             ExceptionDisplay(ex)
             Return False
         End Try
-        CommandFormat1("Very Unstable")
+        CommandFormat1("Very Stable")
         ResetValues()
         DoTare()
         EnableButtons()
@@ -721,6 +725,11 @@ Public Class Weighting_Scale
                         stable_result_store = "Weight reading: " + CStr(result) + " mg obtained" + vbCrLf
                         Taring = False
                         ValueUpdated = True
+                        If Not (ReadWeightReturned Is Nothing And RequestWeightUpdate) Then
+                            ReadWeightReturned(WeightReading)
+                        Else
+                            Console.WriteLine("Weighting scale: Get weight bypassed!")
+                        End If
                         'Console.WriteLine("Reading " + WeightReading.ToString())
                     Else
                         tempStr = string_result.Substring(5, 1)
@@ -887,6 +896,7 @@ Public Class Weighting_Scale
 
         'for outside module
         ValueUpdated = False
+        RequestWeightUpdate = True
         CommandFormat1("Print")
 
     End Sub

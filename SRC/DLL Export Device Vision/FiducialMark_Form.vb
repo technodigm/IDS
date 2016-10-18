@@ -1151,6 +1151,7 @@ Public Class FiducialForm
 
     Function Fi_No(ByVal Num As Integer)
         Fiducial_no = Num
+        FidFilename = Fiducial_no.ToString + ".mno"
     End Function
     Dim Status As Integer = 0 '0=yet done, 1=done, 2=cancel
     Dim FidFilename As String
@@ -1169,17 +1170,35 @@ Public Class FiducialForm
     Private Sub Button_Fid_Ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Fid_Ok.Click
         tbModelInfo.Text = ""
         Button_Load.Enabled = True
-        If FID > 0 Then
+        If FID > 0 Or isEdit Then
             If Fiducial_no = 1 Then
                 Me.Text = "Fiducial Mark: Second Fiducial"
                 '==Save Fiducial===
-                FrmVision.SaveFiducial(Fiducial_no, FID)
+                'To save the seach region if editing the fiducial
+                If isEdit Then
+                    FrmVision.ClickPM = 1
+                    FrmVision.CustomizeFiducial_PM(False)
+                    FrmVision.SaveSearchRegion(Fiducial_no, FID)
+                    'End save search region
+                End If
+                If TeachClick Then
+                    FrmVision.SaveFiducial(Fiducial_no, FID)
+                End If
                 FidFilename = Fiducial_no.ToString + ".mno"
                 'Fiducial_no = Fiducial_no + 1
                 Me.Visible = False
                 PictureBoxUp()
             ElseIf Fiducial_no = 2 Then
-                FrmVision.SaveFiducial(Fiducial_no, FID)
+            'To save the seach region if editing the fiducial
+                If isEdit Then
+                    FrmVision.ClickPM = 1
+                    FrmVision.CustomizeFiducial_PM(False)
+                    FrmVision.SaveSearchRegion(Fiducial_no, FID)
+                    'End save search region
+                End If
+                If TeachClick Then
+                    FrmVision.SaveFiducial(Fiducial_no, FID)
+                End If
                 FidFilename = Fiducial_no.ToString + ".mno"
                 PictureBoxUp()
                 'FrmVision.AxPatternMatching2.Models.Item(1).Save("C:\IDS\DLL Export Device Vision\Fiducial\2.mmo")
@@ -1189,12 +1208,18 @@ Public Class FiducialForm
             End If
             Status = 1
         Else
-            If Not isEdit Then
-                MsgBox("Please select a fiducial mark~!")
-            Else
-                Me.Visible = False
-            End If
+        If Not isEdit Then
+            MsgBox("Please select a fiducial mark~!")
+        Else
+            RemoveImage20()
+            Me.Visible = False
         End If
+        End If
+        TeachClick = False
+        isEdit = False
+        FrmVision.ClickPM = 0
+        FrmVision.isEdit = False
+        FiducialMark_form.Button_Teach.Enabled = False
         If Not (FormCloseEvent Is Nothing) Then
             Status = 1
             FormCloseEvent()
@@ -1326,6 +1351,10 @@ Public Class FiducialForm
         Button_EndFi.Enabled = False
         FrmVision.CustomizeFiducial_PM(True)
         Status = 2
+        TeachClick = False
+        isEdit = False
+        FrmVision.isEdit = False
+        FiducialMark_form.Button_Teach.Enabled = False
         If Not (FormCloseEvent Is Nothing) Then
             FormCloseEvent()
         End If
@@ -1701,9 +1730,10 @@ Public Class FiducialForm
     Sub RemoveImage20()
         If PictureBox20.Image Is Nothing Then
         Else
-            Dim image As Image = PictureBox20.Image
+            'Dim image As Image = PictureBox20.Image
+            PictureBox20.Image.Dispose()
             PictureBox20.Image = Nothing
-            image.Dispose()
+            'image.Dispose()
         End If
     End Sub
     Private Sub Button_Test_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Test.Click
@@ -1716,7 +1746,6 @@ Public Class FiducialForm
             'Else
             '    FrmVision.PatternMatching_settings()
             'End If
-
             FrmVision.Test_Fiducial(FID, 0, 0)
             FrmVision.SearchRegionDrawing(False)
             TextBox_Score.Text = FrmVision.Score(1)
@@ -1733,6 +1762,7 @@ Public Class FiducialForm
             Button_EndFi.Enabled = True
         End If
     End Sub
+    Dim TeachClick As Boolean = False
     Private Sub Button_Teach_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Teach.Click
         If PictureBox10.BorderStyle = BorderStyle.Fixed3D Then
             FrmVision.CustomizeFiducial_PM(False) 'for model region
@@ -1756,6 +1786,7 @@ Public Class FiducialForm
         End If
         tbModelInfo.Text = ""
         Button_Load.Enabled = True
+        TeachClick = True
     End Sub
     Private Sub Button_Load_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Load.Click
         'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then

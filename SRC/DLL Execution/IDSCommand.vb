@@ -274,6 +274,7 @@ Public Class CIDSPatternLoader
     Private m_MaxColums As Integer 'sheet occupied colums
     Private m_Sheet As AxOWC10.AxSpreadsheet
     Protected m_Optim As Integer = 0
+    Private Testing As Boolean = False
 
     Public Sub DebugAddList(ByVal lst As ArrayList, ByVal val As Object)
         lst.Add(val)
@@ -412,8 +413,6 @@ Public Class CIDSPatternLoader
         'Loop Until elapsed_time.TotalSeconds > 3
         If rtn Then
             height = Laser.LASER_Reading
-            Programming.tbLsHeight.Text = "Process LS Height:" & height.ToString("0.000")
-            Programming.tbLsHeight.Refresh()
         Else
             If CheckButtonState() = -1 Then
                 Return 100
@@ -492,10 +491,6 @@ Public Class CIDSPatternLoader
             Return rtn
         End If
         heightComps = height - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
-        If ProgrammingMode() Then
-            Programming.tbLsHeight.Text += " After " + height.ToString("0.000") + "-" + IDS.Data.Hardware.HeightSensor.Laser.HeightReference.ToString("0.000") + " = " + heightComps.ToString("0.000")
-            Programming.tbLsHeight.Refresh()
-        End If
         Return 0
     End Function
 
@@ -690,10 +685,15 @@ Public Class CIDSPatternLoader
             position(0) = PosX1
             position(1) = PosY1
             m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
+            If CheckButtonState() = -1 Then
+                Return 100
+            End If
+            'Vision.FrmVision.CameraIdle()
             If Not m_Tri.Move_XY(position) Then Return -1
             If CheckButtonState() = -1 Then
                 Return 100
             End If
+            'OneGrab()
             'MySleep(50)
             DisplayCrossHair()
             result = Vision.IDSV_FI(FidNames, offX1, offY1)
@@ -730,10 +730,14 @@ Public Class CIDSPatternLoader
         position(0) = PosX1
         position(1) = PosY1
         m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
+        If CheckButtonState() = -1 Then
+            Return 100
+        End If
         If Not m_Tri.Move_XY(position) Then Return -1
         If CheckButtonState() = -1 Then
             Return 100
         End If
+        'OneGrab()
         'MySleep(50)
         DisplayCrossHair()
         result = Vision.IDSV_FI(FidNames, offX1, offY1)
@@ -767,6 +771,7 @@ Public Class CIDSPatternLoader
         If CheckButtonState() = -1 Then
             Return 100
         End If
+        'OneGrab()
         'MySleep(50)
         DisplayCrossHair()
         result = Vision.IDSV_FI(FidNames, offX2, offY2)
@@ -813,7 +818,8 @@ Public Class CIDSPatternLoader
         End If
 
         Dim id As Object = "0"
-        Dim rtn As Boolean = Vision.IDSV_QC(vParam)
+
+        Dim rtn As Boolean = Vision.IDSV_QC(vParam, True)
         ClearDisplay()
         If rtn = False Then
             If CheckButtonState() = -1 Then
@@ -978,7 +984,8 @@ Public Class CIDSPatternLoader
         vPara._SizeY = array(j, gSizeYColumn)
         vPara._Threshold = array(j, gThresholdColumn)
         vPara._Vertical = array(j, gVerticalColumn)
-
+        vPara._Polarity = array(j, gPolarityColumn)
+        vPara._EdgeStrength = array(j, gEdgeStrengthColumn)
         vPara._DotDispensingDuration = array(j, gDurationColumn)
         vPara._Contrast = array(j, gCompactnessColumn)
         ''
@@ -997,6 +1004,13 @@ Public Class CIDSPatternLoader
         ElseIf rtn > 0 Then
             Return rtn
         End If
+        If Testing Then
+            Dim sTime As Long = DateTime.Now.Ticks
+            While ((DateTime.Now.Ticks - sTime) / 10000) < 2000
+                Application.DoEvents()
+            End While
+        End If
+       
 
         data.vParam = vPara
         data.HeightCompS = height
@@ -1023,7 +1037,19 @@ Public Class CIDSPatternLoader
         data.Param = para
         Return 0
     End Function
-
+    Private Sub OneGrab()
+        Dim sTime As Long = DateTime.Now.Ticks
+        'Motion settling time
+        While (DateTime.Now.Ticks - sTime) / 10000 < 100
+            Application.DoEvents()
+        End While
+        Vision.FrmVision.CameraResume()
+        sTime = DateTime.Now.Ticks
+        While Not (Vision.FrmVision.ImageRefreshed) And (DateTime.Now.Ticks - sTime) / 10000 < 300
+            Application.DoEvents()
+        End While
+        Vision.FrmVision.CameraIdle()
+    End Sub
 
     'Move to check chip edge
     '      x,y:   checking position
@@ -1033,23 +1059,51 @@ Public Class CIDSPatternLoader
     Public Function MoveToCheckChipEdge(ByVal x As Double, ByVal y As Double, ByRef para As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam) As Integer
         Dim pos() As Double = {x, y}
         m_Tri.Set_XY_Speed(IDS.Data.Hardware.Gantry.ElementXYSpeed)
-
-        If Not m_Tri.Move_XY(pos) Then Return -1
         If CheckButtonState() = -1 Then
+            Return 100
+        End If
+        'Vision.FrmVision.CameraIdle()
+        If Not m_Tri.Move_XY(pos) Then Return -1
+        'Dim sTime As Long = DateTime.Now.Ticks
+        ''Motion settling time
+        'While (DateTime.Now.Ticks - sTime) / 10000 < 100
+        '    Application.DoEvents()
+        'End While
+        'Vision.FrmVision.CameraResume()
+        'sTime = DateTime.Now.Ticks
+        'While Not (Vision.FrmVision.ImageRefreshed) And (DateTime.Now.Ticks - sTime) / 10000 < 100
+        '    Application.DoEvents()
+        'End While
+        Vision.FrmVision.CameraIdle()
+        OneGrab()
+        If CheckButtonState() = -1 Then
+            Vision.FrmVision.CameraResume()
             Return 100
         End If
         Vision.FrmVision.DisplayIndicator()
         Dim x1, y1, x2, y2, x3, y3, x4, y4 As Double
-        If Not Vision.IDSV_CE(para) Then 'detecting chip edge
-            lastError = Vision.lastError
-            If CheckButtonState() = -1 Then
-                Return 100
-            Else
-                Return -1
+        Dim retry As Integer = 0
+        While (retry < 5)
+            retry += 1
+            OneGrab()
+            If Not Vision.IDSV_CE(para) Then 'detecting chip edge
+                LabelMessage("Chip edge detect retry #" & retry)
+                lastError = Vision.lastError
+                If CheckButtonState() = -1 Then
+                    Vision.FrmVision.CameraResume()
+                    Return 100
+                Else
+                    If retry >= 4 Then
+                        Vision.FrmVision.CameraResume()
+                        Return -1
+                    End If
+                End If
+            Else : Exit While
             End If
-        End If
+        End While
         'ClearDisplay()
         Vision.IDSV_CEOutput(x1, y1, x2, y2, x3, y3, x4, y4) 'get four points wrt pos(x,y)
+        Vision.FrmVision.CameraResume()
         'convert four points to hard home coord.
         para._PointX1 = x + x1
         para._PointY1 = y - y1
@@ -2344,6 +2398,10 @@ Public Class CIDSPatternLoader
                     Case "HEIGHT"  'height detection
                         If m_Optim = 0 Then
                             Dim heightc As Double
+                            If Laser Is Nothing Then
+                                MessageBox.Show("This software not support height compensation with laser! Process abort!")
+                                Return -1
+                            End If
                             rtn = GetHeightCompensation(subsheet, i, referencePt, compData, heightc)
                             If rtn < 0 Then   'check fail
                                 If IDS.Data.Hardware.SPC.HeightFailedAction = False Then    'auto skip
@@ -2755,6 +2813,10 @@ Public Class CIDSPatternLoader
                     Case "HEIGHT"   'height detection
                         If m_Optim = 0 Then
                             Dim heightc As Double
+                            If Laser Is Nothing Then
+                                MessageBox.Show("This software not support height compensation with laser! Process abort!")
+                                Return -1
+                            End If
                             rtn = GetHeightCompensation(subsheet, i, referencePt, compData, heightc)
                             If rtn < 0 Then   'check fail
                                 If IDS.Data.Hardware.SPC.HeightFailedAction = False Then    'auto skip pattern
@@ -3212,7 +3274,7 @@ Public Class CIDSPatternLoader
             'TraceDoEvents()
         Next i
         Dim Duration As Long = (DateTime.Now.Ticks - enterTime) / 10000
-        Console.WriteLine("Total time(ms) set array record data: " & Duration.ToString())
+        'Console.WriteLine("Total time(ms) set array record data: " & Duration.ToString())
 
         Return 0
     End Function
@@ -3299,9 +3361,10 @@ Public Class CIDSPatternLoader
                             Do
                                 rtn = CheckFiducialPt(sheet, I, referencePt, compData, fiducialpt, offset, compangle)
                                 If rtn < 0 Then
-                                    Dim fm As InfoForm = New InfoForm
+                                    Dim fm As InfoForm = New InfoForm(True)
                                     fm.SetTitle("Fiducial")
                                     fm.SetCancelButtonText("Abort")
+                                    fm.Size = New Size(584, 180)
                                     fm.SetOKButtonText("Retry")
                                     fm.AddNewLine("Fiducial Failed!")
                                     fm.AddNewLine("Would you like to retry?")
@@ -3340,6 +3403,10 @@ Public Class CIDSPatternLoader
                             Dim heightc As Double
                             LabelMessage("Height compensation in progress")
                             'OnLaser()
+                            If Laser Is Nothing Then
+                                MessageBox.Show("This software not support height compensation with laser! Process abort!")
+                                Return -1
+                            End If
                             rtn = GetHeightCompensation(sheet, I, referencePt, compData, heightc)
                             'OffLaser()
                             If rtn < 0 Then   'check fail
@@ -3464,7 +3531,7 @@ Public Class CIDSPatternLoader
                                         'Form_Service.LogEventInSPCReport("Chip Finding Failed")
                                         'End If
                                         'Form_Service.DisplayErrorMessage("Chip Finding Failed")
-                                        Dim fm As InfoForm = New InfoForm
+                                        Dim fm As InfoForm = New InfoForm(True)
                                         fm.SetTitle("Chip Edge")
                                         fm.ShowIgnoreButton()
                                         fm.SetCancelButtonText("Abort")
@@ -6280,7 +6347,7 @@ Public Class IDSPattnCompiler
         'IDS.Data.Hardware.Needle.Left.NeedleCalibrationPosition.Z
         'current laser height reading - IDS.Data.Hardware.HeightSensor.Laser.HeightReference
         Dim fixHeight As Double = off(2) - dot.HeightCompS
-        Console.WriteLine("Laser Height: " + dot.HeightCompS.ToString())
+        'Console.WriteLine("Laser Height: " + dot.HeightCompS.ToString())
         ApproachZ = dot.PosZ + fixHeight + dot.Param.ApproachHeight
         NeedleGapZ = dot.PosZ + fixHeight + dot.Param.NeedleGap
         CheckApproachHeight(NeedleGapZ, ApproachZ)
@@ -10463,13 +10530,14 @@ Public Class CIDSPattnBurn
             If Not (m_Tri.RunTrioMotionProgram("CLEARTABLE", 2)) Then Return False
         End If
         Dim firstSet = DateTime.Now.Ticks
-        Dim Buffer(dispenselist.Count - 1) As Single
+        Dim Buffer(dispenselist.Count) As Single
+        Buffer(0) = 1
         For i As Integer = 0 To dispenselist.Count - 1
-            Buffer(i) = dispenselist(i)
+            Buffer(i + 1) = dispenselist(i)
         Next
 
-        If Not m_Tri.m_TriCtrl.SetTable(1001, dispenselist.Count, Buffer) Then
-            If Not m_Tri.m_TriCtrl.SetTable(1001, dispenselist.Count, Buffer) Then
+        If Not m_Tri.m_TriCtrl.SetTable(1001, dispenselist.Count + 1, Buffer) Then
+            If Not m_Tri.m_TriCtrl.SetTable(1001, dispenselist.Count + 1, Buffer) Then
                 Return False
             End If
         End If
@@ -10483,7 +10551,7 @@ Public Class CIDSPattnBurn
         '    End If
         'End If
         Dim secSet As Long = DateTime.Now.Ticks
-        Console.WriteLine("#1" + ((firstSet - startTime) / 10000).ToString() + "  #2" + ((secSet - firstSet) / 10000).ToString())
+        'Console.WriteLine("#1" + ((firstSet - startTime) / 10000).ToString() + "  #2" + ((secSet - firstSet) / 10000).ToString())
         Dim counter As Integer = 0
         Dim rtn As Boolean
         Do

@@ -127,6 +127,8 @@ Public Class ChipEdgePoints
     Friend WithEvents nudEdgeStrength As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents cbbPolarity As System.Windows.Forms.ComboBox
+    Friend WithEvents Label40 As System.Windows.Forms.Label
+    Friend WithEvents btCheckOnce As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
@@ -162,6 +164,7 @@ Public Class ChipEdgePoints
         Me.Label4 = New System.Windows.Forms.Label
         Me.Button3 = New System.Windows.Forms.Button
         Me.GroupBox_Settings = New System.Windows.Forms.GroupBox
+        Me.Label40 = New System.Windows.Forms.Label
         Me.cbbPolarity = New System.Windows.Forms.ComboBox
         Me.Label22 = New System.Windows.Forms.Label
         Me.ValueROI = New System.Windows.Forms.NumericUpDown
@@ -195,6 +198,7 @@ Public Class ChipEdgePoints
         Me.RadioButton_Dot = New System.Windows.Forms.RadioButton
         Me.nudEdgeStrength = New System.Windows.Forms.NumericUpDown
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.btCheckOnce = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
         Me.TextBox_RRot = New System.Windows.Forms.TextBox
@@ -560,6 +564,7 @@ Public Class ChipEdgePoints
         '
         'GroupBox_Settings
         '
+        Me.GroupBox_Settings.Controls.Add(Me.Label40)
         Me.GroupBox_Settings.Controls.Add(Me.cbbPolarity)
         Me.GroupBox_Settings.Controls.Add(Me.Label22)
         Me.GroupBox_Settings.Controls.Add(Me.ValueROI)
@@ -584,15 +589,23 @@ Public Class ChipEdgePoints
         Me.GroupBox_Settings.TabStop = False
         Me.GroupBox_Settings.Text = "Settings"
         '
+        'Label40
+        '
+        Me.Label40.Location = New System.Drawing.Point(96, 120)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(48, 23)
+        Me.Label40.TabIndex = 66
+        Me.Label40.Text = "Polarity:"
+        Me.Label40.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'cbbPolarity
         '
         Me.cbbPolarity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbbPolarity.Items.AddRange(New Object() {"Any", "Negative", "Positive"})
+        Me.cbbPolarity.Items.AddRange(New Object() {"White to black", "Black to White"})
         Me.cbbPolarity.Location = New System.Drawing.Point(96, 144)
         Me.cbbPolarity.Name = "cbbPolarity"
         Me.cbbPolarity.Size = New System.Drawing.Size(121, 21)
         Me.cbbPolarity.TabIndex = 65
-        Me.cbbPolarity.Visible = False
         '
         'Label22
         '
@@ -601,14 +614,14 @@ Public Class ChipEdgePoints
         Me.Label22.Size = New System.Drawing.Size(88, 23)
         Me.Label22.TabIndex = 64
         Me.Label22.Text = "Edge Strength:"
-        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ValueROI
         '
         Me.ValueROI.DecimalPlaces = 1
         Me.ValueROI.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.ValueROI.Location = New System.Drawing.Point(224, 96)
-        Me.ValueROI.Maximum = New Decimal(New Integer() {3, 0, 0, 0})
+        Me.ValueROI.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.ValueROI.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.ValueROI.Name = "ValueROI"
         Me.ValueROI.Size = New System.Drawing.Size(48, 20)
@@ -732,20 +745,20 @@ Public Class ChipEdgePoints
         '
         'RadioButton_Outside_In
         '
+        Me.RadioButton_Outside_In.Checked = True
         Me.RadioButton_Outside_In.Location = New System.Drawing.Point(96, 16)
         Me.RadioButton_Outside_In.Name = "RadioButton_Outside_In"
         Me.RadioButton_Outside_In.Size = New System.Drawing.Size(80, 24)
         Me.RadioButton_Outside_In.TabIndex = 14
+        Me.RadioButton_Outside_In.TabStop = True
         Me.RadioButton_Outside_In.Text = "Outside_In"
         '
         'RadioButton_Inside_out
         '
-        Me.RadioButton_Inside_out.Checked = True
         Me.RadioButton_Inside_out.Location = New System.Drawing.Point(8, 16)
         Me.RadioButton_Inside_out.Name = "RadioButton_Inside_out"
         Me.RadioButton_Inside_out.Size = New System.Drawing.Size(78, 24)
         Me.RadioButton_Inside_out.TabIndex = 13
-        Me.RadioButton_Inside_out.TabStop = True
         Me.RadioButton_Inside_out.Text = "Inside_Out"
         '
         'GroupBox_Vertical_Horizontal
@@ -894,6 +907,7 @@ Public Class ChipEdgePoints
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.btCheckOnce)
         Me.GroupBox5.Controls.Add(Me.Button1)
         Me.GroupBox5.Controls.Add(Me.RichTextBox1)
         Me.GroupBox5.Controls.Add(Me.TextBox_RRot)
@@ -923,6 +937,15 @@ Public Class ChipEdgePoints
         Me.GroupBox5.TabIndex = 61
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Results"
+        '
+        'btCheckOnce
+        '
+        Me.btCheckOnce.Enabled = False
+        Me.btCheckOnce.Location = New System.Drawing.Point(184, 80)
+        Me.btCheckOnce.Name = "btCheckOnce"
+        Me.btCheckOnce.Size = New System.Drawing.Size(104, 80)
+        Me.btCheckOnce.TabIndex = 68
+        Me.btCheckOnce.Text = "Check Once"
         '
         'Button1
         '
@@ -1092,11 +1115,11 @@ Public Class ChipEdgePoints
         'Button_Test
         '
         Me.Button_Test.Enabled = False
-        Me.Button_Test.Location = New System.Drawing.Point(184, 42)
+        Me.Button_Test.Location = New System.Drawing.Point(184, 168)
         Me.Button_Test.Name = "Button_Test"
-        Me.Button_Test.Size = New System.Drawing.Size(104, 208)
+        Me.Button_Test.Size = New System.Drawing.Size(104, 80)
         Me.Button_Test.TabIndex = 11
-        Me.Button_Test.Text = "Test"
+        Me.Button_Test.Text = "Continue"
         '
         'Label26
         '
@@ -1214,6 +1237,8 @@ Public Class ChipEdgePoints
         Public _CheckBox_ChipRec_Enable As Boolean
         Public _DotDispensingDuration
         Public _Contrast As Integer
+        Public _Polarity As String
+        Public _EdgeStrength As Double
 
     End Structure
 
@@ -1267,6 +1292,16 @@ Public Class ChipEdgePoints
         edgeParam._CheckBox_ChipRec_Enable = CheckBox_ChipRec_Enable.Checked
         edgeParam._DotDispensingDuration = tbDotDuration.Text
         edgeParam._Contrast = ValueContrast.Value
+        If cbbPolarity.Text.ToUpper = "ANY" Then
+            edgeParam._Polarity = "ANY"
+        ElseIf cbbPolarity.Text.ToUpper = "WHITE TO BLACK" Then
+            edgeParam._Polarity = "Negative"
+        ElseIf cbbPolarity.Text.ToUpper = "BLACK TO WHITE" Then
+            edgeParam._Polarity = "Positive"
+        Else
+            edgeParam._Polarity = "ANY"
+        End If
+        edgeParam._EdgeStrength = Me.nudEdgeStrength.Value
     End Function
     Function GetChipEdgeParameters_bak(ByRef _SizeX As Double, ByRef _SizeY As Double, ByRef _PosX As Double, ByRef _PosY As Double, ByRef _Size As Double, ByRef _Pos As Double, ByRef _Rot As Double, ByRef _Inside_out As Boolean, ByVal _Cw_CCw As Boolean, ByRef _Threshold As Double, ByRef _ROI As Double, ByRef _Brightness As Integer, ByRef _Vertical As Boolean, ByRef _MainEdge As Integer, ByRef _PointX1 As Double, ByRef _PointY1 As Double, ByRef _PointX2 As Double, ByRef _PointY2 As Double, ByRef _PointX3 As Double, ByRef _PointY3 As Double, ByRef _PointX4 As Double, ByRef _PointY4 As Double, ByRef _PointX5 As Double, ByRef _PointY5 As Double, ByRef _DispenseModel As Integer, ByRef _EdgeClearance As Double, ByRef _CheckBox_ChipRec_Enable As Boolean)
         _SizeX = TextBox_SizeX.Text
@@ -1423,7 +1458,7 @@ Public Class ChipEdgePoints
         'FrmVision.ClearDisplay()
 
         'Dim result As Boolean = FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1)
-        Dim result As Boolean = FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1)
+        Dim result As Boolean = FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1, Me.nudEdgeStrength.Value, Me.cbbPolarity.Text)
         If result = False Then
             ResetVariables()
             Return False
@@ -1456,7 +1491,7 @@ Public Class ChipEdgePoints
         Catch ex As Exception
             Timer1.Stop()
         End Try
-        
+
     End Sub
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         If Clickno = 1 Then
@@ -1474,6 +1509,7 @@ Public Class ChipEdgePoints
             Button_Reset.Enabled = False
             FrmVision.SetBrightness(ValueBrightness.Value)
             Timer1.Enabled = True
+            btCheckOnce.Enabled = False
             Timer1.Start()
             Button_Test.Text = "Stop"
             Test_Click = True
@@ -1482,8 +1518,9 @@ Public Class ChipEdgePoints
             Timer1.Enabled = False
             Button_Reset.Enabled = True
             Test_Click = False
-            Button_Test.Text = "Test"
+            Button_Test.Text = "Continue"
             FrmVision.DisplayIndicator()
+            btCheckOnce.Enabled = True
         End If
     End Sub
     Private Sub Button_Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button_Cancel.Click
@@ -1699,14 +1736,14 @@ Public Class ChipEdgePoints
 
         OnTimer1()
     End Sub
-
+    Dim MaxROISize As Double = 5.0
     Private Sub ValueROI_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ValueROI.ValueChanged
         CloseTimer1()
 
         If (CStr(ValueROI.Value) = "") Then
             ValueROI.Value = 2.0
         Else
-            If Not ((ValueROI.Value >= 0.1) And (ValueROI.Value <= 3)) Then
+            If Not ((ValueROI.Value >= 0.1) And (ValueROI.Value <= MaxROISize)) Then
                 ValueROI.Value = 2.0
             End If
         End If
@@ -1778,4 +1815,16 @@ Public Class ChipEdgePoints
     End Sub
 #End Region
 
+    Private Sub btCheckOnce_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btCheckOnce.Click
+        Button_Test.Enabled = False
+        FrmVision.SetBrightness(ValueBrightness.Value)
+        FrmVision.ClearDisplay()
+        Sleep(100)
+        FrmVision.MeasurementPoint(ValueContrast.Value, ValueThreshold.Value, ValueRot.Value, Inside_out, Vertical, ValueROI.Value, 1, nudEdgeStrength.Value, Me.cbbPolarity.Text)
+        If Clickno = 1 Then
+            'FrmVision.SearchRegionResultsPoints(1)
+            FrmVision.SearchRegionPoints(1, ValueROI.Value)
+        End If
+        Button_Test.Enabled = True
+    End Sub
 End Class

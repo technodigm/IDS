@@ -256,7 +256,7 @@ Public Class Settings
             MyNeedleCalibrationSettings.BoxStep1.Visible = True
             MyNeedleCalibrationSettings.BoxStep1Jetting.Visible = False
         End If
-        MyNeedleCalibrationSettings.RevertData()
+        MyNeedleCalibrationSettings.RevertData(True)
     End Sub
 
     Private Sub ButtonStationPositions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStationPositions.Click
@@ -265,53 +265,60 @@ Public Class Settings
         'initialize
         MyGantrySettings.StationPosition.SelectedIndex = 0
         MyGantrySettings.LeftHead.Checked = True
-        MyGantrySettings.RevertData()
+        MyGantrySettings.RevertData(True)
     End Sub
 
     Private Sub ButtonDispenserSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDispenserSettings.Click
         ButtonSelected(sender)
         AddPanel(PanelRight, MyDispenserSettings.PanelToBeAdded)
         MyDispenserSettings.HeadType.SelectedIndex = 0
-        MyDispenserSettings.RevertData()
+        MyDispenserSettings.RevertData(True)
     End Sub
 
     Private Sub ButtonSPCLogging_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSPCLogging.Click
         ButtonSelected(sender)
         AddPanel(PanelRight, MySPCLogging.PanelToBeAdded)
-        MySPCLogging.RevertData()
+        MySPCLogging.RevertData(True)
     End Sub
 
     Private Sub ButtonEventHandling_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEventHandling.Click
         ButtonSelected(sender)
         AddPanel(PanelRight, MyEventSettings.PanelToBeAdded)
-        MyEventSettings.RevertData()
+        MyEventSettings.RevertData(True)
     End Sub
 
     Private Sub ButtonConveyorSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonConveyorSettings.Click
         ButtonSelected(sender)
         AddPanel(PanelRight, MyConveyorSettings.PanelToBeAdded)
-        Conveyor.OpenPort()
-        Conveyor.PositionTimer.Start()
+
+        If Not (Conveyor Is Nothing) Then
+            Conveyor.OpenPort()
+            Conveyor.ActivePositionTimer(True)
+        End If
         MyConveyorSettings.PositionTimer.Start()
-        MyConveyorSettings.RevertData()
+        MyConveyorSettings.RevertData(True)
     End Sub
 
     Private Sub ButtonThermalSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonThermalSettings.Click
         ButtonSelected(sender)
         AddPanel(PanelRight, MyHeaterSettings.PanelToBeAdded)
-        MyHeaterSettings.RevertData()
+        MyHeaterSettings.RevertData(True)
     End Sub
 
     Private Sub ButtonVolumeCalibSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonVolumeCalibSettings.Click
         ButtonSelected(sender)
         AddPanel(PanelRight, MyVolumeCalibrationSettings.PanelToBeAdded)
-        MyVolumeCalibrationSettings.RevertData()
+        MyVolumeCalibrationSettings.RevertData(True)
     End Sub
 
     Private Sub ButtonSelected(ByVal sender As System.Object)
         If Not (selectedButton Is Nothing) Then
             selectedButton.FlatStyle = FlatStyle.Standard
             selectedButton.BackColor = System.Drawing.SystemColors.Control
+            If selectedButton.Name = "ButtonNeedleCalibSettings" Then
+                Vision.FrmVision.DisplayIndicator()
+                'Vision.FrmVision.CameraResume()
+            End If
         End If
         selectedButton = DirectCast(sender, System.Windows.Forms.Button)
         selectedButton.FlatStyle = FlatStyle.Flat
@@ -329,7 +336,14 @@ Public Class Settings
             selectedButton.BackColor = System.Drawing.SystemColors.ControlDarkDark
             AddPanel(PanelRight, MyDispenserSettings.PanelToBeAdded)
             MyDispenserSettings.HeadType.SelectedIndex = 0
-            MyDispenserSettings.RevertData()
+            MyDispenserSettings.RevertData(True)
+            If Weighting_Scale Is Nothing Then
+                ButtonVolumeCalibSettings.Visible = False
+            End If
+            If Conveyor Is Nothing Then
+                ButtonConveyorSettings.Visible = False
+            End If
+
         End If
     End Function
 End Class

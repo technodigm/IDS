@@ -433,6 +433,8 @@ Public Module ModuleGConst
     Public gSizeYColumn As Integer = 58
     Public gThresholdColumn As Integer = 59 'For Fiducial no.2's brightness
     Public gVerticalColumn As Integer = 60
+    Public gPolarityColumn As Integer = 62 'For edge detection in chipedges. 61 used by contrast
+    Public gEdgeStrengthColumn As Integer = 63
     'QC
     Public gCompactnessColumn As Integer = 61
     Public gMaxAreaColumn As Integer = 62
@@ -493,7 +495,7 @@ Public Module ModuleGConst
     'Pattern Programmming commanddefine
     Public gFidCmdIndex As Integer = 1
     Public gReferenceCmdIndex As Integer = 2
-    Public gHeightCmdIndex As Integer = 3
+    Public gHeightCmdIndex As Integer = 2
     Public gRejectCmdIndex As Integer = 4
 
     Public gDotCmdIndex As Integer = 1

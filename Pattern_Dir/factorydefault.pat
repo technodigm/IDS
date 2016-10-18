@@ -204,9 +204,9 @@ BIDSData.Hardware.Dispenser.Right.TimePressureValveCalOnce =False
 DIDSData.Hardware.Dispenser.Right.TimePressureSyringeCalOnce =False
 
 ~[GANTRY]
-DIDSData.Hardware.Gantry.WeighingScalePosition.X =-203.562019297957
-DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-369.768859098019
-9IDSData.Hardware.Gantry.WeighingScalePosition.Z =25.742
+DIDSData.Hardware.Gantry.WeighingScalePosition.X =-208.610260501937
+DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-373.339099906969
+9IDSData.Hardware.Gantry.WeighingScalePosition.Z =-4.495
 1IDSData.Hardware.Gantry.CleanPosition.X =-9.733
 3IDSData.Hardware.Gantry.CleanPosition.Y =-384.213
 >IDSData.Hardware.Gantry.CleanPosition.Z =0.00200000000000955
@@ -219,9 +219,9 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-369.768859098019
 3IDSData.Hardware.Gantry.GraphicDisplayXYRB.Y =100
 3IDSData.Hardware.Gantry.MaxAccelerationLimit =100
 ,IDSData.Hardware.Gantry.MaxSpeedLimit =500
-:IDSData.Hardware.Gantry.ParkPosition.X =135.636739498063
-:IDSData.Hardware.Gantry.ParkPosition.Y =-34.210099906969
-/IDSData.Hardware.Gantry.ParkPosition.Z =94.42
+;IDSData.Hardware.Gantry.ParkPosition.X =-43.1112605019375
+;IDSData.Hardware.Gantry.ParkPosition.Y =-221.148099906969
+0IDSData.Hardware.Gantry.ParkPosition.Z =87.501
 <IDSData.Hardware.Gantry.PurgePosition.X =-89.8183249784725
 <IDSData.Hardware.Gantry.PurgePosition.Y =-382.882668968995
 0IDSData.Hardware.Gantry.PurgePosition.Z =5.764
@@ -238,8 +238,8 @@ DIDSData.Hardware.Gantry.WeighingScalePosition.Y =-369.768859098019
 DIDSData.Hardware.Gantry.ChangeSyringePosition.X =-287.258324978473
 DIDSData.Hardware.Gantry.ChangeSyringePosition.Y =-399.582668968995
 9IDSData.Hardware.Gantry.ChangeSyringePosition.Z =44.761
-GIDSData.Hardware.Gantry.WeighingScaleBottomRight.X =-188.310019297957
-GIDSData.Hardware.Gantry.WeighingScaleBottomRight.Y =-390.472859098019
+GIDSData.Hardware.Gantry.WeighingScaleBottomRight.X =-186.810260501937
+GIDSData.Hardware.Gantry.WeighingScaleBottomRight.Y =-391.979099906969
 
 ~[HEIGHTSENOR]
 .IDSData.Hardware.HeightSensor.BoardHeight =0

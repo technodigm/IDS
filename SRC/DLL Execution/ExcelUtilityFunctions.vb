@@ -22,12 +22,12 @@ Public Module ExcelUtilityFunctions
 
     Public Sub EnableCoordinateUpdateInSpreadsheet()
         m_PosUpdate = True
-        Console.WriteLine("Enable spreadsheet update")
+        'Console.WriteLine("Enable spreadsheet update")
     End Sub
 
     Public Sub DisableCoordinateUpdateInSpreadsheet()
         m_PosUpdate = False
-        Console.WriteLine("Disable spreadsheet update")
+        'Console.WriteLine("Disable spreadsheet update")
     End Sub
 
 #Region "Excel GUI"
@@ -41,6 +41,9 @@ Public Module ExcelUtilityFunctions
         ' Programming.ReferenceCommandBlock.Buttons(gRejectCmdIndex - 1).Enabled = False
         If Programming.teachingMode = "Needle" Then
             Programming.DisableCommand_NeedleMode()
+        End If
+        If Laser Is Nothing Then
+            DisableReferenceCommandBlockButton(gHeightCmdIndex) 'Height
         End If
         TraceGCCollect()
     End Sub
@@ -57,15 +60,19 @@ Public Module ExcelUtilityFunctions
         Programming.ReferenceCommandBlock.Buttons(CmdButton - 1).Enabled = True
         TraceGCCollect
     End Sub
+    Public Sub DisableReferenceCommandBlockButton(ByVal CmdButton As Integer)
+        Programming.ReferenceCommandBlock.Buttons(CmdButton - 1).Enabled = False
+        TraceGCCollect()
+    End Sub
 
     Public Sub EnableElementsCommandBlockButton(ByVal CmdButton As Integer)
         Programming.ElementsCommandBlock.Buttons(CmdButton - 1).Enabled = True
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub DisableElementsCommandBlockButton(ByVal CmdButton As Integer)
         Programming.ElementsCommandBlock.Buttons(CmdButton - 1).Enabled = False
-        TraceGCCollect
+        TraceGCCollect()
     End Sub
 
     Public Sub EnableElementsCommandBlock()

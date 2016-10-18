@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ILaser", "ILaser.vbproj", "{54E5C587-314E-44D0-A203-2B46E1DB2341}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LaserILD1402", "..\LaserILD1402\LaserILD1402.vbproj", "{3608A3D3-D789-4EE7-943F-9CDA601F17EA}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Debug.ActiveCfg = Debug|.NET
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Debug.Build.0 = Debug|.NET
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Release.ActiveCfg = Release|.NET
+		{54E5C587-314E-44D0-A203-2B46E1DB2341}.Release.Build.0 = Release|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Debug.ActiveCfg = Debug|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Debug.Build.0 = Debug|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Release.ActiveCfg = Release|.NET
+		{3608A3D3-D789-4EE7-943F-9CDA601F17EA}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

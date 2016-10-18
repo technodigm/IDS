@@ -508,7 +508,9 @@ Public Class FormExecution
     Private Delegate Sub zzz()
     Public Sub CenterPopup()
         ' m_instance.Show()
-        m_instance.ShowDialog()
+        If Not m_instance.Visible Then
+            m_instance.ShowDialog()
+        End If
         'm_instance.CenterToScreen()
     End Sub
 

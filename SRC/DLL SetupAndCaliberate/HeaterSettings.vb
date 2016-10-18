@@ -68,6 +68,7 @@ Public Class HeaterSettings
         Me.ButtonRevert.Size = New System.Drawing.Size(75, 40)
         Me.ButtonRevert.TabIndex = 15
         Me.ButtonRevert.Text = "Revert"
+        Me.ButtonRevert.Visible = False
         '
         'PanelToBeAdded
         '
@@ -106,7 +107,7 @@ Public Class HeaterSettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(416, 24)
+        Me.ButtonExit.Location = New System.Drawing.Point(392, 24)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 47
@@ -158,11 +159,9 @@ Public Class HeaterSettings
     ' of 1, will cause alarm trigger at 63/67
 
 
-    Public Sub RevertData()
-
-
+    Public Sub RevertData(Optional ByVal hideexit As Boolean = False)
+        ButtonExit.Visible = Not hideexit
         IDS.Data.OpenData()
-
     End Sub
     Private Function DataIsNumeric(ByRef Threshold As Object, ByRef OperationTemp As Object) As Boolean
 

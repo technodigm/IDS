@@ -17,7 +17,19 @@ Public Class KeyboardControl
     Private Const VK_LControl As Integer = 162
     Private Const VK_RControl As Integer = 163
 
+    Private Const Vk_G As Integer = 71
+    Private Const Vk_T As Integer = 84
+    Private Const Vk_W As Integer = 87
+
     Public Shared ControlKeyPressed As Boolean = False
+    Public Shared BlockWinKey As Boolean = True
+
+    Public Shared AccessWindow As Boolean = False
+    Private Shared GPressed As Boolean = False
+    Private Shared TPressed As Boolean = False
+    Private Shared WPressed As Boolean = False
+
+
     Private Shared Function KeyBoardHookProc(ByVal nCode As Integer, ByVal wParam As Integer, ByVal lParam As IntPtr) As Integer
         'All keyboard events will be sent here.
         'Don't process just pass along.
@@ -35,18 +47,51 @@ Public Class KeyboardControl
         'ElseIf KeyboardSruct.vkCode = Vk_Escape And My.Computer.Keyboard.CtrlKeyDown Then
         '    'Control Escape
         '    Return 1
-        If KeyboardSruct.vkCode = VK_LWinKey Or KeyboardSruct.vkCode = VK_RWinKey Then
-            'Console.WriteLine(DateTime.Now & "LWin or RWin pressed")
-            Return 1
+        'End If
+        If BlockWinKey Then
+            If KeyboardSruct.vkCode = VK_LWinKey Or KeyboardSruct.vkCode = VK_RWinKey Then
+                'Console.WriteLine(DateTime.Now & "LWin or RWin pressed")
+                Return 1
+            End If
         End If
+        If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = Vk_G) Then
+            GPressed = True
+        End If
+
+        If wParam = WM_KEYUP And (KeyboardSruct.vkCode = Vk_G) Then
+            GPressed = False
+        End If
+        If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = Vk_T) Then
+            TPressed = True
+        End If
+
+        If wParam = WM_KEYUP And (KeyboardSruct.vkCode = Vk_T) Then
+            TPressed = False
+        End If
+
+        If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = Vk_W) Then
+            WPressed = True
+        End If
+
+        If wParam = WM_KEYUP And (KeyboardSruct.vkCode = Vk_W) Then
+            WPressed = False
+        End If
+
+        If TPressed And GPressed And WPressed Then
+            AccessWindow = True
+        Else
+            AccessWindow = False
+        End If
+
+
         'Send the message along  
         If wParam = WM_KEYDOWN And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
             ControlKeyPressed = True
-            Console.WriteLine("IDS Key Down" & Hex(KeyboardSruct.vkCode))
+            'Console.WriteLine("IDS Key Down" & Hex(KeyboardSruct.vkCode))
         End If
         If wParam = WM_KEYUP And (KeyboardSruct.vkCode = VK_RControl Or KeyboardSruct.vkCode = VK_LControl) Then
             ControlKeyPressed = False
-            Console.WriteLine("IDS Key Up" & Hex(KeyboardSruct.vkCode))
+            'Console.WriteLine("IDS Key Up" & Hex(KeyboardSruct.vkCode))
         End If
         Return CallNextHookEx(HookId, nCode, New IntPtr(wParam), lParam)
     End Function

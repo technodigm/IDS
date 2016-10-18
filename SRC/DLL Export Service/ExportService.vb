@@ -3,6 +3,9 @@ Imports DLL_DataManager
 Imports DLL_Export_Device_Vision
 Imports DLL_Export_Device_Motor
 Imports DLL_Serial_Communication
+Imports WeightScale
+Imports PLC
+Imports Laser
 
 Public Class CIDSService
 
@@ -28,23 +31,32 @@ Public Class CIDSService
 #Region "Conveyor Part"
         Public Shadows Conveyor As New CIDSServiceConveyor
         Public Class CIDSServiceConveyor
-            Inherits Conveyor
+            'Inherits Conveyor
 
             Shared No_Signal_time As Byte
             Shared com_error_time As Byte
 
-            Private Shared m_instance As CIDSServiceConveyor
+            Private Shared m_instance As PLC.IPLC
 
-            Public Shared ReadOnly Property Instance() As CIDSServiceConveyor
+            Public Shared ReadOnly Property Instance() As PLC.IPLC
                 Get
                     If m_instance Is Nothing Then
-                        m_instance = New CIDSServiceConveyor
+                        Try
+                            Dim dll As System.Reflection.Assembly = System.Reflection.Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\Conveyor.dll")
+                            Dim obj As System.Type = dll.GetType("Conveyor.Conveyor")
+                            If Not (obj Is Nothing) Then
+                                m_instance = Activator.CreateInstance(obj) 'New Sartorius_WZA.Weighting_Scale
+                            End If
+                        Catch ex As Exception
+
+                        End Try
+                        'm_instance = 'New CIDSServiceConveyor
                     Else
-                        If m_instance.IsDisposed Then
-                            m_instance = New CIDSServiceConveyor
-                        End If
+                        'If m_instance.IsDisposed Then
+                        '    m_instance = New CIDSServiceConveyor
+                        'End If
                     End If
-                    m_instance.BringToFront()
+                    'm_instance.BringToFront()
                     Return m_instance
                 End Get
 
@@ -57,20 +69,31 @@ Public Class CIDSService
 #Region "Weighting Machine"
         'Public Shadows Weighting As New CIDSServiceWeighting
         Public Class CIDSServiceWeighting
-            Inherits Weighting_Scale
+            'Inherits Weighting_Scale
 
-            Private Shared m_instance As CIDSServiceWeighting
+            Private Shared m_instance As WeightScale.IWeightingScale
 
-            Public Shared ReadOnly Property Instance() As CIDSServiceWeighting
+            Public Shared ReadOnly Property Instance() As WeightScale.IWeightingScale
                 Get
                     If m_instance Is Nothing Then
-                        m_instance = New CIDSServiceWeighting
+                        'm_instance = New CIDSServiceWeighting
+                        Try
+                            Dim dll As System.Reflection.Assembly = System.Reflection.Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\Sartorius_WZA.dll")
+                            Dim obj As System.Type = dll.GetType("Sartorius_WZA.Weighting_Scale")
+                            If Not (obj Is Nothing) Then
+                                m_instance = Activator.CreateInstance(obj) 'New Sartorius_WZA.Weighting_Scale
+                            End If
+                        Catch ex As Exception
+
+                        End Try
+                       
                     Else
-                        If m_instance.IsDisposed Then
-                            m_instance = New CIDSServiceWeighting
-                        End If
+
+                        'If m_instance.IsDisposed Then
+                        '    m_instance = New CIDSServiceWeighting
+                        'End If
                     End If
-                    m_instance.BringToFront()
+
                     Return m_instance
                 End Get
 
@@ -216,20 +239,25 @@ Public Class CIDSService
 #Region "Laser"
         Public Shadows Laser As New CIDSServiceLaser
         Public Class CIDSServiceLaser
-            Inherits Laser
 
-            Private Shared m_instance As CIDSServiceLaser
+            Private Shared m_instance As ILaser
 
-            Public Shared ReadOnly Property Instance() As CIDSServiceLaser
+            Public Shared ReadOnly Property Instance() As ILaser
                 Get
                     If m_instance Is Nothing Then
-                        m_instance = New CIDSServiceLaser
+                        Try
+                            Dim dll As System.Reflection.Assembly = System.Reflection.Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\LaserILD1402.dll")
+                            Dim obj As System.Type = dll.GetType("LaserILD1402.Laser")
+                            If Not (obj Is Nothing) Then
+                                m_instance = Activator.CreateInstance(obj) 'New Sartorius_WZA.Weighting_Scale
+                            End If
+                        Catch ex As Exception
+
+                        End Try
                     Else
-                        If m_instance.IsDisposed Then
-                            m_instance = New CIDSServiceLaser
-                        End If
+
                     End If
-                    m_instance.BringToFront()
+
                     Return m_instance
                 End Get
 
@@ -280,10 +308,10 @@ Public Module x
 
     'gui instantiation from other modules
     Public m_Tri As CIDSService.CIDSServiceDevices.CIDSMotor = m_Tri.Instance
-    Public Conveyor As CIDSService.CIDSServiceDevices.CIDSServiceConveyor = Conveyor.Instance
+    Public Conveyor As PLC.IPLC = CIDSService.CIDSServiceDevices.CIDSServiceConveyor.Instance
     'Public Weighting_Scale As CIDSService.CIDSServiceDevices.CIDSServiceWeighting = Weighting_Scale.Instance
     Public Heater As CIDSService.CIDSServiceDevices.CIDSServiceThermal = Heater.Instance
-    Public Laser As CIDSService.CIDSServiceDevices.CIDSServiceLaser = Laser.Instance
+    Public Laser As ILaser = CIDSService.CIDSServiceDevices.CIDSServiceLaser.Instance
     Public Dispenser As CIDSService.CIDSServiceDevices.CIDSServiceDispenser = Dispenser.Instance
     Public Vision As CIDSService.CIDSServiceDevices.CIDSServiceVision = Vision.Minstance
 

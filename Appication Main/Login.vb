@@ -126,7 +126,7 @@ Public Class Login
         tbPassword.Text = ""
         tbPassword.Focus()
         passed = False
-        If loginMode = 0 Then
+        If loginMode = 0 Or loginMode = 2 Then
             ReadFile()
         Else
             ReadSetupPassFile()
@@ -137,17 +137,27 @@ Public Class Login
         If Not (Directory.Exists("C:\Program Files\TIDS\")) Then
             Directory.CreateDirectory("C:\Program Files\TIDS\")
         End If
-        If Not (File.Exists("C:\Program Files\TIDS\p.dat")) Then
-            Dim writer As StreamWriter = New StreamWriter("C:\Program Files\TIDS\p.dat")
+        Dim filePath As String = ""
+        If loginMode = 0 Then
+            filePath = "C:\Program Files\TIDS\p.dat"
+        ElseIf loginMode = 2 Then
+            filePath = "C:\Program Files\TIDS\wp.dat"
+        End If
+        If Not (File.Exists(filePath)) Then
+            Dim writer As StreamWriter = New StreamWriter(filePath)
             writer.WriteLine("default")
             writer.Close()
         End If
-        Dim reader As StreamReader = New StreamReader("C:\Program Files\TIDS\p.dat")
+        Dim reader As StreamReader = New StreamReader(filePath)
         pass = reader.ReadLine()
         reader.Close()
     End Sub
     Private Sub WritePassword(ByVal password As String)
-        Dim writer As StreamWriter = New StreamWriter("C:\Program Files\TIDS\p.dat")
+        Dim filePath As String = "C:\Program Files\TIDS\p.dat"
+        If loginMode = 2 Then
+            filePath = "C:\Program Files\TIDS\wp.dat"
+        End If
+        Dim writer As StreamWriter = New StreamWriter(filePath)
         writer.WriteLine(password)
         writer.Close()
     End Sub

@@ -44,7 +44,13 @@ Public Class FormStartup
     Friend WithEvents loginPanel As System.Windows.Forms.Panel
     Friend WithEvents btSetup As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents btAccessWindows As System.Windows.Forms.Button
+    Friend WithEvents btExitSoftware As System.Windows.Forms.Button
+    Friend WithEvents ExitButtonTimer As System.Windows.Forms.Timer
+    Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents AccessWindowsTimer As System.Windows.Forms.Timer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormStartup))
         Me.BtnExit = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
@@ -53,6 +59,11 @@ Public Class FormStartup
         Me.loginPanel = New System.Windows.Forms.Panel
         Me.btSetup = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
+        Me.btAccessWindows = New System.Windows.Forms.Button
+        Me.btExitSoftware = New System.Windows.Forms.Button
+        Me.ExitButtonTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.Button3 = New System.Windows.Forms.Button
+        Me.AccessWindowsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'BtnExit
@@ -62,7 +73,7 @@ Public Class FormStartup
         Me.BtnExit.Name = "BtnExit"
         Me.BtnExit.Size = New System.Drawing.Size(112, 64)
         Me.BtnExit.TabIndex = 1
-        Me.BtnExit.Text = "Exit"
+        Me.BtnExit.Text = "Shut Down"
         '
         'Button1
         '
@@ -110,7 +121,7 @@ Public Class FormStartup
         '
         'Label1
         '
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 72.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Font = New System.Drawing.Font("Tahoma", 72.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(177, Byte))
         Me.Label1.Location = New System.Drawing.Point(246, 16)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(800, 128)
@@ -118,10 +129,51 @@ Public Class FormStartup
         Me.Label1.Text = "IDS2000"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'btAccessWindows
+        '
+        Me.btAccessWindows.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btAccessWindows.Location = New System.Drawing.Point(56, 16)
+        Me.btAccessWindows.Name = "btAccessWindows"
+        Me.btAccessWindows.Size = New System.Drawing.Size(112, 64)
+        Me.btAccessWindows.TabIndex = 7
+        Me.btAccessWindows.Text = "Access Windows"
+        Me.btAccessWindows.Visible = False
+        '
+        'btExitSoftware
+        '
+        Me.btExitSoftware.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btExitSoftware.Location = New System.Drawing.Point(1144, 176)
+        Me.btExitSoftware.Name = "btExitSoftware"
+        Me.btExitSoftware.Size = New System.Drawing.Size(112, 64)
+        Me.btExitSoftware.TabIndex = 8
+        Me.btExitSoftware.Text = "Exit IDS"
+        Me.btExitSoftware.Visible = False
+        '
+        'ExitButtonTimer
+        '
+        Me.ExitButtonTimer.Interval = 30000
+        '
+        'Button3
+        '
+        Me.Button3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button3.Location = New System.Drawing.Point(1144, 96)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(112, 64)
+        Me.Button3.TabIndex = 9
+        Me.Button3.Text = "Restart"
+        '
+        'AccessWindowsTimer
+        '
+        Me.AccessWindowsTimer.Enabled = True
+        Me.AccessWindowsTimer.Interval = 50
+        '
         'FormStartup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(1292, 1036)
+        Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.btExitSoftware)
+        Me.Controls.Add(Me.btAccessWindows)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btSetup)
         Me.Controls.Add(Me.loginPanel)
@@ -192,10 +244,13 @@ Public Class FormStartup
 
 
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
+        If MessageBox.Show("Are you sure you want to shut down the PC?", "Warning", MessageBoxButtons.YesNo) = DialogResult.No Then
+            Return
+        End If
         formlg.Dispose()
         KeyboardControl.ReleaseControls()
         Taskbar.ShowTaskBar(True)
-
+        Shell("shutdown -s -t 00")
         '   Xue Wen                                     '
         '   Testing (Kill the application directly)     '
         Dim procRunning() As Process
@@ -219,7 +274,7 @@ Public Class FormStartup
     End Sub
 
     Private Sub FormStartup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'KeyboardControl.GainControls()
+        KeyboardControl.GainControls()
         'Taskbar.ShowTaskBar(False)
         'formlg.StartPosition = FormStartPosition.CenterScreen
         'formlg.Show()
@@ -236,12 +291,21 @@ Public Class FormStartup
     Public frmLogin As New FormLogin
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        If Cursor Is Cursors.WaitCursor Then Exit Sub
         IDS.Data.ParameterID.RecordID = "FactoryDefault"
         IDSData.Admin.Folder.FileExtension = "Pat"
         IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
         IDS.Data.OpenData()
         IDS.Data.Admin.User.RunApplication = "Operator"
+        Cursor = Cursors.WaitCursor
+        KeyboardControl.BlockWinKey = True
+        ExitButtonTimer.Stop()
+        ExitButtonTimer.Enabled = False
+        btExitSoftware.Visible = False
+        Me.AccessWindowsTimer.Enabled = False
         Call frmLogin.LoadProgrammerMaintenance()
+        Me.AccessWindowsTimer.Enabled = True
+        Cursor = Cursors.Default
     End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -251,23 +315,34 @@ Public Class FormStartup
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        'LoginName = "Application_Programmer"
+        LoginName = "Application_Programmer"
         'formlg.StartPosition = FormStartPosition.CenterScreen
         'formlg.ShowDialog()
-        'If loginForm.logging Then Return
-        'loginForm.ShowChangePassword(True)
-        'loginForm.logging = True
-        'loginForm.loginMode = 0
-        'loginForm.ShowDialog()
-        'If loginForm.passed Then
+        If loginForm.logging Then Return
+        loginForm.ShowChangePassword(True)
+        loginForm.logging = True
+        loginForm.loginMode = 0
+        loginForm.ShowDialog()
+        If loginForm.passed Then
+            If Cursor Is Cursors.WaitCursor Then
+                Return
+            End If
             IDS.Data.ParameterID.RecordID = "FactoryDefault"
             IDSData.Admin.Folder.FileExtension = "Pat"
             IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
             IDS.Data.OpenData()
             IDS.Data.Admin.User.RunApplication = "Programmer"
-        Call frmLogin.LoadProgrammerMaintenance()
-        Me.BringToFront()
-        'End If
+            Cursor = Cursors.WaitCursor
+            KeyboardControl.BlockWinKey = True
+            ExitButtonTimer.Stop()
+            ExitButtonTimer.Enabled = False
+            btExitSoftware.Visible = False
+            Me.AccessWindowsTimer.Enabled = False
+            Call frmLogin.LoadProgrammerMaintenance()
+            Me.AccessWindowsTimer.Enabled = True
+            Cursor = Cursors.Default
+            Me.BringToFront()
+        End If
         loginForm.logging = False
     End Sub
 
@@ -283,8 +358,151 @@ Public Class FormStartup
             IDSData.Admin.Folder.PatternPath = "C:\IDS\Pattern_Dir"
             IDS.Data.OpenData()
             IDS.Data.Admin.User.RunApplication = "System"
+            KeyboardControl.BlockWinKey = True
+            ExitButtonTimer.Stop()
+            ExitButtonTimer.Enabled = False
+            btExitSoftware.Visible = False
+            Me.AccessWindowsTimer.Enabled = False
             Call frmLogin.LoadProgrammerMaintenance()
+            Me.AccessWindowsTimer.Enabled = True
         End If
         loginForm.logging = False
+    End Sub
+
+    Private Sub FormStartup_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        Taskbar.ShowTaskBar(True)
+    End Sub
+
+    Private Sub btAccessWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btAccessWindows.Click
+        If loginForm.logging Then Return
+        loginForm.logging = True
+        loginForm.ShowChangePassword(True)
+        loginForm.loginMode = 2
+        loginForm.ShowDialog()
+        If loginForm.passed Then
+            Taskbar.ShowTaskBar(True)
+            KeyboardControl.BlockWinKey = False
+            btExitSoftware.Visible = True
+            ExitButtonTimer.Enabled = True
+        End If
+        loginForm.logging = False
+    End Sub
+
+    Private Sub btExitSoftware_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExitSoftware.Click
+        If MessageBox.Show("Are you sure you want to exit this software?", "Warning", MessageBoxButtons.YesNo) = DialogResult.No Then
+            Return
+        End If
+        formlg.Dispose()
+        KeyboardControl.ReleaseControls()
+        Taskbar.ShowTaskBar(True)
+        '   Xue Wen                                     '
+        '   Testing (Kill the application directly)     '
+        Dim procRunning() As Process
+        procRunning = Process.GetProcesses
+
+        For Each procs As Process In procRunning
+            Try
+                If procs.ProcessName.Equals("IDS Application") Then
+                    procs.Kill()
+                    Exit Sub
+                End If
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+        Next
+    End Sub
+
+    Private Sub ExitButtonTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitButtonTimer.Tick
+        Me.btExitSoftware.Visible = False
+        ExitButtonTimer.Stop()
+        ExitButtonTimer.Enabled = False
+    End Sub
+
+    Private Sub Button3_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+        If MessageBox.Show("Are you sure you want to restart the PC?", "Warning", MessageBoxButtons.YesNo) = DialogResult.No Then
+            Return
+        End If
+        formlg.Dispose()
+        KeyboardControl.ReleaseControls()
+        Taskbar.ShowTaskBar(True)
+        Shell("shutdown -r -t 00")
+        '   Xue Wen                                     '
+        '   Testing (Kill the application directly)     '
+        Dim procRunning() As Process
+        procRunning = Process.GetProcesses
+
+        For Each procs As Process In procRunning
+            Try
+                If procs.ProcessName.Equals("IDS Application") Then
+                    procs.Kill()
+                    Exit Sub
+                End If
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+        Next
+    End Sub
+    Dim GPressed As Boolean = False
+    Dim TPressed As Boolean = False
+    Dim WPressed As Boolean = False
+    Dim showingLoginWindows As Boolean = False
+    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+        If showingLoginWindows Then Return
+        If e.KeyCode = Keys.G Then
+            GPressed = True
+        ElseIf e.KeyCode = Keys.T Then
+            TPressed = True
+        ElseIf e.KeyCode = Keys.W Then
+            WPressed = True
+        End If
+        If GPressed And TPressed And WPressed Then
+            showingLoginWindows = True
+            If loginForm.logging Then Return
+            loginForm.logging = True
+            loginForm.ShowChangePassword(True)
+            loginForm.loginMode = 2
+            loginForm.ShowDialog()
+            If loginForm.passed Then
+                Taskbar.ShowTaskBar(True)
+                KeyboardControl.BlockWinKey = False
+                btExitSoftware.Visible = True
+                ExitButtonTimer.Enabled = True
+            End If
+            loginForm.logging = False
+            showingLoginWindows = False
+        End If
+    End Sub
+
+    Protected Overrides Sub OnKeyUp(ByVal e As System.Windows.Forms.KeyEventArgs)
+        If e.KeyCode = Keys.G Then
+            GPressed = False
+        ElseIf e.KeyCode = Keys.T Then
+            TPressed = False
+        ElseIf e.KeyCode = Keys.W Then
+            WPressed = False
+        End If
+    End Sub
+
+    Private Sub AccessWindowsTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AccessWindowsTimer.Tick
+        If KeyboardControl.AccessWindow Then
+            AccessWindowsTimer.Stop()
+            AccessWindowsTimer.Enabled = False
+            If showingLoginWindows Then Return
+            showingLoginWindows = True
+            If loginForm.logging Then Return
+            loginForm.logging = True
+            loginForm.ShowChangePassword(True)
+            loginForm.loginMode = 2
+            loginForm.ShowDialog()
+            If loginForm.passed Then
+                Taskbar.ShowTaskBar(True)
+                KeyboardControl.BlockWinKey = False
+                btExitSoftware.Visible = True
+                ExitButtonTimer.Enabled = True
+            End If
+            loginForm.logging = False
+            showingLoginWindows = False
+            AccessWindowsTimer.Enabled = True
+        End If
     End Sub
 End Class

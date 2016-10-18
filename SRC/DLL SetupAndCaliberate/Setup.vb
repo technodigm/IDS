@@ -90,6 +90,7 @@ Public Class Setup
     Friend WithEvents cbLockZ As System.Windows.Forms.CheckBox
     Friend WithEvents cbLockY As System.Windows.Forms.CheckBox
     Friend WithEvents cbLockX As System.Windows.Forms.CheckBox
+    Friend WithEvents Button1 As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(Setup))
@@ -149,6 +150,7 @@ Public Class Setup
         Me.OleDbConnection1 = New System.Data.OleDb.OleDbConnection
         Me.Timer1 = New System.Timers.Timer
         Me.HardwareInitTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button
         Me.PanelVision.SuspendLayout()
         Me.PanelVisionCtrl.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -167,7 +169,7 @@ Public Class Setup
         '
         Me.PanelVision.BackColor = System.Drawing.Color.SlateGray
         Me.PanelVision.Controls.Add(Me.PanelVisionCtrl)
-        Me.PanelVision.Location = New System.Drawing.Point(0, 340)
+        Me.PanelVision.Location = New System.Drawing.Point(0, 352)
         Me.PanelVision.Name = "PanelVision"
         Me.PanelVision.Size = New System.Drawing.Size(768, 576)
         Me.PanelVision.TabIndex = 3
@@ -318,6 +320,7 @@ Public Class Setup
         Me.GroupBox1.TabIndex = 69
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Height Sensor"
+        Me.GroupBox1.Visible = False
         '
         'RBn_LVDT
         '
@@ -375,6 +378,7 @@ Public Class Setup
         Me.CheckBoxVolume.Size = New System.Drawing.Size(184, 23)
         Me.CheckBoxVolume.TabIndex = 66
         Me.CheckBoxVolume.Text = "Volume Calibration"
+        Me.CheckBoxVolume.Visible = False
         '
         'LabelMessage
         '
@@ -527,7 +531,7 @@ Public Class Setup
         'ButtonVolumeCalibSettings
         '
         Me.ButtonVolumeCalibSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(264, 104)
+        Me.ButtonVolumeCalibSettings.Location = New System.Drawing.Point(24, 160)
         Me.ButtonVolumeCalibSettings.Name = "ButtonVolumeCalibSettings"
         Me.ButtonVolumeCalibSettings.Size = New System.Drawing.Size(224, 30)
         Me.ButtonVolumeCalibSettings.TabIndex = 46
@@ -574,7 +578,7 @@ Public Class Setup
         'ButtonSPCLogging
         '
         Me.ButtonSPCLogging.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSPCLogging.Location = New System.Drawing.Point(24, 160)
+        Me.ButtonSPCLogging.Location = New System.Drawing.Point(264, 104)
         Me.ButtonSPCLogging.Name = "ButtonSPCLogging"
         Me.ButtonSPCLogging.Size = New System.Drawing.Size(224, 30)
         Me.ButtonSPCLogging.TabIndex = 51
@@ -591,6 +595,7 @@ Public Class Setup
         '
         'Panel2
         '
+        Me.Panel2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Panel2.Controls.Add(Me.cbLockZ)
         Me.Panel2.Controls.Add(Me.TextBoxRobotZ)
         Me.Panel2.Controls.Add(Me.cbLockY)
@@ -601,9 +606,9 @@ Public Class Setup
         Me.Panel2.Controls.Add(Me.Label3)
         Me.Panel2.Controls.Add(Me.DisplayBrightness)
         Me.Panel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Panel2.Location = New System.Drawing.Point(0, 916)
+        Me.Panel2.Location = New System.Drawing.Point(200, 944)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(768, 28)
+        Me.Panel2.Size = New System.Drawing.Size(568, 36)
         Me.Panel2.TabIndex = 5
         '
         'cbLockZ
@@ -611,7 +616,7 @@ Public Class Setup
         Me.cbLockZ.BackColor = System.Drawing.SystemColors.Control
         Me.cbLockZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbLockZ.Image = CType(resources.GetObject("cbLockZ.Image"), System.Drawing.Image)
-        Me.cbLockZ.Location = New System.Drawing.Point(725, 5)
+        Me.cbLockZ.Location = New System.Drawing.Point(512, 5)
         Me.cbLockZ.Name = "cbLockZ"
         Me.cbLockZ.Size = New System.Drawing.Size(40, 16)
         Me.cbLockZ.TabIndex = 75
@@ -620,7 +625,7 @@ Public Class Setup
         'TextBoxRobotZ
         '
         Me.TextBoxRobotZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotZ.Location = New System.Drawing.Point(650, 4)
+        Me.TextBoxRobotZ.Location = New System.Drawing.Point(432, 4)
         Me.TextBoxRobotZ.Name = "TextBoxRobotZ"
         Me.TextBoxRobotZ.ReadOnly = True
         Me.TextBoxRobotZ.Size = New System.Drawing.Size(74, 21)
@@ -632,7 +637,7 @@ Public Class Setup
         Me.cbLockY.BackColor = System.Drawing.SystemColors.Control
         Me.cbLockY.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbLockY.Image = CType(resources.GetObject("cbLockY.Image"), System.Drawing.Image)
-        Me.cbLockY.Location = New System.Drawing.Point(611, 4)
+        Me.cbLockY.Location = New System.Drawing.Point(392, 4)
         Me.cbLockY.Name = "cbLockY"
         Me.cbLockY.Size = New System.Drawing.Size(40, 16)
         Me.cbLockY.TabIndex = 73
@@ -640,7 +645,7 @@ Public Class Setup
         'TextBoxRobotY
         '
         Me.TextBoxRobotY.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotY.Location = New System.Drawing.Point(536, 4)
+        Me.TextBoxRobotY.Location = New System.Drawing.Point(320, 4)
         Me.TextBoxRobotY.Name = "TextBoxRobotY"
         Me.TextBoxRobotY.ReadOnly = True
         Me.TextBoxRobotY.Size = New System.Drawing.Size(74, 21)
@@ -652,7 +657,7 @@ Public Class Setup
         Me.cbLockX.BackColor = System.Drawing.SystemColors.Control
         Me.cbLockX.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbLockX.Image = CType(resources.GetObject("cbLockX.Image"), System.Drawing.Image)
-        Me.cbLockX.Location = New System.Drawing.Point(498, 4)
+        Me.cbLockX.Location = New System.Drawing.Point(280, 4)
         Me.cbLockX.Name = "cbLockX"
         Me.cbLockX.Size = New System.Drawing.Size(40, 16)
         Me.cbLockX.TabIndex = 71
@@ -660,7 +665,7 @@ Public Class Setup
         'TextBoxRobotX
         '
         Me.TextBoxRobotX.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxRobotX.Location = New System.Drawing.Point(424, 4)
+        Me.TextBoxRobotX.Location = New System.Drawing.Point(208, 4)
         Me.TextBoxRobotX.Name = "TextBoxRobotX"
         Me.TextBoxRobotX.ReadOnly = True
         Me.TextBoxRobotX.Size = New System.Drawing.Size(74, 21)
@@ -670,7 +675,7 @@ Public Class Setup
         'Label1
         '
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(384, 6)
+        Me.Label1.Location = New System.Drawing.Point(168, 6)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(40, 23)
         Me.Label1.TabIndex = 7
@@ -679,7 +684,7 @@ Public Class Setup
         'Label3
         '
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(245, 6)
+        Me.Label3.Location = New System.Drawing.Point(32, 6)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(66, 23)
         Me.Label3.TabIndex = 3
@@ -688,7 +693,7 @@ Public Class Setup
         'DisplayBrightness
         '
         Me.DisplayBrightness.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DisplayBrightness.Location = New System.Drawing.Point(313, 4)
+        Me.DisplayBrightness.Location = New System.Drawing.Point(96, 4)
         Me.DisplayBrightness.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
         Me.DisplayBrightness.Name = "DisplayBrightness"
         Me.DisplayBrightness.Size = New System.Drawing.Size(50, 21)
@@ -711,6 +716,16 @@ Public Class Setup
         'HardwareInitTimer
         '
         '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(8, 936)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(72, 48)
+        Me.Button1.TabIndex = 7
+        Me.Button1.Text = "Exit"
+        '
         'Setup
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -719,11 +734,14 @@ Public Class Setup
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.PanelVision)
         Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.Button1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.Menu = Me.MainMenu1
         Me.MinimizeBox = False
         Me.Name = "Setup"
         Me.Text = "System Setup"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.PanelVision.ResumeLayout(False)
         Me.PanelVisionCtrl.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
@@ -1043,7 +1061,29 @@ Public Class Setup
 
     Private Sub Setup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyboardControl.GainControls()
-
+        If Weighting_Scale Is Nothing Then
+            ButtonVolumeCalibSettings.Visible = False
+            MyHardwareCommunicationSetup.WeighingScaleButton.Visible = False
+        Else
+            ButtonVolumeCalibSettings.Visible = True
+            MyHardwareCommunicationSetup.WeighingScaleButton.Visible = True
+        End If
+        If Conveyor Is Nothing Then
+            ButtonConveyorSettings.Visible = False
+            MyHardwareCommunicationSetup.ConveyorButton.Visible = False
+            MyHardwareCommunicationSetup.ConveyorBox.Visible = False
+        Else
+            ButtonConveyorSettings.Visible = True
+            MyHardwareCommunicationSetup.ConveyorButton.Visible = True
+            MyHardwareCommunicationSetup.ConveyorBox.Visible = True
+        End If
+        If Laser Is Nothing Then
+            MyHardwareCommunicationSetup.LaserButton.Visible = False
+            ButtonLaserSetup.Visible = False
+        Else
+            MyHardwareCommunicationSetup.LaserButton.Visible = True
+            ButtonLaserSetup.Visible = True
+        End If
         ' get default value from the default pat file
         IDS.Data.ParameterID.RecordID = "FactoryDefault"
         IDSData.Admin.Folder.FileExtension = "Pat"
@@ -1081,19 +1121,27 @@ Public Class Setup
         EnableControls(False)
         'timers
         IDS.StartErrorCheck()
-        Conveyor.PositionTimer.Start()
+        If Not (Conveyor Is Nothing) Then
+            Conveyor.ActivePositionTimer(True)
+        End If
         Timer1.Start()
         ThreadMonitor = New Threading.Thread(AddressOf TheThreadMonitor)
         ThreadMonitor.Priority = Threading.ThreadPriority.BelowNormal
         ThreadMonitor.Start()
         MouseTimer = New System.Threading.Timer(AddressOf MouseJogging, Nothing, 0, 180)
         'hardware
-        Laser.OpenPort()
-        OnLaser()
+        If Not (Laser Is Nothing) Then
+            Laser.OpenPort()
+            OnLaser()
+        End If
+
         LabelMessage.Text = "Initialize Hardware......"
         HardwareInitTimer.Enabled = True
         HardwareInitTimer.Start()
-        OffLaser()
+        'EnableControls(True)
+        If Not (Laser Is Nothing) Then
+            OffLaser()
+        End If
     End Sub
 
     Private Sub Setup_Closed(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Closed
@@ -1105,10 +1153,7 @@ Public Class Setup
         PanelRight.Controls.Remove(CurrentControl)
         MyGantrySettings.Controls.Clear()
 
-        Weighting_Scale.Instance.Hide()
         WeightingScaleForm.Hide()
-        Laser.Instance.Hide()
-        Conveyor.Instance.Hide()
 
         'motion controller stop
         m_Tri.Disconnect_Controller()
@@ -1121,13 +1166,21 @@ Public Class Setup
         ThreadMonitor.Abort()
         MouseTimer.Dispose()
         Timer1.Stop()
-        Conveyor.PositionTimer.Stop()
+        If Not (Conveyor Is Nothing) Then
+            Conveyor.ActivePositionTimer(False)
+            Conveyor.ClosePort()
+        End If
 
         'hardware
-        OffLaser()
-        Laser.ClosePort()
-        Conveyor.ClosePort()
-        Weighting_Scale.ClosePort()
+        If Not (Laser Is Nothing) Then
+            OffLaser()
+            Laser.ClosePort()
+        End If
+       
+
+        If Not (Weighting_Scale Is Nothing) Then
+            Weighting_Scale.ClosePort()
+        End If
         Dispenser.ClosePort()
     End Sub
 
@@ -1274,27 +1327,27 @@ Public Class Setup
 
     Private Sub CheckBoxHeightSensor_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxHeightSensor.CheckedChanged
         'Present flag
-        If CheckBoxHeightSensor.Checked = True Then
-            Me.RBn_Laser.Enabled = True
-            Me.RBn_LVDT.Enabled = True
-            If Me.RBn_Laser.Checked = True Then
-                ButtonLaserSetup.Visible = True
-                ButtonLVDTSetup.Visible = False
+        'If CheckBoxHeightSensor.Checked = True Then
+        '    Me.RBn_Laser.Enabled = True
+        '    Me.RBn_LVDT.Enabled = True
+        '    If Me.RBn_Laser.Checked = True Then
+        '        ButtonLaserSetup.Visible = True
+        '        ButtonLVDTSetup.Visible = False
 
-            Else
-                ButtonLaserSetup.Visible = False
-                ButtonLVDTSetup.Visible = True
-            End If
-            IDSData.Hardware.HeightSensor.TP.OffsetPos.X = 1
-            IDSData.Hardware.HeightSensor.TP.OffsetPos.Y = 1
-            'use TP OffsetPos=0 to indicate that no height sensor is in use 'Xu Long
-        Else
-            ButtonLaserSetup.Visible = False
-            ButtonLVDTSetup.Visible = False
-            IDSData.Hardware.HeightSensor.TP.OffsetPos.X = 0
-            IDSData.Hardware.HeightSensor.TP.OffsetPos.Y = 0
-            'use TP OffsetPos=0 to indicate that no height sensor is in use 'Xu Long
-        End If
+        '    Else
+        '        ButtonLaserSetup.Visible = False
+        '        ButtonLVDTSetup.Visible = True
+        '    End If
+        '    IDSData.Hardware.HeightSensor.TP.OffsetPos.X = 1
+        '    IDSData.Hardware.HeightSensor.TP.OffsetPos.Y = 1
+        '    'use TP OffsetPos=0 to indicate that no height sensor is in use 'Xu Long
+        'Else
+        '    ButtonLaserSetup.Visible = False
+        '    ButtonLVDTSetup.Visible = False
+        '    IDSData.Hardware.HeightSensor.TP.OffsetPos.X = 0
+        '    IDSData.Hardware.HeightSensor.TP.OffsetPos.Y = 0
+        '    'use TP OffsetPos=0 to indicate that no height sensor is in use 'Xu Long
+        'End If
     End Sub
 
 
@@ -1323,11 +1376,11 @@ Public Class Setup
 
     Private Sub CheckBoxVolume_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxVolume.CheckedChanged
         'Present flag
-        If CheckBoxVolume.Checked = True Then
-            ButtonVolumeCalibSettings.Visible = True
-        Else
-            ButtonVolumeCalibSettings.Visible = False
-        End If
+        'If CheckBoxVolume.Checked = True Then
+        '    ButtonVolumeCalibSettings.Visible = True
+        'Else
+        '    ButtonVolumeCalibSettings.Visible = False
+        'End If
         MyHardwareCommunicationSetup.RefreshDisplay()
         MyHardwareCommunicationSetup.UpdateStatus()
     End Sub
@@ -1374,6 +1427,7 @@ Public Class Setup
     End Sub
 
     Private Sub ButtonLaser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonLaserSetup.Click
+        If Laser Is Nothing Then Return
         OnLaser()
         AddPanel(PanelRight, MyLaser.PanelToBeAdded)
         MyLaser.LaserOffsetZ.Text = "Z:" & RoundTo3DecimalPoints(IDS.Data.Hardware.HeightSensor.Laser.HeightReference)
@@ -1470,8 +1524,10 @@ Public Class Setup
 
     Private Sub ButtonConveyorSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonConveyorSettings.Click
         AddPanel(PanelRight, MyConveyorSettings.PanelToBeAdded)
-        Conveyor.OpenPort()
-        Conveyor.PositionTimer.Start()
+        If Not (Conveyor Is Nothing) Then
+            Conveyor.OpenPort()
+            Conveyor.ActivePositionTimer(True)
+        End If
         MyConveyorSettings.PositionTimer.Start()
         MySettings.RevertData()
     End Sub
@@ -1569,5 +1625,9 @@ Public Class Setup
             ctrl.Enabled = enable
             m_Tri.SteppingButtons.Enabled = enable
         Next
+    End Sub
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Close()
     End Sub
 End Class

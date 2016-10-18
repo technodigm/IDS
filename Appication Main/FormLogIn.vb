@@ -1556,7 +1556,12 @@ Public Class FormLogin
         IDSData.SystemAtLogin = False
         If IDS.Data.Admin.User.RunApplication = "Programmer" Then
             Programming.CurrentMode = "Program Editor"
-            Programming.ShowDialog()
+            Try
+                Programming.ShowDialog()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+
         ElseIf IDS.Data.Admin.User.RunApplication = "Operator" Then
             Production.ShowDialog()
         ElseIf IDS.Data.Admin.User.RunApplication = "System" Then

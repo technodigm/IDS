@@ -28,8 +28,8 @@ Public Class CIDSVision
 #End Region
 
 #Region "Production"
-    Public Function IDSV_FI(ByVal Filename As String, ByRef FI_OffX As Double, ByRef FI_OffY As Double) As Boolean
-        Return FrmVision.IDSV_FI(Filename, FI_OffX, FI_OffY)
+    Public Function IDSV_FI(ByVal Filename As String, ByRef FI_OffX As Double, ByRef FI_OffY As Double, Optional ByVal SkipWaitStable As Boolean = False) As Boolean
+        Return FrmVision.IDSV_FI(Filename, FI_OffX, FI_OffY, SkipWaitStable)
     End Function
     Public Sub IDSV_FIOutput(ByRef DelX As Double, ByRef DelY As Double) 'useless
         FrmVision.IDSV_FI(DelX, DelY)
@@ -47,8 +47,8 @@ Public Class CIDSVision
         Return FrmVision.IDSV_NC(BlackDot, Binarized, MaxArea, MinArea, Close, Open, Roughness, Compactness, _DisplayCenterXPosition, _DisplayCenterYPosition, _MRoiX, _MRoiY, NC_OffX, NC_OffY)
     End Function
     Public diameterResult As Double = 0
-    Public Function IDSV_QC(ByVal VParam As DLL_Export_Device_Vision.QC.QCParam) As Boolean
-        Dim rtn = FrmVision.IDSV_QC(VParam)
+    Public Function IDSV_QC(ByVal VParam As DLL_Export_Device_Vision.QC.QCParam, Optional ByVal skipWaitStable As Boolean = False) As Boolean
+        Dim rtn = FrmVision.IDSV_QC(VParam, skipWaitStable)
         If rtn Then
             diameterResult = FrmVision.diameterResult
         Else

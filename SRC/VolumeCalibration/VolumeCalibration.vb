@@ -53,8 +53,8 @@ Public Class VolumeCalPostHandler
             Dim j As Integer = 0
             dotList.Clear()
             Dim objStreamWriter As New StreamWriter(filePath, False)
-            For j = 0 To numOfDotPerXLength
-                For i = 0 To numOfDotPerYLength
+            For j = 0 To numOfDotPerYLength
+                For i = 0 To numOfDotPerXLength
                     dotList.Add(New Dot(j, i))
                     objStreamWriter.WriteLine(j.ToString() + "," + i.ToString() + "," + "0")
                 Next
@@ -67,6 +67,11 @@ Public Class VolumeCalPostHandler
     End Function
     Public Function OldPostFileExist() As Boolean
         Return File.Exists(filePath)
+    End Function
+    Public Function DeleteCalFile()
+        If File.Exists(filePath) Then
+            File.Delete(filePath)
+        End If
     End Function
     'Get populated post from file
     Public Function GetAllPopulatedPost() As Boolean
@@ -84,7 +89,7 @@ Public Class VolumeCalPostHandler
                     Else
                         dotList.Add(New Dot(strTemp(0), strTemp(1), Not (strTemp(2) = "0")))
                     End If
-                End If  
+                End If
             Loop
             sr.Close()
             Return True

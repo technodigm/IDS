@@ -77,6 +77,7 @@ Public Class GantrySettings
         Me.CB_UseSystemDefault = New System.Windows.Forms.CheckBox
         Me.PanelToBeAdded = New System.Windows.Forms.Panel
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
+        Me.btMoveXYOnly = New System.Windows.Forms.Button
         Me.SavePositionButton = New System.Windows.Forms.Button
         Me.ZPosition = New System.Windows.Forms.Label
         Me.StationPosition = New System.Windows.Forms.ComboBox
@@ -114,7 +115,6 @@ Public Class GantrySettings
         Me.ButtonSave = New System.Windows.Forms.Button
         Me.gpbDualHead = New System.Windows.Forms.GroupBox
         Me.chkDualHead = New System.Windows.Forms.CheckBox
-        Me.btMoveXYOnly = New System.Windows.Forms.Button
         Me.PanelToBeAdded.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -166,6 +166,14 @@ Public Class GantrySettings
         Me.GroupBox6.TabIndex = 69
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Station Z Position Setup"
+        '
+        'btMoveXYOnly
+        '
+        Me.btMoveXYOnly.Location = New System.Drawing.Point(56, 224)
+        Me.btMoveXYOnly.Name = "btMoveXYOnly"
+        Me.btMoveXYOnly.Size = New System.Drawing.Size(168, 48)
+        Me.btMoveXYOnly.TabIndex = 70
+        Me.btMoveXYOnly.Text = "Move to  Saved Station XY Only"
         '
         'SavePositionButton
         '
@@ -341,7 +349,7 @@ Public Class GantrySettings
         Me.ButtonExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonExit.Image = CType(resources.GetObject("ButtonExit.Image"), System.Drawing.Image)
         Me.ButtonExit.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.ButtonExit.Location = New System.Drawing.Point(432, 8)
+        Me.ButtonExit.Location = New System.Drawing.Point(392, 8)
         Me.ButtonExit.Name = "ButtonExit"
         Me.ButtonExit.Size = New System.Drawing.Size(75, 50)
         Me.ButtonExit.TabIndex = 47
@@ -500,6 +508,7 @@ Public Class GantrySettings
         Me.ButtonRevert.Size = New System.Drawing.Size(88, 48)
         Me.ButtonRevert.TabIndex = 77
         Me.ButtonRevert.Text = "Revert"
+        Me.ButtonRevert.Visible = False
         '
         'ButtonSave
         '
@@ -527,14 +536,6 @@ Public Class GantrySettings
         Me.chkDualHead.Size = New System.Drawing.Size(120, 16)
         Me.chkDualHead.TabIndex = 0
         Me.chkDualHead.Text = "Dual Head"
-        '
-        'btMoveXYOnly
-        '
-        Me.btMoveXYOnly.Location = New System.Drawing.Point(56, 224)
-        Me.btMoveXYOnly.Name = "btMoveXYOnly"
-        Me.btMoveXYOnly.Size = New System.Drawing.Size(168, 48)
-        Me.btMoveXYOnly.TabIndex = 70
-        Me.btMoveXYOnly.Text = "Move to  Saved Station XY Only"
         '
         'GantrySettings
         '
@@ -683,8 +684,11 @@ Reset:
 
         'station settings
         SaveGantrySettings()
-        IDS.Data.SaveData()
-
+        Dim tempPath As String = IDS.Data.Admin.Folder.PatternPath
+        IDS.Data.OpenDefaultFile()
+        IDS.Data.SaveToDefaultFile()
+        IDS.Data.Admin.Folder.PatternPath = tempPath
+        IDS.Data.OpenData()
     End Sub
 
     Private Sub StationPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StationPosition.SelectedIndexChanged
@@ -756,7 +760,8 @@ Reset:
         IDS.Data.SaveData()
     End Sub
 
-    Public Sub RevertData()
+    Public Sub RevertData(Optional ByVal hideexit As Boolean = False)
+        ButtonExit.Visible = Not hideexit
         IDS.Data.OpenData()
         ElementXYSpeed.Text = IDS.Data.Hardware.Gantry.ElementXYSpeed
         ElementZSpeed.Text = IDS.Data.Hardware.Gantry.ElementZSpeed
@@ -835,6 +840,8 @@ Reset:
         If Not m_Tri.Move_XY(position) Then GoTo Reset
 Reset:
         btMoveXYOnly.Enabled = True
-        MoveButton.Enabled = True
+        If Not Vision.Checked Then
+            MoveButton.Enabled = True
+        End If
     End Sub
 End Class

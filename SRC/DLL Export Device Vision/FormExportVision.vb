@@ -21,6 +21,8 @@ Public Class FormVision
 
     Public Delegate Function ClickToMoveDelegate(ByVal xOffset As Double, ByVal yOffset As Double) As Boolean
     Public ClickToMove As ClickToMoveDelegate = Nothing
+    Public Delegate Function GetPixelDelegate(ByVal pixelValue As Integer)
+    Public GetPixelValue As GetPixelDelegate = Nothing
 
 #Region " Windows Form Designer generated code "
 
@@ -130,12 +132,14 @@ Public Class FormVision
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents AxEBW8Image1 As AxeVision.AxEBW8Image
     Friend WithEvents AxGraphicContextResult As AxMatrox.ActiveMIL.AxMGraphicContext
+    Friend WithEvents CtrlEdgeFinder As AxMatrox.ActiveMIL.EdgeFinder.AxMEdgeFinder
 
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FormVision))
         Me.PanelVision = New System.Windows.Forms.Panel
+        Me.CtrlEdgeFinder = New AxMatrox.ActiveMIL.EdgeFinder.AxMEdgeFinder
         Me.AxGraphicContextResult = New AxMatrox.ActiveMIL.AxMGraphicContext
         Me.AxEBW8Image1 = New AxeVision.AxEBW8Image
         Me.TextBox1 = New System.Windows.Forms.TextBox
@@ -215,6 +219,7 @@ Public Class FormVision
         Me.Timer_Histo = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog_RM = New System.Windows.Forms.OpenFileDialog
         Me.PanelVision.SuspendLayout()
+        CType(Me.CtrlEdgeFinder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxGraphicContextResult, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxEBW8Image1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.AxImage11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -273,6 +278,7 @@ Public Class FormVision
         'PanelVision
         '
         Me.PanelVision.BackColor = System.Drawing.SystemColors.Control
+        Me.PanelVision.Controls.Add(Me.CtrlEdgeFinder)
         Me.PanelVision.Controls.Add(Me.AxGraphicContextResult)
         Me.PanelVision.Controls.Add(Me.AxEBW8Image1)
         Me.PanelVision.Controls.Add(Me.TextBox1)
@@ -339,6 +345,16 @@ Public Class FormVision
         Me.PanelVision.Name = "PanelVision"
         Me.PanelVision.Size = New System.Drawing.Size(1280, 672)
         Me.PanelVision.TabIndex = 71
+        '
+        'CtrlEdgeFinder
+        '
+        Me.CtrlEdgeFinder.ContainingControl = Me
+        Me.CtrlEdgeFinder.Enabled = True
+        Me.CtrlEdgeFinder.Location = New System.Drawing.Point(896, 32)
+        Me.CtrlEdgeFinder.Name = "CtrlEdgeFinder"
+        Me.CtrlEdgeFinder.OcxState = CType(resources.GetObject("CtrlEdgeFinder.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.CtrlEdgeFinder.Size = New System.Drawing.Size(32, 32)
+        Me.CtrlEdgeFinder.TabIndex = 270
         '
         'AxGraphicContextResult
         '
@@ -1091,6 +1107,7 @@ Public Class FormVision
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "FormVision"
         Me.PanelVision.ResumeLayout(False)
+        CType(Me.CtrlEdgeFinder, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AxGraphicContextResult, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AxEBW8Image1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AxImage11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1284,6 +1301,7 @@ Public Class FormVision
     Private Sub AxDisplay1_MouseMoveEvent1(ByVal sender As System.Object, ByVal e As AxMatrox.ActiveMIL.IDisplayEvents_MouseMoveEvent) Handles AxDisplay1.MouseMoveEvent
         PanelPositionX = e.x
         PanelPositionY = e.y
+        GetPixel(PanelPositionX, PanelPositionY)
         Pos_X.Text = Convert.ToString(PanelPositionX)
         Pos_Y.Text = Convert.ToString(PanelPositionY)
         If FiducialMark_form.PictureBox10.BorderStyle = BorderStyle.Fixed3D Then
@@ -1367,6 +1385,7 @@ Public Class FormVision
             End If
         End If
     End Sub
+    Dim ZoomFactor As Double = 1.0
     Private Sub AxDisplay1_ClickEvent1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AxDisplay1.ClickEvent
         If enableClickToMove Then
             Dim X1, Y1 As Double
@@ -1392,6 +1411,13 @@ Public Class FormVision
         End If
 
         '======================
+    End Sub
+    Private Sub GetPixel(ByVal pixelX As Integer, ByVal pixelY As Integer)
+        Dim AnArray(0) As Byte
+        AxImage3.GetLine(AnArray, pixelX, pixelY, pixelX, pixelY)
+        If Not (Me.GetPixelValue Is Nothing) Then
+            GetPixelValue(AnArray(0))
+        End If
     End Sub
     Private Sub AxDisplay1_MouseDownEvent1(ByVal sender As System.Object, ByVal e As AxMatrox.ActiveMIL.IDisplayEvents_MouseDownEvent) Handles AxDisplay1.MouseDownEvent
         If FiducialMark_form.Button_Teach.Enabled = True Then
@@ -1551,7 +1577,7 @@ Public Class FormVision
     Shared IndexNo As Decimal = 0 'Model Index No
     Shared ModelNo As Decimal = 0
     Dim PM_indicator As Integer = 0
-    Dim ClickPM As Integer = 0
+    Public ClickPM As Integer = 0
     Dim MouseClickX, MouseClickY As Integer
     Shared mousedownID As Integer = 0
     Dim ClickRegion As Integer = 5
@@ -1687,18 +1713,18 @@ Public Class FormVision
         'DisplayIndicator()
         Try
 
-            If PM_indicator = 1 Then 'To remove model after it clicked the 2nd time of fiducial button
-                If IndexNo = 0 Then
-                Else
-                    AxPatternMatching2.Models.Remove(IndexNo)
-                    IndexNo = 0
-                    MROIx = 100 'Model ROI
-                    MROIy = 100
-                    DisplayCenterXPosition = 768 / 2
-                    DisplayCenterYPosition = 576 / 2
-                End If
+            'If PM_indicator = 1 Then 'To remove model after it clicked the 2nd time of fiducial button
+            '    If IndexNo = 0 Then
+            '    Else
+            '        AxPatternMatching2.Models.Remove(IndexNo)
+            '        IndexNo = 0
+            '        MROIx = 100 'Model ROI
+            '        MROIy = 100
+            '        DisplayCenterXPosition = 768 / 2
+            '        DisplayCenterYPosition = 576 / 2
+            '    End If
 
-            End If
+            'End If
 
             'Display model region
             With AxGraphicContext1.DrawingRegion
@@ -2270,7 +2296,7 @@ Public Class FormVision
         'SearchRegionDrawing()
     End Sub
     Public Sub LoadModelImage(ByVal imageFilePath As String)
-      
+
     End Sub
     Sub ModelSaveImage()
         If AxImage5.IsAllocated = True Then
@@ -3898,6 +3924,28 @@ Public Class FormVision
             Return CvrtDoubleToString(AxPatternMatching2.Results.Item(1).Score())
         End If
     End Function 'called by FiducialMark_Form
+    Sub SaveSearchRegion(ByVal Fiducial_no As Integer, ByVal Fid As Integer)
+        Try
+            If Fid <> 20 Then
+                If IndexNo = 1 Then 'Got model
+                    If Fiducial_no = 1 Then
+                        AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
+                    Else
+                        AxPatternMatching2.Models.Item(IndexNo).Save(Folder & Fiducial_no.ToString & ".mmo")
+                    End If
+                End If
+            Else
+                If Fiducial_no = 1 Then
+                    AxPatternMatching2.Models.Item(1).Save(Folder & Fiducial_no.ToString & ".mmo")
+                Else
+                    AxPatternMatching2.Models.Item(1).Save(Folder & Fiducial_no.ToString & ".mmo")
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+    End Sub
     Sub SaveFiducial(ByVal Fiducial_no As Integer, ByVal Fid As Integer)
         Try
             If Fid <> 20 Then
@@ -3926,7 +3974,7 @@ Public Class FormVision
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-        
+
     End Sub
     Function LoadFiducial(ByVal Filename As String) As Boolean
         'Dim LoadFile As New OpenFileDialogPreview.Form1
@@ -3953,6 +4001,17 @@ Public Class FormVision
                     Dim ModelName As String = FPath.Remove(0, PathRaw.LastIndexOf("\") + 1)
                     FiducialMark_form.tbModelInfo.Text = ModelName
                     FiducialMark_form.Button_Test.Enabled = True
+                    If isEdit Then
+                        ROIx = Math.Abs(SearchROIStartX - SearchROIEndX)
+                        ROIy = Math.Abs(SearchROIStartY - SearchROIEndY)
+                        SearchRegionDrawing()
+                        modelregionDrawing()
+                        FiducialMark_form.PictureBox10.BorderStyle = BorderStyle.Fixed3D
+                        FiducialMark_form.Button_Teach.Enabled = True
+                    Else
+                        FiducialMark_form.PictureBox10.BorderStyle = BorderStyle.FixedSingle
+                        FiducialMark_form.Button_Teach.Enabled = False
+                    End If
                 End If
             Else
                 MsgBox("Selected file doesn't exist or lost of .mmo file. Please create a new Fiducial Point")
@@ -3991,7 +4050,6 @@ Public Class FormVision
                     SearchROIStartY = AxPatternMatching2.Models.Item(1).SearchRegion.StartY
                     SearchROIEndX = AxPatternMatching2.Models.Item(1).SearchRegion.EndX
                     SearchROIEndY = AxPatternMatching2.Models.Item(1).SearchRegion.EndY
-
                 End If
                 FiducialMark_form.PictureBox20.Image() = Image.FromFile(PathRaw)
                 'Dim ModelName As String = PathRaw.Remove(PathRaw.LastIndexOf("."), PathRaw.Length - PathRaw.LastIndexOf(".") - 1)
@@ -4923,21 +4981,24 @@ Public Class FormVision
             AxGraphicContext2.LineSegment()
         End If
     End Function
-    Function MeasurementPoint(ByVal Contrast As Double, ByVal Threshold As Double, ByVal RotationAngle As Double, ByVal Inside_Out As Boolean, ByVal vertical As Boolean, ByVal ROI As Double, ByVal Chip_QC_SS As Integer, Optional ByVal EdgeStrength As Double = 0.0, Optional ByVal polarity As String = "Any") As Boolean
+    Function MeasurementPoint(ByVal Contrast As Double, ByVal Threshold As Double, ByVal RotationAngle As Double, ByVal Inside_Out As Boolean, ByVal vertical As Boolean, ByVal ROI As Double, ByVal Chip_QC_SS As Integer, Optional ByVal EdgeStrength As Double = 50.0, Optional ByVal polarity As String = "Any") As Boolean
         Dim _polarity As Measurement.MeasMarkerPolarityConstants = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
-        'If polarity = "Any" Then
-        '    _polarity = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
-        'ElseIf polarity = "Negative" Then
-        '    _polarity = Measurement.MeasMarkerPolarityConstants.measNegative
-        'ElseIf polarity = "Positive" Then
-        '    _polarity = Measurement.MeasMarkerPolarityConstants.measPositive
-        'End If
+        If polarity.ToUpper = "ANY" Then
+            _polarity = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+        ElseIf polarity.ToUpper = "NEGATIVE" Or polarity.ToUpper = "WHITE TO BLACK" Then
+            _polarity = Measurement.MeasMarkerPolarityConstants.measNegative
+        ElseIf polarity.ToUpper = "POSITIVE" Or polarity.ToUpper = "BLACK TO WHITE" Then
+            _polarity = Measurement.MeasMarkerPolarityConstants.measPositive
+        Else
+            _polarity = Measurement.MeasMarkerPolarityConstants.measAnyPolarity
+        End If
         Dim SizeROI As Double = (ChipEdgePoints_form.ValueROI.Value / 0.001 * PixelSizeX)
         If Chip_QC_SS = 1 Then
             SizeROI = ROI / 0.001 * PixelSizeX
         ElseIf Chip_QC_SS = 3 Then
             SizeROI = ROI / 0.001 * PixelSizeX
         End If
+        Dim numOfOccur As Integer = 5
         Try
             If MarkersPointNo1 = 1 Or MarkersPointNo2 = 1 Or MarkersPointNo3 = 1 Or MarkersPointNo4 = 1 Or MarkersPointNo5 = 1 Then
                 AxMeasurement7.Markers.Remove(1)
@@ -4951,6 +5012,7 @@ Public Class FormVision
                 MarkersPointNo4 = 0
                 MarkersPointNo5 = 0
             End If
+
             MarkersPointNo1 = AxMeasurement7.Markers.Add(Measurement.MeasMarkerTypeConstants.measEdge)
             With AxMeasurement7.Markers.Item(MarkersPointNo1)
                 .Position.X = PointX1
@@ -4962,7 +5024,9 @@ Public Class FormVision
                 .Contrast.Edge1 = Contrast
                 .EdgeStrength.Edge1 = EdgeStrength
                 .EdgeThreshold = Threshold
-                .NumberOfOccurrences = 1
+                .NumberOfOccurrences = numOfOccur
+                .MinimumNumberOfOccurrences = 1
+                .Spacing.Value = Measurement.MeasAnyConstants.measAny
 
                 If vertical = False Then
                     .Orientation = Measurement.MeasMarkerOrientationConstants.measHorizontal
@@ -4971,22 +5035,49 @@ Public Class FormVision
                     .Orientation = Measurement.MeasMarkerOrientationConstants.measVertical
                     .Polarity.Edge1 = _polarity
                 End If
-
                 .SearchRegion.SizeX = Convert.ToInt16(SizeROI)
                 .SearchRegion.SizeY = Convert.ToInt16(SizeROI)
                 .SearchRegion.CenterX = PointX1
                 .SearchRegion.CenterY = PointY1
-
                 .SearchRegion.Angle.Enabled = True
                 .SearchRegion.Angle.Accuracy = 0.1
                 .SearchRegion.Angle.InterpolationMode = AngleInterpolationModeConstants.angleBilinear
                 .SearchRegion.Angle.CenterOfRotation = AngleCenterOfRotationConstants.angleCenter
 
-                If Inside_Out = True Then
-                    .SearchRegion.Angle.Value = 180
+                If vertical Then
+                    If PointX1 < PointX3 Then
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = -180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    Else
+                        If Inside_Out = False Then
+                            .SearchRegion.Angle.Value = -180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    End If
                 Else
-                    .SearchRegion.Angle.Value = 0
+                    If PointY1 < PointY3 Then
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = -180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = 0
+                        Else
+                            .SearchRegion.Angle.Value = -180
+                        End If
+                    End If
                 End If
+                'If Inside_Out = True Then
+                '    .SearchRegion.Angle.Value = -180
+                'Else
+                '    .SearchRegion.Angle.Value = 0
+                'End If
 
                 .SearchRegion.Angle.NegativeDelta = RotationAngle
                 .SearchRegion.Angle.PositiveDelta = RotationAngle
@@ -5001,7 +5092,10 @@ Public Class FormVision
             AxMeasurement8.Markers.Item(MarkersPointNo2).Contrast.Edge1 = Contrast
             AxMeasurement8.Markers.Item(MarkersPointNo2).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement8.Markers.Item(MarkersPointNo2).EdgeThreshold = Threshold
-            AxMeasurement8.Markers.Item(MarkersPointNo2).NumberOfOccurrences = 1
+            'AxMeasurement8.Markers.Item(MarkersPointNo2).NumberOfOccurrences = 1
+            AxMeasurement8.Markers.Item(MarkersPointNo2).NumberOfOccurrences = numOfOccur
+            AxMeasurement8.Markers.Item(MarkersPointNo2).MinimumNumberOfOccurrences = 1
+            AxMeasurement8.Markers.Item(MarkersPointNo2).Spacing.Value = Measurement.MeasAnyConstants.measAny
 
             If vertical = False Then
                 AxMeasurement8.Markers.Item(MarkersPointNo2).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
@@ -5020,12 +5114,43 @@ Public Class FormVision
             AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.Accuracy = 0.1
             AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.InterpolationMode = Matrox.ActiveMIL.AngleInterpolationModeConstants.angleBilinear
             AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.CenterOfRotation = Matrox.ActiveMIL.AngleCenterOfRotationConstants.angleCenter
+            With AxMeasurement8.Markers.Item(MarkersPointNo2)
+                If vertical Then
+                    If PointX2 < PointX3 Then
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = -180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    Else
+                        If Inside_Out = False Then
+                            .SearchRegion.Angle.Value = -180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    End If
+                Else
+                    If PointY2 < PointY3 Then
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = -180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = 0
+                        Else
+                            .SearchRegion.Angle.Value = -180
+                        End If
+                    End If
+                End If
+            End With
 
-            If Inside_Out = True Then
-                AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.Value = 0
-            Else
-                AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.Value = 180
-            End If
+            'If Inside_Out = True Then 'Added after
+            '    AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.Value = -180
+            'Else
+            '    AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.Value = 0
+            'End If
 
             AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.NegativeDelta = RotationAngle
             AxMeasurement8.Markers.Item(MarkersPointNo2).SearchRegion.Angle.PositiveDelta = RotationAngle
@@ -5039,8 +5164,12 @@ Public Class FormVision
             AxMeasurement9.Markers.Item(MarkersPointNo3).Contrast.Edge1 = Contrast
             AxMeasurement9.Markers.Item(MarkersPointNo3).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement9.Markers.Item(MarkersPointNo3).EdgeThreshold = Threshold
-            AxMeasurement9.Markers.Item(MarkersPointNo3).NumberOfOccurrences = 1
+            'AxMeasurement9.Markers.Item(MarkersPointNo3).NumberOfOccurrences = 1
+            AxMeasurement9.Markers.Item(MarkersPointNo3).NumberOfOccurrences = numOfOccur
+            AxMeasurement9.Markers.Item(MarkersPointNo3).MinimumNumberOfOccurrences = 1
+            AxMeasurement9.Markers.Item(MarkersPointNo3).Spacing.Value = Measurement.MeasSameConstants.measSame
 
+           
             If vertical = False Then
                 ' AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
                 AxMeasurement9.Markers.Item(MarkersPointNo3).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
@@ -5061,17 +5190,43 @@ Public Class FormVision
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.InterpolationMode = Matrox.ActiveMIL.AngleInterpolationModeConstants.angleBilinear
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.CenterOfRotation = Matrox.ActiveMIL.AngleCenterOfRotationConstants.angleCenter
 
+            With AxMeasurement9.Markers.Item(MarkersPointNo3)
+                If vertical Then
+                    If PointY3 < PointY1 Then
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = 180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = 0
+                        Else
+                            .SearchRegion.Angle.Value = 180
+                        End If
+                    End If
+                Else
+                    If PointX3 < PointX1 Then
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = 180
+                        Else
+                            .SearchRegion.Angle.Value = 0
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            .SearchRegion.Angle.Value = 0
+                        Else
+                            .SearchRegion.Angle.Value = 180
+                        End If
+                    End If
+                End If
+            End With
+
             'If Inside_Out = True Then
             '    AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 0
             'Else
             '    AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 180
             'End If
-
-            If Inside_Out = True Then
-                AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 180
-            Else
-                AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.Value = 0
-            End If
 
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.NegativeDelta = RotationAngle
             AxMeasurement9.Markers.Item(MarkersPointNo3).SearchRegion.Angle.PositiveDelta = RotationAngle
@@ -5085,7 +5240,11 @@ Public Class FormVision
             AxMeasurement10.Markers.Item(MarkersPointNo4).Contrast.Edge1 = Contrast
             AxMeasurement10.Markers.Item(MarkersPointNo4).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement10.Markers.Item(MarkersPointNo4).EdgeThreshold = Threshold
-            AxMeasurement10.Markers.Item(MarkersPointNo4).NumberOfOccurrences = 1
+            ' AxMeasurement10.Markers.Item(MarkersPointNo4).NumberOfOccurrences = 1
+
+            AxMeasurement10.Markers.Item(MarkersPointNo4).NumberOfOccurrences = numOfOccur
+            AxMeasurement10.Markers.Item(MarkersPointNo4).MinimumNumberOfOccurrences = 1
+            AxMeasurement10.Markers.Item(MarkersPointNo4).Spacing.Value = Measurement.MeasSameConstants.measSame
 
             If vertical = False Then
                 AxMeasurement10.Markers.Item(MarkersPointNo4).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measHorizontal
@@ -5105,11 +5264,42 @@ Public Class FormVision
             AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.InterpolationMode = Matrox.ActiveMIL.AngleInterpolationModeConstants.angleBilinear
             AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.CenterOfRotation = Matrox.ActiveMIL.AngleCenterOfRotationConstants.angleCenter
 
-            If Inside_Out = True Then
-                AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 180
-            Else
-                AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 0
-            End If
+            With AxMeasurement10.Markers.Item(MarkersPointNo4)
+                If vertical Then
+                    If PointX4 > PointX1 Then
+                        If Inside_Out = True Then
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 0
+                        Else
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 180
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 180
+                        Else
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 0
+                        End If
+                    End If
+                Else
+                    If PointY4 > PointY1 Then
+                        If Inside_Out = True Then
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 0
+                        Else
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 180
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 180
+                        Else
+                            AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 0
+                        End If
+                    End If
+                End If
+            End With
+            'If Inside_Out = True Then
+            '    AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 0
+            'Else
+            '    AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.Value = 180
+            'End If
 
             AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.NegativeDelta = RotationAngle
             AxMeasurement10.Markers.Item(MarkersPointNo4).SearchRegion.Angle.PositiveDelta = RotationAngle
@@ -5123,7 +5313,11 @@ Public Class FormVision
             AxMeasurement11.Markers.Item(MarkersPointNo5).Contrast.Edge1 = Contrast
             AxMeasurement11.Markers.Item(MarkersPointNo5).EdgeStrength.Edge1 = EdgeStrength
             AxMeasurement11.Markers.Item(MarkersPointNo5).EdgeThreshold = Threshold
-            AxMeasurement11.Markers.Item(MarkersPointNo5).NumberOfOccurrences = 1
+            'AxMeasurement11.Markers.Item(MarkersPointNo5).NumberOfOccurrences = 1
+
+            AxMeasurement11.Markers.Item(MarkersPointNo5).NumberOfOccurrences = numOfOccur
+            AxMeasurement11.Markers.Item(MarkersPointNo5).MinimumNumberOfOccurrences = 1
+            AxMeasurement11.Markers.Item(MarkersPointNo5).Spacing.Value = Measurement.MeasSameConstants.measSame
 
             If vertical = False Then
                 AxMeasurement11.Markers.Item(MarkersPointNo5).Orientation = Matrox.ActiveMIL.Measurement.MeasMarkerOrientationConstants.measVertical
@@ -5142,11 +5336,42 @@ Public Class FormVision
             AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.InterpolationMode = Matrox.ActiveMIL.AngleInterpolationModeConstants.angleBilinear
             AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.CenterOfRotation = Matrox.ActiveMIL.AngleCenterOfRotationConstants.angleCenter
 
-            If Inside_Out = True Then
-                AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 180
-            Else
-                AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 0
-            End If
+            With AxMeasurement11.Markers.Item(MarkersPointNo5)
+                If vertical Then
+                    If PointY5 > PointY1 Then
+                        If Inside_Out = True Then
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 0
+                        Else
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 180
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 180
+                        Else
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 0
+                        End If
+                    End If
+                Else
+                    If PointX5 > PointX1 Then
+                        If Inside_Out = True Then
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 0
+                        Else
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 180
+                        End If
+                    Else
+                        If Inside_Out = True Then
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 180
+                        Else
+                            AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 0
+                        End If
+                    End If
+                End If
+            End With
+            'If Inside_Out = True Then
+            '    AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 180
+            'Else
+            '    AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.Value = 0
+            'End If
 
             AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.NegativeDelta = RotationAngle
             AxMeasurement11.Markers.Item(MarkersPointNo5).SearchRegion.Angle.PositiveDelta = RotationAngle
@@ -5164,6 +5389,7 @@ Public Class FormVision
                 End Try
 
                 If AxMeasurement7.Results.Count > 0 Then
+                    Console.WriteLine(AxMeasurement7.Results.Count)
                     If AxMeasurement7.Markers.Item(MarkersPointNo1).IsFound = True Then
                         P1x = AxMeasurement7.Results.Item(MarkersPointNo1).PositionX
                         P1y = AxMeasurement7.Results.Item(MarkersPointNo1).PositionY
@@ -6681,6 +6907,7 @@ Public Class FormVision
         If ChipEdgePoints_form.Visible = False Then
             ChipEdgePoints_form.Visible = True
         End If
+        ClickNoPoints = 0
         ChipEdgePoints_form.ResetChipEdgeStatus()
     End Sub
     Function GetChipEdgeParameters(ByRef param As DLL_Export_Device_Vision.ChipEdgePoints.ChipEdgeParam)
@@ -6689,7 +6916,7 @@ Public Class FormVision
 
 #End Region
 #Region "Edit"
-    Dim isEdit As Boolean = False
+    Public isEdit As Boolean = False
     Function Form_FI_Edit(ByVal Fi_No As Integer, ByVal Filename As String, ByVal brightness As Integer) As Boolean
         Try
             DisableChipEdgeDrawing()
@@ -6770,6 +6997,17 @@ Public Class FormVision
 
         ChipEdgePoints_form.ValueBrightness.Text = ChipEdgePoints_form.ValueBrightness.Value
 
+        If vParam._Polarity.ToUpper = "ANY" Then
+            ChipEdgePoints_form.cbbPolarity.Text = vParam._Polarity
+        ElseIf vParam._Polarity.ToUpper = "NEGATIVE" Then
+            ChipEdgePoints_form.cbbPolarity.Text = "White To Black"
+        ElseIf vParam._Polarity.ToUpper = "POSITIVE" Then
+            ChipEdgePoints_form.cbbPolarity.Text = "Black To White"
+        End If
+
+        ChipEdgePoints_form.nudEdgeStrength.Value = vParam._EdgeStrength
+
+
         Dim Cw_CCw As Boolean = vParam._Cw_CCw
         Dim Vertical As Boolean = vParam._Vertical
         Dim Inside_out As Boolean = vParam._Inside_out
@@ -6802,6 +7040,7 @@ Public Class FormVision
         PointY4 = vParam._PointY4
         PointX5 = vParam._PointX5
         PointY5 = vParam._PointY5
+        ClickNoPoints = 5
         Dim DispenseModel As Integer = vParam._DispenseModel
         If DispenseModel = 2 Then
             ChipEdgePoints_form.RadioButton_TwoEdges.Checked = True
@@ -6814,6 +7053,7 @@ Public Class FormVision
         ChipEdgePoints_form.TextBox_EdgeClearance.Text = vParam._EdgeClearance
         ChipEdgePoints_form.CheckBox_ChipRec_Enable.Checked = vParam._CheckBox_ChipRec_Enable
         ChipEdgePoints_form.Button_Test.Enabled = True
+        ChipEdgePoints_form.btCheckOnce.Enabled = True
         ChipEdgePoints_form.Button_Ok.Enabled = True
         ChipEdgePoints_form.ChipEdgePointsCoordinate(PointX1, PointY1, PointX2, PointY2, PointX3, PointY3, PointX4, PointY4, PointX5, PointY5)
         If ChipEdgePoints_form.CheckBox_ChipRec_Enable.Checked = False Then
@@ -6841,8 +7081,8 @@ Public Class FormVision
             End If
             _LightBox.SetBrightness(vParam._Brightness)
             QC_form.ValueBinarized.Value = vParam._Binarized
-            QC_form.ValueMaxArea.Value = vParam._MaxArea
-            QC_form.ValueMinArea.Value = vParam._MinArea
+            QC_form.ValueMaxArea.Value = vParam._MaxArea * 2
+            QC_form.ValueMinArea.Value = vParam._MinArea * 2
             QC_form.ValueClose.Value = vParam._Close
             QC_form.ValueOpen.Value = vParam._Open
             QC_form.ValueRoughness.Value = vParam._Roughness
@@ -6912,6 +7152,17 @@ Public Class FormVision
         ChipEdgePoints_form.ValueRot.Value() = vParam._Rot
         ChipEdgePoints_form.ValueThreshold.Value = vParam._Threshold
         ChipEdgePoints_form.ValueContrast.Value = vParam._Contrast
+        If vParam._Polarity.ToUpper = "ANY" Then
+            ChipEdgePoints_form.cbbPolarity.Text = vParam._Polarity
+        ElseIf vParam._Polarity.ToUpper = "NEGATIVE" Then
+            ChipEdgePoints_form.cbbPolarity.Text = "White to Black"
+        ElseIf vParam._Polarity.ToUpper = "POSITIVE" Then
+            ChipEdgePoints_form.cbbPolarity.Text = "Black to White"
+        Else
+            ChipEdgePoints_form.cbbPolarity.Text = "Any"
+        End If
+        'ChipEdgePoints_form.cbbPolarity.Text = vParam._Polarity
+        ChipEdgePoints_form.nudEdgeStrength.Value = vParam._EdgeStrength
         If vParam._ROI > 0.1 Then
             ChipEdgePoints_form.ValueROI.Value = vParam._ROI
         Else
@@ -6935,7 +7186,7 @@ Public Class FormVision
             'Do nth
         Else
             ChipEdgePoints_form.GetVariables(Inside_out, Vertical, Cw_CCw, DispenseModel)
-            WaitForImageToStabilize()
+            'WaitForImageToStabilize()
             Dim result As Boolean = ChipEdgePoints_form.ChipEdgePointExe()
             'ClearDisplay()
             'DisplayIndicator()
@@ -6955,12 +7206,12 @@ Public Class FormVision
         FreeIfAllocated(AxImage16)
         Return result
     End Function
-    Function IDSV_QC(ByVal vParam As QC.QCParam) As Boolean
+    Function IDSV_QC(ByVal vParam As QC.QCParam, Optional ByVal skipWaitStable As Boolean = False) As Boolean
         QC_form.ValueDotBrightness.Value = vParam._Brightness
         QC_form.RadioButton_BlackDot.Checked = vParam._BlackDot
         QC_form.ValueBinarized.Value = vParam._Binarized
-        QC_form.ValueMaxArea.Value = vParam._MaxArea
-        QC_form.ValueMinArea.Value = vParam._MinArea
+        QC_form.ValueMaxArea.Value = vParam._MaxArea * 2
+        QC_form.ValueMinArea.Value = vParam._MinArea * 2
         QC_form.ValueClose.Value = vParam._Close
         QC_form.ValueOpen.Value = vParam._Open
         QC_form.ValueRoughness.Value = vParam._Roughness
@@ -6972,7 +7223,9 @@ Public Class FormVision
         MROIx = vParam._MROIx
         MROIy = vParam._MROIy
         modelregionDrawing()
-        WaitForImageToStabilize()
+        If Not skipWaitStable Then
+            WaitForImageToStabilize()
+        End If
         Dim result As Boolean = DotQC(vParam._BlackDot, vParam._Binarized, vParam._Close, vParam._Open, vParam._MinArea, vParam._MaxArea, vParam._Roughness, vParam._Compactness, vParam._Tolerance, vParam._Diameter)
         FreeIfAllocated(AxImage16)
         Return result
@@ -6997,10 +7250,13 @@ Public Class FormVision
         Dim result As Boolean = RejectPoint_form.ProductionRUN()
         Return result
     End Function
-    Function IDSV_FI(ByVal FileName As String, ByRef FI_OffX As Double, ByRef FI_OffY As Double) As Boolean
+    Function IDSV_FI(ByVal FileName As String, ByRef FI_OffX As Double, ByRef FI_OffY As Double, Optional ByVal skipWaitStable As Boolean = False) As Boolean
         Dim IDSError As Boolean = LoadFiducial(FileName)
         If IDSError = True Then
-            WaitForImageToStabilize()
+            If Not skipWaitStable Then
+                WaitForImageToStabilize()
+            End If
+
             Dim Result As Boolean = Test_Fiducial(21, FI_OffX, FI_OffY)
             'CameraResume()
             'ClearDisplay()
@@ -7073,12 +7329,14 @@ Public Class FormVision
         AxECamera1.SetParamNm("GrabCount", -1)
         CameraResume()
     End Sub
-
+    Public ImageRefreshed As Boolean = False
     Public Sub CameraResume()
+        ImageRefreshed = False
         AxECamera1.SetParamNm("ChannelState", "ACTIVE")
     End Sub
 
     Public Sub CameraIdle()
+        ImageRefreshed = False
         AxECamera1.SetParamNm("ChannelState", "IDLE")
     End Sub
 
@@ -7100,6 +7358,7 @@ Public Class FormVision
                     '    AxImageProcessing7.Rotate(90, ImageProcessing.ImpInterpolationModeConstants.impNearestNeighbor, ImageProcessing.ImpOverscanModeConstants.impOverscanEnable)
                     'End If
                     WaitRefresh = True
+                    ImageRefreshed = True
                 Catch ex As Exception
                     ExceptionDisplay(ex)
                 End Try
@@ -7142,7 +7401,7 @@ Public Class FormVision
     'this function is being called from other subs
     Public Sub WaitForImageToStabilize()
         CameraIdle()
-        Sleep(250)
+        Sleep(100)
         CameraResume()
         TraceDoEvents()
     End Sub
@@ -7157,4 +7416,53 @@ Public Class FormVision
     Private Sub AxDisplay1_KeyDownEvent(ByVal sender As Object, ByVal e As AxMatrox.ActiveMIL.IDisplayEvents_KeyDownEvent) Handles AxDisplay1.KeyDownEvent
         'Console.WriteLine("KeyDown in vision")
     End Sub
+
+    Public Sub FindEdges(Optional ByVal MaxEnlongated As Double = 0.8, Optional ByVal neighborRadius As Double = 50)
+        CtrlEdgeFinder.EdgeType = EdgeFinder.EdgeTypeConstants.edgeContour
+        CtrlEdgeFinder.FeatureList.MomentElongation = True
+        CtrlEdgeFinder.FeatureList.MeanFeretDiameter = True
+        CtrlEdgeFinder.FeatureList.CircleFit.Coverage = True
+        CtrlEdgeFinder.FeatureList.CircleFit.Error = True
+        Me.CtrlEdgeFinder.Calculate()
+        Dim FilterIndex As Long
+
+        CtrlEdgeFinder.Filters.NearestNeighborRadius = neighborRadius
+        FilterIndex = CtrlEdgeFinder.Filters.Add(EdgeFinder.EdgeFilterTypeConstants.edgeInclude, EdgeFinder.EdgeNotApplicableConstants.edgeFilterNotApplicable, EdgeFinder.EdgeFilterConditionConstants.edgeAllNearestNeighbors, Me.imageWidth / 2, Me.imageHeight / 2)
+        CtrlEdgeFinder.ApplyFilter(FilterIndex)
+        CtrlEdgeFinder.CalculateFromResult()
+        If CtrlEdgeFinder.Results.Count > 0 Then
+            'CtrlEdgeFinder.Results.Draw(AxMGraphicContext1, EdgeFinder.EdgeDrawOperationConstants.edgeDrawEdge, EdgeFinder.EdgeCriterionConstants.edgeIncludedEdges)
+            Dim circleCoverage As Double = 0
+            For i As Integer = 1 To CtrlEdgeFinder.Results.Count
+                circleCoverage = CtrlEdgeFinder.Results.Item(i).CircleFitCoverage
+                If circleCoverage > 0.8 Then
+                    If CtrlEdgeFinder.Results.Item(i).MeanFeretDiameter > 25 Then
+                        CtrlEdgeFinder.Results.Item(i).Draw(AxMGraphicContext1, EdgeFinder.EdgeDrawOperationConstants.edgeDrawEdge)
+                        'MessageBox.Show(CtrlEdgeFinder.Results.Item(i).MeanFeretDiameter * 0.0211304410810446)
+                        MessageBox.Show("Circle fit error: " & CtrlEdgeFinder.Results.Item(i).CircleFitError & " with radius: " & CtrlEdgeFinder.Results.Item(i).CircleFitRadius & " with mean diameter:" & CtrlEdgeFinder.Results.Item(i).MeanFeretDiameter)
+                    End If
+                End If
+            Next
+
+        End If
+
+        'FilterIndex = CtrlEdgeFinder.Filters.Add(EdgeFinder.EdgeFilterTypeConstants.edgeExclude, EdgeFinder.EdgeFeatureConstants.edgeMomentElongation, EdgeFinder.EdgeFilterConditionConstants.edgeLessThan, MaxEnlongated)
+        'CtrlEdgeFinder.ApplyFilter(FilterIndex)
+        'CtrlEdgeFinder.CalculateFromResult()
+
+
+        'If CtrlEdgeFinder.Results.Count > 0 Then
+        '    'CtrlEdgeFinder.Results.Draw(AxMGraphicContext1, EdgeFinder.EdgeDrawOperationConstants.edgeDrawEdge, EdgeFinder.EdgeCriterionConstants.edgeIncludedEdges)
+        '    For i As Integer = 1 To CtrlEdgeFinder.Results.Count
+        '        If CtrlEdgeFinder.Results.Item(i).MeanFeretDiameter > 25 Then
+        '            CtrlEdgeFinder.Results.Item(i).Draw(AxMGraphicContext1, EdgeFinder.EdgeDrawOperationConstants.edgeDrawEdge)
+        '            'MessageBox.Show(CtrlEdgeFinder.Results.Item(i).MeanFeretDiameter * 0.0211304410810446)
+        '        End If
+
+        '    Next
+
+        'End If
+
+    End Sub
+
 End Class

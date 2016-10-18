@@ -66,6 +66,12 @@ Imports System.Runtime.Serialization
         ''' end here
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     End Function
+    Public Function SaveToDefaultFile() As Boolean
+        Return SaveToDefault()
+    End Function
+    Public Function OpenDefaultFile() As Boolean
+        Return OpenToDefault()
+    End Function
 
     'to open .pat file that is opened as factorydefault stated in RecordID
     Public Function OpenData() As Boolean
@@ -2192,6 +2198,14 @@ Public Module Module1
         Dim str As String = IDSData.Admin.Folder.PatternPath + "\" + FileName + "." + IDSData.Admin.Folder.FileExtension
         Return SavePathFileName(str)
     End Function
+    Public Function SaveToDefault() As Boolean
+        Dim str As String = "C:\IDS\Pattern_Dir\" + "factorydefault" + "." + IDSData.Admin.Folder.FileExtension
+        Return SavePathFileName(str)
+    End Function
+    Public Function OpenToDefault() As Boolean
+        Dim str As String = "C:\IDS\Pattern_Dir\" + "factorydefault" + "." + IDSData.Admin.Folder.FileExtension
+        Return OpenPathFileName(str)
+    End Function
     'open global data into pat file
     Public Function Openfile(ByRef FileName As String) As Boolean
         If FileName Is Nothing Then
@@ -2663,6 +2677,7 @@ Public Module Module1
             PatArray.Add("")
             PatDisplayArray.Add("~")
             PatArray.Add("[GANTRY]")
+            'If MyFileName.IndexOf("FactoryDefault") > 0 Then
             PatDisplayArray.Add("IDSData.Hardware.Gantry.WeighingScalePosition.X")
             PatArray.Add(IDSData.Hardware.Gantry.WeighingScalePosition.X)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.WeighingScalePosition.Y")
@@ -2676,6 +2691,9 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Gantry.CleanPosition.Y)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.CleanPosition.Z")
             PatArray.Add(IDSData.Hardware.Gantry.CleanPosition.Z)
+            'End If
+
+
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ElementZSpeed")
             PatArray.Add(IDSData.Hardware.Gantry.ElementZSpeed)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ElementXYSpeed")
@@ -2694,6 +2712,8 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Gantry.MaxAccelerationLimit)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.MaxSpeedLimit")
             PatArray.Add(IDSData.Hardware.Gantry.MaxSpeedLimit)
+
+            'If MyFileName.IndexOf("FactoryDefault") > 0 Then
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ParkPosition.X")
             PatArray.Add(IDSData.Hardware.Gantry.ParkPosition.X)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ParkPosition.Y")
@@ -2706,12 +2726,15 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Gantry.PurgePosition.Y)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.PurgePosition.Z")
             PatArray.Add(IDSData.Hardware.Gantry.PurgePosition.Z)
+            'End If
+
             PatDisplayArray.Add("IDSData.Hardware.Gantry.SystemOriginPos.X")
             PatArray.Add(IDSData.Hardware.Gantry.SystemOriginPos.X)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.SystemOriginPos.Y")
             PatArray.Add(IDSData.Hardware.Gantry.SystemOriginPos.Y)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.SystemOriginPos.Z")
             PatArray.Add(IDSData.Hardware.Gantry.SystemOriginPos.Z)
+
             PatDisplayArray.Add("IDSData.Hardware.Gantry.SystemUnit")
             PatArray.Add(IDSData.Hardware.Gantry.SystemUnit)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.WorkArea.X")
@@ -2727,6 +2750,7 @@ Public Module Module1
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ServiceZSpeed")
             PatArray.Add(IDSData.Hardware.Gantry.ServiceZSpeed)
 
+            'If MyFileName.IndexOf("FactoryDefault") > 0 Then
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ChangeSyringePosition.X")
             PatArray.Add(IDSData.Hardware.Gantry.ChangeSyringePosition.X)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.ChangeSyringePosition.Y")
@@ -2738,6 +2762,8 @@ Public Module Module1
             PatArray.Add(IDSData.Hardware.Gantry.WeighingScaleBottomRight.X)
             PatDisplayArray.Add("IDSData.Hardware.Gantry.WeighingScaleBottomRight.Y")
             PatArray.Add(IDSData.Hardware.Gantry.WeighingScaleBottomRight.Y)
+            'End If
+
             'PatDisplayArray.Add("IDSData.Hardware.Gantry.WeighingScaleBottomRight.Z")
             'PatArray.Add(IDSData.Hardware.Gantry.WeighingScaleBottomRight.Z)
 
@@ -3533,37 +3559,37 @@ Public Module Module1
             Index = PatArray.IndexOf("[VERSION]")
             SWVersion = GetDoubleArrayValue(Index)
 
-            If IDSData.ParameterID.RecordID = "FactoryDefault" Then
+            'If IDSData.ParameterID.RecordID = "FactoryDefault" Then
+            'If path.ToUpper().IndexOf("FACTORYDEFAULT") > 0 Then
+            Index = PatArray.IndexOf("[ADMINISTRATION]")
+            IDSData.Admin.Folder.DataPath = GetStringArrayValue(Index)
+            IDSData.Admin.Folder.PatternPath = GetStringArrayValue(Index)
+            IDSData.Admin.Folder.FileExtension = GetStringArrayValue(Index)
 
-                Index = PatArray.IndexOf("[ADMINISTRATION]")
-                IDSData.Admin.Folder.DataPath = GetStringArrayValue(Index)
-                IDSData.Admin.Folder.PatternPath = GetStringArrayValue(Index)
-                IDSData.Admin.Folder.FileExtension = GetStringArrayValue(Index)
+            ''''''''''''''' ParameterID ''''''''''''''''
+            Index += 1
+            'IDSData.ParameterID.GroupID = GetStringArrayValue(Index)
+            Index += 1
+            'IDSData.ParameterID.RecordID = GetStringArrayValue(Index)
 
-                ''''''''''''''' ParameterID ''''''''''''''''
-                Index += 1
-                'IDSData.ParameterID.GroupID = GetStringArrayValue(Index)
-                Index += 1
-                'IDSData.ParameterID.RecordID = GetStringArrayValue(Index)
-
-                ''''''''''''''''' data from database 
-                Index += 1
-                'IDSData.Admin.User.ContactNo = GetStringArrayValue(Index)
-                Index += 1
-                'IDSData.Admin.User.Department = GetStringArrayValue(Index)
-                IDSData.Admin.User.ID = GetStringArrayValue(Index)
-                Index += 1
-                'IDSData.Admin.User.Name = GetStringArrayValue(Index)
-                Index += 1
-                'IDSData.Admin.User.PassWord = GetStringArrayValue(Index)
-                Index += 1
-                'IDSData.Admin.User.RunApplication = GetStringArrayValue(Index)
-                IDSData.Admin.User.Group.ID = GetStringArrayValue(Index)
-                Index += 1
-                'IDSData.Admin.User.Group.Remark = GetStringArrayValue(Index)
+            ''''''''''''''''' data from database 
+            Index += 1
+            'IDSData.Admin.User.ContactNo = GetStringArrayValue(Index)
+            Index += 1
+            'IDSData.Admin.User.Department = GetStringArrayValue(Index)
+            IDSData.Admin.User.ID = GetStringArrayValue(Index)
+            Index += 1
+            'IDSData.Admin.User.Name = GetStringArrayValue(Index)
+            Index += 1
+            'IDSData.Admin.User.PassWord = GetStringArrayValue(Index)
+            Index += 1
+            'IDSData.Admin.User.RunApplication = GetStringArrayValue(Index)
+            IDSData.Admin.User.Group.ID = GetStringArrayValue(Index)
+            Index += 1
+            'IDSData.Admin.User.Group.Remark = GetStringArrayValue(Index)
 
 
-            End If
+            'End If
             ' End If
 
             '''''''''''''''''''''''''''''''''''
